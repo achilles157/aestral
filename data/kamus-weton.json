@@ -1,0 +1,282 @@
+[
+    {
+        "id": 1,
+        "weton_name": "Minggu Legi",
+        "headline": "Si Penasihat Bijak yang Sulit Diberi Nasihat",
+        "karir_rezeki": "Kamu tipe pekerja yang suka memberi arahan dan memiliki visi jangka panjang. Cocok di bidang pendidikan, konsultan, atau perencanaan strategis. Rezeki datang dari kemampuanmu membimbing orang lain, asalkan mau sedikit lebih terbuka terhadap masukan dari sekitar.",
+        "asmara_hubungan": "Dalam cinta, kamu setia dan tulus, namun cenderung ingin mengatur pasangan. Pasangan yang tepat adalah mereka yang bisa menerima sifat 'mengayomi'-mu tanpa merasa terkekang. Belajar mendengar adalah kunci keharmonisan.",
+        "sisi_gelap_peringatan": "Kebaikanmu sering disalahpahami sebagai kelemahan, padahal kamu hanya terlalu sabar. Hati-hati dengan orang yang memanfaatkan kerendahan hatimu. Jangan selalu mengalah—terkadang memperjuangkan diri sendiri itu bukan egois, tapi harga diri."
+    },
+    {
+        "id": 2,
+        "weton_name": "Minggu Pahing",
+        "headline": "Si Berwibawa yang Disenangi Banyak Orang",
+        "karir_rezeki": "Kamu memiliki jiwa kepemimpinan alami dan kemampuan bergaul yang luar biasa. Rezeki mengalir dari jaringan pertemanan yang luas—semakin banyak orang mengenalmu, semakin lebar pintu kesuksesan. Cocok di bidang pemasaran, humas, atau politik.",
+        "asmara_hubungan": "Kamu mudah disukai, tapi kadang sulit berkomitmen karena terlalu banyak pilihan. Pasangan yang bisa menaklukkan hatimu adalah mereka yang tidak hanya terpesona oleh pesonamu, tapi juga berani menantangmu secara intelektual.",
+        "sisi_gelap_peringatan": "Sifatmu yang selalu ingin menyenangkan semua orang bisa membuatmu kehilangan jati diri. Waspadalah terhadap orang yang hanya mendekatimu karena status atau koneksi, bukan karena ketulusan."
+    },
+    {
+        "id": 3,
+        "weton_name": "Minggu Pon",
+        "headline": "Si Setia yang Pendiriannya Kuat",
+        "karir_rezeki": "Kamu adalah pekerja yang dapat diandalkan—konsisten, setia, dan tidak mudah goyah. Cocok di bidang yang membutuhkan stabilitas seperti administrasi, perbankan, atau manajemen sumber daya manusia. Rezeki datang perlahan tapi pasti.",
+        "asmara_hubungan": "Kamu tipe pasangan yang setia dan tidak mudah berubah. Namun, sikapmu yang terlalu kaku dalam memegang prinsip kadang membuat pasangan merasa terkekang. Belajar kompromi adalah pelajaran cinta terbesarmu.",
+        "sisi_gelap_peringatan": "Kegigihanmu kadang berubah jadi keras kepala. Kamu sulit menerima bahwa tidak semua hal harus sesuai dengan caramu. Ingat, fleksibilitas bukan berarti kehilangan prinsip—itu adalah tanda kedewasaan."
+    },
+    {
+        "id": 4,
+        "weton_name": "Minggu Wage",
+        "headline": "Si Perencana Matang yang Tidak Gegabah",
+        "karir_rezeki": "Kamu adalah perencana ulung—teliti, penuh pertimbangan, dan tidak pernah gegabah dalam mengambil keputusan. Bidang yang cocok: arsitektur, perencanaan kota, manajemen proyek, atau akuntansi. Rezekimu stabil karena kamu tidak pernah mengambil risiko bodoh.",
+        "asmara_hubungan": "Dalam cinta, kamu tipe yang tidak terburu-buru. Butuh waktu lama untuk membuka hati, tapi setelah itu kamu adalah pasangan yang sangat serius dan bertanggung jawab. Pasangan yang sabar menunggumu adalah jodoh yang tepat.",
+        "sisi_gelap_peringatan": "Terlalu banyak pertimbangan kadang membuatmu melewatkan peluang emas. Jangan sampai sifat perfeksionismu menghalangi langkahmu. Kadang, mengambil risiko yang terukur adalah bagian dari pertumbuhan."
+    },
+    {
+        "id": 5,
+        "weton_name": "Minggu Kliwon",
+        "headline": "Si Berwawasan Luas yang Penuh Misteri",
+        "karir_rezeki": "Kamu memiliki kecerdasan di atas rata-rata dan kemampuan menyerap ilmu dengan cepat. Cocok di bidang penelitian, teknologi, atau akademisi. Rezeki datang dari kemampuanmu melihat peluang yang orang lain lewatkan. Kamu adalah aset berharga di tim mana pun.",
+        "asmara_hubungan": "Kamu tipe pasangan yang dalam dan penuh teka-teki. Pasanganmu mungkin butuh waktu untuk benar-benar memahami isi hatimu. Yang paling cocok adalah mereka yang tidak takut dengan kedalaman dan menyukai tantangan intelektual.",
+        "sisi_gelap_peringatan": "Kedalamanmu kadang membuatmu sulit terhubung dengan orang lain secara emosional. Waspadalah terhadap kecenderungan menyendiri yang berlebihan—kesendirian adalah tempat yang nyaman, tapi bukan tempat untuk bertumbuh."
+    },
+    {
+        "id": 6,
+        "weton_name": "Senin Legi",
+        "headline": "Si Pekerja Keras yang Pendiam",
+        "karir_rezeki": "Kamu adalah pekerja keras sejati—tekun, bertanggung jawab, dan tidak suka menonjolkan diri. Cocok di bidang yang membutuhkan ketelitian seperti penelitian, akuntansi, atau teknologi. Rezeki datang dari kerja diam-diam yang hasilnya berbicara sendiri.",
+        "asmara_hubungan": "Kamu tipe pasangan yang tidak banyak bicara tapi penuh tindakan nyata. Mungkin terlihat dingin di awal, tapi setelah nyaman, kamu adalah pasangan yang paling setia dan perhatian. Pasanganmu perlu belajar membaca bahasamu.",
+        "sisi_gelap_peringatan": "Sifat pendiam dan tertutupmu kadang membuat orang lain salah paham dan menganggapmu sombong. Jangan ragu untuk membuka diri sedikit—hubungan yang tulus membutuhkan kerentanan, bukan tembok tinggi."
+    },
+    {
+        "id": 7,
+        "weton_name": "Senin Pahing",
+        "headline": "Si Introvert Berhati Emas yang Berwibawa",
+        "karir_rezeki": "Kamu memiliki kharisma yang kuat meski pendiam. Orang mempercayaimu dengan tanggung jawab besar karena kamu serius dan penuh dedikasi. Cocok di bidang yang butuh fokus tinggi: peneliti, analis, atau wirausaha di balik layar. Rezeki datang dari kerja yang konsisten dan berkualitas.",
+        "asmara_hubungan": "Kamu tipe pasangan yang setia dan penuh perhatian, tapi butuh ruang pribadi. Pasangan ideal adalah mereka yang menghargai ketenangan dan tidak memaksamu keluar dari zona nyaman. Cinta untukmu adalah pelukan yang hangat tanpa kata-kata.",
+        "sisi_gelap_peringatan": "Kesabaranmu luar biasa, tapi jangan sampai menjadi korban karena terlalu sabar. Kamu cenderung menghindari konflik hingga lupa bahwa suaramu juga penting. Belajar berkata 'tidak' adalah bentuk cinta pada diri sendiri."
+    },
+    {
+        "id": 8,
+        "weton_name": "Seni Pon",
+        "headline": "Si Pemimpin Berprinsip yang Tidak Mudah Go yah",
+        "karir_rezeki": "Kamu memiliki prinsip hidup yang sangat kuat dan jiwa kepemimpinan alami. Reaksi terhadap masalah sangat cepat dan keputusanmu tegas. Cocok di bidang manajemen, wirausaha, atau posisi strategis. Rezeki datang dari keberanianmu mengambil keputusan sulit.",
+        "asmara_hubungan": "Kamu tipe pasangan yang visioner dan bisa menjadi 'pemimpin' dalam hubungan. Pasangan yang cocok adalah mereka yang tidak merasa terancam dengan ketegasanmu dan bisa menjadi mitra sejajar, bukan pengikut.",
+        "sisi_gelap_peringatan": "Kekuatan prinsipmu kadang membuatmu sulit menerima sudut pandang orang lain. Jangan sampai keyakinanmu berubah menjadi sikap mengabaikan perasaan orang terdekat. Kepemimpinan sejati adalah mendengar sebelum memutuskan."
+    },
+    {
+        "id": 9,
+        "weton_name": "Senin Wage",
+        "headline": "Si Rendah Hati yang Selalu Ingin Belajar",
+        "karir_rezeki": "Kamu memiliki etos kerja yang baik dan selalu haus akan pengetahuan baru. Cocok di bidang pendidikan, pelatihan, atau profesi yang terus berkembang. Rezeki datang dari kemampuanmu beradaptasi dan belajar hal-hal baru.",
+        "asmara_hubungan": "Kamu tipe pasangan yang rendah hati dan tidak banyak menuntut. Namun, sikapmu yang terlalu pasif kadang membuat pasangan merasa kurang diperjuangkan. Belajar menyatakan kebutuhan adalah kunci cintamu.",
+        "sisi_gelap_peringatan": "Kerendahan hatimu kadang berubah menjadi kurang percaya diri. Kamu sering meremehkan kemampuan sendiri padahal orang lain melihat potensimu. Jangan biarkan sifat 'tidak enakan' menghalangi kesempatan besarmu."
+    },
+    {
+        "id": 10,
+        "weton_name": "Senin Kliwon",
+        "headline": "Si Cerdas yang Cepat Menyerap Ilmu",
+        "karir_rezeki": "Kecerdasanmu di atas rata-rata dan kamu cepat dalam menyerap ilmu. Cocok di bidang yang menuntut pemikiran cepat dan analisis mendalam: teknologi, kedokteran, atau hukum. Rezeki datang dari keahlian spesialisasimu yang terus kamu asah.",
+        "asmara_hubungan": "Kamu tipe pasangan yang intelektual dan butuh stimulasi pikiran. Bosan dengan hubungan yang dangkal. Pasangan ideal adalah mereka yang bisa mengimbangi kecerdasanmu dan mengajakmu berdiskusi hingga larut malam.",
+        "sisi_gelap_peringatan": "Kecerdasanmu kadang membuatmu tidak sabaran dengan orang yang berpikir lambat. Ingat, kecerdasan emosional sama pentingnya dengan kecerdasan intelektual. Kesabaran bukan kelemahan, tapi kekuatan."
+    },
+    {
+        "id": 11,
+        "weton_name": "Selasa Legi",
+        "headline": "Si Pekerja Keras yang Pantang Menyerah",
+        "karir_rezeki": "Kamu dikenal gigih dan pantang menyerah. Cocok menjadi pengusaha atau di bidang yang menuntut ketahanan fisik dan mental. Rezeki datang dari kerja kerasmu yang tidak kenal lelah—kamu adalah orang yang 'membuat' rezeki sendiri.",
+        "asmara_hubungan": "Kamu tipe pasangan yang penuh semangat dan tidak takut memperjuangkan cinta. Namun, sikapmu yang terlalu keras pada diri sendiri kadang membuatmu sulit bersantai dalam hubungan. Pasangan yang tepat bisa mengajakmu menikmati proses, bukan hanya hasil.",
+        "sisi_gelap_peringatan": "Kegigihanmu bisa menjadi bumerang jika tidak diimbangi dengan istirahat. Kamu cenderung memaksakan diri hingga kelelahan. Ingat, berhenti sejenak bukan tanda menyerah—itu adalah strategi untuk bertahan lebih lama."
+    },
+    {
+        "id": 12,
+        "weton_name": "Selasa Pahing",
+        "headline": "Si Berani yang Selalu Ingin Jadi yang Terbaik",
+        "karir_rezeki": "Kamu ambisius dan tidak takut dengan hal buruk—selalu ingin menjadi yang terbaik dalam segala hal. Cocok di bidang kompetitif seperti bisnis, olahraga, atau militer. Rezeki datang dari keberanianmu mengambil risiko yang orang lain takut ambil.",
+        "asmara_hubungan": "Kamu tipe pasangan yang intens dan penuh gairah. Namun, sifat kompetitifmu kadang terbawa ke dalam hubungan. Pasangan ideal adalah mereka yang tidak merasa tersaingi dan bisa menjadi tim, bukan lawan.",
+        "sisi_gelap_peringatan": "Ambisi yang terlalu besar kadang membuatmu lupa pada orang-orang di sekitarmu. Jangan sampai kesuksesan membuatmu kesepian. Ingat, kemenangan terasa lebih manis jika ada orang yang merayakannya bersamamu."
+    },
+    {
+        "id": 13,
+        "weton_name": "Selasa Pon",
+        "headline": "Si Gigih yang Ditakdirkan Kaya Raya",
+        "karir_rezeki": "Kamu adalah salah satu weton yang disebut sangat beruntung dalam hal rezeki. Cocok menjadi pengusaha atau pedagang—kamu memiliki naluri bisnis yang tajam. Rezeki tidak pernah kering asalkan kamu tetap konsisten dan tidak cepat puas.",
+        "asmara_hubungan": "Kamu tipe pasangan yang bersemangat dan suka memberi kejutan. Namun, sifatmu yang mudah emosi kadang membuat hubungan berombak. Pasangan ideal adalah mereka yang bisa menenangkanmu dan menjadi tempatmu kembali setelah badai reda.",
+        "sisi_gelap_peringatan": "Sifatmu yang mudah emosi dan kurang cocok bekerja dengan orang lain bisa menjadi hambatan. Belajar mengelola emosi bukan berarti melemahkan—itu adalah tanda kedewasaan yang akan membawamu lebih jauh."
+    },
+    {
+        "id": 14,
+        "weton_name": "Selasa Wage",
+        "headline": "Si Unik dengan Jalan Hidup yang Berbeda",
+        "karir_rezeki": "Kamu memiliki karakter yang unik dan tidak biasa—jalan hidupmu berbeda dari kebanyakan orang. Cocok di bidang kreatif, seni, atau profesi di luar arus utama. Rezeki datang dari keberanianmu menjadi diri sendiri, meski berbeda.",
+        "asmara_hubungan": "Kamu tipe pasangan yang tidak konvensional dan butuh kebebasan dalam hubungan. Pasangan ideal adalah mereka yang bisa menerima keunikannya dan tidak mencoba mengubahmu menjadi 'normal'. Cinta untukmu adalah ruang untuk tumbuh.",
+        "sisi_gelap_peringatan": "Keunikanmu kadang membuatmu merasa tidak dipahami oleh banyak orang. Jangan biarkan perasaan 'sendiri' membuatmu menarik diri dari dunia. Orang yang tepat akan datang—mereka yang menghargai keaslianmu."
+    },
+    {
+        "id": 15,
+        "weton_name": "Selasa Kliwon",
+        "headline": "Si Pekerja Keras yang Kurang Cocok Bekerja Sama",
+        "karir_rezeki": "Kamu lebih cocok bekerja sendiri atau menjadi pemimpin daripada menjadi bawahan. Bidang usaha mandiri, konsultan, atau profesi kreatif adalah panggilanmu. Rezeki datang dari kemandirianmu—kamu tidak suka bergantung pada orang lain.",
+        "asmara_hubungan": "Kamu tipe pasangan yang independen dan tidak suka digantungi. Pasangan ideal adalah mereka yang juga mandiri dan tidak membutuhkanmu 24 jam. Bersama, kalian adalah dua individu utuh yang memilih untuk bersama, bukan karena kebutuhan.",
+        "sisi_gelap_peringatan": "Sikapmu yang terlalu mandiri kadang membuat orang lain merasa tidak dibutuhkan. Belajar menerima bantuan bukan berarti lemah—itu adalah cara membangun hubungan yang lebih dalam dan saling percaya."
+    },
+    {
+        "id": 16,
+        "weton_name": "Rabu Legi",
+        "headline": "Si Berkecukupan yang Bicaranya Tegas",
+        "karir_rezeki": "Kamu adalah pekerja yang tegas dan tidak banyak bicara, tapi kata-katamu berbobot. Cocok di bidang hukum, manajemen, atau posisi yang membutuhkan otoritas. Rezeki datang secukupnya—kamu tipe yang tidak serakah dan bersyukur dengan apa yang dimiliki.",
+        "asmara_hubungan": "Kamu tipe pasangan yang pendiam tapi tegas. Pasanganmu tahu persis di mana posisinya karena kamu tidak pernah ambigu. Pasangan ideal adalah mereka yang menghargai ketegasanmu dan tidak butuh drama dalam hubungan.",
+        "sisi_gelap_peringatan": "Sikap tegasmu kadang membuatmu terkesan dingin dan tidak peduli. Padahal di dalam hatimu, kamu sangat peduli—hanya saja tidak pandai menunjukkannya. Belajar mengekspresikan perasaan adalah investasi untuk hubungan yang lebih hangat."
+    },
+    {
+        "id": 17,
+        "weton_name": "Rabu Pahing",
+        "headline": "Si Superior yang Fokus dan Tidak Pendendam",
+        "karir_rezeki": "Kamu adalah salah satu weton paling 'superior' dengan fokus dan konsentrasi luar biasa. Cocok menjadi pemimpin atau bos—kamu membawa keberuntungan bagi yang kamu pimpin. Rezeki datang dari kemampuanmu menyelesaikan tugas dengan sempurna.",
+        "asmara_hubungan": "Kamu tipe pasangan yang hangat dan komunikatif, tapi tidak pendendam. Pasanganmu merasa aman karena tahu kamu tidak akan menyimpan dendam. Pasangan ideal adalah mereka yang bisa menikmati kehangatanmu tanpa memanfaatkan kebaikanmu.",
+        "sisi_gelap_peringatan": "Keunggulanmu kadang membuatmu merasa lebih baik dari orang lain. Jaga kerendahan hati—kesombongan adalah musuh terbesar orang hebat. Ingat, keistimewaan adalah amanah, bukan alasan untuk merendahkan."
+    },
+    {
+        "id": 18,
+        "weton_name": "Rabu Pon",
+        "headline": "Si Beruntung yang Punya Pengaruh Luas",
+        "karir_rezeki": "Kamu disebut sebagai salah satu weton yang sangat beruntung. Pengaruhmu luas dan kamu memiliki kemampuan memengaruhi orang lain secara alami. Cocok di bidang politik, pemasaran, atau kepemimpinan komunitas. Rezeki datang dari pengaruh dan jaringanmu.",
+        "asmara_hubungan": "Kamu tipe pasangan yang karismatik dan banyak diminati. Namun, kamu butuh pasangan yang tidak mudah terpesona oleh pesonamu—yang bisa melihatmu sebagai manusia biasa, bukan figur. Cinta sejati datang dari yang berani menyentuh sisi polosmu.",
+        "sisi_gelap_peringatan": "Pengaruh besarmu bisa membuatmu lupa diri. Jangan sampai popularitas membuatmu kehilangan siapa dirimu sebenarnya. Ingat, orang yang benar-benar mengenalmu adalah mereka yang tetap bertahan saat sorotan mati."
+    },
+    {
+        "id": 19,
+        "weton_name": "Rabu Wage",
+        "headline": "Si Penuh Kasih yang Mudah Tersinggung",
+        "karir_rezeki": "Kamu adalah pekerja yang penuh kasih dan selalu memberikan yang terbaik untuk tim. Cocok di bidang pelayanan, pendidikan, atau kesehatan. Rezeki datang dari ketulusanmu melayani—orang akan selalu ingat kebaikanmu.",
+        "asmara_hubungan": "Kamu tipe pasangan yang lembut dan perhatian, tapi mudah tersinggung. Pasanganmu perlu belajar bicara dengan hati-hati di dekatmu. Pasangan ideal adalah mereka yang bisa memberikan keamanan emosional yang kamu butuhkan.",
+        "sisi_gelap_peringatan": "Sensitivitasmu adalah kekuatan sekaligus kelemahan. Kamu terlalu mudah terluka oleh perkataan orang. Belajar membedakan kritik dari serangan pribadi akan membantumu bertahan lebih lama di dunia yang tidak selalu lembut."
+    },
+    {
+        "id": 20,
+        "weton_name": "Rabu Kliwon",
+        "headline": "Si Berkecukupan yang Jarang Memikirkan Akibat",
+        "karir_rezeki": "Kamu adalah pekerja yang berkecukupan—tidak kekurangan tapi juga tidak berlebihan. Cocok di bidang yang stabil dan prediktabel. Rezeki datang dengan pola yang stabil—kamu tipe yang tahu cara mengelola apa yang ada.",
+        "asmara_hubungan": "Kamu tipe pasangan yang spontan dan menyenangkan, tapi kadang kurang memikirkan akibat dari tindakan. Pasangan ideal adalah mereka yang bisa menjadi 'rem' saat kamu terlalu cepat melaju, tanpa membuatmu merasa dibatasi.",
+        "sisi_gelap_peringatan": "Kebiasaanmu bertindak tanpa pikir panjang kadang merugikan dirimu sendiri maupun orang lain. Belajar berhenti sejenak sebelum bertindak bukan berarti kehilangan spontanitas—itu adalah kebijaksanaan."
+    },
+    {
+        "id": 21,
+        "weton_name": "Kamis Legi",
+        "headline": "Si Cerdas yang Sulit Berteman",
+        "karir_rezeki": "Kecerdasanmu luar biasa, tapi kau tipe yang sulit berteman karena standarmu tinggi. Cocok di bidang penelitian, teknologi, atau profesi yang membutuhkan pemikiran mendalam. Rezeki datang dari keahlian spesialisasimu—kau ahli di bidangmu.",
+        "asmara_hubungan": "Kamu tipe pasangan yang menantang—tidak mudah didekati tapi sangat berharga jika berhasil. Pasangan ideal adalah mereka yang tidak mudah menyerah dan bisa menembus tembok yang kamu bangun. Cinta untukmu adalah pencapaian, bukan pemberian.",
+        "sisi_gelap_peringatan": "Standar tinggimu kadang membuatmu kesepian. Jangan sampai kesempurnaan menjadi musuh kebahagiaan. Terkadang, orang yang tidak sempurna justru membawa kebahagiaan yang tidak pernah kamu bayangkan."
+    },
+    {
+        "id": 22,
+        "weton_name": "Kamis Pahing",
+        "headline": "Si Pemikir Analitis yang Menyejukkan",
+        "karir_rezeki": "Kamu adalah pemikir analitis yang tidak pernah tergesa-gesa dalam mengambil keputusan. Luwes dan menyejukkan bagai tiupan angin, kamu membawa ketenangan di setiap situasi. Cocok sebagai konsultan, perencana, atau pemimpin bijak. Rezeki datang dari keputusanmu yang selalu matang.",
+        "asmara_hubungan": "Kamu tipe pasangan yang penuh pengertian dan sabar—selalu dipercaya memegang tanggung jawab besar. Pasanganmu merasa aman karena kamu adalah 'pembimbing alami' dalam hubungan. Pasangan ideal adalah mereka yang bisa menjadi mitra diskusi, bukan hanya penerima nasihat.",
+        "sisi_gelap_peringatan": "Kebijaksanaanmu kadang membuatmu terlalu banyak berpikir hingga kehilangan momen. Jangan sampai analisismu menghalangi spontanitas. Terkadang, keputusan terbaik adalah yang datang dari hati, bukan hanya kepala."
+    },
+    {
+        "id": 23,
+        "weton_name": "Kamis Pon",
+        "headline": "Si Bijaksana yang Bisa Meredakan Ketegangan",
+        "karir_rezeki": "Kamu memiliki kemampuan luar biasa dalam meredakan konflik dan membawa kedamaian. Cocok di bidang mediasi, diplomasi, atau sumber daya manusia. Rezeki datang dari kemampuanmu menciptakan harmoni di tempat kerja.",
+        "asmara_hubungan": "Kamu tipe pasangan yang menenangkan—kehadiranmu saja sudah cukup untuk meredakan badai. Pasangan ideal adalah mereka yang bisa menjadi 'rumah' bagimu, tempat kamu juga bisa melepas lelah dan menjadi rapuh tanpa takut dihakimi.",
+        "sisi_gelap_peringatan": "Kemampuanmu menenangkan orang lain kadang membuatmu mengabaikan perasaan sendiri. Kamu terlalu sibuk merawat orang lain hingga lupa merawat diri. Ingat, kamu juga berhak lelah dan berhak dirawat."
+    },
+    {
+        "id": 24,
+        "weton_name": "Kamis Wage",
+        "headline": "Si Setia yang Sulit Melepaskan",
+        "karir_rezeki": "Kamu adalah pekerja yang setia dan tidak mudah berpindah. Cocok di bidang yang membutuhkan loyalitas jangka panjang seperti pendidikan, pemerintahan, atau organisasi nirlaba. Rezeki datang dari konsistensimu—orang mempercayaimu karena kamu selalu ada.",
+        "asmara_hubungan": "Kamu tipe pasangan yang sangat setia—hampir terlalu setia. Kamu sulit melepaskan hubungan meski sudah tidak sehat. Pasangan ideal adalah mereka yang menghargai kesetiaanmu tanpa memanfaatkannya. Belajar melepaskan adalah pelajaran cinta terbesarmu.",
+        "sisi_gelap_peringatan": "Kesetiaanmu kadang menjadi jerat yang membuatmu bertahan di situasi yang merugikan. Jangan salah mengartikan kesetiaan sebagai kewajiban untuk tetap tinggal. Terkadang, pergi adalah bentuk kesetiaan tertinggi pada diri sendiri."
+    },
+    {
+        "id": 25,
+        "weton_name": "Kamis Kliwon",
+        "headline": "Si Pandai Segala Ilmu yang Beruntung dalam Pekerjaan",
+        "karir_rezeki": "Kamu pandai dalam berbagai bidang ilmu. Rezeki dalam pekerjaan sangat baik—kamu tipe yang selalu mendapat peluang. Cocok di bidang apa pun yang kamu tekuni, karena kamu cepat beradaptasi dan belajar. Dunia adalah ladangmu.",
+        "asmara_hubungan": "Kamu tipe pasangan yang menarik dan penuh kejutan—selalu ada hal baru yang bisa kamu tawarkan. Pasangan ideal adalah mereka yang tidak pernah bosan denganmu dan selalu penasaran dengan sisi-sisimu yang belum terungkap.",
+        "sisi_gelap_peringatan": "Kemampuanmu di banyak hal kadang membuatmu terjebak dalam 'jack of all trades, master of none'. Fokus pada satu atau dua bidang yang benar-benar kamu cintai—kedalaman lebih berharga daripada luasnya."
+    },
+    {
+        "id": 26,
+        "weton_name": "Jumat Legi",
+        "headline": "Si Jujur yang Tanpa Kompromi",
+        "karir_rezeki": "Kejujuran adalah senjatamu—kamu berbicara apa adanya, meskipun kadang tanpa mempertimbangkan perasaan. Cocok di bidang yang menuntut integritas tinggi seperti hukum, audit, atau jurnalisme. Rezeki datang dari kepercayaan orang padamu—namamu adalah jaminan.",
+        "asmara_hubungan": "Kamu tipe pasangan yang setia dan tulus—tidak ada kebohongan dalam kamus cintamu. Pasanganmu tahu persis di mana posisinya. Pasangan ideal adalah mereka yang tidak takut dengan kejujuranmu dan bisa menerima kebenaran, sekalipun pahit.",
+        "sisi_gelap_peringatan": "Kejujuranmu yang tanpa filter kadang menyakiti orang yang kamu cintai. Belajar menyampaikan kebenaran dengan cara yang lebih lembut bukan berarti berbohong—itu adalah seni menjaga hati orang lain."
+    },
+    {
+        "id": 27,
+        "weton_name": "Jumat Pahing",
+        "headline": "Si Ramah yang Sulit Menerima Kenyataan",
+        "karir_rezeki": "Kamu ramah dan menyenangkan—orang betah berlama-lama berbincang denganmu. Semangat juangmu tinggi dalam meraih impian. Cocok di bidang yang membutuhkan interaksi sosial: pemasaran, pelayanan pelanggan, atau pendidikan. Rezeki datang dari kepribadianmu yang membuka banyak pintu.",
+        "asmara_hubungan": "Kamu tipe pasangan yang hangat dan menyenangkan. Namun, sifat keras kepalamu kadang membuatmu sulit menerima kenyataan jika hubungan tidak berjalan sesuai harapan. Pasangan ideal adalah mereka yang bisa membantumu melihat realita dengan lembut.",
+        "sisi_gelap_peringatan": "Keras kepalamu adalah musuh terbesarmu. Kamu sulit menerima bahwa tidak semua hal bisa sesuai keinginan. Belajar ikhlas dan menerima ketidaksempurnaan adalah kunci kebahagiaan yang selama ini kamu cari."
+    },
+    {
+        "id": 28,
+        "weton_name": "Jumat Pon",
+        "headline": "Si Mengayomi yang Kurang Percaya Diri",
+        "karir_rezeki": "Kamu adalah pribadi yang mengayomi dan mudah beradaptasi di berbagai lingkungan. Sikap tenang dan serius membuatmu terlihat berwibawa. Cocok di bidang pelayanan sosial, pendidikan, atau manajemen. Rezeki datang dari kemampuanmu merawat orang lain.",
+        "asmara_hubungan": "Kamu tipe pasangan yang menenangkan dan penuh perhatian. Namun, kurangnya percaya diri membuatmu sering meragukan cinta pasangan. Pasangan ideal adalah mereka yang bisa terus meyakinkanmu bahwa kamu layak dicintai—setiap hari.",
+        "sisi_gelap_peringatan": "Kurang percaya diri dan mudah terpengaruh orang lain adalah kelemahan terbesarmu. Jangan biarkan keraguan membuatmu kehilangan kesempatan besar. Kamu lebih berharga dari yang kamu kira—mulailah percaya pada dirimu sendiri."
+    },
+    {
+        "id": 29,
+        "weton_name": "Jumat Wage",
+        "headline": "Si Berhati Lembut yang Sulit Menerima Masukan",
+        "karir_rezeki": "Kamu berhati lembut dan penuh kepedulian—selalu menjadi yang pertama membantu saat orang lain membutuhkan. Cocok di bidang kemanusiaan, kesehatan, atau pelayanan. Rezeki datang dari ketulusanmu—orang tidak akan melupakan kebaikanmu.",
+        "asmara_hubungan": "Kamu tipe pasangan yang rendah hati dan tidak suka menyombongkan diri. Namun, kamu sulit menerima masukan dan cenderung keras kepala terhadap keputusan pribadi. Pasangan ideal adalah mereka yang bisa membujukmu dengan lembut, bukan memaksa.",
+        "sisi_gelap_peringatan": "Sikapmu yang sulit menerima masukan membuatmu kehilangan banyak pelajaran berharga. Ingat, kritik bukan serangan—itu adalah cermin yang membantumu melihat sisi yang tidak bisa kamu lihat sendiri."
+    },
+    {
+        "id": 30,
+        "weton_name": "Jumat Kliwon",
+        "headline": "Si Pemaaf yang Aura Menenangkan",
+        "karir_rezeki": "Kamu sabar, dermawan, dan mudah berempati—sifat ini membuatmu cepat mendapatkan simpati banyak orang. Kamu memiliki potensi besar sebagai pemimpin karena mampu memengaruhi lingkungan. Cocok di bidang kepemimpinan, konseling, atau hubungan masyarakat. Rezeki datang dari pengaruh positifmu.",
+        "asmara_hubungan": "Kamu tipe pasangan yang menenangkan—kehadiranmu saja sudah membuat orang lain merasa nyaman. Pasanganmu merasa beruntung memiliki sosok sepemaham sepertimu. Pasangan ideal adalah mereka yang bisa menjadi tempat pulang yang sama tenangnya dengan dirimu.",
+        "sisi_gelap_peringatan": "Kamu cenderung plin-plan dan kadang terlihat kurang memiliki pendirian yang teguh. Selain itu, kamu mudah marah, suka membantah, dan ceroboh dalam mengambil keputusan. Belajar konsisten dan mengelola emosi akan membawamu lebih jauh."
+    },
+    {
+        "id": 31,
+        "weton_name": "Sabtu Legi",
+        "headline": "Si Pencinta Kualitas yang Perhatikan Detail",
+        "karir_rezeki": "Kamu menyukai gaya hidup berkualitas dan bernilai tinggi—detail adalah segalanya bagimu. Kecerdikan dan keterbukaan terhadap pendapat orang lain menjadi kelebihan utamamu. Cocok di bidang yang menuntut ketelitian: desain, arsitektur, atau quality control. Rezeki datang dari standar tinggimu.",
+        "asmara_hubungan": "Kamu tipe pasangan yang perhatian pada detail—ingat ulang tahun, makanan favorit, bahkan hal kecil yang pernah kamu katakan. Pasangan ideal adalah mereka yang menghargai perhatianmu dan membalasnya dengan cara yang sama tulusnya.",
+        "sisi_gelap_peringatan": "Kecenderungan hidup mewah perlu dikendalikan. Kamu bisa terlalu fokus pada penampilan luar hingga melupakan substansi. Ingat, kualitas hidup bukan hanya tentang barang mahal, tapi juga tentang hubungan dan pengalaman bermakna."
+    },
+    {
+        "id": 32,
+        "weton_name": "Sabtu Pahing",
+        "headline": "Si Berenergi yang Mudah Tersulut Emosi",
+        "karir_rezeki": "Kamu memiliki semangat besar dan jiwa yang penuh energi. Kamu termasuk dalam garis nasib 'Tibo Duno'—bisa mendapatkan status sosial tinggi, jabatan penting, atau kehidupan mapan. Cocok sebagai pemimpin atau wirausahawan. Rezeki melimpah dan bahkan bisa membawa manfaat bagi keluarga.",
+        "asmara_hubungan": "Kamu memiliki daya tarik yang kuat sehingga mudah disukai banyak orang. Namun, sifat emosional membuatmu mudah terpancing amarah. Pasangan ideal adalah mereka yang bisa menjadi 'penyejuk' saat emosimu memuncak, tanpa takut dengan api dalam dirimu.",
+        "sisi_gelap_peringatan": "Sifat emosionalmu adalah tantangan terbesar. Kamu sering berbicara tanpa pikir panjang, sehingga ucapannya terasa menyakitkan. Di balik itu, kamu sebenarnya penakut dan sensitif. Belajar mengelola emosi adalah kunci agar apimu tidak membakar hubungan berharga."
+    },
+    {
+        "id": 33,
+        "weton_name": "Sabtu Pon",
+        "headline": "Si Bos Hebat yang Teliti dan Sabar",
+        "karir_rezeki": "Kamu teliti, sabar, dan berdedikasi penuh untuk karyawan. Cocok menjadi bos atau pengusaha—kamu tidak hanya mensukseskan diri sendiri tapi juga mengajarkan teknik pengembangan diri untuk timmu. Rezeki datang saat mengelola usaha sendiri, terutama di bidang perikanan, pertanian, seni, atau arsitektur.",
+        "asmara_hubungan": "Kamu tipe pasangan yang sabar dan teliti—tidak terburu-buru dalam cinta. Pasanganmu merasa aman karena kamu adalah perencana yang matang. Pasangan ideal adalah mereka yang bisa menikmati proses bersamamu, bukan hanya mengejar hasil instan.",
+        "sisi_gelap_peringatan": "Kesabaran dan ketelitianmu kadang membuatmu terlalu perfeksionis. Kamu bisa terlalu fokus pada detail hingga kehilangan gambaran besar. Ingat, hidup bukan hanya tentang rencana yang sempurna—kadang keindahan ada di ketidaksempurnaan."
+    },
+    {
+        "id": 34,
+        "weton_name": "Sabtu Wage",
+        "headline": "Si Teguh yang Sulit Dipengaruhi",
+        "karir_rezeki": "Kamu adalah pribadi yang teguh dan sulit dipengaruhi—pendirianmu kokoh seperti batu. Cocok di bidang yang membutuhkan konsistensi dan integritas: hukum, keamanan, atau manajemen risiko. Rezeki datang dari keteguhanmu—orang tahu kamu bisa diandalkan.",
+        "asmara_hubungan": "Kamu tipe pasangan yang setia terhadap orang-orang terdekat. Kamu tidak mudah goyah dan akan bertahan dalam situasi apa pun. Pasangan ideal adalah mereka yang menghargai kesetiaanmu dan tidak menguji kesabaranmu dengan ketidakpastian.",
+        "sisi_gelap_peringatan": "Keteguhanmu kadang berubah menjadi kekakuan. Kamu sulit melihat sudut pandang lain dan bisa kehilangan hubungan karena egomu. Belajar fleksibel bukan berarti kehilangan prinsip—itu adalah tanda kedewasaan."
+    },
+    {
+        "id": 35,
+        "weton_name": "Sabtu Kliwon",
+        "headline": "Si Komunikatif yang Sering Ragu Memulai",
+        "karir_rezeki": "Kemampuan komunikasimu luar biasa—baik secara lisan maupun tulisan. Hal ini membuatmu mudah dikagumi dan dipercaya. Cocok di bidang media, humas, atau penulisan. Rezeki datang dari kemampuanmu menyampaikan ide dengan cara yang memikat banyak orang.",
+        "asmara_hubungan": "Kamu tipe pasangan yang ramah dan menghargai pasangan. Namun, kurangnya keberanian membuatmu sering ragu memulai sesuatu yang baru—termasuk dalam cinta. Pasangan ideal adalah mereka yang bisa menjadi 'dorongan' untukmu mengambil langkah pertama.",
+        "sisi_gelap_peringatan": "Kurangnya keberanian adalah musuh terbesarmu. Kamu sering melewatkan peluang karena terlalu banyak berpikir dan ragu. Ingat, tidak ada kesuksesan tanpa keberanian mengambil risiko—termasuk risiko ditolak dalam cinta."
+    }
+]
