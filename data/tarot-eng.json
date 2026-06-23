@@ -1,0 +1,1016 @@
+[
+    {
+        "id": 0,
+        "name": "The Fool",
+        "suit": "Major",
+        "keywords": [
+            "New beginnings",
+            "Spontaneity",
+            "Faith"
+        ],
+        "upright_meaning": "The Fool invites you to embrace the unknown with an open heart. This is a moment of pure potential—a leap of faith into a new chapter. Trust that the universe will catch you, even if the path ahead is unclear. Your innocence and optimism are your greatest assets right now.",
+        "reversed_meaning": "When The Fool appears reversed, you may be holding yourself back out of fear or recklessness. Perhaps you are ignoring wise counsel or acting without considering the consequences. Take a breath. It's okay to pause and gather yourself before moving forward.",
+        "image_prompt_keywords": "Young man standing at cliff edge, small dog jumping, white rose, mountains, sun, yellow sky, carefree posture"
+    },
+    {
+        "id": 1,
+        "name": "The Magician",
+        "suit": "Major",
+        "keywords": [
+            "Manifestation",
+            "Skill",
+            "Willpower"
+        ],
+        "upright_meaning": "You have all the tools you need at your disposal. The Magician reminds you that you are a powerful creator—your thoughts, words, and actions are aligned, and the universe is responding. This is a time to take deliberate, conscious action toward your goals.",
+        "reversed_meaning": "Reversed, The Magician suggests you may be feeling powerless or disconnected from your abilities. Perhaps you are being manipulated, or you are manipulating others. Reconnect with your inner truth and use your gifts with integrity.",
+        "image_prompt_keywords": "Man with one hand pointing up and one down, table with cup, sword, wand, pentacle, lemniscate above head, red and white roses"
+    },
+    {
+        "id": 2,
+        "name": "The High Priestess",
+        "suit": "Major",
+        "keywords": [
+            "Intuition",
+            "Mystery",
+            "Subconscious"
+        ],
+        "upright_meaning": "The High Priestess asks you to trust your inner voice. The answers you seek are not found in the external world but within the quiet depths of your soul. Be still, listen, and honor the wisdom that arises from your subconscious.",
+        "reversed_meaning": "When reversed, you may be ignoring your intuition or feeling disconnected from your inner guidance. Secrets may be hidden, or you may be keeping things from yourself. Take time for solitude and reflection to reconnect with your truth.",
+        "image_prompt_keywords": "Woman seated between black and white pillars, veil with pomegranates, crescent moon at feet, scroll in lap, cross on chest"
+    },
+    {
+        "id": 3,
+        "name": "The Empress",
+        "suit": "Major",
+        "keywords": [
+            "Abundance",
+            "Nurturing",
+            "Creativity"
+        ],
+        "upright_meaning": "The Empress is the embodiment of creative abundance and nurturing love. You are in a season of growth—whether in relationships, projects, or personal development. Allow yourself to receive and be nurtured, and extend that same care to others.",
+        "reversed_meaning": "Reversed, The Empress may indicate neglect, creative block, or a sense of emptiness. You may be giving too much to others and leaving nothing for yourself. Reconnect with what nourishes your soul and tend to your own needs.",
+        "image_prompt_keywords": "Woman seated on throne in nature, crown of stars, scepter, shield with Venus symbol, wheat fields, waterfall"
+    },
+    {
+        "id": 4,
+        "name": "The Emperor",
+        "suit": "Major",
+        "keywords": [
+            "Structure",
+            "Authority",
+            "Protection"
+        ],
+        "upright_meaning": "The Emperor brings order, structure, and stability. You are being called to take charge of your life with clarity and confidence. Establish boundaries, create systems, and lead with wisdom. Your strength provides security for yourself and those who depend on you.",
+        "reversed_meaning": "Reversed, The Emperor may appear when you are feeling overly controlling, rigid, or power-hungry. Alternatively, you may be struggling with a lack of discipline or direction. Find the middle ground between structure and flexibility.",
+        "image_prompt_keywords": "Bearded man seated on throne, ram heads on armrests, orb and scepter, red robe, mountains in background"
+    },
+    {
+        "id": 5,
+        "name": "The Hierophant",
+        "suit": "Major",
+        "keywords": [
+            "Tradition",
+            "Teaching",
+            "Spiritual wisdom"
+        ],
+        "upright_meaning": "The Hierophant represents the wisdom of tradition and the comfort of belonging to a community or belief system. You may be seeking guidance from a teacher, mentor, or spiritual tradition. Honor the rituals and structures that give your life meaning.",
+        "reversed_meaning": "Reversed, you may be questioning the status quo or feeling constrained by rigid beliefs. It's okay to challenge tradition and find your own path. Break free from what no longer serves you, but do so with intention and respect.",
+        "image_prompt_keywords": "Religious figure seated between two pillars, triple crown, crossed keys, two acolytes, blessing hand gesture"
+    },
+    {
+        "id": 6,
+        "name": "The Lovers",
+        "suit": "Major",
+        "keywords": [
+            "Love",
+            "Choice",
+            "Alignment"
+        ],
+        "upright_meaning": "The Lovers is about deep connection and alignment—with another person, with your values, or with your higher self. You are at a crossroads where a meaningful choice must be made. Choose from the heart, and let your actions reflect your true beliefs.",
+        "reversed_meaning": "Reversed, The Lovers suggests disharmony, misalignment, or difficult choices. You may feel torn between two paths or people. Take a step back and examine what truly matters to you. Honest communication is essential.",
+        "image_prompt_keywords": "Nude man and woman standing in garden, angel above, tree of knowledge with serpent, tree of life with flames"
+    },
+    {
+        "id": 7,
+        "name": "The Chariot",
+        "suit": "Major",
+        "keywords": [
+            "Victory",
+            "Control",
+            "Direction"
+        ],
+        "upright_meaning": "The Chariot is a card of triumph through determination and willpower. You have harnessed opposing forces and are moving forward with clarity and purpose. Stay focused, and you will overcome any obstacle in your path.",
+        "reversed_meaning": "Reversed, you may feel out of control or directionless. Perhaps you are being pulled in too many directions, or your aggression is getting the best of you. Slow down, regain your center, and reassess your course.",
+        "image_prompt_keywords": "Warrior standing in chariot, two sphinxes (black and white), canopy with stars, wand, city in background"
+    },
+    {
+        "id": 8,
+        "name": "Strength",
+        "suit": "Major",
+        "keywords": [
+            "Inner strength",
+            "Compassion",
+            "Patience"
+        ],
+        "upright_meaning": "True strength is not about brute force but about quiet courage, patience, and compassion. You have the inner power to face any challenge with grace. Tame your impulses and approach situations with a gentle but firm hand.",
+        "reversed_meaning": "Reversed, you may be feeling insecure, overwhelmed, or lacking in confidence. Perhaps you are being too harsh with yourself or others. Remember that vulnerability is also a form of strength. Be kind to yourself.",
+        "image_prompt_keywords": "Woman closing lion's mouth gently, lemniscate above her head, flowers, mountains in background"
+    },
+    {
+        "id": 9,
+        "name": "The Hermit",
+        "suit": "Major",
+        "keywords": [
+            "Solitude",
+            "Wisdom",
+            "Introspection"
+        ],
+        "upright_meaning": "The Hermit invites you to withdraw from the noise of the world and turn inward. This is a time for deep reflection, self-discovery, and seeking answers within. The wisdom you find in solitude will light your way forward.",
+        "reversed_meaning": "Reversed, you may be isolating yourself excessively or feeling lonely. Perhaps you are avoiding connection or refusing to share your wisdom with others. Reach out when you are ready—you don't have to walk the path alone.",
+        "image_prompt_keywords": "Old man with staff and lantern, gray robe, mountain peak, snow, star within lantern"
+    },
+    {
+        "id": 10,
+        "name": "Wheel of Fortune",
+        "suit": "Major",
+        "keywords": [
+            "Fate",
+            "Change",
+            "Cycles"
+        ],
+        "upright_meaning": "The Wheel of Fortune reminds you that life is a cycle of ups and downs. Change is inevitable, and the wheel is turning in your favor. Trust the timing of the universe—what goes around comes around, and this is your moment.",
+        "reversed_meaning": "Reversed, you may be resisting change or feeling victimized by circumstances beyond your control. The wheel always turns—this difficult period will pass. Focus on what you can control and surrender to the flow of life.",
+        "image_prompt_keywords": "Wheel with Hebrew and alchemical symbols, sphinx on top, snake on left, angel on right, figures in corners"
+    },
+    {
+        "id": 11,
+        "name": "Justice",
+        "suit": "Major",
+        "keywords": [
+            "Fairness",
+            "Truth",
+            "Accountability"
+        ],
+        "upright_meaning": "Justice calls for honesty, fairness, and accountability. Your actions have consequences, and it's time to take responsibility. Whether you are being judged or doing the judging, seek the truth and act with integrity.",
+        "reversed_meaning": "Reversed, you may be experiencing injustice, dishonesty, or avoidance of accountability. Perhaps you are being unfair to yourself or others. Face the truth, even if it's uncomfortable—it's the first step toward resolution.",
+        "image_prompt_keywords": "Woman seated on throne, holding sword and scales, purple robe, pillars behind"
+    },
+    {
+        "id": 12,
+        "name": "The Hanged Man",
+        "suit": "Major",
+        "keywords": [
+            "Surrender",
+            "Perspective",
+            "Sacrifice"
+        ],
+        "upright_meaning": "The Hanged Man asks you to surrender control and see things from a new angle. Sometimes the most productive thing you can do is pause, let go, and allow life to unfold. This is not defeat—it's a conscious suspension for greater understanding.",
+        "reversed_meaning": "Reversed, you may be resisting surrender or feeling stuck in a situation. Perhaps you are making unnecessary sacrifices or refusing to let go. Shift your perspective and trust that release will bring freedom.",
+        "image_prompt_keywords": "Man hanging upside down from tree, one leg crossed, hands behind back, halo around head, peaceful expression"
+    },
+    {
+        "id": 13,
+        "name": "Death",
+        "suit": "Major",
+        "keywords": [
+            "Transformation",
+            "Ending",
+            "Renewal"
+        ],
+        "upright_meaning": "Death is not about physical death but about profound transformation. Something in your life is ending to make way for something new. Embrace this transition—resisting it will only prolong the pain. Let go and trust in rebirth.",
+        "reversed_meaning": "Reversed, you may be resisting necessary change or clinging to the past. The ending you fear is actually a gateway to growth. Allow yourself to grieve what is passing, but don't let fear keep you from moving forward.",
+        "image_prompt_keywords": "Skeletal figure on horseback, white rose flag, people including king and child, ship in background, sun between pillars"
+    },
+    {
+        "id": 14,
+        "name": "Temperance",
+        "suit": "Major",
+        "keywords": [
+            "Balance",
+            "Patience",
+            "Moderation"
+        ],
+        "upright_meaning": "Temperance is the art of balance and integration. You are learning to blend different aspects of your life harmoniously. Be patient—the right timing and the right mix will reveal themselves. Keep the faith.",
+        "reversed_meaning": "Reversed, you may be feeling out of balance or impatient. Perhaps you are overindulging in one area while neglecting another. Slow down and find your equilibrium. Moderation in all things, including moderation itself.",
+        "image_prompt_keywords": "Angel with two cups, pouring water between them, one foot on land, one in water, path and sun in background"
+    },
+    {
+        "id": 15,
+        "name": "The Devil",
+        "suit": "Major",
+        "keywords": [
+            "Temptation",
+            "Bondage",
+            "Materialism"
+        ],
+        "upright_meaning": "The Devil represents the chains you have placed on yourself—addictions, fears, or limiting beliefs. You are being called to examine what is holding you back. The power to break free is within you; you just have to recognize it.",
+        "reversed_meaning": "Reversed, you are beginning to break free from self-imposed limitations. The chains are loosening, and you are reclaiming your power. This is a moment of liberation—keep going, and don't look back.",
+        "image_prompt_keywords": "Horned figure with wings, naked man and woman chained, inverted pentagram, tail with flame"
+    },
+    {
+        "id": 16,
+        "name": "The Tower",
+        "suit": "Major",
+        "keywords": [
+            "Upheaval",
+            "Revelation",
+            "Breakthrough"
+        ],
+        "upright_meaning": "The Tower brings sudden, unexpected change that shakes your foundations. Though it feels destructive, this upheaval is clearing away what is no longer true or stable. The truth is being revealed—painful but ultimately liberating.",
+        "reversed_meaning": "Reversed, you may be avoiding a necessary upheaval or clinging to false stability. The tower will eventually fall—it's better to face it head-on. Let go of what is crumbling and make space for something new.",
+        "image_prompt_keywords": "Tower struck by lightning, people falling, flames, crown falling, dark sky"
+    },
+    {
+        "id": 17,
+        "name": "The Star",
+        "suit": "Major",
+        "keywords": [
+            "Hope",
+            "Inspiration",
+            "Healing"
+        ],
+        "upright_meaning": "The Star is a beacon of hope and healing. After the storm, the skies clear, and you are reminded that better days are ahead. Trust in the universe and have faith in your own journey. Your dreams are within reach.",
+        "reversed_meaning": "Reversed, you may be feeling hopeless or disconnected from your dreams. Perhaps you have lost faith in yourself or the future. Reconnect with your inner light—it is still there, even if it feels dim right now.",
+        "image_prompt_keywords": "Nude woman kneeling by water, pouring water from two jugs, one on land one in water, eight-pointed star in sky, ibis in tree"
+    },
+    {
+        "id": 18,
+        "name": "The Moon",
+        "suit": "Major",
+        "keywords": [
+            "Illusion",
+            "Fear",
+            "Subconscious"
+        ],
+        "upright_meaning": "The Moon warns that not everything is as it seems. You may be navigating confusion, fear, or deception. Trust your intuition and look beneath the surface. The truth is hidden, but it will emerge in time.",
+        "reversed_meaning": "Reversed, the fog is beginning to lift. Illusions are dissolving, and clarity is on the horizon. You may still feel anxious, but you are moving toward understanding. Trust what you sense, even if you can't yet see clearly.",
+        "image_prompt_keywords": "Moon, two towers, dog and wolf howling, crayfish in water, path leading into distance"
+    },
+    {
+        "id": 19,
+        "name": "The Sun",
+        "suit": "Major",
+        "keywords": [
+            "Joy",
+            "Success",
+            "Enlightenment"
+        ],
+        "upright_meaning": "The Sun brings warmth, vitality, and clarity. You are stepping into the light—success, happiness, and fulfillment are yours. This is a time to celebrate your achievements and embrace the joy of being fully alive.",
+        "reversed_meaning": "Reversed, you may be feeling a cloud over your happiness or struggling to see the bright side. Perhaps you are doubting your success or feeling overshadowed. Allow yourself to receive the light—it is still shining for you.",
+        "image_prompt_keywords": "Child on white horse, sun with face, sunflowers, wall in background, smiling child"
+    },
+    {
+        "id": 20,
+        "name": "Judgment",
+        "suit": "Major",
+        "keywords": [
+            "Rebirth",
+            "Awakening",
+            "Forgiveness"
+        ],
+        "upright_meaning": "Judgment is a powerful call to rise and be reborn. You are being awakened to a higher purpose or a new understanding of yourself. Forgive yourself and others, and step into your next chapter with renewed clarity.",
+        "reversed_meaning": "Reversed, you may be avoiding a necessary self-evaluation or struggling with self-doubt. Perhaps you are holding onto guilt or fear of being judged. The call is still there—listen, forgive, and move forward.",
+        "image_prompt_keywords": "Angel blowing trumpet, people rising from coffins, grateful expressions, mountains, ships in distance"
+    },
+    {
+        "id": 21,
+        "name": "The World",
+        "suit": "Major",
+        "keywords": [
+            "Completion",
+            "Fulfillment",
+            "Integration"
+        ],
+        "upright_meaning": "The World signifies the successful completion of a cycle. You have integrated all the lessons and arrived at a place of wholeness. Celebrate your journey—you are exactly where you are meant to be. A new cycle awaits.",
+        "reversed_meaning": "Reversed, you may feel incomplete or that something is holding you back from finishing what you started. Perhaps you are struggling to find closure or integration. Trust that the last pieces will fall into place in time.",
+        "image_prompt_keywords": "Nude woman dancing in wreath, four figures in corners (angel, eagle, lion, ox), two wands, blue sky"
+    },
+    {
+        "id": 22,
+        "name": "Ace of Wands",
+        "suit": "Wands",
+        "keywords": [
+            "Inspiration",
+            "New passion",
+            "Potential"
+        ],
+        "upright_meaning": "A spark of inspiration ignites within you. The Ace of Wands is a powerful beginning—a new idea, project, or passion is emerging. Embrace this creative fire and take the first step, even if you don't have all the answers yet.",
+        "reversed_meaning": "Reversed, your creative energy may be blocked, or you may be hesitating to start something new. Perhaps the spark is there but you feel unsure or unprepared. Give yourself permission to begin imperfectly.",
+        "image_prompt_keywords": "Hand emerging from cloud holding a leafy wand, castle in background, sky"
+    },
+    {
+        "id": 23,
+        "name": "Two of Wands",
+        "suit": "Wands",
+        "keywords": [
+            "Planning",
+            "Decisio",
+            "Future vision"
+        ],
+        "upright_meaning": "You are at a crossroads, and it's time to make a decision about your next steps. The Two of Wands encourages you to think big, plan ahead, and step out of your comfort zone. The world is waiting for you.",
+        "reversed_meaning": "Reversed, you may be feeling indecisive or stuck in planning mode without taking action. Perhaps you are afraid to leave your comfort zone. Trust yourself—you have everything you need to move forward.",
+        "image_prompt_keywords": "Man standing on a wall holding a globe, two wands, ships in water, castle, hills"
+    },
+    {
+        "id": 24,
+        "name": "Three of Wands",
+        "suit": "Wands",
+        "keywords": [
+            "Expansion",
+            "Exploration",
+            "Progress"
+        ],
+        "upright_meaning": "Your vision is expanding, and you are seeing the bigger picture. The Three of Wands is a card of progress—your plans are coming together, and new opportunities are on the horizon. Keep moving forward with confidence.",
+        "reversed_meaning": "Reversed, you may be facing delays or feeling that your efforts are not yielding the results you hoped for. Take a step back and reassess. Sometimes a shift in perspective is all you need.",
+        "image_prompt_keywords": "Man looking out at ships from a cliff, three wands planted in ground, water"
+    },
+    {
+        "id": 25,
+        "name": "Four of Wands",
+        "suit": "Wands",
+        "keywords": [
+            "Celebration",
+            "Home",
+            "Community"
+        ],
+        "upright_meaning": "Four of Wands is a card of joy, celebration, and coming home. You are building a foundation of stability and belonging. Whether it's a family gathering, a milestone, or a sense of community, this is a time to celebrate.",
+        "reversed_meaning": "Reversed, you may feel unsettled or disconnected from your sense of home and community. Perhaps a celebration is not going as planned. Reconnect with the people and places that make you feel grounded.",
+        "image_prompt_keywords": "Four wands with garland, celebration scene, castle in background, people with flowers"
+    },
+    {
+        "id": 26,
+        "name": "Five of Wands",
+        "suit": "Wands",
+        "keywords": [
+            "Competition",
+            "Conflict",
+            "Challenge"
+        ],
+        "upright_meaning": "The Five of Wands represents healthy competition or creative conflict. You may be facing challenges or disagreements, but these are opportunities to test your ideas and grow. Stay engaged and keep your integrity.",
+        "reversed_meaning": "Reversed, you may be avoiding conflict or feeling overwhelmed by competition. Perhaps the conflict has turned unproductive or personal. Take a step back, find common ground, and remember what really matters.",
+        "image_prompt_keywords": "Five men with wands in conflict stance, chaotic energy, open field"
+    },
+    {
+        "id": 27,
+        "name": "Six of Wands",
+        "suit": "Wands",
+        "keywords": [
+            "Victory",
+            "Recognition",
+            "Confidence"
+        ],
+        "upright_meaning": "You are receiving well-deserved recognition for your efforts. The Six of Wands is a card of victory and public acknowledgment. Your hard work has paid off—enjoy this moment of success and let it fuel your confidence.",
+        "reversed_meaning": "Reversed, you may be feeling overlooked or struggling with self-doubt despite your achievements. Perhaps you fear that success is temporary or not enough. Trust in your worth—you have earned this.",
+        "image_prompt_keywords": "Man on white horse with laurel wreath, crowd, six wands"
+    },
+    {
+        "id": 28,
+        "name": "Seven of Wands",
+        "suit": "Wands",
+        "keywords": [
+            "Courage",
+            "Defense",
+            "Perseverance"
+        ],
+        "upright_meaning": "You are standing your ground against challenges and opposition. The Seven of Wands reminds you that you have the strength and courage to defend your position. Stay strong—you are capable of holding your own.",
+        "reversed_meaning": "Reversed, you may be feeling overwhelmed or unsure of your ability to stand firm. Perhaps you are backing down from a challenge out of fear. Remember that you are stronger than you think. Stand your ground.",
+        "image_prompt_keywords": "Man on hill defending with wand against six wands from below, determination"
+    },
+    {
+        "id": 29,
+        "name": "Eight of Wands",
+        "suit": "Wands",
+        "keywords": [
+            "Speed",
+            "Action",
+            "Movement"
+        ],
+        "upright_meaning": "Things are moving quickly—the Eight of Wands brings rapid progress, communication, and momentum. This is a time to act with speed and decisiveness. Opportunities are arriving fast, so stay alert.",
+        "reversed_meaning": "Reversed, you may be experiencing delays or feeling overwhelmed by the pace. Perhaps things are moving too fast or too slowly for your comfort. Take a breath, slow down, and trust the timing.",
+        "image_prompt_keywords": "Eight wands flying through the air, action, momentum, sky, no people"
+    },
+    {
+        "id": 30,
+        "name": "Nine of Wands",
+        "suit": "Wands",
+        "keywords": [
+            "Resilience",
+            "Boundaries",
+            "Persistence"
+        ],
+        "upright_meaning": "You are tired and battle-worn, but you are still standing. The Nine of Wands is a card of resilience—you have been through a lot, and you have the strength to keep going. Guard your boundaries and protect what matters.",
+        "reversed_meaning": "Reversed, you may be feeling paranoid, defensive, or exhausted. Perhaps you are holding up walls that are no longer necessary. Take a moment to rest and ask yourself what you truly need to protect.",
+        "image_prompt_keywords": "Wounded man with bandages, holding a wand, eight wands behind him, weary but determined"
+    },
+    {
+        "id": 31,
+        "name": "Ten of Wands",
+        "suit": "Wands",
+        "keywords": [
+            "Burden",
+            "Overwhelm",
+            "Responsibility"
+        ],
+        "upright_meaning": "You are carrying a heavy load, and it may be becoming too much. The Ten of Wands asks you to examine what you are holding onto. Is this burden yours to carry? Sometimes the greatest responsibility is knowing when to let go.",
+        "reversed_meaning": "Reversed, you are beginning to release your burdens. The weight is lifting, and you are learning to delegate or let go. This is a time of relief—allow yourself to drop what no longer serves you.",
+        "image_prompt_keywords": "Man carrying ten wands, struggling under the weight, town in background"
+    },
+    {
+        "id": 32,
+        "name": "Page of Wands",
+        "suit": "Wands",
+        "keywords": [
+            "Enthusiasm",
+            "Exploration",
+            "Curiosity"
+        ],
+        "upright_meaning": "The Page of Wands brings a burst of youthful enthusiasm and curiosity. You are exploring a new passion or idea with an open heart. This is a time for learning, discovery, and embracing your playful side.",
+        "reversed_meaning": "Reversed, you may be feeling uninspired or lacking in direction. Perhaps you are starting projects but not finishing them. Reconnect with your curiosity and give yourself permission to explore without pressure.",
+        "image_prompt_keywords": "Young person holding a wand, looking at it, desert landscape, adventurous energy"
+    },
+    {
+        "id": 33,
+        "name": "Knight of Wands",
+        "suit": "Wands",
+        "keywords": [
+            "Passion",
+            "Impulse",
+            "Adventure"
+        ],
+        "upright_meaning": "The Knight of Wands is a force of passion and action. You are charging forward with enthusiasm and courage. This is a time to pursue your goals with intensity—just be mindful not to burn out or rush past important details.",
+        "reversed_meaning": "Reversed, you may be acting impulsively or aggressively. Perhaps you are moving too fast and missing the bigger picture. Slow down, consider the consequences, and channel your passion more constructively.",
+        "image_prompt_keywords": "Knight on horse with wand, galloping, pyramids in background, red cape"
+    },
+    {
+        "id": 34,
+        "name": "Queen of Wands",
+        "suit": "Wands",
+        "keywords": [
+            "Confidence",
+            "Warmth",
+            "Leadership"
+        ],
+        "upright_meaning": "The Queen of Wands is confident, charismatic, and full of warmth. You are a natural leader who inspires others with your passion and positivity. Share your light generously—you have the power to uplift those around you.",
+        "reversed_meaning": "Reversed, you may be feeling insecure or trying too hard to be seen. Perhaps you are being overly demanding or controlling. Step back and reconnect with your authentic self—you don't need to perform to be worthy.",
+        "image_prompt_keywords": "Queen on throne with a wand and sunflower, cat at feet, confident posture"
+    },
+    {
+        "id": 35,
+        "name": "King of Wands",
+        "suit": "Wands",
+        "keywords": [
+            "Vision",
+            "Leadership",
+            "Inspiration"
+        ],
+        "upright_meaning": "The King of Wands is a visionary leader who inspires others through action and integrity. You have a clear vision and the charisma to bring others along with you. Lead with confidence and generosity.",
+        "reversed_meaning": "Reversed, you may be using your power for self-serving purposes or being overly domineering. Perhaps you are impatient or dismissive of others' ideas. Lead with humility—true leadership is about serving, not controlling.",
+        "image_prompt_keywords": "King on throne with wand, salamander, crown, fiery energy, commanding presence"
+    },
+    {
+        "id": 36,
+        "name": "Ace of Cups",
+        "suit": "Cups",
+        "keywords": [
+            "Love",
+            "Emotion",
+            "Intuition"
+        ],
+        "upright_meaning": "The Ace of Cups opens the floodgates of emotion. Love, compassion, and creativity are flowing freely. This is a time to open your heart—whether to new relationships, deeper connections, or greater self-love.",
+        "reversed_meaning": "Reversed, your emotions may be blocked or overwhelming. Perhaps you are struggling to express how you feel, or you are pouring love into others while neglecting yourself. Take time to tend to your own heart.",
+        "image_prompt_keywords": "Hand emerging from cloud holding a cup, water overflowing, dove carrying host, lily pond"
+    },
+    {
+        "id": 37,
+        "name": "Two of Cups",
+        "suit": "Cups",
+        "keywords": [
+            "Connection",
+            "Partnership",
+            "Union"
+        ],
+        "upright_meaning": "The Two of Cups is a card of deep connection and mutual respect. This can be romantic, platonic, or even a partnership with yourself. There is harmony and understanding—a meeting of hearts and minds.",
+        "reversed_meaning": "Reversed, there may be imbalance or disconnection in a relationship. Perhaps you are giving more than you are receiving, or communication has broken down. Reconnect with honesty and vulnerability.",
+        "image_prompt_keywords": "Man and woman exchanging cups, caduceus with lion, village in background"
+    },
+    {
+        "id": 38,
+        "name": "Three of Cups",
+        "suit": "Cups",
+        "keywords": [
+            "Celebration",
+            "Community",
+            "Joy"
+        ],
+        "upright_meaning": "Three of Cups is a celebration of community and shared joy. Whether it's a gathering of friends, a family reunion, or a creative collaboration, this is a time to come together and lift each other up.",
+        "reversed_meaning": "Reversed, you may be feeling left out or overindulging in social activities. Perhaps the celebration feels hollow or you are using it to escape deeper emotions. Seek genuine connection, not just distraction.",
+        "image_prompt_keywords": "Three women dancing, cups raised, flowers, harvest, joy"
+    },
+    {
+        "id": 39,
+        "name": "Four of Cups",
+        "suit": "Cups",
+        "keywords": [
+            "Contemplation",
+            "Apathy",
+            "Reflection"
+        ],
+        "upright_meaning": "The Four of Cups suggests you are feeling discontent or disconnected from the world around you. Perhaps you are focusing on what you lack instead of seeing the opportunities that are already present. Pause and reflect.",
+        "reversed_meaning": "Reversed, you are beginning to shift out of apathy and reconnect with your emotions. A new opportunity or perspective is emerging. Open your eyes and heart to what is being offered.",
+        "image_prompt_keywords": "Man sitting under tree, three cups before him, hand from cloud offering a fourth cup"
+    },
+    {
+        "id": 40,
+        "name": "Five of Cups",
+        "suit": "Cups",
+        "keywords": [
+            "Grief",
+            "Loss",
+            "Regret"
+        ],
+        "upright_meaning": "The Five of Cups is a card of grief and disappointment. You are mourning a loss, and it's important to honor that pain. But remember—there are two cups still standing behind you. Don't forget what remains.",
+        "reversed_meaning": "Reversed, you are beginning to heal and move forward from loss. You are acknowledging your grief while also opening yourself to hope and new possibilities. The healing has begun.",
+        "image_prompt_keywords": "Man in black cloak mourning three spilled cups, two cups behind him, river, bridge"
+    },
+    {
+        "id": 41,
+        "name": "Six of Cups",
+        "suit": "Cups",
+        "keywords": [
+            "Nostalgia",
+            "Innocence",
+            "Childhood"
+        ],
+        "upright_meaning": "The Six of Cups invites you to revisit the past with tenderness. Childhood memories, old friends, or simple pleasures are calling you. This is a time for nostalgia, healing old wounds, and reconnecting with your inner child.",
+        "reversed_meaning": "Reversed, you may be stuck in the past or refusing to grow up. Perhaps you are clinging to old patterns or memories that no longer serve you. Honor the past, but don't let it hold you back.",
+        "image_prompt_keywords": "Children in a garden, older child giving cup of flowers to younger, castle in background"
+    },
+    {
+        "id": 42,
+        "name": "Seven of Cups",
+        "suit": "Cups",
+        "keywords": [
+            "Illusion",
+            "Choice",
+            "Temptation"
+        ],
+        "upright_meaning": "The Seven of Cups shows you a world of possibilities—but not all of them are real. You may be faced with many choices, some of which are illusions. Take your time, discern carefully, and choose what truly aligns with your heart.",
+        "reversed_meaning": "Reversed, the fog is clearing, and you are seeing through the illusions. Decisions that once seemed confusing are becoming clearer. Trust your clarity and make a choice with confidence.",
+        "image_prompt_keywords": "Man facing seven cups with various visions: castle, jewels, snake, wreath, dragon, head, veil"
+    },
+    {
+        "id": 43,
+        "name": "Eight of Cups",
+        "suit": "Cups",
+        "keywords": [
+            "Departure",
+            "Transition",
+            "Letting go"
+        ],
+        "upright_meaning": "The Eight of Cups is a card of walking away. You have come to realize that something in your life no longer serves you, and it's time to leave it behind. This is a brave act of self-preservation and growth.",
+        "reversed_meaning": "Reversed, you may be struggling to let go or afraid to leave a situation that is familiar but unfulfilling. The journey ahead may be uncertain, but staying is not the answer. Trust that you are ready.",
+        "image_prompt_keywords": "Man walking away from eight stacked cups, moon, mountains, staff"
+    },
+    {
+        "id": 44,
+        "name": "Nine of Cups",
+        "suit": "Cups",
+        "keywords": [
+            "Satisfaction",
+            "Wish",
+            "Fulfillment"
+        ],
+        "upright_meaning": "The Nine of Cups is the 'wish card'—your deepest desires are manifesting. This is a time of emotional fulfillment, satisfaction, and contentment. Allow yourself to fully enjoy this moment of abundance.",
+        "reversed_meaning": "Reversed, you may be feeling that your wishes are not coming true, or you are not allowing yourself to feel satisfied. Perhaps you are chasing external validation instead of inner contentment. Pause and appreciate what you have.",
+        "image_prompt_keywords": "Man seated with arms crossed, nine cups behind him, smug expression of satisfaction"
+    },
+    {
+        "id": 45,
+        "name": "Ten of Cups",
+        "suit": "Cups",
+        "keywords": [
+            "Harmony",
+            "Family",
+            "Joy"
+        ],
+        "upright_meaning": "The Ten of Cups is a vision of complete emotional fulfillment and harmony. Family, love, and connection are at their peak. This is the joy of belonging, of being deeply loved and understood.",
+        "reversed_meaning": "Reversed, you may be feeling disconnected from family or struggling with domestic disharmony. Perhaps you are chasing an ideal of happiness that doesn't match your reality. Focus on authentic connection, not perfection.",
+        "image_prompt_keywords": "Happy family, rainbow with ten cups, house, children playing, emotional joy"
+    },
+    {
+        "id": 46,
+        "name": "Page of Cups",
+        "suit": "Cups",
+        "keywords": [
+            "Creativity",
+            "Intuition",
+            "Messenger"
+        ],
+        "upright_meaning": "The Page of Cups brings a message of emotion, creativity, or intuition. You may be exploring your artistic side or opening your heart to new feelings. This is a time of gentle discovery—be open to what emerges.",
+        "reversed_meaning": "Reversed, you may be feeling emotionally blocked or struggling to express yourself creatively. Perhaps you are ignoring your intuition or avoiding your feelings. Give yourself space to feel and create without judgment.",
+        "image_prompt_keywords": "Young person holding a cup with a fish, curious expression, water, fish"
+    },
+    {
+        "id": 47,
+        "name": "Knight of Cups",
+        "suit": "Cups",
+        "keywords": [
+            "Romance",
+            "Dreams",
+            "Emotion"
+        ],
+        "upright_meaning": "The Knight of Cups is a romantic and dreamy soul. You are being called to follow your heart—whether in love, art, or a deeply felt pursuit. Let your emotions guide you, but stay grounded enough to act on them.",
+        "reversed_meaning": "Reversed, you may be feeling emotionally volatile or disconnected from your feelings. Perhaps you are chasing an illusion or avoiding reality. Reconnect with your heart and ground your dreams in action.",
+        "image_prompt_keywords": "Knight on white horse holding a cup, dreamy expression, river, trees"
+    },
+    {
+        "id": 48,
+        "name": "Queen of Cups",
+        "suit": "Cups",
+        "keywords": [
+            "Compassion",
+            "Empathy",
+            "Nurturing"
+        ],
+        "upright_meaning": "The Queen of Cups is deeply empathetic, intuitive, and nurturing. You have a gift for understanding and caring for others. Honor your sensitivity—it is not a weakness but a profound strength.",
+        "reversed_meaning": "Reversed, you may be suppressing your emotions or giving too much of yourself to others. Perhaps you are feeling drained or disconnected from your own needs. Fill your own cup first.",
+        "image_prompt_keywords": "Queen on throne by water, holding ornate cup, compassionate expression, water, shells"
+    },
+    {
+        "id": 49,
+        "name": "King of Cups",
+        "suit": "Cups",
+        "keywords": [
+            "Emotional mastery",
+            "Calm",
+            "Compassion"
+        ],
+        "upright_meaning": "The King of Cups has mastered his emotions. He is calm, compassionate, and in control. You are being called to lead with emotional intelligence—to be a steady presence for yourself and others.",
+        "reversed_meaning": "Reversed, you may be repressing your emotions or using emotional manipulation. Perhaps you are out of touch with your feelings or being overly controlling. Allow yourself to feel—it's safe to be vulnerable.",
+        "image_prompt_keywords": "King on throne in stormy sea, holding cup and scepter, calm expression, ship in background"
+    },
+    {
+        "id": 50,
+        "name": "Ace of Swords",
+        "suit": "Swords",
+        "keywords": [
+            "Clarity",
+            "Truth",
+            "Breakthrough"
+        ],
+        "upright_meaning": "The Ace of Swords cuts through confusion and brings clarity. A new idea or truth is emerging that will change your perspective. This is a moment of breakthrough—embrace it with an open mind.",
+        "reversed_meaning": "Reversed, you may be experiencing confusion or mental blocks. The truth is there, but it feels just out of reach. Take a step back, clear your mind, and allow clarity to come in its own time.",
+        "image_prompt_keywords": "Hand emerging from cloud holding a sword with crown, mountains, victory"
+    },
+    {
+        "id": 51,
+        "name": "Two of Swords",
+        "suit": "Swords",
+        "keywords": [
+            "Indecision",
+            "Balance",
+            "Stalemate"
+        ],
+        "upright_meaning": "The Two of Swords shows you at a stalemate. You are weighing two options, but neither feels right. Sometimes the answer is not about choosing one or the other but finding a third path. Take your time.",
+        "reversed_meaning": "Reversed, the decision is becoming clearer, and you are starting to see a way forward. The paralysis is lifting, and you are ready to choose. Trust yourself—you have the wisdom to decide.",
+        "image_prompt_keywords": "Blindfolded woman seated holding two swords crossed, water, moon"
+    },
+    {
+        "id": 52,
+        "name": "Three of Swords",
+        "suit": "Swords",
+        "keywords": [
+            "Heartbreak",
+            "Pain",
+            "Grief"
+        ],
+        "upright_meaning": "The Three of Swords is a card of deep emotional pain. Heartbreak, betrayal, or loss has pierced your heart. Allow yourself to grieve—this is a necessary part of healing. The pain will not last forever.",
+        "reversed_meaning": "Reversed, you are beginning to heal from a painful experience. The wounds are still there, but they are closing. Allow yourself to forgive—not for others, but for your own peace.",
+        "image_prompt_keywords": "Heart pierced by three swords, stormy sky, rain"
+    },
+    {
+        "id": 53,
+        "name": "Four of Swords",
+        "suit": "Swords",
+        "keywords": [
+            "Rest",
+            "Recovery",
+            "Contemplation"
+        ],
+        "upright_meaning": "The Four of Swords calls you to rest. You have been through a challenging time, and now is the moment to retreat, recover, and recharge. Rest is not weakness—it is essential for renewal.",
+        "reversed_meaning": "Reversed, you may be restless or avoiding the rest you need. Perhaps you are pushing yourself too hard or not allowing yourself to heal. Give yourself permission to pause—you deserve it.",
+        "image_prompt_keywords": "Knight lying on tomb, hands in prayer, three swords above, one below, stained glass window"
+    },
+    {
+        "id": 54,
+        "name": "Five of Swords",
+        "suit": "Swords",
+        "keywords": [
+            "Conflict",
+            "Defeat",
+            "Tension"
+        ],
+        "upright_meaning": "The Five of Swords speaks of conflict and defeat. You may have won a battle but at a cost—perhaps your integrity or relationships. Reflect on whether the victory was worth it.",
+        "reversed_meaning": "Reversed, you are learning from past conflicts and choosing a more peaceful path. The desire to win at all costs is fading. There is wisdom in knowing when to walk away.",
+        "image_prompt_keywords": "Man smirking with three swords, two swords on ground, defeated figures walking away"
+    },
+    {
+        "id": 55,
+        "name": "Six of Swords",
+        "suit": "Swords",
+        "keywords": [
+            "Transition",
+            "Healing",
+            "Moving on"
+        ],
+        "upright_meaning": "The Six of Swords is a card of transition. You are moving away from troubled waters toward calmer shores. This journey may be emotional, but it is necessary. Trust that you are heading in the right direction.",
+        "reversed_meaning": "Reversed, you may be struggling to move on or feeling stuck in the past. Perhaps you are resistant to change or carrying too much baggage. Let go, and allow yourself to travel lighter.",
+        "image_prompt_keywords": "Boat carrying figures with six swords, ferryman, water becoming calmer ahead"
+    },
+    {
+        "id": 56,
+        "name": "Seven of Swords",
+        "suit": "Swords",
+        "keywords": [
+            "Deception",
+            "Strategy",
+            "Sneakiness"
+        ],
+        "upright_meaning": "The Seven of Swords speaks of strategy and sometimes deception. You may need to be clever and resourceful to navigate a tricky situation. Be careful not to cross ethical lines—your integrity is worth more than any advantage.",
+        "reversed_meaning": "Reversed, you may be feeling guilty about a past deception or being the target of someone else's dishonesty. The truth is coming to light. Come clean or protect yourself with honesty.",
+        "image_prompt_keywords": "Man sneaking away with five swords, two swords left behind, campsite in background"
+    },
+    {
+        "id": 57,
+        "name": "Eight of Swords",
+        "suit": "Swords",
+        "keywords": [
+            "Restriction",
+            "Fear",
+            "Trapped"
+        ],
+        "upright_meaning": "The Eight of Swords shows you feeling trapped and restricted. But look closer—the bonds that hold you are loose, and you could free yourself if you could see clearly. The real prison is in your mind.",
+        "reversed_meaning": "Reversed, you are beginning to see that your restrictions are self-imposed. The path to freedom is opening. Trust yourself to break free and step into your power.",
+        "image_prompt_keywords": "Bound woman surrounded by eight swords, blindfolded, castle in background, marsh"
+    },
+    {
+        "id": 58,
+        "name": "Nine of Swords",
+        "suit": "Swords",
+        "keywords": [
+            "Anxiety",
+            "Nightmare",
+            "Despair"
+        ],
+        "upright_meaning": "The Nine of Swords is a card of anxiety and deep worry. Your mind is racing with fears that may not be grounded in reality. This is not your final truth—the dawn always comes after the darkest night.",
+        "reversed_meaning": "Reversed, the worst is behind you. The anxiety is lifting, and you are beginning to see light. Reach out for support—you don't have to carry this alone.",
+        "image_prompt_keywords": "Woman sitting up in bed with nine swords on wall, hands covering face, distress"
+    },
+    {
+        "id": 59,
+        "name": "Ten of Swords",
+        "suit": "Swords",
+        "keywords": [
+            "Rock bottom",
+            "Ending",
+            "Pain"
+        ],
+        "upright_meaning": "The Ten of Swords is the ultimate bottom. You have hit rock bottom, and it feels like the end. But this is also a place of profound transformation—when there is nowhere to go but up. Surrender to the ending.",
+        "reversed_meaning": "Reversed, you are beginning to rise from rock bottom. The pain is still there, but you are healing. This is the aftermath, and recovery is possible. Take it one day at a time.",
+        "image_prompt_keywords": "Man lying face down with ten swords in back, black sky, peaceful water in distance"
+    },
+    {
+        "id": 60,
+        "name": "Page of Swords",
+        "suit": "Swords",
+        "keywords": [
+            "Curiosity",
+            "Truth",
+            "Communication"
+        ],
+        "upright_meaning": "The Page of Swords is eager, curious, and honest. You are seeking truth and asking questions. This is a time for learning, communication, and gathering information. Stay curious, but temper your bluntness.",
+        "reversed_meaning": "Reversed, you may be using words carelessly or avoiding the truth. Perhaps you are being overly critical or gossipy. Speak with kindness and intention—words have power.",
+        "image_prompt_keywords": "Young person with sword, wind, clouds, energetic stance"
+    },
+    {
+        "id": 61,
+        "name": "Knight of Swords",
+        "suit": "Swords",
+        "keywords": [
+            "Speed",
+            "Ambition",
+            "Directness"
+        ],
+        "upright_meaning": "The Knight of Swords charges forward with speed and determination. You are ambitious and direct—nothing will stop you from achieving your goals. Just be mindful not to trample others in your haste.",
+        "reversed_meaning": "Reversed, you may be rushing into things without thinking, or using your words to cut others down. Slow down, think before you act, and consider the impact of your words and actions.",
+        "image_prompt_keywords": "Knight on horse with sword raised, charging, trees bending in wind"
+    },
+    {
+        "id": 62,
+        "name": "Queen of Swords",
+        "suit": "Swords",
+        "keywords": [
+            "Clarity",
+            "Intellect",
+            "Independence"
+        ],
+        "upright_meaning": "The Queen of Swords is sharp, clear, and independent. She sees through illusions and speaks the truth with compassion. You are being called to trust your intellect and set clear boundaries.",
+        "reversed_meaning": "Reversed, you may be using your intellect to be cold or overly critical. Perhaps you are pushing others away or being harsh with yourself. Balance your head with your heart.",
+        "image_prompt_keywords": "Queen on throne with sword, clouds, birds, hand raised"
+    },
+    {
+        "id": 63,
+        "name": "King of Swords",
+        "suit": "Swords",
+        "keywords": [
+            "Authority",
+            "Truth",
+            "Reason"
+        ],
+        "upright_meaning": "The King of Swords embodies intellectual authority and clarity. He is fair, decisive, and seeks the truth above all. You are being called to lead with reason and integrity.",
+        "reversed_meaning": "Reversed, you may be using your power manipulatively or being overly rigid in your thinking. Perhaps you are avoiding emotional truth. True wisdom balances intellect with compassion.",
+        "image_prompt_keywords": "King on throne with sword, butterflies, stern but fair expression"
+    },
+    {
+        "id": 64,
+        "name": "Ace of Pentacles",
+        "suit": "Pentacles",
+        "keywords": [
+            "New opportunity",
+            "Prosperity",
+            "Material"
+        ],
+        "upright_meaning": "The Ace of Pentacles is the seed of material opportunity. A new financial or practical venture is presenting itself. This is a time to ground your dreams and take concrete steps toward abundance.",
+        "reversed_meaning": "Reversed, you may be missing an opportunity or struggling with material instability. Perhaps you are not feeling grounded in reality. Focus on the practical steps you can take to create stability.",
+        "image_prompt_keywords": "Hand emerging from cloud holding a pentacle, garden, path, mountains"
+    },
+    {
+        "id": 65,
+        "name": "Two of Pentacles",
+        "suit": "Pentacles",
+        "keywords": [
+            "Balance",
+            "Adaptability",
+            "Juggling"
+        ],
+        "upright_meaning": "The Two of Pentacles is a card of balancing multiple priorities. You are juggling responsibilities—finances, work, relationships—with grace. Stay flexible and trust your ability to manage it all.",
+        "reversed_meaning": "Reversed, you may be overwhelmed or dropping the ball. Perhaps you are struggling to maintain balance and need to prioritize. Take a step back and reassess what truly matters.",
+        "image_prompt_keywords": "Man juggling two pentacles in infinity loop, ships on water"
+    },
+    {
+        "id": 66,
+        "name": "Three of Pentacles",
+        "suit": "Pentacles",
+        "keywords": [
+            "Collaboration",
+            "Skill",
+            "Quality"
+        ],
+        "upright_meaning": "The Three of Pentacles is about collaboration and skillful work. You are part of a team, and your efforts are being recognized. This is a time to share your expertise and learn from others.",
+        "reversed_meaning": "Reversed, you may be working alone or feeling unappreciated. Perhaps there is a lack of teamwork or quality in your work. Reach out for collaboration—you don't have to do it all alone.",
+        "image_prompt_keywords": "Sculptor and two others working on a cathedral, pentacles on stone"
+    },
+    {
+        "id": 67,
+        "name": "Four of Pentacles",
+        "suit": "Pentacles",
+        "keywords": [
+            "Security",
+            "Control",
+            "Hoarding"
+        ],
+        "upright_meaning": "The Four of Pentacles holds on tightly to resources—money, energy, or possessions. While security is important, ask yourself if your grip is too tight. Are you holding back from life in the name of safety?",
+        "reversed_meaning": "Reversed, you are learning to let go of control and open up to abundance. Perhaps you have been hoarding or holding back, and now it's time to share and receive. Trust that there is enough.",
+        "image_prompt_keywords": "Man holding two pentacles, two under feet, crown, city in background"
+    },
+    {
+        "id": 68,
+        "name": "Five of Pentacles",
+        "suit": "Pentacles",
+        "keywords": [
+            "Hardship",
+            "Exclusion",
+            "Worry"
+        ],
+        "upright_meaning": "The Five of Pentacles is a card of material hardship and feeling left out in the cold. You may be struggling financially or emotionally. But look—there is a warm light nearby. Help is available if you ask.",
+        "reversed_meaning": "Reversed, the hardship is beginning to lift. You are finding your way back to warmth and security. Recovery takes time, but you are on the right path.",
+        "image_prompt_keywords": "Two figures walking in snow, one injured, church window with five pentacles"
+    },
+    {
+        "id": 69,
+        "name": "Six of Pentacles",
+        "suit": "Pentacles",
+        "keywords": [
+            "Generosity",
+            "Balance",
+            "Giving"
+        ],
+        "upright_meaning": "The Six of Pentacles is a card of giving and receiving in balance. You have resources to share, and you are generous with them. This is also a time to receive—allow yourself to accept help graciously.",
+        "reversed_meaning": "Reversed, the balance of giving and receiving is off. Perhaps you are giving too much and not allowing yourself to receive, or vice versa. Restore equilibrium—you deserve both to give and to receive.",
+        "image_prompt_keywords": "Wealthy man giving coins to two beggars, scales in hand"
+    },
+    {
+        "id": 70,
+        "name": "Seven of Pentacles",
+        "suit": "Pentacles",
+        "keywords": [
+            "Patience",
+            "Growth",
+            "Evaluation"
+        ],
+        "upright_meaning": "The Seven of Pentacles is a card of patience and reevaluation. You have planted seeds, and now you wait for them to grow. Take a moment to assess your progress and adjust your course if needed.",
+        "reversed_meaning": "Reversed, you may be impatient or frustrated with lack of results. Perhaps you are ready to give up or are feeling your efforts are wasted. Trust the process—growth takes time.",
+        "image_prompt_keywords": "Man leaning on staff, looking at seven pentacles on vine, weeding"
+    },
+    {
+        "id": 71,
+        "name": "Eight of Pentacles",
+        "suit": "Pentacles",
+        "keywords": [
+            "Diligence",
+            "Craftsmanship",
+            "Detail"
+        ],
+        "upright_meaning": "The Eight of Pentacles is a card of diligent work and attention to detail. You are honing your craft and mastering your skills. This is a time for focused effort—excellence comes through practice.",
+        "reversed_meaning": "Reversed, you may be bored, burned out, or cutting corners. Perhaps you are losing sight of why you started. Reconnect with the joy of the work and the value of quality.",
+        "image_prompt_keywords": "Engraver at work on pentacles, concentration, workshop"
+    },
+    {
+        "id": 72,
+        "name": "Nine of Pentacles",
+        "suit": "Pentacles",
+        "keywords": [
+            "Self-sufficiency",
+            "Luxury",
+            "Enjoyment"
+        ],
+        "upright_meaning": "The Nine of Pentacles is a card of self-sufficiency and enjoying the fruits of your labor. You have created a life of comfort and beauty—enjoy it! You have earned this moment of abundance.",
+        "reversed_meaning": "Reversed, you may be feeling a lack of self-worth or struggling to enjoy your success. Perhaps you are overly dependent on others or feeling isolated. Remember that you are worthy of all you have created.",
+        "image_prompt_keywords": "Woman in garden with bird on glove, nine pentacles, lush surroundings"
+    },
+    {
+        "id": 73,
+        "name": "Ten of Pentacles",
+        "suit": "Pentacles",
+        "keywords": [
+            "Legacy",
+            "Prosperity",
+            "Family"
+        ],
+        "upright_meaning": "The Ten of Pentacles is a vision of lasting prosperity and legacy. You are building something that will outlast you—wealth, traditions, or family. This is a time of stability and long-term security.",
+        "reversed_meaning": "Reversed, you may be feeling disconnected from your family or struggling with financial instability. Perhaps you are focusing too much on material wealth and not enough on what truly matters.",
+        "image_prompt_keywords": "Elderly man with family, ten pentacles arranged in tree of life, archway with family crest"
+    },
+    {
+        "id": 74,
+        "name": "Page of Pentacles",
+        "suit": "Pentacles",
+        "keywords": [
+            "Learning",
+            "Ambition",
+            "Grounding"
+        ],
+        "upright_meaning": "The Page of Pentacles is eager to learn and build something tangible. You are at the beginning of a practical journey—whether in career, education, or a new skill. Stay focused and grounded.",
+        "reversed_meaning": "Reversed, you may be procrastinating or lacking direction in your practical pursuits. Perhaps you are not taking your responsibilities seriously. Reconnect with your goals and take small, consistent steps.",
+        "image_prompt_keywords": "Young person holding pentacle, looking at it, green field, study"
+    },
+    {
+        "id": 75,
+        "name": "Knight of Pentacles",
+        "suit": "Pentacles",
+        "keywords": [
+            "Reliability",
+            "Discipline",
+            "Hard work"
+        ],
+        "upright_meaning": "The Knight of Pentacles is steady, reliable, and disciplined. You are working hard toward your goals with patience and persistence. This is not the fastest path, but it is the most sustainable.",
+        "reversed_meaning": "Reversed, you may be feeling stuck or overly cautious. Perhaps you are stuck in a routine that no longer serves you, or you are avoiding risks. Sometimes you need to step off the beaten path.",
+        "image_prompt_keywords": "Knight on horse holding pentacle, plodding forward, fields"
+    },
+    {
+        "id": 76,
+        "name": "Queen of Pentacles",
+        "suit": "Pentacles",
+        "keywords": [
+            "Nurturing",
+            "Practicality",
+            "Abundance"
+        ],
+        "upright_meaning": "The Queen of Pentacles is nurturing, practical, and resourceful. She creates a warm and abundant home—for herself and others. You are being called to care for yourself and those around you with grounded love.",
+        "reversed_meaning": "Reversed, you may be neglecting your own needs while caring for others, or you are being overly materialistic. Find balance between practicality and self-care. You deserve nurturing too.",
+        "image_prompt_keywords": "Queen on throne in nature, holding pentacle, flowers, rabbit, abundant surroundings"
+    },
+    {
+        "id": 77,
+        "name": "King of Pentacles",
+        "suit": "Pentacles",
+        "keywords": [
+            "Prosperity",
+            "Leadership",
+            "Stability"
+        ],
+        "upright_meaning": "The King of Pentacles is a master of the material world. He is prosperous, stable, and generous. You are being called to lead with practicality, build lasting structures, and share your abundance with others.",
+        "reversed_meaning": "Reversed, you may be overly focused on material gain or using your power irresponsibly. Perhaps you are being stubborn or greedy. True wealth is about more than money—it's about integrity and generosity.",
+        "image_prompt_keywords": "King on throne with pentacle, castle in background, bull, abundance"
+    }
+]
