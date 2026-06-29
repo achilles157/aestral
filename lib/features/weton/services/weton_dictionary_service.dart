@@ -32,7 +32,7 @@ class WetonDictionaryEntry {
 }
 
 final wetonDictionaryProvider = FutureProvider<List<WetonDictionaryEntry>>((ref) async {
-  final String jsonString = await rootBundle.loadString('data/kamus-weton.json');
+  final String jsonString = await rootBundle.loadString('assets/data/kamus-weton.json');
   final List<dynamic> jsonList = json.decode(jsonString);
   return jsonList.map((json) => WetonDictionaryEntry.fromJson(json)).toList();
 });

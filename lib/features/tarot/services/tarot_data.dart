@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/tarot_card.dart';
 
 final tarotDeckProvider = FutureProvider<List<TarotCard>>((ref) async {
-  final String jsonString = await rootBundle.loadString('data/tarot-id.json');
+  final String jsonString = await rootBundle.loadString('assets/tarot/tarot-merged.json');
   final List<dynamic> jsonList = json.decode(jsonString);
   return jsonList.map((json) => TarotCard.fromJson(json)).toList();
 });

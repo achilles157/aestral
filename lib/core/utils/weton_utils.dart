@@ -1,4 +1,3 @@
-import 'dart:math';
 
 class WetonInfo {
   final String saptawara;
