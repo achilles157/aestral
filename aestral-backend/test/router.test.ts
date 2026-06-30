@@ -10,14 +10,18 @@ describe('API Router', () => {
 		expect(body.version).toBe('0.1.0');
 	});
 
-	it('POST /api/weton/daily returns 200', async () => {
+	it('POST /api/weton/daily with Guest auth returns 200', async () => {
 		const res = await SELF.fetch('http://localhost/api/weton/daily', {
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Guest anon-123',
+			},
+			body: JSON.stringify({ birthDate: '1995-10-21' }),
 		});
 		expect(res.status).toBe(200);
-		const body = await res.json<{ success: boolean; endpoint: string }>();
+		const body = await res.json<{ success: boolean }>();
 		expect(body.success).toBe(true);
-		expect(body.endpoint).toBe('weton-daily');
 	});
 
 	it('unknown path returns 404', async () => {
