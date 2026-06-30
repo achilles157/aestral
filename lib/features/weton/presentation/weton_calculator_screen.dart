@@ -748,7 +748,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                 ),
               ],
             ),
-            const Divider(color: const Color(0xFF2E2452), height: 30, thickness: 1.5),
+            const Divider(color: Color(0xFF2E2452), height: 30, thickness: 1.5),
             
             // Phase & Energy Row
             Row(
@@ -820,9 +820,9 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                   ],
                 ),
               );
-            }).toList(),
+            }),
             
-            const Divider(color: const Color(0xFF2E2452), height: 40, thickness: 1.5),
+            const Divider(color: Color(0xFF2E2452), height: 40, thickness: 1.5),
             
             // Wuku Influence
             Row(

@@ -788,7 +788,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                   try {
                     final fileName = 'aestral-tarot-${DateTime.now().millisecondsSinceEpoch}.png';
                     await savePng(imageBytes, fileName);
-                    if (mounted) {
+                    if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Gambar berhasil diunduh: $fileName!'),
@@ -797,7 +797,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                       );
                     }
                   } catch (e) {
-                    if (mounted) {
+                    if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Gagal menyimpan gambar: $e'),
