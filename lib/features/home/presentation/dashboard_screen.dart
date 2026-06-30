@@ -1,16 +1,163 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../auth/services/auth_service.dart';
+import '../../auth/services/profile_service.dart';
 import '../../tarot/presentation/tarot_draw_screen.dart';
 import '../../weton/presentation/weton_calculator_screen.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/utils/weton_utils.dart';
 
-class DashboardScreen extends ConsumerWidget {
+class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends ConsumerState<DashboardScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAndPromptBirthdate();
+    });
+  }
+
+  Future<void> _checkAndPromptBirthdate() async {
+    final profile = await ref.read(profileProvider).loadProfile();
+    if (profile == null || profile['biometric_anchor']?['dob_utc_ms'] == null) {
+      if (mounted) {
+        _showBirthdatePrompt(context);
+      }
+    }
+  }
+
+  Future<void> _showBirthdatePrompt(BuildContext context) async {
+    DateTime? selectedDate;
+    
+    await showDialog(
+      context: context,
+      barrierDismissible: false, // Must fill it
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              backgroundColor: AppTheme.cardBg,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: const BorderSide(color: AppTheme.accentGold, width: 1.5),
+              ),
+              title: Row(
+                children: [
+                  const Icon(Icons.wb_sunny_outlined, color: AppTheme.accentGold),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Identitas Kosmis',
+                    style: GoogleFonts.playfairDisplay(
+                      color: AppTheme.accentGold,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                    'Untuk menganalisis Weton lahir dan kartu Tarot personal Anda secara konsisten, silakan masukkan tanggal kelahiran Anda.',
+                    style: TextStyle(color: AppTheme.textLight, height: 1.4),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.accentPurple,
+                      foregroundColor: AppTheme.textLight,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    icon: const Icon(Icons.calendar_month),
+                    label: Text(
+                      selectedDate == null
+                          ? 'Pilih Tanggal Lahir'
+                          : '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: () async {
+                      final picked = await showDatePicker(
+                        context: context,
+                        initialDate: selectedDate ?? DateTime(2000, 1, 1),
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime(2100),
+                        builder: (context, child) {
+                          return Theme(
+                            data: Theme.of(context).copyWith(
+                              colorScheme: const ColorScheme.dark(
+                                primary: AppTheme.accentPurple,
+                                onPrimary: AppTheme.textLight,
+                                surface: AppTheme.cardBg,
+                                onSurface: AppTheme.textLight,
+                              ),
+                            ),
+                            child: child!,
+                          );
+                        },
+                      );
+                      if (picked != null) {
+                        setDialogState(() {
+                          selectedDate = picked;
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: selectedDate == null
+                      ? null
+                      : () async {
+                          final weton = WetonUtils.calculateWeton(selectedDate!);
+                          await ref.read(profileProvider).saveProfile(
+                            dob: selectedDate!,
+                            latitude: -6.2088,
+                            longitude: 106.8456,
+                            weton: weton,
+                          );
+                          if (context.mounted) {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Identitas kosmis berhasil diselaraskan!'),
+                                backgroundColor: AppTheme.accentPurple,
+                              ),
+                            );
+                          }
+                        },
+                  child: Text(
+                    'Simpan & Lanjutkan',
+                    style: TextStyle(
+                      color: selectedDate == null
+                          ? AppTheme.textMuted
+                          : AppTheme.accentGold,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final session = ref.watch(authProvider);
 
@@ -107,6 +254,7 @@ class DashboardScreen extends ConsumerWidget {
                                           style: textTheme.bodyMedium?.copyWith(
                                             color: AppTheme.accentGold.withOpacity(0.8),
                                             fontWeight: FontWeight.bold,
+                                            color: AppTheme.accentGold,
                                           ),
                                         ),
                                         const SizedBox(width: 8),

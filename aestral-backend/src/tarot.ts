@@ -30,6 +30,18 @@ export function getDeterministicCard(birthDate: string): number {
 	return Math.abs(hash) % DECK_SIZE;
 }
 
+/**
+ * Returns a deterministic reversal state (true = reversed, false = upright)
+ * for a given birthDate string.
+ */
+export function getDeterministicReversed(birthDate: string): boolean {
+	let hash = 0;
+	for (let i = 0; i < birthDate.length; i++) {
+		hash = birthDate.charCodeAt(i) + ((hash << 5) - hash) + 13; // offset slightly
+	}
+	return Math.abs(hash) % 2 === 0;
+}
+
 // --- Weighted Random Draw ---
 
 type Element = 'fire' | 'water' | 'air' | 'earth';

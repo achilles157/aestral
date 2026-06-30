@@ -66,7 +66,16 @@ class ProfileService {
         return true;
       }
     } catch (e) {
-      debugPrint("Error saving profile: $e");
+      debugPrint("Error saving profile to Firestore, falling back to SharedPreferences: $e");
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        final jsonStr = json.encode(profileData);
+        await prefs.setString('user_profile_${session.uid}', jsonStr);
+        debugPrint("Profile successfully saved to SharedPreferences fallback: ${session.uid}");
+        return true;
+      } catch (err) {
+        debugPrint("Failed to save to SharedPreferences fallback: $err");
+      }
     }
     return false;
   }
@@ -84,15 +93,21 @@ class ProfileService {
         if (doc.exists) {
           return doc.data();
         }
-      } else {
-        final prefs = await SharedPreferences.getInstance();
-        final jsonStr = prefs.getString('user_profile_${session.uid}');
-        if (jsonStr != null) {
-          return json.decode(jsonStr) as Map<String, dynamic>;
-        }
       }
     } catch (e) {
-      debugPrint("Error loading profile: $e");
+      debugPrint("Error loading profile from Firestore: $e");
+    }
+
+    // Fallback: load from SharedPreferences if Firestore fails, is offline, or is unconfigured
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final jsonStr = prefs.getString('user_profile_${session.uid}');
+      if (jsonStr != null) {
+        debugPrint("Loaded profile from SharedPreferences fallback for: ${session.uid}");
+        return json.decode(jsonStr) as Map<String, dynamic>;
+      }
+    } catch (e) {
+      debugPrint("Error loading profile from SharedPreferences fallback: $e");
     }
     return null;
   }

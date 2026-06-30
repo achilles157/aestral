@@ -1,5 +1,5 @@
 import { parseAuthHeader } from './auth';
-import { getDeterministicCard, getWeightedRandomCard } from './tarot';
+import { getDeterministicCard, getWeightedRandomCard, getDeterministicReversed } from './tarot';
 import { getWetonInsight } from './weton';
 
 const CORS_HEADERS: Record<string, string> = {
@@ -68,10 +68,12 @@ async function handleTarotDraw(request: Request): Promise<Response> {
 
 	if (authToken.type === 'guest') {
 		const cardIndex = getDeterministicCard(body.birthDate);
+		const isReversed = getDeterministicReversed(body.birthDate);
 		return json({
 			success: true,
 			isDynamic: false,
 			cardIndex,
+			isReversed,
 			message: 'Kartu Jiwa (Soul Card) — daftar untuk pembacaan harian dinamis.',
 		});
 	}
@@ -81,7 +83,8 @@ async function handleTarotDraw(request: Request): Promise<Response> {
 		body.pangarasan ?? '',
 		body.wukuHariIni ?? '',
 	);
-	return json({ success: true, isDynamic: true, cardIndex });
+	const isReversed = Math.random() < 0.5;
+	return json({ success: true, isDynamic: true, cardIndex, isReversed });
 }
 
 // --- Weton Daily Handler ---

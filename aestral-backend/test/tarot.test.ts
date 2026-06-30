@@ -1,6 +1,6 @@
 import { SELF } from 'cloudflare:test';
 import { describe, it, expect } from 'vitest';
-import { getDeterministicCard, getWeightedRandomCard } from '../src/tarot';
+import { getDeterministicCard, getWeightedRandomCard, getDeterministicReversed } from '../src/tarot';
 
 // --- Unit Tests: getDeterministicCard ---
 
@@ -11,6 +11,12 @@ describe('getDeterministicCard', () => {
 		const c = getDeterministicCard('1995-10-25');
 		expect(a).toBe(b);
 		expect(b).toBe(c);
+	});
+
+	it('always returns the same reversal for the same birthDate', () => {
+		const a = getDeterministicReversed('1995-10-25');
+		const b = getDeterministicReversed('1995-10-25');
+		expect(a).toBe(b);
 	});
 
 	it('returns different indices for different birthDates', () => {
@@ -64,12 +70,14 @@ describe('POST /api/tarot/draw', () => {
 			success: boolean;
 			isDynamic: boolean;
 			cardIndex: number;
+			isReversed: boolean;
 			message: string;
 		}>();
 		expect(body.success).toBe(true);
 		expect(body.isDynamic).toBe(false);
 		expect(body.cardIndex).toBeGreaterThanOrEqual(0);
 		expect(body.cardIndex).toBeLessThanOrEqual(77);
+		expect(body.isReversed).toBeTypeOf('boolean');
 		expect(body.message).toContain('Kartu Jiwa');
 	});
 
@@ -91,11 +99,13 @@ describe('POST /api/tarot/draw', () => {
 			success: boolean;
 			isDynamic: boolean;
 			cardIndex: number;
+			isReversed: boolean;
 		}>();
 		expect(body.success).toBe(true);
 		expect(body.isDynamic).toBe(true);
 		expect(body.cardIndex).toBeGreaterThanOrEqual(0);
 		expect(body.cardIndex).toBeLessThanOrEqual(77);
+		expect(body.isReversed).toBeTypeOf('boolean');
 	});
 
 	it('returns 400 when no Authorization header', async () => {

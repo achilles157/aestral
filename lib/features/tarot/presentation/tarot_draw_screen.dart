@@ -179,6 +179,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
   }
 
   Future<void> _handleDraw(List<TarotCard> deck) async {
+    final messenger = ScaffoldMessenger.of(context);
     if (_isCardRevealed) {
       // Reset card first
       _flipController.reverse().then((_) {
@@ -192,7 +193,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
 
     final session = ref.read(authProvider);
     if (session == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         const SnackBar(content: Text('Sesi tidak valid. Silakan login kembali.')),
       );
       return;
@@ -205,6 +206,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
       int? dobUtcMs = profile?['biometric_anchor']?['dob_utc_ms'] as int?;
 
       if (dobUtcMs == null) {
+        if (!mounted) return;
         // Show onboarding modal
         final pickedDob = await _showOnboardingBirthdayModal(context);
         if (pickedDob == null) {
@@ -248,7 +250,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
 
       final cardIndex = response['cardIndex'] as int;
       final card = deck.firstWhere((c) => c.id == cardIndex, orElse: () => deck.first);
-      final isReversed = Random().nextBool();
+      final isReversed = response['isReversed'] as bool? ?? false;
 
       ref.read(drawnCardProvider.notifier).setCard(card, isReversed);
 
@@ -260,14 +262,12 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
       });
     } catch (e) {
       debugPrint('Error calling backend, falling back to local draw: $e');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Koneksi terganggu. Menggunakan penarikan lokal offline.'),
-            backgroundColor: AppTheme.accentPink,
-          ),
-        );
-      }
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text('Koneksi terganggu. Menggunakan penarikan lokal offline.'),
+          backgroundColor: AppTheme.accentPink,
+        ),
+      );
       
       // Fallback to local RNG
       ref.read(drawnCardProvider.notifier).drawCard(deck);
