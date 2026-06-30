@@ -31,6 +31,10 @@ class DrawnCardNotifier extends Notifier<DrawnCardInfo?> {
     state = DrawnCardInfo(card: card, isReversed: isReversed);
   }
 
+  void setCard(TarotCard card, bool isReversed) {
+    state = DrawnCardInfo(card: card, isReversed: isReversed);
+  }
+
   void reset() {
     state = null;
   }

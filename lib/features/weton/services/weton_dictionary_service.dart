@@ -32,9 +32,21 @@ class WetonDictionaryEntry {
 }
 
 final wetonDictionaryProvider = FutureProvider<List<WetonDictionaryEntry>>((ref) async {
-  final String jsonString = await rootBundle.loadString('assets/data/kamus-weton.json');
+  final String jsonString = await rootBundle.loadString('assets/weton/kamus-weton.json');
   final List<dynamic> jsonList = json.decode(jsonString);
   return jsonList.map((json) => WetonDictionaryEntry.fromJson(json)).toList();
+});
+
+final sisaBagiProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
+  final String jsonString = await rootBundle.loadString('assets/weton/sisabagi.json');
+  final List<dynamic> jsonList = json.decode(jsonString);
+  return jsonList.cast<Map<String, dynamic>>();
+});
+
+final wukuProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
+  final String jsonString = await rootBundle.loadString('assets/weton/wuku.json');
+  final List<dynamic> jsonList = json.decode(jsonString);
+  return jsonList.cast<Map<String, dynamic>>();
 });
 
 WetonDictionaryEntry? lookupWetonEntry(List<WetonDictionaryEntry> list, String wetonName) {

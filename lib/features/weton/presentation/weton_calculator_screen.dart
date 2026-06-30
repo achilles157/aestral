@@ -4,10 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/weton_utils.dart';
 import '../../auth/services/profile_service.dart';
+import '../../auth/services/auth_service.dart';
 import '../services/weton_dictionary_service.dart';
+import '../../../core/services/api_service.dart';
 import 'components/weton_detail_card.dart';
 
 class CityPreset {
@@ -36,6 +39,8 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
   
   WetonInfo? _result;
   bool _isSaving = false;
+  Map<String, dynamic>? _dailyInsightData;
+  bool _isLoadingDaily = false;
 
   static const List<CityPreset> _cityPresets = [
     CityPreset(name: 'Jakarta', latitude: -6.2088, longitude: 106.8456),
@@ -55,6 +60,33 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
     _latController.text = _selectedCity.latitude.toString();
     _lngController.text = _selectedCity.longitude.toString();
     _loadCitiesFromCsv();
+    _loadSavedProfileAndCalculate();
+  }
+
+  Future<void> _loadSavedProfileAndCalculate() async {
+    await Future.delayed(Duration.zero);
+    final profile = await ref.read(profileProvider).loadProfile();
+    if (profile != null) {
+      final dobUtcMs = profile['biometric_anchor']?['dob_utc_ms'] as int?;
+      if (dobUtcMs != null) {
+        final dob = DateTime.fromMillisecondsSinceEpoch(dobUtcMs);
+        final coords = profile['biometric_anchor']?['coordinates'] as Map<String, dynamic>?;
+        final lat = coords?['lat'] as double? ?? 0.0;
+        final lng = coords?['lng'] as double? ?? 0.0;
+        if (mounted) {
+          setState(() {
+            _selectedDate = dob;
+            _latController.text = lat.toString();
+            _lngController.text = lng.toString();
+            _selectedCity = _cityPresets.firstWhere(
+              (c) => (c.latitude - lat).abs() < 0.0001 && (c.longitude - lng).abs() < 0.0001,
+              orElse: () => _cityPresets.last,
+            );
+          });
+          _handleCalculate();
+        }
+      }
+    }
   }
 
   @override
@@ -109,7 +141,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
     );
   }
 
-  void _handleCalculate() {
+  Future<void> _handleCalculate() async {
     if (_selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Pilih tanggal lahir terlebih dahulu!'), backgroundColor: Colors.redAccent),
@@ -117,9 +149,74 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
       return;
     }
     
+    final dob = _selectedDate!;
     setState(() {
-      _result = WetonUtils.calculateWeton(_selectedDate!);
+      _result = WetonUtils.calculateWeton(dob);
+      _isLoadingDaily = true;
     });
+
+    final session = ref.read(authProvider);
+    String authHeader = 'Guest guest_user_123';
+    if (session != null) {
+      if (session.isMock) {
+        authHeader = 'Guest ${session.uid}';
+      } else {
+        try {
+          final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+          if (token != null) {
+            authHeader = 'Bearer $token';
+          }
+        } catch (e) {
+          debugPrint('Error getting ID token: $e');
+        }
+      }
+    }
+
+    final birthDateStr = "${dob.year}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}";
+
+    try {
+      final response = await ApiService.getWetonDaily(
+        birthDate: birthDateStr,
+        authHeader: authHeader,
+      );
+
+      if (mounted) {
+        setState(() {
+          _dailyInsightData = response['data'] as Map<String, dynamic>?;
+          _isLoadingDaily = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('Weton daily API failed, using offline calculation: $e');
+      final birthWeton = WetonUtils.calculateWeton(dob);
+      final todayWeton = WetonUtils.calculateWeton(DateTime.now());
+      final sisaBagi = (birthWeton.totalNeptu + todayWeton.totalNeptu) % 5;
+      final targetWukuIndex = WetonUtils.wukuNames.indexOf(todayWeton.wuku);
+
+      if (mounted) {
+        setState(() {
+          _dailyInsightData = {
+            'daily': {
+              'sisaBagi': sisaBagi,
+              'fase': sisaBagi == 1
+                  ? 'Sandang'
+                  : sisaBagi == 2
+                      ? 'Pangan'
+                      : sisaBagi == 3
+                          ? 'Gedhong'
+                          : sisaBagi == 4
+                              ? 'Loro'
+                              : 'Pati',
+            },
+            'weekly': {
+              'wukuIndex': targetWukuIndex + 1,
+              'wukuName': todayWeton.wuku,
+            }
+          };
+          _isLoadingDaily = false;
+        });
+      }
+    }
   }
 
   void _handleSaveProfile() async {
@@ -171,6 +268,8 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final dictionaryAsync = ref.watch(wetonDictionaryProvider);
+    final sisaBagiAsync = ref.watch(sisaBagiProvider);
+    final wukuAsync = ref.watch(wukuProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -403,6 +502,46 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                 ),
                               ],
                               const SizedBox(height: 12),
+                              // Daily Insight Section
+                              if (_isLoadingDaily) ...[
+                                const Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 24.0),
+                                    child: CircularProgressIndicator(color: AppTheme.accentGold),
+                                  ),
+                                ),
+                              ] else if (_dailyInsightData != null) ...[
+                                sisaBagiAsync.when(
+                                  data: (sisaBagiList) {
+                                    return wukuAsync.when(
+                                      data: (wukuList) {
+                                        final dailyInfo = _dailyInsightData!['daily'] as Map<String, dynamic>;
+                                        final weeklyInfo = _dailyInsightData!['weekly'] as Map<String, dynamic>;
+
+                                        final sisaBagiVal = dailyInfo['sisaBagi'] as int;
+                                        final wukuIndex = weeklyInfo['wukuIndex'] as int;
+                                        final wukuName = weeklyInfo['wukuName'] as String;
+
+                                        final sisaBagiEntry = sisaBagiList.firstWhere(
+                                          (s) => s['sisa_bagi'] == sisaBagiVal,
+                                          orElse: () => sisaBagiList.first,
+                                        );
+
+                                        final wukuEntry = wukuList.firstWhere(
+                                          (w) => w['id'] == wukuIndex || w['id'] == wukuIndex + 1 || w['nama_wuku'].toString().toLowerCase() == wukuName.toLowerCase(),
+                                          orElse: () => wukuList.first,
+                                        );
+
+                                        return _buildDailyInsightCard(sisaBagiEntry, wukuEntry);
+                                      },
+                                      loading: () => const Center(child: CircularProgressIndicator(color: AppTheme.accentPurple)),
+                                      error: (err, _) => Center(child: Text('Gagal memuat wuku harian: $err')),
+                                    );
+                                  },
+                                  loading: () => const Center(child: CircularProgressIndicator(color: AppTheme.accentPurple)),
+                                  error: (err, _) => Center(child: Text('Gagal memuat fase harian: $err')),
+                                ),
+                              ],
                               // Save profile button (Cloud Sync / SharedPreferences)
                               _isSaving
                                   ? const Center(child: CircularProgressIndicator(color: AppTheme.accentPurple))
@@ -565,6 +704,202 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
           cityPresets: _allCities.isEmpty ? _cityPresets : _allCities,
         );
       },
+    );
+  }
+
+  Widget _buildDailyInsightCard(Map<String, dynamic> sisaBagi, Map<String, dynamic> wuku) {
+    final textTheme = Theme.of(context).textTheme;
+    final String fase = sisaBagi['nama_fase'] ?? '';
+    final String tingkatEnergi = sisaBagi['tingkat_energi'] ?? '';
+    final String interpretasi = sisaBagi['interpretasi_harian'] ?? '';
+    final List<dynamic> saran = sisaBagi['saran_aktivitas'] ?? [];
+
+    final String namaWuku = wuku['nama_wuku'] ?? '';
+    final String arketipe = wuku['arketipe_modern'] ?? '';
+    final String dewa = wuku['dewa_penaung'] ?? '';
+    final String karakter = wuku['karakter_dasar'] ?? '';
+    final String pesan = wuku['pesan_kesadaran'] ?? '';
+
+    Color energyColor = AppTheme.accentGold;
+    if (tingkatEnergi.toLowerCase().contains('waspada')) {
+      energyColor = const Color(0xFFF87171);
+    } else if (tingkatEnergi.toLowerCase().contains('stabil')) {
+      energyColor = const Color(0xFF60A5FA);
+    }
+
+    return Card(
+      margin: const EdgeInsets.only(top: 16, bottom: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.wb_sunny_outlined, color: AppTheme.accentGold, size: 24),
+                const SizedBox(width: 8),
+                Text(
+                  'DAILY INSIGHT & PAWUKON',
+                  style: textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.accentGold,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+              ],
+            ),
+            const Divider(color: const Color(0xFF2E2452), height: 30, thickness: 1.5),
+            
+            // Phase & Energy Row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Fase: $fase',
+                  style: textTheme.titleLarge?.copyWith(
+                    color: AppTheme.textLight,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: energyColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: energyColor.withOpacity(0.4), width: 1),
+                  ),
+                  child: Text(
+                    'Energi: $tingkatEnergi',
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: energyColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              interpretasi,
+              style: textTheme.bodyLarge?.copyWith(
+                height: 1.6,
+                color: AppTheme.textLight.withOpacity(0.95),
+              ),
+            ),
+            const SizedBox(height: 20),
+            
+            // Action Suggestions Title
+            Text(
+              'REKOMENDASI AKTIVITAS HARI INI',
+              style: textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.2,
+                color: AppTheme.accentPink,
+                fontSize: 12,
+              ),
+            ),
+            const SizedBox(height: 10),
+            ...saran.map((activity) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(Icons.check_circle_outline, color: AppTheme.accentPink, size: 16),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        activity.toString(),
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: AppTheme.textLight.withOpacity(0.95),
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+            
+            const Divider(color: const Color(0xFF2E2452), height: 40, thickness: 1.5),
+            
+            // Wuku Influence
+            Row(
+              children: [
+                const Icon(Icons.auto_awesome, color: AppTheme.accentPurple, size: 20),
+                const SizedBox(width: 8),
+                Text(
+                  'PENGARUH WUKU MINGGUAN',
+                  style: textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2,
+                    color: AppTheme.accentPurple,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Wuku $namaWuku — $arketipe',
+              style: textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: AppTheme.textLight,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Dinaungi oleh $dewa',
+              style: textTheme.bodyMedium?.copyWith(
+                fontStyle: FontStyle.italic,
+                color: AppTheme.textMuted,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              karakter,
+              style: textTheme.bodyMedium?.copyWith(
+                color: AppTheme.textLight.withOpacity(0.85),
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 16),
+            
+            // Pesan Kesadaran Box
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppTheme.accentPurple.withOpacity(0.08),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: AppTheme.accentPurple.withOpacity(0.3), width: 1),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Pesan Kesadaran:',
+                    style: textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.accentPurple,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    pesan,
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: AppTheme.textLight.withOpacity(0.9),
+                      fontStyle: FontStyle.italic,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
