@@ -105,3 +105,8 @@ PRD/
 weight-rng.md
 firebase_setup_guide.md
 assets/weton/Riset Astrologi Primbon Jawa Modern.md
+
+# AI Agent & Skills Configuration
+.agents/
+.superpowers/
+skills-lock.json

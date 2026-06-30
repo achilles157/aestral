@@ -26,8 +26,8 @@ class ApiService {
         },
         body: json.encode({
           'birthDate': birthDate,
-          if (pangarasan != null) 'pangarasan': pangarasan,
-          if (wuku != null) 'wukuHariIni': wuku,
+          'pangarasan':? pangarasan,
+          'wukuHariIni':? wuku,
         }),
       ).timeout(const Duration(seconds: 10));
 
@@ -62,7 +62,7 @@ class ApiService {
         },
         body: json.encode({
           'birthDate': birthDate,
-          if (targetDate != null) 'targetDate': targetDate,
+          'targetDate':? targetDate,
         }),
       ).timeout(const Duration(seconds: 10));
 

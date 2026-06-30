@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../services/auth_service.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../home/presentation/dashboard_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -21,23 +20,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     
     if (auth.isFirebaseAvailable) {
       final success = await auth.signInWithGoogle();
-      setState(() => _isLoading = false);
-      if (success && mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const DashboardScreen()),
-        );
-      } else if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Gagal Masuk via Google. Coba lagi atau gunakan Akun Tamu.'),
-            backgroundColor: Colors.redAccent,
-          ),
-        );
+      if (!success) {
+        if (mounted) {
+          setState(() => _isLoading = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Gagal Masuk via Google. Coba lagi atau gunakan Akun Tamu.'),
+              backgroundColor: Colors.redAccent,
+            ),
+          );
+        }
       }
     } else {
-      setState(() => _isLoading = false);
       if (mounted) {
+        setState(() => _isLoading = false);
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -66,15 +62,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void _handleGuestSignIn() async {
-    setState(() => _isLoading = true);
-    await ref.read(authProvider.notifier).signInAsGuest();
-    setState(() => _isLoading = false);
     if (mounted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const DashboardScreen()),
-      );
+      setState(() => _isLoading = true);
     }
+    await ref.read(authProvider.notifier).signInAsGuest();
   }
 
   @override
@@ -142,7 +133,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     'Pintu Gerbang Takdir & Misteri Kosmis',
                                     style: textTheme.bodyLarge?.copyWith(
                                       letterSpacing: 1.5,
-                                      color: AppTheme.textLight.withOpacity(0.8),
+                                      color: AppTheme.textLight.withValues(alpha: 0.8),
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
@@ -200,7 +191,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 'Zero-Budget High-Performance Architecture',
                                 style: textTheme.bodyMedium?.copyWith(
                                   fontSize: 12,
-                                  color: AppTheme.textMuted.withOpacity(0.5),
+                                  color: AppTheme.textMuted.withValues(alpha: 0.5),
                                 ),
                               ),
                             ),

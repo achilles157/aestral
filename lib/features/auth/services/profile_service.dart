@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/utils/weton_utils.dart';
 import 'auth_service.dart';
 
@@ -13,6 +11,9 @@ final profileProvider = Provider<ProfileService>((ref) {
 
 class ProfileService {
   final Ref _ref;
+
+  // Temporary in-memory cache for guest profile (cleared on reload/refresh)
+  Map<String, dynamic>? _temporaryGuestProfile;
 
   ProfileService(this._ref);
 
@@ -58,24 +59,13 @@ class ProfileService {
         debugPrint("Profile successfully saved to Firestore for UID: ${session.uid}");
         return true;
       } else {
-        // Fallback: save to SharedPreferences
-        final prefs = await SharedPreferences.getInstance();
-        final jsonStr = json.encode(profileData);
-        await prefs.setString('user_profile_${session.uid}', jsonStr);
-        debugPrint("Profile successfully saved to SharedPreferences locally for Tamu: ${session.uid}");
+        // Fallback: save to temporary in-memory cache for guest
+        _temporaryGuestProfile = profileData;
+        debugPrint("Profile successfully saved to temporary memory for Tamu: ${session.uid}");
         return true;
       }
     } catch (e) {
-      debugPrint("Error saving profile to Firestore, falling back to SharedPreferences: $e");
-      try {
-        final prefs = await SharedPreferences.getInstance();
-        final jsonStr = json.encode(profileData);
-        await prefs.setString('user_profile_${session.uid}', jsonStr);
-        debugPrint("Profile successfully saved to SharedPreferences fallback: ${session.uid}");
-        return true;
-      } catch (err) {
-        debugPrint("Failed to save to SharedPreferences fallback: $err");
-      }
+      debugPrint("Error saving profile: $e");
     }
     return false;
   }
@@ -93,21 +83,12 @@ class ProfileService {
         if (doc.exists) {
           return doc.data();
         }
+      } else {
+        // Fallback: read from temporary in-memory cache for guest
+        return _temporaryGuestProfile;
       }
     } catch (e) {
-      debugPrint("Error loading profile from Firestore: $e");
-    }
-
-    // Fallback: load from SharedPreferences if Firestore fails, is offline, or is unconfigured
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final jsonStr = prefs.getString('user_profile_${session.uid}');
-      if (jsonStr != null) {
-        debugPrint("Loaded profile from SharedPreferences fallback for: ${session.uid}");
-        return json.decode(jsonStr) as Map<String, dynamic>;
-      }
-    } catch (e) {
-      debugPrint("Error loading profile from SharedPreferences fallback: $e");
+      debugPrint("Error loading profile: $e");
     }
     return null;
   }

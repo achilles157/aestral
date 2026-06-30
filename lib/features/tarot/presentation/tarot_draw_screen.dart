@@ -83,7 +83,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                     'Sebelum dapat menarik kartu tarot dan melihat weton harianmu, selaraskan energi kosmikmu dengan memasukkan tanggal lahir.',
                     style: GoogleFonts.outfit(
                       fontSize: 14,
-                      color: AppTheme.textLight.withOpacity(0.9),
+                      color: AppTheme.textLight.withValues(alpha: 0.9),
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -136,7 +136,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                   onPressed: () => Navigator.pop(context, null),
                   child: Text(
                     'Batal',
-                    style: TextStyle(color: AppTheme.textLight.withOpacity(0.6)),
+                    style: TextStyle(color: AppTheme.textLight.withValues(alpha: 0.6)),
                   ),
                 ),
                 ElevatedButton(
@@ -353,9 +353,9 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
           Container(
             margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
             decoration: BoxDecoration(
-              border: Border.all(color: AppTheme.accentGold.withOpacity(0.4), width: 1),
+              border: Border.all(color: AppTheme.accentGold.withValues(alpha: 0.4), width: 1),
               borderRadius: BorderRadius.circular(20),
-              color: Colors.white.withOpacity(0.03),
+              color: Colors.white.withValues(alpha: 0.03),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -467,15 +467,15 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                                     width: double.infinity,
                                     constraints: const BoxConstraints(maxWidth: 500),
                                     decoration: BoxDecoration(
-                                      color: AppTheme.cardBg.withOpacity(0.8),
+                                      color: AppTheme.cardBg.withValues(alpha: 0.8),
                                       borderRadius: BorderRadius.circular(24),
                                       border: Border.all(
-                                        color: suitColor.withOpacity(0.3),
+                                        color: suitColor.withValues(alpha: 0.3),
                                         width: 1.5,
                                       ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withOpacity(0.2),
+                                          color: Colors.black.withValues(alpha: 0.2),
                                           blurRadius: 15,
                                           offset: const Offset(0, 8),
                                         ),
@@ -542,10 +542,10 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                                             return Container(
                                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                               decoration: BoxDecoration(
-                                                color: AppTheme.background.withOpacity(0.6),
+                                                color: AppTheme.background.withValues(alpha: 0.6),
                                                 borderRadius: BorderRadius.circular(12),
                                                 border: Border.all(
-                                                  color: suitColor.withOpacity(0.25),
+                                                  color: suitColor.withValues(alpha: 0.25),
                                                   width: 0.8,
                                                 ),
                                               ),
@@ -554,7 +554,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                                                 style: GoogleFonts.outfit(
                                                   fontSize: 11,
                                                   fontWeight: FontWeight.w500,
-                                                  color: AppTheme.textLight.withOpacity(0.95),
+                                                  color: AppTheme.textLight.withValues(alpha: 0.95),
                                                 ),
                                               ),
                                             );
@@ -578,7 +578,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                                           isReversed ? card.getReversedMeaning(currentLang) : card.getUprightMeaning(currentLang),
                                           style: GoogleFonts.outfit(
                                             fontSize: 14.5,
-                                            color: AppTheme.textLight.withOpacity(0.95),
+                                            color: AppTheme.textLight.withValues(alpha: 0.95),
                                             height: 1.6,
                                           ),
                                           textAlign: TextAlign.center,
@@ -603,7 +603,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                                                         line,
                                                         style: GoogleFonts.outfit(
                                                           fontSize: 13.5,
-                                                          color: AppTheme.textLight.withOpacity(0.9),
+                                                          color: AppTheme.textLight.withValues(alpha: 0.9),
                                                           height: 1.4,
                                                         ),
                                                       ),
@@ -624,9 +624,9 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                                             width: double.infinity,
                                             padding: const EdgeInsets.all(16),
                                             decoration: BoxDecoration(
-                                              color: AppTheme.background.withOpacity(0.4),
+                                              color: AppTheme.background.withValues(alpha: 0.4),
                                               borderRadius: BorderRadius.circular(16),
-                                              border: Border.all(color: AppTheme.accentPurple.withOpacity(0.2), width: 1),
+                                              border: Border.all(color: AppTheme.accentPurple.withValues(alpha: 0.2), width: 1),
                                             ),
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -643,7 +643,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                                                           q,
                                                           style: GoogleFonts.outfit(
                                                             fontSize: 13,
-                                                            color: AppTheme.textLight.withOpacity(0.9),
+                                                            color: AppTheme.textLight.withValues(alpha: 0.9),
                                                             fontStyle: FontStyle.italic,
                                                             height: 1.4,
                                                           ),
@@ -666,7 +666,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                                             card.getMythical(currentLang),
                                             style: GoogleFonts.outfit(
                                               fontSize: 13.5,
-                                              color: AppTheme.textLight.withOpacity(0.85),
+                                              color: AppTheme.textLight.withValues(alpha: 0.85),
                                               height: 1.55,
                                             ),
                                             textAlign: TextAlign.center,
@@ -704,9 +704,9 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.08),
+        color: color.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: color.withOpacity(0.3), width: 0.8),
+        border: Border.all(color: color.withValues(alpha: 0.3), width: 0.8),
       ),
       child: Text(
         text,
@@ -838,7 +838,7 @@ class _CardBack extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.accentGold.withOpacity(0.2),
+            color: AppTheme.accentGold.withValues(alpha: 0.2),
             blurRadius: 20,
             spreadRadius: 2,
           ),
@@ -914,7 +914,7 @@ class _CardFront extends ConsumerWidget {
       width: 250,
       height: 400,
       decoration: BoxDecoration(
-        color: AppTheme.cardBg.withOpacity(0.95),
+        color: AppTheme.cardBg.withValues(alpha: 0.95),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
           color: themeBorderColor,
@@ -922,7 +922,7 @@ class _CardFront extends ConsumerWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: themeBorderColor.withOpacity(0.25),
+            color: themeBorderColor.withValues(alpha: 0.25),
             blurRadius: 20,
             spreadRadius: 2,
           ),
@@ -972,7 +972,7 @@ class _CardFront extends ConsumerWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: suitColor.withOpacity(0.25),
+                    color: suitColor.withValues(alpha: 0.25),
                   ),
                 ),
                 child: ClipRRect(

@@ -98,10 +98,8 @@ class AuthNotifier extends Notifier<UserSession?> {
         return false;
       }
 
-      final GoogleSignInAccount? googleUser = await GoogleSignIn.instance.authenticate();
-      if (googleUser == null) return false;
-
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final googleUser = await GoogleSignIn.instance.authenticate();
+      final googleAuth = googleUser.authentication;
       final OAuthCredential credential = GoogleAuthProvider.credential(
         idToken: googleAuth.idToken,
       );

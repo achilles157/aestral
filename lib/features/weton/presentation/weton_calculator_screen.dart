@@ -471,7 +471,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                         '"${entry.headline}"',
                                         style: textTheme.bodyLarge?.copyWith(
                                           fontStyle: FontStyle.italic,
-                                          color: AppTheme.accentGold.withOpacity(0.9),
+                                          color: AppTheme.accentGold.withValues(alpha: 0.9),
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
@@ -764,9 +764,9 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: energyColor.withOpacity(0.1),
+                    color: energyColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: energyColor.withOpacity(0.4), width: 1),
+                    border: Border.all(color: energyColor.withValues(alpha: 0.4), width: 1),
                   ),
                   child: Text(
                     'Energi: $tingkatEnergi',
@@ -784,7 +784,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
               interpretasi,
               style: textTheme.bodyLarge?.copyWith(
                 height: 1.6,
-                color: AppTheme.textLight.withOpacity(0.95),
+                color: AppTheme.textLight.withValues(alpha: 0.95),
               ),
             ),
             const SizedBox(height: 20),
@@ -812,7 +812,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                       child: Text(
                         activity.toString(),
                         style: textTheme.bodyMedium?.copyWith(
-                          color: AppTheme.textLight.withOpacity(0.95),
+                          color: AppTheme.textLight.withValues(alpha: 0.95),
                           height: 1.4,
                         ),
                       ),
@@ -860,7 +860,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
             Text(
               karakter,
               style: textTheme.bodyMedium?.copyWith(
-                color: AppTheme.textLight.withOpacity(0.85),
+                color: AppTheme.textLight.withValues(alpha: 0.85),
                 height: 1.5,
               ),
             ),
@@ -871,9 +871,9 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppTheme.accentPurple.withOpacity(0.08),
+                color: AppTheme.accentPurple.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppTheme.accentPurple.withOpacity(0.3), width: 1),
+                border: Border.all(color: AppTheme.accentPurple.withValues(alpha: 0.3), width: 1),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -889,7 +889,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                   Text(
                     pesan,
                     style: textTheme.bodyMedium?.copyWith(
-                      color: AppTheme.textLight.withOpacity(0.9),
+                      color: AppTheme.textLight.withValues(alpha: 0.9),
                       fontStyle: FontStyle.italic,
                       height: 1.4,
                     ),
@@ -947,9 +947,9 @@ class _AnalysisBadge extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.08),
+        color: color.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.3), width: 1.5),
+        border: Border.all(color: color.withValues(alpha: 0.3), width: 1.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1105,7 +1105,7 @@ class _CitySearchSheetState extends State<_CitySearchSheet> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppTheme.textMuted.withOpacity(0.3),
+                  color: AppTheme.textMuted.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -1138,10 +1138,10 @@ class _CitySearchSheetState extends State<_CitySearchSheet> {
                       )
                     : null,
                 filled: true,
-                fillColor: AppTheme.background.withOpacity(0.5),
+                fillColor: AppTheme.background.withValues(alpha: 0.5),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(color: AppTheme.accentPurple.withOpacity(0.5)),
+                  borderSide: BorderSide(color: AppTheme.accentPurple.withValues(alpha: 0.5)),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -1168,7 +1168,7 @@ class _CitySearchSheetState extends State<_CitySearchSheet> {
                           contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                           leading: Icon(
                             isCustom ? Icons.my_location : Icons.location_city,
-                            color: isCustom ? AppTheme.accentPink : AppTheme.accentPurple.withOpacity(0.7),
+                            color: isCustom ? AppTheme.accentPink : AppTheme.accentPurple.withValues(alpha: 0.7),
                           ),
                           title: Text(
                             city.name,

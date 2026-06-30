@@ -180,8 +180,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  AppTheme.background.withOpacity(0.85),
-                  const Color(0xFF160E36).withOpacity(0.95),
+                  AppTheme.background.withValues(alpha: 0.85),
+                  const Color(0xFF160E36).withValues(alpha: 0.95),
                   const Color(0xFF0C071C),
                 ],
               ),
@@ -214,7 +214,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                       shape: BoxShape.circle,
                                       boxShadow: [
                                         BoxShadow(
-                                          color: AppTheme.accentGold.withOpacity(0.2),
+                                          color: AppTheme.accentGold.withValues(alpha: 0.2),
                                           blurRadius: 30,
                                           spreadRadius: 5,
                                         )
@@ -252,9 +252,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                         Text(
                                           'Aktif: ${session.displayName}',
                                           style: textTheme.bodyMedium?.copyWith(
-                                            color: AppTheme.accentGold.withOpacity(0.8),
+                                            color: AppTheme.accentGold.withValues(alpha: 0.8),
                                             fontWeight: FontWeight.bold,
-                                            color: AppTheme.accentGold,
                                           ),
                                         ),
                                         const SizedBox(width: 8),
@@ -305,7 +304,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                                 'Aestral v1.0.0 • Zero-Budget High-Performance',
                                 style: textTheme.bodyMedium?.copyWith(
                                   fontSize: 12,
-                                  color: AppTheme.textMuted.withOpacity(0.6),
+                                  color: AppTheme.textMuted.withValues(alpha: 0.6),
                                 ),
                               ),
                             ),
@@ -357,14 +356,14 @@ class _DashboardCardState extends State<_DashboardCard> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         transform: _isHovered 
-            ? (Matrix4.identity()..translate(0, -4, 0)) 
+            ? Matrix4.translationValues(0, -4, 0) 
             : Matrix4.identity(),
         child: Card(
           child: InkWell(
             onTap: widget.onTap,
             borderRadius: BorderRadius.circular(20),
-            splashColor: widget.accentColor.withOpacity(0.15),
-            highlightColor: widget.accentColor.withOpacity(0.05),
+            splashColor: widget.accentColor.withValues(alpha: 0.15),
+            highlightColor: widget.accentColor.withValues(alpha: 0.05),
             child: Padding(
               padding: const EdgeInsets.all(24.0),
               child: Row(
@@ -374,10 +373,10 @@ class _DashboardCardState extends State<_DashboardCard> {
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
-                      color: widget.accentColor.withOpacity(0.12),
+                      color: widget.accentColor.withValues(alpha: 0.12),
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: widget.accentColor.withOpacity(0.4),
+                        color: widget.accentColor.withValues(alpha: 0.4),
                         width: 1.5,
                       ),
                     ),
@@ -438,7 +437,7 @@ class _StarsPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.2)
+      ..color = Colors.white.withValues(alpha: 0.2)
       ..style = PaintingStyle.fill;
 
     // Deterministic random generator so the stars don't flicker on repaint
@@ -451,7 +450,7 @@ class _StarsPainter extends CustomPainter {
       // Draw glow for some stars
       if (random.nextDouble() > 0.8) {
         final glowPaint = Paint()
-          ..color = AppTheme.accentGold.withOpacity(0.3)
+          ..color = AppTheme.accentGold.withValues(alpha: 0.3)
           ..style = PaintingStyle.fill;
         canvas.drawCircle(Offset(x, y), radius * 3, glowPaint);
       }
