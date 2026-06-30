@@ -1,0 +1,57 @@
+[
+  {
+    "sisa_bagi": 1,
+    "nama_fase": "Sandang",
+    "tingkat_energi": "Tinggi",
+    "interpretasi_harian": "Fase ini merepresentasikan pakaian jiwa, yakni visibilitas, personal branding, dan ekspresi sosial. Hari yang optimal untuk keluar dari zona nyaman, memperbarui profil profesionalmu, tampil memukau di depan umum, serta memvalidasi citra diri yang positif dan memberdayakan.",
+    "saran_aktivitas": [
+      "Merapikan ulang portofolio karier, resume, atau desain profil LinkedIn agar lebih profesional.",
+      "Mengkurasi pakaian (outfit of the day) yang membuatmu merasa sangat percaya diri menghadapi pekerjaan.",
+      "Melakukan presentasi ide kreatif atau memimpin diskusi santai namun berdampak di lingkungan kerja."
+    ]
+  },
+  {
+    "sisa_bagi": 2,
+    "nama_fase": "Pangan",
+    "tingkat_energi": "Stabil",
+    "interpretasi_harian": "Fokus pada asupan harian, baik secara nutrisi biokimia maupun intelektual. Fase penyeimbang yang menenangkan ini ideal untuk menyerap pengetahuan baru, menikmati hobi yang mengisi ulang tangki energimu, serta melakukan kalkulasi keuangan ringan demi keamanan dompetmu.",
+    "saran_aktivitas": [
+      "Membaca literatur inspiratif, mendengarkan podcast edukatif, atau mengikuti kelas pengembangan diri daring.",
+      "Mengadakan makan siang santai bersama mentor atau teman sejawat guna membicarakan kolaborasi masa depan.",
+      "Mencatat dan mengelola arus kas (budgeting) mingguan agar asupan finansial dan gaya hidup tetap sehat."
+    ]
+  },
+  {
+    "sisa_bagi": 3,
+    "nama_fase": "Gedhong",
+    "tingkat_energi": "Tinggi",
+    "interpretasi_harian": "Melambangkan struktur bangunan dan fondasi masa depan. Hari yang memiliki kapasitas energi strategis besar untuk menginisiasi investasi jangka panjang, memperkuat komitmen asmara, membangun kebiasaan produktif baru, dan mendesain ulang tata ruang untuk efisiensi.",
+    "saran_aktivitas": [
+      "Membuka portofolio investasi seperti reksa dana, menabung emas, atau merencanakan asuransi jangka panjang.",
+      "Melakukan deep decluttering atau merapikan ruang kerja secara radikal demi mendatangkan fokus baru.",
+      "Membangun percakapan mendalam (deep-talk) dengan pasangan mengenai visi hubungan menuju level lebih serius."
+    ]
+  },
+  {
+    "sisa_bagi": 4,
+    "nama_fase": "Loro",
+    "tingkat_energi": "Waspada",
+    "interpretasi_harian": "Sinyal alarm dari semesta untuk melakukan perlambatan ritme (slow down). Bukan prediksi jatuh sakit secara harfiah, melainkan momen validasi terhadap kelelahan batin dan ancaman burnout. Hari untuk merawat kesehatan mental, menetapkan batasan protektif, dan self-healing.",
+    "saran_aktivitas": [
+      "Menuliskan beban emosional pada jurnal pikiran (journaling) guna meredakan kecemasan dan stres pekerjaan.",
+      "Menolak budaya lembur eksploitatif, pulang tepat waktu, dan memprioritaskan istirahat fisik selama delapan jam.",
+      "Melakukan sesi relaksasi, meditasi pernapasan terpandu, atau berkonsultasi secara privat dengan psikolog."
+    ]
+  },
+  {
+    "sisa_bagi": 0,
+    "nama_fase": "Pati",
+    "tingkat_energi": "Waspada",
+    "interpretasi_harian": "Fase pelepasan radikal dan kematian ego psikologis. Hari yang krusial untuk menutup babak hidup yang beracun, merelakan ekspektasi yang tidak masuk akal, dan membersihkan diri dari ilusi kontrol. Siklus akhir yang menjanjikan lembaran baru yang lebih sehat dan terkalibrasi.",
+    "saran_aktivitas": [
+      "Melakukan pembersihan digital: unfollow akun yang memicu rasa tidak aman (insecurity) dan menghapus aplikasi toksik.",
+      "Menulis seluruh hal di luar kendalimu, merobek kertas tersebut, dan secara simbolis merelakan kepergiannya.",
+      "Mengakhiri batas kompromi pada kebiasaan buruk, lingkungan kerja tak suportif, atau dinamika hubungan manipulatif."
+    ]
+  }
+]
