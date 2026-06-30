@@ -10,16 +10,6 @@ describe('API Router', () => {
 		expect(body.version).toBe('0.1.0');
 	});
 
-	it('POST /api/tarot/draw returns 200', async () => {
-		const res = await SELF.fetch('http://localhost/api/tarot/draw', {
-			method: 'POST',
-		});
-		expect(res.status).toBe(200);
-		const body = await res.json<{ success: boolean; endpoint: string }>();
-		expect(body.success).toBe(true);
-		expect(body.endpoint).toBe('tarot-draw');
-	});
-
 	it('POST /api/weton/daily returns 200', async () => {
 		const res = await SELF.fetch('http://localhost/api/weton/daily', {
 			method: 'POST',

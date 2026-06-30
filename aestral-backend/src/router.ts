@@ -1,3 +1,6 @@
+import { parseAuthHeader } from './auth';
+import { getDeterministicCard, getWeightedRandomCard } from './tarot';
+
 const CORS_HEADERS: Record<string, string> = {
 	'Access-Control-Allow-Origin': '*',
 	'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -11,7 +14,7 @@ function json(data: unknown, status = 200): Response {
 	});
 }
 
-export function handleRequest(request: Request): Response {
+export async function handleRequest(request: Request): Promise<Response> {
 	const url = new URL(request.url);
 	const { pathname } = url;
 	const method = request.method;
@@ -27,7 +30,7 @@ export function handleRequest(request: Request): Response {
 	}
 
 	if (method === 'POST' && pathname === '/api/tarot/draw') {
-		return json({ success: true, endpoint: 'tarot-draw' });
+		return handleTarotDraw(request);
 	}
 
 	if (method === 'POST' && pathname === '/api/weton/daily') {
@@ -35,4 +38,47 @@ export function handleRequest(request: Request): Response {
 	}
 
 	return json({ error: 'Not Found' }, 404);
+}
+
+// --- Tarot Draw Handler ---
+
+interface TarotDrawBody {
+	birthDate?: string;
+	pangarasan?: string;
+	wukuHariIni?: string;
+}
+
+async function handleTarotDraw(request: Request): Promise<Response> {
+	const authToken = parseAuthHeader(request.headers.get('Authorization'));
+	if (!authToken) {
+		return json({ error: 'Authorization header required' }, 400);
+	}
+
+	let body: TarotDrawBody;
+	try {
+		body = (await request.json()) as TarotDrawBody;
+	} catch {
+		return json({ error: 'Invalid JSON body' }, 400);
+	}
+
+	if (!body.birthDate) {
+		return json({ error: 'birthDate is required' }, 400);
+	}
+
+	if (authToken.type === 'guest') {
+		const cardIndex = getDeterministicCard(body.birthDate);
+		return json({
+			success: true,
+			isDynamic: false,
+			cardIndex,
+			message: 'Kartu Jiwa (Soul Card) — daftar untuk pembacaan harian dinamis.',
+		});
+	}
+
+	// Bearer (registered user)
+	const cardIndex = getWeightedRandomCard(
+		body.pangarasan ?? '',
+		body.wukuHariIni ?? '',
+	);
+	return json({ success: true, isDynamic: true, cardIndex });
 }
