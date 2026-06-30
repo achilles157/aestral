@@ -103,6 +103,5 @@ plan.md
 Arsitektur*.md
 PRD/
 weight-rng.md
-# (Opsional) Jika ingin mengabaikan semua file .md kecuali README:
-# *.md
-# !README.md
+firebase_setup_guide.md
+assets/weton/Riset Astrologi Primbon Jawa Modern.md
