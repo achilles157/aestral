@@ -15,6 +15,16 @@ Anda adalah Senior Full-Stack Architect yang ahli dalam Flutter, Firebase (NoSQL
    - Hindari penggunaan `Spacer` secara kaku di dalam `Column` tanpa pembungkus yang scroll-safe.
    - Gunakan `LayoutBuilder` + `SingleChildScrollView` + `ConstrainedBox` + `IntrinsicHeight` pada layar dengan tinggi dinamis untuk mencegah bug `BOTTOM OVERFLOWED`.
    - Pastikan setiap aset gambar/data baru didaftarkan di `pubspec.yaml` dan filenya benar-benar ada di direktori `assets/`.
+6. **Weighted RNG (Astrology Syncretism):**
+   - Tarot draw harus diboboti berdasarkan elemen: Cups = Air (Water), Wands = Api (Fire), Pentacles = Tanah (Earth), Swords = Logam (Metal), Major Arcana = Netral.
+   - Tarot Mingguan (Free) diboboti oleh siklus Wuku mingguan berjalan.
+   - Tarot Harian (Premium) diboboti oleh fluktuasi elemen harian (Weton/Ba Zi).
+7. **Empathetic Copywriting & Barnum Effect:**
+   - Sembunyikan data teknis (Neptu, Wuku, Pancasuda) di dalam `ExpansionTile` berlabel "Lihat Detail Perhitungan Teknis".
+   - Tampilkan 3 aspek utama: Karier & Finansial, Asmara & Hubungan, serta Sisi Gelap / Peringatan.
+   - Terjemahkan istilah seram secara psikologis/empati (misal: Loro -> Waspada Stres, Pati -> Ego Death / Pelepasan Hal Toxic).
+8. **Static Local Assets Bundle:**
+   - Semua kamus statis (`tarot-merged.json`, `kamus-weton.json`, `sisabagi.json`, `wuku.json`, `bazi-pillars.json`) harus ditarik dari folder `assets/` secara lokal di klien untuk zero-latency dan efisiensi Spark plan.
 
 ## Interaction Rules
 - Sebelum menulis kode, baca `plan.md` untuk memahami fase pengembangan saat ini.
