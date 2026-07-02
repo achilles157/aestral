@@ -630,7 +630,7 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Siklus Pawukon: Wuku ${wukuEntry['nama_wuku']}',
+                      'Wuku ${wukuEntry['nama_wuku']} (${wukuEntry['arketipe_modern'] ?? ''})',
                       style: GoogleFonts.playfairDisplay(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -639,7 +639,7 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Dewa Pelindung: ${wukuEntry['dewa']}',
+                      'Dewa Penaung: ${wukuEntry['dewa_penaung'] ?? ''}',
                       style: GoogleFonts.outfit(
                         fontSize: 13,
                         color: AppTheme.accentGold,
@@ -647,7 +647,7 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      wukuEntry['karakter'] as String,
+                      wukuEntry['karakter_dasar'] ?? '',
                       style: GoogleFonts.outfit(
                         fontSize: 13,
                         height: 1.5,
@@ -655,35 +655,94 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
                       ),
                     ),
                     const SizedBox(height: 16),
+                    // Card for Career & Asmara
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.03),
                         borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.white10, width: 1),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Pantangan / Peringatan Wuku:',
-                            style: GoogleFonts.outfit(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
+                          Row(
+                            children: [
+                              const Icon(Icons.work_outline, color: AppTheme.accentGold, size: 16),
+                              const SizedBox(width: 8),
+                              Text(
+                                'Ramalan Karir Wuku:',
+                                style: GoogleFonts.outfit(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 6),
                           Text(
-                            wukuEntry['pantangan'] as String,
+                            wukuEntry['ramalan_mingguan_karier'] ?? '',
                             style: GoogleFonts.outfit(
                               fontSize: 13,
                               height: 1.4,
-                              color: const Color(0xFFF87171),
+                              color: Colors.white70,
+                            ),
+                          ),
+                          const SizedBox(height: 14),
+                          Row(
+                            children: [
+                              const Icon(Icons.favorite_border, color: AppTheme.accentPink, size: 16),
+                              const SizedBox(width: 8),
+                              Text(
+                                'Ramalan Asmara Wuku:',
+                                style: GoogleFonts.outfit(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            wukuEntry['ramalan_mingguan_asmara'] ?? '',
+                            style: GoogleFonts.outfit(
+                              fontSize: 13,
+                              height: 1.4,
+                              color: Colors.white70,
                             ),
                           ),
                         ],
                       ),
                     ),
+                    const SizedBox(height: 16),
+                    // Pesan Kesadaran
+                    if (wukuEntry['pesan_kesadaran'] != null && wukuEntry['pesan_kesadaran'].toString().isNotEmpty)
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: AppTheme.accentPurple.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: AppTheme.accentPurple.withValues(alpha: 0.3)),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.lightbulb_outline, color: AppTheme.accentGold, size: 18),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                wukuEntry['pesan_kesadaran'].toString(),
+                                style: GoogleFonts.outfit(
+                                  fontSize: 12,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.white70,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                   ],
                 );
               },
