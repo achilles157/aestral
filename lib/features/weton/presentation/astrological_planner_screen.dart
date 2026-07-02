@@ -209,67 +209,56 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
           )
         ],
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: constraints.maxHeight,
-              ),
-              child: IntrinsicHeight(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildHeaderSection(),
-                      const SizedBox(height: 16),
-                      if (_isLoadingCalendar) ...[
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 60.0),
-                          child: Center(
-                            child: CircularProgressIndicator(color: AppTheme.accentGold),
-                          ),
-                        ),
-                      ] else if (_errorMessage != null) ...[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 40.0),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.cloud_off, size: 64, color: Colors.white24),
-                                const SizedBox(height: 16),
-                                Text(
-                                  _errorMessage!,
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.outfit(color: Colors.white70),
-                                ),
-                                const SizedBox(height: 24),
-                                ElevatedButton.icon(
-                                  onPressed: _fetchCalendarData,
-                                  icon: const Icon(Icons.refresh),
-                                  label: const Text('Coba Lagi'),
-                                  style: ElevatedButton.styleFrom(backgroundColor: AppTheme.accentPurple),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ] else if (_calendarData != null) ...[
-                        _buildPranataHeader(pranataListAsync),
-                        const SizedBox(height: 16),
-                        _buildCalendarGrid(),
-                        const SizedBox(height: 24),
-                      ],
-                    ],
+      body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeaderSection(),
+              const SizedBox(height: 16),
+              if (_isLoadingCalendar) ...[
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 60.0),
+                  child: Center(
+                    child: CircularProgressIndicator(color: AppTheme.accentGold),
                   ),
                 ),
-              ),
-            ),
-          );
-        },
+              ] else if (_errorMessage != null) ...[
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40.0),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.cloud_off, size: 64, color: Colors.white24),
+                        const SizedBox(height: 16),
+                        Text(
+                          _errorMessage!,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.outfit(color: Colors.white70),
+                        ),
+                        const SizedBox(height: 24),
+                        ElevatedButton.icon(
+                          onPressed: _fetchCalendarData,
+                          icon: const Icon(Icons.refresh),
+                          label: const Text('Coba Lagi'),
+                          style: ElevatedButton.styleFrom(backgroundColor: AppTheme.accentPurple),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ] else if (_calendarData != null) ...[
+                _buildPranataHeader(pranataListAsync),
+                const SizedBox(height: 16),
+                _buildCalendarGrid(),
+                const SizedBox(height: 24),
+              ],
+            ],
+          ),
+        ),
       ),
     );
   }
