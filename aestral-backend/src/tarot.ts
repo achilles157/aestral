@@ -82,20 +82,68 @@ function getRemedialRange(el: Element): [start: number, end: number] {
 }
 
 /**
+ * Maps a Wuku name to one of the four elements.
+ * Returns `null` when no mapping is found.
+ */
+function wukuToElement(wuku: string): Element | null {
+	const lower = wuku.toLowerCase();
+	// Standard Javanese deity/nature elements mapping for the 30 Wukus:
+	const waterWukus = ['landhep', 'gumbreg', 'galungan', 'kuruwelut', 'wayang', 'kulawu', 'prangbakat', 'bala'];
+	const fireWukus = ['sinta', 'kurantil', 'mandasia', 'pahang', 'maktal', 'dhukut'];
+	const earthWukus = ['wukir', 'tolu', 'warigagung', 'kuningan', 'marakeh', 'medangkungan', 'manahil', 'watugunung'];
+	const airWukus = ['warigalit', 'julungwangi', 'sungsang', 'langkir', 'julungpujut', 'tambir', 'wuye', 'wugu'];
+
+	if (waterWukus.includes(lower)) return 'water';
+	if (fireWukus.includes(lower)) return 'fire';
+	if (earthWukus.includes(lower)) return 'earth';
+	if (airWukus.includes(lower)) return 'air';
+	return null;
+}
+
+/**
+ * Returns the card index range [start, end] for a given element.
+ */
+function getElementRange(el: Element): [start: number, end: number] {
+	switch (el) {
+		case 'water':
+			return [22, 35]; // Cups (Water)
+		case 'fire':
+			return [36, 49]; // Wands (Fire)
+		case 'air':
+			return [50, 63]; // Swords (Air/Metal)
+		case 'earth':
+			return [64, 77]; // Pentacles (Earth)
+	}
+}
+
+/**
  * Returns a weighted-random card index (0-77).
  *
  * The user's Pangarasan determines their element; the complementary
  * suit receives a +0.15 weight boost (homeostasis principle).
- * Wuku is accepted for future use but does not affect weights yet.
+ * The current Wuku name determines the weekly resonance element;
+ * its suit receives a +0.10 weight boost.
  */
-export function getWeightedRandomCard(pangarasan: string, _wuku: string): number {
+export function getWeightedRandomCard(pangarasan: string, wuku: string): number {
 	const weights = new Float64Array(DECK_SIZE).fill(1.0);
 
+	// 1. Homeostasis / Compensation: boost complementary element of user by +0.15
 	const userElement = pangarasanToElement(pangarasan);
 	if (userElement) {
 		const [start, end] = getRemedialRange(userElement);
 		for (let i = start; i <= end; i++) {
 			weights[i] += 0.15;
+		}
+	}
+
+	// 2. Resonance: boost current Wuku element by +0.10
+	if (wuku) {
+		const wukuElement = wukuToElement(wuku);
+		if (wukuElement) {
+			const [start, end] = getElementRange(wukuElement);
+			for (let i = start; i <= end; i++) {
+				weights[i] += 0.10;
+			}
 		}
 	}
 
