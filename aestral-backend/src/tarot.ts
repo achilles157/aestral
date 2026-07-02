@@ -22,12 +22,39 @@ const DECK_SIZE = 78;
  * Uses a simple hash: for each character, `hash = charCode + ((hash << 5) - hash)`.
  * The same birthDate always produces the same card.
  */
-export function getDeterministicCard(birthDate: string): number {
-	let hash = 0;
-	for (let i = 0; i < birthDate.length; i++) {
-		hash = birthDate.charCodeAt(i) + ((hash << 5) - hash);
+export function getDeterministicCard(birthDate: string, pangarasan?: string): number {
+	const weights = new Float64Array(DECK_SIZE).fill(1.0);
+
+	if (pangarasan) {
+		const userElement = pangarasanToElement(pangarasan);
+		if (userElement) {
+			const [start, end] = getRemedialRange(userElement);
+			for (let i = start; i <= end; i++) {
+				weights[i] += 0.15;
+			}
+		}
 	}
-	return Math.abs(hash) % DECK_SIZE;
+
+	let totalWeight = 0;
+	for (let i = 0; i < DECK_SIZE; i++) {
+		totalWeight += weights[i];
+	}
+
+	// Deterministic seed based on birthDate
+	let hash = 0;
+	const seedStr = birthDate + '-soulcard';
+	for (let i = 0; i < seedStr.length; i++) {
+		hash = seedStr.charCodeAt(i) + ((hash << 5) - hash);
+	}
+	
+	const randVal = (Math.abs(hash) % 10000) / 10000;
+	let pick = randVal * totalWeight;
+
+	for (let i = 0; i < DECK_SIZE; i++) {
+		pick -= weights[i];
+		if (pick <= 0) return i;
+	}
+	return DECK_SIZE - 1;
 }
 
 /**

@@ -70,7 +70,7 @@ async function handleTarotDraw(request: Request): Promise<Response> {
 	const drawType = body.drawType ?? (authToken.type === 'guest' ? 'birth' : 'weekly');
 
 	if (authToken.type === 'guest' || drawType === 'birth') {
-		const cardIndex = getDeterministicCard(body.birthDate);
+		const cardIndex = getDeterministicCard(body.birthDate, body.pangarasan);
 		const isReversed = getDeterministicReversed(body.birthDate);
 		return json({
 			success: true,
