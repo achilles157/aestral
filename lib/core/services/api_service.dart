@@ -82,4 +82,41 @@ class ApiService {
       rethrow;
     }
   }
+
+  /// Calls POST /api/calendar/month with the JSON payload.
+  static Future<Map<String, dynamic>> getCalendarMonth({
+    required String birthDate,
+    required int targetYear,
+    required int targetMonth,
+    required String authHeader,
+  }) async {
+    final url = Uri.parse('$baseUrl/api/calendar/month');
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authHeader,
+        },
+        body: json.encode({
+          'birthDate': birthDate,
+          'targetYear': targetYear,
+          'targetMonth': targetMonth,
+        }),
+      ).timeout(const Duration(seconds: 10));
+
+      if (response.statusCode != 200) {
+        throw Exception('Status ${response.statusCode}: ${response.body}');
+      }
+
+      final data = json.decode(response.body);
+      if (data is Map<String, dynamic>) {
+        return data;
+      }
+      throw Exception('Invalid response format');
+    } catch (e) {
+      debugPrint('ApiService.getCalendarMonth error: $e');
+      rethrow;
+    }
+  }
 }

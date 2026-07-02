@@ -6,6 +6,7 @@ import '../../auth/services/auth_service.dart';
 import '../../auth/services/profile_service.dart';
 import '../../tarot/presentation/tarot_draw_screen.dart';
 import '../../weton/presentation/weton_calculator_screen.dart';
+import '../../weton/presentation/astrological_planner_screen.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/weton_utils.dart';
 
@@ -288,12 +289,25 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             _DashboardCard(
                               title: 'Primbon Weton Jawa',
                               subtitle: 'Temukan karakter bawaan, neptu, dan elemen berdasarkan penanggalan Asapon',
-                              icon: Icons.calendar_month,
+                              icon: Icons.brightness_medium,
                               accentColor: AppTheme.accentPurple,
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => const WetonCalculatorScreen()),
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            _DashboardCard(
+                              title: 'Astrological Planner',
+                              subtitle: 'Kalender bulanan terintegrasi dan jadwal jam harian (timetable Saat Pitu)',
+                              icon: Icons.calendar_month,
+                              accentColor: AppTheme.accentGold,
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const AstrologicalPlannerScreen()),
                                 );
                               },
                             ),

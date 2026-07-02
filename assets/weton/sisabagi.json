@@ -8,7 +8,8 @@
       "Merapikan ulang portofolio karier, resume, atau desain profil LinkedIn agar lebih profesional.",
       "Mengkurasi pakaian (outfit of the day) yang membuatmu merasa sangat percaya diri menghadapi pekerjaan.",
       "Melakukan presentasi ide kreatif atau memimpin diskusi santai namun berdampak di lingkungan kerja."
-    ]
+    ],
+    "ai_hook": "Bagaimana weton kelahiran saya memengaruhi cara saya mempresentasikan diri di hari Sandang ini?"
   },
   {
     "sisa_bagi": 2,
@@ -19,7 +20,8 @@
       "Membaca literatur inspiratif, mendengarkan podcast edukatif, atau mengikuti kelas pengembangan diri daring.",
       "Mengadakan makan siang santai bersama mentor atau teman sejawat guna membicarakan kolaborasi masa depan.",
       "Mencatat dan mengelola arus kas (budgeting) mingguan agar asupan finansial dan gaya hidup tetap sehat."
-    ]
+    ],
+    "ai_hook": "Bagaimana cara menyelaraskan asupan energi finansial dan intelektual saya di hari Pangan ini?"
   },
   {
     "sisa_bagi": 3,
@@ -30,7 +32,8 @@
       "Membuka portofolio investasi seperti reksa dana, menabung emas, atau merencanakan asuransi jangka panjang.",
       "Melakukan deep decluttering atau merapikan ruang kerja secara radikal demi mendatangkan fokus baru.",
       "Membangun percakapan mendalam (deep-talk) dengan pasangan mengenai visi hubungan menuju level lebih serius."
-    ]
+    ],
+    "ai_hook": "Fase Gedhong hari ini berbenturan dengan elemen lahir saya. Keputusan investasi apa yang paling aman bagi saya hari ini?"
   },
   {
     "sisa_bagi": 4,
@@ -41,7 +44,8 @@
       "Menuliskan beban emosional pada jurnal pikiran (journaling) guna meredakan kecemasan dan stres pekerjaan.",
       "Menolak budaya lembur eksploitatif, pulang tepat waktu, dan memprioritaskan istirahat fisik selama delapan jam.",
       "Melakukan sesi relaksasi, meditasi pernapasan terpandu, atau berkonsultasi secara privat dengan psikolog."
-    ]
+    ],
+    "ai_hook": "Bagaimana cara terbaik merawat kesehatan mental saya di hari Loro yang berenergi Waspada ini?"
   },
   {
     "sisa_bagi": 0,
@@ -52,6 +56,7 @@
       "Melakukan pembersihan digital: unfollow akun yang memicu rasa tidak aman (insecurity) dan menghapus aplikasi toksik.",
       "Menulis seluruh hal di luar kendalimu, merobek kertas tersebut, dan secara simbolis merelakan kepergiannya.",
       "Mengakhiri batas kompromi pada kebiasaan buruk, lingkungan kerja tak suportif, atau dinamika hubungan manipulatif."
-    ]
+    ],
+    "ai_hook": "Fase Pati hari ini memicu kecemasan. Kebiasaan buruk atau hubungan toksik apa yang harus saya lepaskan secara radikal hari ini?"
   }
 ]

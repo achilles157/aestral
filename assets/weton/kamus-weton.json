@@ -1,809 +1,844 @@
 [
-    {
-        "id": 1,
-        "weton_name": "Minggu Legi",
-        "saptawara": "Minggu",
-        "pancawara": "Legi",
-        "neptu_saptawara": 5,
-        "neptu_pancawara": 5,
-        "total_neptu": 10,
-        "headline": "Si Penasihat Bijak yang Sulit Diberi Nasihat",
-        "karir_rezeki": "Kamu tipe pekerja yang suka memberi arahan dan memiliki visi jangka panjang. Rezeki datang dari kemampuanmu membimbing orang lain, asalkan mau sedikit lebih terbuka terhadap masukan dari sekitar.",
-        "asmara_hubungan": "Dalam cinta, kamu setia dan tulus, namun cenderung ingin mengatur pasangan. Pasangan yang tepat adalah mereka yang bisa menerima sifat 'mengayomi'-mu tanpa merasa terkekang. Belajar mendengar adalah kunci keharmonisan.",
-        "sisi_gelap_peringatan": "Kebaikanmu sering disalahpahami sebagai kelemahan, padahal kamu hanya terlalu sabar. Hati-hati dengan orang yang memanfaatkan kerendahan hatimu. Jangan selalu mengalah—terkadang memperjuangkan diri sendiri itu bukan egois, tapi harga diri.",
-        "career_tendency": [
-            "Pendidikan",
-            "Konsultan",
-            "Perencana Strategis"
-        ],
-        "tags": [
-            "visioner",
-            "mengayomi",
-            "setia"
-        ]
-    },
-    {
-        "id": 2,
-        "weton_name": "Minggu Pahing",
-        "saptawara": "Minggu",
-        "pancawara": "Pahing",
-        "neptu_saptawara": 5,
-        "neptu_pancawara": 9,
-        "total_neptu": 14,
-        "headline": "Si Berwibawa yang Disenangi Banyak Orang",
-        "karir_rezeki": "Kamu memiliki jiwa kepemimpinan alami dan kemampuan bergaul yang luar biasa. Rezeki mengalir dari jaringan pertemanan yang luas—semakin banyak orang mengenalmu, semakin lebar pintu kesuksesan.",
-        "asmara_hubungan": "Kamu mudah disukai, tapi kadang sulit berkomitmen karena terlalu banyak pilihan. Pasangan yang bisa menaklukkan hatimu adalah mereka yang tidak hanya terpesona oleh pesonamu, tapi juga berani menantangmu secara intelektual.",
-        "sisi_gelap_peringatan": "Sifatmu yang selalu ingin menyenangkan semua orang bisa membuatmu kehilangan jati diri. Waspadalah terhadap orang yang hanya mendekatimu karena status atau koneksi, bukan karena ketulusan.",
-        "career_tendency": [
-            "Pemasaran",
-            "Humas",
-            "Politik"
-        ],
-        "tags": [
-            "pemimpin",
-            "komunikatif",
-            "karismatik"
-        ]
-    },
-    {
-        "id": 3,
-        "weton_name": "Minggu Pon",
-        "saptawara": "Minggu",
-        "pancawara": "Pon",
-        "neptu_saptawara": 5,
-        "neptu_pancawara": 7,
-        "total_neptu": 12,
-        "headline": "Si Setia yang Pendiriannya Kuat",
-        "karir_rezeki": "Kamu adalah pekerja yang dapat diandalkan—konsisten, setia, dan tidak mudah goyah. Rezeki datang perlahan tapi pasti.",
-        "asmara_hubungan": "Kamu tipe pasangan yang setia dan tidak mudah berubah. Namun, sikapmu yang terlalu kaku dalam memegang prinsip kadang membuat pasangan merasa terkekang. Belajar kompromi adalah pelajaran cinta terbesarmu.",
-        "sisi_gelap_peringatan": "Kegigihanmu kadang berubah jadi keras kepala. Kamu sulit menerima bahwa tidak semua hal harus sesuai dengan caramu. Ingat, fleksibilitas bukan berarti kehilangan prinsip—itu adalah tanda kedewasaan.",
-        "career_tendency": [
-            "Administrasi",
-            "Perbankan",
-            "Manajemen SDM"
-        ],
-        "tags": [
-            "setia",
-            "konsisten",
-            "tangguh"
-        ]
-    },
-    {
-        "id": 4,
-        "weton_name": "Minggu Wage",
-        "saptawara": "Minggu",
-        "pancawara": "Wage",
-        "neptu_saptawara": 5,
-        "neptu_pancawara": 4,
-        "total_neptu": 9,
-        "headline": "Si Perencana Matang yang Tidak Gegabah",
-        "karir_rezeki": "Kamu adalah perencana ulung—teliti, penuh pertimbangan, dan tidak pernah gegabah dalam mengambil keputusan. Rezekimu stabil karena kamu tidak pernah mengambil risiko bodoh.",
-        "asmara_hubungan": "Dalam cinta, kamu tipe yang tidak terburu-buru. Butuh waktu lama untuk membuka hati, tapi setelah itu kamu adalah pasangan yang sangat serius dan bertanggung jawab. Pasangan yang sabar menunggumu adalah jodoh yang tepat.",
-        "sisi_gelap_peringatan": "Terlalu banyak pertimbangan kadang membuatmu melewatkan peluang emas. Jangan sampai sifat perfeksionismu menghalangi langkahmu. Kadang, mengambil risiko yang terukur adalah bagian dari pertumbuhan.",
-        "career_tendency": [
-            "Arsitektur",
-            "Perencanaan Kota",
-            "Manajemen Proyek",
-            "Akuntansi"
-        ],
-        "tags": [
-            "perencana",
-            "teliti",
-            "hati_hati"
-        ]
-    },
-    {
-        "id": 5,
-        "weton_name": "Minggu Kliwon",
-        "saptawara": "Minggu",
-        "pancawara": "Kliwon",
-        "neptu_saptawara": 5,
-        "neptu_pancawara": 8,
-        "total_neptu": 13,
-        "headline": "Si Berwawasan Luas yang Penuh Misteri",
-        "karir_rezeki": "Kamu memiliki kecerdasan di atas rata-rata dan kemampuan menyerap ilmu dengan cepat. Rezeki datang dari kemampuanmu melihat peluang yang orang lain lewatkan. Kamu adalah aset berharga di tim mana pun.",
-        "asmara_hubungan": "Kamu tipe pasangan yang dalam dan penuh teka-teki. Pasanganmu mungkin butuh waktu untuk benar-benar memahami isi hatimu. Yang paling cocok adalah mereka yang tidak takut dengan kedalaman dan menyukai tantangan intelektual.",
-        "sisi_gelap_peringatan": "Kedalamanmu kadang membuatmu sulit terhubung dengan orang lain secara emosional. Waspadalah terhadap kecenderungan menyendiri yang berlebihan—kesendirian adalah tempat yang nyaman, tapi bukan tempat untuk bertumbuh.",
-        "career_tendency": [
-            "Penelitian",
-            "Teknologi",
-            "Akademisi"
-        ],
-        "tags": [
-            "cerdas",
-            "visioner",
-            "misterius"
-        ]
-    },
-    {
-        "id": 6,
-        "weton_name": "Senin Legi",
-        "saptawara": "Senin",
-        "pancawara": "Legi",
-        "neptu_saptawara": 4,
-        "neptu_pancawara": 5,
-        "total_neptu": 9,
-        "headline": "Si Pekerja Keras yang Pendiam",
-        "karir_rezeki": "Kamu adalah pekerja keras sejati—tekun, bertanggung jawab, dan tidak suka menonjolkan diri. Rezeki datang dari kerja diam-diam yang hasilnya berbicara sendiri.",
-        "asmara_hubungan": "Kamu tipe pasangan yang tidak banyak bicara tapi penuh tindakan nyata. Mungkin terlihat dingin di awal, tapi setelah nyaman, kamu adalah pasangan yang paling setia dan perhatian. Pasanganmu perlu belajar membaca bahasamu.",
-        "sisi_gelap_peringatan": "Sifat pendiam dan tertutupmu kadang membuat orang lain salah paham dan menganggapmu sombong. Jangan ragu untuk membuka diri sedikit—hubungan yang tulus membutuhkan kerentanan, bukan tembok tinggi.",
-        "career_tendency": [
-            "Penelitian",
-            "Akuntansi",
-            "Teknologi"
-        ],
-        "tags": [
-            "pekerja_keras",
-            "tekun",
-            "introvert"
-        ]
-    },
-    {
-        "id": 7,
-        "weton_name": "Senin Pahing",
-        "saptawara": "Senin",
-        "pancawara": "Pahing",
-        "neptu_saptawara": 4,
-        "neptu_pancawara": 9,
-        "total_neptu": 13,
-        "headline": "Si Introvert Berhati Emas yang Berwibawa",
-        "karir_rezeki": "Kamu memiliki kharisma yang kuat meski pendiam. Orang mempercayaimu dengan tanggung jawab besar karena kamu serius dan penuh dedikasi. Rezeki datang dari kerja yang konsisten dan berkualitas.",
-        "asmara_hubungan": "Kamu tipe pasangan yang setia dan penuh perhatian, tapi butuh ruang pribadi. Pasangan ideal adalah mereka yang menghargai ketenangan dan tidak memaksamu keluar dari zona nyaman. Cinta untukmu adalah pelukan yang hangat tanpa kata-kata.",
-        "sisi_gelap_peringatan": "Kesabaranmu luar biasa, tapi jangan sampai menjadi korban karena terlalu sabar. Kamu cenderung menghindari konflik hingga lupa bahwa suaramu juga penting. Belajar berkata 'tidak' adalah bentuk cinta pada diri sendiri.",
-        "career_tendency": [
-            "Peneliti",
-            "Analis",
-            "Wirausaha"
-        ],
-        "tags": [
-            "fokus",
-            "dedikatif",
-            "karismatik"
-        ]
-    },
-    {
-        "id": 8,
-        "weton_name": "Senin Pon",
-        "saptawara": "Senin",
-        "pancawara": "Pon",
-        "neptu_saptawara": 4,
-        "neptu_pancawara": 7,
-        "total_neptu": 11,
-        "headline": "Si Pemimpin Berprinsip yang Tidak Mudah Go yah",
-        "karir_rezeki": "Kamu memiliki prinsip hidup yang sangat kuat dan jiwa kepemimpinan alami. Reaksi terhadap masalah sangat cepat dan keputusanmu tegas. Rezeki datang dari keberanianmu mengambil keputusan sulit.",
-        "asmara_hubungan": "Kamu tipe pasangan yang visioner dan bisa menjadi 'pemimpin' dalam hubungan. Pasangan yang cocok adalah mereka yang tidak merasa terancam dengan ketegasanmu dan bisa menjadi mitra sejajar, bukan pengikut.",
-        "sisi_gelap_peringatan": "Kekuatan prinsipmu kadang membuatmu sulit menerima sudut pandang orang lain. Jangan sampai keyakinanmu berubah menjadi sikap mengabaikan perasaan orang terdekat. Kepemimpinan sejati adalah mendengar sebelum memutuskan.",
-        "career_tendency": [
-            "Manajemen",
-            "Wirausaha",
-            "Strategis"
-        ],
-        "tags": [
-            "tegas",
-            "pemimpin",
-            "prinsipil"
-        ]
-    },
-    {
-        "id": 9,
-        "weton_name": "Senin Wage",
-        "saptawara": "Senin",
-        "pancawara": "Wage",
-        "neptu_saptawara": 4,
-        "neptu_pancawara": 4,
-        "total_neptu": 8,
-        "headline": "Si Rendah Hati yang Selalu Ingin Belajar",
-        "karir_rezeki": "Kamu memiliki etos kerja yang baik dan selalu haus akan pengetahuan baru. Rezeki datang dari kemampuanmu beradaptasi dan belajar hal-hal baru.",
-        "asmara_hubungan": "Kamu tipe pasangan yang rendah hati dan tidak banyak menuntut. Namun, sikapmu yang terlalu pasif kadang membuat pasangan merasa kurang diperjuangkan. Belajar menyatakan kebutuhan adalah kunci cintamu.",
-        "sisi_gelap_peringatan": "Kerendahan hatimu kadang berubah menjadi kurang percaya diri. Kamu sering meremehkan kemampuan sendiri padahal orang lain melihat potensimu. Jangan biarkan sifat 'tidak enakan' menghalangi kesempatan besarmu.",
-        "career_tendency": [
-            "Pendidikan",
-            "Pelatihan",
-            "Pengembangan"
-        ],
-        "tags": [
-            "rendah_hati",
-            "adaptif",
-            "pembelajar"
-        ]
-    },
-    {
-        "id": 10,
-        "weton_name": "Senin Kliwon",
-        "saptawara": "Senin",
-        "pancawara": "Kliwon",
-        "neptu_saptawara": 4,
-        "neptu_pancawara": 8,
-        "total_neptu": 12,
-        "headline": "Si Cerdas yang Cepat Menyerap Ilmu",
-        "karir_rezeki": "Kecerdasanmu di atas rata-rata dan kamu cepat dalam menyerap ilmu. Rezeki datang dari keahlian spesialisasimu yang terus kamu asah.",
-        "asmara_hubungan": "Kamu tipe pasangan yang intelektual dan butuh stimulasi pikiran. Bosan dengan hubungan yang dangkal. Pasangan ideal adalah mereka yang bisa mengimbangi kecerdasanmu dan mengajakmu berdiskusi hingga larut malam.",
-        "sisi_gelap_peringatan": "Kecerdasanmu kadang membuatmu tidak sabaran dengan orang yang berpikir lambat. Ingat, kecerdasan emosional sama pentingnya dengan kecerdasan intelektual. Kesabaran bukan kelemahan, tapi kekuatan.",
-        "career_tendency": [
-            "Teknologi",
-            "Kedokteran",
-            "Hukum"
-        ],
-        "tags": [
-            "cerdas",
-            "analitis",
-            "komunikatif"
-        ]
-    },
-    {
-        "id": 11,
-        "weton_name": "Selasa Legi",
-        "saptawara": "Selasa",
-        "pancawara": "Legi",
-        "neptu_saptawara": 3,
-        "neptu_pancawara": 5,
-        "total_neptu": 8,
-        "headline": "Si Pekerja Keras yang Pantang Menyerah",
-        "karir_rezeki": "Kamu dikenal gigih dan pantang menyerah. Rezeki datang dari kerja kerasmu yang tidak kenal lelah—kamu adalah orang yang 'membuat' rezeki sendiri.",
-        "asmara_hubungan": "Kamu tipe pasangan yang penuh semangat dan tidak takut memperjuangkan cinta. Namun, sikapmu yang terlalu keras pada diri sendiri kadang membuatmu sulit bersantai dalam hubungan. Pasangan yang tepat bisa mengajakmu menikmati proses, bukan hanya hasil.",
-        "sisi_gelap_peringatan": "Kegigihanmu bisa menjadi bumerang jika tidak diimbangi dengan istirahat. Kamu cenderung memaksakan diri hingga kelelahan. Ingat, berhenti sejenak bukan tanda menyerah—itu adalah strategi untuk bertahan lebih lama.",
-        "career_tendency": [
-            "Wirausaha",
-            "Manufaktur",
-            "Keamanan"
-        ],
-        "tags": [
-            "gigih",
-            "tangguh",
-            "mandiri"
-        ]
-    },
-    {
-        "id": 12,
-        "weton_name": "Selasa Pahing",
-        "saptawara": "Selasa",
-        "pancawara": "Pahing",
-        "neptu_saptawara": 3,
-        "neptu_pancawara": 9,
-        "total_neptu": 12,
-        "headline": "Si Berani yang Selalu Ingin Jadi yang Terbaik",
-        "karir_rezeki": "Kamu ambisius dan tidak takut dengan hal buruk—selalu ingin menjadi yang terbaik dalam segala hal. Rezeki datang dari keberanianmu mengambil risiko yang orang lain takut ambil.",
-        "asmara_hubungan": "Kamu tipe pasangan yang intens dan penuh gairah. Namun, sifat kompetitifmu kadang terbawa ke dalam hubungan. Pasangan ideal adalah mereka yang tidak merasa tersaingi dan bisa menjadi tim, bukan lawan.",
-        "sisi_gelap_peringatan": "Ambisi yang terlalu besar kadang membuatmu lupa pada orang-orang di sekitarmu. Jangan sampai kesuksesan membuatmu kesepian. Ingat, kemenangan terasa lebih manis jika ada orang yang merayakannya bersamamu.",
-        "career_tendency": [
-            "Wirausaha",
-            "Olahraga",
-            "Militer"
-        ],
-        "tags": [
-            "ambisius",
-            "berani",
-            "kompetitif"
-        ]
-    },
-    {
-        "id": 13,
-        "weton_name": "Selasa Pon",
-        "saptawara": "Selasa",
-        "pancawara": "Pon",
-        "neptu_saptawara": 3,
-        "neptu_pancawara": 7,
-        "total_neptu": 10,
-        "headline": "Si Gigih yang Ditakdirkan Kaya Raya",
-        "karir_rezeki": "Kamu adalah salah satu weton yang disebut sangat beruntung dalam hal rezeki. Rezeki tidak pernah kering asalkan kamu tetap konsisten dan tidak cepat puas.",
-        "asmara_hubungan": "Kamu tipe pasangan yang bersemangat dan suka memberi kejutan. Namun, sifatmu yang mudah emosi kadang membuat hubungan berombak. Pasangan ideal adalah mereka yang bisa menenangkanmu dan menjadi tempatmu kembali setelah badai reda.",
-        "sisi_gelap_peringatan": "Sifatmu yang mudah emosi dan kurang cocok bekerja dengan orang lain bisa menjadi hambatan. Belajar mengelola emosi bukan berarti melemahkan—itu adalah tanda kedewasaan yang akan membawamu lebih jauh.",
-        "career_tendency": [
-            "Wirausaha",
-            "Perdagangan",
-            "Investasi"
-        ],
-        "tags": [
-            "beruntung",
-            "bisnis_oriented",
-            "sensitif"
-        ]
-    },
-    {
-        "id": 14,
-        "weton_name": "Selasa Wage",
-        "saptawara": "Selasa",
-        "pancawara": "Wage",
-        "neptu_saptawara": 3,
-        "neptu_pancawara": 4,
-        "total_neptu": 7,
-        "headline": "Si Unik dengan Jalan Hidup yang Berbeda",
-        "karir_rezeki": "Kamu memiliki karakter yang unik dan tidak biasa—jalan hidupmu berbeda dari kebanyakan orang. Rezeki datang dari keberanianmu menjadi diri sendiri, meski berbeda.",
-        "asmara_hubungan": "Kamu tipe pasangan yang tidak konvensional dan butuh kebebasan dalam hubungan. Pasangan ideal adalah mereka yang bisa menerima keunikannya dan tidak mencoba mengubahmu menjadi 'normal'. Cinta untukmu adalah ruang untuk tumbuh.",
-        "sisi_gelap_peringatan": "Keunikanmu kadang membuatmu merasa tidak dipahami oleh banyak orang. Jangan biarkan perasaan 'sendiri' membuatmu menarik diri dari dunia. Orang yang tepat akan datang—mereka yang menghargai keaslianmu.",
-        "career_tendency": [
-            "Seni",
-            "Kreatif",
-            "Alternatif"
-        ],
-        "tags": [
-            "unik",
-            "ekspresif",
-            "bebas"
-        ]
-    },
-    {
-        "id": 15,
-        "weton_name": "Selasa Kliwon",
-        "saptawara": "Selasa",
-        "pancawara": "Kliwon",
-        "neptu_saptawara": 3,
-        "neptu_pancawara": 8,
-        "total_neptu": 11,
-        "headline": "Si Pekerja Keras yang Kurang Cocok Bekerja Sama",
-        "karir_rezeki": "Kamu lebih cocok bekerja sendiri atau menjadi pemimpin daripada menjadi bawahan. Rezeki datang dari kemandirianmu—kamu tidak suka bergantung pada orang lain.",
-        "asmara_hubungan": "Kamu tipe pasangan yang independen dan tidak suka digantungi. Pasangan ideal adalah mereka yang juga mandiri dan tidak membutuhkanmu 24 jam. Bersama, kalian adalah dua individu utuh yang memilih untuk bersama, bukan karena kebutuhan.",
-        "sisi_gelap_peringatan": "Sikapmu yang terlalu mandiri kadang membuat orang lain merasa tidak dibutuhkan. Belajar menerima bantuan bukan berarti lemah—itu adalah cara membangun hubungan yang lebih dalam dan saling percaya.",
-        "career_tendency": [
-            "Wirausaha",
-            "Konsultan",
-            "Kreatif"
-        ],
-        "tags": [
-            "independen",
-            "mandiri",
-            "pemimpin"
-        ]
-    },
-    {
-        "id": 16,
-        "weton_name": "Rabu Legi",
-        "saptawara": "Rabu",
-        "pancawara": "Legi",
-        "neptu_saptawara": 7,
-        "neptu_pancawara": 5,
-        "total_neptu": 12,
-        "headline": "Si Berkecukupan yang Bicaranya Tegas",
-        "karir_rezeki": "Kamu adalah pekerja yang tegas dan tidak banyak bicara, tapi kata-katamu berbobot. Rezeki datang secukupnya—kamu tipe yang tidak serakah dan bersyukur dengan apa yang dimiliki.",
-        "asmara_hubungan": "Kamu tipe pasangan yang pendiam tapi tegas. Pasanganmu tahu persis di mana posisinya karena kamu tidak pernah ambigu. Pasangan ideal adalah mereka yang menghargai ketegasanmu dan tidak butuh drama dalam hubungan.",
-        "sisi_gelap_peringatan": "Sikap tegasmu kadang membuatmu terkesan dingin dan tidak peduli. Padahal di dalam hatimu, kamu sangat peduli—hanya saja tidak pandai menunjukkannya. Belajar mengekspresikan perasaan adalah investasi untuk hubungan yang lebih hangat.",
-        "career_tendency": [
-            "Hukum",
-            "Manajemen",
-            "Pemerintahan"
-        ],
-        "tags": [
-            "tegas",
-            "disiplin",
-            "bersyukur"
-        ]
-    },
-    {
-        "id": 17,
-        "weton_name": "Rabu Pahing",
-        "saptawara": "Rabu",
-        "pancawara": "Pahing",
-        "neptu_saptawara": 7,
-        "neptu_pancawara": 9,
-        "total_neptu": 16,
-        "headline": "Si Superior yang Fokus dan Tidak Pendendam",
-        "karir_rezeki": "Kamu adalah salah satu weton paling 'superior' dengan fokus dan konsentrasi luar biasa. Rezeki datang dari kemampuanmu menyelesaikan tugas dengan sempurna.",
-        "asmara_hubungan": "Kamu tipe pasangan yang hangat dan komunikatif, tapi tidak pendendam. Pasanganmu merasa aman karena tahu kamu tidak akan menyimpan dendam. Pasangan ideal adalah mereka yang bisa menikmati kehangatanmu tanpa memanfaatkan kebaikanmu.",
-        "sisi_gelap_peringatan": "Keunggulanmu kadang membuatmu merasa lebih baik dari orang lain. Jaga kerendahan hati—kesombongan adalah musuh terbesar orang hebat. Ingat, keistimewaan adalah amanah, bukan alasan untuk merendahkan.",
-        "career_tendency": [
-            "Wirausaha",
-            "Manajemen",
-            "Eksekutif"
-        ],
-        "tags": [
-            "superior",
-            "fokus",
-            "pemaaf"
-        ]
-    },
-    {
-        "id": 18,
-        "weton_name": "Rabu Pon",
-        "saptawara": "Rabu",
-        "pancawara": "Pon",
-        "neptu_saptawara": 7,
-        "neptu_pancawara": 7,
-        "total_neptu": 14,
-        "headline": "Si Beruntung yang Punya Pengaruh Luas",
-        "karir_rezeki": "Kamu disebut sebagai salah satu weton yang sangat beruntung. Pengaruhmu luas dan kamu memiliki kemampuan memengaruhi orang lain secara alami. Rezeki datang dari pengaruh dan jaringanmu.",
-        "asmara_hubungan": "Kamu tipe pasangan yang karismatik dan banyak diminati. Namun, kamu butuh pasangan yang tidak mudah terpesona oleh pesonamu—yang bisa melihatmu sebagai manusia biasa, bukan figur. Cinta sejati datang dari yang berani menyentuh sisi polosmu.",
-        "sisi_gelap_peringatan": "Pengaruh besarmu bisa membuatmu lupa diri. Jangan sampai popularitas membuatmu kehilangan siapa dirimu sebenarnya. Ingat, orang yang benar-benar mengenalmu adalah mereka yang tetap bertahan saat sorotan mati.",
-        "career_tendency": [
-            "Politik",
-            "Pemasaran",
-            "Sosial"
-        ],
-        "tags": [
-            "beruntung",
-            "karismatik",
-            "berpengaruh"
-        ]
-    },
-    {
-        "id": 19,
-        "weton_name": "Rabu Wage",
-        "saptawara": "Rabu",
-        "pancawara": "Wage",
-        "neptu_saptawara": 7,
-        "neptu_pancawara": 4,
-        "total_neptu": 11,
-        "headline": "Si Penuh Kasih yang Mudah Tersinggung",
-        "karir_rezeki": "Kamu adalah pekerja yang penuh kasih dan selalu memberikan yang terbaik untuk tim. Rezeki datang dari ketulusanmu melayani—orang akan selalu ingat kebaikanmu.",
-        "asmara_hubungan": "Kamu tipe pasangan yang lembut dan perhatian, tapi mudah tersinggung. Pasanganmu perlu belajar bicara dengan hati-hati di dekatmu. Pasangan ideal adalah mereka yang bisa memberikan keamanan emosional yang kamu butuhkan.",
-        "sisi_gelap_peringatan": "Sensitivitasmu adalah kekuatan sekaligus kelemahan. Kamu terlalu mudah terluka oleh perkataan orang. Belajar membedakan kritik dari serangan pribadi akan membantumu bertahan lebih lama di dunia yang tidak selalu lembut.",
-        "career_tendency": [
-            "Pelayanan",
-            "Pendidikan",
-            "Kesehatan"
-        ],
-        "tags": [
-            "tulus",
-            "penyayang",
-            "sensitif"
-        ]
-    },
-    {
-        "id": 20,
-        "weton_name": "Rabu Kliwon",
-        "saptawara": "Rabu",
-        "pancawara": "Kliwon",
-        "neptu_saptawara": 7,
-        "neptu_pancawara": 8,
-        "total_neptu": 15,
-        "headline": "Si Berkecukupan yang Jarang Memikirkan Akibat",
-        "karir_rezeki": "Kamu adalah pekerja yang berkecukupan—tidak kekurangan tapi juga tidak berlebihan. Rezeki datang dengan pola yang stabil—kamu tipe yang tahu cara mengelola apa yang ada.",
-        "asmara_hubungan": "Kamu tipe pasangan yang spontan dan menyenangkan, tapi kadang kurang memikirkan akibat dari tindakan. Pasangan ideal adalah mereka yang bisa menjadi 'rem' saat kamu terlalu cepat melaju, tanpa membuatmu merasa dibatasi.",
-        "sisi_gelap_peringatan": "Kebiasaanmu bertindak tanpa pikir panjang kadang merugikan dirimu sendiri maupun orang lain. Belajar berhenti sejenak sebelum bertindak bukan berarti kehilangan spontanitas—itu adalah kebijaksanaan.",
-        "career_tendency": [
-            "Administrasi",
-            "Operasional",
-            "Keuangan"
-        ],
-        "tags": [
-            "spontan",
-            "sederhana",
-            "stabil"
-        ]
-    },
-    {
-        "id": 21,
-        "weton_name": "Kamis Legi",
-        "saptawara": "Kamis",
-        "pancawara": "Legi",
-        "neptu_saptawara": 8,
-        "neptu_pancawara": 5,
-        "total_neptu": 13,
-        "headline": "Si Cerdas yang Sulit Berteman",
-        "karir_rezeki": "Kecerdasanmu luar biasa, tapi kau tipe yang sulit berteman karena standarmu tinggi. Rezeki datang dari keahlian spesialisasimu—kau ahli di bidangmu.",
-        "asmara_hubungan": "Kamu tipe pasangan yang menantang—tidak mudah didekati tapi sangat berharga jika berhasil. Pasangan ideal adalah mereka yang tidak mudah menyerah dan bisa menembus tembok yang kamu bangun. Cinta untukmu adalah pencapaian, bukan pemberian.",
-        "sisi_gelap_peringatan": "Standar tinggimu kadang membuatmu kesepian. Jangan sampai kesempurnaan menjadi musuh kebahagiaan. Terkadang, orang yang tidak sempurna justru membawa kebahagiaan yang tidak pernah kamu bayangkan.",
-        "career_tendency": [
-            "Penelitian",
-            "Teknologi",
-            "Akademisi"
-        ],
-        "tags": [
-            "cerdas",
-            "independen",
-            "perfeksionis"
-        ]
-    },
-    {
-        "id": 22,
-        "weton_name": "Kamis Pahing",
-        "saptawara": "Kamis",
-        "pancawara": "Pahing",
-        "neptu_saptawara": 8,
-        "neptu_pancawara": 9,
-        "total_neptu": 17,
-        "headline": "Si Pemikir Analitis yang Menyejukkan",
-        "karir_rezeki": "Kamu adalah pemikir analitis yang tidak pernah tergesa-gesa dalam mengambil keputusan. Luwes dan menyejukkan bagai tiupan angin, kamu membawa ketenangan di setiap situasi. Rezeki datang dari keputusanmu yang selalu matang.",
-        "asmara_hubungan": "Kamu tipe pasangan yang penuh pengertian dan sabar—selalu dipercaya memegang tanggung jawab besar. Pasanganmu merasa aman karena kamu adalah 'pembimbing alami' dalam hubungan. Pasangan ideal adalah mereka yang bisa menjadi mitra diskusi, bukan hanya penerima nasihat.",
-        "sisi_gelap_peringatan": "Kebijaksanaanmu kadang membuatmu terlalu banyak berpikir hingga kehilangan momen. Jangan sampai analisismu menghalangi spontanitas. Terkadang, keputusan terbaik adalah yang datang dari hati, bukan hanya kepala.",
-        "career_tendency": [
-            "Konsultan",
-            "Perencana",
-            "Eksekutif"
-        ],
-        "tags": [
-            "analitis",
-            "sabar",
-            "bijaksana"
-        ]
-    },
-    {
-        "id": 23,
-        "weton_name": "Kamis Pon",
-        "saptawara": "Kamis",
-        "pancawara": "Pon",
-        "neptu_saptawara": 8,
-        "neptu_pancawara": 7,
-        "total_neptu": 15,
-        "headline": "Si Bijaksana yang Bisa Meredakan Ketegangan",
-        "karir_rezeki": "Kamu memiliki kemampuan luar biasa dalam meredakan konflik dan membawa kedamaian. Rezeki datang dari kemampuanmu menciptakan harmoni di tempat kerja.",
-        "asmara_hubungan": "Kamu tipe pasangan yang menenangkan—kehadiranmu saja sudah cukup untuk meredakan badai. Pasangan ideal adalah mereka yang bisa menjadi 'rumah' bagimu, tempat kamu juga bisa melepas lelah dan menjadi rapuh tanpa takut dihakimi.",
-        "sisi_gelap_peringatan": "Kemampuanmu menenangkan orang lain kadang membuatmu mengabaikan perasaan sendiri. Kamu terlalu sibuk merawat orang lain hingga lupa merawat diri. Ingat, kamu juga berhak lelah dan berhak dirawat.",
-        "career_tendency": [
-            "Mediasi",
-            "Diplomasi",
-            "Manajemen SDM"
-        ],
-        "tags": [
-            "damai",
-            "bijaksana",
-            "empatik"
-        ]
-    },
-    {
-        "id": 24,
-        "weton_name": "Kamis Wage",
-        "saptawara": "Kamis",
-        "pancawara": "Wage",
-        "neptu_saptawara": 8,
-        "neptu_pancawara": 4,
-        "total_neptu": 12,
-        "headline": "Si Setia yang Sulit Melepaskan",
-        "karir_rezeki": "Kamu adalah pekerja yang setia dan tidak mudah berpindah. Rezeki datang dari konsistensimu—orang mempercayaimu karena kamu selalu ada.",
-        "asmara_hubungan": "Kamu tipe pasangan yang sangat setia—hampir terlalu setia. Kamu sulit melepaskan hubungan meski sudah tidak sehat. Pasangan ideal adalah mereka yang menghargai kesetiaanmu tanpa memanfaatkannya. Belajar melepaskan adalah pelajaran cinta terbesarmu.",
-        "sisi_gelap_peringatan": "Kesetiaanmu kadang menjadi jerat yang membuatmu bertahan di situasi yang merugikan. Jangan salah mengartikan kesetiaan sebagai kewajiban untuk tetap tinggal. Terkadang, pergi adalah bentuk kesetiaan tertinggi pada diri sendiri.",
-        "career_tendency": [
-            "Pendidikan",
-            "Pemerintahan",
-            "Sosial"
-        ],
-        "tags": [
-            "setia",
-            "loyal",
-            "konsisten"
-        ]
-    },
-    {
-        "id": 25,
-        "weton_name": "Kamis Kliwon",
-        "saptawara": "Kamis",
-        "pancawara": "Kliwon",
-        "neptu_saptawara": 8,
-        "neptu_pancawara": 8,
-        "total_neptu": 16,
-        "headline": "Si Pandai Segala Ilmu yang Beruntung dalam Pekerjaan",
-        "karir_rezeki": "Kamu pandai dalam berbagai bidang ilmu. Rezeki dalam pekerjaan sangat baik—kamu tipe yang selalu mendapat peluang. Dunia adalah ladangmu.",
-        "asmara_hubungan": "Kamu tipe pasangan yang menarik dan penuh kejutan—selalu ada hal baru yang bisa kamu tawarkan. Pasangan ideal adalah mereka yang tidak pernah bosan denganmu dan selalu penasaran dengan sisi-sisimu yang belum terungkap.",
-        "sisi_gelap_peringatan": "Kemampuanmu di banyak hal kadang membuatmu terjebak dalam 'jack of all trades, master of none'. Fokus pada satu atau dua bidang yang benar-benar kamu cintai—kedalaman lebih berharga daripada luasnya.",
-        "career_tendency": [
-            "Wirausaha",
-            "Pendidikan",
-            "Komunikasi"
-        ],
-        "tags": [
-            "adaptif",
-            "pembelajar",
-            "beruntung"
-        ]
-    },
-    {
-        "id": 26,
-        "weton_name": "Jumat Legi",
-        "saptawara": "Jumat",
-        "pancawara": "Legi",
-        "neptu_saptawara": 6,
-        "neptu_pancawara": 5,
-        "total_neptu": 11,
-        "headline": "Si Jujur yang Tanpa Kompromi",
-        "karir_rezeki": "Kejujuran adalah senjatamu—kamu berbicara apa adanya, meskipun kadang tanpa mempertimbangkan perasaan. Rezeki datang dari kepercayaan orang padamu—namamu adalah jaminan.",
-        "asmara_hubungan": "Kamu tipe pasangan yang setia dan tulus—tidak ada kebohongan dalam kamus cintamu. Pasanganmu tahu persis di mana posisinya. Pasangan ideal adalah mereka yang tidak takut dengan kejujuranmu dan bisa menerima kebenaran, sekalipun pahit.",
-        "sisi_gelap_peringatan": "Kejujuranmu yang tanpa filter kadang menyakiti orang yang kamu cintai. Belajar menyampaikan kebenaran dengan cara yang lebih lembut bukan berarti berbohong—itu adalah seni menjaga hati orang lain.",
-        "career_tendency": [
-            "Hukum",
-            "Audit",
-            "Jurnalisme"
-        ],
-        "tags": [
-            "jujur",
-            "integritas",
-            "tegas"
-        ]
-    },
-    {
-        "id": 27,
-        "weton_name": "Jumat Pahing",
-        "saptawara": "Jumat",
-        "pancawara": "Pahing",
-        "neptu_saptawara": 6,
-        "neptu_pancawara": 9,
-        "total_neptu": 15,
-        "headline": "Si Ramah yang Sulit Menerima Kenyataan",
-        "karir_rezeki": "Kamu ramah dan menyenangkan—orang betah berlama-lama berbincang denganmu. Semangat juangmu tinggi dalam meraih impian. Rezeki datang dari kepribadianmu yang membuka banyak pintu.",
-        "asmara_hubungan": "Kamu tipe pasangan yang hangat dan menyenangkan. Namun, sifat keras kepalamu kadang membuatmu sulit menerima kenyataan jika hubungan tidak berjalan sesuai harapan. Pasangan ideal adalah mereka yang bisa membantumu melihat realita dengan lembut.",
-        "sisi_gelap_peringatan": "Keras kepalamu adalah musuh terbesarmu. Kamu sulit menerima bahwa tidak semua hal bisa sesuai keinginan. Belajar ikhlas dan menerima ketidaksempurnaan adalah kunci kebahagiaan yang selama ini kamu cari.",
-        "career_tendency": [
-            "Pemasaran",
-            "Pelayanan Pelanggan",
-            "Pendidikan"
-        ],
-        "tags": [
-            "ramah",
-            "gigih",
-            "keras_kepala"
-        ]
-    },
-    {
-        "id": 28,
-        "weton_name": "Jumat Pon",
-        "saptawara": "Jumat",
-        "pancawara": "Pon",
-        "neptu_saptawara": 6,
-        "neptu_pancawara": 7,
-        "total_neptu": 13,
-        "headline": "Si Mengayomi yang Kurang Percaya Diri",
-        "karir_rezeki": "Kamu adalah pribadi yang mengayomi dan mudah beradaptasi di berbagai lingkungan. Sikap tenang dan serius membuatmu terlihat berwibawa. Rezeki datang dari kemampuanmu merawat orang lain.",
-        "asmara_hubungan": "Kamu tipe pasangan yang menenangkan dan penuh perhatian. Namun, kurangnya percaya diri membuatmu sering meragukan cinta pasangan. Pasangan ideal adalah mereka yang bisa terus meyakinkanmu bahwa kamu layak dicintai—setiap hari.",
-        "sisi_gelap_peringatan": "Kurang percaya diri dan mudah terpengaruh orang lain adalah kelemahan terbesarmu. Jangan biarkan keraguan membuatmu kehilangan kesempatan besar. Kamu lebih berharga dari yang kamu kira—mulailah percaya pada dirimu sendiri.",
-        "career_tendency": [
-            "Sosial",
-            "Pendidikan",
-            "Manajemen"
-        ],
-        "tags": [
-            "mengayomi",
-            "tenang",
-            "sensitif"
-        ]
-    },
-    {
-        "id": 29,
-        "weton_name": "Jumat Wage",
-        "saptawara": "Jumat",
-        "pancawara": "Wage",
-        "neptu_saptawara": 6,
-        "neptu_pancawara": 4,
-        "total_neptu": 10,
-        "headline": "Si Berhati Lembut yang Sulit Menerima Masukan",
-        "karir_rezeki": "Kamu berhati lembut dan penuh kepedulian—selalu menjadi yang pertama membantu saat orang lain membutuhkan. Rezeki datang dari ketulusanmu—orang tidak akan melupakan kebaikanmu.",
-        "asmara_hubungan": "Kamu tipe pasangan yang rendah hati dan tidak suka menyombongkan diri. Namun, kamu sulit menerima masukan dan cenderung keras kepala terhadap keputusan pribadi. Pasangan ideal adalah mereka yang bisa membujukmu dengan lembut, bukan memaksa.",
-        "sisi_gelap_peringatan": "Sikapmu yang sulit menerima masukan membuatmu kehilangan banyak pelajaran berharga. Ingat, kritik bukan serangan—itu adalah cermin yang membantumu melihat sisi yang tidak bisa kamu lihat sendiri.",
-        "career_tendency": [
-            "Kemanusiaan",
-            "Kesehatan",
-            "Pelayanan"
-        ],
-        "tags": [
-            "lembut",
-            "peduli",
-            "keras_kepala"
-        ]
-    },
-    {
-        "id": 30,
-        "weton_name": "Jumat Kliwon",
-        "saptawara": "Jumat",
-        "pancawara": "Kliwon",
-        "neptu_saptawara": 6,
-        "neptu_pancawara": 8,
-        "total_neptu": 14,
-        "headline": "Si Pemaaf yang Aura Menenangkan",
-        "karir_rezeki": "Kamu sabar, dermawan, dan mudah berempati—sifat ini membuatmu cepat mendapatkan simpati banyak orang. Kamu memiliki potensi besar sebagai pemimpin karena mampu memengaruhi lingkungan. Rezeki datang dari pengaruh positifmu.",
-        "asmara_hubungan": "Kamu tipe pasangan yang menenangkan—kehadiranmu saja sudah membuat orang lain merasa nyaman. Pasanganmu merasa beruntung memiliki sosok sepemaham sepertimu. Pasangan ideal adalah mereka yang bisa menjadi tempat pulang yang sama tenangnya dengan dirimu.",
-        "sisi_gelap_peringatan": "Kamu cenderung plin-plan dan kadang terlihat kurang memiliki pendirian yang teguh. Selain itu, kamu mudah marah, suka membantah, dan ceroboh dalam mengambil keputusan. Belajar konsisten dan mengelola emosi akan membawamu lebih jauh.",
-        "career_tendency": [
-            "Kepemimpinan",
-            "Konseling",
-            "Humas"
-        ],
-        "tags": [
-            "sabar",
-            "dermawan",
-            "karismatik"
-        ]
-    },
-    {
-        "id": 31,
-        "weton_name": "Sabtu Legi",
-        "saptawara": "Sabtu",
-        "pancawara": "Legi",
-        "neptu_saptawara": 9,
-        "neptu_pancawara": 5,
-        "total_neptu": 14,
-        "headline": "Si Pencinta Kualitas yang Perhatikan Detail",
-        "karir_rezeki": "Kamu menyukai gaya hidup berkualitas dan bernilai tinggi—detail adalah segalanya bagimu. Kecerdikan dan keterbukaan terhadap pendapat orang lain menjadi kelebihan utamamu. Rezeki datang dari standar tinggimu.",
-        "asmara_hubungan": "Kamu tipe pasangan yang perhatian pada detail—ingat ulang tahun, makanan favorit, bahkan hal kecil yang pernah kamu katakan. Pasangan ideal adalah mereka yang menghargai perhatianmu dan membalasnya dengan cara yang sama tulusnya.",
-        "sisi_gelap_peringatan": "Kecenderungan hidup mewah perlu dikendalikan. Kamu bisa terlalu fokus pada penampilan luar hingga melupakan substansi. Ingat, kualitas hidup bukan hanya tentang barang mahal, tapi juga tentang hubungan dan pengalaman bermakna.",
-        "career_tendency": [
-            "Desain",
-            "Arsitektur",
-            "Quality Control"
-        ],
-        "tags": [
-            "teliti",
-            "cerdik",
-            "open_minded"
-        ]
-    },
-    {
-        "id": 32,
-        "weton_name": "Sabtu Pahing",
-        "saptawara": "Sabtu",
-        "pancawara": "Pahing",
-        "neptu_saptawara": 9,
-        "neptu_pancawara": 9,
-        "total_neptu": 18,
-        "headline": "Si Berenergi yang Mudah Tersulut Emosi",
-        "karir_rezeki": "Kamu memiliki semangat besar dan jiwa yang penuh energi. Kamu termasuk dalam garis nasib 'Tibo Duno'—bisa mendapatkan status sosial tinggi, jabatan penting, atau kehidupan mapan. Rezeki melimpah dan bahkan bisa membawa manfaat bagi keluarga.",
-        "asmara_hubungan": "Kamu memiliki daya tarik yang kuat sehingga mudah disukai banyak orang. Namun, sifat emosional membuatmu mudah terpancing amarah. Pasangan ideal adalah mereka yang bisa menjadi 'penyejuk' saat emosimu memuncak, tanpa takut dengan api dalam dirimu.",
-        "sisi_gelap_peringatan": "Sifat emosionalmu adalah tantangan terbesar. Kamu sering berbicara tanpa pikir panjang, sehingga ucapannya terasa menyakitkan. Di balik itu, kamu sebenarnya penakut dan sensitif. Belajar mengelola emosi adalah kunci agar apimu tidak membakar hubungan berharga.",
-        "career_tendency": [
-            "Kepemimpinan",
-            "Wirausaha",
-            "Manajemen"
-        ],
-        "tags": [
-            "berenergi",
-            "ambisius",
-            "emosional"
-        ]
-    },
-    {
-        "id": 33,
-        "weton_name": "Sabtu Pon",
-        "saptawara": "Sabtu",
-        "pancawara": "Pon",
-        "neptu_saptawara": 9,
-        "neptu_pancawara": 7,
-        "total_neptu": 16,
-        "headline": "Si Bos Hebat yang Teliti dan Sabar",
-        "karir_rezeki": "Kamu teliti, sabar, dan berdedikasi penuh untuk karyawan. Rezeki datang saat mengelola usaha sendiri.",
-        "asmara_hubungan": "Kamu tipe pasangan yang sabar dan teliti—tidak terburu-buru dalam cinta. Pasanganmu merasa aman karena kamu adalah perencana yang matang. Pasangan ideal adalah mereka yang bisa menikmati proses bersamamu, bukan hanya mengejar hasil instan.",
-        "sisi_gelap_peringatan": "Kesabaran dan ketelitianmu kadang membuatmu terlalu perfeksionis. Kamu bisa terlalu fokus pada detail hingga kehilangan gambaran besar. Ingat, hidup bukan hanya tentang rencana yang sempurna—kadang keindahan ada di ketidaksempurnaan.",
-        "career_tendency": [
-            "Perikanan",
-            "Pertanian",
-            "Seni",
-            "Arsitektur"
-        ],
-        "tags": [
-            "sabar",
-            "teliti",
-            "dedikatif"
-        ]
-    },
-    {
-        "id": 34,
-        "weton_name": "Sabtu Wage",
-        "saptawara": "Sabtu",
-        "pancawara": "Wage",
-        "neptu_saptawara": 9,
-        "neptu_pancawara": 4,
-        "total_neptu": 13,
-        "headline": "Si Teguh yang Sulit Dipengaruhi",
-        "karir_rezeki": "Kamu adalah pribadi yang teguh dan sulit dipengaruhi—pendirianmu kokoh seperti batu. Rezeki datang dari keteguhanmu—orang tahu kamu bisa diandalkan.",
-        "asmara_hubungan": "Kamu tipe pasangan yang setia terhadap orang-orang terdekat. Kamu tidak mudah goyah dan akan bertahan dalam situasi apa pun. Pasangan ideal adalah mereka yang menghargai kesetiaanmu dan tidak menguji kesabaranmu dengan ketidakpastian.",
-        "sisi_gelap_peringatan": "Keteguhanmu kadang berubah menjadi kekakuan. Kamu sulit melihat sudut pandang lain dan bisa kehilangan hubungan karena egomu. Belajar fleksibel bukan berarti kehilangan prinsip—itu adalah tanda kedewasaan.",
-        "career_tendency": [
-            "Hukum",
-            "Keamanan",
-            "Manajemen Risiko"
-        ],
-        "tags": [
-            "teguh",
-            "konsisten",
-            "integritas"
-        ]
-    },
-    {
-        "id": 35,
-        "weton_name": "Sabtu Kliwon",
-        "saptawara": "Sabtu",
-        "pancawara": "Kliwon",
-        "neptu_saptawara": 9,
-        "neptu_pancawara": 8,
-        "total_neptu": 17,
-        "headline": "Si Komunikatif yang Sering Ragu Memulai",
-        "karir_rezeki": "Kemampuan komunikasimu luar biasa—baik secara lisan maupun tulisan. Hal ini membuatmu mudah dikagumi dan dipercaya. Rezeki datang dari kemampuanmu menyampaikan ide dengan cara yang memikat banyak orang.",
-        "asmara_hubungan": "Kamu tipe pasangan yang ramah dan menghargai pasangan. Namun, kurangnya keberanian membuatmu sering ragu memulai sesuatu yang baru—termasuk dalam cinta. Pasangan ideal adalah mereka yang bisa menjadi 'dorongan' untukmu mengambil langkah pertama.",
-        "sisi_gelap_peringatan": "Kurangnya keberanian adalah musuh terbesarmu. Kamu sering melewatkan peluang karena terlalu banyak berpikir dan ragu. Ingat, tidak ada kesuksesan tanpa keberanian mengambil risiko—termasuk risiko ditolak dalam cinta.",
-        "career_tendency": [
-            "Media",
-            "Humas",
-            "Penulisan"
-        ],
-        "tags": [
-            "komunikatif",
-            "ramah",
-            "ragu_ragu"
-        ]
-    }
+  {
+    "id": 1,
+    "weton_name": "Minggu Legi",
+    "saptawara": "Minggu",
+    "pancawara": "Legi",
+    "neptu_saptawara": 5,
+    "neptu_pancawara": 5,
+    "total_neptu": 10,
+    "headline": "Si Penasihat Bijak yang Sulit Diberi Nasihat",
+    "karir_rezeki": "Kamu tipe pekerja yang suka memberi arahan dan memiliki visi jangka panjang. Rezeki datang dari kemampuanmu membimbing orang lain, asalkan mau sedikit lebih terbuka terhadap masukan dari sekitar.",
+    "asmara_hubungan": "Dalam cinta, kamu setia dan tulus, namun cenderung ingin mengatur pasangan. Pasangan yang tepat adalah mereka yang bisa menerima sifat 'mengayomi'-mu tanpa merasa terkekang. Belajar mendengar adalah kunci keharmonisan.",
+    "sisi_gelap_peringatan": "Kebaikanmu sering disalahpahami sebagai kelemahan, padahal kamu hanya terlalu sabar. Hati-hati dengan orang yang memanfaatkan kerendahan hatimu. Jangan selalu mengalah—terkadang memperjuangkan diri sendiri itu bukan egois, tapi harga diri.",
+    "career_tendency": [
+      "Pendidikan",
+      "Konsultan",
+      "Perencana Strategis"
+    ],
+    "tags": [
+      "visioner",
+      "mengayomi",
+      "setia"
+    ],
+    "ai_hook": "Sebagai seorang Minggu Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 2,
+    "weton_name": "Minggu Pahing",
+    "saptawara": "Minggu",
+    "pancawara": "Pahing",
+    "neptu_saptawara": 5,
+    "neptu_pancawara": 9,
+    "total_neptu": 14,
+    "headline": "Si Berwibawa yang Disenangi Banyak Orang",
+    "karir_rezeki": "Kamu memiliki jiwa kepemimpinan alami dan kemampuan bergaul yang luar biasa. Rezeki mengalir dari jaringan pertemanan yang luas—semakin banyak orang mengenalmu, semakin lebar pintu kesuksesan.",
+    "asmara_hubungan": "Kamu mudah disukai, tapi kadang sulit berkomitmen karena terlalu banyak pilihan. Pasangan yang bisa menaklukkan hatimu adalah mereka yang tidak hanya terpesona oleh pesonamu, tapi juga berani menantangmu secara intelektual.",
+    "sisi_gelap_peringatan": "Sifatmu yang selalu ingin menyenangkan semua orang bisa membuatmu kehilangan jati diri. Waspadalah terhadap orang yang hanya mendekatimu karena status atau koneksi, bukan karena ketulusan.",
+    "career_tendency": [
+      "Pemasaran",
+      "Humas",
+      "Politik"
+    ],
+    "tags": [
+      "pemimpin",
+      "komunikatif",
+      "karismatik"
+    ],
+    "ai_hook": "Sebagai seorang Minggu Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 3,
+    "weton_name": "Minggu Pon",
+    "saptawara": "Minggu",
+    "pancawara": "Pon",
+    "neptu_saptawara": 5,
+    "neptu_pancawara": 7,
+    "total_neptu": 12,
+    "headline": "Si Setia yang Pendiriannya Kuat",
+    "karir_rezeki": "Kamu adalah pekerja yang dapat diandalkan—konsisten, setia, dan tidak mudah goyah. Rezeki datang perlahan tapi pasti.",
+    "asmara_hubungan": "Kamu tipe pasangan yang setia dan tidak mudah berubah. Namun, sikapmu yang terlalu kaku dalam memegang prinsip kadang membuat pasangan merasa terkekang. Belajar kompromi adalah pelajaran cinta terbesarmu.",
+    "sisi_gelap_peringatan": "Kegigihanmu kadang berubah jadi keras kepala. Kamu sulit menerima bahwa tidak semua hal harus sesuai dengan caramu. Ingat, fleksibilitas bukan berarti kehilangan prinsip—itu adalah tanda kedewasaan.",
+    "career_tendency": [
+      "Administrasi",
+      "Perbankan",
+      "Manajemen SDM"
+    ],
+    "tags": [
+      "setia",
+      "konsisten",
+      "tangguh"
+    ],
+    "ai_hook": "Sebagai seorang Minggu Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 4,
+    "weton_name": "Minggu Wage",
+    "saptawara": "Minggu",
+    "pancawara": "Wage",
+    "neptu_saptawara": 5,
+    "neptu_pancawara": 4,
+    "total_neptu": 9,
+    "headline": "Si Perencana Matang yang Tidak Gegabah",
+    "karir_rezeki": "Kamu adalah perencana ulung—teliti, penuh pertimbangan, dan tidak pernah gegabah dalam mengambil keputusan. Rezekimu stabil karena kamu tidak pernah mengambil risiko bodoh.",
+    "asmara_hubungan": "Dalam cinta, kamu tipe yang tidak terburu-buru. Butuh waktu lama untuk membuka hati, tapi setelah itu kamu adalah pasangan yang sangat serius dan bertanggung jawab. Pasangan yang sabar menunggumu adalah jodoh yang tepat.",
+    "sisi_gelap_peringatan": "Terlalu banyak pertimbangan kadang membuatmu melewatkan peluang emas. Jangan sampai sifat perfeksionismu menghalangi langkahmu. Kadang, mengambil risiko yang terukur adalah bagian dari pertumbuhan.",
+    "career_tendency": [
+      "Arsitektur",
+      "Perencanaan Kota",
+      "Manajemen Proyek",
+      "Akuntansi"
+    ],
+    "tags": [
+      "perencana",
+      "teliti",
+      "hati_hati"
+    ],
+    "ai_hook": "Sebagai seorang Minggu Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 5,
+    "weton_name": "Minggu Kliwon",
+    "saptawara": "Minggu",
+    "pancawara": "Kliwon",
+    "neptu_saptawara": 5,
+    "neptu_pancawara": 8,
+    "total_neptu": 13,
+    "headline": "Si Berwawasan Luas yang Penuh Misteri",
+    "karir_rezeki": "Kamu memiliki kecerdasan di atas rata-rata dan kemampuan menyerap ilmu dengan cepat. Rezeki datang dari kemampuanmu melihat peluang yang orang lain lewatkan. Kamu adalah aset berharga di tim mana pun.",
+    "asmara_hubungan": "Kamu tipe pasangan yang dalam dan penuh teka-teki. Pasanganmu mungkin butuh waktu untuk benar-benar memahami isi hatimu. Yang paling cocok adalah mereka yang tidak takut dengan kedalaman dan menyukai tantangan intelektual.",
+    "sisi_gelap_peringatan": "Kedalamanmu kadang membuatmu sulit terhubung dengan orang lain secara emosional. Waspadalah terhadap kecenderungan menyendiri yang berlebihan—kesendirian adalah tempat yang nyaman, tapi bukan tempat untuk bertumbuh.",
+    "career_tendency": [
+      "Penelitian",
+      "Teknologi",
+      "Akademisi"
+    ],
+    "tags": [
+      "cerdas",
+      "visioner",
+      "misterius"
+    ],
+    "ai_hook": "Sebagai seorang Minggu Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 6,
+    "weton_name": "Senin Legi",
+    "saptawara": "Senin",
+    "pancawara": "Legi",
+    "neptu_saptawara": 4,
+    "neptu_pancawara": 5,
+    "total_neptu": 9,
+    "headline": "Si Pekerja Keras yang Pendiam",
+    "karir_rezeki": "Kamu adalah pekerja keras sejati—tekun, bertanggung jawab, dan tidak suka menonjolkan diri. Rezeki datang dari kerja diam-diam yang hasilnya berbicara sendiri.",
+    "asmara_hubungan": "Kamu tipe pasangan yang tidak banyak bicara tapi penuh tindakan nyata. Mungkin terlihat dingin di awal, tapi setelah nyaman, kamu adalah pasangan yang paling setia dan perhatian. Pasanganmu perlu belajar membaca bahasamu.",
+    "sisi_gelap_peringatan": "Sifat pendiam dan tertutupmu kadang membuat orang lain salah paham dan menganggapmu sombong. Jangan ragu untuk membuka diri sedikit—hubungan yang tulus membutuhkan kerentanan, bukan tembok tinggi.",
+    "career_tendency": [
+      "Penelitian",
+      "Akuntansi",
+      "Teknologi"
+    ],
+    "tags": [
+      "pekerja_keras",
+      "tekun",
+      "introvert"
+    ],
+    "ai_hook": "Sebagai seorang Senin Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 7,
+    "weton_name": "Senin Pahing",
+    "saptawara": "Senin",
+    "pancawara": "Pahing",
+    "neptu_saptawara": 4,
+    "neptu_pancawara": 9,
+    "total_neptu": 13,
+    "headline": "Si Introvert Berhati Emas yang Berwibawa",
+    "karir_rezeki": "Kamu memiliki kharisma yang kuat meski pendiam. Orang mempercayaimu dengan tanggung jawab besar karena kamu serius dan penuh dedikasi. Rezeki datang dari kerja yang konsisten dan berkualitas.",
+    "asmara_hubungan": "Kamu tipe pasangan yang setia dan penuh perhatian, tapi butuh ruang pribadi. Pasangan ideal adalah mereka yang menghargai ketenangan dan tidak memaksamu keluar dari zona nyaman. Cinta untukmu adalah pelukan yang hangat tanpa kata-kata.",
+    "sisi_gelap_peringatan": "Kesabaranmu luar biasa, tapi jangan sampai menjadi korban karena terlalu sabar. Kamu cenderung menghindari konflik hingga lupa bahwa suaramu juga penting. Belajar berkata 'tidak' adalah bentuk cinta pada diri sendiri.",
+    "career_tendency": [
+      "Peneliti",
+      "Analis",
+      "Wirausaha"
+    ],
+    "tags": [
+      "fokus",
+      "dedikatif",
+      "karismatik"
+    ],
+    "ai_hook": "Sebagai seorang Senin Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 8,
+    "weton_name": "Senin Pon",
+    "saptawara": "Senin",
+    "pancawara": "Pon",
+    "neptu_saptawara": 4,
+    "neptu_pancawara": 7,
+    "total_neptu": 11,
+    "headline": "Si Pemimpin Berprinsip yang Tidak Mudah Go yah",
+    "karir_rezeki": "Kamu memiliki prinsip hidup yang sangat kuat dan jiwa kepemimpinan alami. Reaksi terhadap masalah sangat cepat dan keputusanmu tegas. Rezeki datang dari keberanianmu mengambil keputusan sulit.",
+    "asmara_hubungan": "Kamu tipe pasangan yang visioner dan bisa menjadi 'pemimpin' dalam hubungan. Pasangan yang cocok adalah mereka yang tidak merasa terancam dengan ketegasanmu dan bisa menjadi mitra sejajar, bukan pengikut.",
+    "sisi_gelap_peringatan": "Kekuatan prinsipmu kadang membuatmu sulit menerima sudut pandang orang lain. Jangan sampai keyakinanmu berubah menjadi sikap mengabaikan perasaan orang terdekat. Kepemimpinan sejati adalah mendengar sebelum memutuskan.",
+    "career_tendency": [
+      "Manajemen",
+      "Wirausaha",
+      "Strategis"
+    ],
+    "tags": [
+      "tegas",
+      "pemimpin",
+      "prinsipil"
+    ],
+    "ai_hook": "Sebagai seorang Senin Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 9,
+    "weton_name": "Senin Wage",
+    "saptawara": "Senin",
+    "pancawara": "Wage",
+    "neptu_saptawara": 4,
+    "neptu_pancawara": 4,
+    "total_neptu": 8,
+    "headline": "Si Rendah Hati yang Selalu Ingin Belajar",
+    "karir_rezeki": "Kamu memiliki etos kerja yang baik dan selalu haus akan pengetahuan baru. Rezeki datang dari kemampuanmu beradaptasi dan belajar hal-hal baru.",
+    "asmara_hubungan": "Kamu tipe pasangan yang rendah hati dan tidak banyak menuntut. Namun, sikapmu yang terlalu pasif kadang membuat pasangan merasa kurang diperjuangkan. Belajar menyatakan kebutuhan adalah kunci cintamu.",
+    "sisi_gelap_peringatan": "Kerendahan hatimu kadang berubah menjadi kurang percaya diri. Kamu sering meremehkan kemampuan sendiri padahal orang lain melihat potensimu. Jangan biarkan sifat 'tidak enakan' menghalangi kesempatan besarmu.",
+    "career_tendency": [
+      "Pendidikan",
+      "Pelatihan",
+      "Pengembangan"
+    ],
+    "tags": [
+      "rendah_hati",
+      "adaptif",
+      "pembelajar"
+    ],
+    "ai_hook": "Sebagai seorang Senin Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 10,
+    "weton_name": "Senin Kliwon",
+    "saptawara": "Senin",
+    "pancawara": "Kliwon",
+    "neptu_saptawara": 4,
+    "neptu_pancawara": 8,
+    "total_neptu": 12,
+    "headline": "Si Cerdas yang Cepat Menyerap Ilmu",
+    "karir_rezeki": "Kecerdasanmu di atas rata-rata dan kamu cepat dalam menyerap ilmu. Rezeki datang dari keahlian spesialisasimu yang terus kamu asah.",
+    "asmara_hubungan": "Kamu tipe pasangan yang intelektual dan butuh stimulasi pikiran. Bosan dengan hubungan yang dangkal. Pasangan ideal adalah mereka yang bisa mengimbangi kecerdasanmu dan mengajakmu berdiskusi hingga larut malam.",
+    "sisi_gelap_peringatan": "Kecerdasanmu kadang membuatmu tidak sabaran dengan orang yang berpikir lambat. Ingat, kecerdasan emosional sama pentingnya dengan kecerdasan intelektual. Kesabaran bukan kelemahan, tapi kekuatan.",
+    "career_tendency": [
+      "Teknologi",
+      "Kedokteran",
+      "Hukum"
+    ],
+    "tags": [
+      "cerdas",
+      "analitis",
+      "komunikatif"
+    ],
+    "ai_hook": "Sebagai seorang Senin Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 11,
+    "weton_name": "Selasa Legi",
+    "saptawara": "Selasa",
+    "pancawara": "Legi",
+    "neptu_saptawara": 3,
+    "neptu_pancawara": 5,
+    "total_neptu": 8,
+    "headline": "Si Pekerja Keras yang Pantang Menyerah",
+    "karir_rezeki": "Kamu dikenal gigih dan pantang menyerah. Rezeki datang dari kerja kerasmu yang tidak kenal lelah—kamu adalah orang yang 'membuat' rezeki sendiri.",
+    "asmara_hubungan": "Kamu tipe pasangan yang penuh semangat dan tidak takut memperjuangkan cinta. Namun, sikapmu yang terlalu keras pada diri sendiri kadang membuatmu sulit bersantai dalam hubungan. Pasangan yang tepat bisa mengajakmu menikmati proses, bukan hanya hasil.",
+    "sisi_gelap_peringatan": "Kegigihanmu bisa menjadi bumerang jika tidak diimbangi dengan istirahat. Kamu cenderung memaksakan diri hingga kelelahan. Ingat, berhenti sejenak bukan tanda menyerah—itu adalah strategi untuk bertahan lebih lama.",
+    "career_tendency": [
+      "Wirausaha",
+      "Manufaktur",
+      "Keamanan"
+    ],
+    "tags": [
+      "gigih",
+      "tangguh",
+      "mandiri"
+    ],
+    "ai_hook": "Sebagai seorang Selasa Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 12,
+    "weton_name": "Selasa Pahing",
+    "saptawara": "Selasa",
+    "pancawara": "Pahing",
+    "neptu_saptawara": 3,
+    "neptu_pancawara": 9,
+    "total_neptu": 12,
+    "headline": "Si Berani yang Selalu Ingin Jadi yang Terbaik",
+    "karir_rezeki": "Kamu ambisius dan tidak takut dengan hal buruk—selalu ingin menjadi yang terbaik dalam segala hal. Rezeki datang dari keberanianmu mengambil risiko yang orang lain takut ambil.",
+    "asmara_hubungan": "Kamu tipe pasangan yang intens dan penuh gairah. Namun, sifat kompetitifmu kadang terbawa ke dalam hubungan. Pasangan ideal adalah mereka yang tidak merasa tersaingi dan bisa menjadi tim, bukan lawan.",
+    "sisi_gelap_peringatan": "Ambisi yang terlalu besar kadang membuatmu lupa pada orang-orang di sekitarmu. Jangan sampai kesuksesan membuatmu kesepian. Ingat, kemenangan terasa lebih manis jika ada orang yang merayakannya bersamamu.",
+    "career_tendency": [
+      "Wirausaha",
+      "Olahraga",
+      "Militer"
+    ],
+    "tags": [
+      "ambisius",
+      "berani",
+      "kompetitif"
+    ],
+    "ai_hook": "Sebagai seorang Selasa Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 13,
+    "weton_name": "Selasa Pon",
+    "saptawara": "Selasa",
+    "pancawara": "Pon",
+    "neptu_saptawara": 3,
+    "neptu_pancawara": 7,
+    "total_neptu": 10,
+    "headline": "Si Gigih yang Ditakdirkan Kaya Raya",
+    "karir_rezeki": "Kamu adalah salah satu weton yang disebut sangat beruntung dalam hal rezeki. Rezeki tidak pernah kering asalkan kamu tetap konsisten dan tidak cepat puas.",
+    "asmara_hubungan": "Kamu tipe pasangan yang bersemangat dan suka memberi kejutan. Namun, sifatmu yang mudah emosi kadang membuat hubungan berombak. Pasangan ideal adalah mereka yang bisa menenangkanmu dan menjadi tempatmu kembali setelah badai reda.",
+    "sisi_gelap_peringatan": "Sifatmu yang mudah emosi dan kurang cocok bekerja dengan orang lain bisa menjadi hambatan. Belajar mengelola emosi bukan berarti melemahkan—itu adalah tanda kedewasaan yang akan membawamu lebih jauh.",
+    "career_tendency": [
+      "Wirausaha",
+      "Perdagangan",
+      "Investasi"
+    ],
+    "tags": [
+      "beruntung",
+      "bisnis_oriented",
+      "sensitif"
+    ],
+    "ai_hook": "Sebagai seorang Selasa Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 14,
+    "weton_name": "Selasa Wage",
+    "saptawara": "Selasa",
+    "pancawara": "Wage",
+    "neptu_saptawara": 3,
+    "neptu_pancawara": 4,
+    "total_neptu": 7,
+    "headline": "Si Unik dengan Jalan Hidup yang Berbeda",
+    "karir_rezeki": "Kamu memiliki karakter yang unik dan tidak biasa—jalan hidupmu berbeda dari kebanyakan orang. Rezeki datang dari keberanianmu menjadi diri sendiri, meski berbeda.",
+    "asmara_hubungan": "Kamu tipe pasangan yang tidak konvensional dan butuh kebebasan dalam hubungan. Pasangan ideal adalah mereka yang bisa menerima keunikannya dan tidak mencoba mengubahmu menjadi 'normal'. Cinta untukmu adalah ruang untuk tumbuh.",
+    "sisi_gelap_peringatan": "Keunikanmu kadang membuatmu merasa tidak dipahami oleh banyak orang. Jangan biarkan perasaan 'sendiri' membuatmu menarik diri dari dunia. Orang yang tepat akan datang—mereka yang menghargai keaslianmu.",
+    "career_tendency": [
+      "Seni",
+      "Kreatif",
+      "Alternatif"
+    ],
+    "tags": [
+      "unik",
+      "ekspresif",
+      "bebas"
+    ],
+    "ai_hook": "Sebagai seorang Selasa Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 15,
+    "weton_name": "Selasa Kliwon",
+    "saptawara": "Selasa",
+    "pancawara": "Kliwon",
+    "neptu_saptawara": 3,
+    "neptu_pancawara": 8,
+    "total_neptu": 11,
+    "headline": "Si Pekerja Keras yang Kurang Cocok Bekerja Sama",
+    "karir_rezeki": "Kamu lebih cocok bekerja sendiri atau menjadi pemimpin daripada menjadi bawahan. Rezeki datang dari kemandirianmu—kamu tidak suka bergantung pada orang lain.",
+    "asmara_hubungan": "Kamu tipe pasangan yang independen dan tidak suka digantungi. Pasangan ideal adalah mereka yang juga mandiri dan tidak membutuhkanmu 24 jam. Bersama, kalian adalah dua individu utuh yang memilih untuk bersama, bukan karena kebutuhan.",
+    "sisi_gelap_peringatan": "Sikapmu yang terlalu mandiri kadang membuat orang lain merasa tidak dibutuhkan. Belajar menerima bantuan bukan berarti lemah—itu adalah cara membangun hubungan yang lebih dalam dan saling percaya.",
+    "career_tendency": [
+      "Wirausaha",
+      "Konsultan",
+      "Kreatif"
+    ],
+    "tags": [
+      "independen",
+      "mandiri",
+      "pemimpin"
+    ],
+    "ai_hook": "Sebagai seorang Selasa Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 16,
+    "weton_name": "Rabu Legi",
+    "saptawara": "Rabu",
+    "pancawara": "Legi",
+    "neptu_saptawara": 7,
+    "neptu_pancawara": 5,
+    "total_neptu": 12,
+    "headline": "Si Berkecukupan yang Bicaranya Tegas",
+    "karir_rezeki": "Kamu adalah pekerja yang tegas dan tidak banyak bicara, tapi kata-katamu berbobot. Rezeki datang secukupnya—kamu tipe yang tidak serakah dan bersyukur dengan apa yang dimiliki.",
+    "asmara_hubungan": "Kamu tipe pasangan yang pendiam tapi tegas. Pasanganmu tahu persis di mana posisinya karena kamu tidak pernah ambigu. Pasangan ideal adalah mereka yang menghargai ketegasanmu dan tidak butuh drama dalam hubungan.",
+    "sisi_gelap_peringatan": "Sikap tegasmu kadang membuatmu terkesan dingin dan tidak peduli. Padahal di dalam hatimu, kamu sangat peduli—hanya saja tidak pandai menunjukkannya. Belajar mengekspresikan perasaan adalah investasi untuk hubungan yang lebih hangat.",
+    "career_tendency": [
+      "Hukum",
+      "Manajemen",
+      "Pemerintahan"
+    ],
+    "tags": [
+      "tegas",
+      "disiplin",
+      "bersyukur"
+    ],
+    "ai_hook": "Sebagai seorang Rabu Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 17,
+    "weton_name": "Rabu Pahing",
+    "saptawara": "Rabu",
+    "pancawara": "Pahing",
+    "neptu_saptawara": 7,
+    "neptu_pancawara": 9,
+    "total_neptu": 16,
+    "headline": "Si Superior yang Fokus dan Tidak Pendendam",
+    "karir_rezeki": "Kamu adalah salah satu weton paling 'superior' dengan fokus dan konsentrasi luar biasa. Rezeki datang dari kemampuanmu menyelesaikan tugas dengan sempurna.",
+    "asmara_hubungan": "Kamu tipe pasangan yang hangat dan komunikatif, tapi tidak pendendam. Pasanganmu merasa aman karena tahu kamu tidak akan menyimpan dendam. Pasangan ideal adalah mereka yang bisa menikmati kehangatanmu tanpa memanfaatkan kebaikanmu.",
+    "sisi_gelap_peringatan": "Keunggulanmu kadang membuatmu merasa lebih baik dari orang lain. Jaga kerendahan hati—kesombongan adalah musuh terbesar orang hebat. Ingat, keistimewaan adalah amanah, bukan alasan untuk merendahkan.",
+    "career_tendency": [
+      "Wirausaha",
+      "Manajemen",
+      "Eksekutif"
+    ],
+    "tags": [
+      "superior",
+      "fokus",
+      "pemaaf"
+    ],
+    "ai_hook": "Sebagai seorang Rabu Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 18,
+    "weton_name": "Rabu Pon",
+    "saptawara": "Rabu",
+    "pancawara": "Pon",
+    "neptu_saptawara": 7,
+    "neptu_pancawara": 7,
+    "total_neptu": 14,
+    "headline": "Si Beruntung yang Punya Pengaruh Luas",
+    "karir_rezeki": "Kamu disebut sebagai salah satu weton yang sangat beruntung. Pengaruhmu luas dan kamu memiliki kemampuan memengaruhi orang lain secara alami. Rezeki datang dari pengaruh dan jaringanmu.",
+    "asmara_hubungan": "Kamu tipe pasangan yang karismatik dan banyak diminati. Namun, kamu butuh pasangan yang tidak mudah terpesona oleh pesonamu—yang bisa melihatmu sebagai manusia biasa, bukan figur. Cinta sejati datang dari yang berani menyentuh sisi polosmu.",
+    "sisi_gelap_peringatan": "Pengaruh besarmu bisa membuatmu lupa diri. Jangan sampai popularitas membuatmu kehilangan siapa dirimu sebenarnya. Ingat, orang yang benar-benar mengenalmu adalah mereka yang tetap bertahan saat sorotan mati.",
+    "career_tendency": [
+      "Politik",
+      "Pemasaran",
+      "Sosial"
+    ],
+    "tags": [
+      "beruntung",
+      "karismatik",
+      "berpengaruh"
+    ],
+    "ai_hook": "Sebagai seorang Rabu Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 19,
+    "weton_name": "Rabu Wage",
+    "saptawara": "Rabu",
+    "pancawara": "Wage",
+    "neptu_saptawara": 7,
+    "neptu_pancawara": 4,
+    "total_neptu": 11,
+    "headline": "Si Penuh Kasih yang Mudah Tersinggung",
+    "karir_rezeki": "Kamu adalah pekerja yang penuh kasih dan selalu memberikan yang terbaik untuk tim. Rezeki datang dari ketulusanmu melayani—orang akan selalu ingat kebaikanmu.",
+    "asmara_hubungan": "Kamu tipe pasangan yang lembut dan perhatian, tapi mudah tersinggung. Pasanganmu perlu belajar bicara dengan hati-hati di dekatmu. Pasangan ideal adalah mereka yang bisa memberikan keamanan emosional yang kamu butuhkan.",
+    "sisi_gelap_peringatan": "Sensitivitasmu adalah kekuatan sekaligus kelemahan. Kamu terlalu mudah terluka oleh perkataan orang. Belajar membedakan kritik dari serangan pribadi akan membantumu bertahan lebih lama di dunia yang tidak selalu lembut.",
+    "career_tendency": [
+      "Pelayanan",
+      "Pendidikan",
+      "Kesehatan"
+    ],
+    "tags": [
+      "tulus",
+      "penyayang",
+      "sensitif"
+    ],
+    "ai_hook": "Sebagai seorang Rabu Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 20,
+    "weton_name": "Rabu Kliwon",
+    "saptawara": "Rabu",
+    "pancawara": "Kliwon",
+    "neptu_saptawara": 7,
+    "neptu_pancawara": 8,
+    "total_neptu": 15,
+    "headline": "Si Berkecukupan yang Jarang Memikirkan Akibat",
+    "karir_rezeki": "Kamu adalah pekerja yang berkecukupan—tidak kekurangan tapi juga tidak berlebihan. Rezeki datang dengan pola yang stabil—kamu tipe yang tahu cara mengelola apa yang ada.",
+    "asmara_hubungan": "Kamu tipe pasangan yang spontan dan menyenangkan, tapi kadang kurang memikirkan akibat dari tindakan. Pasangan ideal adalah mereka yang bisa menjadi 'rem' saat kamu terlalu cepat melaju, tanpa membuatmu merasa dibatasi.",
+    "sisi_gelap_peringatan": "Kebiasaanmu bertindak tanpa pikir panjang kadang merugikan dirimu sendiri maupun orang lain. Belajar berhenti sejenak sebelum bertindak bukan berarti kehilangan spontanitas—itu adalah kebijaksanaan.",
+    "career_tendency": [
+      "Administrasi",
+      "Operasional",
+      "Keuangan"
+    ],
+    "tags": [
+      "spontan",
+      "sederhana",
+      "stabil"
+    ],
+    "ai_hook": "Sebagai seorang Rabu Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 21,
+    "weton_name": "Kamis Legi",
+    "saptawara": "Kamis",
+    "pancawara": "Legi",
+    "neptu_saptawara": 8,
+    "neptu_pancawara": 5,
+    "total_neptu": 13,
+    "headline": "Si Cerdas yang Sulit Berteman",
+    "karir_rezeki": "Kecerdasanmu luar biasa, tapi kau tipe yang sulit berteman karena standarmu tinggi. Rezeki datang dari keahlian spesialisasimu—kau ahli di bidangmu.",
+    "asmara_hubungan": "Kamu tipe pasangan yang menantang—tidak mudah didekati tapi sangat berharga jika berhasil. Pasangan ideal adalah mereka yang tidak mudah menyerah dan bisa menembus tembok yang kamu bangun. Cinta untukmu adalah pencapaian, bukan pemberian.",
+    "sisi_gelap_peringatan": "Standar tinggimu kadang membuatmu kesepian. Jangan sampai kesempurnaan menjadi musuh kebahagiaan. Terkadang, orang yang tidak sempurna justru membawa kebahagiaan yang tidak pernah kamu bayangkan.",
+    "career_tendency": [
+      "Penelitian",
+      "Teknologi",
+      "Akademisi"
+    ],
+    "tags": [
+      "cerdas",
+      "independen",
+      "perfeksionis"
+    ],
+    "ai_hook": "Sebagai seorang Kamis Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 22,
+    "weton_name": "Kamis Pahing",
+    "saptawara": "Kamis",
+    "pancawara": "Pahing",
+    "neptu_saptawara": 8,
+    "neptu_pancawara": 9,
+    "total_neptu": 17,
+    "headline": "Si Pemikir Analitis yang Menyejukkan",
+    "karir_rezeki": "Kamu adalah pemikir analitis yang tidak pernah tergesa-gesa dalam mengambil keputusan. Luwes dan menyejukkan bagai tiupan angin, kamu membawa ketenangan di setiap situasi. Rezeki datang dari keputusanmu yang selalu matang.",
+    "asmara_hubungan": "Kamu tipe pasangan yang penuh pengertian dan sabar—selalu dipercaya memegang tanggung jawab besar. Pasanganmu merasa aman karena kamu adalah 'pembimbing alami' dalam hubungan. Pasangan ideal adalah mereka yang bisa menjadi mitra diskusi, bukan hanya penerima nasihat.",
+    "sisi_gelap_peringatan": "Kebijaksanaanmu kadang membuatmu terlalu banyak berpikir hingga kehilangan momen. Jangan sampai analisismu menghalangi spontanitas. Terkadang, keputusan terbaik adalah yang datang dari hati, bukan hanya kepala.",
+    "career_tendency": [
+      "Konsultan",
+      "Perencana",
+      "Eksekutif"
+    ],
+    "tags": [
+      "analitis",
+      "sabar",
+      "bijaksana"
+    ],
+    "ai_hook": "Sebagai seorang Kamis Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 23,
+    "weton_name": "Kamis Pon",
+    "saptawara": "Kamis",
+    "pancawara": "Pon",
+    "neptu_saptawara": 8,
+    "neptu_pancawara": 7,
+    "total_neptu": 15,
+    "headline": "Si Bijaksana yang Bisa Meredakan Ketegangan",
+    "karir_rezeki": "Kamu memiliki kemampuan luar biasa dalam meredakan konflik dan membawa kedamaian. Rezeki datang dari kemampuanmu menciptakan harmoni di tempat kerja.",
+    "asmara_hubungan": "Kamu tipe pasangan yang menenangkan—kehadiranmu saja sudah cukup untuk meredakan badai. Pasangan ideal adalah mereka yang bisa menjadi 'rumah' bagimu, tempat kamu juga bisa melepas lelah dan menjadi rapuh tanpa takut dihakimi.",
+    "sisi_gelap_peringatan": "Kemampuanmu menenangkan orang lain kadang membuatmu mengabaikan perasaan sendiri. Kamu terlalu sibuk merawat orang lain hingga lupa merawat diri. Ingat, kamu juga berhak lelah dan berhak dirawat.",
+    "career_tendency": [
+      "Mediasi",
+      "Diplomasi",
+      "Manajemen SDM"
+    ],
+    "tags": [
+      "damai",
+      "bijaksana",
+      "empatik"
+    ],
+    "ai_hook": "Sebagai seorang Kamis Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 24,
+    "weton_name": "Kamis Wage",
+    "saptawara": "Kamis",
+    "pancawara": "Wage",
+    "neptu_saptawara": 8,
+    "neptu_pancawara": 4,
+    "total_neptu": 12,
+    "headline": "Si Setia yang Sulit Melepaskan",
+    "karir_rezeki": "Kamu adalah pekerja yang setia dan tidak mudah berpindah. Rezeki datang dari konsistensimu—orang mempercayaimu karena kamu selalu ada.",
+    "asmara_hubungan": "Kamu tipe pasangan yang sangat setia—hampir terlalu setia. Kamu sulit melepaskan hubungan meski sudah tidak sehat. Pasangan ideal adalah mereka yang menghargai kesetiaanmu tanpa memanfaatkannya. Belajar melepaskan adalah pelajaran cinta terbesarmu.",
+    "sisi_gelap_peringatan": "Kesetiaanmu kadang menjadi jerat yang membuatmu bertahan di situasi yang merugikan. Jangan salah mengartikan kesetiaan sebagai kewajiban untuk tetap tinggal. Terkadang, pergi adalah bentuk kesetiaan tertinggi pada diri sendiri.",
+    "career_tendency": [
+      "Pendidikan",
+      "Pemerintahan",
+      "Sosial"
+    ],
+    "tags": [
+      "setia",
+      "loyal",
+      "konsisten"
+    ],
+    "ai_hook": "Sebagai seorang Kamis Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 25,
+    "weton_name": "Kamis Kliwon",
+    "saptawara": "Kamis",
+    "pancawara": "Kliwon",
+    "neptu_saptawara": 8,
+    "neptu_pancawara": 8,
+    "total_neptu": 16,
+    "headline": "Si Pandai Segala Ilmu yang Beruntung dalam Pekerjaan",
+    "karir_rezeki": "Kamu pandai dalam berbagai bidang ilmu. Rezeki dalam pekerjaan sangat baik—kamu tipe yang selalu mendapat peluang. Dunia adalah ladangmu.",
+    "asmara_hubungan": "Kamu tipe pasangan yang menarik dan penuh kejutan—selalu ada hal baru yang bisa kamu tawarkan. Pasangan ideal adalah mereka yang tidak pernah bosan denganmu dan selalu penasaran dengan sisi-sisimu yang belum terungkap.",
+    "sisi_gelap_peringatan": "Kemampuanmu di banyak hal kadang membuatmu terjebak dalam 'jack of all trades, master of none'. Fokus pada satu atau dua bidang yang benar-benar kamu cintai—kedalaman lebih berharga daripada luasnya.",
+    "career_tendency": [
+      "Wirausaha",
+      "Pendidikan",
+      "Komunikasi"
+    ],
+    "tags": [
+      "adaptif",
+      "pembelajar",
+      "beruntung"
+    ],
+    "ai_hook": "Sebagai seorang Kamis Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 26,
+    "weton_name": "Jumat Legi",
+    "saptawara": "Jumat",
+    "pancawara": "Legi",
+    "neptu_saptawara": 6,
+    "neptu_pancawara": 5,
+    "total_neptu": 11,
+    "headline": "Si Jujur yang Tanpa Kompromi",
+    "karir_rezeki": "Kejujuran adalah senjatamu—kamu berbicara apa adanya, meskipun kadang tanpa mempertimbangkan perasaan. Rezeki datang dari kepercayaan orang padamu—namamu adalah jaminan.",
+    "asmara_hubungan": "Kamu tipe pasangan yang setia dan tulus—tidak ada kebohongan dalam kamus cintamu. Pasanganmu tahu persis di mana posisinya. Pasangan ideal adalah mereka yang tidak takut dengan kejujuranmu dan bisa menerima kebenaran, sekalipun pahit.",
+    "sisi_gelap_peringatan": "Kejujuranmu yang tanpa filter kadang menyakiti orang yang kamu cintai. Belajar menyampaikan kebenaran dengan cara yang lebih lembut bukan berarti berbohong—itu adalah seni menjaga hati orang lain.",
+    "career_tendency": [
+      "Hukum",
+      "Audit",
+      "Jurnalisme"
+    ],
+    "tags": [
+      "jujur",
+      "integritas",
+      "tegas"
+    ],
+    "ai_hook": "Sebagai seorang Jumat Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 27,
+    "weton_name": "Jumat Pahing",
+    "saptawara": "Jumat",
+    "pancawara": "Pahing",
+    "neptu_saptawara": 6,
+    "neptu_pancawara": 9,
+    "total_neptu": 15,
+    "headline": "Si Ramah yang Sulit Menerima Kenyataan",
+    "karir_rezeki": "Kamu ramah dan menyenangkan—orang betah berlama-lama berbincang denganmu. Semangat juangmu tinggi dalam meraih impian. Rezeki datang dari kepribadianmu yang membuka banyak pintu.",
+    "asmara_hubungan": "Kamu tipe pasangan yang hangat dan menyenangkan. Namun, sifat keras kepalamu kadang membuatmu sulit menerima kenyataan jika hubungan tidak berjalan sesuai harapan. Pasangan ideal adalah mereka yang bisa membantumu melihat realita dengan lembut.",
+    "sisi_gelap_peringatan": "Keras kepalamu adalah musuh terbesarmu. Kamu sulit menerima bahwa tidak semua hal bisa sesuai keinginan. Belajar ikhlas dan menerima ketidaksempurnaan adalah kunci kebahagiaan yang selama ini kamu cari.",
+    "career_tendency": [
+      "Pemasaran",
+      "Pelayanan Pelanggan",
+      "Pendidikan"
+    ],
+    "tags": [
+      "ramah",
+      "gigih",
+      "keras_kepala"
+    ],
+    "ai_hook": "Sebagai seorang Jumat Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 28,
+    "weton_name": "Jumat Pon",
+    "saptawara": "Jumat",
+    "pancawara": "Pon",
+    "neptu_saptawara": 6,
+    "neptu_pancawara": 7,
+    "total_neptu": 13,
+    "headline": "Si Mengayomi yang Kurang Percaya Diri",
+    "karir_rezeki": "Kamu adalah pribadi yang mengayomi dan mudah beradaptasi di berbagai lingkungan. Sikap tenang dan serius membuatmu terlihat berwibawa. Rezeki datang dari kemampuanmu merawat orang lain.",
+    "asmara_hubungan": "Kamu tipe pasangan yang menenangkan dan penuh perhatian. Namun, kurangnya percaya diri membuatmu sering meragukan cinta pasangan. Pasangan ideal adalah mereka yang bisa terus meyakinkanmu bahwa kamu layak dicintai—setiap hari.",
+    "sisi_gelap_peringatan": "Kurang percaya diri dan mudah terpengaruh orang lain adalah kelemahan terbesarmu. Jangan biarkan keraguan membuatmu kehilangan kesempatan besar. Kamu lebih berharga dari yang kamu kira—mulailah percaya pada dirimu sendiri.",
+    "career_tendency": [
+      "Sosial",
+      "Pendidikan",
+      "Manajemen"
+    ],
+    "tags": [
+      "mengayomi",
+      "tenang",
+      "sensitif"
+    ],
+    "ai_hook": "Sebagai seorang Jumat Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 29,
+    "weton_name": "Jumat Wage",
+    "saptawara": "Jumat",
+    "pancawara": "Wage",
+    "neptu_saptawara": 6,
+    "neptu_pancawara": 4,
+    "total_neptu": 10,
+    "headline": "Si Berhati Lembut yang Sulit Menerima Masukan",
+    "karir_rezeki": "Kamu berhati lembut dan penuh kepedulian—selalu menjadi yang pertama membantu saat orang lain membutuhkan. Rezeki datang dari ketulusanmu—orang tidak akan melupakan kebaikanmu.",
+    "asmara_hubungan": "Kamu tipe pasangan yang rendah hati dan tidak suka menyombongkan diri. Namun, kamu sulit menerima masukan dan cenderung keras kepala terhadap keputusan pribadi. Pasangan ideal adalah mereka yang bisa membujukmu dengan lembut, bukan memaksa.",
+    "sisi_gelap_peringatan": "Sikapmu yang sulit menerima masukan membuatmu kehilangan banyak pelajaran berharga. Ingat, kritik bukan serangan—itu adalah cermin yang membantumu melihat sisi yang tidak bisa kamu lihat sendiri.",
+    "career_tendency": [
+      "Kemanusiaan",
+      "Kesehatan",
+      "Pelayanan"
+    ],
+    "tags": [
+      "lembut",
+      "peduli",
+      "keras_kepala"
+    ],
+    "ai_hook": "Sebagai seorang Jumat Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 30,
+    "weton_name": "Jumat Kliwon",
+    "saptawara": "Jumat",
+    "pancawara": "Kliwon",
+    "neptu_saptawara": 6,
+    "neptu_pancawara": 8,
+    "total_neptu": 14,
+    "headline": "Si Pemaaf yang Aura Menenangkan",
+    "karir_rezeki": "Kamu sabar, dermawan, dan mudah berempati—sifat ini membuatmu cepat mendapatkan simpati banyak orang. Kamu memiliki potensi besar sebagai pemimpin karena mampu memengaruhi lingkungan. Rezeki datang dari pengaruh positifmu.",
+    "asmara_hubungan": "Kamu tipe pasangan yang menenangkan—kehadiranmu saja sudah membuat orang lain merasa nyaman. Pasanganmu merasa beruntung memiliki sosok sepemaham sepertimu. Pasangan ideal adalah mereka yang bisa menjadi tempat pulang yang sama tenangnya dengan dirimu.",
+    "sisi_gelap_peringatan": "Kamu cenderung plin-plan dan kadang terlihat kurang memiliki pendirian yang teguh. Selain itu, kamu mudah marah, suka membantah, dan ceroboh dalam mengambil keputusan. Belajar konsisten dan mengelola emosi akan membawamu lebih jauh.",
+    "career_tendency": [
+      "Kepemimpinan",
+      "Konseling",
+      "Humas"
+    ],
+    "tags": [
+      "sabar",
+      "dermawan",
+      "karismatik"
+    ],
+    "ai_hook": "Sebagai seorang Jumat Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 31,
+    "weton_name": "Sabtu Legi",
+    "saptawara": "Sabtu",
+    "pancawara": "Legi",
+    "neptu_saptawara": 9,
+    "neptu_pancawara": 5,
+    "total_neptu": 14,
+    "headline": "Si Pencinta Kualitas yang Perhatikan Detail",
+    "karir_rezeki": "Kamu menyukai gaya hidup berkualitas dan bernilai tinggi—detail adalah segalanya bagimu. Kecerdikan dan keterbukaan terhadap pendapat orang lain menjadi kelebihan utamamu. Rezeki datang dari standar tinggimu.",
+    "asmara_hubungan": "Kamu tipe pasangan yang perhatian pada detail—ingat ulang tahun, makanan favorit, bahkan hal kecil yang pernah kamu katakan. Pasangan ideal adalah mereka yang menghargai perhatianmu dan membalasnya dengan cara yang sama tulusnya.",
+    "sisi_gelap_peringatan": "Kecenderungan hidup mewah perlu dikendalikan. Kamu bisa terlalu fokus pada penampilan luar hingga melupakan substansi. Ingat, kualitas hidup bukan hanya tentang barang mahal, tapi juga tentang hubungan dan pengalaman bermakna.",
+    "career_tendency": [
+      "Desain",
+      "Arsitektur",
+      "Quality Control"
+    ],
+    "tags": [
+      "teliti",
+      "cerdik",
+      "open_minded"
+    ],
+    "ai_hook": "Sebagai seorang Sabtu Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 32,
+    "weton_name": "Sabtu Pahing",
+    "saptawara": "Sabtu",
+    "pancawara": "Pahing",
+    "neptu_saptawara": 9,
+    "neptu_pancawara": 9,
+    "total_neptu": 18,
+    "headline": "Si Berenergi yang Mudah Tersulut Emosi",
+    "karir_rezeki": "Kamu memiliki semangat besar dan jiwa yang penuh energi. Kamu termasuk dalam garis nasib 'Tibo Duno'—bisa mendapatkan status sosial tinggi, jabatan penting, atau kehidupan mapan. Rezeki melimpah dan bahkan bisa membawa manfaat bagi keluarga.",
+    "asmara_hubungan": "Kamu memiliki daya tarik yang kuat sehingga mudah disukai banyak orang. Namun, sifat emosional membuatmu mudah terpancing amarah. Pasangan ideal adalah mereka yang bisa menjadi 'penyejuk' saat emosimu memuncak, tanpa takut dengan api dalam dirimu.",
+    "sisi_gelap_peringatan": "Sifat emosionalmu adalah tantangan terbesar. Kamu sering berbicara tanpa pikir panjang, sehingga ucapannya terasa menyakitkan. Di balik itu, kamu sebenarnya penakut dan sensitif. Belajar mengelola emosi adalah kunci agar apimu tidak membakar hubungan berharga.",
+    "career_tendency": [
+      "Kepemimpinan",
+      "Wirausaha",
+      "Manajemen"
+    ],
+    "tags": [
+      "berenergi",
+      "ambisius",
+      "emosional"
+    ],
+    "ai_hook": "Sebagai seorang Sabtu Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 33,
+    "weton_name": "Sabtu Pon",
+    "saptawara": "Sabtu",
+    "pancawara": "Pon",
+    "neptu_saptawara": 9,
+    "neptu_pancawara": 7,
+    "total_neptu": 16,
+    "headline": "Si Bos Hebat yang Teliti dan Sabar",
+    "karir_rezeki": "Kamu teliti, sabar, dan berdedikasi penuh untuk karyawan. Rezeki datang saat mengelola usaha sendiri.",
+    "asmara_hubungan": "Kamu tipe pasangan yang sabar dan teliti—tidak terburu-buru dalam cinta. Pasanganmu merasa aman karena kamu adalah perencana yang matang. Pasangan ideal adalah mereka yang bisa menikmati proses bersamamu, bukan hanya mengejar hasil instan.",
+    "sisi_gelap_peringatan": "Kesabaran dan ketelitianmu kadang membuatmu terlalu perfeksionis. Kamu bisa terlalu fokus pada detail hingga kehilangan gambaran besar. Ingat, hidup bukan hanya tentang rencana yang sempurna—kadang keindahan ada di ketidaksempurnaan.",
+    "career_tendency": [
+      "Perikanan",
+      "Pertanian",
+      "Seni",
+      "Arsitektur"
+    ],
+    "tags": [
+      "sabar",
+      "teliti",
+      "dedikatif"
+    ],
+    "ai_hook": "Sebagai seorang Sabtu Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 34,
+    "weton_name": "Sabtu Wage",
+    "saptawara": "Sabtu",
+    "pancawara": "Wage",
+    "neptu_saptawara": 9,
+    "neptu_pancawara": 4,
+    "total_neptu": 13,
+    "headline": "Si Teguh yang Sulit Dipengaruhi",
+    "karir_rezeki": "Kamu adalah pribadi yang teguh dan sulit dipengaruhi—pendirianmu kokoh seperti batu. Rezeki datang dari keteguhanmu—orang tahu kamu bisa diandalkan.",
+    "asmara_hubungan": "Kamu tipe pasangan yang setia terhadap orang-orang terdekat. Kamu tidak mudah goyah dan akan bertahan dalam situasi apa pun. Pasangan ideal adalah mereka yang menghargai kesetiaanmu dan tidak menguji kesabaranmu dengan ketidakpastian.",
+    "sisi_gelap_peringatan": "Keteguhanmu kadang berubah menjadi kekakuan. Kamu sulit melihat sudut pandang lain dan bisa kehilangan hubungan karena egomu. Belajar fleksibel bukan berarti kehilangan prinsip—itu adalah tanda kedewasaan.",
+    "career_tendency": [
+      "Hukum",
+      "Keamanan",
+      "Manajemen Risiko"
+    ],
+    "tags": [
+      "teguh",
+      "konsisten",
+      "integritas"
+    ],
+    "ai_hook": "Sebagai seorang Sabtu Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  },
+  {
+    "id": 35,
+    "weton_name": "Sabtu Kliwon",
+    "saptawara": "Sabtu",
+    "pancawara": "Kliwon",
+    "neptu_saptawara": 9,
+    "neptu_pancawara": 8,
+    "total_neptu": 17,
+    "headline": "Si Komunikatif yang Sering Ragu Memulai",
+    "karir_rezeki": "Kemampuan komunikasimu luar biasa—baik secara lisan maupun tulisan. Hal ini membuatmu mudah dikagumi dan dipercaya. Rezeki datang dari kemampuanmu menyampaikan ide dengan cara yang memikat banyak orang.",
+    "asmara_hubungan": "Kamu tipe pasangan yang ramah dan menghargai pasangan. Namun, kurangnya keberanian membuatmu sering ragu memulai sesuatu yang baru—termasuk dalam cinta. Pasangan ideal adalah mereka yang bisa menjadi 'dorongan' untukmu mengambil langkah pertama.",
+    "sisi_gelap_peringatan": "Kurangnya keberanian adalah musuh terbesarmu. Kamu sering melewatkan peluang karena terlalu banyak berpikir dan ragu. Ingat, tidak ada kesuksesan tanpa keberanian mengambil risiko—termasuk risiko ditolak dalam cinta.",
+    "career_tendency": [
+      "Media",
+      "Humas",
+      "Penulisan"
+    ],
+    "tags": [
+      "komunikatif",
+      "ramah",
+      "ragu_ragu"
+    ],
+    "ai_hook": "Sebagai seorang Sabtu Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+  }
 ]
