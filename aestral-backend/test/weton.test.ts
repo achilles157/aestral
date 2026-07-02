@@ -79,11 +79,13 @@ describe('Weton Calculation Engine (Unit Tests)', () => {
 			pancawara: 'Pon',
 			totalNeptu: 16,
 			wuku: 'Sinta',
+			pranataMangsaId: 5,
 		});
 		expect(insight.targetWeton.saptawara).toBe('Sabtu');
 		expect(insight.targetWeton.pancawara).toBe('Legi');
 		expect(insight.targetWeton.totalNeptu).toBe(14);
 		expect(insight.targetWeton.wuku).toBe('Sungsang');
+		expect(insight.targetWeton.pranataMangsaId).toBe(7);
 		expect(insight.daily.sisaBagi).toBe((16 + 14) % 5);
 		expect(insight.daily.fase).toBeDefined();
 		expect(insight.daily.statusHari).toBeTypeOf('string');

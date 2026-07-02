@@ -11,6 +11,8 @@ import '../../auth/services/profile_service.dart';
 import '../../auth/services/auth_service.dart';
 import '../services/weton_dictionary_service.dart';
 import '../../../core/services/api_service.dart';
+import '../data/pranata_mangsa_repository.dart';
+import 'widgets/seasonal_banner.dart';
 import 'components/weton_detail_card.dart';
 
 class CityPreset {
@@ -192,10 +194,18 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
       final todayWeton = WetonUtils.calculateWeton(DateTime.now());
       final sisaBagi = (birthWeton.totalNeptu + todayWeton.totalNeptu) % 5;
       final targetWukuIndex = WetonUtils.wukuNames.indexOf(todayWeton.wuku);
+      final birthPranataId = WetonUtils.calculatePranataMangsaId(dob);
+      final targetPranataId = WetonUtils.calculatePranataMangsaId(DateTime.now());
 
       if (mounted) {
         setState(() {
           _dailyInsightData = {
+            'birthWeton': {
+              'pranataMangsaId': birthPranataId,
+            },
+            'targetWeton': {
+              'pranataMangsaId': targetPranataId,
+            },
             'daily': {
               'sisaBagi': sisaBagi,
               'fase': sisaBagi == 1
@@ -270,6 +280,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
     final dictionaryAsync = ref.watch(wetonDictionaryProvider);
     final sisaBagiAsync = ref.watch(sisaBagiProvider);
     final wukuAsync = ref.watch(wukuProvider);
+    final pranataMangsaAsync = ref.watch(pranataMangsaListProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -515,24 +526,44 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                   data: (sisaBagiList) {
                                     return wukuAsync.when(
                                       data: (wukuList) {
-                                        final dailyInfo = _dailyInsightData!['daily'] as Map<String, dynamic>;
-                                        final weeklyInfo = _dailyInsightData!['weekly'] as Map<String, dynamic>;
+                                        return pranataMangsaAsync.when(
+                                          data: (pranataList) {
+                                            final dailyInfo = _dailyInsightData!['daily'] as Map<String, dynamic>;
+                                            final weeklyInfo = _dailyInsightData!['weekly'] as Map<String, dynamic>;
+                                            final targetWetonInfo = _dailyInsightData!['targetWeton'] as Map<String, dynamic>?;
 
-                                        final sisaBagiVal = dailyInfo['sisaBagi'] as int;
-                                        final wukuIndex = weeklyInfo['wukuIndex'] as int;
-                                        final wukuName = weeklyInfo['wukuName'] as String;
+                                            final sisaBagiVal = dailyInfo['sisaBagi'] as int;
+                                            final wukuIndex = weeklyInfo['wukuIndex'] as int;
+                                            final wukuName = weeklyInfo['wukuName'] as String;
 
-                                        final sisaBagiEntry = sisaBagiList.firstWhere(
-                                          (s) => s['sisa_bagi'] == sisaBagiVal,
-                                          orElse: () => sisaBagiList.first,
+                                            final sisaBagiEntry = sisaBagiList.firstWhere(
+                                              (s) => s['sisa_bagi'] == sisaBagiVal,
+                                              orElse: () => sisaBagiList.first,
+                                            );
+
+                                            final wukuEntry = wukuList.firstWhere(
+                                              (w) => w['id'] == wukuIndex || w['id'] == wukuIndex + 1 || w['nama_wuku'].toString().toLowerCase() == wukuName.toLowerCase(),
+                                              orElse: () => wukuList.first,
+                                            );
+
+                                            // Lookup target pranata mangsa ID
+                                            final targetPranataId = targetWetonInfo?['pranataMangsaId'] as int? ?? 1;
+                                            final targetPranata = pranataList.firstWhere(
+                                              (m) => m.id == targetPranataId,
+                                              orElse: () => pranataList.first,
+                                            );
+
+                                            return Column(
+                                              children: [
+                                                _buildDailyInsightCard(sisaBagiEntry, wukuEntry),
+                                                const SizedBox(height: 20),
+                                                SeasonalBanner(mangsa: targetPranata),
+                                              ],
+                                            );
+                                          },
+                                          loading: () => const Center(child: CircularProgressIndicator(color: AppTheme.accentPurple)),
+                                          error: (err, _) => Center(child: Text('Gagal memuat Pranata Mangsa: $err')),
                                         );
-
-                                        final wukuEntry = wukuList.firstWhere(
-                                          (w) => w['id'] == wukuIndex || w['id'] == wukuIndex + 1 || w['nama_wuku'].toString().toLowerCase() == wukuName.toLowerCase(),
-                                          orElse: () => wukuList.first,
-                                        );
-
-                                        return _buildDailyInsightCard(sisaBagiEntry, wukuEntry);
                                       },
                                       loading: () => const Center(child: CircularProgressIndicator(color: AppTheme.accentPurple)),
                                       error: (err, _) => Center(child: Text('Gagal memuat wuku harian: $err')),

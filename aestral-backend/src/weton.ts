@@ -199,6 +199,35 @@ export function getJamInsight(saptawaraName: string): { jamBaik: string[]; jamNa
 }
 
 /**
+ * Returns the Pranata Mangsa ID (1-12) for a given Gregorian date (year, month, day).
+ * Handles leap years (wastu) correctly for February (Kawolu ending).
+ */
+export function getPranataMangsaId(year: number, month: number, day: number): number {
+	const isKabisat = year % 4 === 0;
+	const md = month * 100 + day;
+
+	if (md >= 622 && md <= 801) return 1;   // Kasa: 22 Juni - 1 Agustus
+	if (md >= 802 && md <= 824) return 2;   // Karo: 2 Agustus - 24 Agustus
+	if (md >= 825 && md <= 917) return 3;   // Katiga: 25 Agustus - 17 September
+	if (md >= 918 && md <= 1012) return 4;  // Kapat: 18 September - 12 Oktober
+	if (md >= 1013 && md <= 1108) return 5; // Kalima: 13 Oktober - 8 November
+	if (md >= 1109 && md <= 1221) return 6; // Kanem: 9 November - 21 Desember
+	
+	// Crossing the year boundary: Kapitu starts 22 Dec and ends 2 Feb
+	if (md >= 1222 || md <= 202) return 7;  // Kapitu: 22 Desember - 2 Februari
+	
+	const kawoluEnd = isKabisat ? 229 : 228;
+	if (md >= 203 && md <= kawoluEnd) return 8; // Kawolu: 3 Februari - 28/29 Februari
+	
+	if (md >= 301 && md <= 325) return 9;   // Kasanga: 1 Maret - 25 Maret
+	if (md >= 326 && md <= 418) return 10;  // Kasepuluh: 26 Maret - 18 April
+	if (md >= 419 && md <= 511) return 11;  // Dhesta: 19 April - 11 Mei
+	if (md >= 512 && md <= 621) return 12;  // Sada: 12 Mei - 21 Juni
+	
+	return 12; // Fallback
+}
+
+/**
  * Full weton insight for a birth date and target date.
  *
  * @param birthDate  - format YYYY-MM-DD
@@ -213,12 +242,14 @@ export function getWetonInsight(
 		pancawara: string;
 		totalNeptu: number;
 		wuku: string;
+		pranataMangsaId: number;
 	};
 	targetWeton: {
 		saptawara: string;
 		pancawara: string;
 		totalNeptu: number;
 		wuku: string;
+		pranataMangsaId: number;
 	};
 	daily: {
 		sisaBagi: number;
@@ -257,18 +288,23 @@ export function getWetonInsight(
 
 	const hours = getJamInsight(targetSapta.name);
 
+	const birthPranataId = getPranataMangsaId(by, bm, bd);
+	const targetPranataId = getPranataMangsaId(ty, tm, td);
+
 	return {
 		birthWeton: {
 			saptawara: birthSapta.name,
 			pancawara: birthPanca.name,
 			totalNeptu: calculateTotalNeptu(birthJdn),
 			wuku: birthWuku.name,
+			pranataMangsaId: birthPranataId,
 		},
 		targetWeton: {
 			saptawara: targetSapta.name,
 			pancawara: targetPanca.name,
 			totalNeptu: calculateTotalNeptu(targetJdn),
 			wuku: targetWuku.name,
+			pranataMangsaId: targetPranataId,
 		},
 		daily: {
 			sisaBagi,

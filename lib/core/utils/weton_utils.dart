@@ -225,4 +225,31 @@ class WetonUtils {
     },
     // We can add additional key mappings as fallback. Let's make sure the major ones are present.
   };
+
+  static int calculatePranataMangsaId(DateTime date) {
+    final int month = date.month;
+    final int day = date.day;
+    final int year = date.year;
+    
+    final bool isKabisat = year % 4 == 0;
+    final int md = month * 100 + day;
+
+    if (md >= 622 && md <= 801) return 1;
+    if (md >= 802 && md <= 824) return 2;
+    if (md >= 825 && md <= 917) return 3;
+    if (md >= 918 && md <= 1012) return 4;
+    if (md >= 1013 && md <= 1108) return 5;
+    if (md >= 1109 && md <= 1221) return 6;
+    if (md >= 1222 || md <= 202) return 7;
+    
+    final int kawoluEnd = isKabisat ? 229 : 228;
+    if (md >= 203 && md <= kawoluEnd) return 8;
+    
+    if (md >= 301 && md <= 325) return 9;
+    if (md >= 326 && md <= 418) return 10;
+    if (md >= 419 && md <= 511) return 11;
+    if (md >= 512 && md <= 621) return 12;
+    
+    return 12;
+  }
 }
