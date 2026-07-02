@@ -1,1016 +1,1094 @@
 [
-    {
-        "id": 0,
-        "name": "Sang Pengelana",
-        "suit": "Major",
-        "keywords": [
-            "awal baru",
-            "kebebasan",
-            "petualangan"
-        ],
-        "upright_meaning": "Langkah pertamamu dimulai di sini. Hadapilah ketidakpastian dengan hati terbuka. Percayalah, semesta akan menjagamu meski jalannya belum terlihat jelas. Keberanian dan ketulusanmu adalah kekuatan terbesarmu saat ini. Melangkahlah dengan penuh keyakinan.",
-        "reversed_meaning": "Apakah kamu ragu melangkah karena takut, atau justru terburu-buru? Dengarkan suara bijak di sekitarmu. Tidak apa-apa jika ingin berhenti sejenak untuk menarik napas dan menenangkan diri. Bersiaplah dengan matang sebelum kembali melangkah.",
-        "image_prompt_keywords": "pemuda berdiri di tepi tebing, anjing kecil putih, tas ransel, bunga mawar, langit cerah"
-    },
-    {
-        "id": 1,
-        "name": "Sang Penyihir",
-        "suit": "Major",
-        "keywords": [
-            "manifestasi",
-            "kekuatan",
-            "fokus"
-        ],
-        "upright_meaning": "Semua kekuatan yang kamu butuhkan sudah ada di tanganmu. Pikiran, niat, dan tindakanmu kini selaras dengan semesta. Inilah saat yang tepat untuk mengambil langkah nyata demi mewujudkan mimpimu. Kamu adalah pencipta takdirmu sendiri.",
-        "reversed_meaning": "Mungkin akhir-akhir ini kamu merasa kehilangan kendali atas kekuatanmu sendiri. Apakah kamu sedang meragukan kemampuanmu? Mari terhubung kembali dengan kebenaran di dalam dirimu. Gunakan bakatmu dengan jujur dan penuh ketulusan.",
-        "image_prompt_keywords": "seseorang berdiri di depan meja dengan simbol tongkat, piala, pedang, koin, mengangkat tangan, simbol tak hingga di kepalanya"
-    },
-    {
-        "id": 2,
-        "name": "Sang Imam Perempuan",
-        "suit": "Major",
-        "keywords": [
-            "intuisi",
-            "kebijaksanaan",
-            "misteri"
-        ],
-        "upright_meaning": "Dengarkan bisikan lembut dari dalam dirimu. Jawaban yang kamu cari tidak ada di luar sana, melainkan tersimpan di keheningan jiwamu. Tenanglah sejenak, rasakan intuisimu, dan percayalah pada kebijaksanaan batin yang membimbingmu.",
-        "reversed_meaning": "Apakah kamu sedang mengabaikan suara hatimu? Terkadang, kita terlalu sibuk hingga lupa mendengar diri sendiri. Berikan dirimu waktu untuk menyendiri. Izinkan keheningan menuntunmu kembali pada kebenaran yang sempat tersembunyi.",
-        "image_prompt_keywords": "wanita berjubah biru duduk antara dua tiang, memegang kitab gulungan, bulan sabit di bawah kursi, simbol bulan di atas kepalanya"
-    },
-    {
-        "id": 3,
-        "name": "Sang Permaisuri",
-        "suit": "Major",
-        "keywords": [
-            "kesuburan",
-            "kelimpahan",
-            "keibuan"
-        ],
-        "upright_meaning": "Kamu sedang berada di musim pertumbuhan yang indah. Biarkan dirimu merawat dan dirawat dengan penuh kasih. Salurkan energi kreatifmu untuk menumbuhkan hal-hal baik di sekitarmu. Kelimpahan dan kebahagiaan sedang menantimu.",
-        "reversed_meaning": "Apakah kamu merasa lelah karena terlalu banyak memberi untuk orang lain? Ingatlah, kamu tidak bisa menuangkan air dari cangkir yang kosong. Rawatlah dirimu terlebih dahulu sebelum kamu merawat dunia di sekelilingmu.",
-        "image_prompt_keywords": "permaisuri duduk di singgasana di taman subur, mahkota bintang di kepalanya, latar alam penuh tanaman"
-    },
-    {
-        "id": 4,
-        "name": "Sang Kaisar",
-        "suit": "Major",
-        "keywords": [
-            "kekuatan",
-            "stabilitas",
-            "kepemimpinan"
-        ],
-        "upright_meaning": "Inilah saatnya untuk mengambil kendali atas hidupmu dengan penuh wibawa. Buatlah batasan yang sehat dan susunlah rencana dengan jelas. Kekuatanmu bukan untuk mendominasi, melainkan untuk menciptakan ruang yang aman bagi dirimu dan orang lain.",
-        "reversed_meaning": "Apakah kamu merasa terlalu kaku atau justru kehilangan arah? Terkadang, disiplin yang berlebihan bisa menjebak kita. Temukan keseimbangan antara ketegasan dan kelenturan hati. Jangan takut untuk menjadi lebih fleksibel.",
-        "image_prompt_keywords": "kaisar duduk di singgasana dari batu, memegang globus atau orb, pakaian merah kerajaan"
-    },
-    {
-        "id": 5,
-        "name": "Sang Imam Besar",
-        "suit": "Major",
-        "keywords": [
-            "tradisi",
-            "pembelajaran",
-            "bimbingan"
-        ],
-        "upright_meaning": "Ada kenyamanan dalam tradisi dan kebijaksanaan lama. Saat ini, kamu mungkin butuh belajar dari guru atau nilai-nilai yang telah teruji oleh waktu. Hormatilah proses pembelajaran ini untuk memperkaya jiwamu.",
-        "reversed_meaning": "Kamu mungkin merasa terkekang oleh aturan lama. Tidak apa-apa untuk mempertanyakan tradisi dan mencari jalanmu sendiri. Lepaskan apa yang tidak lagi sejalan dengan hatimu, namun lakukanlah dengan penuh kesadaran dan rasa hormat.",
-        "image_prompt_keywords": "sang imam besar mengenakan jubah dan tongkat, duduk di antara dua pilar, para murid di hadapannya"
-    },
-    {
-        "id": 6,
-        "name": "Sang Kekasih",
-        "suit": "Major",
-        "keywords": [
-            "cinta",
-            "pilihan",
-            "harmoni"
-        ],
-        "upright_meaning": "Kamu sedang berada di persimpangan jalan yang penting. Pilihlah jalan yang selaras dengan nilai-nilai terdalam di hatimu. Baik dalam hubungan maupun keputusan hidup, biarkan cinta dan kejujuran memandu setiap langkahmu.",
-        "reversed_meaning": "Apakah ada ketidakharmonisan atau keraguan dalam hubunganmu saat ini? Mungkin ada konflik antara pikiran dan perasaanmu. Ambil jeda sejenak untuk mendengarkan apa yang benar-benar kamu butuhkan sebelum melangkah.",
-        "image_prompt_keywords": "dua manusia telanjang berdiri berdampingan di taman Eden, malaikat melayang di atas mereka"
-    },
-    {
-        "id": 7,
-        "name": "Kereta Perang",
-        "suit": "Major",
-        "keywords": [
-            "tekad",
-            "kendali",
-            "kemenangan"
-        ],
-        "upright_meaning": "Fokuskan tekadmu dan pegang kendali dengan erat. Kamu memiliki kekuatan untuk mengatasi rintangan di depanmu. Tetaplah disiplin dan percaya pada tujuanmu, karena kemenangan akan menjadi milikmu jika kamu terus melangkah.",
-        "reversed_meaning": "Apakah kamu merasa kehilangan arah atau terburu-buru tanpa kendali? Terkadang, memaksakan kehendak hanya akan membuat kita lelah. Tarik napas, sejajarkan kembali fokusmu, dan biarkan dirimu melambat agar tidak salah arah.",
-        "image_prompt_keywords": "pejuang berpakaian baja berdiri di kereta perang digerakkan dua kuda, latar pegunungan"
-    },
-    {
-        "id": 8,
-        "name": "Kekuatan",
-        "suit": "Major",
-        "keywords": [
-            "keberanian",
-            "kesabaran",
-            "kendali diri"
-        ],
-        "upright_meaning": "Kekuatan sejati bukanlah tentang kekerasan, melainkan tentang keberanian yang tenang, kesabaran, dan welas asih. Kamu memiliki kekuatan batin untuk menghadapi badai apa pun. Jinakkan keraguanmu dengan kelembutan hati.",
-        "reversed_meaning": "Mungkin kamu sedang merasa lelah, tidak aman, atau kehilangan rasa percaya diri. Ingatlah bahwa bersikap rentan juga merupakan bentuk kekuatan. Bersikaplah lembut pada dirimu sendiri; kamu sudah berusaha sebaik mungkin.",
-        "image_prompt_keywords": "wanita lemah lembut memegang kepala singa dengan tangan, latar kebun hijau"
-    },
-    {
-        "id": 9,
-        "name": "Pertapa",
-        "suit": "Major",
-        "keywords": [
-            "introspeksi",
-            "kesendirian",
-            "pencerahan"
-        ],
-        "upright_meaning": "Pertapa mengajakmu menjauh sejenak dari kebisingan dunia dan menatap ke dalam diri. Ini adalah waktu untuk refleksi mendalam and pencarian jati diri. Kebijaksanaan yang kamu temukan dalam keheningan akan menerangi jalanmu.",
-        "reversed_meaning": "Apakah kamu terlalu menutup diri hingga merasa kesepian? Mengasingkan diri terlalu lama bisa menjauhkanmu dari kehangatan sekitar. Keluarlah saat kamu siap; ingat, kamu tidak harus melewati perjalanan ini sendirian.",
-        "image_prompt_keywords": "orang tua berjubah abu-abu memegang lentera dan tongkat di gunung bersalju"
-    },
-    {
-        "id": 10,
-        "name": "Roda Keberuntungan",
-        "suit": "Major",
-        "keywords": [
-            "perubahan",
-            "takdir",
-            "peluang"
-        ],
-        "upright_meaning": "Hidup adalah putaran roda yang tiada henti—ada kalanya di atas, ada kalanya di bawah. Percayalah pada waktu semesta. Roda sedang berputar ke arah yang baik untukmu, bersiaplah menyambut perubahan baru ini.",
-        "reversed_meaning": "Apakah kamu merasa terjebak oleh situasi yang tidak bisa kamu kendalikan? Ingatlah, masa-masa sulit ini pun pasti akan berlalu. Fokuslah pada apa yang bisa kamu ubah hari ini dan biarkan sisanya mengalir bersama waktu.",
-        "image_prompt_keywords": "roda besar dengan simbol zodiak, dewa Anubis dan sphinx terhubung di dekatnya"
-    },
-    {
-        "id": 11,
-        "name": "Keadilan",
-        "suit": "Major",
-        "keywords": [
-            "keseimbangan",
-            "kebenaran",
-            "tanggung jawab"
-        ],
-        "upright_meaning": "Keadilan memanggilmu untuk bersikap jujur dan bertanggung jawab atas setiap tindakan. Apa yang kamu tanam, itulah yang akan kamu tuai. Hadapi situasi ini dengan kepala dingin dan carilah kebenaran dengan hati yang adil.",
-        "reversed_meaning": "Mungkin kamu merasa diperlakukan tidak adil, atau sedang menghindari tanggung jawab. Menghindar tidak akan menyelesaikan masalah. Hadapilah kebenaran dengan berani, karena itulah langkah awal menuju kedamaian batin.",
-        "image_prompt_keywords": "dewi keadilan duduk memegang timbangan dan pedang tegak"
-    },
-    {
-        "id": 12,
-        "name": "Orang Tergantung",
-        "suit": "Major",
-        "keywords": [
-            "pengorbanan",
-            "sudut pandang baru",
-            "penundaan"
-        ],
-        "upright_meaning": "Lepaskan keinginan untuk mengendalikan segalanya. Terkadang, tindakan terbaik adalah berhenti sejenak dan melihat hidup dari sudut pandang yang berbeda. Ini bukan kekalahan, melainkan waktu untuk mendapatkan pemahaman baru.",
-        "reversed_meaning": "Apakah kamu merasa mandek atau menolak untuk merelakan sesuatu? Mengorbankan diri tanpa alasan yang jelas hanya akan membuatmu lelah. Ubah cara pandangmu dan percayalah bahwa melepaskan akan membawakanmu kebebasan.",
-        "image_prompt_keywords": "pria tergantung terbalik di pohon dengan satu kaki terikat, pemandangan tanah di bawahnya"
-    },
-    {
-        "id": 13,
-        "name": "Kematian",
-        "suit": "Major",
-        "keywords": [
-            "transformasi",
-            "akhir",
-            "pembaruan"
-        ],
-        "upright_meaning": "Sesuatu yang lama harus berakhir agar hal baru yang lebih indah bisa tumbuh. Jangan takut pada transisi ini. Merelakan kepergian sesuatu yang usang adalah cara terbaik untuk menyambut kelahiran kembali yang penuh harapan.",
-        "reversed_meaning": "Apakah kamu sedang menolak perubahan atau enggan melepas masa lalu? Akhir yang kamu takuti sebenarnya adalah pintu gerbang menuju pertumbuhan baru. Izinkan dirimu merelakan yang telah lalu agar bisa terus melangkah.",
-        "image_prompt_keywords": "kerangka berkuda memegang bendera putih mawar, orang-orang bersujud di depannya, matahari terbenam di belakang"
-    },
-    {
-        "id": 14,
-        "name": "Kesederhanaan",
-        "suit": "Major",
-        "keywords": [
-            "keseimbangan",
-            "kesederhanaan",
-            "moderasi"
-        ],
-        "upright_meaning": "Temukan keseimbangan dan harmoni dalam hidupmu. Kamu sedang belajar memadukan berbagai aspek diri dengan sabar. Percayalah pada prosesnya; waktu yang tepat dan ketenangan jiwa akan menuntunmu pada kedamaian yang sejati.",
-        "reversed_meaning": "Apakah kamu merasa cemas atau kehilangan keseimbangan akhir-akhir ini? Mungkin kamu terlalu memaksakan diri di satu sisi. Melambatlah, temukan kembali titik tengahmu, dan bersikaplah lebih moderat dalam segala hal.",
-        "image_prompt_keywords": "perempuan berpakaian jingga menuangkan air dari satu cawan ke cawan lain, sinar matahari lembut"
-    },
-    {
-        "id": 15,
-        "name": "Iblis",
-        "suit": "Major",
-        "keywords": [
-            "keterikatan",
-            "godaan",
-            "materialisme"
-        ],
-        "upright_meaning": "Kartu ini mengingatkanmu pada rantai tak terlihat yang kamu buat sendiri—seperti ketakutan, kecanduan, atau pikiran negatif. Sadarilah bahwa kunci untuk bebas selalu ada di tanganmu. Kamu memiliki kekuatan untuk lepas.",
-        "reversed_meaning": "Kamu mulai menyadari belenggu yang menahanmu dan perlahan melepaskannya. Ini adalah momen kebebasan yang luar biasa di mana kamu merebut kembali kekuatanmu. Teruskan langkahmu, masa depanmu jauh lebih cerah di depan.",
-        "image_prompt_keywords": "sosok kambing berwajah menyeramkan, dua manusia telanjang berantai di kakinya"
-    },
-    {
-        "id": 16,
-        "name": "Menara",
-        "suit": "Major",
-        "keywords": [
-            "kehancuran",
-            "kejutan",
-            "perubahan"
-        ],
-        "upright_meaning": "Perubahan mengejutkan mungkin mengguncang fondasi hidupmu saat ini. Meskipun terasa berat, keruntuhan ini sebenarnya meruntuhkan kepalsuan untuk menunjukkan kebenaran. Ini adalah awal dari pembebasan dirimu yang sejati.",
-        "reversed_meaning": "Mungkin kamu sedang menghindari perubahan besar atau bertahan pada kestabilan yang semu. Menolak kenyataan hanya akan menunda pertumbuhanmu. Biarkan yang rapuh runtuh agar kamu bisa membangun fondasi yang lebih kokoh.",
-        "image_prompt_keywords": "menara batu tersambar petir, kobaran api, orang terjatuh dari puncak"
-    },
-    {
-        "id": 17,
-        "name": "Bintang",
-        "suit": "Major",
-        "keywords": [
-            "harapan",
-            "inspirasi",
-            "penyembuhan"
-        ],
-        "upright_meaning": "Bintang adalah simbol harapan dan penyembuhan setelah badai berlalu. Langit mulai cerah, mengingatkanmu bahwa hari-hari baik sedang menanti. Percayalah pada jalan hidupmu dan biarkan harapan menuntun setiap impianmu.",
-        "reversed_meaning": "Apakah kamu sedang merasa kehilangan harapan atau meragukan masa depanmu? Ingatlah, cahaya bintang di dalam dirimu tidak pernah benar-benar padam. Temukan kembali ketenangan itu dan percayalah pada dirimu sekali lagi.",
-        "image_prompt_keywords": "wanita telanjang menuang air ke kolam di bawah bintang terang besar, malam jernih"
-    },
-    {
-        "id": 18,
-        "name": "Bulan",
-        "suit": "Major",
-        "keywords": [
-            "ilusi",
-            "intuisi",
-            "ketidakjelasan"
-        ],
-        "upright_meaning": "Saat ini, tidak semua hal terlihat jelas. Mungkin kamu sedang merasa cemas atau bingung. Percayalah pada intuisimu dan lihatlah melampaui apa yang tampak di permukaan. Kebenaran akan terungkap pada waktunya sendiri.",
-        "reversed_meaning": "Kabut kecemasan dan keraguan perlahan mulai terangkat. Kebingunganmu mulai berganti dengan kejelasan. Percayalah pada apa yang kamu rasakan, dan biarkan kebenaran menuntun setiap langkahmu menuju cahaya.",
-        "image_prompt_keywords": "bulan sabit di langit dengan dua pilar, anjing dan serigala melolong ke bulan"
-    },
-    {
-        "id": 19,
-        "name": "Matahari",
-        "suit": "Major",
-        "keywords": [
-            "kebahagiaan",
-            "keberhasilan",
-            "kejelasan"
-        ],
-        "upright_meaning": "Kehangatan, kebahagiaan, dan keberhasilan sedang menyinari jalanmu. Selamat menikmati momen penuh energi dan kejelasan ini! Rayakan pencapaianmu dan biarkan hatimu dipenuhi dengan rasa syukur yang mendalam.",
-        "reversed_meaning": "Mungkin ada sedikit awan yang menutupi kebahagiaanmu saat ini. Apakah kamu sedang meragukan keberhasilanmu? Jangan khawatir, cahaya matahari itu masih ada dan siap menghangatkanmu kembali. Tetaplah melangkah.",
-        "image_prompt_keywords": "dua anak bermain riang di taman bunga, matahari bersinar cerah di latar belakang"
-    },
-    {
-        "id": 20,
-        "name": "Penghakiman",
-        "suit": "Major",
-        "keywords": [
-            "kebangkitan",
-            "penilaian",
-            "kesadaran"
-        ],
-        "upright_meaning": "Panggilan jiwa sedang menantimu untuk bangkit dan lahir kembali. Inilah saatnya untuk memaafkan dirimu dan orang lain, lalu melangkah ke babak baru dengan hati yang bersih dan pemahaman yang lebih dalam.",
-        "reversed_meaning": "Apakah kamu sedang menghindari evaluasi diri atau dilingkupi keraguan? Terkadang kita menahan diri karena rasa bersalah. Lepaskan beban itu, maafkan dirimu, dan dengarkan panggilan jiwamu.",
-        "image_prompt_keywords": "malaikat meniup sangkakala, orang-orang bangkit dari kubur menatap ke atas"
-    },
-    {
-        "id": 21,
-        "name": "Dunia",
-        "suit": "Major",
-        "keywords": [
-            "keberhasilan",
-            "penyelesaian",
-            "kesempurnaan"
-        ],
-        "upright_meaning": "Selamat, sebuah siklus hidup telah selesai dengan indah. Kamu telah belajar banyak dan kini berada di tempat yang tepat. Rayakan pencapaianmu, dan bersiaplah untuk memulai perjalanan baru.",
-        "reversed_meaning": "Mungkin kamu merasa ada hal yang belum selesai atau ada hambatan untuk menutup babak ini. Jangan cemas, percayalah bahwa potongan-potongan teka-teki hidupmu akan menyatu pada waktu yang tepat.",
-        "image_prompt_keywords": "wanita telanjang mengelilingi lingkaran laurel, empat figur mitologis (singabaru, banteng, manusia, rajawali) di sudut-sudutnya"
-    },
-    {
-        "id": 22,
-        "name": "Ace Piala",
-        "suit": "Cups",
-        "keywords": [
-            "perasaan baru",
-            "cinta",
-            "intuisi"
-        ],
-        "upright_meaning": "Piala kasih sayangmu mulai meluap. Cinta, kreativitas, dan kebaikan sedang mengalir bebas. Bukalah hatimu untuk menerima hubungan baru, kedekatan yang mendalam, atau untuk mencintai dirimu sendiri.",
-        "reversed_meaning": "Mungkin perasaanmu sedang tersumbat atau terasa terlalu meluap-luap. Apakah kamu terlalu sibuk mencintai orang lain hingga lupa merawat hatimu sendiri? Ambil waktu untuk mengisi kembali energimu.",
-        "image_prompt_keywords": "tangan muncul dari awan memegang piala air meluap"
-    },
-    {
-        "id": 23,
-        "name": "Two Piala",
-        "suit": "Cups",
-        "keywords": [
-            "persatuan",
-            "kemitraan",
-            "hubungan"
-        ],
-        "upright_meaning": "Ada ikatan indah yang didasari rasa saling menghormati dan pengertian. Baik dengan pasangan, teman, atau bahkan dengan dirimu sendiri, nikmatilah keselarasan dan kehangatan hubungan ini.",
-        "reversed_meaning": "Mungkin ada ketidakseimbangan atau jarak yang terasa dalam hubunganmu. Apakah komunikasi sedang tersumbat? Mari bicarakan dengan jujur dan penuh kelembutan untuk merajut kembali kedekatan.",
-        "image_prompt_keywords": "sepasang kekasih saling bertukar piala, malaikat di atas mereka"
-    },
-    {
-        "id": 24,
-        "name": "Three Piala",
-        "suit": "Cups",
-        "keywords": [
-            "persahabatan",
-            "perayaan",
-            "komunitas"
-        ],
-        "upright_meaning": "Inilah saatnya merayakan kebersamaan, persahabatan, dan kegembiraan bersama orang-orang terdekatmu. Mari berkumpul, saling mendukung, dan berbagi tawa untuk menghangatkan jiwa.",
-        "reversed_meaning": "Apakah kamu merasa terasingkan dari lingkaran sosialmu, atau justru terlalu lelah karena keramaian? Cari kembali kehangatan hubungan yang tulus, bukan sekadar pelarian dari rasa sepi.",
-        "image_prompt_keywords": "tiga wanita berpesta mengangkat piala di udara"
-    },
-    {
-        "id": 25,
-        "name": "Four Piala",
-        "suit": "Cups",
-        "keywords": [
-            "kontemplasi",
-            "ketidakpuasan",
-            "ketidaksenangan"
-        ],
-        "upright_meaning": "Apakah kamu sedang merasa bosan, jenuh, atau tidak bersemangat? Kadang kita terlalu fokus pada apa yang hilang hingga abai pada peluang yang ada di depan mata. Cobalah berhenti sejenak.",
-        "reversed_meaning": "Rasa jenuhmu perlahan mulai memudar. Kamu mulai membuka diri terhadap perspektif dan kesempatan baru. Sambutlah uluran tangan semesta dengan hati yang siap menerima hal-hal baik.",
-        "image_prompt_keywords": "pria duduk di bawah pohon dengan tiga piala di depan, malaikat menawarkan piala keempat dari awan"
-    },
-    {
-        "id": 26,
-        "name": "Five Piala",
-        "suit": "Cups",
-        "keywords": [
-            "kehilangan",
-            "kesedihan",
-            "penyesalan"
-        ],
-        "upright_meaning": "Wajar jika kamu merasa sedih dan kecewa atas kehilangan yang terjadi. Berdukalah dengan jujur. Namun ingatlah, masih ada harapan yang tersisa di belakangmu. Jangan biarkan kesedihan membutakanmu.",
-        "reversed_meaning": "Luka hatimu perlahan mulai membaik. Kamu mulai menerima kenyataan pahit ini dan membuka diri untuk harapan baru. Proses penyembuhan telah dimulai, melangkahlah maju dengan perlahan.",
-        "image_prompt_keywords": "orang berdiri membelakangi tiga piala yang tumpah, dua piala tetap utuh di belakang"
-    },
-    {
-        "id": 27,
-        "name": "Six Piala",
-        "suit": "Cups",
-        "keywords": [
-            "kenangan",
-            "nostalgia",
-            "kepedulian"
-        ],
-        "upright_meaning": "Mari mengenang masa lalu dengan penuh kehangatan. Memori indah, sahabat lama, atau kesederhanaan masa kecil hadir untuk memelukmu. Ini adalah saat yang baik untuk menyembuhkan luka lama.",
-        "reversed_meaning": "Apakah kamu terlalu terjebak dalam nostalgia masa lalu hingga enggan bertumbuh di masa kini? Hargai kenangan indah itu, tapi ingatlah bahwa kehidupanmu yang sebenarnya sedang berjalan sekarang.",
-        "image_prompt_keywords": "dua anak bermain di taman dengan piala berisi bunga"
-    },
-    {
-        "id": 28,
-        "name": "Seven Piala",
-        "suit": "Cups",
-        "keywords": [
-            "pilihan",
-            "mimpi",
-            "fantasi"
-        ],
-        "upright_meaning": "Banyak pilihan menarik di depanmu, namun tidak semuanya nyata atau baik untukmu. Jangan terburu-buru. Renungkan dengan tenang dan pilihlah apa yang benar-benar sejalan dengan bisikan hatimu.",
-        "reversed_meaning": "Kabut kebingungan perlahan mulai menipis. Kini kamu bisa melihat pilihan-pilihanmu dengan lebih jelas tanpa ilusi. Percayalah pada kejernihan pikiranmu dan ambil keputusan dengan mantap.",
-        "image_prompt_keywords": "orang menatap tujuh piala di awan yang masing-masing berisi imajinasi"
-    },
-    {
-        "id": 29,
-        "name": "Eight Piala",
-        "suit": "Cups",
-        "keywords": [
-            "meninggalkan",
-            "perpisahan",
-            "pencarian"
-        ],
-        "upright_meaning": "Meninggalkan apa yang tidak lagi menumbuhkan jiwamu adalah bentuk keberanian yang luar biasa. Meski terasa berat, melangkah pergi dari hal yang usang akan membawamu pada kedamaian baru.",
-        "reversed_meaning": "Apakah kamu bertahan pada situasi yang sebenarnya tidak lagi membahagiakan karena takut akan ketidakpastian? Percayalah pada kekuatanmu sendiri. Melangkah pergi adalah awal dari kebebasanmu.",
-        "image_prompt_keywords": "orang berjalan pergi meninggalkan delapan piala di tempat, menatap bulan di kejauhan"
-    },
-    {
-        "id": 30,
-        "name": "Nine Piala",
-        "suit": "Cups",
-        "keywords": [
-            "kepuasan",
-            "kemandirian",
-            "kenikmatan"
-        ],
-        "upright_meaning": "Keinginan terdalammu perlahan mulai terwujud. Ini adalah momen kepuasan, kelimpahan, dan kedamaian emosional yang patut disyukuri. Nikmatilah kebahagiaan ini dengan hati yang lapang.",
-        "reversed_meaning": "Mungkin pencapaianmu saat ini terasa kurang memuaskan, atau kamu merasa ada yang kurang di dalam hati. Kebahagiaan sejati tidak berasal dari luar, melainkan dari rasa syukur di dalam diri.",
-        "image_prompt_keywords": "orang tua tersenyum duduk di depan sembilan piala berkilau"
-    },
-    {
-        "id": 31,
-        "name": "Ten Piala",
-        "suit": "Cups",
-        "keywords": [
-            "kebahagiaan keluarga",
-            "keutuhan",
-            "harmoni"
-        ],
-        "upright_meaning": "Kehangatan cinta, keharmonisan keluarga, dan kebahagiaan sejati sedang melingkupimu. Rasakan indahnya rasa memiliki dan dicintai dengan tulus. Jiwamu kini berada di rumah yang aman.",
-        "reversed_meaning": "Mungkin ada jarak atau ketidakharmonisan di rumah atau hubungan terdekatmu saat ini. Jangan kejar kesempurnaan, melainkan fokuslah untuk merajut kembali komunikasi yang tulus dan jujur.",
-        "image_prompt_keywords": "keluarga bahagia berdiri di bawah pelangi, sepuluh piala di langit"
-    },
-    {
-        "id": 32,
-        "name": "Page Piala",
-        "suit": "Cups",
-        "keywords": [
-            "pesan",
-            "kejutan emosional",
-            "sensitivitas"
-        ],
-        "upright_meaning": "Ada pesan manis tentang perasaan atau kreativitas yang ingin hadir dalam hidupmu. Sambutlah ide-ide baru atau getaran cinta yang lembut ini dengan rasa ingin tahu seorang anak kecil.",
-        "reversed_meaning": "Apakah kamu merasa emosimu sedang buntu atau sulit mengekspresikan diri secara kreatif? Jangan menghakimi perasaanmu sendiri. Berikan ruang aman bagi jiwamu untuk merasakan segalanya.",
-        "image_prompt_keywords": "pemuda memegang piala dari mana muncul ikan kecil, latar belakang laut"
-    },
-    {
-        "id": 33,
-        "name": "Knight Piala",
-        "suit": "Cups",
-        "keywords": [
-            "keromantisan",
-            "inspirasi",
-            "petualangan"
-        ],
-        "upright_meaning": "Ikutilah ke mana hatimu menuntunmu—baik dalam cinta, seni, maupun impian terdalammu. Biarkan kelembutan perasaan memandu langkahmu, namun tetap berpijak pada kenyataan yang ada.",
-        "reversed_meaning": "Mungkin kamu sedang tenggelam dalam angan-angan kosong atau emosi yang tidak stabil. Jangan biarkan ilusi menjauhkanmu dari realitas. Hubungkan kembali impianmu dengan tindakan nyata.",
-        "image_prompt_keywords": "pria muda berkuda memegang piala, kuda berjalan tenang"
-    },
-    {
-        "id": 34,
-        "name": "Queen Piala",
-        "suit": "Cups",
-        "keywords": [
-            "belas kasih",
-            "kecerdasan emosional",
-            "pengertian"
-        ],
-        "upright_meaning": "Sensitivitas dan empatimu yang mendalam adalah kekuatan yang luar biasa. Kemampuanmu untuk memahami dan merawat orang lain sangat berharga. Tetaplah menjadi pelindung yang penuh kasih.",
-        "reversed_meaning": "Apakah kamu merasa lelah karena terlalu banyak menyerap emosi orang lain? Terkadang kamu perlu menutup cangkirmu agar tidak terkuras habis. Rawatlah dirimu terlebih dahulu.",
-        "image_prompt_keywords": "ratu duduk di singgasana memegang piala, wajah penuh pengertian"
-    },
-    {
-        "id": 35,
-        "name": "King Piala",
-        "suit": "Cups",
-        "keywords": [
-            "kebijakan",
-            "pengendalian emosi",
-            "kepemimpinan"
-        ],
-        "upright_meaning": "Kamu dipanggil untuk memimpin dengan kecerdasan emosional yang matang. Tetaplah tenang dan penuh welas asih, jadilah pelabuhan yang damai bagi dirimu sendiri dan orang-orang di sekitarmu.",
-        "reversed_meaning": "Mungkin perasaanmu sedang berkecamuk atau kamu cenderung menutupi kerapuhan dengan sikap dingin. Tidak apa-apa untuk bersikap rentan. Menghadapi emosi sendiri adalah bentuk kedewasaan.",
-        "image_prompt_keywords": "raja duduk di singgasana di atas laut, memegang piala, ekspresi wajah tenang"
-    },
-    {
-        "id": 36,
-        "name": "Ace Tongkat",
-        "suit": "Wands",
-        "keywords": [
-            "inspirasi",
-            "energi",
-            "kreativitas"
-        ],
-        "upright_meaning": "Percikan inspirasi baru sedang menyala di dalam dirimu. Proyek, ide, atau gairah baru siap untuk kamu mulai. Jangan tunggu sampai semuanya sempurna, melangkahlah dengan keberanian awal.",
-        "reversed_meaning": "Energi kreatifmu mungkin sedang tersumbat atau kamu ragu untuk memulai hal baru. Tidak apa-apa jika langkah pertamamu belum sempurna. Berikan dirimu izin untuk mencoba dengan perlahan.",
-        "image_prompt_keywords": "tangan muncul dari awan memegang tongkat bercabang, langit biru cerah"
-    },
-    {
-        "id": 37,
-        "name": "Two Tongkat",
-        "suit": "Wands",
-        "keywords": [
-            "perencanaan",
-            "kemitraan",
-            "masa depan"
-        ],
-        "upright_meaning": "Kamu berada di persimpangan jalan penting untuk merencanakan masa depanmu. Jangan ragu untuk bermimpi besar dan keluar dari zona nyaman. Dunia yang luas sedang menanti langkah beranimu.",
-        "reversed_meaning": "Apakah kamu terlalu lama merencanakan sesuatu tanpa pernah memulainya? Rasa takut melangkah keluar dari zona nyaman adalah hal yang wajar. Percayalah, kamu sudah siap untuk bergerak maju.",
-        "image_prompt_keywords": "seseorang berdiri memegang dunia kecil dengan tongkat, menghadap ke arah cakrawala"
-    },
-    {
-        "id": 38,
-        "name": "Three Tongkat",
-        "suit": "Wands",
-        "keywords": [
-            "perluasan",
-            "pertumbuhan",
-            "visi"
-        ],
-        "upright_meaning": "Usahamu mulai menunjukkan kemajuan yang nyata. Pandanganmu semakin luas dan peluang baru mulai terlihat di cakrawala. Teruskan langkahmu dengan rasa percaya diri yang mantap.",
-        "reversed_meaning": "Mungkin ada penundaan atau hasil yang belum sesuai dengan harapanmu saat ini. Jangan berkecil hati. Ambil jeda sejenak untuk meninjau kembali rencanamu; terkadang arah baru diperlukan.",
-        "image_prompt_keywords": "tiga orang memegang tongkat di tepi laut, menatap ke arah cakrawala"
-    },
-    {
-        "id": 39,
-        "name": "Four Tongkat",
-        "suit": "Wands",
-        "keywords": [
-            "perayaan",
-            "komunitas",
-            "stabilitas"
-        ],
-        "upright_meaning": "Ini adalah momen kegembiraan, perayaan, dan rasa syukur atas kestabilan yang telah kamu bangun. Nikmatilah kehangatan rumah dan kebersamaan dengan orang-orang tercinta yang mendukungmu.",
-        "reversed_meaning": "Mungkin ada sedikit ketegangan atau rasa tidak tenang di lingkungan rumah atau komunitasmu. Kembalilah pada hubungan sederhana yang membuatmu merasa aman dan diterima apa adanya.",
-        "image_prompt_keywords": "orang-orang merayakan di depan rumah dengan empat tongkat berhias bunga"
-    },
-    {
-        "id": 40,
-        "name": "Five Tongkat",
-        "suit": "Wands",
-        "keywords": [
-            "konflik",
-            "kompetisi",
-            "persaingan"
-        ],
-        "upright_meaning": "Tantangan dan perbedaan pendapat di sekitarmu adalah kesempatan untuk menguji ide-idemu. Hadapilah konflik kreatif ini dengan jujur, karena di sinilah ruang bagimu untuk bertumbuh lebih matang.",
-        "reversed_meaning": "Apakah kamu sedang menghindari perselisihan karena merasa lelah? Terkadang konflik menjadi tidak sehat jika tidak dikelola. Mundurlah sejenak, cari kesamaan, dan tenangkan dirimu sebelum bicara.",
-        "image_prompt_keywords": "lima pria saling beradu tongkat kayu"
-    },
-    {
-        "id": 41,
-        "name": "Six Tongkat",
-        "suit": "Wands",
-        "keywords": [
-            "kemenangan",
-            "pengakuan",
-            "prestasi"
-        ],
-        "upright_meaning": "Kerja kerasmu akhirnya membuahkan hasil dan diakui secara luas. Nikmatilah momen kemenangan ini dengan penuh rasa syukur. Biarkan kesuksesan kecil ini membangun rasa percaya dirimu untuk melangkah.",
-        "reversed_meaning": "Meskipun kamu sudah berusaha keras, mungkin kamu merasa kurang dihargai oleh sekitar. Jangan biarkan keraguan merusak keyakinanmu. Nilai dirimu tidak ditentukan oleh pengakuan dari luar.",
-        "image_prompt_keywords": "orang di atas kuda mengangkat tongkat berhiaskan daun sebagai lambang kemenangan"
-    },
-    {
-        "id": 42,
-        "name": "Seven Tongkat",
-        "suit": "Wands",
-        "keywords": [
-            "ketahanan",
-            "pertahanan",
-            "keberanian"
-        ],
-        "upright_meaning": "Kamu sedang berdiri kokoh menghadapi tantangan dan perbedaan pendapat. Ingatlah bahwa kamu memiliki kekuatan dan keberanian untuk mempertahankan prinsipmu. Tetaplah teguh pada kebenaranmu.",
-        "reversed_meaning": "Apakah kamu merasa lelah karena harus selalu membela diri? Wajar jika sesekali merasa kewalahan. Ingatlah bahwa kamu lebih kuat dari yang kamu duga. Tarik napas, dan pertahankan batasanmu.",
-        "image_prompt_keywords": "orang membawa tongkat menghadapi enam tongkat yang diarahkan padanya"
-    },
-    {
-        "id": 43,
-        "name": "Eight Tongkat",
-        "suit": "Wands",
-        "keywords": [
-            "kecepatan",
-            "aksi",
-            "perjalanan"
-        ],
-        "upright_meaning": "Segala hal berjalan dengan sangat cepat saat ini. Peluang dan pesan baru berdatangan dengan deras. Bersiaplah untuk mengambil tindakan cepat dan keputusan tegas demi menyambut momentum ini.",
-        "reversed_meaning": "Laju kehidupan terasa terlalu cepat hingga membuatmu lelah, atau justru ada hambatan yang menundanya. Jangan panik. Tarik napas dalam-dalam, perlambat langkahmu, dan biarkan semua mengalir.",
-        "image_prompt_keywords": "delapan tongkat melayang di udara berarah ke depan"
-    },
-    {
-        "id": 44,
-        "name": "Nine Tongkat",
-        "suit": "Wands",
-        "keywords": [
-            "ketahanan",
-            "usia lanjut",
-            "kekuatan batin"
-        ],
-        "upright_meaning": "Kamu mungkin merasa lelah dan penuh luka perjuangan, namun kamu masih tetap berdiri tegak. Ini bukti ketangguhanmu. Lindungi batasan dirimu dan pertahankan apa yang berharga bagimu sedikit lagi.",
-        "reversed_meaning": "Mungkin kamu merasa lelah karena terus bersikap defensif. Apakah dinding pertahanan yang kamu bangun justru mengurungmu? Izinkan dirimu beristirahat dan lepaskan kecurigaan yang melelahkan.",
-        "image_prompt_keywords": "seseorang terluka berdiri di depan delapan tongkat tegak"
-    },
-    {
-        "id": 45,
-        "name": "Ten Tongkat",
-        "suit": "Wands",
-        "keywords": [
-            "beban",
-            "tanggung jawab",
-            "kelelahan"
-        ],
-        "upright_meaning": "Beban yang kamu pikul saat ini terasa terlampau berat. Tanyakan pada dirimu sendiri: apakah semua tanggung jawab ini benar-benar milikmu? Belajarlah untuk melepaskan atau berbagi beban itu.",
-        "reversed_meaning": "Beban berat di pundakmu perlahan mulai terangkat. Kamu mulai belajar mendelegasikan tugas atau merelakan hal-hal yang di luar kendalimu. Tarik napas lega, perjalananmu kini terasa lebih ringan.",
-        "image_prompt_keywords": "orang membungkuk menanggung sepuluh tongkat berat di punggungnya"
-    },
-    {
-        "id": 46,
-        "name": "Page Tongkat",
-        "suit": "Wands",
-        "keywords": [
-            "eksplorasi",
-            "kegembiraan",
-            "kebebasan"
-        ],
-        "upright_meaning": "Percikan semangat dan rasa ingin tahu yang besar sedang bangkit dalam dirimu. Sambutlah ide atau minat baru ini dengan hati terbuka. Nikmatilah proses belajar dan menjelajahi hal baru.",
-        "reversed_meaning": "Mungkin kamu sedang merasa kehilangan gairah atau bingung menentukan arah. Jangan paksa dirimu untuk langsung sukses. Jalani minatmu dengan perlahan tanpa beban target yang berlebihan.",
-        "image_prompt_keywords": "pemuda memegang tongkat sambil menulis di gulungan cerah di belakangnya pemandangan alam"
-    },
-    {
-        "id": 47,
-        "name": "Knight Tongkat",
-        "suit": "Wands",
-        "keywords": [
-            "aksi",
-            "keberanian",
-            "ketergesaan"
-        ],
-        "upright_meaning": "Kamu sedang melaju penuh gairah dan tekad yang berkobar. Kejarlah mimpimu dengan berani! Namun ingatlah untuk tetap memperhatikan detail-detail kecil agar tidak terjatuh di tengah jalan.",
-        "reversed_meaning": "Apakah kamu bertindak terlalu impulsif hingga mengabaikan konsekuensinya? Berjalan cepat itu baik, tapi pastikan kamu tidak menabrak hal penting. Perlambat lajumu dan pikirkan matang-matang.",
-        "image_prompt_keywords": "kesatria berpakaian perang memegang tongkat di kuda berlari kencang"
-    },
-    {
-        "id": 48,
-        "name": "Queen Tongkat",
-        "suit": "Wands",
-        "keywords": [
-            "keberanian",
-            "keteguhan",
-            "sukacita"
-        ],
-        "upright_meaning": "Pancarkan rasa percaya diri dan pesonamu yang hangat. Keberanianmu untuk menjadi diri sendiri adalah inspirasi bagi orang lain. Terteruslah berkarya dengan integritas dan ketulusan hati.",
-        "reversed_meaning": "Mungkin kamu merasa tidak aman atau sedang bersikap terlalu menuntut akhir-akhir ini. Kembalilah pada kelembutan hatimu. Keberanian sejati tidak perlu ditunjukkan dengan kekerasan.",
-        "image_prompt_keywords": "ratu tongkat berdiri tegas memegang tongkat, matahari terbenam di latar belakang"
-    },
-    {
-        "id": 49,
-        "name": "King Tongkat",
-        "suit": "Wands",
-        "keywords": [
-            "pemimpin",
-            "pandangan luas",
-            "tantangan"
-        ],
-        "upright_meaning": "Jadilah pemimpin yang menginspirasi lewat tindakan nyata dan kejujuran. Visi yang kamu miliki sangat kuat. Ajaklah orang-orang di sekitarmu bertumbuh bersama dengan penuh kebaikan.",
-        "reversed_meaning": "Mungkin kamu sedang bersikap terlalu dominan atau tidak sabar pada proses orang lain. Kepemimpinan sejati bukanlah tentang mengendalikan, melainkan melayani dan mendengarkan dengan sabar.",
-        "image_prompt_keywords": "raja tongkat memegang tongkat besar berdiri di bukit, langit terbuka"
-    },
-    {
-        "id": 50,
-        "name": "Ace Pedang",
-        "suit": "Swords",
-        "keywords": [
-            "kejernihan",
-            "terobosan",
-            "pencerahan"
-        ],
-        "upright_meaning": "Kejelasan berpikir mulai memotong kabut kebingunganmu. Sebuah kebenaran atau ide baru yang segar siap mengubah cara pandangmu. Sambutlah terobosan pikiran ini dengan kejujuran hati.",
-        "reversed_meaning": "Mungkin pikiranmu sedang buntu atau diselimuti keraguan. Kebenaran itu ada, namun butuh waktu untuk terlihat jelas. Jangan dipaksakan. Istirahatkan pikiranmu sejenak agar kembali jernih.",
-        "image_prompt_keywords": "tangan memegang pedang yang muncul dari awan, langit cerah"
-    },
-    {
-        "id": 51,
-        "name": "Two Pedang",
-        "suit": "Swords",
-        "keywords": [
-            "pilihan sulit",
-            "kebimbangan",
-            "pintu tertutup"
-        ],
-        "upright_meaning": "Kamu merasa buntu di antara dua pilihan sulit. Terkadang, jawabannya bukan memilih salah satu, melainkan mencari jalan ketiga yang belum terlihat. Luangkan waktu dan jangan terburu-buru.",
-        "reversed_meaning": "Kebuntuan pikiranmu perlahan mulai mencair. Arah yang benar mulai tampak jelas di hadapanmu. Percayalah pada kebijaksanaan dirimu untuk mengambil keputusan terbaik dan melangkah maju.",
-        "image_prompt_keywords": "wanita bermata tertutup memegang dua pedang, duduk di laut berombak"
-    },
-    {
-        "id": 52,
-        "name": "Three Pedang",
-        "suit": "Swords",
-        "keywords": [
-            "patah hati",
-            "kesedihan",
-            "kesakitan"
-        ],
-        "upright_meaning": "Luka emosional, patah hati, atau kekecewaan mendalam sedang menyelimutimu. Menangislah jika perlu; rasa sakit ini adalah bagian dari penyembuhan. Badai ini pasti berlalu pada waktunya.",
-        "reversed_meaning": "Luka hatimu perlahan mulai mengering dan membaik. Meskipun rasa sakitnya masih berbekas, kamu mulai membuka pintu maaf demi kedamaian jiwamu sendiri. Proses pemulihan telah tiba.",
-        "image_prompt_keywords": "tiga pedang besar menancap di hati melayang di depan awan gelap"
-    },
-    {
-        "id": 53,
-        "name": "Four Pedang",
-        "suit": "Swords",
-        "keywords": [
-            "istirahat",
-            "penyembuhan",
-            "kontemplasi"
-        ],
-        "upright_meaning": "Tubuh dan pikiranmu sedang memanggilmu untuk beristirahat. Setelah melewati masa-masa sulit, melipurlah sejenak untuk memulihkan energi. Istirahat bukanlah kelemahan, melainkan kebutuhan.",
-        "reversed_meaning": "Apakah kamu merasa gelisah dan enggan mengistirahatkan pikiranmu? Memaksakan diri melampaui batas hanya akan membuatmu lelah. Berikan dirimu izin untuk diam dan pulih sejenak.",
-        "image_prompt_keywords": "orang berbaring di gereja, dua pedang terpasang di tanah di dekatnya"
-    },
-    {
-        "id": 54,
-        "name": "Five Pedang",
-        "suit": "Swords",
-        "keywords": [
-            "ambisi",
-            "persaingan",
-            "kemenangan"
-        ],
-        "upright_meaning": "Konflik atau perbedaan pendapat ini mungkin menyisakan rasa kalah atau menang yang semu. Renungkanlah, apakah kemenangan yang kamu raih sebanding dengan hubungan yang rusak?",
-        "reversed_meaning": "Kamu mulai lelah bertengkar dan memilih jalan damai. Keinginan untuk menang sendiri perlahan mereda. Mengetahui kapan harus mengalah dan berjalan pergi adalah tanda kedewasaan sejati.",
-        "image_prompt_keywords": "dua pria berjalan pergi meninggalkan tiga pedang teronggok di tanah"
-    },
-    {
-        "id": 55,
-        "name": "Six Pedang",
-        "suit": "Swords",
-        "keywords": [
-            "perpindahan",
-            "meninggalkan",
-            "perubahan"
-        ],
-        "upright_meaning": "Kamu sedang melangkah menjauhi badai menuju perairan yang lebih tenang. Perjalanan ini mungkin terasa berat, namun sangat diperlukan bagi kesembuhanmu. Percayalah arah ini sudah benar.",
-        "reversed_meaning": "Apakah kamu merasa enggan melepas masa lalu atau enggan menerima perubahan baru? Terlalu banyak membawa beban kenangan usang hanya akan memberatkan langkahmu. Mari berjalan lebih ringan.",
-        "image_prompt_keywords": "orang di perahu membawa enam pedang melintas di perairan tenang"
-    },
-    {
-        "id": 56,
-        "name": "Seven Pedang",
-        "suit": "Swords",
-        "keywords": [
-            "tipu muslihat",
-            "strategi",
-            "kerahasiaan"
-        ],
-        "upright_meaning": "Kamu dituntut untuk bersikap cerdik menghadapi situasi yang rumit ini. Namun ingatlah, jangan pernah mengorbankan kejujuran demi keuntungan sesaat. Integritasmu jauh lebih berharga.",
-        "reversed_meaning": "Kebohongan atau rahasia yang tersembunyi perlahan mulai terungkap. Entah kamu yang meluruskan kesalahan atau melindungi diri, hadapilah segalanya dengan kejujuran yang tulus.",
-        "image_prompt_keywords": "orang mencuri lima pedang dari kamp, dua pedang lainnya masih tertancap di tanah"
-    },
-    {
-        "id": 57,
-        "name": "Eight Pedang",
-        "suit": "Swords",
-        "keywords": [
-            "terperangkap",
-            "ketakutan",
-            "keterbatasan"
-        ],
-        "upright_meaning": "Kamu merasa terjebak dan tidak berdaya, namun lihatlah lebih dekat. Tali pengikatmu sebenarnya longgar. Penjara yang sesungguhnya ada di dalam pikiran dan ketakutanmu sendiri.",
-        "reversed_meaning": "Kamu mulai menyadari bahwa batasan yang mengekangmu sebenarnya dibuat oleh pikiranmu sendiri. Pintu kebebasan kini terbuka. Melangkahlah keluar dengan penuh rasa percaya diri.",
-        "image_prompt_keywords": "wanita terikat di dalam kerangka pedang yang membentuk lingkaran"
-    },
-    {
-        "id": 58,
-        "name": "Nine Pedang",
-        "suit": "Swords",
-        "keywords": [
-            "kecemasan",
-            "ketidakpastian",
-            "kekhawatiran"
-        ],
-        "upright_meaning": "Kecemasan dan pikiran buruk sedang menghantui malam-malammu. Ingatlah, kekhawatiranmu sering kali lebih menakutkan daripada kenyataan. Fajar selalu datang menyapu malam yang tergelap.",
-        "reversed_meaning": "Kecemasan yang mencengkerammu perlahan mulai memudar. Cahaya ketenangan mulai menerangi pikiranmu. Jangan ragu mencari teman bicara; kamu tidak harus memikul beban ini sendirian.",
-        "image_prompt_keywords": "orang duduk di samping tempat tidur, sembilan pedang tergantung di dinding di belakangnya"
-    },
-    {
-        "id": 59,
-        "name": "Ten Pedang",
-        "suit": "Swords",
-        "keywords": [
-            "kehancuran",
-            "akhir",
-            "kekecewaan"
-        ],
-        "upright_meaning": "Kamu merasa telah mencapai titik terendah dalam hidup dan segalanya runtuh. Namun ingatlah, ketika tidak ada lagi tempat untuk jatuh, satu-satunya arah adalah kembali ke atas. Pasrahkan diri.",
-        "reversed_meaning": "Kamu perlahan bangkit kembali dari keterpurukan yang menyakitkan. Luka-luka itu masih membekas, namun penyembuhan sedang berlangsung. Jalani hari demi hari dengan sabar dan perlahan.",
-        "image_prompt_keywords": "seseorang terbaring di tanah dengan sepuluh pedang menancap di punggungnya"
-    },
-    {
-        "id": 60,
-        "name": "Page Pedang",
-        "suit": "Swords",
-        "keywords": [
-            "rasa ingin tahu",
-            "energi mental",
-            "pemikiran"
-        ],
-        "upright_meaning": "Rasa ingin tahu dan kejujuran sedang menyelimutimu. Gunakan momen ini untuk belajar, bertanya, dan mengumpulkan informasi. Tetaplah kritis, namun sampaikan kebenaran dengan cara yang lembut.",
-        "reversed_meaning": "Apakah kamu sedang menggunakan kata-katamu dengan kurang bijak atau terlalu kritis? Ingatlah, kata-kata memiliki kekuatan untuk menyembuhkan atau melukai. Berbicaralah dengan penuh kebaikan.",
-        "image_prompt_keywords": "anak memegang pedang muda ke udara, kilatan petir di langit"
-    },
-    {
-        "id": 61,
-        "name": "Knight Pedang",
-        "suit": "Swords",
-        "keywords": [
-            "keberanian",
-            "impulsivitas",
-            "strategi"
-        ],
-        "upright_meaning": "Kamu sedang melaju ke depan dengan tekad bulat dan ambisi yang besar. Kejarlah tujuanmu dengan berani! Namun ingatlah untuk tetap peduli pada perasaan orang-orang di sekitarmu sepanjang jalan.",
-        "reversed_meaning": "Apakah kamu bertindak terburu-buru tanpa memikirkan akibatnya, atau melukai orang lain dengan kata-katamu? Perlambat langkahmu, pikirkan matang-matang, dan pertimbangkan dampak dari tindakanmu.",
-        "image_prompt_keywords": "kesatria berjas baja memegang pedang tegak di atas kuda berlari kencang"
-    },
-    {
-        "id": 62,
-        "name": "Queen Pedang",
-        "suit": "Swords",
-        "keywords": [
-            "kecerdasan",
-            "kejelasan pikiran",
-            "kebijaksanaan"
-        ],
-        "upright_meaning": "Pikiranmu sedang sangat jernih dan mandiri. Kamu mampu melihat kebenaran di balik ilusi dengan bijak. Percayalah pada kecerdasanmu, dan buatlah batasan diri yang tegas namun tetap penuh kasih.",
-        "reversed_meaning": "Mungkin kamu bersikap terlalu dingin, kaku, atau terlalu keras pada dirimu dan orang lain saat ini. Cobalah untuk menyelaraskan ketajaman pikiranmu dengan kelembutan hatimu yang penuh empati.",
-        "image_prompt_keywords": "ratu memegang pedang di depan patung gargoyle, wajah serius"
-    },
-    {
-        "id": 63,
-        "name": "King Pedang",
-        "suit": "Swords",
-        "keywords": [
-            "kedisiplinan",
-            "kewenangan",
-            "pengendalian"
-        ],
-        "upright_meaning": "Jadilah pemimpin yang bijak, adil, dan berpijak pada kebenaran. Pikiranmu yang logis sangat dibutuhkan saat ini. Ambil keputusan dengan integritas dan kejujuran yang tinggi.",
-        "reversed_meaning": "Mungkin kamu sedang menggunakan kecerdasanmu untuk mengendalikan orang lain, atau bersikap terlalu kaku. Kebijaksanaan sejati adalah ketika kamu mampu memadukan logika dengan rasa welas asih.",
-        "image_prompt_keywords": "raja berjubah duduk di singgasana, memegang pedang tegak, wajah tegas"
-    },
-    {
-        "id": 64,
-        "name": "Ace Koin",
-        "suit": "Pentacles",
-        "keywords": [
-            "peluang",
-            "stabilitas",
-            "kelimpahan"
-        ],
-        "upright_meaning": "Benih peluang baru di dunia nyata—baik pekerjaan, bisnis, atau keuangan—sedang hadir untukmu. Inilah saat yang tepat untuk mewujudkan mimpimu lewat langkah praktis yang nyata dan terencana.",
-        "reversed_meaning": "Mungkin kamu melewatkan sebuah kesempatan berharga atau merasa cemas akan kestabilan hidupmu saat ini. Jangan berkecil hati. Fokuslah pada langkah kecil yang bisa kamu lakukan hari ini.",
-        "image_prompt_keywords": "tangan muncul dari awan memegang koin emas besar"
-    },
-    {
-        "id": 65,
-        "name": "Two Koin",
-        "suit": "Pentacles",
-        "keywords": [
-            "keseimbangan",
-            "prioritas",
-            "adaptasi"
-        ],
-        "upright_meaning": "Kamu sedang menyeimbangkan berbagai tanggung jawab—pekerjaan, keuangan, dan hubungan—dengan sangat baik. Tetaplah fleksibel dan percayalah pada kemampuanmu mengelola kesibukan ini.",
-        "reversed_meaning": "Apakah kamu merasa kewalahan karena terlalu banyak hal yang harus diurus sekaligus? Terkadang kita perlu membuat skala prioritas. Berhentilah sejenak and pilih apa yang paling penting saat ini.",
-        "image_prompt_keywords": "orang jongkok sambil menjuggling dua koin dengan lambang tak hingga di antara keduanya"
-    },
-    {
-        "id": 66,
-        "name": "Three Koin",
-        "suit": "Pentacles",
-        "keywords": [
-            "kolaborasi",
-            "pembangunan",
-            "kerjasama"
-        ],
-        "upright_meaning": "Kolaborasi yang menyenangkan dan kerja sama tim akan membawa hasil yang luar biasa. Bagikan keahlianmu dan belajarlah dari orang lain. Usaha bersama ini akan melahirkan karya yang indah.",
-        "reversed_meaning": "Mungkin kamu merasa kurang dihargai atau kesulitan bekerja sama dengan tim saat ini. Jangan memikul semuanya sendirian. Bukalah komunikasi dan carilah dukungan dari rekan kerja sekitarmu.",
-        "image_prompt_keywords": "tiga tukang batu membangun patung, satu memegang palu, dua orang lainnya memahat batu"
-    },
-    {
-        "id": 67,
-        "name": "Four Koin",
-        "suit": "Pentacles",
-        "keywords": [
-            "ketekunan",
-            "keamanan",
-            "penghematan"
-        ],
-        "upright_meaning": "Kamu sedang menjaga sumber dayamu—energi, uang, atau waktu—dengan sangat hati-hati. Keamanan itu penting, namun pastikan kamu tidak menutup diri dari keindahan hidup hanya demi rasa aman.",
-        "reversed_meaning": "Kamu mulai belajar melepaskan kendali dan membuka diri terhadap kelimpahan yang ada. Tidak perlu menyimpan semuanya sendirian; berbagi dan menerima akan membuat aliran hidupmu lebih indah.",
-        "image_prompt_keywords": "orang tua duduk memeluk koin di tangan, dikelilingi empat koin lainnya di tanah"
-    },
-    {
-        "id": 68,
-        "name": "Five Koin",
-        "suit": "Pentacles",
-        "keywords": [
-            "kesulitan",
-            "kemiskinan",
-            "ketidakamanan"
-        ],
-        "upright_meaning": "Mungkin kamu sedang merasa kesulitan atau terasingkan dalam menghadapi masalah finansial atau emosional. Ingatlah, kamu tidak sendirian. Selalu ada bantuan dan cahaya hangat jika kamu mau meminta.",
-        "reversed_meaning": "Masa-masa sulit yang melelahkan perlahan mulai berakhir. Kamu mulai menemukan jalan kembali menuju keamanan dan kedamaian. Pemulihan butuh waktu, namun kamu berada di arah yang tepat.",
-        "image_prompt_keywords": "dua orang miskin berjalan melewati patung gereja salju dengan dua koin di jendela"
-    },
-    {
-        "id": 69,
-        "name": "Six Koin",
-        "suit": "Pentacles",
-        "keywords": [
-            "kedermawanan",
-            "keadilan",
-            "dukungan"
-        ],
-        "upright_meaning": "Pemberian dan penerimaan berada dalam keseimbangan yang indah saat ini. Jika kamu berlebih, bagikanlah dengan tulus. Jika kamu butuh, terimalah uluran tangan orang lain dengan rasa syukur.",
-        "reversed_meaning": "Keseimbangan memberi dan menerima dalam hidupmu sedang terganggu. Mungkin kamu memberi terlalu banyak hingga menguras diri sendiri, atau sebaliknya. Temukan kembali titik tengah yang sehat.",
-        "image_prompt_keywords": "orang kaya memberi koin kepada dua pengemis, timbangan emas tergantung di atasnya"
-    },
-    {
-        "id": 70,
-        "name": "Seven Koin",
-        "suit": "Pentacles",
-        "keywords": [
-            "ketekunan",
-            "diligensi",
-            "evaluasi"
-        ],
-        "upright_meaning": "Ini adalah masa untuk bersabar dan mengevaluasi perjalananmu. Benih yang kamu tanam butuh waktu untuk tumbuh. Tenanglah, periksa kemajuanmu, dan nikmatilah setiap proses perkembangan ini.",
-        "reversed_meaning": "Apakah kamu merasa tidak sabar atau kecewa karena hasil yang belum terlihat? Menumbuhkan sesuatu yang berharga memang butuh waktu. Percayalah pada prosesnya; usahamu tidak akan sia-sia.",
-        "image_prompt_keywords": "petani beristirahat memeriksa lima koin tertancap di tanah"
-    },
-    {
-        "id": 71,
-        "name": "Eight Koin",
-        "suit": "Pentacles",
-        "keywords": [
-            "keahlian",
-            "latihan",
-            "kualitas"
-        ],
-        "upright_meaning": "Kamu sedang tekun melatih keahlianmu dan fokus pada detail pekerjaanmu. Dedikasi ini sangat luar biasa. Latihlah terus kemampuanmu dengan sabar, karena kemahiran lahir dari konsistensi.",
-        "reversed_meaning": "Mungkin kamu merasa bosan, jenuh, atau mulai kehilangan gairah kerja. Ingatlah kembali niat awalmu saat memulai perjalanan ini. Temukan kembali keindahan dalam setiap proses berkarya.",
-        "image_prompt_keywords": "tukang kayu bekerja giat di mejanya, delapan koin di sekitarnya"
-    },
-    {
-        "id": 72,
-        "name": "Nine Koin",
-        "suit": "Pentacles",
-        "keywords": [
-            "kemandirian",
-            "kemakmuran",
-            "kenikmatan"
-        ],
-        "upright_meaning": "Nikmatilah buah dari kerja keras dan kemandirianmu selama ini. Kamu telah membangun kehidupan yang indah dan nyaman. Luangkan waktu untuk bersyukur dan menikmati kelimpahan yang kamu miliki.",
-        "reversed_meaning": "Mungkin kamu merasa pencapaianmu belum cukup atau merasa kesepian di tengah keberhasilanmu. Ingatlah bahwa kamu sangat berharga. Izinkan dirimu menikmati hasil upayamu dengan sukacita.",
-        "image_prompt_keywords": "wanita kaya berdiri di kebun dengan sembilan koin emas, wajah puas"
-    },
-    {
-        "id": 73,
-        "name": "Ten Koin",
-        "suit": "Pentacles",
-        "keywords": [
-            "warisan",
-            "kesempurnaan",
-            "perencanaan"
-        ],
-        "upright_meaning": "Kamu sedang membangun stabilitas jangka panjang dan warisan yang indah untuk masa depan. Nikmatilah rasa aman, kemakmuran, dan kebersamaan hangat dengan keluarga yang mendukung hidupmu.",
-        "reversed_meaning": "Mungkin ada rasa tidak aman secara finansial atau ketidakharmonisan dalam keluarga saat ini. Alihkan fokusmu dari materi semata kepada kedekatan emosional yang jauh lebih berharga.",
-        "image_prompt_keywords": "keluarga berkumpul di depan rumah besar dengan pohon keberlimpahan di latar belakang"
-    },
-    {
-        "id": 74,
-        "name": "Page Koin",
-        "suit": "Pentacles",
-        "keywords": [
-            "ambisi",
-            "ketekunan",
-            "ketelitian"
-        ],
-        "upright_meaning": "Kamu sedang bersemangat untuk belajar dan membangun sesuatu yang nyata. Langkah awal di dunia praktis atau keterampilan baru ini sangat menjanjikan. Tetaplah fokus dan berpijak pada bumi.",
-        "reversed_meaning": "Apakah kamu sering menunda pekerjaan atau kehilangan arah dalam rencana praktismu? Jangan berkecil hati. Hubungkan kembali dirimu dengan tujuan awal dan mulailah dengan langkah kecil.",
-        "image_prompt_keywords": "pemuda memegang koin sambil menulis di buku catatan"
-    },
-    {
-        "id": 75,
-        "name": "Knight Koin",
-        "suit": "Pentacles",
-        "keywords": [
-            "tanggung jawab",
-            "ketekunan",
-            "kedisiplinan"
-        ],
-        "upright_meaning": "Langkahmu mungkin bukan yang tercepat, namun sangat stabil dan dapat diandalkan. Ketekunan, kedisiplinan, dan kesabaranmu akan membawamu mencapai tujuan dengan aman dan bertahan lama.",
-        "reversed_meaning": "Apakah kamu merasa terjebak dalam rutinitas membosankan atau terlalu takut mengambil risiko? Sesekali, tidak apa-apa untuk melangkah keluar jalur demi menemukan semangat baru.",
-        "image_prompt_keywords": "kesatria memegang koin di kuda pelan, latar padang terbuka"
-    },
-    {
-        "id": 76,
-        "name": "Queen Koin",
-        "suit": "Pentacles",
-        "keywords": [
-            "praktis",
-            "kenyamanan",
-            "keamanan"
-        ],
-        "upright_meaning": "Pancarkan kasih sayang yang membumi, kepraktisan, dan kemurahan hati. Rawatlah dirimu dan orang-orang di sekitarmu dengan penuh kasih sayang. Ciptakan ruang yang hangat dan nyaman bagi semua.",
-        "reversed_meaning": "Mungkin kamu terlalu sibuk merawat orang lain hingga lupa merawat kebutuhan jiwamu sendiri, atau terlalu cemas akan materi. Temukan kembali keseimbangan hidup dengan menyayangi dirimu.",
-        "image_prompt_keywords": "ratu duduk di singgasana dikelilingi alam subur, memegang koin emas"
-    },
-    {
-        "id": 77,
-        "name": "King Koin",
-        "suit": "Pentacles",
-        "keywords": [
-            "kelimpahan",
-            "kemakmuran",
-            "stabilitas"
-        ],
-        "upright_meaning": "Kamu dipanggil untuk memimpin dengan kepraktisan, membangun kestabilan, dan berbagi kelimpahan. Kelola duniamu dengan bijaksana dan jadilah pelindung yang kokoh bagi sekitarmu.",
-        "reversed_meaning": "Mungkin kamu sedang bersikap terlalu keras kepala, atau mengukur segala sesuatu hanya dari segi materi. Ingatlah, kekayaan sejati diukur dari ketulusan hati dan kebaikan yang kamu bagikan.",
-        "image_prompt_keywords": "raja duduk di singgasana berhiaskan bahan emas, memegang tongkat dan koin, dikelilingi dekorasi mewah"
-    }
+  {
+    "id": 0,
+    "name": "Sang Pengelana",
+    "suit": "Major",
+    "keywords": [
+      "awal baru",
+      "kebebasan",
+      "petualangan"
+    ],
+    "upright_meaning": "Langkah pertamamu dimulai di sini. Hadapilah ketidakpastian dengan hati terbuka. Percayalah, semesta akan menjagamu meski jalannya belum terlihat jelas. Keberanian dan ketulusanmu adalah kekuatan terbesarmu saat ini. Melangkahlah dengan penuh keyakinan.",
+    "reversed_meaning": "Apakah kamu ragu melangkah karena takut, atau justru terburu-buru? Dengarkan suara bijak di sekitarmu. Tidak apa-apa jika ingin berhenti sejenak untuk menarik napas dan menenangkan diri. Bersiaplah dengan matang sebelum kembali melangkah.",
+    "image_prompt_keywords": "pemuda berdiri di tepi tebing, anjing kecil putih, tas ransel, bunga mawar, langit cerah",
+    "ai_hook": "Saya menarik kartu Tarot 'Sang Pengelana' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 1,
+    "name": "Sang Penyihir",
+    "suit": "Major",
+    "keywords": [
+      "manifestasi",
+      "kekuatan",
+      "fokus"
+    ],
+    "upright_meaning": "Semua kekuatan yang kamu butuhkan sudah ada di tanganmu. Pikiran, niat, dan tindakanmu kini selaras dengan semesta. Inilah saat yang tepat untuk mengambil langkah nyata demi mewujudkan mimpimu. Kamu adalah pencipta takdirmu sendiri.",
+    "reversed_meaning": "Mungkin akhir-akhir ini kamu merasa kehilangan kendali atas kekuatanmu sendiri. Apakah kamu sedang meragukan kemampuanmu? Mari terhubung kembali dengan kebenaran di dalam dirimu. Gunakan bakatmu dengan jujur dan penuh ketulusan.",
+    "image_prompt_keywords": "seseorang berdiri di depan meja dengan simbol tongkat, piala, pedang, koin, mengangkat tangan, simbol tak hingga di kepalanya",
+    "ai_hook": "Saya menarik kartu Tarot 'Sang Penyihir' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 2,
+    "name": "Sang Imam Perempuan",
+    "suit": "Major",
+    "keywords": [
+      "intuisi",
+      "kebijaksanaan",
+      "misteri"
+    ],
+    "upright_meaning": "Dengarkan bisikan lembut dari dalam dirimu. Jawaban yang kamu cari tidak ada di luar sana, melainkan tersimpan di keheningan jiwamu. Tenanglah sejenak, rasakan intuisimu, dan percayalah pada kebijaksanaan batin yang membimbingmu.",
+    "reversed_meaning": "Apakah kamu sedang mengabaikan suara hatimu? Terkadang, kita terlalu sibuk hingga lupa mendengar diri sendiri. Berikan dirimu waktu untuk menyendiri. Izinkan keheningan menuntunmu kembali pada kebenaran yang sempat tersembunyi.",
+    "image_prompt_keywords": "wanita berjubah biru duduk antara dua tiang, memegang kitab gulungan, bulan sabit di bawah kursi, simbol bulan di atas kepalanya",
+    "ai_hook": "Saya menarik kartu Tarot 'Sang Imam Perempuan' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 3,
+    "name": "Sang Permaisuri",
+    "suit": "Major",
+    "keywords": [
+      "kesuburan",
+      "kelimpahan",
+      "keibuan"
+    ],
+    "upright_meaning": "Kamu sedang berada di musim pertumbuhan yang indah. Biarkan dirimu merawat dan dirawat dengan penuh kasih. Salurkan energi kreatifmu untuk menumbuhkan hal-hal baik di sekitarmu. Kelimpahan dan kebahagiaan sedang menantimu.",
+    "reversed_meaning": "Apakah kamu merasa lelah karena terlalu banyak memberi untuk orang lain? Ingatlah, kamu tidak bisa menuangkan air dari cangkir yang kosong. Rawatlah dirimu terlebih dahulu sebelum kamu merawat dunia di sekelilingmu.",
+    "image_prompt_keywords": "permaisuri duduk di singgasana di taman subur, mahkota bintang di kepalanya, latar alam penuh tanaman",
+    "ai_hook": "Saya menarik kartu Tarot 'Sang Permaisuri' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 4,
+    "name": "Sang Kaisar",
+    "suit": "Major",
+    "keywords": [
+      "kekuatan",
+      "stabilitas",
+      "kepemimpinan"
+    ],
+    "upright_meaning": "Inilah saatnya untuk mengambil kendali atas hidupmu dengan penuh wibawa. Buatlah batasan yang sehat dan susunlah rencana dengan jelas. Kekuatanmu bukan untuk mendominasi, melainkan untuk menciptakan ruang yang aman bagi dirimu dan orang lain.",
+    "reversed_meaning": "Apakah kamu merasa terlalu kaku atau justru kehilangan arah? Terkadang, disiplin yang berlebihan bisa menjebak kita. Temukan keseimbangan antara ketegasan dan kelenturan hati. Jangan takut untuk menjadi lebih fleksibel.",
+    "image_prompt_keywords": "kaisar duduk di singgasana dari batu, memegang globus atau orb, pakaian merah kerajaan",
+    "ai_hook": "Saya menarik kartu Tarot 'Sang Kaisar' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 5,
+    "name": "Sang Imam Besar",
+    "suit": "Major",
+    "keywords": [
+      "tradisi",
+      "pembelajaran",
+      "bimbingan"
+    ],
+    "upright_meaning": "Ada kenyamanan dalam tradisi dan kebijaksanaan lama. Saat ini, kamu mungkin butuh belajar dari guru atau nilai-nilai yang telah teruji oleh waktu. Hormatilah proses pembelajaran ini untuk memperkaya jiwamu.",
+    "reversed_meaning": "Kamu mungkin merasa terkekang oleh aturan lama. Tidak apa-apa untuk mempertanyakan tradisi dan mencari jalanmu sendiri. Lepaskan apa yang tidak lagi sejalan dengan hatimu, namun lakukanlah dengan penuh kesadaran dan rasa hormat.",
+    "image_prompt_keywords": "sang imam besar mengenakan jubah dan tongkat, duduk di antara dua pilar, para murid di hadapannya",
+    "ai_hook": "Saya menarik kartu Tarot 'Sang Imam Besar' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 6,
+    "name": "Sang Kekasih",
+    "suit": "Major",
+    "keywords": [
+      "cinta",
+      "pilihan",
+      "harmoni"
+    ],
+    "upright_meaning": "Kamu sedang berada di persimpangan jalan yang penting. Pilihlah jalan yang selaras dengan nilai-nilai terdalam di hatimu. Baik dalam hubungan maupun keputusan hidup, biarkan cinta dan kejujuran memandu setiap langkahmu.",
+    "reversed_meaning": "Apakah ada ketidakharmonisan atau keraguan dalam hubunganmu saat ini? Mungkin ada konflik antara pikiran dan perasaanmu. Ambil jeda sejenak untuk mendengarkan apa yang benar-benar kamu butuhkan sebelum melangkah.",
+    "image_prompt_keywords": "dua manusia telanjang berdiri berdampingan di taman Eden, malaikat melayang di atas mereka",
+    "ai_hook": "Saya menarik kartu Tarot 'Sang Kekasih' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 7,
+    "name": "Kereta Perang",
+    "suit": "Major",
+    "keywords": [
+      "tekad",
+      "kendali",
+      "kemenangan"
+    ],
+    "upright_meaning": "Fokuskan tekadmu dan pegang kendali dengan erat. Kamu memiliki kekuatan untuk mengatasi rintangan di depanmu. Tetaplah disiplin dan percaya pada tujuanmu, karena kemenangan akan menjadi milikmu jika kamu terus melangkah.",
+    "reversed_meaning": "Apakah kamu merasa kehilangan arah atau terburu-buru tanpa kendali? Terkadang, memaksakan kehendak hanya akan membuat kita lelah. Tarik napas, sejajarkan kembali fokusmu, dan biarkan dirimu melambat agar tidak salah arah.",
+    "image_prompt_keywords": "pejuang berpakaian baja berdiri di kereta perang digerakkan dua kuda, latar pegunungan",
+    "ai_hook": "Saya menarik kartu Tarot 'Kereta Perang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 8,
+    "name": "Kekuatan",
+    "suit": "Major",
+    "keywords": [
+      "keberanian",
+      "kesabaran",
+      "kendali diri"
+    ],
+    "upright_meaning": "Kekuatan sejati bukanlah tentang kekerasan, melainkan tentang keberanian yang tenang, kesabaran, dan welas asih. Kamu memiliki kekuatan batin untuk menghadapi badai apa pun. Jinakkan keraguanmu dengan kelembutan hati.",
+    "reversed_meaning": "Mungkin kamu sedang merasa lelah, tidak aman, atau kehilangan rasa percaya diri. Ingatlah bahwa bersikap rentan juga merupakan bentuk kekuatan. Bersikaplah lembut pada dirimu sendiri; kamu sudah berusaha sebaik mungkin.",
+    "image_prompt_keywords": "wanita lemah lembut memegang kepala singa dengan tangan, latar kebun hijau",
+    "ai_hook": "Saya menarik kartu Tarot 'Kekuatan' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 9,
+    "name": "Pertapa",
+    "suit": "Major",
+    "keywords": [
+      "introspeksi",
+      "kesendirian",
+      "pencerahan"
+    ],
+    "upright_meaning": "Pertapa mengajakmu menjauh sejenak dari kebisingan dunia dan menatap ke dalam diri. Ini adalah waktu untuk refleksi mendalam and pencarian jati diri. Kebijaksanaan yang kamu temukan dalam keheningan akan menerangi jalanmu.",
+    "reversed_meaning": "Apakah kamu terlalu menutup diri hingga merasa kesepian? Mengasingkan diri terlalu lama bisa menjauhkanmu dari kehangatan sekitar. Keluarlah saat kamu siap; ingat, kamu tidak harus melewati perjalanan ini sendirian.",
+    "image_prompt_keywords": "orang tua berjubah abu-abu memegang lentera dan tongkat di gunung bersalju",
+    "ai_hook": "Saya menarik kartu Tarot 'Pertapa' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 10,
+    "name": "Roda Keberuntungan",
+    "suit": "Major",
+    "keywords": [
+      "perubahan",
+      "takdir",
+      "peluang"
+    ],
+    "upright_meaning": "Hidup adalah putaran roda yang tiada henti—ada kalanya di atas, ada kalanya di bawah. Percayalah pada waktu semesta. Roda sedang berputar ke arah yang baik untukmu, bersiaplah menyambut perubahan baru ini.",
+    "reversed_meaning": "Apakah kamu merasa terjebak oleh situasi yang tidak bisa kamu kendalikan? Ingatlah, masa-masa sulit ini pun pasti akan berlalu. Fokuslah pada apa yang bisa kamu ubah hari ini dan biarkan sisanya mengalir bersama waktu.",
+    "image_prompt_keywords": "roda besar dengan simbol zodiak, dewa Anubis dan sphinx terhubung di dekatnya",
+    "ai_hook": "Saya menarik kartu Tarot 'Roda Keberuntungan' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 11,
+    "name": "Keadilan",
+    "suit": "Major",
+    "keywords": [
+      "keseimbangan",
+      "kebenaran",
+      "tanggung jawab"
+    ],
+    "upright_meaning": "Keadilan memanggilmu untuk bersikap jujur dan bertanggung jawab atas setiap tindakan. Apa yang kamu tanam, itulah yang akan kamu tuai. Hadapi situasi ini dengan kepala dingin dan carilah kebenaran dengan hati yang adil.",
+    "reversed_meaning": "Mungkin kamu merasa diperlakukan tidak adil, atau sedang menghindari tanggung jawab. Menghindar tidak akan menyelesaikan masalah. Hadapilah kebenaran dengan berani, karena itulah langkah awal menuju kedamaian batin.",
+    "image_prompt_keywords": "dewi keadilan duduk memegang timbangan dan pedang tegak",
+    "ai_hook": "Saya menarik kartu Tarot 'Keadilan' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 12,
+    "name": "Orang Tergantung",
+    "suit": "Major",
+    "keywords": [
+      "pengorbanan",
+      "sudut pandang baru",
+      "penundaan"
+    ],
+    "upright_meaning": "Lepaskan keinginan untuk mengendalikan segalanya. Terkadang, tindakan terbaik adalah berhenti sejenak dan melihat hidup dari sudut pandang yang berbeda. Ini bukan kekalahan, melainkan waktu untuk mendapatkan pemahaman baru.",
+    "reversed_meaning": "Apakah kamu merasa mandek atau menolak untuk merelakan sesuatu? Mengorbankan diri tanpa alasan yang jelas hanya akan membuatmu lelah. Ubah cara pandangmu dan percayalah bahwa melepaskan akan membawakanmu kebebasan.",
+    "image_prompt_keywords": "pria tergantung terbalik di pohon dengan satu kaki terikat, pemandangan tanah di bawahnya",
+    "ai_hook": "Saya menarik kartu Tarot 'Orang Tergantung' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 13,
+    "name": "Kematian",
+    "suit": "Major",
+    "keywords": [
+      "transformasi",
+      "akhir",
+      "pembaruan"
+    ],
+    "upright_meaning": "Sesuatu yang lama harus berakhir agar hal baru yang lebih indah bisa tumbuh. Jangan takut pada transisi ini. Merelakan kepergian sesuatu yang usang adalah cara terbaik untuk menyambut kelahiran kembali yang penuh harapan.",
+    "reversed_meaning": "Apakah kamu sedang menolak perubahan atau enggan melepas masa lalu? Akhir yang kamu takuti sebenarnya adalah pintu gerbang menuju pertumbuhan baru. Izinkan dirimu merelakan yang telah lalu agar bisa terus melangkah.",
+    "image_prompt_keywords": "kerangka berkuda memegang bendera putih mawar, orang-orang bersujud di depannya, matahari terbenam di belakang",
+    "ai_hook": "Saya menarik kartu Tarot 'Kematian' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 14,
+    "name": "Kesederhanaan",
+    "suit": "Major",
+    "keywords": [
+      "keseimbangan",
+      "kesederhanaan",
+      "moderasi"
+    ],
+    "upright_meaning": "Temukan keseimbangan dan harmoni dalam hidupmu. Kamu sedang belajar memadukan berbagai aspek diri dengan sabar. Percayalah pada prosesnya; waktu yang tepat dan ketenangan jiwa akan menuntunmu pada kedamaian yang sejati.",
+    "reversed_meaning": "Apakah kamu merasa cemas atau kehilangan keseimbangan akhir-akhir ini? Mungkin kamu terlalu memaksakan diri di satu sisi. Melambatlah, temukan kembali titik tengahmu, dan bersikaplah lebih moderat dalam segala hal.",
+    "image_prompt_keywords": "perempuan berpakaian jingga menuangkan air dari satu cawan ke cawan lain, sinar matahari lembut",
+    "ai_hook": "Saya menarik kartu Tarot 'Kesederhanaan' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 15,
+    "name": "Iblis",
+    "suit": "Major",
+    "keywords": [
+      "keterikatan",
+      "godaan",
+      "materialisme"
+    ],
+    "upright_meaning": "Kartu ini mengingatkanmu pada rantai tak terlihat yang kamu buat sendiri—seperti ketakutan, kecanduan, atau pikiran negatif. Sadarilah bahwa kunci untuk bebas selalu ada di tanganmu. Kamu memiliki kekuatan untuk lepas.",
+    "reversed_meaning": "Kamu mulai menyadari belenggu yang menahanmu dan perlahan melepaskannya. Ini adalah momen kebebasan yang luar biasa di mana kamu merebut kembali kekuatanmu. Teruskan langkahmu, masa depanmu jauh lebih cerah di depan.",
+    "image_prompt_keywords": "sosok kambing berwajah menyeramkan, dua manusia telanjang berantai di kakinya",
+    "ai_hook": "Saya menarik kartu Tarot 'Iblis' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 16,
+    "name": "Menara",
+    "suit": "Major",
+    "keywords": [
+      "kehancuran",
+      "kejutan",
+      "perubahan"
+    ],
+    "upright_meaning": "Perubahan mengejutkan mungkin mengguncang fondasi hidupmu saat ini. Meskipun terasa berat, keruntuhan ini sebenarnya meruntuhkan kepalsuan untuk menunjukkan kebenaran. Ini adalah awal dari pembebasan dirimu yang sejati.",
+    "reversed_meaning": "Mungkin kamu sedang menghindari perubahan besar atau bertahan pada kestabilan yang semu. Menolak kenyataan hanya akan menunda pertumbuhanmu. Biarkan yang rapuh runtuh agar kamu bisa membangun fondasi yang lebih kokoh.",
+    "image_prompt_keywords": "menara batu tersambar petir, kobaran api, orang terjatuh dari puncak",
+    "ai_hook": "Saya menarik kartu Tarot 'Menara' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 17,
+    "name": "Bintang",
+    "suit": "Major",
+    "keywords": [
+      "harapan",
+      "inspirasi",
+      "penyembuhan"
+    ],
+    "upright_meaning": "Bintang adalah simbol harapan dan penyembuhan setelah badai berlalu. Langit mulai cerah, mengingatkanmu bahwa hari-hari baik sedang menanti. Percayalah pada jalan hidupmu dan biarkan harapan menuntun setiap impianmu.",
+    "reversed_meaning": "Apakah kamu sedang merasa kehilangan harapan atau meragukan masa depanmu? Ingatlah, cahaya bintang di dalam dirimu tidak pernah benar-benar padam. Temukan kembali ketenangan itu dan percayalah pada dirimu sekali lagi.",
+    "image_prompt_keywords": "wanita telanjang menuang air ke kolam di bawah bintang terang besar, malam jernih",
+    "ai_hook": "Saya menarik kartu Tarot 'Bintang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 18,
+    "name": "Bulan",
+    "suit": "Major",
+    "keywords": [
+      "ilusi",
+      "intuisi",
+      "ketidakjelasan"
+    ],
+    "upright_meaning": "Saat ini, tidak semua hal terlihat jelas. Mungkin kamu sedang merasa cemas atau bingung. Percayalah pada intuisimu dan lihatlah melampaui apa yang tampak di permukaan. Kebenaran akan terungkap pada waktunya sendiri.",
+    "reversed_meaning": "Kabut kecemasan dan keraguan perlahan mulai terangkat. Kebingunganmu mulai berganti dengan kejelasan. Percayalah pada apa yang kamu rasakan, dan biarkan kebenaran menuntun setiap langkahmu menuju cahaya.",
+    "image_prompt_keywords": "bulan sabit di langit dengan dua pilar, anjing dan serigala melolong ke bulan",
+    "ai_hook": "Saya menarik kartu Tarot 'Bulan' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 19,
+    "name": "Matahari",
+    "suit": "Major",
+    "keywords": [
+      "kebahagiaan",
+      "keberhasilan",
+      "kejelasan"
+    ],
+    "upright_meaning": "Kehangatan, kebahagiaan, dan keberhasilan sedang menyinari jalanmu. Selamat menikmati momen penuh energi dan kejelasan ini! Rayakan pencapaianmu dan biarkan hatimu dipenuhi dengan rasa syukur yang mendalam.",
+    "reversed_meaning": "Mungkin ada sedikit awan yang menutupi kebahagiaanmu saat ini. Apakah kamu sedang meragukan keberhasilanmu? Jangan khawatir, cahaya matahari itu masih ada dan siap menghangatkanmu kembali. Tetaplah melangkah.",
+    "image_prompt_keywords": "dua anak bermain riang di taman bunga, matahari bersinar cerah di latar belakang",
+    "ai_hook": "Saya menarik kartu Tarot 'Matahari' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 20,
+    "name": "Penghakiman",
+    "suit": "Major",
+    "keywords": [
+      "kebangkitan",
+      "penilaian",
+      "kesadaran"
+    ],
+    "upright_meaning": "Panggilan jiwa sedang menantimu untuk bangkit dan lahir kembali. Inilah saatnya untuk memaafkan dirimu dan orang lain, lalu melangkah ke babak baru dengan hati yang bersih dan pemahaman yang lebih dalam.",
+    "reversed_meaning": "Apakah kamu sedang menghindari evaluasi diri atau dilingkupi keraguan? Terkadang kita menahan diri karena rasa bersalah. Lepaskan beban itu, maafkan dirimu, dan dengarkan panggilan jiwamu.",
+    "image_prompt_keywords": "malaikat meniup sangkakala, orang-orang bangkit dari kubur menatap ke atas",
+    "ai_hook": "Saya menarik kartu Tarot 'Penghakiman' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 21,
+    "name": "Dunia",
+    "suit": "Major",
+    "keywords": [
+      "keberhasilan",
+      "penyelesaian",
+      "kesempurnaan"
+    ],
+    "upright_meaning": "Selamat, sebuah siklus hidup telah selesai dengan indah. Kamu telah belajar banyak dan kini berada di tempat yang tepat. Rayakan pencapaianmu, dan bersiaplah untuk memulai perjalanan baru.",
+    "reversed_meaning": "Mungkin kamu merasa ada hal yang belum selesai atau ada hambatan untuk menutup babak ini. Jangan cemas, percayalah bahwa potongan-potongan teka-teki hidupmu akan menyatu pada waktu yang tepat.",
+    "image_prompt_keywords": "wanita telanjang mengelilingi lingkaran laurel, empat figur mitologis (singabaru, banteng, manusia, rajawali) di sudut-sudutnya",
+    "ai_hook": "Saya menarik kartu Tarot 'Dunia' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 22,
+    "name": "Ace Piala",
+    "suit": "Cups",
+    "keywords": [
+      "perasaan baru",
+      "cinta",
+      "intuisi"
+    ],
+    "upright_meaning": "Piala kasih sayangmu mulai meluap. Cinta, kreativitas, dan kebaikan sedang mengalir bebas. Bukalah hatimu untuk menerima hubungan baru, kedekatan yang mendalam, atau untuk mencintai dirimu sendiri.",
+    "reversed_meaning": "Mungkin perasaanmu sedang tersumbat atau terasa terlalu meluap-luap. Apakah kamu terlalu sibuk mencintai orang lain hingga lupa merawat hatimu sendiri? Ambil waktu untuk mengisi kembali energimu.",
+    "image_prompt_keywords": "tangan muncul dari awan memegang piala air meluap",
+    "ai_hook": "Saya menarik kartu Tarot 'Ace Piala' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 23,
+    "name": "Two Piala",
+    "suit": "Cups",
+    "keywords": [
+      "persatuan",
+      "kemitraan",
+      "hubungan"
+    ],
+    "upright_meaning": "Ada ikatan indah yang didasari rasa saling menghormati dan pengertian. Baik dengan pasangan, teman, atau bahkan dengan dirimu sendiri, nikmatilah keselarasan dan kehangatan hubungan ini.",
+    "reversed_meaning": "Mungkin ada ketidakseimbangan atau jarak yang terasa dalam hubunganmu. Apakah komunikasi sedang tersumbat? Mari bicarakan dengan jujur dan penuh kelembutan untuk merajut kembali kedekatan.",
+    "image_prompt_keywords": "sepasang kekasih saling bertukar piala, malaikat di atas mereka",
+    "ai_hook": "Saya menarik kartu Tarot 'Two Piala' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 24,
+    "name": "Three Piala",
+    "suit": "Cups",
+    "keywords": [
+      "persahabatan",
+      "perayaan",
+      "komunitas"
+    ],
+    "upright_meaning": "Inilah saatnya merayakan kebersamaan, persahabatan, dan kegembiraan bersama orang-orang terdekatmu. Mari berkumpul, saling mendukung, dan berbagi tawa untuk menghangatkan jiwa.",
+    "reversed_meaning": "Apakah kamu merasa terasingkan dari lingkaran sosialmu, atau justru terlalu lelah karena keramaian? Cari kembali kehangatan hubungan yang tulus, bukan sekadar pelarian dari rasa sepi.",
+    "image_prompt_keywords": "tiga wanita berpesta mengangkat piala di udara",
+    "ai_hook": "Saya menarik kartu Tarot 'Three Piala' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 25,
+    "name": "Four Piala",
+    "suit": "Cups",
+    "keywords": [
+      "kontemplasi",
+      "ketidakpuasan",
+      "ketidaksenangan"
+    ],
+    "upright_meaning": "Apakah kamu sedang merasa bosan, jenuh, atau tidak bersemangat? Kadang kita terlalu fokus pada apa yang hilang hingga abai pada peluang yang ada di depan mata. Cobalah berhenti sejenak.",
+    "reversed_meaning": "Rasa jenuhmu perlahan mulai memudar. Kamu mulai membuka diri terhadap perspektif dan kesempatan baru. Sambutlah uluran tangan semesta dengan hati yang siap menerima hal-hal baik.",
+    "image_prompt_keywords": "pria duduk di bawah pohon dengan tiga piala di depan, malaikat menawarkan piala keempat dari awan",
+    "ai_hook": "Saya menarik kartu Tarot 'Four Piala' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 26,
+    "name": "Five Piala",
+    "suit": "Cups",
+    "keywords": [
+      "kehilangan",
+      "kesedihan",
+      "penyesalan"
+    ],
+    "upright_meaning": "Wajar jika kamu merasa sedih dan kecewa atas kehilangan yang terjadi. Berdukalah dengan jujur. Namun ingatlah, masih ada harapan yang tersisa di belakangmu. Jangan biarkan kesedihan membutakanmu.",
+    "reversed_meaning": "Luka hatimu perlahan mulai membaik. Kamu mulai menerima kenyataan pahit ini dan membuka diri untuk harapan baru. Proses penyembuhan telah dimulai, melangkahlah maju dengan perlahan.",
+    "image_prompt_keywords": "orang berdiri membelakangi tiga piala yang tumpah, dua piala tetap utuh di belakang",
+    "ai_hook": "Saya menarik kartu Tarot 'Five Piala' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 27,
+    "name": "Six Piala",
+    "suit": "Cups",
+    "keywords": [
+      "kenangan",
+      "nostalgia",
+      "kepedulian"
+    ],
+    "upright_meaning": "Mari mengenang masa lalu dengan penuh kehangatan. Memori indah, sahabat lama, atau kesederhanaan masa kecil hadir untuk memelukmu. Ini adalah saat yang baik untuk menyembuhkan luka lama.",
+    "reversed_meaning": "Apakah kamu terlalu terjebak dalam nostalgia masa lalu hingga enggan bertumbuh di masa kini? Hargai kenangan indah itu, tapi ingatlah bahwa kehidupanmu yang sebenarnya sedang berjalan sekarang.",
+    "image_prompt_keywords": "dua anak bermain di taman dengan piala berisi bunga",
+    "ai_hook": "Saya menarik kartu Tarot 'Six Piala' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 28,
+    "name": "Seven Piala",
+    "suit": "Cups",
+    "keywords": [
+      "pilihan",
+      "mimpi",
+      "fantasi"
+    ],
+    "upright_meaning": "Banyak pilihan menarik di depanmu, namun tidak semuanya nyata atau baik untukmu. Jangan terburu-buru. Renungkan dengan tenang dan pilihlah apa yang benar-benar sejalan dengan bisikan hatimu.",
+    "reversed_meaning": "Kabut kebingungan perlahan mulai menipis. Kini kamu bisa melihat pilihan-pilihanmu dengan lebih jelas tanpa ilusi. Percayalah pada kejernihan pikiranmu dan ambil keputusan dengan mantap.",
+    "image_prompt_keywords": "orang menatap tujuh piala di awan yang masing-masing berisi imajinasi",
+    "ai_hook": "Saya menarik kartu Tarot 'Seven Piala' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 29,
+    "name": "Eight Piala",
+    "suit": "Cups",
+    "keywords": [
+      "meninggalkan",
+      "perpisahan",
+      "pencarian"
+    ],
+    "upright_meaning": "Meninggalkan apa yang tidak lagi menumbuhkan jiwamu adalah bentuk keberanian yang luar biasa. Meski terasa berat, melangkah pergi dari hal yang usang akan membawamu pada kedamaian baru.",
+    "reversed_meaning": "Apakah kamu bertahan pada situasi yang sebenarnya tidak lagi membahagiakan karena takut akan ketidakpastian? Percayalah pada kekuatanmu sendiri. Melangkah pergi adalah awal dari kebebasanmu.",
+    "image_prompt_keywords": "orang berjalan pergi meninggalkan delapan piala di tempat, menatap bulan di kejauhan",
+    "ai_hook": "Saya menarik kartu Tarot 'Eight Piala' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 30,
+    "name": "Nine Piala",
+    "suit": "Cups",
+    "keywords": [
+      "kepuasan",
+      "kemandirian",
+      "kenikmatan"
+    ],
+    "upright_meaning": "Keinginan terdalammu perlahan mulai terwujud. Ini adalah momen kepuasan, kelimpahan, dan kedamaian emosional yang patut disyukuri. Nikmatilah kebahagiaan ini dengan hati yang lapang.",
+    "reversed_meaning": "Mungkin pencapaianmu saat ini terasa kurang memuaskan, atau kamu merasa ada yang kurang di dalam hati. Kebahagiaan sejati tidak berasal dari luar, melainkan dari rasa syukur di dalam diri.",
+    "image_prompt_keywords": "orang tua tersenyum duduk di depan sembilan piala berkilau",
+    "ai_hook": "Saya menarik kartu Tarot 'Nine Piala' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 31,
+    "name": "Ten Piala",
+    "suit": "Cups",
+    "keywords": [
+      "kebahagiaan keluarga",
+      "keutuhan",
+      "harmoni"
+    ],
+    "upright_meaning": "Kehangatan cinta, keharmonisan keluarga, dan kebahagiaan sejati sedang melingkupimu. Rasakan indahnya rasa memiliki dan dicintai dengan tulus. Jiwamu kini berada di rumah yang aman.",
+    "reversed_meaning": "Mungkin ada jarak atau ketidakharmonisan di rumah atau hubungan terdekatmu saat ini. Jangan kejar kesempurnaan, melainkan fokuslah untuk merajut kembali komunikasi yang tulus dan jujur.",
+    "image_prompt_keywords": "keluarga bahagia berdiri di bawah pelangi, sepuluh piala di langit",
+    "ai_hook": "Saya menarik kartu Tarot 'Ten Piala' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 32,
+    "name": "Page Piala",
+    "suit": "Cups",
+    "keywords": [
+      "pesan",
+      "kejutan emosional",
+      "sensitivitas"
+    ],
+    "upright_meaning": "Ada pesan manis tentang perasaan atau kreativitas yang ingin hadir dalam hidupmu. Sambutlah ide-ide baru atau getaran cinta yang lembut ini dengan rasa ingin tahu seorang anak kecil.",
+    "reversed_meaning": "Apakah kamu merasa emosimu sedang buntu atau sulit mengekspresikan diri secara kreatif? Jangan menghakimi perasaanmu sendiri. Berikan ruang aman bagi jiwamu untuk merasakan segalanya.",
+    "image_prompt_keywords": "pemuda memegang piala dari mana muncul ikan kecil, latar belakang laut",
+    "ai_hook": "Saya menarik kartu Tarot 'Page Piala' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 33,
+    "name": "Knight Piala",
+    "suit": "Cups",
+    "keywords": [
+      "keromantisan",
+      "inspirasi",
+      "petualangan"
+    ],
+    "upright_meaning": "Ikutilah ke mana hatimu menuntunmu—baik dalam cinta, seni, maupun impian terdalammu. Biarkan kelembutan perasaan memandu langkahmu, namun tetap berpijak pada kenyataan yang ada.",
+    "reversed_meaning": "Mungkin kamu sedang tenggelam dalam angan-angan kosong atau emosi yang tidak stabil. Jangan biarkan ilusi menjauhkanmu dari realitas. Hubungkan kembali impianmu dengan tindakan nyata.",
+    "image_prompt_keywords": "pria muda berkuda memegang piala, kuda berjalan tenang",
+    "ai_hook": "Saya menarik kartu Tarot 'Knight Piala' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 34,
+    "name": "Queen Piala",
+    "suit": "Cups",
+    "keywords": [
+      "belas kasih",
+      "kecerdasan emosional",
+      "pengertian"
+    ],
+    "upright_meaning": "Sensitivitas dan empatimu yang mendalam adalah kekuatan yang luar biasa. Kemampuanmu untuk memahami dan merawat orang lain sangat berharga. Tetaplah menjadi pelindung yang penuh kasih.",
+    "reversed_meaning": "Apakah kamu merasa lelah karena terlalu banyak menyerap emosi orang lain? Terkadang kamu perlu menutup cangkirmu agar tidak terkuras habis. Rawatlah dirimu terlebih dahulu.",
+    "image_prompt_keywords": "ratu duduk di singgasana memegang piala, wajah penuh pengertian",
+    "ai_hook": "Saya menarik kartu Tarot 'Queen Piala' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 35,
+    "name": "King Piala",
+    "suit": "Cups",
+    "keywords": [
+      "kebijakan",
+      "pengendalian emosi",
+      "kepemimpinan"
+    ],
+    "upright_meaning": "Kamu dipanggil untuk memimpin dengan kecerdasan emosional yang matang. Tetaplah tenang dan penuh welas asih, jadilah pelabuhan yang damai bagi dirimu sendiri dan orang-orang di sekitarmu.",
+    "reversed_meaning": "Mungkin perasaanmu sedang berkecamuk atau kamu cenderung menutupi kerapuhan dengan sikap dingin. Tidak apa-apa untuk bersikap rentan. Menghadapi emosi sendiri adalah bentuk kedewasaan.",
+    "image_prompt_keywords": "raja duduk di singgasana di atas laut, memegang piala, ekspresi wajah tenang",
+    "ai_hook": "Saya menarik kartu Tarot 'King Piala' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 36,
+    "name": "Ace Tongkat",
+    "suit": "Wands",
+    "keywords": [
+      "inspirasi",
+      "energi",
+      "kreativitas"
+    ],
+    "upright_meaning": "Percikan inspirasi baru sedang menyala di dalam dirimu. Proyek, ide, atau gairah baru siap untuk kamu mulai. Jangan tunggu sampai semuanya sempurna, melangkahlah dengan keberanian awal.",
+    "reversed_meaning": "Energi kreatifmu mungkin sedang tersumbat atau kamu ragu untuk memulai hal baru. Tidak apa-apa jika langkah pertamamu belum sempurna. Berikan dirimu izin untuk mencoba dengan perlahan.",
+    "image_prompt_keywords": "tangan muncul dari awan memegang tongkat bercabang, langit biru cerah",
+    "ai_hook": "Saya menarik kartu Tarot 'Ace Tongkat' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 37,
+    "name": "Two Tongkat",
+    "suit": "Wands",
+    "keywords": [
+      "perencanaan",
+      "kemitraan",
+      "masa depan"
+    ],
+    "upright_meaning": "Kamu berada di persimpangan jalan penting untuk merencanakan masa depanmu. Jangan ragu untuk bermimpi besar dan keluar dari zona nyaman. Dunia yang luas sedang menanti langkah beranimu.",
+    "reversed_meaning": "Apakah kamu terlalu lama merencanakan sesuatu tanpa pernah memulainya? Rasa takut melangkah keluar dari zona nyaman adalah hal yang wajar. Percayalah, kamu sudah siap untuk bergerak maju.",
+    "image_prompt_keywords": "seseorang berdiri memegang dunia kecil dengan tongkat, menghadap ke arah cakrawala",
+    "ai_hook": "Saya menarik kartu Tarot 'Two Tongkat' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 38,
+    "name": "Three Tongkat",
+    "suit": "Wands",
+    "keywords": [
+      "perluasan",
+      "pertumbuhan",
+      "visi"
+    ],
+    "upright_meaning": "Usahamu mulai menunjukkan kemajuan yang nyata. Pandanganmu semakin luas dan peluang baru mulai terlihat di cakrawala. Teruskan langkahmu dengan rasa percaya diri yang mantap.",
+    "reversed_meaning": "Mungkin ada penundaan atau hasil yang belum sesuai dengan harapanmu saat ini. Jangan berkecil hati. Ambil jeda sejenak untuk meninjau kembali rencanamu; terkadang arah baru diperlukan.",
+    "image_prompt_keywords": "tiga orang memegang tongkat di tepi laut, menatap ke arah cakrawala",
+    "ai_hook": "Saya menarik kartu Tarot 'Three Tongkat' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 39,
+    "name": "Four Tongkat",
+    "suit": "Wands",
+    "keywords": [
+      "perayaan",
+      "komunitas",
+      "stabilitas"
+    ],
+    "upright_meaning": "Ini adalah momen kegembiraan, perayaan, dan rasa syukur atas kestabilan yang telah kamu bangun. Nikmatilah kehangatan rumah dan kebersamaan dengan orang-orang tercinta yang mendukungmu.",
+    "reversed_meaning": "Mungkin ada sedikit ketegangan atau rasa tidak tenang di lingkungan rumah atau komunitasmu. Kembalilah pada hubungan sederhana yang membuatmu merasa aman dan diterima apa adanya.",
+    "image_prompt_keywords": "orang-orang merayakan di depan rumah dengan empat tongkat berhias bunga",
+    "ai_hook": "Saya menarik kartu Tarot 'Four Tongkat' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 40,
+    "name": "Five Tongkat",
+    "suit": "Wands",
+    "keywords": [
+      "konflik",
+      "kompetisi",
+      "persaingan"
+    ],
+    "upright_meaning": "Tantangan dan perbedaan pendapat di sekitarmu adalah kesempatan untuk menguji ide-idemu. Hadapilah konflik kreatif ini dengan jujur, karena di sinilah ruang bagimu untuk bertumbuh lebih matang.",
+    "reversed_meaning": "Apakah kamu sedang menghindari perselisihan karena merasa lelah? Terkadang konflik menjadi tidak sehat jika tidak dikelola. Mundurlah sejenak, cari kesamaan, dan tenangkan dirimu sebelum bicara.",
+    "image_prompt_keywords": "lima pria saling beradu tongkat kayu",
+    "ai_hook": "Saya menarik kartu Tarot 'Five Tongkat' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 41,
+    "name": "Six Tongkat",
+    "suit": "Wands",
+    "keywords": [
+      "kemenangan",
+      "pengakuan",
+      "prestasi"
+    ],
+    "upright_meaning": "Kerja kerasmu akhirnya membuahkan hasil dan diakui secara luas. Nikmatilah momen kemenangan ini dengan penuh rasa syukur. Biarkan kesuksesan kecil ini membangun rasa percaya dirimu untuk melangkah.",
+    "reversed_meaning": "Meskipun kamu sudah berusaha keras, mungkin kamu merasa kurang dihargai oleh sekitar. Jangan biarkan keraguan merusak keyakinanmu. Nilai dirimu tidak ditentukan oleh pengakuan dari luar.",
+    "image_prompt_keywords": "orang di atas kuda mengangkat tongkat berhiaskan daun sebagai lambang kemenangan",
+    "ai_hook": "Saya menarik kartu Tarot 'Six Tongkat' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 42,
+    "name": "Seven Tongkat",
+    "suit": "Wands",
+    "keywords": [
+      "ketahanan",
+      "pertahanan",
+      "keberanian"
+    ],
+    "upright_meaning": "Kamu sedang berdiri kokoh menghadapi tantangan dan perbedaan pendapat. Ingatlah bahwa kamu memiliki kekuatan dan keberanian untuk mempertahankan prinsipmu. Tetaplah teguh pada kebenaranmu.",
+    "reversed_meaning": "Apakah kamu merasa lelah karena harus selalu membela diri? Wajar jika sesekali merasa kewalahan. Ingatlah bahwa kamu lebih kuat dari yang kamu duga. Tarik napas, dan pertahankan batasanmu.",
+    "image_prompt_keywords": "orang membawa tongkat menghadapi enam tongkat yang diarahkan padanya",
+    "ai_hook": "Saya menarik kartu Tarot 'Seven Tongkat' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 43,
+    "name": "Eight Tongkat",
+    "suit": "Wands",
+    "keywords": [
+      "kecepatan",
+      "aksi",
+      "perjalanan"
+    ],
+    "upright_meaning": "Segala hal berjalan dengan sangat cepat saat ini. Peluang dan pesan baru berdatangan dengan deras. Bersiaplah untuk mengambil tindakan cepat dan keputusan tegas demi menyambut momentum ini.",
+    "reversed_meaning": "Laju kehidupan terasa terlalu cepat hingga membuatmu lelah, atau justru ada hambatan yang menundanya. Jangan panik. Tarik napas dalam-dalam, perlambat langkahmu, dan biarkan semua mengalir.",
+    "image_prompt_keywords": "delapan tongkat melayang di udara berarah ke depan",
+    "ai_hook": "Saya menarik kartu Tarot 'Eight Tongkat' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 44,
+    "name": "Nine Tongkat",
+    "suit": "Wands",
+    "keywords": [
+      "ketahanan",
+      "usia lanjut",
+      "kekuatan batin"
+    ],
+    "upright_meaning": "Kamu mungkin merasa lelah dan penuh luka perjuangan, namun kamu masih tetap berdiri tegak. Ini bukti ketangguhanmu. Lindungi batasan dirimu dan pertahankan apa yang berharga bagimu sedikit lagi.",
+    "reversed_meaning": "Mungkin kamu merasa lelah karena terus bersikap defensif. Apakah dinding pertahanan yang kamu bangun justru mengurungmu? Izinkan dirimu beristirahat dan lepaskan kecurigaan yang melelahkan.",
+    "image_prompt_keywords": "seseorang terluka berdiri di depan delapan tongkat tegak",
+    "ai_hook": "Saya menarik kartu Tarot 'Nine Tongkat' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 45,
+    "name": "Ten Tongkat",
+    "suit": "Wands",
+    "keywords": [
+      "beban",
+      "tanggung jawab",
+      "kelelahan"
+    ],
+    "upright_meaning": "Beban yang kamu pikul saat ini terasa terlampau berat. Tanyakan pada dirimu sendiri: apakah semua tanggung jawab ini benar-benar milikmu? Belajarlah untuk melepaskan atau berbagi beban itu.",
+    "reversed_meaning": "Beban berat di pundakmu perlahan mulai terangkat. Kamu mulai belajar mendelegasikan tugas atau merelakan hal-hal yang di luar kendalimu. Tarik napas lega, perjalananmu kini terasa lebih ringan.",
+    "image_prompt_keywords": "orang membungkuk menanggung sepuluh tongkat berat di punggungnya",
+    "ai_hook": "Saya menarik kartu Tarot 'Ten Tongkat' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 46,
+    "name": "Page Tongkat",
+    "suit": "Wands",
+    "keywords": [
+      "eksplorasi",
+      "kegembiraan",
+      "kebebasan"
+    ],
+    "upright_meaning": "Percikan semangat dan rasa ingin tahu yang besar sedang bangkit dalam dirimu. Sambutlah ide atau minat baru ini dengan hati terbuka. Nikmatilah proses belajar dan menjelajahi hal baru.",
+    "reversed_meaning": "Mungkin kamu sedang merasa kehilangan gairah atau bingung menentukan arah. Jangan paksa dirimu untuk langsung sukses. Jalani minatmu dengan perlahan tanpa beban target yang berlebihan.",
+    "image_prompt_keywords": "pemuda memegang tongkat sambil menulis di gulungan cerah di belakangnya pemandangan alam",
+    "ai_hook": "Saya menarik kartu Tarot 'Page Tongkat' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 47,
+    "name": "Knight Tongkat",
+    "suit": "Wands",
+    "keywords": [
+      "aksi",
+      "keberanian",
+      "ketergesaan"
+    ],
+    "upright_meaning": "Kamu sedang melaju penuh gairah dan tekad yang berkobar. Kejarlah mimpimu dengan berani! Namun ingatlah untuk tetap memperhatikan detail-detail kecil agar tidak terjatuh di tengah jalan.",
+    "reversed_meaning": "Apakah kamu bertindak terlalu impulsif hingga mengabaikan konsekuensinya? Berjalan cepat itu baik, tapi pastikan kamu tidak menabrak hal penting. Perlambat lajumu dan pikirkan matang-matang.",
+    "image_prompt_keywords": "kesatria berpakaian perang memegang tongkat di kuda berlari kencang",
+    "ai_hook": "Saya menarik kartu Tarot 'Knight Tongkat' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 48,
+    "name": "Queen Tongkat",
+    "suit": "Wands",
+    "keywords": [
+      "keberanian",
+      "keteguhan",
+      "sukacita"
+    ],
+    "upright_meaning": "Pancarkan rasa percaya diri dan pesonamu yang hangat. Keberanianmu untuk menjadi diri sendiri adalah inspirasi bagi orang lain. Terteruslah berkarya dengan integritas dan ketulusan hati.",
+    "reversed_meaning": "Mungkin kamu merasa tidak aman atau sedang bersikap terlalu menuntut akhir-akhir ini. Kembalilah pada kelembutan hatimu. Keberanian sejati tidak perlu ditunjukkan dengan kekerasan.",
+    "image_prompt_keywords": "ratu tongkat berdiri tegas memegang tongkat, matahari terbenam di latar belakang",
+    "ai_hook": "Saya menarik kartu Tarot 'Queen Tongkat' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 49,
+    "name": "King Tongkat",
+    "suit": "Wands",
+    "keywords": [
+      "pemimpin",
+      "pandangan luas",
+      "tantangan"
+    ],
+    "upright_meaning": "Jadilah pemimpin yang menginspirasi lewat tindakan nyata dan kejujuran. Visi yang kamu miliki sangat kuat. Ajaklah orang-orang di sekitarmu bertumbuh bersama dengan penuh kebaikan.",
+    "reversed_meaning": "Mungkin kamu sedang bersikap terlalu dominan atau tidak sabar pada proses orang lain. Kepemimpinan sejati bukanlah tentang mengendalikan, melainkan melayani dan mendengarkan dengan sabar.",
+    "image_prompt_keywords": "raja tongkat memegang tongkat besar berdiri di bukit, langit terbuka",
+    "ai_hook": "Saya menarik kartu Tarot 'King Tongkat' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 50,
+    "name": "Ace Pedang",
+    "suit": "Swords",
+    "keywords": [
+      "kejernihan",
+      "terobosan",
+      "pencerahan"
+    ],
+    "upright_meaning": "Kejelasan berpikir mulai memotong kabut kebingunganmu. Sebuah kebenaran atau ide baru yang segar siap mengubah cara pandangmu. Sambutlah terobosan pikiran ini dengan kejujuran hati.",
+    "reversed_meaning": "Mungkin pikiranmu sedang buntu atau diselimuti keraguan. Kebenaran itu ada, namun butuh waktu untuk terlihat jelas. Jangan dipaksakan. Istirahatkan pikiranmu sejenak agar kembali jernih.",
+    "image_prompt_keywords": "tangan memegang pedang yang muncul dari awan, langit cerah",
+    "ai_hook": "Saya menarik kartu Tarot 'Ace Pedang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 51,
+    "name": "Two Pedang",
+    "suit": "Swords",
+    "keywords": [
+      "pilihan sulit",
+      "kebimbangan",
+      "pintu tertutup"
+    ],
+    "upright_meaning": "Kamu merasa buntu di antara dua pilihan sulit. Terkadang, jawabannya bukan memilih salah satu, melainkan mencari jalan ketiga yang belum terlihat. Luangkan waktu dan jangan terburu-buru.",
+    "reversed_meaning": "Kebuntuan pikiranmu perlahan mulai mencair. Arah yang benar mulai tampak jelas di hadapanmu. Percayalah pada kebijaksanaan dirimu untuk mengambil keputusan terbaik dan melangkah maju.",
+    "image_prompt_keywords": "wanita bermata tertutup memegang dua pedang, duduk di laut berombak",
+    "ai_hook": "Saya menarik kartu Tarot 'Two Pedang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 52,
+    "name": "Three Pedang",
+    "suit": "Swords",
+    "keywords": [
+      "patah hati",
+      "kesedihan",
+      "kesakitan"
+    ],
+    "upright_meaning": "Luka emosional, patah hati, atau kekecewaan mendalam sedang menyelimutimu. Menangislah jika perlu; rasa sakit ini adalah bagian dari penyembuhan. Badai ini pasti berlalu pada waktunya.",
+    "reversed_meaning": "Luka hatimu perlahan mulai mengering dan membaik. Meskipun rasa sakitnya masih berbekas, kamu mulai membuka pintu maaf demi kedamaian jiwamu sendiri. Proses pemulihan telah tiba.",
+    "image_prompt_keywords": "tiga pedang besar menancap di hati melayang di depan awan gelap",
+    "ai_hook": "Saya menarik kartu Tarot 'Three Pedang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 53,
+    "name": "Four Pedang",
+    "suit": "Swords",
+    "keywords": [
+      "istirahat",
+      "penyembuhan",
+      "kontemplasi"
+    ],
+    "upright_meaning": "Tubuh dan pikiranmu sedang memanggilmu untuk beristirahat. Setelah melewati masa-masa sulit, melipurlah sejenak untuk memulihkan energi. Istirahat bukanlah kelemahan, melainkan kebutuhan.",
+    "reversed_meaning": "Apakah kamu merasa gelisah dan enggan mengistirahatkan pikiranmu? Memaksakan diri melampaui batas hanya akan membuatmu lelah. Berikan dirimu izin untuk diam dan pulih sejenak.",
+    "image_prompt_keywords": "orang berbaring di gereja, dua pedang terpasang di tanah di dekatnya",
+    "ai_hook": "Saya menarik kartu Tarot 'Four Pedang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 54,
+    "name": "Five Pedang",
+    "suit": "Swords",
+    "keywords": [
+      "ambisi",
+      "persaingan",
+      "kemenangan"
+    ],
+    "upright_meaning": "Konflik atau perbedaan pendapat ini mungkin menyisakan rasa kalah atau menang yang semu. Renungkanlah, apakah kemenangan yang kamu raih sebanding dengan hubungan yang rusak?",
+    "reversed_meaning": "Kamu mulai lelah bertengkar dan memilih jalan damai. Keinginan untuk menang sendiri perlahan mereda. Mengetahui kapan harus mengalah dan berjalan pergi adalah tanda kedewasaan sejati.",
+    "image_prompt_keywords": "dua pria berjalan pergi meninggalkan tiga pedang teronggok di tanah",
+    "ai_hook": "Saya menarik kartu Tarot 'Five Pedang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 55,
+    "name": "Six Pedang",
+    "suit": "Swords",
+    "keywords": [
+      "perpindahan",
+      "meninggalkan",
+      "perubahan"
+    ],
+    "upright_meaning": "Kamu sedang melangkah menjauhi badai menuju perairan yang lebih tenang. Perjalanan ini mungkin terasa berat, namun sangat diperlukan bagi kesembuhanmu. Percayalah arah ini sudah benar.",
+    "reversed_meaning": "Apakah kamu merasa enggan melepas masa lalu atau enggan menerima perubahan baru? Terlalu banyak membawa beban kenangan usang hanya akan memberatkan langkahmu. Mari berjalan lebih ringan.",
+    "image_prompt_keywords": "orang di perahu membawa enam pedang melintas di perairan tenang",
+    "ai_hook": "Saya menarik kartu Tarot 'Six Pedang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 56,
+    "name": "Seven Pedang",
+    "suit": "Swords",
+    "keywords": [
+      "tipu muslihat",
+      "strategi",
+      "kerahasiaan"
+    ],
+    "upright_meaning": "Kamu dituntut untuk bersikap cerdik menghadapi situasi yang rumit ini. Namun ingatlah, jangan pernah mengorbankan kejujuran demi keuntungan sesaat. Integritasmu jauh lebih berharga.",
+    "reversed_meaning": "Kebohongan atau rahasia yang tersembunyi perlahan mulai terungkap. Entah kamu yang meluruskan kesalahan atau melindungi diri, hadapilah segalanya dengan kejujuran yang tulus.",
+    "image_prompt_keywords": "orang mencuri lima pedang dari kamp, dua pedang lainnya masih tertancap di tanah",
+    "ai_hook": "Saya menarik kartu Tarot 'Seven Pedang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 57,
+    "name": "Eight Pedang",
+    "suit": "Swords",
+    "keywords": [
+      "terperangkap",
+      "ketakutan",
+      "keterbatasan"
+    ],
+    "upright_meaning": "Kamu merasa terjebak dan tidak berdaya, namun lihatlah lebih dekat. Tali pengikatmu sebenarnya longgar. Penjara yang sesungguhnya ada di dalam pikiran dan ketakutanmu sendiri.",
+    "reversed_meaning": "Kamu mulai menyadari bahwa batasan yang mengekangmu sebenarnya dibuat oleh pikiranmu sendiri. Pintu kebebasan kini terbuka. Melangkahlah keluar dengan penuh rasa percaya diri.",
+    "image_prompt_keywords": "wanita terikat di dalam kerangka pedang yang membentuk lingkaran",
+    "ai_hook": "Saya menarik kartu Tarot 'Eight Pedang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 58,
+    "name": "Nine Pedang",
+    "suit": "Swords",
+    "keywords": [
+      "kecemasan",
+      "ketidakpastian",
+      "kekhawatiran"
+    ],
+    "upright_meaning": "Kecemasan dan pikiran buruk sedang menghantui malam-malammu. Ingatlah, kekhawatiranmu sering kali lebih menakutkan daripada kenyataan. Fajar selalu datang menyapu malam yang tergelap.",
+    "reversed_meaning": "Kecemasan yang mencengkerammu perlahan mulai memudar. Cahaya ketenangan mulai menerangi pikiranmu. Jangan ragu mencari teman bicara; kamu tidak harus memikul beban ini sendirian.",
+    "image_prompt_keywords": "orang duduk di samping tempat tidur, sembilan pedang tergantung di dinding di belakangnya",
+    "ai_hook": "Saya menarik kartu Tarot 'Nine Pedang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 59,
+    "name": "Ten Pedang",
+    "suit": "Swords",
+    "keywords": [
+      "kehancuran",
+      "akhir",
+      "kekecewaan"
+    ],
+    "upright_meaning": "Kamu merasa telah mencapai titik terendah dalam hidup dan segalanya runtuh. Namun ingatlah, ketika tidak ada lagi tempat untuk jatuh, satu-satunya arah adalah kembali ke atas. Pasrahkan diri.",
+    "reversed_meaning": "Kamu perlahan bangkit kembali dari keterpurukan yang menyakitkan. Luka-luka itu masih membekas, namun penyembuhan sedang berlangsung. Jalani hari demi hari dengan sabar dan perlahan.",
+    "image_prompt_keywords": "seseorang terbaring di tanah dengan sepuluh pedang menancap di punggungnya",
+    "ai_hook": "Saya menarik kartu Tarot 'Ten Pedang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 60,
+    "name": "Page Pedang",
+    "suit": "Swords",
+    "keywords": [
+      "rasa ingin tahu",
+      "energi mental",
+      "pemikiran"
+    ],
+    "upright_meaning": "Rasa ingin tahu dan kejujuran sedang menyelimutimu. Gunakan momen ini untuk belajar, bertanya, dan mengumpulkan informasi. Tetaplah kritis, namun sampaikan kebenaran dengan cara yang lembut.",
+    "reversed_meaning": "Apakah kamu sedang menggunakan kata-katamu dengan kurang bijak atau terlalu kritis? Ingatlah, kata-kata memiliki kekuatan untuk menyembuhkan atau melukai. Berbicaralah dengan penuh kebaikan.",
+    "image_prompt_keywords": "anak memegang pedang muda ke udara, kilatan petir di langit",
+    "ai_hook": "Saya menarik kartu Tarot 'Page Pedang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 61,
+    "name": "Knight Pedang",
+    "suit": "Swords",
+    "keywords": [
+      "keberanian",
+      "impulsivitas",
+      "strategi"
+    ],
+    "upright_meaning": "Kamu sedang melaju ke depan dengan tekad bulat dan ambisi yang besar. Kejarlah tujuanmu dengan berani! Namun ingatlah untuk tetap peduli pada perasaan orang-orang di sekitarmu sepanjang jalan.",
+    "reversed_meaning": "Apakah kamu bertindak terburu-buru tanpa memikirkan akibatnya, atau melukai orang lain dengan kata-katamu? Perlambat langkahmu, pikirkan matang-matang, dan pertimbangkan dampak dari tindakanmu.",
+    "image_prompt_keywords": "kesatria berjas baja memegang pedang tegak di atas kuda berlari kencang",
+    "ai_hook": "Saya menarik kartu Tarot 'Knight Pedang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 62,
+    "name": "Queen Pedang",
+    "suit": "Swords",
+    "keywords": [
+      "kecerdasan",
+      "kejelasan pikiran",
+      "kebijaksanaan"
+    ],
+    "upright_meaning": "Pikiranmu sedang sangat jernih dan mandiri. Kamu mampu melihat kebenaran di balik ilusi dengan bijak. Percayalah pada kecerdasanmu, dan buatlah batasan diri yang tegas namun tetap penuh kasih.",
+    "reversed_meaning": "Mungkin kamu bersikap terlalu dingin, kaku, atau terlalu keras pada dirimu dan orang lain saat ini. Cobalah untuk menyelaraskan ketajaman pikiranmu dengan kelembutan hatimu yang penuh empati.",
+    "image_prompt_keywords": "ratu memegang pedang di depan patung gargoyle, wajah serius",
+    "ai_hook": "Saya menarik kartu Tarot 'Queen Pedang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 63,
+    "name": "King Pedang",
+    "suit": "Swords",
+    "keywords": [
+      "kedisiplinan",
+      "kewenangan",
+      "pengendalian"
+    ],
+    "upright_meaning": "Jadilah pemimpin yang bijak, adil, dan berpijak pada kebenaran. Pikiranmu yang logis sangat dibutuhkan saat ini. Ambil keputusan dengan integritas dan kejujuran yang tinggi.",
+    "reversed_meaning": "Mungkin kamu sedang menggunakan kecerdasanmu untuk mengendalikan orang lain, atau bersikap terlalu kaku. Kebijaksanaan sejati adalah ketika kamu mampu memadukan logika dengan rasa welas asih.",
+    "image_prompt_keywords": "raja berjubah duduk di singgasana, memegang pedang tegak, wajah tegas",
+    "ai_hook": "Saya menarik kartu Tarot 'King Pedang' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 64,
+    "name": "Ace Koin",
+    "suit": "Pentacles",
+    "keywords": [
+      "peluang",
+      "stabilitas",
+      "kelimpahan"
+    ],
+    "upright_meaning": "Benih peluang baru di dunia nyata—baik pekerjaan, bisnis, atau keuangan—sedang hadir untukmu. Inilah saat yang tepat untuk mewujudkan mimpimu lewat langkah praktis yang nyata dan terencana.",
+    "reversed_meaning": "Mungkin kamu melewatkan sebuah kesempatan berharga atau merasa cemas akan kestabilan hidupmu saat ini. Jangan berkecil hati. Fokuslah pada langkah kecil yang bisa kamu lakukan hari ini.",
+    "image_prompt_keywords": "tangan muncul dari awan memegang koin emas besar",
+    "ai_hook": "Saya menarik kartu Tarot 'Ace Koin' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 65,
+    "name": "Two Koin",
+    "suit": "Pentacles",
+    "keywords": [
+      "keseimbangan",
+      "prioritas",
+      "adaptasi"
+    ],
+    "upright_meaning": "Kamu sedang menyeimbangkan berbagai tanggung jawab—pekerjaan, keuangan, dan hubungan—dengan sangat baik. Tetaplah fleksibel dan percayalah pada kemampuanmu mengelola kesibukan ini.",
+    "reversed_meaning": "Apakah kamu merasa kewalahan karena terlalu banyak hal yang harus diurus sekaligus? Terkadang kita perlu membuat skala prioritas. Berhentilah sejenak and pilih apa yang paling penting saat ini.",
+    "image_prompt_keywords": "orang jongkok sambil menjuggling dua koin dengan lambang tak hingga di antara keduanya",
+    "ai_hook": "Saya menarik kartu Tarot 'Two Koin' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 66,
+    "name": "Three Koin",
+    "suit": "Pentacles",
+    "keywords": [
+      "kolaborasi",
+      "pembangunan",
+      "kerjasama"
+    ],
+    "upright_meaning": "Kolaborasi yang menyenangkan dan kerja sama tim akan membawa hasil yang luar biasa. Bagikan keahlianmu dan belajarlah dari orang lain. Usaha bersama ini akan melahirkan karya yang indah.",
+    "reversed_meaning": "Mungkin kamu merasa kurang dihargai atau kesulitan bekerja sama dengan tim saat ini. Jangan memikul semuanya sendirian. Bukalah komunikasi dan carilah dukungan dari rekan kerja sekitarmu.",
+    "image_prompt_keywords": "tiga tukang batu membangun patung, satu memegang palu, dua orang lainnya memahat batu",
+    "ai_hook": "Saya menarik kartu Tarot 'Three Koin' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 67,
+    "name": "Four Koin",
+    "suit": "Pentacles",
+    "keywords": [
+      "ketekunan",
+      "keamanan",
+      "penghematan"
+    ],
+    "upright_meaning": "Kamu sedang menjaga sumber dayamu—energi, uang, atau waktu—dengan sangat hati-hati. Keamanan itu penting, namun pastikan kamu tidak menutup diri dari keindahan hidup hanya demi rasa aman.",
+    "reversed_meaning": "Kamu mulai belajar melepaskan kendali dan membuka diri terhadap kelimpahan yang ada. Tidak perlu menyimpan semuanya sendirian; berbagi dan menerima akan membuat aliran hidupmu lebih indah.",
+    "image_prompt_keywords": "orang tua duduk memeluk koin di tangan, dikelilingi empat koin lainnya di tanah",
+    "ai_hook": "Saya menarik kartu Tarot 'Four Koin' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 68,
+    "name": "Five Koin",
+    "suit": "Pentacles",
+    "keywords": [
+      "kesulitan",
+      "kemiskinan",
+      "ketidakamanan"
+    ],
+    "upright_meaning": "Mungkin kamu sedang merasa kesulitan atau terasingkan dalam menghadapi masalah finansial atau emosional. Ingatlah, kamu tidak sendirian. Selalu ada bantuan dan cahaya hangat jika kamu mau meminta.",
+    "reversed_meaning": "Masa-masa sulit yang melelahkan perlahan mulai berakhir. Kamu mulai menemukan jalan kembali menuju keamanan dan kedamaian. Pemulihan butuh waktu, namun kamu berada di arah yang tepat.",
+    "image_prompt_keywords": "dua orang miskin berjalan melewati patung gereja salju dengan dua koin di jendela",
+    "ai_hook": "Saya menarik kartu Tarot 'Five Koin' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 69,
+    "name": "Six Koin",
+    "suit": "Pentacles",
+    "keywords": [
+      "kedermawanan",
+      "keadilan",
+      "dukungan"
+    ],
+    "upright_meaning": "Pemberian dan penerimaan berada dalam keseimbangan yang indah saat ini. Jika kamu berlebih, bagikanlah dengan tulus. Jika kamu butuh, terimalah uluran tangan orang lain dengan rasa syukur.",
+    "reversed_meaning": "Keseimbangan memberi dan menerima dalam hidupmu sedang terganggu. Mungkin kamu memberi terlalu banyak hingga menguras diri sendiri, atau sebaliknya. Temukan kembali titik tengah yang sehat.",
+    "image_prompt_keywords": "orang kaya memberi koin kepada dua pengemis, timbangan emas tergantung di atasnya",
+    "ai_hook": "Saya menarik kartu Tarot 'Six Koin' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 70,
+    "name": "Seven Koin",
+    "suit": "Pentacles",
+    "keywords": [
+      "ketekunan",
+      "diligensi",
+      "evaluasi"
+    ],
+    "upright_meaning": "Ini adalah masa untuk bersabar dan mengevaluasi perjalananmu. Benih yang kamu tanam butuh waktu untuk tumbuh. Tenanglah, periksa kemajuanmu, dan nikmatilah setiap proses perkembangan ini.",
+    "reversed_meaning": "Apakah kamu merasa tidak sabar atau kecewa karena hasil yang belum terlihat? Menumbuhkan sesuatu yang berharga memang butuh waktu. Percayalah pada prosesnya; usahamu tidak akan sia-sia.",
+    "image_prompt_keywords": "petani beristirahat memeriksa lima koin tertancap di tanah",
+    "ai_hook": "Saya menarik kartu Tarot 'Seven Koin' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 71,
+    "name": "Eight Koin",
+    "suit": "Pentacles",
+    "keywords": [
+      "keahlian",
+      "latihan",
+      "kualitas"
+    ],
+    "upright_meaning": "Kamu sedang tekun melatih keahlianmu dan fokus pada detail pekerjaanmu. Dedikasi ini sangat luar biasa. Latihlah terus kemampuanmu dengan sabar, karena kemahiran lahir dari konsistensi.",
+    "reversed_meaning": "Mungkin kamu merasa bosan, jenuh, atau mulai kehilangan gairah kerja. Ingatlah kembali niat awalmu saat memulai perjalanan ini. Temukan kembali keindahan dalam setiap proses berkarya.",
+    "image_prompt_keywords": "tukang kayu bekerja giat di mejanya, delapan koin di sekitarnya",
+    "ai_hook": "Saya menarik kartu Tarot 'Eight Koin' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 72,
+    "name": "Nine Koin",
+    "suit": "Pentacles",
+    "keywords": [
+      "kemandirian",
+      "kemakmuran",
+      "kenikmatan"
+    ],
+    "upright_meaning": "Nikmatilah buah dari kerja keras dan kemandirianmu selama ini. Kamu telah membangun kehidupan yang indah dan nyaman. Luangkan waktu untuk bersyukur dan menikmati kelimpahan yang kamu miliki.",
+    "reversed_meaning": "Mungkin kamu merasa pencapaianmu belum cukup atau merasa kesepian di tengah keberhasilanmu. Ingatlah bahwa kamu sangat berharga. Izinkan dirimu menikmati hasil upayamu dengan sukacita.",
+    "image_prompt_keywords": "wanita kaya berdiri di kebun dengan sembilan koin emas, wajah puas",
+    "ai_hook": "Saya menarik kartu Tarot 'Nine Koin' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 73,
+    "name": "Ten Koin",
+    "suit": "Pentacles",
+    "keywords": [
+      "warisan",
+      "kesempurnaan",
+      "perencanaan"
+    ],
+    "upright_meaning": "Kamu sedang membangun stabilitas jangka panjang dan warisan yang indah untuk masa depan. Nikmatilah rasa aman, kemakmuran, dan kebersamaan hangat dengan keluarga yang mendukung hidupmu.",
+    "reversed_meaning": "Mungkin ada rasa tidak aman secara finansial atau ketidakharmonisan dalam keluarga saat ini. Alihkan fokusmu dari materi semata kepada kedekatan emosional yang jauh lebih berharga.",
+    "image_prompt_keywords": "keluarga berkumpul di depan rumah besar dengan pohon keberlimpahan di latar belakang",
+    "ai_hook": "Saya menarik kartu Tarot 'Ten Koin' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 74,
+    "name": "Page Koin",
+    "suit": "Pentacles",
+    "keywords": [
+      "ambisi",
+      "ketekunan",
+      "ketelitian"
+    ],
+    "upright_meaning": "Kamu sedang bersemangat untuk belajar dan membangun sesuatu yang nyata. Langkah awal di dunia praktis atau keterampilan baru ini sangat menjanjikan. Tetaplah fokus dan berpijak pada bumi.",
+    "reversed_meaning": "Apakah kamu sering menunda pekerjaan atau kehilangan arah dalam rencana praktismu? Jangan berkecil hati. Hubungkan kembali dirimu dengan tujuan awal dan mulailah dengan langkah kecil.",
+    "image_prompt_keywords": "pemuda memegang koin sambil menulis di buku catatan",
+    "ai_hook": "Saya menarik kartu Tarot 'Page Koin' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 75,
+    "name": "Knight Koin",
+    "suit": "Pentacles",
+    "keywords": [
+      "tanggung jawab",
+      "ketekunan",
+      "kedisiplinan"
+    ],
+    "upright_meaning": "Langkahmu mungkin bukan yang tercepat, namun sangat stabil dan dapat diandalkan. Ketekunan, kedisiplinan, dan kesabaranmu akan membawamu mencapai tujuan dengan aman dan bertahan lama.",
+    "reversed_meaning": "Apakah kamu merasa terjebak dalam rutinitas membosankan atau terlalu takut mengambil risiko? Sesekali, tidak apa-apa untuk melangkah keluar jalur demi menemukan semangat baru.",
+    "image_prompt_keywords": "kesatria memegang koin di kuda pelan, latar padang terbuka",
+    "ai_hook": "Saya menarik kartu Tarot 'Knight Koin' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 76,
+    "name": "Queen Koin",
+    "suit": "Pentacles",
+    "keywords": [
+      "praktis",
+      "kenyamanan",
+      "keamanan"
+    ],
+    "upright_meaning": "Pancarkan kasih sayang yang membumi, kepraktisan, dan kemurahan hati. Rawatlah dirimu dan orang-orang di sekitarmu dengan penuh kasih sayang. Ciptakan ruang yang hangat dan nyaman bagi semua.",
+    "reversed_meaning": "Mungkin kamu terlalu sibuk merawat orang lain hingga lupa merawat kebutuhan jiwamu sendiri, atau terlalu cemas akan materi. Temukan kembali keseimbangan hidup dengan menyayangi dirimu.",
+    "image_prompt_keywords": "ratu duduk di singgasana dikelilingi alam subur, memegang koin emas",
+    "ai_hook": "Saya menarik kartu Tarot 'Queen Koin' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 77,
+    "name": "King Koin",
+    "suit": "Pentacles",
+    "keywords": [
+      "kelimpahan",
+      "kemakmuran",
+      "stabilitas"
+    ],
+    "upright_meaning": "Kamu dipanggil untuk memimpin dengan kepraktisan, membangun kestabilan, dan berbagi kelimpahan. Kelola duniamu dengan bijaksana dan jadilah pelindung yang kokoh bagi sekitarmu.",
+    "reversed_meaning": "Mungkin kamu sedang bersikap terlalu keras kepala, atau mengukur segala sesuatu hanya dari segi materi. Ingatlah, kekayaan sejati diukur dari ketulusan hati dan kebaikan yang kamu bagikan.",
+    "image_prompt_keywords": "raja duduk di singgasana berhiaskan bahan emas, memegang tongkat dan koin, dikelilingi dekorasi mewah",
+    "ai_hook": "Saya menarik kartu Tarot 'King Koin' hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  }
 ]

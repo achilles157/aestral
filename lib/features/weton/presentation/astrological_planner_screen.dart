@@ -226,13 +226,15 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
                       _buildHeaderSection(),
                       const SizedBox(height: 16),
                       if (_isLoadingCalendar) ...[
-                        const Expanded(
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 60.0),
                           child: Center(
                             child: CircularProgressIndicator(color: AppTheme.accentGold),
                           ),
                         ),
                       ] else if (_errorMessage != null) ...[
-                        Expanded(
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 40.0),
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,

@@ -14,7 +14,8 @@
       "Lakukan audit pengeluaran bulanan dan hapus langganan tidak terpakai",
       "Bersihkan lemari pakaian atau meja kerja Anda",
       "Batasi konsumsi media sosial untuk menjernihkan pikiran"
-    ]
+    ],
+    "ai_hook": "Saat ini kita berada di Mangsa Kasa. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
   },
   {
     "id": 2,
@@ -31,7 +32,8 @@
       "Jurnal harian untuk melacak kecemasan dan hal-hal yang Anda syukuri",
       "Fokus pada self-healing, minum cukup air, dan olahraga ringan",
       "Evaluasi rencana investasi masa depan Anda"
-    ]
+    ],
+    "ai_hook": "Saat ini kita berada di Mangsa Karo. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
   },
   {
     "id": 3,
@@ -40,7 +42,7 @@
     "tanggal_siklus": "25 Agustus - 17 September",
     "candra_mangsa": "Suta manut ing bapa",
     "arketipe_modern": "Sang Pemanen Awal (Mentorship & Disiplin)",
-    "karakter_energi": "Energi kepatuhan pada proses and disiplin. Hasil mulai terlihat dari kerja keras sebelumnya.",
+    "karakter_energi": "Energi kepatuhan pada proses dan disiplin. Hasil mulai terlihat dari kerja keras sebelumnya.",
     "ramalan_karier": "Hasil kerja kerasmu mulai berbuah—mungkin dalam bentuk pengakuan, promosi kecil, atau proyek yang selesai tepat waktu. Ini saatnya memanen apa yang sudah ditanam, sekecil apapun. Jangan tergoda untuk mengambil jalan pintas; tetap patuh pada standar dan etos kerjamu.",
     "ramalan_asmara": "Seperti palawija yang mulai bisa dipanen, hubungan yang dibangun dengan sabar mulai menunjukkan hasil. Pasangan mungkin mulai lebih terbuka atau menunjukkan apresiasi. Tetaplah konsisten—jangan berubah drastis hanya karena situasi membaik.",
     "pesan_kesadaran": "Disiplin dan konsistensi adalah orang tua dari keberhasilan.",
@@ -48,7 +50,8 @@
       "Hubungi mentor atau rekan senior untuk sesi bincang karier kasual",
       "Beli buku atau langganan kursus edukatif baru",
       "Buat jadwal rutinitas harian yang lebih disiplin"
-    ]
+    ],
+    "ai_hook": "Saat ini kita berada di Mangsa Katiga. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
   },
   {
     "id": 4,
@@ -65,7 +68,8 @@
       "Lakukan aktivitas seni atau kreatif tanpa takut dinilai orang lain",
       "Habiskan waktu di alam terbuka atau taman kota di pagi hari",
       "Latih pernapasan (mindful breathing) untuk melepas stres terpendam"
-    ]
+    ],
+    "ai_hook": "Saat ini kita berada di Mangsa Kapat. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
   },
   {
     "id": 5,
@@ -82,7 +86,8 @@
       "Ajukan proposal proyek atau kirim aplikasi kerja ke tempat impian Anda",
       "Jadwalkan kencan seru di luar ruangan (seperti piknik atau jalan-jalan santai)",
       "Lakukan donasi atau kebaikan kecil untuk mengalirkan energi keberkahan"
-    ]
+    ],
+    "ai_hook": "Saat ini kita berada di Mangsa Kalima. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
   },
   {
     "id": 6,
@@ -99,7 +104,8 @@
       "Adakan makan malam kecil bersama orang terdekat untuk merayakan kesuksesan bersama",
       "Tulis rangkuman refleksi diri mengenai pencapaian setahun terakhir",
       "Manjakan diri Anda dengan sesi spa atau pijat relaksasi"
-    ]
+    ],
+    "ai_hook": "Saat ini kita berada di Mangsa Kanem. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
   },
   {
     "id": 7,
@@ -116,7 +122,8 @@
       "Matikan notifikasi pekerjaan setelah jam kantor untuk menjaga kesehatan mental",
       "Buat minuman hangat dan nikmati waktu santai membaca buku di rumah",
       "Lakukan meditasi grounding untuk meredakan kecemasan makro"
-    ]
+    ],
+    "ai_hook": "Saat ini kita berada di Mangsa Kapitu. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
   },
   {
     "id": 8,
@@ -133,7 +140,8 @@
       "Hadiri acara komunitas, seminar, atau pertemuan sosial baru",
       "Ubah penampilan atau gaya berpakaian Anda untuk meningkatkan kepercayaan diri",
       "Mulailah mengerjakan proyek hobi yang paling membuat Anda bersemangat"
-    ]
+    ],
+    "ai_hook": "Saat ini kita berada di Mangsa Kawolu. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
   },
   {
     "id": 9,
@@ -150,7 +158,8 @@
       "Tulis jurnal reflektif atau bagikan tulisan edukasi di LinkedIn/blog",
       "Luangkan waktu 1 jam khusus untuk mendengarkan curhat pasangan secara aktif",
       "Rapikan catatan-catatan ide kerja Anda agar lebih terstruktur"
-    ]
+    ],
+    "ai_hook": "Saat ini kita berada di Mangsa Kasanga. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
   },
   {
     "id": 10,
@@ -167,7 +176,8 @@
       "Hitung kekayaan bersih (net worth) Anda dan evaluasi portofolio investasi",
       "Beli hadiah kecil berkualitas untuk diri sendiri dan orang yang membantu Anda",
       "Set alokasi tabungan otomatis untuk dana darurat Anda"
-    ]
+    ],
+    "ai_hook": "Saat ini kita berada di Mangsa Kasepuluh. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
   },
   {
     "id": 11,
@@ -184,7 +194,8 @@
       "Kirim pesan apresiasi atau hadiah kecil ke teman yang selalu mendukung Anda",
       "Latih rasa syukur harian dengan mencatat 3 hal baik setiap malam sebelum tidur",
       "Lakukan digital detox di akhir pekan bersama keluarga atau pasangan"
-    ]
+    ],
+    "ai_hook": "Saat ini kita berada di Mangsa Dhesta. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
   },
   {
     "id": 12,
@@ -201,6 +212,7 @@
       "Lakukan meditasi pelepasan emosi untuk membuang dendam atau rasa bersalah",
       "Tulis rencana resolusi besar untuk siklus Pranata Mangsa berikutnya",
       "Nikmati keheningan malam hari tanpa distraksi layar ponsel"
-    ]
+    ],
+    "ai_hook": "Saat ini kita berada di Mangsa Sada. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
   }
 ]

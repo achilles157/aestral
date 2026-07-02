@@ -48,7 +48,8 @@
       "Apa yang akan saya lakukan jika saya merasa bebas untuk melakukan lompatan?",
       "Seberapa besar keinginan saya untuk menjadi rentan dan terbuka?",
       "Bagaimana pengalaman masa lalu dapat membantu dalam situasi baru ini?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Sang Pengelana' (The Fool) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 1,
@@ -97,7 +98,8 @@
       "Apa yang bisa saya lakukan?",
       "Bagaimana kemampuan saya bisa berperan?",
       "Sejauh mana saya memanfaatkan bakat saya semaksimal mungkin?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Sang Penyihir' (The Magician) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 2,
@@ -148,7 +150,8 @@
       "Apa yang mungkin dilakukan oleh seorang pemberontak terhadap tradisi?",
       "Apa yang tidak dikatakan atau diungkapkan?",
       "Apa yang dapat dicapai dengan mengamati dan merefleksikan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Sang Imam Perempuan' (The High Priestess) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 3,
@@ -199,7 +202,8 @@
       "Apa yang akan dilakukan oleh seorang ibu yang peduli dan cakap?",
       "Apa yang dapat saya lakukan yang menekankan pertumbuhan?",
       "Bagaimana saya bisa merayakan sensualitas dan seksualitas saya sendiri?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Sang Permaisuri' (The Empress) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 4,
@@ -250,7 +254,8 @@
       "Bagaimana dampak masalah pengendalian atau regulasi terhadap situasi ini?",
       "Apa yang akan dilakukan ayah yang penuh kasih sayang namun tegas?",
       "Apa yang perlu lebih banyak kontrol?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Sang Kaisar' (The Emperor) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 5,
@@ -301,7 +306,8 @@
       "Peran apa yang mungkin dimainkan oleh tradisi atau agama dalam situasi ini?",
       "Siapa yang membuat aturannya? Siapa yang menerapkannya? Mengapa?",
       "Bagaimana pengaruh pemandu yang berpengalaman terhadap situasi ini?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Sang Imam Besar' (The Hierophant) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 6,
@@ -352,7 +358,8 @@
       "Apa yang memandu pilihan saya?",
       "Hatiku menuntunku untuk melakukan apa?",
       "Bagaimana keputusan ini dapat mengubah saya sebagai pribadi?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Sang Kekasih' (The Lovers) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 7,
@@ -403,7 +410,8 @@
       "Sejauh mana saya telah sampai? Apa tantangan saya selanjutnya?",
       "Bagaimana saya bisa menggunakan pencapaian masa lalu untuk keuntungan terbaiknya?",
       "Apa kriteria kesuksesan yang nyata dan bermakna?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Kereta Perang' (The Chariot) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 8,
@@ -454,7 +462,8 @@
       "Sejauh mana kehidupan (atau pekerjaan) Anda seimbang?",
       "Bagaimana cara mencapai objektivitas yang lebih besar?",
       "Tindakan apa yang adil bagi semua pihak yang berkepentingan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Kekuatan' (Strength) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 9,
@@ -505,7 +514,8 @@
       "Apa yang akan terjadi jika saya mengundurkan diri dan tidak mengambil tindakan?",
       "Bagaimana saya bisa mendapatkan perspektif mengenai situasi ini?",
       "Siapa yang telah menempuh jalan ini sebelum saya? Bagaimana saya bisa meminta bantuannya?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Pertapa' (The Hermit) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 10,
@@ -556,7 +566,8 @@
       "Bagaimana tantangan ini bisa masuk ke dalam pola yang lebih besar?",
       "Apa peran keberuntungan dalam keadaan saya?",
       "Apa yang bisa saya kendalikan? Bagaimana saya tahu kapan harus melepaskan kendali?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Roda Keberuntungan' (Wheel of Fortune) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 11,
@@ -607,7 +618,8 @@
       "Bagaimana saya bisa meningkatkan disiplin diri saya?",
       "Perilaku apa yang menggoda saya? Bagaimana saya bisa menolak?",
       "Naluri apa yang terus saya perjuangkan saat ini?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Keadilan' (Justice) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 12,
@@ -658,7 +670,8 @@
       "Bagaimana saya bisa mengubah perspektif saya secara radikal?",
       "Bagaimana terjebak bisa menjadi berkah tersembunyi?",
       "Bagaimana saya bisa menahan diri untuk melihat gelas itu setengah penuh?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Orang Tergantung' (The Hanged Man) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 13,
@@ -709,7 +722,8 @@
       "Apa yang perlu diakhiri?",
       "Bagaimana sebuah akhir cerita bisa menjadi berkat dalam situasi ini?",
       "Apa selanjutnya?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Kematian' (Death) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 14,
@@ -758,7 +772,8 @@
       "Bagaimana cara menghindari hal ekstrem?",
       "Apa kesamaan yang dimiliki semua orang yang terlibat?",
       "Bagaimana menggabungkan hal-hal yang familier dapat membantu saya menciptakan sesuatu yang baru?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Kesederhanaan' (Temperance) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 15,
@@ -809,7 +824,8 @@
       "Apa yang memperbudakku? Bagaimana saya bisa membebaskan diri?",
       "Bagaimana saya bisa mengevaluasi kembali pentingnya hal-hal materi yang saya anggap penting?",
       "Sejauh mana hasratku mendefinisikan diriku?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Iblis' (The Devil) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 16,
@@ -862,7 +878,8 @@
       "Bagaimana situasi saat ini dapat mengubah perspektif saya secara drastis?",
       "Bagaimana kerugian ini membuka pintu bagi pertumbuhan baru?",
       "Sikap apa yang perlu dihilangkan sebelum saya melanjutkan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Menara' (The Tower) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 17,
@@ -913,7 +930,8 @@
       "Kekuatan yang lebih tinggi akan mengarahkan saya untuk melakukan apa?",
       "Bagaimana caranya agar saya tidak terlalu minder dan waspada?",
       "Bagaimana saya bisa lebih menyesuaikan diri dengan limpahan berkah hidup?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Bintang' (The Star) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 18,
@@ -964,7 +982,8 @@
       "Bagaimana saya bisa menghadapi ketakutan saya dan bergerak maju?",
       "Penolong apa yang bisa menjadi pemandu saya melewati kegelapan pribadi saya?",
       "Bagaimana saya bisa menghadapi hal yang tidak diketahui dengan cara yang sehat?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Bulan' (The Moon) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 19,
@@ -1013,7 +1032,8 @@
       "Bagaimana saya dapat memanfaatkan sebaik-baiknya perhatian yang datang kepada saya?",
       "Apa tujuan spiritual tertinggi saya?",
       "Bagaimana caranya agar saya tidak terpesona oleh energi yang berputar-putar di sekitar saya?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Matahari' (The Sun) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 20,
@@ -1064,7 +1084,8 @@
       "Apa hal utama yang perlu saya sadari tentang diri saya?",
       "Dengan cara apa alam semesta mencoba menarik perhatian saya?",
       "Jika saya menemukan kembali diri saya, saya akan menjadi apa?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Penghakiman' (Judgment) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 21,
@@ -1115,7 +1136,8 @@
       "Bagi saya, apa artinya memiliki semua itu?",
       "Seberapa sadarkah saya akan keterhubungan saya dengan dunia di sekitar saya?",
       "Apa yang menghalangi saya untuk mendapatkan semuanya saat ini, hari ini?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Dunia' (The World) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 22,
@@ -1166,7 +1188,8 @@
       "Apa yang sebenarnya saya inginkan, lebih dari apa pun?",
       "Apa jadinya jika saya membiarkan kesempatan ini berlalu begitu saja?",
       "Seberapa jelas saya mendefinisikan arah, nilai, dan tujuan saya?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Ace Piala' (Ace of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 23,
@@ -1215,7 +1238,8 @@
       "Dalam suatu konflik, bagaimana Anda memutuskan siapa yang menang?",
       "Nilai-nilai apa yang mengatur proses pengambilan keputusan Anda?",
       "Pilihan apa yang akan Anda ambil jika Anda tidak membuat pilihan sama sekali?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Two Piala' (Two of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 24,
@@ -1264,7 +1288,8 @@
       "Bagaimana Anda bisa membiasakan diri untuk menghentikan kebiasaan Anda?",
       "Bagaimana Anda bisa menjadi pemimpin yang tegas dalam situasi seperti ini?",
       "Apa rencana tindakan Anda untuk minggu, bulan, tahun, atau dekade ke depan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Three Piala' (Three of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 25,
@@ -1313,7 +1338,8 @@
       "Sejauh mana saya melakukan bagian saya?",
       "Pengakuan seperti apa yang paling berarti?",
       "Bagaimana sebuah perayaan sekarang dapat berdampak pada moral masyarakat?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Four Piala' (Four of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 26,
@@ -1362,7 +1388,8 @@
       "Sejauh mana isu Anda saat ini layak untuk diperjuangkan?",
       "Alternatif apa yang ada selain konflik langsung?",
       "Apa yang terjadi dalam \"pertarungan yang adil?\" Bagaimana Anda bisa menjaga pertarungan ini tetap adil?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Five Piala' (Five of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 27,
@@ -1411,7 +1438,8 @@
       "Pengakuan seperti apa yang saya dambakan? Mengapa?",
       "Seberapa bebas saya memuji pencapaian orang lain?",
       "Apa yang terjadi setelah parade selesai?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Six Piala' (Six of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 28,
@@ -1460,7 +1488,8 @@
       "Kapan Anda merasa paling terancam? Kapan Anda bersikap defensif?",
       "Seberapa mampukah Anda membela diri?",
       "Keyakinan seperti apa yang patut dipertahankan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Seven Piala' (Seven of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 29,
@@ -1509,7 +1538,8 @@
       "Seberapa cepat Anda beradaptasi terhadap perubahan?",
       "Apa tanggapan Anda terhadap perubahan yang tiba-tiba dan luar biasa?",
       "Perubahan apa yang sedang Anda alami? Seberapa baik Anda mempersiapkan diri menghadapinya?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Eight Piala' (Eight of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 30,
@@ -1558,7 +1588,8 @@
       "Bagaimana Anda mengatasinya ketika keadaan menjadi sangat sulit?",
       "Saat Anda merasa rendah diri, apa yang mendorong Anda untuk terus maju?",
       "Pada titik manakah Anda harus bisa membiarkan situasi ini berlalu?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Nine Piala' (Nine of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 31,
@@ -1607,7 +1638,8 @@
       "Bagaimana Anda tahu kapan Anda mencapai ujung tali?",
       "Seberapa mudah Anda menolak proyek dan permintaan baru?",
       "Proyek apa yang dapat Anda delegasikan...atau hilangkan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Ten Piala' (Ten of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 32,
@@ -1654,7 +1686,8 @@
       "Seberapa mudah Anda mengakui kurangnya pengalaman Anda?",
       "Bagaimana Anda bisa menjadi pelajar atau karyawan yang lebih baik?",
       "Kualitas apa yang membuat perjalanan penemuan seorang pemula menjadi lebih mudah?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Page Piala' (Page of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 33,
@@ -1701,7 +1734,8 @@
       "Sejauh mana Anda telah menetapkan tujuan akhir Anda?",
       "Apa cara tercepat untuk menyelesaikan pekerjaan? Apakah ini merupakan cara terbaik?",
       "Sudah berapa lama sejak Anda melihat ke belakang untuk melihat apakah orang lain benar-benar mengikuti jejak Anda?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Knight Piala' (Knight of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 34,
@@ -1748,7 +1782,8 @@
       "Seberapa penuh perhatian saya?",
       "Bagaimana saya bisa menarik perhatian orang terhadap kesamaan yang kita miliki?",
       "Sejauh mana saya mampu meyakinkan orang untuk melakukan apa yang saya ingin mereka lakukan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Queen Piala' (Queen of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 35,
@@ -1795,7 +1830,8 @@
       "Seberapa percaya diri saya sebagai seorang pemimpin?",
       "Bagaimana saya bisa menunjukkan kepercayaan diri yang lebih besar?",
       "Bagaimana saya bisa menawarkan keahlian saya dengan cara yang menginspirasi orang lain untuk mengikuti saya?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'King Piala' (King of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 36,
@@ -1846,7 +1882,8 @@
       "Apa yang aku rasakan saat ini?",
       "Bagaimana cara saya membuka diri terhadap bimbingan spiritual?",
       "Apa yang paling memotivasi saya - kesenangan atau kesakitan? Mengapa?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Ace Tongkat' (Ace of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 37,
@@ -1893,7 +1930,8 @@
     "questions_to_ask_id": [
       "Bagaimana saya bisa memastikan bahwa apa yang saya rasakan itu saling menguntungkan?\", \"Kapan terakhir kali saya merasa \"jatuh cinta\" dengan seseorang atau sesuatu?",
       "Apa yang Anda butuhkan agar merasa stabil secara emosional?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Two Tongkat' (Two of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 38,
@@ -1940,7 +1978,8 @@
       "Apa yang patut dirayakan dalam hidupku?",
       "Bagaimana saya bisa menunjukkan perasaan saya dengan cara yang pantas?",
       "Apa yang dapat saya lakukan untuk menunjukkan kepada pasangan saya bagaimana perasaan saya sebenarnya?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Three Tongkat' (Three of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 39,
@@ -1989,7 +2028,8 @@
       "Bagaimana saya dapat menggunakan \"waktu henti\" ini untuk keuntungan terbaik saya?",
       "Bagaimana saya bisa menunjukkan kepada pasangan saya bahwa saya tidak menganggap remeh dia?",
       "Sejauh mana suasana hati saya membutakan saya terhadap peluang baru?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Four Tongkat' (Four of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 40,
@@ -2040,7 +2080,8 @@
       "Bagaimana cara saya menghadapi kehilangan?",
       "Pelajaran hidup apa yang mungkin saya pelajari sekarang?",
       "Bagaimana cara mengalihkan perhatian saya dari masa lalu ke masa depan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Five Tongkat' (Five of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 41,
@@ -2089,7 +2130,8 @@
       "Karunia apa yang saya miliki? Seberapa bebas saya memberikannya?",
       "Bagaimana saya bisa mempraktikkan pemberian tanpa syarat?",
       "Apa yang akan berubah jika saya menjadi orang yang lebih dermawan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Six Tongkat' (Six of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 42,
@@ -2138,7 +2180,8 @@
       "Apa yang paling kamu inginkan? Apa yang paling kamu takuti? Bagaimana hubungannya?",
       "Bagaimana imajinasi Anda bekerja untuk Anda? Melawanmu?",
       "Bagaimana visi pribadi yang lebih jelas dapat membantu Anda memilih satu cangkir dari sekian banyak cangkir yang tersedia?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Seven Tongkat' (Seven of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 43,
@@ -2187,7 +2230,8 @@
       "Apa yang harus saya tinggalkan untuk selamanya?",
       "Jika saya pergi mencari \"lebih banyak\", sebenarnya apa yang akan saya cari?",
       "Bagaimana retret dapat meningkatkan perspektif saya?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Eight Tongkat' (Eight of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 44,
@@ -2234,7 +2278,8 @@
       "Apa itu kebahagiaan sejati?",
       "Jika saya dapat memiliki sesuatu, apa yang akan saya miliki?",
       "Bagaimana sikap saya terhadap kemewahan? Apakah saya pantas mendapatkannya?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Nine Tongkat' (Nine of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 45,
@@ -2283,7 +2328,8 @@
       "Siapa yang bisa mendefinisikan apa yang dimaksud dengan \"kegembiraan\"?",
       "Tindakan apa yang tersedia saat Anda merasa kewalahan?",
       "Bagaimana sumpah atau janji dapat berperan dalam mencapai tingkat kebahagiaan yang lebih besar dalam hidup Anda?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Ten Tongkat' (Ten of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 46,
@@ -2330,7 +2376,8 @@
       "Seberapa khawatirkah Anda jika orang lain menganggap Anda bodoh atau tidak berpengalaman?",
       "Sejauh mana Anda bisa jujur ​​tentang kurangnya pengalaman Anda dalam cinta dan iman?",
       "Bagaimana Anda bisa mempertahankan antusiasme dari waktu ke waktu?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Page Tongkat' (Page of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 47,
@@ -2377,7 +2424,8 @@
       "Seberapa rentan Anda terhadap emosi ekstrem?",
       "Apa bedanya mendorong gairah dan semangat membabi buta?",
       "Bagaimana Anda bisa menginspirasi orang lain tanpa memicu kerusuhan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Knight Tongkat' (Knight of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 48,
@@ -2424,7 +2472,8 @@
       "Bagaimana cara menangani emosi yang kuat?",
       "Sejauh mana saya menjadi korban perasaan saya sendiri?",
       "Bagaimana saya bisa beralih dari refleksi ke tindakan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Queen Tongkat' (Queen of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 49,
@@ -2471,7 +2520,8 @@
       "Orang bijak mana yang bisa diajak berkonsultasi untuk mendapatkan nasihat yang baik?",
       "Bagaimana saya bisa memastikan bahwa saya bersikap seobjektif dan seadil mungkin?",
       "Sejauh mana saya mampu mempertahankan \"bibir atas yang kaku?\""
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'King Tongkat' (King of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 50,
@@ -2520,7 +2570,8 @@
       "Jika saya mengambil keputusan hanya berdasarkan alasan dan logika, apa keputusan saya?",
       "Apa pendapat saya tentang kemampuan pemecahan masalah saya sendiri?",
       "Siapa yang dapat memberi saya fakta yang murni dan sederhana?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Ace Pedang' (Ace of Swords) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 51,
@@ -2569,7 +2620,8 @@
       "Informasi apa yang saya perlukan untuk melewati kebuntuan ini?",
       "Bagaimana caranya agar saya tidak bersikap defensif dan melihat fakta?",
       "Sudut pandang apa, selain sudut pandang saya, yang berperan dalam situasi ini?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Two Pedang' (Two of Swords) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 52,
@@ -2618,7 +2670,8 @@
       "Bagaimana saya bisa melewati depresi saya?",
       "Sejauh mana emosi saya merupakan sebuah pilihan?",
       "Bagaimana saya bisa belajar dari kesalahan masa lalu?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Three Pedang' (Three of Swords) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 53,
@@ -2667,7 +2720,8 @@
       "Sudah berapa lama sejak Anda sengaja mengambil \"waktu istirahat?\"",
       "Seberapa sulitkah Anda bermeditasi?",
       "Apa yang akan terjadi jika Anda menolak mengambil keputusan hari ini?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Four Pedang' (Four of Swords) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 54,
@@ -2716,7 +2770,8 @@
       "Bagaimana saya bersikap ketika saya menang? Apa yang dikatakan hal itu tentang saya?",
       "Bagaimana saya bisa melakukan apa yang diperlukan tanpa membuat orang lain merasa kalah?",
       "Apa perbedaan antara tindakan egois dan bertindak demi kepentingan terbaik saya?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Five Pedang' (Five of Swords) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 55,
@@ -2765,7 +2820,8 @@
       "Asumsi apa yang mengatur pemikiran saya?",
       "Seberapa bersediakah saya memberikan bantuan kepada orang lain? Untuk memintanya saat saya membutuhkannya?",
       "Seberapa siapkah saya menghadapi perubahan? Dengan hasil yang tidak terduga?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Six Pedang' (Six of Swords) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 56,
@@ -2814,7 +2870,8 @@
       "Asumsi apa yang saya buat?",
       "Seberapa jelas pemahaman etika saya?",
       "Bagaimana saya harus merespons ketika saya tahu orang lain melanggar peraturan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Seven Pedang' (Seven of Swords) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 57,
@@ -2863,7 +2920,8 @@
       "Siapa yang mempunyai wewenang untuk memotong birokrasi?",
       "Apa sebenarnya kendalanya? Sumber daya apa sebenarnya yang diperlukan untuk memindahkannya?",
       "Sejauh mana ketidakberdayaan Anda merupakan masalah sikap?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Eight Pedang' (Eight of Swords) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 58,
@@ -2910,7 +2968,8 @@
       "Apa peran kekhawatiran dalam situasi Anda saat ini?",
       "Untuk tujuan apa lagi Anda mencurahkan energi yang Anda berikan untuk kecemasan?",
       "Bagaimana Anda bisa tahu kapan saatnya berhenti berpikir dan mulai bertindak?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Nine Pedang' (Nine of Swords) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 59,
@@ -2959,7 +3018,8 @@
       "Apa saja tanda-tanda waktu perdebatan telah usai?",
       "Bagaimana Anda bisa mengetahui kapan minat telah digantikan oleh obsesi?",
       "Ketika batas kemampuan Anda tercapai, ke mana Anda dapat meminta bantuan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Ten Pedang' (Ten of Swords) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 60,
@@ -3006,7 +3066,8 @@
       "Seberapa nyamankah Anda mengungkapkan ketidaktahuan Anda sendiri?",
       "Apa ciri-ciri siswa yang baik?",
       "Sejauh mana Anda terbuka terhadap informasi baru?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Page Pedang' (Page of Swords) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 61,
@@ -3055,7 +3116,8 @@
       "Apa yang sebenarnya perlu saya ketahui?",
       "Sejauh mana saya telah menyelidiki fakta di balik situasi saya?",
       "Bagaimana saya bisa membagikan apa yang saya ketahui tanpa mengasingkan orang lain?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Knight Pedang' (Knight of Swords) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 62,
@@ -3102,7 +3164,8 @@
       "Apa bakatku? Bagaimana hadiah spesial saya terbukti berguna saat ini?",
       "Sejauh mana saya mampu mengatakan apa yang perlu dikatakan?",
       "Apa cara terbaik untuk mengatakan apa yang ingin saya katakan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Queen Pedang' (Queen of Swords) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 63,
@@ -3149,7 +3212,8 @@
       "Apa keputusan Anda jika Anda harus memberikan putusan yang mengikat saat ini juga?",
       "Seberapa nyaman Anda mengatakan dengan tepat maksud Anda? Seberapa sering Anda meredam perkataan Anda karena takut menyinggung perasaan orang lain?",
       "Jika Anda bertanya kepada orang lain, \"Apa bidang keahlian saya?\" apa yang akan mereka katakan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'King Pedang' (King of Swords) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 64,
@@ -3198,7 +3262,8 @@
       "Jika saya mengambil keputusan hanya berdasarkan pertimbangan praktis, keputusan apa yang akan saya ambil?",
       "Sumber daya apa yang tersedia untuk saya?",
       "Apa dampak fisik dan finansial dari keputusan saya?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Ace Koin' (Ace of Pentacles) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 65,
@@ -3247,7 +3312,8 @@
       "Nilai-nilai apa yang mengatur keputusan saya?",
       "Seberapa rela saya mengorbankan sedikit kesenangan sekarang demi mendapatkan lebih banyak kesenangan di kemudian hari?",
       "Mengingat situasi saya saat ini, tindakan manakah yang akan memberikan lebih banyak hal yang benar-benar saya butuhkan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Two Koin' (Two of Pentacles) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 66,
@@ -3296,7 +3362,8 @@
       "Bagaimana saya bisa menyelesaikan lebih banyak hal?",
       "Apa yang diharapkan dari saya? Seberapa besar peran saya dalam mengendalikan ekspektasi tersebut?",
       "Apa yang sudah disepakati? Seberapa baik perjanjian tersebut telah diikuti?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Three Koin' (Three of Pentacles) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 67,
@@ -3343,7 +3410,8 @@
       "Faktor apa saja yang menentukan seberapa konservatif atau murah hati Anda?",
       "Hal-hal apa saja yang harus dilestarikan dengan cara apa pun?",
       "Kapan sifat serakah atau kikir merupakan sifat yang baik untuk dimiliki? Kapan kemurahan hati bisa merugikan Anda?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Four Koin' (Four of Pentacles) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 68,
@@ -3392,7 +3460,8 @@
       "Sumber daya penting apa yang saya kurang?",
       "Orang atau kelompok apa yang akan membantu saya jika saya bertanya?",
       "Bagaimana semangat yang miskin dapat berdampak pada kondisi fisik atau keuangan saya?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Five Koin' (Five of Pentacles) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 69,
@@ -3441,7 +3510,8 @@
       "Bagaimana perasaan saya tentang amal? Tentang memberikannya? Tentang menerimanya?",
       "Bagaimana saya bisa tahu kalau saya memperlakukan orang lain dengan adil?",
       "Apa yang bisa saya berikan yang tidak bisa diberikan orang lain?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Six Koin' (Six of Pentacles) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 70,
@@ -3490,7 +3560,8 @@
       "Sejauh mana saya telah memenuhi harapan saya sendiri?",
       "Apa syarat suksesnya?",
       "Bagaimana saya bisa lebih bahagia dengan kemajuan yang saya capai?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Seven Koin' (Seven of Pentacles) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 71,
@@ -3539,7 +3610,8 @@
       "Sudah berapa lama sejak Anda \"tersesat dalam pekerjaan?\"",
       "Bagaimana Anda dapat meningkatkan tingkat dedikasi dan fokus Anda?",
       "Pekerjaan apa yang paling Anda lakukan? Pekerjaan apa yang menarik bagi Anda?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Eight Koin' (Eight of Pentacles) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 72,
@@ -3586,7 +3658,8 @@
       "Jika Anda tidak dapat memperoleh apa yang Anda inginkan, bagaimana Anda akan mewujudkannya?",
       "Bisakah Anda membuat tugas rumit menjadi lebih mudah dengan memecahnya menjadi langkah-langkah kecil?",
       "Seberapa sabarkah Anda selama proses pembelajaran? Dengan dirimu sendiri? Dengan orang lain?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Nine Koin' (Nine of Pentacles) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 73,
@@ -3635,7 +3708,8 @@
       "Berapa banyak barang yang benar-benar saya perlukan?",
       "Bagaimana perasaan saya tentang kekayaan dan kelimpahan? Bagaimana saya mendefinisikan istilah-istilah ini?",
       "Bagaimana melepaskan sebagian harta benda dapat membuka ruang untuk pertumbuhan?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Ten Koin' (Ten of Pentacles) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 74,
@@ -3682,7 +3756,8 @@
       "Bagaimana Anda bisa mendapatkan lebih banyak pengalaman finansial atau seksual tanpa mempertaruhkan penghidupan atau kesehatan Anda?",
       "Bagaimana pembelajaran langsung dapat berperan dalam situasi Anda?",
       "Apa pilihan paling praktis yang bisa Anda buat?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Page Koin' (Page of Pentacles) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 75,
@@ -3731,7 +3806,8 @@
       "Apa perbedaan antara hati-hati dan ketakutan?",
       "Bagaimana saya bisa mengevaluasi kepraktisan ide dan metode saya sendiri?",
       "Seberapa realistis tujuan saya?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Knight Koin' (Knight of Pentacles) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 76,
@@ -3778,7 +3854,8 @@
       "Bagaimana saya mendefinisikan kemewahan?",
       "Sejauh mana saya mampu menikmati kenikmatan indria?",
       "Apa yang harus saya korbankan agar bisa \"memiliki semuanya?\""
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Queen Koin' (Queen of Pentacles) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 77,
@@ -3825,6 +3902,7 @@
       "Bagaimana Anda dapat menangani pengeluaran dengan lebih percaya diri dan lebih dewasa?",
       "Seberapa bisa diandalkannya Anda? Menurut orang lain, seberapa bisa diandalkannya Anda?",
       "Sejauh mana sudut pandang konservatif bermanfaat? Pada titik manakah hal itu menjadi lebih menjadi beban daripada berkah?"
-    ]
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'King Koin' (King of Pentacles) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   }
 ]
