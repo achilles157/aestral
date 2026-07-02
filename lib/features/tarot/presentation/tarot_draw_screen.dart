@@ -28,6 +28,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
   final ScreenshotController _screenshotController = ScreenshotController();
   bool _isCardRevealed = false;
   bool _isLoading = false;
+  String _selectedDrawType = 'weekly';
 
   @override
   void initState() {
@@ -245,6 +246,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
         birthDate: birthDateStr,
         pangarasan: birthWeton.pangarasan,
         wuku: currentWeton.wuku,
+        drawType: session.isMock ? 'birth' : _selectedDrawType,
         authHeader: authHeader,
       );
 
@@ -308,6 +310,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
     final drawnCard = ref.watch(drawnCardProvider);
     final textTheme = Theme.of(context).textTheme;
     final currentLang = ref.watch(tarotLanguageProvider);
+    final session = ref.watch(authProvider);
 
     final card = drawnCard?.card;
     final isReversed = drawnCard?.isReversed ?? false;
@@ -339,10 +342,15 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          'Daily Tarot',
+          session == null || session.isMock
+              ? (currentLang == 'id' ? 'Tarot Lahir (Soul Card)' : 'Birth Tarot (Soul Card)')
+              : (_selectedDrawType == 'birth'
+                  ? (currentLang == 'id' ? 'Tarot Lahir (Soul Card)' : 'Birth Tarot (Soul Card)')
+                  : (currentLang == 'id' ? 'Tarot Mingguan' : 'Weekly Tarot')),
           style: GoogleFonts.playfairDisplay(
             fontWeight: FontWeight.bold,
             color: AppTheme.accentGold,
+            fontSize: 20,
           ),
         ),
         leading: IconButton(
@@ -399,8 +407,84 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              if (session != null && !session.isMock && !_isCardRevealed) ...[
+                                Container(
+                                  margin: const EdgeInsets.only(bottom: 24),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.05),
+                                    borderRadius: BorderRadius.circular(30),
+                                    border: Border.all(
+                                      color: AppTheme.accentGold.withValues(alpha: 0.3),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _selectedDrawType = 'weekly';
+                                          });
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                          decoration: BoxDecoration(
+                                            color: _selectedDrawType == 'weekly'
+                                                ? AppTheme.accentPurple
+                                                : Colors.transparent,
+                                            borderRadius: BorderRadius.circular(30),
+                                          ),
+                                          child: Text(
+                                            currentLang == 'id' ? 'Tarot Mingguan' : 'Weekly Tarot',
+                                            style: GoogleFonts.outfit(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12,
+                                              color: _selectedDrawType == 'weekly'
+                                                  ? AppTheme.textLight
+                                                  : AppTheme.textLight.withValues(alpha: 0.6),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _selectedDrawType = 'birth';
+                                          });
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                          decoration: BoxDecoration(
+                                            color: _selectedDrawType == 'birth'
+                                                ? AppTheme.accentPurple
+                                                : Colors.transparent,
+                                            borderRadius: BorderRadius.circular(30),
+                                          ),
+                                          child: Text(
+                                            currentLang == 'id' ? 'Tarot Lahir' : 'Birth Tarot',
+                                            style: GoogleFonts.outfit(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12,
+                                              color: _selectedDrawType == 'birth'
+                                                  ? AppTheme.textLight
+                                                  : AppTheme.textLight.withValues(alpha: 0.6),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                               Text(
-                                'Fokuskan pikiran Anda pada suatu pertanyaan, lalu tarik kartu.',
+                                session == null || session.isMock || _selectedDrawType == 'birth'
+                                    ? (currentLang == 'id' 
+                                        ? 'Tarot Lahir merepresentasikan blueprint jiwa Anda. Kartu ini bersifat statis seumur hidup.'
+                                        : 'Birth Tarot represents your soul blueprint. This card is static for lifetime.')
+                                    : (currentLang == 'id'
+                                        ? 'Tarik Tarot Mingguan untuk melihat peruntungan nasib mingguan Anda berdasarkan siklus Wuku.'
+                                        : 'Draw your Weekly Tarot to see your weekly destiny influenced by the current Wuku cycle.'),
                                 style: textTheme.bodyLarge,
                                 textAlign: TextAlign.center,
                               ),

@@ -163,3 +163,63 @@ export function getWeightedRandomCard(pangarasan: string, wuku: string): number 
 	// Fallback (should never reach here)
 	return DECK_SIZE - 1;
 }
+
+/**
+ * Returns a weekly-deterministic card index (0-77) based on birthdate,
+ * wuku (weekly cycle), and user pangarasan (elements).
+ * It applies elements weighting but yields the same card for the same week.
+ */
+export function getWeeklyDeterministicCard(birthDate: string, wuku: string, pangarasan: string): number {
+	const weights = new Float64Array(DECK_SIZE).fill(1.0);
+
+	const userElement = pangarasanToElement(pangarasan);
+	if (userElement) {
+		const [start, end] = getRemedialRange(userElement);
+		for (let i = start; i <= end; i++) {
+			weights[i] += 0.15;
+		}
+	}
+
+	if (wuku) {
+		const wukuElement = wukuToElement(wuku);
+		if (wukuElement) {
+			const [start, end] = getElementRange(wukuElement);
+			for (let i = start; i <= end; i++) {
+				weights[i] += 0.10;
+			}
+		}
+	}
+
+	let totalWeight = 0;
+	for (let i = 0; i < DECK_SIZE; i++) {
+		totalWeight += weights[i];
+	}
+
+	// Create a deterministic hash from birthDate + wuku
+	let hash = 0;
+	const seedStr = birthDate + wuku;
+	for (let i = 0; i < seedStr.length; i++) {
+		hash = seedStr.charCodeAt(i) + ((hash << 5) - hash);
+	}
+	
+	const randVal = (Math.abs(hash) % 10000) / 10000;
+	let pick = randVal * totalWeight;
+
+	for (let i = 0; i < DECK_SIZE; i++) {
+		pick -= weights[i];
+		if (pick <= 0) return i;
+	}
+	return DECK_SIZE - 1;
+}
+
+/**
+ * Returns a weekly-deterministic reversal state based on birthdate and wuku.
+ */
+export function getWeeklyDeterministicReversed(birthDate: string, wuku: string): boolean {
+	let hash = 0;
+	const seedStr = birthDate + wuku + 'reversed-seed';
+	for (let i = 0; i < seedStr.length; i++) {
+		hash = seedStr.charCodeAt(i) + ((hash << 5) - hash);
+	}
+	return Math.abs(hash) % 2 === 0;
+}

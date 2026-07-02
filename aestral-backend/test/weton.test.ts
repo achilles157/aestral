@@ -86,6 +86,11 @@ describe('Weton Calculation Engine (Unit Tests)', () => {
 		expect(insight.targetWeton.wuku).toBe('Sungsang');
 		expect(insight.daily.sisaBagi).toBe((16 + 14) % 5);
 		expect(insight.daily.fase).toBeDefined();
+		expect(insight.daily.statusHari).toBeTypeOf('string');
+		expect(insight.daily.hariBaik).toBeTypeOf('boolean');
+		expect(insight.daily.hariNaasLahir).toBe('Sabtu Pon');
+		expect(insight.daily.jamBaik).toBeInstanceOf(Array);
+		expect(insight.daily.jamNaas).toBeInstanceOf(Array);
 		expect(insight.weekly.wukuIndex).toBe(9); // Sungsang is index 9
 		expect(insight.weekly.wukuName).toBe('Sungsang');
 	});

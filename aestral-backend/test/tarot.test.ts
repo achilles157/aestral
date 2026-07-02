@@ -81,7 +81,33 @@ describe('POST /api/tarot/draw', () => {
 		expect(body.message).toContain('Kartu Jiwa');
 	});
 
-	it('returns isDynamic: true for Bearer auth', async () => {
+	it('returns isDynamic: false and drawType: birth for Bearer auth with drawType birth', async () => {
+		const res = await SELF.fetch('http://localhost/api/tarot/draw', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer fake-jwt-token',
+			},
+			body: JSON.stringify({
+				birthDate: '1995-10-25',
+				drawType: 'birth',
+			}),
+		});
+		expect(res.status).toBe(200);
+		const body = await res.json<{
+			success: boolean;
+			isDynamic: boolean;
+			drawType: string;
+			cardIndex: number;
+			isReversed: boolean;
+		}>();
+		expect(body.success).toBe(true);
+		expect(body.isDynamic).toBe(false);
+		expect(body.drawType).toBe('birth');
+		expect(body.cardIndex).toBe(getDeterministicCard('1995-10-25'));
+	});
+
+	it('returns isDynamic: true and drawType: weekly for Bearer auth', async () => {
 		const res = await SELF.fetch('http://localhost/api/tarot/draw', {
 			method: 'POST',
 			headers: {
@@ -92,17 +118,20 @@ describe('POST /api/tarot/draw', () => {
 				birthDate: '1995-10-25',
 				pangarasan: 'Geni Jaya',
 				wukuHariIni: 'Sinta',
+				drawType: 'weekly',
 			}),
 		});
 		expect(res.status).toBe(200);
 		const body = await res.json<{
 			success: boolean;
 			isDynamic: boolean;
+			drawType: string;
 			cardIndex: number;
 			isReversed: boolean;
 		}>();
 		expect(body.success).toBe(true);
 		expect(body.isDynamic).toBe(true);
+		expect(body.drawType).toBe('weekly');
 		expect(body.cardIndex).toBeGreaterThanOrEqual(0);
 		expect(body.cardIndex).toBeLessThanOrEqual(77);
 		expect(body.isReversed).toBeTypeOf('boolean');

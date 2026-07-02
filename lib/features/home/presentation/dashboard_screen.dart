@@ -273,8 +273,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             const Spacer(),
                             // Dashboard cards / buttons
                             _DashboardCard(
-                              title: 'Daily Tarot Draw',
-                              subtitle: 'Tarik kartu tarot harian Anda untuk refleksi & panduan spiritual',
+                              title: 'Tarot & Soul Card',
+                              subtitle: 'Tarik Kartu Jiwa (statis) atau Tarot Mingguan (dinamis) berdasarkan siklus Wuku',
                               icon: Icons.auto_awesome,
                               accentColor: AppTheme.accentPink,
                               onTap: () {

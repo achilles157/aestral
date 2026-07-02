@@ -153,6 +153,52 @@ export function calculateSisaBagi(
 }
 
 /**
+ * Returns Javanese hours (Saat Pitu/Saat Lima) that are considered favorable (jamBaik)
+ * or unfavorable (jamNaas) based on the target day's Saptawara name.
+ */
+export function getJamInsight(saptawaraName: string): { jamBaik: string[]; jamNaas: string[] } {
+	switch (saptawaraName) {
+		case 'Minggu':
+			return {
+				jamBaik: ['06:00 - 08:24 (Saat Rezeki)', '10:48 - 13:12 (Saat Gedhong)'],
+				jamNaas: ['08:24 - 10:48 (Saat Loro)', '13:12 - 15:36 (Saat Pati)'],
+			};
+		case 'Senin':
+			return {
+				jamBaik: ['08:24 - 10:48 (Saat Rezeki)', '13:12 - 15:36 (Saat Gedhong)'],
+				jamNaas: ['06:00 - 08:24 (Saat Loro)', '10:48 - 13:12 (Saat Pati)'],
+			};
+		case 'Selasa':
+			return {
+				jamBaik: ['10:48 - 13:12 (Saat Rezeki)', '15:36 - 18:00 (Saat Gedhong)'],
+				jamNaas: ['08:24 - 10:48 (Saat Loro)', '13:12 - 15:36 (Saat Pati)'],
+			};
+		case 'Rabu':
+			return {
+				jamBaik: ['06:00 - 08:24 (Saat Rezeki)', '13:12 - 15:36 (Saat Gedhong)'],
+				jamNaas: ['10:48 - 13:12 (Saat Loro)', '15:36 - 18:00 (Saat Pati)'],
+			};
+		case 'Kamis':
+			return {
+				jamBaik: ['08:24 - 10:48 (Saat Rezeki)', '15:36 - 18:00 (Saat Gedhong)'],
+				jamNaas: ['06:00 - 08:24 (Saat Loro)', '13:12 - 15:36 (Saat Pati)'],
+			};
+		case 'Jumat':
+			return {
+				jamBaik: ['06:00 - 08:24 (Saat Rezeki)', '10:48 - 13:12 (Saat Gedhong)'],
+				jamNaas: ['08:24 - 10:48 (Saat Loro)', '15:36 - 18:00 (Saat Pati)'],
+			};
+		case 'Sabtu':
+			return {
+				jamBaik: ['08:24 - 10:48 (Saat Rezeki)', '13:12 - 15:36 (Saat Gedhong)'],
+				jamNaas: ['06:00 - 08:24 (Saat Loro)', '10:48 - 13:12 (Saat Pati)'],
+			};
+		default:
+			return { jamBaik: [], jamNaas: [] };
+	}
+}
+
+/**
  * Full weton insight for a birth date and target date.
  *
  * @param birthDate  - format YYYY-MM-DD
@@ -174,8 +220,19 @@ export function getWetonInsight(
 		totalNeptu: number;
 		wuku: string;
 	};
-	daily: { sisaBagi: number; fase: string };
-	weekly: { wukuIndex: number; wukuName: string };
+	daily: {
+		sisaBagi: number;
+		fase: string;
+		statusHari: string;
+		hariBaik: boolean;
+		hariNaasLahir: string;
+		jamBaik: string[];
+		jamNaas: string[];
+	};
+	weekly: {
+		wukuIndex: number;
+		wukuName: string;
+	};
 } {
 	const [by, bm, bd] = birthDate.split('-').map(Number);
 	const [ty, tm, td] = targetDate.split('-').map(Number);
@@ -192,6 +249,13 @@ export function getWetonInsight(
 	const targetWuku = getWuku(targetJdn);
 
 	const sisaBagi = calculateSisaBagi(birthJdn, targetJdn);
+	
+	// Favorable if Sandang, Pangan, or Gedhong
+	const isFavorable = [1, 2, 3].includes(sisaBagi);
+	const statusHari = isFavorable ? 'Hari Favorable / Kondusif' : 'Hari Refleksi / Waspada';
+	const birthWetonName = `${birthSapta.name} ${birthPanca.name}`;
+
+	const hours = getJamInsight(targetSapta.name);
 
 	return {
 		birthWeton: {
@@ -209,6 +273,11 @@ export function getWetonInsight(
 		daily: {
 			sisaBagi,
 			fase: FASE_MAP[sisaBagi],
+			statusHari,
+			hariBaik: isFavorable,
+			hariNaasLahir: birthWetonName,
+			jamBaik: hours.jamBaik,
+			jamNaas: hours.jamNaas,
 		},
 		weekly: {
 			wukuIndex: targetWuku.index,

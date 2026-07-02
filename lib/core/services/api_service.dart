@@ -14,6 +14,7 @@ class ApiService {
     required String birthDate,
     String? pangarasan,
     String? wuku,
+    String? drawType,
     required String authHeader,
   }) async {
     final url = Uri.parse('$baseUrl/api/tarot/draw');
@@ -28,6 +29,7 @@ class ApiService {
           'birthDate': birthDate,
           'pangarasan':? pangarasan,
           'wukuHariIni':? wuku,
+          'drawType':? drawType,
         }),
       ).timeout(const Duration(seconds: 10));
 

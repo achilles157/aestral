@@ -1,5 +1,5 @@
 import { parseAuthHeader } from './auth';
-import { getDeterministicCard, getWeightedRandomCard, getDeterministicReversed } from './tarot';
+import { getDeterministicCard, getWeightedRandomCard, getDeterministicReversed, getWeeklyDeterministicCard, getWeeklyDeterministicReversed } from './tarot';
 import { getWetonInsight } from './weton';
 
 const CORS_HEADERS: Record<string, string> = {
@@ -47,6 +47,7 @@ interface TarotDrawBody {
 	birthDate?: string;
 	pangarasan?: string;
 	wukuHariIni?: string;
+	drawType?: 'birth' | 'weekly';
 }
 
 async function handleTarotDraw(request: Request): Promise<Response> {
@@ -66,25 +67,39 @@ async function handleTarotDraw(request: Request): Promise<Response> {
 		return json({ error: 'birthDate is required' }, 400);
 	}
 
-	if (authToken.type === 'guest') {
+	const drawType = body.drawType ?? (authToken.type === 'guest' ? 'birth' : 'weekly');
+
+	if (authToken.type === 'guest' || drawType === 'birth') {
 		const cardIndex = getDeterministicCard(body.birthDate);
 		const isReversed = getDeterministicReversed(body.birthDate);
 		return json({
 			success: true,
 			isDynamic: false,
+			drawType: 'birth',
 			cardIndex,
 			isReversed,
-			message: 'Kartu Jiwa (Soul Card) — daftar untuk pembacaan harian dinamis.',
+			message: 'Kartu Jiwa (Soul Card) — penafsiran statis seumur hidup.',
 		});
 	}
 
-	// Bearer (registered user)
-	const cardIndex = getWeightedRandomCard(
+	// Bearer (registered user) and drawType === 'weekly'
+	const cardIndex = getWeeklyDeterministicCard(
+		body.birthDate,
+		body.wukuHariIni ?? '',
 		body.pangarasan ?? '',
+	);
+	const isReversed = getWeeklyDeterministicReversed(
+		body.birthDate,
 		body.wukuHariIni ?? '',
 	);
-	const isReversed = Math.random() < 0.5;
-	return json({ success: true, isDynamic: true, cardIndex, isReversed });
+	return json({
+		success: true,
+		isDynamic: true,
+		drawType: 'weekly',
+		cardIndex,
+		isReversed,
+		message: 'Kartu Tarot Mingguan — dinamis berdasarkan siklus Wuku.',
+	});
 }
 
 // --- Weton Daily Handler ---
