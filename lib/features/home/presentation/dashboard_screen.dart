@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +8,8 @@ import '../../weton/presentation/weton_calculator_screen.dart';
 import '../../weton/presentation/astrological_planner_screen.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/weton_utils.dart';
+import 'widgets/dashboard_carousel_card.dart';
+import 'widgets/starry_background.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -17,13 +18,34 @@ class DashboardScreen extends ConsumerStatefulWidget {
   ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends ConsumerState<DashboardScreen> {
+class _DashboardScreenState extends ConsumerState<DashboardScreen> with SingleTickerProviderStateMixin {
+  late PageController _pageController;
+  int _currentPage = 0;
+  late AnimationController _rotationController;
+  late Animation<double> _rotationAnimation;
+
   @override
   void initState() {
     super.initState();
+    _pageController = PageController(
+      viewportFraction: 0.8,
+      initialPage: 0,
+    );
+    _rotationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 60),
+    )..repeat();
+    _rotationAnimation = Tween<double>(begin: 0, end: 1).animate(_rotationController);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkAndPromptBirthdate();
     });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _rotationController.dispose();
+    super.dispose();
   }
 
   Future<void> _checkAndPromptBirthdate() async {
@@ -122,23 +144,23 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   onPressed: selectedDate == null
                       ? null
                       : () async {
-                          final weton = WetonUtils.calculateWeton(selectedDate!);
-                          await ref.read(profileProvider).saveProfile(
-                            dob: selectedDate!,
-                            latitude: -6.2088,
-                            longitude: 106.8456,
-                            weton: weton,
-                          );
-                          if (context.mounted) {
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Identitas kosmis berhasil diselaraskan!'),
-                                backgroundColor: AppTheme.accentPurple,
-                              ),
-                            );
-                          }
-                        },
+                           final weton = WetonUtils.calculateWeton(selectedDate!);
+                           await ref.read(profileProvider).saveProfile(
+                             dob: selectedDate!,
+                             latitude: -6.2088,
+                             longitude: 106.8456,
+                             weton: weton,
+                           );
+                           if (context.mounted) {
+                             Navigator.pop(context);
+                             ScaffoldMessenger.of(context).showSnackBar(
+                               const SnackBar(
+                                 content: Text('Identitas kosmis berhasil diselaraskan!'),
+                                 backgroundColor: AppTheme.accentPurple,
+                               ),
+                             );
+                           }
+                         },
                   child: Text(
                     'Simpan & Lanjutkan',
                     style: TextStyle(
@@ -154,6 +176,160 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           },
         );
       },
+    );
+  }
+
+  Widget _buildCarouselDeck() {
+    final items = [
+      CarouselItem(
+        title: 'Tarot & Soul Card',
+        subtitle: 'Tarik Kartu Jiwa (statis) atau Tarot Mingguan (dinamis) berdasarkan siklus Wuku',
+        icon: Icons.auto_awesome,
+        accentColor: AppTheme.accentPink,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const TarotDrawScreen()),
+          );
+        },
+      ),
+      CarouselItem(
+        title: 'Primbon Weton Jawa',
+        subtitle: 'Temukan karakter bawaan, neptu, dan elemen berdasarkan penanggalan Asapon',
+        icon: Icons.brightness_medium,
+        accentColor: AppTheme.accentPurple,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const WetonCalculatorScreen()),
+          );
+        },
+      ),
+      CarouselItem(
+        title: 'Astrological Planner',
+        subtitle: 'Kalender bulanan terintegrasi dan jadwal jam harian (timetable Saat Pitu)',
+        icon: Icons.calendar_month,
+        accentColor: AppTheme.accentGold,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AstrologicalPlannerScreen()),
+          );
+        },
+      ),
+    ];
+
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final bool isDesktop = screenWidth > 600;
+
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(maxWidth: isDesktop ? 680 : double.infinity),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                if (isDesktop)
+                  IconButton(
+                    iconSize: 28,
+                    icon: Icon(
+                      Icons.arrow_back_ios_new,
+                      color: AppTheme.accentGold.withValues(alpha: _currentPage > 0 ? 1.0 : 0.2),
+                    ),
+                    onPressed: _currentPage > 0
+                        ? () {
+                            _pageController.previousPage(
+                              duration: const Duration(milliseconds: 400),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                        : null,
+                  ),
+                Expanded(
+                  child: SizedBox(
+                    height: 380,
+                    child: PageView.builder(
+                      controller: _pageController,
+                      onPageChanged: (int index) {
+                        setState(() {
+                          _currentPage = index;
+                        });
+                      },
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final item = items[index];
+                        return AnimatedBuilder(
+                          animation: _pageController,
+                          builder: (context, child) {
+                            double value = 1.0;
+                            if (_pageController.position.haveDimensions) {
+                              value = _pageController.page! - index;
+                              value = (1 - (value.abs() * 0.15)).clamp(0.0, 1.0);
+                            } else {
+                              value = index == 0 ? 1.0 : 0.85;
+                            }
+                            
+                            final double scale = value;
+                            final double translation = (1 - value) * 15;
+
+                            return Transform.translate(
+                              offset: Offset(0, translation),
+                              child: Transform.scale(
+                                scale: scale,
+                                child: child,
+                              ),
+                            );
+                          },
+                          child: DashboardCarouselCard(
+                            item: item,
+                            isActive: _currentPage == index,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                if (isDesktop)
+                  IconButton(
+                    iconSize: 28,
+                    icon: Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppTheme.accentGold.withValues(alpha: _currentPage < items.length - 1 ? 1.0 : 0.2),
+                    ),
+                    onPressed: _currentPage < items.length - 1
+                        ? () {
+                            _pageController.nextPage(
+                              duration: const Duration(milliseconds: 400),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                        : null,
+                  ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            // Dot indicator
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(items.length, (index) {
+                final isActive = _currentPage == index;
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                  height: 6,
+                  width: isActive ? 18 : 6,
+                  decoration: BoxDecoration(
+                    color: isActive 
+                        ? items[index].accentColor 
+                        : AppTheme.textMuted.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                );
+              }),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -189,7 +365,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             ),
           ),
           // Star overlay simulation (subtle decoration)
-          const _StarryBackground(),
+          const StarryBackground(),
           SafeArea(
             child: LayoutBuilder(
               builder: (context, constraints) {
@@ -198,133 +374,106 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     constraints: BoxConstraints(
                       minHeight: constraints.maxHeight,
                     ),
-                    child: IntrinsicHeight(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const SizedBox(height: 30),
-                            // App Logo & Header
-                            Center(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(8.0),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: AppTheme.accentGold.withValues(alpha: 0.2),
-                                          blurRadius: 30,
-                                          spreadRadius: 5,
-                                        )
-                                      ]
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const SizedBox(height: 20),
+                          // App Logo & Header
+                          Center(
+                            child: Column(
+                              children: [
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    RotationTransition(
+                                      turns: _rotationAnimation,
+                                      child: CustomPaint(
+                                        size: const Size(200, 200),
+                                        painter: MandalaPainter(),
+                                      ),
                                     ),
-                                    child: Image.asset(
-                                      'assets/images/aestral_logo.png',
-                                      height: 120,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    'A E S T R A L',
-                                    style: textTheme.displayLarge?.copyWith(
-                                      letterSpacing: 6,
-                                      color: AppTheme.accentGold,
-                                      fontSize: 32,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    'Pintu Gerbang Takdir & Misteri Kosmis',
-                                    style: textTheme.bodyMedium?.copyWith(
-                                      color: AppTheme.textMuted,
-                                      letterSpacing: 0.5,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  if (session != null) ...[
-                                    const SizedBox(height: 12),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Aktif: ${session.displayName}',
-                                          style: textTheme.bodyMedium?.copyWith(
-                                            color: AppTheme.accentGold.withValues(alpha: 0.8),
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        IconButton(
-                                          icon: const Icon(Icons.logout, size: 16, color: Colors.redAccent),
-                                          tooltip: 'Keluar',
-                                          onPressed: () {
-                                            ref.read(authProvider.notifier).signOut();
-                                          },
-                                        ),
-                                      ],
+                                    Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: AppTheme.accentGold.withValues(alpha: 0.2),
+                                            blurRadius: 30,
+                                            spreadRadius: 5,
+                                          )
+                                        ]
+                                      ),
+                                      child: Image.asset(
+                                        'assets/images/aestral_logo.png',
+                                        height: 120,
+                                        fit: BoxFit.contain,
+                                      ),
                                     ),
                                   ],
-                                ],
-                              ),
-                            ),
-                            const Spacer(),
-                            // Dashboard cards / buttons
-                            _DashboardCard(
-                              title: 'Tarot & Soul Card',
-                              subtitle: 'Tarik Kartu Jiwa (statis) atau Tarot Mingguan (dinamis) berdasarkan siklus Wuku',
-                              icon: Icons.auto_awesome,
-                              accentColor: AppTheme.accentPink,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const TarotDrawScreen()),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 20),
-                            _DashboardCard(
-                              title: 'Primbon Weton Jawa',
-                              subtitle: 'Temukan karakter bawaan, neptu, dan elemen berdasarkan penanggalan Asapon',
-                              icon: Icons.brightness_medium,
-                              accentColor: AppTheme.accentPurple,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const WetonCalculatorScreen()),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 20),
-                            _DashboardCard(
-                              title: 'Astrological Planner',
-                              subtitle: 'Kalender bulanan terintegrasi dan jadwal jam harian (timetable Saat Pitu)',
-                              icon: Icons.calendar_month,
-                              accentColor: AppTheme.accentGold,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const AstrologicalPlannerScreen()),
-                                );
-                              },
-                            ),
-                            const Spacer(flex: 2),
-                            // Footer info
-                            Center(
-                              child: Text(
-                                'Aestral v1.0.0 • Zero-Budget High-Performance',
-                                style: textTheme.bodyMedium?.copyWith(
-                                  fontSize: 12,
-                                  color: AppTheme.textMuted.withValues(alpha: 0.6),
                                 ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  'A E S T R A L',
+                                  style: textTheme.displayLarge?.copyWith(
+                                    letterSpacing: 6,
+                                    color: AppTheme.accentGold,
+                                    fontSize: 32,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Pintu Gerbang Takdir & Misteri Kosmis',
+                                  style: textTheme.bodyMedium?.copyWith(
+                                    color: AppTheme.textMuted,
+                                    letterSpacing: 0.5,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                if (session != null) ...[
+                                  const SizedBox(height: 12),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Aktif: ${session.displayName}',
+                                        style: textTheme.bodyMedium?.copyWith(
+                                          color: AppTheme.accentGold.withValues(alpha: 0.8),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      IconButton(
+                                        icon: const Icon(Icons.logout, size: 16, color: Colors.redAccent),
+                                        tooltip: 'Keluar',
+                                        onPressed: () {
+                                          ref.read(authProvider.notifier).signOut();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+                          // Celestial Carousel Deck
+                          _buildCarouselDeck(),
+                          const SizedBox(height: 40),
+                          // Footer info
+                          Center(
+                            child: Text(
+                              'Aestral v1.0.0 • Zero-Budget High-Performance',
+                              style: textTheme.bodyMedium?.copyWith(
+                                fontSize: 12,
+                                color: AppTheme.textMuted.withValues(alpha: 0.6),
                               ),
                             ),
-                            const SizedBox(height: 10),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 10),
+                        ],
                       ),
                     ),
                   ),
@@ -338,141 +487,4 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 }
 
-class _DashboardCard extends StatefulWidget {
-  final String title;
-  final String subtitle;
-  final IconData icon;
-  final Color accentColor;
-  final VoidCallback onTap;
 
-  const _DashboardCard({
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-    required this.accentColor,
-    required this.onTap,
-  });
-
-  @override
-  State<_DashboardCard> createState() => _DashboardCardState();
-}
-
-class _DashboardCardState extends State<_DashboardCard> {
-  bool _isHovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        transform: _isHovered 
-            ? Matrix4.translationValues(0, -4, 0) 
-            : Matrix4.identity(),
-        child: Card(
-          child: InkWell(
-            onTap: widget.onTap,
-            borderRadius: BorderRadius.circular(20),
-            splashColor: widget.accentColor.withValues(alpha: 0.15),
-            highlightColor: widget.accentColor.withValues(alpha: 0.05),
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Row(
-                children: [
-                  // Icon badge
-                  Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: widget.accentColor.withValues(alpha: 0.12),
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: widget.accentColor.withValues(alpha: 0.4),
-                        width: 1.5,
-                      ),
-                    ),
-                    child: Icon(
-                      widget.icon,
-                      color: widget.accentColor,
-                      size: 28,
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  // Text details
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.title,
-                          style: textTheme.titleLarge?.copyWith(
-                            color: _isHovered ? widget.accentColor : AppTheme.textLight,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          widget.subtitle,
-                          style: textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Chevron indicator
-                  Icon(
-                    Icons.chevron_right,
-                    color: _isHovered ? widget.accentColor : AppTheme.textMuted,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _StarryBackground extends StatelessWidget {
-  const _StarryBackground();
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size.infinite,
-      painter: _StarsPainter(),
-    );
-  }
-}
-
-class _StarsPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.2)
-      ..style = PaintingStyle.fill;
-
-    // Deterministic random generator so the stars don't flicker on repaint
-    final random = Random(42);
-    for (int i = 0; i < 40; i++) {
-      final double x = random.nextDouble() * size.width;
-      final double y = random.nextDouble() * size.height;
-      final double radius = random.nextDouble() * 1.8 + 0.5;
-      
-      // Draw glow for some stars
-      if (random.nextDouble() > 0.8) {
-        final glowPaint = Paint()
-          ..color = AppTheme.accentGold.withValues(alpha: 0.3)
-          ..style = PaintingStyle.fill;
-        canvas.drawCircle(Offset(x, y), radius * 3, glowPaint);
-      }
-      
-      canvas.drawCircle(Offset(x, y), radius, paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}

@@ -141,15 +141,26 @@ class AuthNotifier extends Notifier<UserSession?> {
     if (isFirebaseAvailable) {
       try {
         await FirebaseAuth.instance.signOut();
-        await GoogleSignIn.instance.signOut();
       } catch (e) {
         debugPrint("Error signing out from Firebase: $e");
       }
+      try {
+        // Only attempt Google Sign-In sign out on mobile, to avoid web configuration errors
+        if (!kIsWeb) {
+          await GoogleSignIn.instance.signOut();
+        }
+      } catch (e) {
+        debugPrint("Error signing out from Google: $e");
+      }
     }
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('mock_user_uid');
-    await prefs.remove('mock_user_name');
-    await prefs.remove('mock_user_email');
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('mock_user_uid');
+      await prefs.remove('mock_user_name');
+      await prefs.remove('mock_user_email');
+    } catch (e) {
+      debugPrint("Error clearing local session preferences: $e");
+    }
     state = null;
   }
 }

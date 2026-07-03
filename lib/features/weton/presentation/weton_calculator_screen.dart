@@ -14,14 +14,12 @@ import '../../../core/services/api_service.dart';
 import '../data/pranata_mangsa_repository.dart';
 import 'widgets/seasonal_banner.dart';
 import 'components/weton_detail_card.dart';
-
-class CityPreset {
-  final String name;
-  final double latitude;
-  final double longitude;
-
-  const CityPreset({required this.name, required this.latitude, required this.longitude});
-}
+import '../../../core/widgets/glass_card.dart';
+import '../../../core/widgets/glass_button.dart';
+import '../../../core/widgets/astrological_dial_timepiece.dart';
+import 'widgets/javanese_astrological_gear_dial.dart';
+import 'widgets/weton_element_mandala.dart';
+import 'widgets/city_search_sheet.dart';
 
 class WetonCalculatorScreen extends ConsumerStatefulWidget {
   const WetonCalculatorScreen({super.key});
@@ -35,6 +33,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
   TimeOfDay? _selectedTime;
   CityPreset _selectedCity = _cityPresets[0]; // Default to Jakarta
   List<CityPreset> _allCities = [];
+  int _currentStep = 0;
   
   final TextEditingController _latController = TextEditingController();
   final TextEditingController _lngController = TextEditingController();
@@ -98,48 +97,48 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
     super.dispose();
   }
 
-  void _presentDatePicker() async {
+  void _presentDatePicker() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return AstrologicalDialTimepiece(
+          initialDateTime: _selectedDate ?? DateTime(2000, 1, 1),
+          showTime: false,
+          onDateTimeSelected: (dt) {
+            setState(() {
+              _selectedDate = dt;
+            });
+          },
+        );
+      },
+    );
+  }
+
+  void _presentTimePicker() {
     final now = DateTime.now();
-    final pickedDate = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate ?? now,
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2100),
-      builder: (context, child) => _buildPickerTheme(context, child!),
+    final initialDateTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      _selectedTime?.hour ?? 12,
+      _selectedTime?.minute ?? 0,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _selectedDate = pickedDate;
-      });
-    }
-  }
-
-  void _presentTimePicker() async {
-    final pickedTime = await showTimePicker(
+    showModalBottomSheet(
       context: context,
-      initialTime: _selectedTime ?? const TimeOfDay(hour: 12, minute: 0),
-      builder: (context, child) => _buildPickerTheme(context, child!),
-    );
-
-    if (pickedTime != null) {
-      setState(() {
-        _selectedTime = pickedTime;
-      });
-    }
-  }
-
-  Widget _buildPickerTheme(BuildContext context, Widget child) {
-    return Theme(
-      data: Theme.of(context).copyWith(
-        colorScheme: const ColorScheme.dark(
-          primary: AppTheme.accentPurple,
-          onPrimary: AppTheme.textLight,
-          surface: AppTheme.cardBg,
-          onSurface: AppTheme.textLight,
-        ),
-      ),
-      child: child,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return AstrologicalDialTimepiece(
+          initialDateTime: initialDateTime,
+          showTime: true,
+          onDateTimeSelected: (dt) {
+            setState(() {
+              _selectedTime = TimeOfDay(hour: dt.hour, minute: dt.minute);
+            });
+          },
+        );
+      },
     );
   }
 
@@ -302,16 +301,26 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
       body: Stack(
         children: [
           // Background
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  AppTheme.background,
-                  Color(0xFF130E30),
-                  Color(0xFF0A0618),
-                ],
+          // Starry space image background layer
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/weton_bg.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+          // Gradient dark overlay to keep high visual readability and glassmorphism contrast
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    AppTheme.background.withValues(alpha: 0.82),
+                    const Color(0xFF130E30).withValues(alpha: 0.88),
+                    const Color(0xFF0A0618).withValues(alpha: 0.94),
+                  ],
+                ),
               ),
             ),
           ),
@@ -329,122 +338,12 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                     ),
                     const SizedBox(height: 24),
                     // Date & Time Picker Card
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              'PILIH PARAMETER LAHIR',
-                              style: textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.5,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 16),
-                            // Date Picker Button
-                            OutlinedButton.icon(
-                              onPressed: _presentDatePicker,
-                              style: OutlinedButton.styleFrom(
-                                side: const BorderSide(color: AppTheme.accentPurple, width: 1.2),
-                                padding: const EdgeInsets.symmetric(vertical: 14),
-                              ),
-                              icon: const Icon(Icons.calendar_month, color: AppTheme.accentPurple),
-                              label: Text(
-                                _selectedDate == null
-                                    ? 'Pilih Tanggal Lahir'
-                                    : DateFormat('dd MMMM yyyy').format(_selectedDate!),
-                                style: const TextStyle(color: AppTheme.textLight),
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            // Time Picker Button
-                            OutlinedButton.icon(
-                              onPressed: _presentTimePicker,
-                              style: OutlinedButton.styleFrom(
-                                side: const BorderSide(color: AppTheme.accentPurple, width: 1.2),
-                                padding: const EdgeInsets.symmetric(vertical: 14),
-                              ),
-                              icon: const Icon(Icons.access_time, color: AppTheme.accentPurple),
-                              label: Text(
-                                _selectedTime == null
-                                    ? 'Pilih Jam Lahir (Opsional)'
-                                    : 'Jam ${_selectedTime!.format(context)}',
-                                style: const TextStyle(color: AppTheme.textLight),
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            // Birth Location Selector
-                            InkWell(
-                              onTap: () async {
-                                final selected = await _showCitySearchSheet(context);
-                                if (selected != null) {
-                                  setState(() {
-                                    _selectedCity = selected;
-                                    if (selected.name != 'Koordinat Kustom') {
-                                      _latController.text = selected.latitude.toString();
-                                      _lngController.text = selected.longitude.toString();
-                                    }
-                                  });
-                                }
-                              },
-                              child: InputDecorator(
-                                decoration: const InputDecoration(
-                                  labelText: 'Lokasi Kelahiran',
-                                  labelStyle: TextStyle(color: AppTheme.textMuted),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: AppTheme.accentPurple),
-                                  ),
-                                  suffixIcon: Icon(Icons.arrow_drop_down, color: AppTheme.accentPurple),
-                                ),
-                                child: Text(
-                                  _selectedCity.name,
-                                  style: const TextStyle(color: AppTheme.textLight, fontSize: 16),
-                                ),
-                              ),
-                            ),
-                            // Manual coordinates inputs if Custom Coordinate selected
-                            if (_selectedCity.name == 'Koordinat Kustom') ...[
-                              const SizedBox(height: 12),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: TextField(
-                                      controller: _latController,
-                                      decoration: const InputDecoration(
-                                        labelText: 'Latitude',
-                                        labelStyle: TextStyle(color: AppTheme.textMuted),
-                                      ),
-                                      style: const TextStyle(color: AppTheme.textLight),
-                                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Expanded(
-                                    child: TextField(
-                                      controller: _lngController,
-                                      decoration: const InputDecoration(
-                                        labelText: 'Longitude',
-                                        labelStyle: TextStyle(color: AppTheme.textMuted),
-                                      ),
-                                      style: const TextStyle(color: AppTheme.textLight),
-                                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                            const SizedBox(height: 20),
-                            // Calculate Button
-                            ElevatedButton(
-                              onPressed: _handleCalculate,
-                              child: const Text('Hitung Primbon'),
-                            ),
-                          ],
-                        ),
-                      ),
+                    // Stepped Wizard (Ritus Langkah Lahir)
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 400),
+                      child: _currentStep == 0
+                          ? _buildWaktuKosmisStep(textTheme)
+                          : _buildKoordinatBumiStep(textTheme),
                     ),
                     const SizedBox(height: 20),
                     // Calculation Results
@@ -491,6 +390,11 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                 ),
                               ),
                               const SizedBox(height: 24),
+                              WetonElementMandala(
+                                saptawara: _result!.saptawara,
+                                pancawara: _result!.pancawara,
+                              ),
+                              const SizedBox(height: 28),
                               if (entry != null) ...[
                                 // 3 Main Cards
                                 WetonDetailCard(
@@ -600,6 +504,16 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                   iconColor: AppTheme.accentPurple,
                                   childrenPadding: const EdgeInsets.all(20.0),
                                   children: [
+                                    const SizedBox(height: 10),
+                                    JavaneseAstrologicalGearDial(
+                                      saptawara: _result!.saptawara,
+                                      pancawara: _result!.pancawara,
+                                      wuku: _result!.wuku,
+                                      totalNeptu: _result!.totalNeptu,
+                                    ),
+                                    const SizedBox(height: 24),
+                                    const Divider(color: Color(0xFF2E2452), height: 20, thickness: 1.5),
+                                    const SizedBox(height: 16),
                                     _DetailRow(
                                       label: 'Kalender Jawa Asapon',
                                       value: '${_result!.javaneseDay} ${_result!.javaneseMonth} ${_result!.javaneseYear} (${_result!.javaneseYearName})',
@@ -731,7 +645,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (context) {
-        return _CitySearchSheet(
+        return CitySearchSheet(
           cityPresets: _allCities.isEmpty ? _cityPresets : _allCities,
         );
       },
@@ -933,6 +847,265 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
       ),
     );
   }
+
+  Widget _buildWaktuKosmisStep(TextTheme textTheme) {
+    return GlassCard(
+      key: const ValueKey('step_waktu_kosmis'),
+      borderColor: AppTheme.accentPurple.withValues(alpha: 0.25),
+      borderWidth: 1.2,
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.star_outline, color: AppTheme.accentGold, size: 18),
+              const SizedBox(width: 8),
+              Text(
+                'LANGKAH 1: WAKTU KOSMIS',
+                style: textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                  color: AppTheme.accentGold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Tentukan tanggal dan jam penyejajaran jiwa Anda.',
+            style: textTheme.bodySmall?.copyWith(color: AppTheme.textMuted),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 20),
+          GlassButton(
+            onPressed: _presentDatePicker,
+            glowColor: AppTheme.accentPurple,
+            icon: const Icon(Icons.calendar_month, color: AppTheme.accentPurple),
+            label: Text(
+              _selectedDate == null
+                  ? 'Tentukan Tanggal Lahir'
+                  : DateFormat('dd MMMM yyyy').format(_selectedDate!),
+            ),
+          ),
+          const SizedBox(height: 12),
+          GlassButton(
+            onPressed: _presentTimePicker,
+            glowColor: AppTheme.accentPurple,
+            icon: const Icon(Icons.access_time, color: AppTheme.accentPurple),
+            label: Text(
+              _selectedTime == null
+                  ? 'Pilih Jam Lahir (Opsional)'
+                  : 'Jam ${_selectedTime!.format(context)}',
+            ),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: () {
+              if (_selectedDate == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Pilih tanggal lahir terlebih dahulu!'),
+                    backgroundColor: Colors.redAccent,
+                  ),
+                );
+                return;
+              }
+              setState(() {
+                _currentStep = 1;
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.accentPurple,
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Lanjut ke Koordinat Bumi',
+                  style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(width: 8),
+                const Icon(Icons.arrow_forward, size: 16),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildKoordinatBumiStep(TextTheme textTheme) {
+    return GlassCard(
+      key: const ValueKey('step_koordinat_bumi'),
+      borderColor: AppTheme.accentPurple.withValues(alpha: 0.25),
+      borderWidth: 1.2,
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.public, color: AppTheme.accentGold, size: 18),
+              const SizedBox(width: 8),
+              Text(
+                'LANGKAH 2: KOORDINAT BUMI',
+                style: textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                  color: AppTheme.accentGold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Pilih tempat penyatuan roh Anda dengan gaya gravitasi bumi.',
+            style: textTheme.bodySmall?.copyWith(color: AppTheme.textMuted),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 20),
+          InkWell(
+            onTap: () async {
+              final selected = await _showCitySearchSheet(context);
+              if (selected != null) {
+                setState(() {
+                  _selectedCity = selected;
+                  if (selected.name != 'Koordinat Kustom') {
+                    _latController.text = selected.latitude.toString();
+                    _lngController.text = selected.longitude.toString();
+                  }
+                });
+              }
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.04),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: AppTheme.accentPurple.withValues(alpha: 0.35),
+                  width: 1.0,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Kota Kelahiran',
+                          style: GoogleFonts.outfit(
+                            fontSize: 11,
+                            color: AppTheme.accentGold,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          _selectedCity.name,
+                          style: const TextStyle(color: AppTheme.textLight, fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(Icons.arrow_drop_down, color: AppTheme.accentPurple),
+                ],
+              ),
+            ),
+          ),
+          // Manual coordinates inputs if Custom Coordinate selected
+          if (_selectedCity.name == 'Koordinat Kustom') ...[
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _latController,
+                    decoration: const InputDecoration(
+                      labelText: 'Latitude',
+                      labelStyle: TextStyle(color: AppTheme.textMuted),
+                    ),
+                    style: const TextStyle(color: AppTheme.textLight),
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: TextField(
+                    controller: _lngController,
+                    decoration: const InputDecoration(
+                      labelText: 'Longitude',
+                      labelStyle: TextStyle(color: AppTheme.textMuted),
+                    ),
+                    style: const TextStyle(color: AppTheme.textLight),
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  ),
+                ),
+              ],
+            ),
+          ],
+          const SizedBox(height: 24),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      _currentStep = 0;
+                    });
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: AppTheme.accentPurple, width: 1.2),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.arrow_back, size: 16, color: AppTheme.accentPurple),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Kembali',
+                        style: GoogleFonts.outfit(color: AppTheme.textLight),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                flex: 2,
+                child: ElevatedButton(
+                  onPressed: _handleCalculate,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.accentPurple,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                  child: Text(
+                    'Hitung Primbon Weton',
+                    style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _DetailRow extends StatelessWidget {
@@ -1072,154 +1245,3 @@ class _JsonPreviewSection extends StatelessWidget {
   }
 }
 
-class _CitySearchSheet extends StatefulWidget {
-  final List<CityPreset> cityPresets;
-
-  const _CitySearchSheet({required this.cityPresets});
-
-  @override
-  State<_CitySearchSheet> createState() => _CitySearchSheetState();
-}
-
-class _CitySearchSheetState extends State<_CitySearchSheet> {
-  final TextEditingController _searchController = TextEditingController();
-  List<CityPreset> _filteredCities = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _filteredCities = widget.cityPresets;
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  void _onSearchChanged(String query) {
-    setState(() {
-      if (query.isEmpty) {
-        _filteredCities = widget.cityPresets;
-      } else {
-        final lowerQuery = query.toLowerCase();
-        _filteredCities = widget.cityPresets.where((city) {
-          if (city.name == 'Koordinat Kustom') return true;
-          return city.name.toLowerCase().contains(lowerQuery);
-        }).toList();
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final textTheme = Theme.of(context).textTheme;
-
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: mediaQuery.viewInsets.bottom,
-        left: 20,
-        right: 20,
-        top: 20,
-      ),
-      child: Container(
-        constraints: BoxConstraints(
-          maxHeight: mediaQuery.size.height * 0.6,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppTheme.textMuted.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Pilih Kota Kelahiran',
-              style: textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppTheme.textLight,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _searchController,
-              onChanged: _onSearchChanged,
-              style: const TextStyle(color: AppTheme.textLight),
-              decoration: InputDecoration(
-                hintText: 'Cari Kota atau Kabupaten...',
-                hintStyle: const TextStyle(color: AppTheme.textMuted),
-                prefixIcon: const Icon(Icons.search, color: AppTheme.accentPurple),
-                suffixIcon: _searchController.text.isNotEmpty
-                    ? IconButton(
-                        icon: const Icon(Icons.clear, color: AppTheme.textMuted),
-                        onPressed: () {
-                          _searchController.clear();
-                          _onSearchChanged('');
-                        },
-                      )
-                    : null,
-                filled: true,
-                fillColor: AppTheme.background.withValues(alpha: 0.5),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(color: AppTheme.accentPurple.withValues(alpha: 0.5)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: const BorderSide(color: AppTheme.accentPurple),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: _filteredCities.isEmpty
-                  ? Center(
-                      child: Text(
-                        'Kota tidak ditemukan',
-                        style: textTheme.bodyLarge?.copyWith(color: AppTheme.textMuted),
-                      ),
-                    )
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _filteredCities.length,
-                      itemBuilder: (context, index) {
-                        final city = _filteredCities[index];
-                        final isCustom = city.name == 'Koordinat Kustom';
-                        return ListTile(
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                          leading: Icon(
-                            isCustom ? Icons.my_location : Icons.location_city,
-                            color: isCustom ? AppTheme.accentPink : AppTheme.accentPurple.withValues(alpha: 0.7),
-                          ),
-                          title: Text(
-                            city.name,
-                            style: const TextStyle(color: AppTheme.textLight, fontWeight: FontWeight.w500),
-                          ),
-                          subtitle: Text(
-                            'Lat: ${city.latitude.toStringAsFixed(4)} • Lng: ${city.longitude.toStringAsFixed(4)}',
-                            style: const TextStyle(color: AppTheme.textMuted, fontSize: 11),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context, city);
-                          },
-                        );
-                      },
-                    ),
-            ),
-            const SizedBox(height: 16),
-          ],
-        ),
-      ),
-    );
-  }
-}
