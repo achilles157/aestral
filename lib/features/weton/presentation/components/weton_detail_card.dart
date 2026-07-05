@@ -8,6 +8,7 @@ class WetonDetailCard extends StatelessWidget {
   final String content;
   final IconData icon;
   final Color accentColor;
+  final EdgeInsetsGeometry? margin;
 
   const WetonDetailCard({
     super.key,
@@ -15,6 +16,7 @@ class WetonDetailCard extends StatelessWidget {
     required this.content,
     required this.icon,
     required this.accentColor,
+    this.margin = const EdgeInsets.only(bottom: 16),
   });
 
   @override
@@ -22,7 +24,7 @@ class WetonDetailCard extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return GlassCard(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: margin,
       borderColor: accentColor.withValues(alpha: 0.35),
       borderWidth: 1.5,
       borderRadius: 20,
@@ -53,7 +55,7 @@ class WetonDetailCard extends StatelessWidget {
             child: IgnorePointer(
               child: CustomPaint(
                 size: const Size(120, 120),
-                painter: _WatermarkMandalaPainter(color: accentColor),
+                painter: WatermarkMandalaPainter(color: accentColor),
               ),
             ),
           ),
@@ -105,10 +107,10 @@ class WetonDetailCard extends StatelessWidget {
   }
 }
 
-class _WatermarkMandalaPainter extends CustomPainter {
+class WatermarkMandalaPainter extends CustomPainter {
   final Color color;
 
-  _WatermarkMandalaPainter({required this.color});
+  WatermarkMandalaPainter({required this.color});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -143,5 +145,5 @@ class _WatermarkMandalaPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _WatermarkMandalaPainter oldDelegate) => oldDelegate.color != color;
+  bool shouldRepaint(covariant WatermarkMandalaPainter oldDelegate) => oldDelegate.color != color;
 }

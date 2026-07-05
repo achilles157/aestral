@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/weton_utils.dart';
@@ -15,11 +14,12 @@ import '../data/pranata_mangsa_repository.dart';
 import 'widgets/seasonal_banner.dart';
 import 'components/weton_detail_card.dart';
 import '../../../core/widgets/glass_card.dart';
-import '../../../core/widgets/glass_button.dart';
 import '../../../core/widgets/astrological_dial_timepiece.dart';
 import 'widgets/javanese_astrological_gear_dial.dart';
 import 'widgets/weton_element_mandala.dart';
 import 'widgets/city_search_sheet.dart';
+import 'widgets/daily_insight_card.dart';
+import 'widgets/weton_step_wizards.dart';
 
 class WetonCalculatorScreen extends ConsumerStatefulWidget {
   const WetonCalculatorScreen({super.key});
@@ -342,8 +342,49 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 400),
                       child: _currentStep == 0
-                          ? _buildWaktuKosmisStep(textTheme)
-                          : _buildKoordinatBumiStep(textTheme),
+                          ? WaktuKosmisStepCard(
+                              selectedDate: _selectedDate,
+                              selectedTime: _selectedTime,
+                              onPresentDatePicker: _presentDatePicker,
+                              onPresentTimePicker: _presentTimePicker,
+                              onNextStep: () {
+                                if (_selectedDate == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Pilih tanggal lahir terlebih dahulu!'),
+                                      backgroundColor: Colors.redAccent,
+                                    ),
+                                  );
+                                  return;
+                                }
+                                setState(() {
+                                  _currentStep = 1;
+                                });
+                              },
+                            )
+                          : KoordinatBumiStepCard(
+                              selectedCity: _selectedCity,
+                              latController: _latController,
+                              lngController: _lngController,
+                              onSelectCity: () async {
+                                final selected = await _showCitySearchSheet(context);
+                                if (selected != null) {
+                                  setState(() {
+                                    _selectedCity = selected;
+                                    if (selected.name != 'Koordinat Kustom') {
+                                      _latController.text = selected.latitude.toString();
+                                      _lngController.text = selected.longitude.toString();
+                                    }
+                                  });
+                                }
+                              },
+                              onBackPressed: () {
+                                setState(() {
+                                  _currentStep = 0;
+                                });
+                              },
+                              onCalculate: _handleCalculate,
+                            ),
                     ),
                     const SizedBox(height: 20),
                     // Calculation Results
@@ -393,6 +434,82 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                               WetonElementMandala(
                                 saptawara: _result!.saptawara,
                                 pancawara: _result!.pancawara,
+                              ),
+                              const SizedBox(height: 20),
+                              // Dropdown Accordion for Technical Details (Moved here and upgraded to GlassCard)
+                              GlassCard(
+                                borderColor: AppTheme.accentPurple.withValues(alpha: 0.25),
+                                borderWidth: 1.2,
+                                padding: EdgeInsets.zero,
+                                child: Theme(
+                                  data: Theme.of(context).copyWith(
+                                    dividerColor: Colors.transparent,
+                                  ),
+                                  child: ExpansionTile(
+                                    title: Text(
+                                      '🔬 Lihat Detail Perhitungan Teknis',
+                                      style: textTheme.titleLarge?.copyWith(
+                                        fontSize: 16,
+                                        color: AppTheme.accentPurple,
+                                      ),
+                                    ),
+                                    collapsedIconColor: AppTheme.accentPurple,
+                                    iconColor: AppTheme.accentPurple,
+                                    childrenPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+                                    children: [
+                                      const SizedBox(height: 10),
+                                      JavaneseAstrologicalGearDial(
+                                        saptawara: _result!.saptawara,
+                                        pancawara: _result!.pancawara,
+                                        wuku: _result!.wuku,
+                                        totalNeptu: _result!.totalNeptu,
+                                      ),
+                                      const SizedBox(height: 24),
+                                      const Divider(color: Color(0xFF2E2452), height: 20, thickness: 1.5),
+                                      const SizedBox(height: 16),
+                                      _DetailRow(
+                                        label: 'Kalender Jawa Asapon',
+                                        value: '${_result!.javaneseDay} ${_result!.javaneseMonth} ${_result!.javaneseYear} (${_result!.javaneseYearName})',
+                                      ),
+                                      const SizedBox(height: 12),
+                                      _DetailRow(label: 'Wuku', value: _result!.wuku),
+                                      const SizedBox(height: 12),
+                                      _DetailRow(label: 'Neptu Saptawara', value: '${_result!.saptawara} (${_result!.neptuSaptawara})'),
+                                      const SizedBox(height: 12),
+                                      _DetailRow(label: 'Neptu Pancawara', value: '${_result!.pancawara} (${_result!.neptuPancawara})'),
+                                      const SizedBox(height: 20),
+                                      // Neptu composite progress bar
+                                      Text(
+                                        'TOTAL NEPTU: ${_result!.totalNeptu} / 18',
+                                        style: textTheme.labelLarge?.copyWith(
+                                          color: AppTheme.accentGold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: LinearProgressIndicator(
+                                          value: _result!.totalNeptu / 18,
+                                          backgroundColor: AppTheme.background,
+                                          color: AppTheme.accentPurple,
+                                          minHeight: 10,
+                                        ),
+                                      ),
+                                      const Divider(color: Color(0xFF2E2452), height: 40, thickness: 1.5),
+                                      _AnalysisBadge(label: 'Pangarasan', value: _result!.pangarasan, color: AppTheme.accentPurple),
+                                      const SizedBox(height: 12),
+                                      _AnalysisBadge(label: 'Pancasuda', value: _result!.pancasuda, color: AppTheme.accentPink),
+                                      const Divider(color: Color(0xFF2E2452), height: 40, thickness: 1.5),
+                                      // Firestore flat JSON preview
+                                      _JsonPreviewSection(
+                                        result: _result!,
+                                        selectedDate: _selectedDate!,
+                                        latitude: double.tryParse(_latController.text) ?? 0.0,
+                                        longitude: double.tryParse(_lngController.text) ?? 0.0,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                               const SizedBox(height: 28),
                               if (entry != null) ...[
@@ -459,7 +576,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
 
                                             return Column(
                                               children: [
-                                                _buildDailyInsightCard(sisaBagiEntry, wukuEntry),
+                                                DailyInsightCard(sisaBagi: sisaBagiEntry, wuku: wukuEntry),
                                                 const SizedBox(height: 20),
                                                 SeasonalBanner(mangsa: targetPranata),
                                               ],
@@ -489,74 +606,6 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                       icon: const Icon(Icons.cloud_upload_outlined),
                                       label: const Text('Simpan Profil Saya'),
                                     ),
-                              const SizedBox(height: 20),
-                              // Dropdown Accordion for Technical Details
-                              Card(
-                                child: ExpansionTile(
-                                  title: Text(
-                                    '🔬 Lihat Detail Perhitungan Teknis',
-                                    style: textTheme.titleLarge?.copyWith(
-                                      fontSize: 16,
-                                      color: AppTheme.accentPurple,
-                                    ),
-                                  ),
-                                  collapsedIconColor: AppTheme.accentPurple,
-                                  iconColor: AppTheme.accentPurple,
-                                  childrenPadding: const EdgeInsets.all(20.0),
-                                  children: [
-                                    const SizedBox(height: 10),
-                                    JavaneseAstrologicalGearDial(
-                                      saptawara: _result!.saptawara,
-                                      pancawara: _result!.pancawara,
-                                      wuku: _result!.wuku,
-                                      totalNeptu: _result!.totalNeptu,
-                                    ),
-                                    const SizedBox(height: 24),
-                                    const Divider(color: Color(0xFF2E2452), height: 20, thickness: 1.5),
-                                    const SizedBox(height: 16),
-                                    _DetailRow(
-                                      label: 'Kalender Jawa Asapon',
-                                      value: '${_result!.javaneseDay} ${_result!.javaneseMonth} ${_result!.javaneseYear} (${_result!.javaneseYearName})',
-                                    ),
-                                    const SizedBox(height: 12),
-                                    _DetailRow(label: 'Wuku', value: _result!.wuku),
-                                    const SizedBox(height: 12),
-                                    _DetailRow(label: 'Neptu Saptawara', value: '${_result!.saptawara} (${_result!.neptuSaptawara})'),
-                                    const SizedBox(height: 12),
-                                    _DetailRow(label: 'Neptu Pancawara', value: '${_result!.pancawara} (${_result!.neptuPancawara})'),
-                                    const SizedBox(height: 20),
-                                    // Neptu composite progress bar
-                                    Text(
-                                      'TOTAL NEPTU: ${_result!.totalNeptu} / 18',
-                                      style: textTheme.labelLarge?.copyWith(
-                                        color: AppTheme.accentGold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: LinearProgressIndicator(
-                                        value: _result!.totalNeptu / 18,
-                                        backgroundColor: AppTheme.background,
-                                        color: AppTheme.accentPurple,
-                                        minHeight: 10,
-                                      ),
-                                    ),
-                                    const Divider(color: Color(0xFF2E2452), height: 40, thickness: 1.5),
-                                    _AnalysisBadge(label: 'Pangarasan', value: _result!.pangarasan, color: AppTheme.accentPurple),
-                                    const SizedBox(height: 12),
-                                    _AnalysisBadge(label: 'Pancasuda', value: _result!.pancasuda, color: AppTheme.accentPink),
-                                    const Divider(color: Color(0xFF2E2452), height: 40, thickness: 1.5),
-                                    // Firestore flat JSON preview
-                                    _JsonPreviewSection(
-                                      result: _result!,
-                                      selectedDate: _selectedDate!,
-                                      latitude: double.tryParse(_latController.text) ?? 0.0,
-                                      longitude: double.tryParse(_lngController.text) ?? 0.0,
-                                    ),
-                                  ],
-                                ),
-                              ),
                               const SizedBox(height: 40),
                             ],
                           );
@@ -649,461 +698,6 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
           cityPresets: _allCities.isEmpty ? _cityPresets : _allCities,
         );
       },
-    );
-  }
-
-  Widget _buildDailyInsightCard(Map<String, dynamic> sisaBagi, Map<String, dynamic> wuku) {
-    final textTheme = Theme.of(context).textTheme;
-    final String fase = sisaBagi['nama_fase'] ?? '';
-    final String tingkatEnergi = sisaBagi['tingkat_energi'] ?? '';
-    final String interpretasi = sisaBagi['interpretasi_harian'] ?? '';
-    final List<dynamic> saran = sisaBagi['saran_aktivitas'] ?? [];
-
-    final String namaWuku = wuku['nama_wuku'] ?? '';
-    final String arketipe = wuku['arketipe_modern'] ?? '';
-    final String dewa = wuku['dewa_penaung'] ?? '';
-    final String karakter = wuku['karakter_dasar'] ?? '';
-    final String pesan = wuku['pesan_kesadaran'] ?? '';
-
-    Color energyColor = AppTheme.accentGold;
-    if (tingkatEnergi.toLowerCase().contains('waspada')) {
-      energyColor = const Color(0xFFF87171);
-    } else if (tingkatEnergi.toLowerCase().contains('stabil')) {
-      energyColor = const Color(0xFF60A5FA);
-    }
-
-    return Card(
-      margin: const EdgeInsets.only(top: 16, bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.wb_sunny_outlined, color: AppTheme.accentGold, size: 24),
-                const SizedBox(width: 8),
-                Text(
-                  'DAILY INSIGHT & PAWUKON',
-                  style: textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.accentGold,
-                    letterSpacing: 1.5,
-                  ),
-                ),
-              ],
-            ),
-            const Divider(color: Color(0xFF2E2452), height: 30, thickness: 1.5),
-            
-            // Phase & Energy Row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Fase: $fase',
-                  style: textTheme.titleLarge?.copyWith(
-                    color: AppTheme.textLight,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: energyColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: energyColor.withValues(alpha: 0.4), width: 1),
-                  ),
-                  child: Text(
-                    'Energi: $tingkatEnergi',
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: energyColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              interpretasi,
-              style: textTheme.bodyLarge?.copyWith(
-                height: 1.6,
-                color: AppTheme.textLight.withValues(alpha: 0.95),
-              ),
-            ),
-            const SizedBox(height: 20),
-            
-            // Action Suggestions Title
-            Text(
-              'REKOMENDASI AKTIVITAS HARI INI',
-              style: textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.2,
-                color: AppTheme.accentPink,
-                fontSize: 12,
-              ),
-            ),
-            const SizedBox(height: 10),
-            ...saran.map((activity) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Icon(Icons.check_circle_outline, color: AppTheme.accentPink, size: 16),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        activity.toString(),
-                        style: textTheme.bodyMedium?.copyWith(
-                          color: AppTheme.textLight.withValues(alpha: 0.95),
-                          height: 1.4,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-            
-            const Divider(color: Color(0xFF2E2452), height: 40, thickness: 1.5),
-            
-            // Wuku Influence
-            Row(
-              children: [
-                const Icon(Icons.auto_awesome, color: AppTheme.accentPurple, size: 20),
-                const SizedBox(width: 8),
-                Text(
-                  'PENGARUH WUKU MINGGUAN',
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.2,
-                    color: AppTheme.accentPurple,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'Wuku $namaWuku — $arketipe',
-              style: textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppTheme.textLight,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Dinaungi oleh $dewa',
-              style: textTheme.bodyMedium?.copyWith(
-                fontStyle: FontStyle.italic,
-                color: AppTheme.textMuted,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              karakter,
-              style: textTheme.bodyMedium?.copyWith(
-                color: AppTheme.textLight.withValues(alpha: 0.85),
-                height: 1.5,
-              ),
-            ),
-            const SizedBox(height: 16),
-            
-            // Pesan Kesadaran Box
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppTheme.accentPurple.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppTheme.accentPurple.withValues(alpha: 0.3), width: 1),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Pesan Kesadaran:',
-                    style: textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.accentPurple,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    pesan,
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: AppTheme.textLight.withValues(alpha: 0.9),
-                      fontStyle: FontStyle.italic,
-                      height: 1.4,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildWaktuKosmisStep(TextTheme textTheme) {
-    return GlassCard(
-      key: const ValueKey('step_waktu_kosmis'),
-      borderColor: AppTheme.accentPurple.withValues(alpha: 0.25),
-      borderWidth: 1.2,
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.star_outline, color: AppTheme.accentGold, size: 18),
-              const SizedBox(width: 8),
-              Text(
-                'LANGKAH 1: WAKTU KOSMIS',
-                style: textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                  color: AppTheme.accentGold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Tentukan tanggal dan jam penyejajaran jiwa Anda.',
-            style: textTheme.bodySmall?.copyWith(color: AppTheme.textMuted),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 20),
-          GlassButton(
-            onPressed: _presentDatePicker,
-            glowColor: AppTheme.accentPurple,
-            icon: const Icon(Icons.calendar_month, color: AppTheme.accentPurple),
-            label: Text(
-              _selectedDate == null
-                  ? 'Tentukan Tanggal Lahir'
-                  : DateFormat('dd MMMM yyyy').format(_selectedDate!),
-            ),
-          ),
-          const SizedBox(height: 12),
-          GlassButton(
-            onPressed: _presentTimePicker,
-            glowColor: AppTheme.accentPurple,
-            icon: const Icon(Icons.access_time, color: AppTheme.accentPurple),
-            label: Text(
-              _selectedTime == null
-                  ? 'Pilih Jam Lahir (Opsional)'
-                  : 'Jam ${_selectedTime!.format(context)}',
-            ),
-          ),
-          const SizedBox(height: 24),
-          ElevatedButton(
-            onPressed: () {
-              if (_selectedDate == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Pilih tanggal lahir terlebih dahulu!'),
-                    backgroundColor: Colors.redAccent,
-                  ),
-                );
-                return;
-              }
-              setState(() {
-                _currentStep = 1;
-              });
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.accentPurple,
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Lanjut ke Koordinat Bumi',
-                  style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(width: 8),
-                const Icon(Icons.arrow_forward, size: 16),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildKoordinatBumiStep(TextTheme textTheme) {
-    return GlassCard(
-      key: const ValueKey('step_koordinat_bumi'),
-      borderColor: AppTheme.accentPurple.withValues(alpha: 0.25),
-      borderWidth: 1.2,
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.public, color: AppTheme.accentGold, size: 18),
-              const SizedBox(width: 8),
-              Text(
-                'LANGKAH 2: KOORDINAT BUMI',
-                style: textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                  color: AppTheme.accentGold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Pilih tempat penyatuan roh Anda dengan gaya gravitasi bumi.',
-            style: textTheme.bodySmall?.copyWith(color: AppTheme.textMuted),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 20),
-          InkWell(
-            onTap: () async {
-              final selected = await _showCitySearchSheet(context);
-              if (selected != null) {
-                setState(() {
-                  _selectedCity = selected;
-                  if (selected.name != 'Koordinat Kustom') {
-                    _latController.text = selected.latitude.toString();
-                    _lngController.text = selected.longitude.toString();
-                  }
-                });
-              }
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.04),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: AppTheme.accentPurple.withValues(alpha: 0.35),
-                  width: 1.0,
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Kota Kelahiran',
-                          style: GoogleFonts.outfit(
-                            fontSize: 11,
-                            color: AppTheme.accentGold,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          _selectedCity.name,
-                          style: const TextStyle(color: AppTheme.textLight, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Icon(Icons.arrow_drop_down, color: AppTheme.accentPurple),
-                ],
-              ),
-            ),
-          ),
-          // Manual coordinates inputs if Custom Coordinate selected
-          if (_selectedCity.name == 'Koordinat Kustom') ...[
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _latController,
-                    decoration: const InputDecoration(
-                      labelText: 'Latitude',
-                      labelStyle: TextStyle(color: AppTheme.textMuted),
-                    ),
-                    style: const TextStyle(color: AppTheme.textLight),
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: TextField(
-                    controller: _lngController,
-                    decoration: const InputDecoration(
-                      labelText: 'Longitude',
-                      labelStyle: TextStyle(color: AppTheme.textMuted),
-                    ),
-                    style: const TextStyle(color: AppTheme.textLight),
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                  ),
-                ),
-              ],
-            ),
-          ],
-          const SizedBox(height: 24),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      _currentStep = 0;
-                    });
-                  },
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: AppTheme.accentPurple, width: 1.2),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.arrow_back, size: 16, color: AppTheme.accentPurple),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Kembali',
-                        style: GoogleFonts.outfit(color: AppTheme.textLight),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                flex: 2,
-                child: ElevatedButton(
-                  onPressed: _handleCalculate,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.accentPurple,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                  child: Text(
-                    'Hitung Primbon Weton',
-                    style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

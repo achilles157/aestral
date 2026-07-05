@@ -394,22 +394,22 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> with SingleTi
                                         painter: MandalaPainter(),
                                       ),
                                     ),
+                                    // Golden Glowing Star Core in the center of Mandala
                                     Container(
-                                      padding: const EdgeInsets.all(8.0),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         boxShadow: [
                                           BoxShadow(
-                                            color: AppTheme.accentGold.withValues(alpha: 0.2),
-                                            blurRadius: 30,
-                                            spreadRadius: 5,
+                                            color: AppTheme.accentGold.withValues(alpha: 0.35),
+                                            blurRadius: 24,
+                                            spreadRadius: 3,
                                           )
-                                        ]
+                                        ],
                                       ),
-                                      child: Image.asset(
-                                        'assets/images/aestral_logo.png',
-                                        height: 120,
-                                        fit: BoxFit.contain,
+                                      child: const Icon(
+                                        Icons.auto_awesome,
+                                        color: AppTheme.accentGold,
+                                        size: 36,
                                       ),
                                     ),
                                   ],
