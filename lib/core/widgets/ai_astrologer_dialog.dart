@@ -71,7 +71,7 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
                 const Icon(Icons.auto_awesome, color: AppTheme.accentGold, size: 24),
                 const SizedBox(width: 8),
                 Text(
-                  'KONSULTASI AI ASTROLOG',
+                  'TANYAKAN KEBINGUNGAN ANDA',
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

@@ -14,6 +14,7 @@ import 'widgets/astrological_planner_calendar_grid.dart';
 import 'widgets/astrological_planner_timeline.dart';
 import '../../../core/widgets/glass_card.dart';
 import '../../../core/widgets/astrological_dial_timepiece.dart';
+import '../../../core/widgets/glass_button.dart';
 
 class AstrologicalPlannerScreen extends ConsumerStatefulWidget {
   const AstrologicalPlannerScreen({super.key});
@@ -376,12 +377,12 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
                                 style: GoogleFonts.outfit(color: Colors.white70),
                               ),
                               const SizedBox(height: 24),
-                              ElevatedButton.icon(
+                              GlassButton(
                                 onPressed: _fetchCalendarData,
-                                icon: const Icon(Icons.refresh),
+                                icon: const Icon(Icons.refresh, color: AppTheme.textLight, size: 20),
                                 label: const Text('Coba Lagi'),
-                                style: ElevatedButton.styleFrom(backgroundColor: AppTheme.accentPurple),
-                              )
+                                glowColor: AppTheme.accentPurple,
+                              ),
                             ],
                           ),
                         ),

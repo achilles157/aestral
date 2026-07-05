@@ -11,6 +11,18 @@ class AppTheme {
   static const Color textMuted = Color(0xFF9CA3AF);
   static const Color shadowColor = Color(0x3F000000);
 
+  // Astrological Element Colors
+  static const Color elementWater = Color(0xFF60A5FA);
+  static const Color elementFire = Color(0xFFF87171);
+  static const Color elementEarth = accentGold;
+  static const Color elementMetal = Color(0xFFE5E7EB);
+  static const Color elementCosmic = Color(0xFFC084FC);
+
+  // Standard Border Radii
+  static const double radiusSmall = 12.0;
+  static const double radiusMedium = 16.0;
+  static const double radiusLarge = 24.0;
+
   static ThemeData get darkTheme {
     final baseTheme = ThemeData.dark();
     return baseTheme.copyWith(

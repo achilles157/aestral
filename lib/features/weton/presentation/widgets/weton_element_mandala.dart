@@ -92,10 +92,10 @@ class WetonElementMandala extends StatelessWidget {
           runSpacing: 8,
           alignment: WrapAlignment.center,
           children: [
-            _buildElementChip('Geni (Api)', values['geni']!, const Color(0xFFF87171)),
-            _buildElementChip('Banyu (Air)', values['banyu']!, const Color(0xFF60A5FA)),
-            _buildElementChip('Lemah (Tanah)', values['lemah']!, AppTheme.accentGold),
-            _buildElementChip('Angin (Udara)', values['angin']!, const Color(0xFFC084FC)),
+            _buildElementChip('Geni (Api)', values['geni']!, AppTheme.elementFire),
+            _buildElementChip('Banyu (Air)', values['banyu']!, AppTheme.elementWater),
+            _buildElementChip('Lemah (Tanah)', values['lemah']!, AppTheme.elementEarth),
+            _buildElementChip('Angin (Udara)', values['angin']!, AppTheme.elementCosmic),
           ],
         )
       ],
@@ -193,10 +193,10 @@ class _WetonElementMandalaPainter extends CustomPainter {
       textPainter.paint(canvas, Offset(pos.dx - textPainter.width / 2, pos.dy - textPainter.height / 2));
     }
 
-    drawLabel('BANYU\n(North)', Offset(center.dx, center.dy - maxRadius - 16), const Color(0xFF60A5FA));
-    drawLabel('ANGIN\n(East)', Offset(center.dx + maxRadius + 22, center.dy), const Color(0xFFC084FC));
-    drawLabel('GENI\n(South)', Offset(center.dx, center.dy + maxRadius + 16), const Color(0xFFF87171));
-    drawLabel('LEMAH\n(West)', Offset(center.dx - maxRadius - 22, center.dy), AppTheme.accentGold);
+    drawLabel('BANYU\n(North)', Offset(center.dx, center.dy - maxRadius - 16), AppTheme.elementWater);
+    drawLabel('ANGIN\n(East)', Offset(center.dx + maxRadius + 22, center.dy), AppTheme.elementCosmic);
+    drawLabel('GENI\n(South)', Offset(center.dx, center.dy + maxRadius + 16), AppTheme.elementFire);
+    drawLabel('LEMAH\n(West)', Offset(center.dx - maxRadius - 22, center.dy), AppTheme.elementEarth);
 
     final nVal = 0.2 + (banyu * 0.8);
     final eVal = 0.2 + (angin * 0.8);

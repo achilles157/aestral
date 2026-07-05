@@ -8,6 +8,7 @@ import '../../weton/presentation/weton_calculator_screen.dart';
 import '../../weton/presentation/astrological_planner_screen.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/weton_utils.dart';
+import '../../../core/utils/navigation_helper.dart';
 import 'widgets/dashboard_carousel_card.dart';
 import 'widgets/starry_background.dart';
 
@@ -189,7 +190,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> with SingleTi
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const TarotDrawScreen()),
+            createCosmicPageRoute(const TarotDrawScreen()),
           );
         },
       ),
@@ -201,7 +202,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> with SingleTi
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const WetonCalculatorScreen()),
+            createCosmicPageRoute(const WetonCalculatorScreen()),
           );
         },
       ),
@@ -213,7 +214,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> with SingleTi
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AstrologicalPlannerScreen()),
+            createCosmicPageRoute(const AstrologicalPlannerScreen()),
           );
         },
       ),

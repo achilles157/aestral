@@ -406,7 +406,7 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                                               ),
                                               icon: Icon(Icons.auto_awesome, size: 12, color: cardColor),
                                               label: Text(
-                                                'Tanya AI Astrolog',
+                                                'Tanyakan Kebingungan Anda',
                                                 style: GoogleFonts.outfit(fontSize: 11, color: cardColor, fontWeight: FontWeight.bold),
                                               ),
                                             ),

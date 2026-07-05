@@ -18,6 +18,7 @@ import '../../auth/services/profile_service.dart';
 import '../../../core/utils/weton_utils.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/widgets/radial_glow_painter.dart';
+import '../../../core/widgets/glass_button.dart';
 
 class TarotDrawScreen extends ConsumerStatefulWidget {
   const TarotDrawScreen({super.key});
@@ -495,20 +496,25 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                 ),
                               ),
                               const SizedBox(height: 32),
-                              // Draw button
                               _isLoading
                                   ? const CircularProgressIndicator(color: AppTheme.accentGold)
-                                  : ElevatedButton(
+                                  : GlassButton(
                                       onPressed: () => _handleDraw(deck),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: drawnCards != null 
-                                            ? AppTheme.accentPink 
-                                            : AppTheme.accentPurple,
-                                        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                                      glowColor: drawnCards != null 
+                                          ? AppTheme.accentPink 
+                                          : AppTheme.accentPurple,
+                                      icon: Icon(
+                                        drawnCards != null 
+                                            ? Icons.refresh 
+                                            : Icons.auto_awesome, 
+                                        color: AppTheme.textLight,
+                                        size: 20,
                                       ),
-                                      child: Text(drawnCards != null 
-                                          ? (currentLang == 'id' ? 'Tarik Ulang' : 'Redraw') 
-                                          : (currentLang == 'id' ? 'Tarik Kartu' : 'Draw Card')),
+                                      label: Text(
+                                        drawnCards != null 
+                                            ? (currentLang == 'id' ? 'Tarik Ulang' : 'Redraw') 
+                                            : (currentLang == 'id' ? 'Tarik Kartu' : 'Draw Card'),
+                                      ),
                                     ),
                               const SizedBox(height: 16),
                               // Share button (only active when cards are drawn)
@@ -590,19 +596,19 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                             String elementLabel = '';
                                             final suit = card.suit.toLowerCase();
                                             if (suit.contains('cup')) {
-                                              suitColor = const Color(0xFF60A5FA);
+                                              suitColor = AppTheme.elementWater;
                                               elementLabel = currentLang == 'id' ? 'ELEMEN AIR' : 'WATER ELEMENT';
                                             } else if (suit.contains('wand')) {
-                                              suitColor = const Color(0xFFF87171);
+                                              suitColor = AppTheme.elementFire;
                                               elementLabel = currentLang == 'id' ? 'ELEMEN API' : 'FIRE ELEMENT';
                                             } else if (suit.contains('pentacle')) {
-                                              suitColor = AppTheme.accentGold;
+                                              suitColor = AppTheme.elementEarth;
                                               elementLabel = currentLang == 'id' ? 'ELEMEN TANAH' : 'EARTH ELEMENT';
                                             } else if (suit.contains('sword')) {
-                                              suitColor = const Color(0xFFE5E7EB);
+                                              suitColor = AppTheme.elementMetal;
                                               elementLabel = currentLang == 'id' ? 'ELEMEN LOGAM' : 'METAL ELEMENT';
                                             } else {
-                                              suitColor = const Color(0xFFC084FC);
+                                              suitColor = AppTheme.elementCosmic;
                                               elementLabel = currentLang == 'id' ? 'KOSMIS / SPIRIT' : 'COSMIC / SPIRIT';
                                             }
 
