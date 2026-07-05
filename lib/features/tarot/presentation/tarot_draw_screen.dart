@@ -578,7 +578,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                       ),
                                       const SizedBox(height: 16),
                                       SizedBox(
-                                        height: 380,
+                                        height: 480,
                                         child: PageView.builder(
                                           controller: _pageController,
                                           itemCount: 3,

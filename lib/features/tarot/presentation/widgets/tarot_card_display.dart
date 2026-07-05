@@ -16,25 +16,26 @@ class CardBack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isSmall = width < 150;
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(isSmall ? 12 : 24),
         border: Border.all(
           color: AppTheme.accentGold,
-          width: 3.0,
+          width: isSmall ? 1.5 : 3.0,
         ),
         boxShadow: [
           BoxShadow(
             color: AppTheme.accentGold.withValues(alpha: 0.2),
-            blurRadius: 20,
-            spreadRadius: 2,
+            blurRadius: isSmall ? 10 : 20,
+            spreadRadius: isSmall ? 1 : 2,
           ),
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(21),
+        borderRadius: BorderRadius.circular(isSmall ? 9 : 21),
         child: Image.asset(
           'assets/images/tarot_card_back.png',
           fit: BoxFit.cover,
@@ -104,6 +105,7 @@ class CardFront extends ConsumerWidget {
       elementLabel = currentLang == 'id' ? 'KOSMIS / SPIRIT' : 'COSMIC / SPIRIT';
     }
 
+    final isSmall = width < 150;
     final themeBorderColor = isReversed ? AppTheme.accentPink : AppTheme.accentGold;
 
     return Container(
@@ -111,68 +113,71 @@ class CardFront extends ConsumerWidget {
       height: height,
       decoration: BoxDecoration(
         color: AppTheme.cardBg.withValues(alpha: 0.95),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(isSmall ? 12 : 24),
         border: Border.all(
           color: themeBorderColor,
-          width: 3.0,
+          width: isSmall ? 1.5 : 3.0,
         ),
         boxShadow: [
           BoxShadow(
             color: themeBorderColor.withValues(alpha: 0.25),
-            blurRadius: 20,
-            spreadRadius: 2,
+            blurRadius: isSmall ? 10 : 20,
+            spreadRadius: isSmall ? 1 : 2,
           ),
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: isSmall ? const EdgeInsets.all(6.0) : const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Card title & Status
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(suitIcon, color: suitColor, size: 14),
-                    const SizedBox(width: 4),
-                    Text(
-                      elementLabel,
-                      style: textTheme.bodyMedium?.copyWith(
-                        fontSize: 9,
-                        fontWeight: FontWeight.bold,
-                        color: suitColor,
-                        letterSpacing: 0.5,
+            if (!isSmall) ...[
+              // Card title & Status
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(suitIcon, color: suitColor, size: 14),
+                      const SizedBox(width: 4),
+                      Text(
+                        elementLabel,
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontSize: 9,
+                          fontWeight: FontWeight.bold,
+                          color: suitColor,
+                          letterSpacing: 0.5,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Text(
-                  currentLang == 'id' 
-                      ? (isReversed ? 'TERBALIK ↺' : 'TEGAK ☼') 
-                      : (isReversed ? 'REVERSED ↺' : 'UPRIGHT ☼'),
-                  style: TextStyle(
-                    fontSize: 9,
-                    fontWeight: FontWeight.bold,
-                    color: isReversed ? AppTheme.accentPink : AppTheme.accentGold,
-                    letterSpacing: 0.5,
+                    ],
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
+                  Text(
+                    currentLang == 'id' 
+                        ? (isReversed ? 'TERBALIK ↺' : 'TEGAK ☼') 
+                        : (isReversed ? 'REVERSED ↺' : 'UPRIGHT ☼'),
+                    style: TextStyle(
+                      fontSize: 9,
+                      fontWeight: FontWeight.bold,
+                      color: isReversed ? AppTheme.accentPink : AppTheme.accentGold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+            ],
             // Full card illustration area
             Expanded(
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(isSmall ? 8 : 16),
                   border: Border.all(
                     color: suitColor.withValues(alpha: 0.25),
+                    width: isSmall ? 0.8 : 1.0,
                   ),
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(isSmall ? 7 : 15),
                   child: RotatedBox(
                     quarterTurns: isReversed ? 2 : 0,
                     child: Image.asset(
@@ -193,7 +198,7 @@ class CardFront extends ConsumerWidget {
                             child: Icon(
                               suitIcon,
                               color: suitColor,
-                              size: 40,
+                              size: isSmall ? 24 : 40,
                             ),
                           ),
                         );

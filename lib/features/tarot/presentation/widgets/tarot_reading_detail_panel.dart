@@ -31,9 +31,10 @@ class TarotReadingDetailPanel extends StatelessWidget {
       borderRadius: 24,
       color: AppTheme.cardBg.withValues(alpha: 0.7),
       padding: const EdgeInsets.all(24.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
           const Icon(Icons.auto_awesome, color: AppTheme.accentGold, size: 24),
           const SizedBox(height: 12),
           Text(
@@ -223,8 +224,9 @@ class TarotReadingDetailPanel extends StatelessWidget {
           ],
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildBadge(BuildContext context, String text, Color color) {
     return Container(
