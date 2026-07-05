@@ -5,13 +5,20 @@ import '../../providers/tarot_language_provider.dart';
 import '../../services/tarot_data.dart';
 
 class CardBack extends StatelessWidget {
-  const CardBack({super.key});
+  final double width;
+  final double height;
+
+  const CardBack({
+    super.key,
+    this.width = 250,
+    this.height = 400,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 250,
-      height: 400,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
@@ -39,8 +46,15 @@ class CardBack extends StatelessWidget {
 
 class CardFront extends ConsumerWidget {
   final DrawnCardInfo? drawnCard;
+  final double width;
+  final double height;
 
-  const CardFront({super.key, required this.drawnCard});
+  const CardFront({
+    super.key,
+    required this.drawnCard,
+    this.width = 250,
+    this.height = 400,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -49,7 +63,7 @@ class CardFront extends ConsumerWidget {
     final card = drawnCard?.card;
     final isReversed = drawnCard?.isReversed ?? false;
 
-    if (card == null) return const CardBack();
+    if (card == null) return CardBack(width: width, height: height);
 
     // Map tarot suit to elements & visual styles
     final suit = card.suit.toLowerCase();
@@ -93,8 +107,8 @@ class CardFront extends ConsumerWidget {
     final themeBorderColor = isReversed ? AppTheme.accentPink : AppTheme.accentGold;
 
     return Container(
-      width: 250,
-      height: 400,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         color: AppTheme.cardBg.withValues(alpha: 0.95),
         borderRadius: BorderRadius.circular(24),

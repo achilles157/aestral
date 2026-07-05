@@ -1,5 +1,5 @@
 import { parseAuthHeader } from './auth';
-import { getDeterministicCard, getWeightedRandomCard, getDeterministicReversed, getWeeklyDeterministicCard, getWeeklyDeterministicReversed } from './tarot';
+import { getDeterministicThreeCards, getWeeklyDeterministicThreeCards } from './tarot';
 import { getWetonInsight, getPranataMangsaId, getJamInsight } from './weton';
 
 const CORS_HEADERS: Record<string, string> = {
@@ -74,35 +74,28 @@ async function handleTarotDraw(request: Request): Promise<Response> {
 	const drawType = body.drawType ?? (authToken.type === 'guest' ? 'birth' : 'weekly');
 
 	if (authToken.type === 'guest' || drawType === 'birth') {
-		const cardIndex = getDeterministicCard(body.birthDate, body.pangarasan);
-		const isReversed = getDeterministicReversed(body.birthDate);
+		const cards = getDeterministicThreeCards(body.birthDate, body.pangarasan);
 		return json({
 			success: true,
 			isDynamic: false,
 			drawType: 'birth',
-			cardIndex,
-			isReversed,
-			message: 'Kartu Jiwa (Soul Card) — penafsiran statis seumur hidup.',
+			cards,
+			message: 'Tebaran 3 Kartu Tarot (Masa Lalu, Masa Kini, Masa Depan) berhasil diselaraskan.',
 		});
 	}
 
 	// Bearer (registered user) and drawType === 'weekly'
-	const cardIndex = getWeeklyDeterministicCard(
+	const cards = getWeeklyDeterministicThreeCards(
 		body.birthDate,
 		body.wukuHariIni ?? '',
 		body.pangarasan ?? '',
-	);
-	const isReversed = getWeeklyDeterministicReversed(
-		body.birthDate,
-		body.wukuHariIni ?? '',
 	);
 	return json({
 		success: true,
 		isDynamic: true,
 		drawType: 'weekly',
-		cardIndex,
-		isReversed,
-		message: 'Kartu Tarot Mingguan — dinamis berdasarkan siklus Wuku.',
+		cards,
+		message: 'Tebaran 3 Kartu Tarot (Masa Lalu, Masa Kini, Masa Depan) berhasil diselaraskan.',
 	});
 }
 

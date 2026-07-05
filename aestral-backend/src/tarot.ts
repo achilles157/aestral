@@ -250,3 +250,124 @@ export function getWeeklyDeterministicReversed(birthDate: string, wuku: string):
 	}
 	return Math.abs(hash) % 2 === 0;
 }
+
+// --- Unique Three-Card Spread ---
+
+export interface DrawnCardInfo {
+	cardIndex: number;
+	isReversed: boolean;
+	label: 'past' | 'present' | 'future';
+}
+
+function drawSingleDeterministicCard(seedStr: string, weights: Float64Array): number {
+	let totalWeight = 0;
+	for (let i = 0; i < DECK_SIZE; i++) {
+		totalWeight += weights[i];
+	}
+	
+	let hash = 0;
+	for (let i = 0; i < seedStr.length; i++) {
+		hash = seedStr.charCodeAt(i) + ((hash << 5) - hash);
+	}
+	
+	const randVal = (Math.abs(hash) % 10000) / 10000;
+	let pick = randVal * totalWeight;
+	
+	for (let i = 0; i < DECK_SIZE; i++) {
+		if (weights[i] > 0) {
+			pick -= weights[i];
+			if (pick <= 0) {
+				weights[i] = 0; // prevent redraw
+				return i;
+			}
+		}
+	}
+	// Fallback if weights are somehow all 0
+	for (let i = 0; i < DECK_SIZE; i++) {
+		if (weights[i] > 0) {
+			weights[i] = 0;
+			return i;
+		}
+	}
+	return DECK_SIZE - 1;
+}
+
+function getIsReversedDeterministic(seedStr: string): boolean {
+	let hash = 0;
+	for (let i = 0; i < seedStr.length; i++) {
+		hash = seedStr.charCodeAt(i) + ((hash << 5) - hash);
+	}
+	return Math.abs(hash) % 2 === 0;
+}
+
+/**
+ * Returns 3 unique deterministic cards representing Past, Present, and Future for Guest onboarding.
+ */
+export function getDeterministicThreeCards(birthDate: string, pangarasan?: string): DrawnCardInfo[] {
+	const weights = new Float64Array(DECK_SIZE).fill(1.0);
+
+	if (pangarasan) {
+		const userElement = pangarasanToElement(pangarasan);
+		if (userElement) {
+			const [start, end] = getRemedialRange(userElement);
+			for (let i = start; i <= end; i++) {
+				weights[i] += 0.15;
+			}
+		}
+	}
+
+	const pastIndex = drawSingleDeterministicCard(birthDate + '-past', weights);
+	const pastReversed = getIsReversedDeterministic(birthDate + '-past-reversed');
+
+	const presentIndex = drawSingleDeterministicCard(birthDate + '-present', weights);
+	const presentReversed = getIsReversedDeterministic(birthDate + '-present-reversed');
+
+	const futureIndex = drawSingleDeterministicCard(birthDate + '-future', weights);
+	const futureReversed = getIsReversedDeterministic(birthDate + '-future-reversed');
+
+	return [
+		{ cardIndex: pastIndex, isReversed: pastReversed, label: 'past' },
+		{ cardIndex: presentIndex, isReversed: presentReversed, label: 'present' },
+		{ cardIndex: futureIndex, isReversed: futureReversed, label: 'future' }
+	];
+}
+
+/**
+ * Returns 3 unique deterministic cards for the current week's cycle (weekly dynamic).
+ */
+export function getWeeklyDeterministicThreeCards(birthDate: string, wuku: string, pangarasan: string): DrawnCardInfo[] {
+	const weights = new Float64Array(DECK_SIZE).fill(1.0);
+
+	const userElement = pangarasanToElement(pangarasan);
+	if (userElement) {
+		const [start, end] = getRemedialRange(userElement);
+		for (let i = start; i <= end; i++) {
+			weights[i] += 0.15;
+		}
+	}
+
+	if (wuku) {
+		const wukuElement = wukuToElement(wuku);
+		if (wukuElement) {
+			const [start, end] = getElementRange(wukuElement);
+			for (let i = start; i <= end; i++) {
+				weights[i] += 0.10;
+			}
+		}
+	}
+
+	const pastIndex = drawSingleDeterministicCard(birthDate + wuku + '-past', weights);
+	const pastReversed = getIsReversedDeterministic(birthDate + wuku + '-past-reversed');
+
+	const presentIndex = drawSingleDeterministicCard(birthDate + wuku + '-present', weights);
+	const presentReversed = getIsReversedDeterministic(birthDate + wuku + '-present-reversed');
+
+	const futureIndex = drawSingleDeterministicCard(birthDate + wuku + '-future', weights);
+	const futureReversed = getIsReversedDeterministic(birthDate + wuku + '-future-reversed');
+
+	return [
+		{ cardIndex: pastIndex, isReversed: pastReversed, label: 'past' },
+		{ cardIndex: presentIndex, isReversed: presentReversed, label: 'present' },
+		{ cardIndex: futureIndex, isReversed: futureReversed, label: 'future' }
+	];
+}

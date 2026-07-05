@@ -206,7 +206,7 @@ class KoordinatBumiStepCard extends StatelessWidget {
                     controller: latController,
                     decoration: const InputDecoration(
                       labelText: 'Latitude',
-                      labelStyle: TextStyle(color: AppTheme.textMuted),
+                      prefixIcon: Icon(Icons.north, color: AppTheme.accentPurple, size: 20),
                     ),
                     style: const TextStyle(color: AppTheme.textLight),
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -218,7 +218,7 @@ class KoordinatBumiStepCard extends StatelessWidget {
                     controller: lngController,
                     decoration: const InputDecoration(
                       labelText: 'Longitude',
-                      labelStyle: TextStyle(color: AppTheme.textMuted),
+                      prefixIcon: Icon(Icons.east, color: AppTheme.accentPurple, size: 20),
                     ),
                     style: const TextStyle(color: AppTheme.textLight),
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),

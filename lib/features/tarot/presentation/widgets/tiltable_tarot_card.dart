@@ -58,8 +58,15 @@ class _PulsingAuraState extends State<PulsingAura> with SingleTickerProviderStat
 
 class TiltableTarotCard extends StatefulWidget {
   final Widget child;
+  final double width;
+  final double height;
 
-  const TiltableTarotCard({super.key, required this.child});
+  const TiltableTarotCard({
+    super.key,
+    required this.child,
+    this.width = 250,
+    this.height = 400,
+  });
 
   @override
   State<TiltableTarotCard> createState() => _TiltableTarotCardState();
@@ -117,7 +124,7 @@ class _TiltableTarotCardState extends State<TiltableTarotCard> with SingleTicker
 
   @override
   Widget build(BuildContext context) {
-    const cardSize = Size(250, 400);
+    final cardSize = Size(widget.width, widget.height);
 
     return GestureDetector(
       onPanUpdate: (details) => _onPanUpdate(details, cardSize),

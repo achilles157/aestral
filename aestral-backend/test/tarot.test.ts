@@ -1,55 +1,51 @@
 import { SELF } from 'cloudflare:test';
 import { describe, it, expect } from 'vitest';
-import { getDeterministicCard, getWeightedRandomCard, getDeterministicReversed } from '../src/tarot';
+import { getDeterministicThreeCards, getWeeklyDeterministicThreeCards } from '../src/tarot';
 
-// --- Unit Tests: getDeterministicCard ---
+// --- Unit Tests: unique deterministic cards ---
 
-describe('getDeterministicCard', () => {
-	it('always returns the same index for the same birthDate', () => {
-		const a = getDeterministicCard('1995-10-25');
-		const b = getDeterministicCard('1995-10-25');
-		const c = getDeterministicCard('1995-10-25');
-		expect(a).toBe(b);
-		expect(b).toBe(c);
+describe('getDeterministicThreeCards', () => {
+	it('always returns the same three cards for the same birthDate', () => {
+		const a = getDeterministicThreeCards('1995-10-25');
+		const b = getDeterministicThreeCards('1995-10-25');
+		expect(a).toEqual(b);
 	});
 
-	it('always returns the same reversal for the same birthDate', () => {
-		const a = getDeterministicReversed('1995-10-25');
-		const b = getDeterministicReversed('1995-10-25');
-		expect(a).toBe(b);
+	it('returns different cards for different birthDates', () => {
+		const a = getDeterministicThreeCards('1995-10-25');
+		const b = getDeterministicThreeCards('2000-01-01');
+		expect(a).not.toEqual(b);
 	});
 
-	it('returns different indices for different birthDates', () => {
-		const a = getDeterministicCard('1995-10-25');
-		const b = getDeterministicCard('2000-01-01');
-		expect(a).not.toBe(b);
-	});
-
-	it('returns a value in range 0-77', () => {
-		const dates = [
-			'1990-01-01',
-			'1995-10-25',
-			'2000-12-31',
-			'1985-06-15',
-			'2010-03-08',
-		];
-		for (const d of dates) {
-			const idx = getDeterministicCard(d);
-			expect(idx).toBeGreaterThanOrEqual(0);
-			expect(idx).toBeLessThanOrEqual(77);
+	it('returns three unique card indexes', () => {
+		const cards = getDeterministicThreeCards('1995-10-25');
+		expect(cards).toHaveLength(3);
+		
+		const idxs = cards.map(c => c.cardIndex);
+		const uniqueIdxs = new Set(idxs);
+		expect(uniqueIdxs.size).toBe(3);
+		
+		for (const card of cards) {
+			expect(card.cardIndex).toBeGreaterThanOrEqual(0);
+			expect(card.cardIndex).toBeLessThanOrEqual(77);
+			expect(card.isReversed).toBeTypeOf('boolean');
 		}
+		expect(cards[0].label).toBe('past');
+		expect(cards[1].label).toBe('present');
+		expect(cards[2].label).toBe('future');
 	});
 });
 
-// --- Unit Tests: getWeightedRandomCard ---
-
-describe('getWeightedRandomCard', () => {
-	it('returns a value in range 0-77', () => {
-		for (let i = 0; i < 50; i++) {
-			const idx = getWeightedRandomCard('Geni Jaya', 'Sinta');
-			expect(idx).toBeGreaterThanOrEqual(0);
-			expect(idx).toBeLessThanOrEqual(77);
-		}
+describe('getWeeklyDeterministicThreeCards', () => {
+	it('returns three unique card indexes and is deterministic', () => {
+		const a = getWeeklyDeterministicThreeCards('1995-10-25', 'Sinta', 'Geni Jaya');
+		const b = getWeeklyDeterministicThreeCards('1995-10-25', 'Sinta', 'Geni Jaya');
+		expect(a).toEqual(b);
+		
+		expect(a).toHaveLength(3);
+		const idxs = a.map(c => c.cardIndex);
+		const uniqueIdxs = new Set(idxs);
+		expect(uniqueIdxs.size).toBe(3);
 	});
 });
 
@@ -69,16 +65,16 @@ describe('POST /api/tarot/draw', () => {
 		const body = await res.json<{
 			success: boolean;
 			isDynamic: boolean;
-			cardIndex: number;
-			isReversed: boolean;
+			cards: Array<{ cardIndex: number; isReversed: boolean; label: string }>;
 			message: string;
 		}>();
 		expect(body.success).toBe(true);
 		expect(body.isDynamic).toBe(false);
-		expect(body.cardIndex).toBeGreaterThanOrEqual(0);
-		expect(body.cardIndex).toBeLessThanOrEqual(77);
-		expect(body.isReversed).toBeTypeOf('boolean');
-		expect(body.message).toContain('Kartu Jiwa');
+		expect(body.cards).toHaveLength(3);
+		
+		const uniqueIdxs = new Set(body.cards.map(c => c.cardIndex));
+		expect(uniqueIdxs.size).toBe(3);
+		expect(body.cards[0].label).toBe('past');
 	});
 
 	it('returns isDynamic: false and drawType: birth for Bearer auth with drawType birth', async () => {
@@ -98,13 +94,13 @@ describe('POST /api/tarot/draw', () => {
 			success: boolean;
 			isDynamic: boolean;
 			drawType: string;
-			cardIndex: number;
-			isReversed: boolean;
+			cards: Array<{ cardIndex: number; isReversed: boolean; label: string }>;
 		}>();
 		expect(body.success).toBe(true);
 		expect(body.isDynamic).toBe(false);
 		expect(body.drawType).toBe('birth');
-		expect(body.cardIndex).toBe(getDeterministicCard('1995-10-25'));
+		expect(body.cards).toHaveLength(3);
+		expect(body.cards[0].cardIndex).toBe(getDeterministicThreeCards('1995-10-25')[0].cardIndex);
 	});
 
 	it('returns isDynamic: true and drawType: weekly for Bearer auth', async () => {
@@ -126,15 +122,14 @@ describe('POST /api/tarot/draw', () => {
 			success: boolean;
 			isDynamic: boolean;
 			drawType: string;
-			cardIndex: number;
-			isReversed: boolean;
+			cards: Array<{ cardIndex: number; isReversed: boolean; label: string }>;
 		}>();
 		expect(body.success).toBe(true);
 		expect(body.isDynamic).toBe(true);
 		expect(body.drawType).toBe('weekly');
-		expect(body.cardIndex).toBeGreaterThanOrEqual(0);
-		expect(body.cardIndex).toBeLessThanOrEqual(77);
-		expect(body.isReversed).toBeTypeOf('boolean');
+		expect(body.cards).toHaveLength(3);
+		const uniqueIdxs = new Set(body.cards.map(c => c.cardIndex));
+		expect(uniqueIdxs.size).toBe(3);
 	});
 
 	it('returns 400 when no Authorization header', async () => {

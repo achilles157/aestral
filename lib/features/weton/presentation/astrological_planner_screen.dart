@@ -333,6 +333,17 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
               ),
             ),
           ),
+          // Cosmic star overlay for glassmorphism depth
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.12,
+              child: Image.asset(
+                'assets/images/app_bg.png',
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
+              ),
+            ),
+          ),
           SafeArea(
             child: SingleChildScrollView(
               physics: const ClampingScrollPhysics(),

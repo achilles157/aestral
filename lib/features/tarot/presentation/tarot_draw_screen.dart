@@ -26,42 +26,54 @@ class TarotDrawScreen extends ConsumerStatefulWidget {
   ConsumerState<TarotDrawScreen> createState() => _TarotDrawScreenState();
 }
 
-class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTickerProviderStateMixin {
-  late AnimationController _flipController;
-  late Animation<double> _flipAnimation;
+class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerProviderStateMixin {
+  late List<AnimationController> _flipControllers;
+  late List<Animation<double>> _flipAnimations;
   final ScreenshotController _screenshotController = ScreenshotController();
-  bool _isCardRevealed = false;
+  late PageController _pageController;
+  List<bool> _cardRevealedStates = [false, false, false];
+  int _activeCarouselIndex = 0;
   bool _isLoading = false;
   String _selectedDrawType = 'weekly';
 
   @override
   void initState() {
     super.initState();
-    _flipController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1000),
-    );
-    _flipAnimation = Tween<double>(begin: 0.0, end: pi).animate(
-      CurvedAnimation(parent: _flipController, curve: Curves.easeInOutBack),
-    );
+    _pageController = PageController(initialPage: 0);
+    _flipControllers = List.generate(3, (index) {
+      return AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 800),
+      );
+    });
+
+    _flipAnimations = _flipControllers.map((controller) {
+      return Tween<double>(begin: 0.0, end: pi).animate(
+        CurvedAnimation(parent: controller, curve: Curves.easeInOutBack),
+      );
+    }).toList();
   }
 
   @override
   void dispose() {
-    _flipController.dispose();
+    _pageController.dispose();
+    for (var controller in _flipControllers) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
-
-
   Future<void> _handleDraw(List<TarotCard> deck) async {
     final messenger = ScaffoldMessenger.of(context);
-    if (_isCardRevealed) {
+    final drawnCards = ref.read(drawnCardProvider);
+    
+    if (drawnCards != null) {
       // Reset card first
-      _flipController.reverse().then((_) {
+      Future.wait(_flipControllers.map((c) => c.reverse())).then((_) {
         ref.read(drawnCardProvider.notifier).reset();
         setState(() {
-          _isCardRevealed = false;
+          _cardRevealedStates = [false, false, false];
+          _activeCarouselIndex = 0;
         });
       });
       return;
@@ -125,18 +137,17 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
         authHeader: authHeader,
       );
 
-      final cardIndex = response['cardIndex'] as int;
-      final card = deck.firstWhere((c) => c.id == cardIndex, orElse: () => deck.first);
-      final isReversed = response['isReversed'] as bool? ?? false;
+      final List<dynamic> cardsJson = response['cards'] as List<dynamic>;
+      final List<DrawnCardInfo> drawnCardsList = cardsJson.map((cJson) {
+        final cardIndex = cJson['cardIndex'] as int;
+        final isReversed = cJson['isReversed'] as bool? ?? false;
+        final label = cJson['label'] as String;
+        final card = deck.firstWhere((c) => c.id == cardIndex, orElse: () => deck.first);
+        return DrawnCardInfo(card: card, isReversed: isReversed, label: label);
+      }).toList();
 
-      ref.read(drawnCardProvider.notifier).setCard(card, isReversed);
-
-      _flipController.forward().then((_) {
-        setState(() {
-          _isCardRevealed = true;
-          _isLoading = false;
-        });
-      });
+      ref.read(drawnCardProvider.notifier).setCards(drawnCardsList);
+      setState(() => _isLoading = false);
     } catch (e) {
       debugPrint('Error calling backend, falling back to local draw: $e');
       messenger.showSnackBar(
@@ -148,14 +159,19 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
       
       // Fallback to local RNG
       ref.read(drawnCardProvider.notifier).drawCard(deck);
-      _flipController.forward().then((_) {
-        setState(() {
-          _isCardRevealed = true;
-          _isLoading = false;
-        });
-      });
+      setState(() => _isLoading = false);
     }
   }
+
+  void _revealCard(int index) {
+    if (_cardRevealedStates[index]) return;
+    _flipControllers[index].forward().then((_) {
+      setState(() {
+        _cardRevealedStates[index] = true;
+      });
+    });
+  }
+
   Widget _buildLangButton(BuildContext context, WidgetRef ref, String label, bool isActive) {
     return GestureDetector(
       onTap: () {
@@ -182,35 +198,12 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
   @override
   Widget build(BuildContext context) {
     final deckAsync = ref.watch(tarotDeckProvider);
-    final drawnCard = ref.watch(drawnCardProvider);
+    final drawnCards = ref.watch(drawnCardProvider);
     final textTheme = Theme.of(context).textTheme;
     final currentLang = ref.watch(tarotLanguageProvider);
     final session = ref.watch(authProvider);
 
-    final card = drawnCard?.card;
-    final isReversed = drawnCard?.isReversed ?? false;
-
-    Color suitColor = AppTheme.accentPurple;
-    String elementLabel = '';
-    if (card != null) {
-      final suit = card.suit.toLowerCase();
-      if (suit.contains('cup')) {
-        suitColor = const Color(0xFF60A5FA);
-        elementLabel = currentLang == 'id' ? 'ELEMEN AIR' : 'WATER ELEMENT';
-      } else if (suit.contains('wand')) {
-        suitColor = const Color(0xFFF87171);
-        elementLabel = currentLang == 'id' ? 'ELEMEN API' : 'FIRE ELEMENT';
-      } else if (suit.contains('pentacle')) {
-        suitColor = AppTheme.accentGold;
-        elementLabel = currentLang == 'id' ? 'ELEMEN TANAH' : 'EARTH ELEMENT';
-      } else if (suit.contains('sword')) {
-        suitColor = const Color(0xFFE5E7EB);
-        elementLabel = currentLang == 'id' ? 'ELEMEN LOGAM' : 'METAL ELEMENT';
-      } else {
-        suitColor = const Color(0xFFC084FC);
-        elementLabel = currentLang == 'id' ? 'KOSMIS / SPIRIT' : 'COSMIC / SPIRIT';
-      }
-    }
+    final bool allFlipped = !_cardRevealedStates.contains(false);
 
     return Scaffold(
       appBar: AppBar(
@@ -253,7 +246,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          // Background
+          // Background gradient
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -264,6 +257,17 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                   Color(0xFF140D33),
                   Color(0xFF0A0617),
                 ],
+              ),
+            ),
+          ),
+          // Cosmic star overlay for glassmorphism depth
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.12,
+              child: Image.asset(
+                'assets/images/stars_bg.png',
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
               ),
             ),
           ),
@@ -282,7 +286,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              if (session != null && !session.isMock && !_isCardRevealed) ...[
+                              if (session != null && !session.isMock && drawnCards == null) ...[
                                 Container(
                                   margin: const EdgeInsets.only(bottom: 24),
                                   decoration: BoxDecoration(
@@ -367,52 +371,127 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                               // Capture area for social sharing
                               Screenshot(
                                 controller: _screenshotController,
-                                child: Center(
-                                  child: AnimatedBuilder(
-                                    animation: _flipAnimation,
-                                    builder: (context, child) {
-                                      final double value = _flipAnimation.value;
-                                      final bool isFront = value >= pi / 2;
+                                child: Container(
+                                  color: Colors.transparent,
+                                  padding: const EdgeInsets.symmetric(vertical: 12),
+                                  child: drawnCards == null
+                                      ? Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: List.generate(3, (index) {
+                                            final labelText = index == 0 
+                                                ? (currentLang == 'id' ? 'Masa Lalu' : 'Past') 
+                                                : index == 1 
+                                                    ? (currentLang == 'id' ? 'Masa Kini' : 'Present') 
+                                                    : (currentLang == 'id' ? 'Masa Depan' : 'Future');
+                                            const cardWidth = 90.0;
+                                            const cardHeight = 145.0;
+                                            return Column(
+                                              children: [
+                                                Text(
+                                                  labelText,
+                                                  style: GoogleFonts.outfit(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: AppTheme.textLight.withValues(alpha: 0.4),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 8),
+                                                const Opacity(
+                                                  opacity: 0.6,
+                                                  child: CardBack(
+                                                    width: cardWidth,
+                                                    height: cardHeight,
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          }),
+                                        )
+                                      : Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: List.generate(3, (index) {
+                                            final cardInfo = drawnCards[index];
+                                            final labelText = index == 0 
+                                                ? (currentLang == 'id' ? 'Masa Lalu' : 'Past') 
+                                                : index == 1 
+                                                    ? (currentLang == 'id' ? 'Masa Kini' : 'Present') 
+                                                    : (currentLang == 'id' ? 'Masa Depan' : 'Future');
+                                            
+                                            final double value = _flipAnimations[index].value;
+                                            final bool isFront = value >= pi / 2;
+                                            
+                                            final themeBorderColor = cardInfo.isReversed
+                                                ? AppTheme.accentPink
+                                                : AppTheme.accentGold;
 
-                                      final themeBorderColor = (drawnCard?.isReversed ?? false)
-                                          ? AppTheme.accentPink
-                                          : AppTheme.accentGold;
+                                            const cardWidth = 90.0;
+                                            const cardHeight = 145.0;
 
-                                      return Stack(
-                                        alignment: Alignment.center,
-                                        clipBehavior: Clip.none,
-                                        children: [
-                                          if (isFront)
-                                            CustomPaint(
-                                              size: const Size(260, 410),
-                                              painter: RadialGlowPainter(
-                                                glowColor: themeBorderColor,
-                                                radiusMultiplier: 1.5,
-                                                opacity: 0.35,
-                                              ),
-                                            ),
-                                          TiltableTarotCard(
-                                            child: Transform(
-                                              transform: Matrix4.identity()
-                                                ..setEntry(3, 2, 0.002) // 3D Perspective
-                                                ..rotateY(value),
-                                              alignment: Alignment.center,
-                                              child: isFront
-                                                  ? Transform(
-                                                      transform: Matrix4.identity()..rotateY(pi),
-                                                      alignment: Alignment.center,
-                                                      child: PulsingAura(
-                                                        glowColor: themeBorderColor,
-                                                        child: CardFront(drawnCard: drawnCard),
-                                                      ),
-                                                    )
-                                                  : const CardBack(),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  ),
+                                            return Column(
+                                              children: [
+                                                Text(
+                                                  labelText,
+                                                  style: GoogleFonts.outfit(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: AppTheme.accentGold,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 8),
+                                                GestureDetector(
+                                                  onTap: () => _revealCard(index),
+                                                  child: AnimatedBuilder(
+                                                    animation: _flipAnimations[index],
+                                                    builder: (context, child) {
+                                                      return Stack(
+                                                        alignment: Alignment.center,
+                                                        clipBehavior: Clip.none,
+                                                        children: [
+                                                          if (isFront)
+                                                            CustomPaint(
+                                                              size: const Size(cardWidth, cardHeight),
+                                                              painter: RadialGlowPainter(
+                                                                glowColor: themeBorderColor,
+                                                                radiusMultiplier: 1.3,
+                                                                opacity: 0.3,
+                                                              ),
+                                                            ),
+                                                          TiltableTarotCard(
+                                                            width: cardWidth,
+                                                            height: cardHeight,
+                                                            child: Transform(
+                                                              transform: Matrix4.identity()
+                                                                ..setEntry(3, 2, 0.002)
+                                                                ..rotateY(value),
+                                                              alignment: Alignment.center,
+                                                              child: isFront
+                                                                  ? Transform(
+                                                                      transform: Matrix4.identity()..rotateY(pi),
+                                                                      alignment: Alignment.center,
+                                                                      child: PulsingAura(
+                                                                        glowColor: themeBorderColor,
+                                                                        child: CardFront(
+                                                                          drawnCard: cardInfo,
+                                                                          width: cardWidth,
+                                                                          height: cardHeight,
+                                                                        ),
+                                                                      ),
+                                                                    )
+                                                                  : const CardBack(
+                                                                      width: cardWidth,
+                                                                      height: cardHeight,
+                                                                    ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          }),
+                                        ),
                                 ),
                               ),
                               const SizedBox(height: 32),
@@ -422,16 +501,18 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                                   : ElevatedButton(
                                       onPressed: () => _handleDraw(deck),
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: _isCardRevealed 
+                                        backgroundColor: drawnCards != null 
                                             ? AppTheme.accentPink 
                                             : AppTheme.accentPurple,
                                         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                                       ),
-                                      child: Text(_isCardRevealed ? 'Tarik Ulang' : 'Tarik Kartu'),
+                                      child: Text(drawnCards != null 
+                                          ? (currentLang == 'id' ? 'Tarik Ulang' : 'Redraw') 
+                                          : (currentLang == 'id' ? 'Tarik Kartu' : 'Draw Card')),
                                     ),
                               const SizedBox(height: 16),
-                              // Share button (only active when card is revealed)
-                              if (_isCardRevealed) ...[
+                              // Share button (only active when cards are drawn)
+                              if (drawnCards != null) ...[
                                 TextButton.icon(
                                   onPressed: () => shareCardResult(
                                     context: context,
@@ -446,17 +527,104 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
                                   ),
                                 ),
                                 const SizedBox(height: 16),
-                                 if (card != null)
-                                  TarotReadingDetailPanel(
-                                    card: card,
-                                    isReversed: isReversed,
-                                    currentLang: currentLang,
-                                    suitColor: suitColor,
-                                    elementLabel: elementLabel,
+                                // Carousel detail reading
+                                if (allFlipped) ...[
+                                  Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: List.generate(3, (index) {
+                                          final isActive = _activeCarouselIndex == index;
+                                          final labelText = index == 0 
+                                              ? (currentLang == 'id' ? 'Masa Lalu' : 'Past') 
+                                              : index == 1 
+                                                  ? (currentLang == 'id' ? 'Masa Kini' : 'Present') 
+                                                  : (currentLang == 'id' ? 'Masa Depan' : 'Future');
+                                          return GestureDetector(
+                                            onTap: () {
+                                              _pageController.animateToPage(
+                                                index,
+                                                duration: const Duration(milliseconds: 350),
+                                                curve: Curves.easeInOut,
+                                              );
+                                            },
+                                            child: Container(
+                                              margin: const EdgeInsets.symmetric(horizontal: 8),
+                                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                              decoration: BoxDecoration(
+                                                color: isActive ? AppTheme.accentPurple : Colors.transparent,
+                                                borderRadius: BorderRadius.circular(20),
+                                                border: Border.all(
+                                                  color: isActive ? Colors.transparent : Colors.white24,
+                                                ),
+                                              ),
+                                              child: Text(
+                                                labelText,
+                                                style: GoogleFonts.outfit(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: isActive ? Colors.white : Colors.white70,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                      ),
+                                      const SizedBox(height: 16),
+                                      SizedBox(
+                                        height: 380,
+                                        child: PageView.builder(
+                                          controller: _pageController,
+                                          itemCount: 3,
+                                          onPageChanged: (index) {
+                                            setState(() {
+                                              _activeCarouselIndex = index;
+                                            });
+                                          },
+                                          itemBuilder: (context, index) {
+                                            final cardInfo = drawnCards[index];
+                                            final card = cardInfo.card;
+                                            final isReversed = cardInfo.isReversed;
+                                            
+                                            Color suitColor = AppTheme.accentPurple;
+                                            String elementLabel = '';
+                                            final suit = card.suit.toLowerCase();
+                                            if (suit.contains('cup')) {
+                                              suitColor = const Color(0xFF60A5FA);
+                                              elementLabel = currentLang == 'id' ? 'ELEMEN AIR' : 'WATER ELEMENT';
+                                            } else if (suit.contains('wand')) {
+                                              suitColor = const Color(0xFFF87171);
+                                              elementLabel = currentLang == 'id' ? 'ELEMEN API' : 'FIRE ELEMENT';
+                                            } else if (suit.contains('pentacle')) {
+                                              suitColor = AppTheme.accentGold;
+                                              elementLabel = currentLang == 'id' ? 'ELEMEN TANAH' : 'EARTH ELEMENT';
+                                            } else if (suit.contains('sword')) {
+                                              suitColor = const Color(0xFFE5E7EB);
+                                              elementLabel = currentLang == 'id' ? 'ELEMEN LOGAM' : 'METAL ELEMENT';
+                                            } else {
+                                              suitColor = const Color(0xFFC084FC);
+                                              elementLabel = currentLang == 'id' ? 'KOSMIS / SPIRIT' : 'COSMIC / SPIRIT';
+                                            }
+
+                                            return Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                              child: TarotReadingDetailPanel(
+                                                card: card,
+                                                isReversed: isReversed,
+                                                currentLang: currentLang,
+                                                suitColor: suitColor,
+                                                elementLabel: elementLabel,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(height: 20),
                                 ],
                               ],
+                            ],
                           ),
                         ),
                       ),
@@ -477,8 +645,4 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with SingleTi
       ),
     );
   }
-
-
 }
-
-

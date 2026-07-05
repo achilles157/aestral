@@ -13,26 +13,46 @@ final tarotDeckProvider = FutureProvider<List<TarotCard>>((ref) async {
 class DrawnCardInfo {
   final TarotCard card;
   final bool isReversed;
+  final String label; // "past" | "present" | "future"
 
-  DrawnCardInfo({required this.card, required this.isReversed});
+  DrawnCardInfo({
+    required this.card,
+    required this.isReversed,
+    required this.label,
+  });
 }
 
-class DrawnCardNotifier extends Notifier<DrawnCardInfo?> {
+class DrawnCardNotifier extends Notifier<List<DrawnCardInfo>?> {
   @override
-  DrawnCardInfo? build() {
+  List<DrawnCardInfo>? build() {
     return null;
   }
 
   void drawCard(List<TarotCard> deck) {
-    if (deck.isEmpty) return;
+    if (deck.length < 3) return;
+    
+    // Draw 3 unique random cards from local deck
     final random = Random();
-    final card = deck[random.nextInt(deck.length)];
-    final isReversed = random.nextBool(); // 50% chance of being reversed
-    state = DrawnCardInfo(card: card, isReversed: isReversed);
+    final List<TarotCard> chosenCards = [];
+    final List<bool> chosenReversals = [];
+    
+    while (chosenCards.length < 3) {
+      final card = deck[random.nextInt(deck.length)];
+      if (!chosenCards.contains(card)) {
+        chosenCards.add(card);
+        chosenReversals.add(random.nextBool());
+      }
+    }
+
+    state = [
+      DrawnCardInfo(card: chosenCards[0], isReversed: chosenReversals[0], label: 'past'),
+      DrawnCardInfo(card: chosenCards[1], isReversed: chosenReversals[1], label: 'present'),
+      DrawnCardInfo(card: chosenCards[2], isReversed: chosenReversals[2], label: 'future'),
+    ];
   }
 
-  void setCard(TarotCard card, bool isReversed) {
-    state = DrawnCardInfo(card: card, isReversed: isReversed);
+  void setCards(List<DrawnCardInfo> cards) {
+    state = cards;
   }
 
   void reset() {
@@ -40,6 +60,6 @@ class DrawnCardNotifier extends Notifier<DrawnCardInfo?> {
   }
 }
 
-final drawnCardProvider = NotifierProvider<DrawnCardNotifier, DrawnCardInfo?>(() {
+final drawnCardProvider = NotifierProvider<DrawnCardNotifier, List<DrawnCardInfo>?>(() {
   return DrawnCardNotifier();
 });
