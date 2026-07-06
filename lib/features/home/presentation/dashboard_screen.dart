@@ -184,7 +184,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> with SingleTi
     final items = [
       CarouselItem(
         title: 'Tarot & Soul Card',
-        subtitle: 'Tarik Kartu Jiwa (statis) atau Tarot Mingguan (dinamis) berdasarkan siklus Wuku',
+        subtitle: 'Tarik Kartu Jiwa atau jelajahi tebaran kosmis yang bergeser mengikuti ritme semesta',
         icon: Icons.auto_awesome,
         accentColor: AppTheme.accentPink,
         onTap: () {

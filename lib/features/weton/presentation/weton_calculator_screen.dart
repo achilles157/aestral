@@ -444,7 +444,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      '🔬 Detail Perhitungan Teknis',
+                                      '📜 Sandi Angka Kelahiran',
                                       style: textTheme.titleLarge?.copyWith(
                                         fontSize: 16,
                                         color: AppTheme.accentPurple,
