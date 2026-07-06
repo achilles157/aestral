@@ -371,3 +371,99 @@ export function getWeeklyDeterministicThreeCards(birthDate: string, wuku: string
 		{ cardIndex: futureIndex, isReversed: futureReversed, label: 'future' }
 	];
 }
+
+// --- Cosmic Cycle Three-Card Spread ---
+
+type ElementOrNeutral = Element | 'neutral';
+
+/**
+ * Maps a seasonal cycle ID (1–12) to a Tarot element archetype.
+ * 'neutral' → favours Major Arcana (cosmic / spirit cards).
+ */
+function mangsaToElement(id: number): ElementOrNeutral {
+	switch (id) {
+		case 1:  return 'neutral'; // ego-death, cosmic reset
+		case 2:  return 'water';   // vulnerability, emotional depth
+		case 3:  return 'air';     // mentorship, mental discipline
+		case 4:  return 'water';   // emotional healing, transition
+		case 5:  return 'earth';   // abundance, material opportunity
+		case 6:  return 'neutral'; // maturity, spiritual flow
+		case 7:  return 'air';     // boundaries, introspection
+		case 8:  return 'fire';    // passion, creative energy
+		case 9:  return 'fire';    // self-expression, sharing
+		case 10: return 'earth';   // finances, security
+		case 11: return 'water';   // appreciation, gentle slowing
+		case 12: return 'neutral'; // detachment, cosmic reflection
+		default: return 'neutral';
+	}
+}
+
+/**
+ * Applies an element-based weight boost.
+ * 'neutral' boosts Major Arcana (0–21); others boost their respective suit range.
+ */
+function applyMangsaBoost(weights: Float64Array, el: ElementOrNeutral, boost: number): void {
+	if (el === 'neutral') {
+		for (let i = 0; i <= 21; i++) weights[i] += boost;
+	} else {
+		const [start, end] = getElementRange(el);
+		for (let i = start; i <= end; i++) weights[i] += boost;
+	}
+}
+
+/**
+ * Returns 3 unique deterministic cards aligned to the current cosmic seasonal cycle.
+ *
+ * Each positional card is weighted toward the energy of its temporal cycle phase:
+ *   - Past    → previous cycle's element (what was)
+ *   - Present → current  cycle's element (what is)
+ *   - Future  → next     cycle's element (what approaches)
+ *
+ * Fully deterministic: same birthDate + same cycleId = same cards.
+ * Cards change naturally as the cosmic cycle progresses (~every few weeks).
+ */
+export function getMangsaDeterministicThreeCards(
+	birthDate: string,
+	currentCycleId: number,
+	pangarasan?: string,
+): DrawnCardInfo[] {
+	const id = Math.max(1, Math.min(12, Math.round(currentCycleId)));
+	const prevId = id === 1 ? 12 : id - 1;
+	const nextId = id === 12 ? 1 : id + 1;
+	const baseSeed = birthDate + '-cosmic-' + id;
+
+	function buildWeights(cycleForPosition: number, excludeIndices: number[]): Float64Array {
+		const w = new Float64Array(DECK_SIZE).fill(1.0);
+
+		if (pangarasan) {
+			const userEl = pangarasanToElement(pangarasan);
+			if (userEl) {
+				const [s, e] = getRemedialRange(userEl);
+				for (let i = s; i <= e; i++) w[i] += 0.15;
+			}
+		}
+
+		applyMangsaBoost(w, mangsaToElement(cycleForPosition), 0.18);
+
+		for (const idx of excludeIndices) w[idx] = 0;
+		return w;
+	}
+
+	const pastWeights = buildWeights(prevId, []);
+	const pastIndex = drawSingleDeterministicCard(baseSeed + '-past', pastWeights);
+	const pastReversed = getIsReversedDeterministic(baseSeed + '-past-reversed');
+
+	const presentWeights = buildWeights(id, [pastIndex]);
+	const presentIndex = drawSingleDeterministicCard(baseSeed + '-present', presentWeights);
+	const presentReversed = getIsReversedDeterministic(baseSeed + '-present-reversed');
+
+	const futureWeights = buildWeights(nextId, [pastIndex, presentIndex]);
+	const futureIndex = drawSingleDeterministicCard(baseSeed + '-future', futureWeights);
+	const futureReversed = getIsReversedDeterministic(baseSeed + '-future-reversed');
+
+	return [
+		{ cardIndex: pastIndex, isReversed: pastReversed, label: 'past' },
+		{ cardIndex: presentIndex, isReversed: presentReversed, label: 'present' },
+		{ cardIndex: futureIndex, isReversed: futureReversed, label: 'future' },
+	];
+}

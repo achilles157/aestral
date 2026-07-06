@@ -9,6 +9,7 @@ import '../../../../core/widgets/ai_astrologer_dialog.dart';
 import '../../../../core/widgets/glass_card.dart';
 import '../../services/weton_dictionary_service.dart';
 import 'circadian_rhythm_wave_painter.dart';
+import '../../../auth/services/auth_service.dart';
 
 class AstrologicalPlannerTimeline extends ConsumerStatefulWidget {
   final Map<String, dynamic> dayData;
@@ -388,12 +389,32 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                                             const SizedBox(height: 10),
                                             OutlinedButton.icon(
                                               onPressed: () {
-                                                final aiHookText = 'Sebagai seorang dengan weton ${dayData['weton_hari_ini']}, bagaimana pengaruh jam $label ($range) hari ini terhadap aktivitas dan keselarasan energi saya?';
+                                                final session = ref.read(authProvider);
+                                                final authHeader = session == null
+                                                    ? 'Guest anonymous'
+                                                    : session.isMock
+                                                        ? 'Guest ${session.uid}'
+                                                        : 'Bearer ${session.uid}';
+                                                final aiHookText =
+                                                    'Sebagai seorang dengan weton ${dayData['weton_hari_ini']}, '
+                                                    'bagaimana pengaruh jam $label ($range) hari ini terhadap aktivitas dan keselarasan energi saya?';
                                                 showDialog(
                                                   context: context,
                                                   builder: (context) => AiAstrologerDialog(
                                                     prompt: aiHookText,
                                                     contextTitle: '$label ($range)',
+                                                    authHeader: authHeader,
+                                                    aiContext: {
+                                                      'wetonLahir': {
+                                                        'nama': dayData['weton_hari_ini'] ?? '',
+                                                        'neptu': dayData['neptu'] ?? 0,
+                                                        'elemen': '',
+                                                      },
+                                                      'wukuBerjalan': {
+                                                        'nama': dayData['wuku'] ?? '',
+                                                        'elemen': '',
+                                                      },
+                                                    },
                                                   ),
                                                 );
                                               },

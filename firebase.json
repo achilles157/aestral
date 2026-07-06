@@ -1,1 +1,40 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"aestral-ca7ae","appId":"1:367712402581:android:16dd79a7bb61b19fde2f9c","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"aestral-ca7ae","configurations":{"android":"1:367712402581:android:16dd79a7bb61b19fde2f9c","ios":"1:367712402581:ios:c83e0f2c8416b688de2f9c","web":"1:367712402581:web:988269ff08940786de2f9c"}}}}}}
+{
+  "hosting": {
+    "site": "aestral",
+    "public": "build/web",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Cross-Origin-Opener-Policy",
+            "value": "same-origin-allow-popups"
+          }
+        ]
+      }
+    ],
+    "rewrites": [{ "source": "**", "destination": "/index.html" }]
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "aestral-ca7ae",
+          "appId": "1:367712402581:android:16dd79a7bb61b19fde2f9c",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "aestral-ca7ae",
+          "configurations": {
+            "android": "1:367712402581:android:16dd79a7bb61b19fde2f9c",
+            "ios": "1:367712402581:ios:c83e0f2c8416b688de2f9c",
+            "web": "1:367712402581:web:988269ff08940786de2f9c"
+          }
+        }
+      }
+    }
+  }
+}

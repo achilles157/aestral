@@ -19,6 +19,8 @@ import '../../../core/utils/weton_utils.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/widgets/radial_glow_painter.dart';
 import '../../../core/widgets/glass_button.dart';
+import '../models/tarot_oracle_reading.dart';
+import 'widgets/tarot_oracle_panel.dart';
 
 class TarotDrawScreen extends ConsumerStatefulWidget {
   const TarotDrawScreen({super.key});
@@ -35,7 +37,10 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
   List<bool> _cardRevealedStates = [false, false, false];
   int _activeCarouselIndex = 0;
   bool _isLoading = false;
-  String _selectedDrawType = 'weekly';
+  String _selectedDrawType = 'mangsa';
+  TarotOracleReading? _oracleReading;
+  bool _isOracleLoading = false;
+  bool _oracleError = false;
 
   @override
   void initState() {
@@ -75,6 +80,8 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
         setState(() {
           _cardRevealedStates = [false, false, false];
           _activeCarouselIndex = 0;
+          _oracleReading = null;
+          _oracleError = false;
         });
       });
       return;
@@ -117,6 +124,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
 
       final birthWeton = WetonUtils.calculateWeton(birthDateTime);
       final currentWeton = WetonUtils.calculateWeton(DateTime.now());
+      final mangsaId = WetonUtils.calculatePranataMangsaId(DateTime.now());
 
       String authHeader = 'Guest ${session.uid}';
       if (!session.isMock) {
@@ -135,6 +143,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
         pangarasan: birthWeton.pangarasan,
         wuku: currentWeton.wuku,
         drawType: session.isMock ? 'birth' : _selectedDrawType,
+        mangsaId: _selectedDrawType == 'mangsa' ? mangsaId : null,
         authHeader: authHeader,
       );
 
@@ -171,6 +180,124 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
         _cardRevealedStates[index] = true;
       });
     });
+  }
+
+  Future<void> _generateOracleReading(List<DrawnCardInfo> drawnCards) async {
+    if (_isOracleLoading) return;
+    setState(() {
+      _isOracleLoading = true;
+      _oracleError = false;
+    });
+
+    try {
+      final session = ref.read(authProvider);
+      if (session == null) {
+        setState(() => _isOracleLoading = false);
+        return;
+      }
+
+      String authHeader = 'Guest ${session.uid}';
+      if (!session.isMock) {
+        try {
+          final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+          if (token != null) authHeader = 'Bearer $token';
+        } catch (_) {}
+      }
+
+      final cards = drawnCards.map((info) => <String, dynamic>{
+        'label': info.label,
+        'nameId': info.card.nameId,
+        'isReversed': info.isReversed,
+        'uprightMeaning': info.card.uprightMeaningId,
+        'reversedMeaning': info.card.reversedMeaningId,
+        'archetypeId': info.card.archetypeId,
+        'elementalId': info.card.elementalId,
+        'keywordsId': info.card.keywordsId,
+        if (info.card.aiHookId.isNotEmpty) 'aiHookId': info.card.aiHookId,
+      }).toList();
+
+      final currentWeton = WetonUtils.calculateWeton(DateTime.now());
+      final wetonContext = {
+        'wukuBerjalan': {'nama': currentWeton.wuku, 'elemen': ''},
+      };
+
+      final result = await ApiService.generateTarotReading(
+        cards: cards,
+        authHeader: authHeader,
+        wetonContext: wetonContext,
+      );
+
+      if (!mounted) return;
+      setState(() {
+        _oracleReading = TarotOracleReading.fromJson(result);
+        _isOracleLoading = false;
+      });
+    } catch (e) {
+      debugPrint('Oracle tarot reading error: $e');
+      if (!mounted) return;
+      setState(() {
+        _isOracleLoading = false;
+        _oracleError = true;
+      });
+    }
+  }
+
+  Widget _buildOracleSection(List<DrawnCardInfo> drawnCards) {
+    if (_oracleReading != null) {
+      return TarotOraclePanel(
+        oracleReading: _oracleReading!,
+        drawnCards: drawnCards,
+      );
+    }
+
+    if (_isOracleLoading) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 32),
+        child: Column(
+          children: [
+            const CircularProgressIndicator(color: AppTheme.accentGold),
+            const SizedBox(height: 12),
+            Text(
+              'Orakel sedang membaca benang kosmis...',
+              style: GoogleFonts.outfit(fontSize: 13, color: AppTheme.textMuted),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        if (_oracleError) ...[
+          Text(
+            'Koneksi orakel terputus. Coba lagi.',
+            style: GoogleFonts.outfit(fontSize: 12, color: AppTheme.accentPink),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+        ],
+        ElevatedButton.icon(
+          onPressed: () => _generateOracleReading(drawnCards),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppTheme.accentGold.withValues(alpha: 0.12),
+            side: BorderSide(color: AppTheme.accentGold.withValues(alpha: 0.5), width: 1),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            elevation: 0,
+          ),
+          icon: const Icon(Icons.auto_awesome, color: AppTheme.accentGold, size: 18),
+          label: Text(
+            _oracleError ? 'Coba Lagi' : '✦ Singkap Bacaan Kosmis',
+            style: GoogleFonts.playfairDisplay(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.accentGold,
+              letterSpacing: 1.2,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildLangButton(BuildContext context, WidgetRef ref, String label, bool isActive) {
@@ -215,7 +342,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
               ? (currentLang == 'id' ? 'Tarot Lahir (Soul Card)' : 'Birth Tarot (Soul Card)')
               : (_selectedDrawType == 'birth'
                   ? (currentLang == 'id' ? 'Tarot Lahir (Soul Card)' : 'Birth Tarot (Soul Card)')
-                  : (currentLang == 'id' ? 'Tarot Mingguan' : 'Weekly Tarot')),
+                    : (currentLang == 'id' ? 'Tarot Kosmis' : 'Cosmic Tarot')),
           style: GoogleFonts.playfairDisplay(
             fontWeight: FontWeight.bold,
             color: AppTheme.accentGold,
@@ -304,23 +431,23 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                       GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            _selectedDrawType = 'weekly';
+                                            _selectedDrawType = 'mangsa';
                                           });
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                           decoration: BoxDecoration(
-                                            color: _selectedDrawType == 'weekly'
+                                            color: _selectedDrawType == 'mangsa'
                                                 ? AppTheme.accentPurple
                                                 : Colors.transparent,
                                             borderRadius: BorderRadius.circular(30),
                                           ),
                                           child: Text(
-                                            currentLang == 'id' ? 'Tarot Mingguan' : 'Weekly Tarot',
+                                            currentLang == 'id' ? 'Tarot Kosmis' : 'Cosmic Tarot',
                                             style: GoogleFonts.outfit(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 12,
-                                              color: _selectedDrawType == 'weekly'
+                                              color: _selectedDrawType == 'mangsa'
                                                   ? AppTheme.textLight
                                                   : AppTheme.textLight.withValues(alpha: 0.6),
                                             ),
@@ -363,8 +490,8 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                         ? 'Tarot Lahir merepresentasikan blueprint jiwa Anda. Kartu ini bersifat statis seumur hidup.'
                                         : 'Birth Tarot represents your soul blueprint. This card is static for lifetime.')
                                     : (currentLang == 'id'
-                                        ? 'Tarik Tarot Mingguan untuk melihat peruntungan nasib mingguan Anda berdasarkan siklus Wuku.'
-                                        : 'Draw your Weekly Tarot to see your weekly destiny influenced by the current Wuku cycle.'),
+                                        ? 'Tebaran kartu kosmis mengikuti ritme alam semesta yang berganti setiap beberapa pekan.'
+                                        : 'Your cosmic spread shifts with the natural rhythm of the universe every few weeks.'),
                                 style: textTheme.bodyLarge,
                                 textAlign: TextAlign.center,
                               ),
@@ -628,6 +755,8 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                     ],
                                   ),
                                   const SizedBox(height: 20),
+                                  _buildOracleSection(drawnCards),
+                                  const SizedBox(height: 24),
                                 ],
                               ],
                             ],

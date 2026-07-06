@@ -72,6 +72,9 @@ yarn-error.log*
 *.key
 credentials.json
 
+# Firebase CLI cache & deploy artifacts
+.firebase/
+
 # Mobile & Firebase specific secrets
 **/android/local.properties
 **/android/key.properties

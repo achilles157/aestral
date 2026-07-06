@@ -1,7 +1,7 @@
 import { handleRequest } from './router';
 
 export default {
-	async fetch(request): Promise<Response> {
-		return handleRequest(request);
+	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+		return handleRequest(request, env);
 	},
 } satisfies ExportedHandler<Env>;

@@ -1,6 +1,10 @@
 import { parseAuthHeader } from './auth';
-import { getDeterministicThreeCards, getWeeklyDeterministicThreeCards } from './tarot';
+import { getDeterministicThreeCards, getWeeklyDeterministicThreeCards, getMangsaDeterministicThreeCards } from './tarot';
 import { getWetonInsight, getPranataMangsaId, getJamInsight } from './weton';
+import { callGemini } from './gemini';
+import { buildSystemInstruction, type AiContext } from './system_prompt';
+import { isRateLimited, getRateLimitResetSeconds } from './rate_limiter';
+import { buildTarotSystemInstruction, buildTarotUserPrompt, parseTarotResponse, type TarotCardInput, type TarotReadingContext } from './tarot_reading_prompt';
 
 const CORS_HEADERS: Record<string, string> = {
 	'Access-Control-Allow-Origin': '*',
@@ -15,7 +19,7 @@ function json(data: unknown, status = 200): Response {
 	});
 }
 
-export async function handleRequest(request: Request): Promise<Response> {
+export async function handleRequest(request: Request, env: Env): Promise<Response> {
 	const url = new URL(request.url);
 	const { pathname } = url;
 	const method = request.method;
@@ -42,6 +46,14 @@ export async function handleRequest(request: Request): Promise<Response> {
 		return handleCalendarMonth(request);
 	}
 
+	if (method === 'POST' && pathname === '/api/chat') {
+		return handleChat(request, env);
+	}
+
+	if (method === 'POST' && pathname === '/api/tarot/reading') {
+		return handleTarotReading(request, env);
+	}
+
 	return json({ error: 'Not Found' }, 404);
 }
 
@@ -51,7 +63,8 @@ interface TarotDrawBody {
 	birthDate?: string;
 	pangarasan?: string;
 	wukuHariIni?: string;
-	drawType?: 'birth' | 'weekly';
+	drawType?: 'birth' | 'weekly' | 'mangsa';
+	mangsaId?: number;
 }
 
 async function handleTarotDraw(request: Request): Promise<Response> {
@@ -71,7 +84,7 @@ async function handleTarotDraw(request: Request): Promise<Response> {
 		return json({ error: 'birthDate is required' }, 400);
 	}
 
-	const drawType = body.drawType ?? (authToken.type === 'guest' ? 'birth' : 'weekly');
+	const drawType = body.drawType ?? (authToken.type === 'guest' ? 'birth' : 'mangsa');
 
 	if (authToken.type === 'guest' || drawType === 'birth') {
 		const cards = getDeterministicThreeCards(body.birthDate, body.pangarasan);
@@ -84,7 +97,22 @@ async function handleTarotDraw(request: Request): Promise<Response> {
 		});
 	}
 
-	// Bearer (registered user) and drawType === 'weekly'
+	// Cosmic cycle draw — default for registered users
+	if (drawType === 'mangsa') {
+		if (!body.mangsaId || body.mangsaId < 1 || body.mangsaId > 12) {
+			return json({ error: 'mangsaId (1–12) diperlukan untuk tebaran kosmis' }, 400);
+		}
+		const cards = getMangsaDeterministicThreeCards(body.birthDate, body.mangsaId, body.pangarasan);
+		return json({
+			success: true,
+			isDynamic: true,
+			drawType: 'mangsa',
+			cards,
+			message: 'Tebaran 3 Kartu Tarot mengikuti siklus kosmis yang sedang berlangsung.',
+		});
+	}
+
+	// Weekly — backward compatibility
 	const cards = getWeeklyDeterministicThreeCards(
 		body.birthDate,
 		body.wukuHariIni ?? '',
@@ -292,4 +320,191 @@ async function handleCalendarMonth(request: Request): Promise<Response> {
 		},
 		days: daysList,
 	});
+}
+
+// --- AI Chat Handler ---
+
+interface ChatBody {
+	prompt: string;
+	wetonLahir?: {
+		nama: string;
+		neptu: number;
+		elemen: string;
+		karakter?: string;
+	};
+	wukuBerjalan?: {
+		nama: string;
+		elemen: string;
+		dewaPenaung?: string;
+		pesanKesadaran?: string;
+	};
+	pranataMangsa?: {
+		nama: string;
+		arketipe: string;
+		karakterEnergi?: string;
+		pesanKesadaran?: string;
+	};
+	tarotCards?: Array<{
+		name: string;
+		element: string;
+		meaning: string;
+		label: 'past' | 'present' | 'future';
+		isReversed?: boolean;
+	}>;
+	pangarasan?: string;
+}
+
+// Rate limit: 5 requests per minute per IP
+const CHAT_RATE_LIMIT_MAX = 5;
+const CHAT_RATE_LIMIT_WINDOW_MS = 60_000;
+
+async function handleChat(request: Request, env: Env): Promise<Response> {
+	const authToken = parseAuthHeader(request.headers.get('Authorization'));
+	if (!authToken) {
+		return json({ error: 'Authorization header required' }, 400);
+	}
+
+	// Extract client IP from Cloudflare header
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+
+	// Check rate limit
+	if (isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS)) {
+		const resetSeconds = getRateLimitResetSeconds(clientIp, CHAT_RATE_LIMIT_WINDOW_MS);
+		return new Response(
+			JSON.stringify({
+				error: 'Terlalu banyak pertanyaan. Kosmis butuh waktu untuk bernafas. Coba lagi dalam beberapa saat.',
+				retryAfterSeconds: resetSeconds,
+			}),
+			{
+				status: 429,
+				headers: {
+					'Content-Type': 'application/json',
+					'Retry-After': String(resetSeconds),
+					...CORS_HEADERS,
+				},
+			},
+		);
+	}
+
+	// Parse body
+	let body: ChatBody;
+	try {
+		body = (await request.json()) as ChatBody;
+	} catch {
+		return json({ error: 'Invalid JSON body' }, 400);
+	}
+
+	if (!body.prompt || body.prompt.trim().length === 0) {
+		return json({ error: 'prompt is required' }, 400);
+	}
+
+	if (body.prompt.trim().length > 500) {
+		return json({ error: 'prompt terlalu panjang (maksimal 500 karakter)' }, 400);
+	}
+
+	// Check Gemini API key is configured
+	const apiKey = env.GEMINI_API_KEY;
+	if (!apiKey || apiKey === 'PLACEHOLDER_REPLACE_WITH_WRANGLER_SECRET') {
+		return json({ error: 'AI service belum dikonfigurasi' }, 503);
+	}
+
+	// Build AI context from request body
+	const aiContext: AiContext = {
+		wetonLahir: body.wetonLahir,
+		wukuBerjalan: body.wukuBerjalan,
+		pranataMangsa: body.pranataMangsa,
+		tarotCards: body.tarotCards,
+		pangarasan: body.pangarasan,
+	};
+
+	// Build system instruction and call Gemini
+	try {
+		const systemInstruction = buildSystemInstruction(aiContext);
+		const aiResponse = await callGemini(systemInstruction, body.prompt.trim(), apiKey);
+		return json({ success: true, response: aiResponse });
+	} catch (err) {
+		const message = err instanceof Error ? err.message : 'Terjadi kesalahan pada orakel kosmis.';
+		return json({ error: message }, 500);
+	}
+}
+
+// --- Tarot Oracle Reading Handler ---
+
+interface TarotReadingBody {
+	cards?: TarotCardInput[];
+	wetonLahir?: TarotReadingContext['wetonLahir'];
+	wukuBerjalan?: TarotReadingContext['wukuBerjalan'];
+}
+
+async function handleTarotReading(request: Request, env: Env): Promise<Response> {
+	const authToken = parseAuthHeader(request.headers.get('Authorization'));
+	if (!authToken) {
+		return json({ error: 'Authorization header required' }, 400);
+	}
+
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+	if (isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS)) {
+		const resetSeconds = getRateLimitResetSeconds(clientIp, CHAT_RATE_LIMIT_WINDOW_MS);
+		return new Response(
+			JSON.stringify({
+				error: 'Terlalu banyak permintaan. Orakel sedang beristirahat sejenak.',
+				retryAfterSeconds: resetSeconds,
+			}),
+			{
+				status: 429,
+				headers: {
+					'Content-Type': 'application/json',
+					'Retry-After': String(resetSeconds),
+					...CORS_HEADERS,
+				},
+			},
+		);
+	}
+
+	let body: TarotReadingBody;
+	try {
+		body = (await request.json()) as TarotReadingBody;
+	} catch {
+		return json({ error: 'Invalid JSON body' }, 400);
+	}
+
+	if (!body.cards || !Array.isArray(body.cards) || body.cards.length !== 3) {
+		return json({ error: 'cards harus berupa array 3 kartu (past, present, future)' }, 400);
+	}
+
+	for (const card of body.cards) {
+		if (!card.label || !card.nameId || typeof card.isReversed !== 'boolean') {
+			return json({ error: 'Setiap kartu harus memiliki label, nameId, dan isReversed' }, 400);
+		}
+	}
+
+	const apiKey = env.GEMINI_API_KEY;
+	if (!apiKey || apiKey === 'PLACEHOLDER_REPLACE_WITH_WRANGLER_SECRET') {
+		return json({ error: 'AI service belum dikonfigurasi' }, 503);
+	}
+
+	const context: TarotReadingContext = {
+		wetonLahir: body.wetonLahir,
+		wukuBerjalan: body.wukuBerjalan,
+	};
+
+	try {
+		const systemInstruction = buildTarotSystemInstruction(context);
+		const userPrompt = buildTarotUserPrompt(body.cards);
+		const rawResponse = await callGemini(systemInstruction, userPrompt, apiKey);
+		const reading = parseTarotResponse(rawResponse);
+
+		return json({
+			success: true,
+			cardReadings: [
+				{ label: 'past', narrative: reading.masa_lalu },
+				{ label: 'present', narrative: reading.masa_kini },
+				{ label: 'future', narrative: reading.masa_depan },
+			],
+			synthesis: reading.konklusi,
+		});
+	} catch (err) {
+		const message = err instanceof Error ? err.message : 'Terjadi kesalahan pada orakel tarot.';
+		return json({ error: message }, 500);
+	}
 }

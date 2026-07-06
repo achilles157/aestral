@@ -24,6 +24,7 @@ class TarotCard {
   final String mythicalEn;
   final String imagePromptKeywordsId;
   final String imagePromptKeywordsEn;
+  final String aiHookId;
 
   TarotCard({
     required this.id,
@@ -51,6 +52,7 @@ class TarotCard {
     required this.mythicalEn,
     required this.imagePromptKeywordsId,
     required this.imagePromptKeywordsEn,
+    required this.aiHookId,
   });
 
   // Default getters to maintain backward compatibility with Indonesian UI
@@ -99,6 +101,7 @@ class TarotCard {
       mythicalEn: json['mythical_en'] as String? ?? '',
       imagePromptKeywordsId: json['image_prompt_keywords_id'] as String? ?? json['image_prompt_keywords'] as String? ?? '',
       imagePromptKeywordsEn: json['image_prompt_keywords_en'] as String? ?? '',
+      aiHookId: json['ai_hook_id'] as String? ?? '',
     );
   }
 
@@ -129,6 +132,7 @@ class TarotCard {
       'mythical_en': mythicalEn,
       'image_prompt_keywords_id': imagePromptKeywordsId,
       'image_prompt_keywords_en': imagePromptKeywordsEn,
+      'ai_hook_id': aiHookId,
     };
   }
 }

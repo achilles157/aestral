@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   // Default to production domain, but can be overridden or fallback to local
-  static const String _productionUrl = 'https://aestral-backend.falah.workers.dev';
+  static const String _productionUrl = 'https://aestral-backend.aestral-backend.workers.dev';
   static const String _localUrl = 'http://localhost:8787';
 
   static String get baseUrl => kDebugMode ? _localUrl : _productionUrl;
@@ -15,6 +15,7 @@ class ApiService {
     String? pangarasan,
     String? wuku,
     String? drawType,
+    int? mangsaId,
     required String authHeader,
   }) async {
     final url = Uri.parse('$baseUrl/api/tarot/draw');
@@ -27,9 +28,10 @@ class ApiService {
         },
         body: json.encode({
           'birthDate': birthDate,
-          'pangarasan':? pangarasan,
-          'wukuHariIni':? wuku,
-          'drawType':? drawType,
+          if (pangarasan != null) 'pangarasan': pangarasan,
+          if (wuku != null) 'wukuHariIni': wuku,
+          if (drawType != null) 'drawType': drawType,
+          if (mangsaId != null) 'mangsaId': mangsaId,
         }),
       ).timeout(const Duration(seconds: 10));
 
@@ -64,7 +66,7 @@ class ApiService {
         },
         body: json.encode({
           'birthDate': birthDate,
-          'targetDate':? targetDate,
+          if (targetDate != null) 'targetDate': targetDate,
         }),
       ).timeout(const Duration(seconds: 10));
 
@@ -116,6 +118,79 @@ class ApiService {
       throw Exception('Invalid response format');
     } catch (e) {
       debugPrint('ApiService.getCalendarMonth error: $e');
+      rethrow;
+    }
+  }
+
+  /// Calls POST /api/chat — kirim pertanyaan ke Aestral Oracle (Gemini AI).
+  /// [aiContext] adalah map opsional berisi data weton/wuku/tarot yang
+  /// akan disertakan sebagai konteks astrologi untuk Gemini.
+  static Future<Map<String, dynamic>> generateAiChat({
+    required String prompt,
+    required String authHeader,
+    Map<String, dynamic>? aiContext,
+  }) async {
+    final url = Uri.parse('$baseUrl/api/chat');
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authHeader,
+        },
+        body: json.encode({
+          'prompt': prompt,
+          if (aiContext != null) ...aiContext,
+        }),
+      ).timeout(const Duration(seconds: 30));
+
+      if (response.statusCode != 200) {
+        throw Exception('Status ${response.statusCode}: ${response.body}');
+      }
+
+      final data = json.decode(response.body);
+      if (data is Map<String, dynamic>) {
+        return data;
+      }
+      throw Exception('Invalid response format');
+    } catch (e) {
+      debugPrint('ApiService.generateAiChat error: $e');
+      rethrow;
+    }
+  }
+
+  /// Calls POST /api/tarot/reading — kirim 3 kartu ke Oracle Tarot AI (Gemini).
+  /// Mengembalikan narasi Barnum per-kartu + konklusi synthesis benang merah.
+  static Future<Map<String, dynamic>> generateTarotReading({
+    required List<Map<String, dynamic>> cards,
+    required String authHeader,
+    Map<String, dynamic>? wetonContext,
+  }) async {
+    final url = Uri.parse('$baseUrl/api/tarot/reading');
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authHeader,
+        },
+        body: json.encode({
+          'cards': cards,
+          if (wetonContext != null) ...wetonContext,
+        }),
+      ).timeout(const Duration(seconds: 30));
+
+      if (response.statusCode != 200) {
+        throw Exception('Status ${response.statusCode}: ${response.body}');
+      }
+
+      final data = json.decode(response.body);
+      if (data is Map<String, dynamic>) {
+        return data;
+      }
+      throw Exception('Invalid response format');
+    } catch (e) {
+      debugPrint('ApiService.generateTarotReading error: $e');
       rethrow;
     }
   }

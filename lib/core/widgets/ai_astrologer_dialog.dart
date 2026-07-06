@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
+import '../services/api_service.dart';
 import 'glass_card.dart';
+import '../../features/ai/models/chat_message.dart';
+import '../../features/ai/services/chat_cache_service.dart';
 
 class AiAstrologerDialog extends StatefulWidget {
   final String prompt;
   final String contextTitle;
+  final String authHeader;
+  final Map<String, dynamic>? aiContext;
 
   const AiAstrologerDialog({
     super.key,
     required this.prompt,
     required this.contextTitle,
+    required this.authHeader,
+    this.aiContext,
   });
 
   @override
@@ -20,6 +27,7 @@ class AiAstrologerDialog extends StatefulWidget {
 class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
   bool _isThinking = true;
   String _aiResponse = '';
+  bool _isOffline = false;
 
   @override
   void initState() {
@@ -27,29 +35,57 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
     _generateResponse();
   }
 
-  void _generateResponse() async {
-    await Future.delayed(const Duration(seconds: 2));
-    if (!mounted) return;
+  Future<void> _generateResponse() async {
+    try {
+      final result = await ApiService.generateAiChat(
+        prompt: widget.prompt,
+        authHeader: widget.authHeader,
+        aiContext: widget.aiContext,
+      );
+      if (!mounted) return;
 
-    final title = widget.contextTitle;
-    String response = '';
+      final responseText =
+          result['response'] as String? ?? _getFallbackResponse();
 
-    if (title.contains('Jam') || widget.prompt.toLowerCase().contains('jam') || widget.prompt.toLowerCase().contains('saat pitu')) {
-      response = "Energi pada waktu ini ($title) memiliki pengaruh kuat terhadap fokus dan getaran mental Anda.\n\n"
-          "Secara astrologi Jawa, perputaran jam ini membawa aliran spiritual yang memengaruhi keputusan impulsif. "
-          "Saran saya: hadapi jam ini dengan kesadaran penuh. Tarik napas dalam-dalam sebelum mulai berbicara atau mengambil keputusan penting. "
-          "Gunakan vibrasi kosmis saat ini untuk menata kembali niat terdalam Anda.";
-    } else {
-      response = "Misteri batin Anda terungkap melalui weton $title.\n\n"
-          "Sebagai seorang $title, Anda diberkahi dengan kekuatan spiritual alami yang kuat, namun ada 'sisi bayang' (ego death) yang sering menuntut pelepasan hal-toxic.\n\n"
-          "Keseimbangan energi Anda saat ini menunjukkan perlunya menjaga batasan diri agar tidak rentan dimanfaatkan orang lain. "
-          "Dengarkan intuisi terdalam Anda hari ini, karena suara itu adalah pembimbing kosmis yang paling murni.";
+      // Cache the response locally — errors are swallowed intentionally
+      ChatCacheService.saveMessage(ChatMessage(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        prompt: widget.prompt,
+        response: responseText,
+        timestamp: DateTime.now(),
+        contextTitle: widget.contextTitle,
+      ));
+
+      setState(() {
+        _isThinking = false;
+        _aiResponse = responseText;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _isThinking = false;
+        _aiResponse = _getFallbackResponse();
+        _isOffline = true;
+      });
     }
+  }
 
-    setState(() {
-      _isThinking = false;
-      _aiResponse = response;
-    });
+  /// Respons fallback ketika koneksi ke orakel tidak tersedia.
+  String _getFallbackResponse() {
+    final title = widget.contextTitle;
+    if (title.contains('Jam') ||
+        widget.prompt.toLowerCase().contains('jam') ||
+        widget.prompt.toLowerCase().contains('saat pitu')) {
+      return 'Energi pada waktu ini ($title) memiliki pengaruh kuat terhadap fokus dan getaran mental Anda.\n\n'
+          'Secara astrologi Jawa, perputaran jam ini membawa aliran spiritual yang memengaruhi keputusan impulsif. '
+          'Saran saya: hadapi jam ini dengan kesadaran penuh. Tarik napas dalam-dalam sebelum mulai berbicara atau mengambil keputusan penting. '
+          'Gunakan vibrasi kosmis saat ini untuk menata kembali niat terdalam Anda.';
+    }
+    return 'Misteri batin Anda terungkap melalui weton $title.\n\n'
+        'Sebagai seorang $title, Anda diberkahi dengan kekuatan spiritual alami yang kuat, '
+        'namun ada \'sisi bayang\' (ego death) yang sering menuntut pelepasan hal-toxic.\n\n'
+        'Keseimbangan energi Anda saat ini menunjukkan perlunya menjaga batasan diri agar tidak rentan dimanfaatkan orang lain. '
+        'Dengarkan intuisi terdalam Anda hari ini, karena suara itu adalah pembimbing kosmis yang paling murni.';
   }
 
   @override
@@ -66,9 +102,11 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Header
             Row(
               children: [
-                const Icon(Icons.auto_awesome, color: AppTheme.accentGold, size: 24),
+                const Icon(Icons.auto_awesome,
+                    color: AppTheme.accentGold, size: 24),
                 const SizedBox(width: 8),
                 Text(
                   'TANYAKAN KEBINGUNGAN ANDA',
@@ -88,7 +126,8 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+                border:
+                    Border.all(color: Colors.white.withValues(alpha: 0.1)),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +147,7 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
               ),
             ),
             const SizedBox(height: 20),
-            // AI Response
+            // AI Response area
             if (_isThinking)
               const Center(
                 child: Padding(
@@ -119,13 +158,14 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
                       SizedBox(height: 12),
                       Text(
                         'Menghubungkan dengan vibrasi kosmis...',
-                        style: TextStyle(color: AppTheme.textMuted, fontSize: 13),
+                        style:
+                            TextStyle(color: AppTheme.textMuted, fontSize: 13),
                       ),
                     ],
                   ),
                 ),
               )
-            else
+            else ...[
               Flexible(
                 child: SingleChildScrollView(
                   child: Text(
@@ -138,8 +178,38 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
                   ),
                 ),
               ),
+              // Offline indicator
+              if (_isOffline) ...[
+                const SizedBox(height: 12),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                        color: Colors.orange.withValues(alpha: 0.3)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.wifi_off,
+                          color: Colors.orange, size: 13),
+                      const SizedBox(width: 6),
+                      Text(
+                        'Mode Offline — respons kosmis terbatas',
+                        style: GoogleFonts.outfit(
+                          fontSize: 11,
+                          color: Colors.orange,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
             const SizedBox(height: 24),
-            // Action button
+            // Close button
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(

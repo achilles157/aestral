@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -436,102 +435,114 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                 pancawara: _result!.pancawara,
                               ),
                               const SizedBox(height: 20),
-                              // Dropdown Accordion for Technical Details (Moved here and upgraded to GlassCard)
+                              // Technical Details (Direct Display)
                               GlassCard(
                                 borderColor: AppTheme.accentPurple.withValues(alpha: 0.25),
                                 borderWidth: 1.2,
-                                padding: EdgeInsets.zero,
-                                child: Theme(
-                                  data: Theme.of(context).copyWith(
-                                    dividerColor: Colors.transparent,
-                                  ),
-                                  child: ExpansionTile(
-                                    title: Text(
-                                      '🔬 Lihat Detail Perhitungan Teknis',
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '🔬 Detail Perhitungan Teknis',
                                       style: textTheme.titleLarge?.copyWith(
                                         fontSize: 16,
                                         color: AppTheme.accentPurple,
                                       ),
                                     ),
-                                    collapsedIconColor: AppTheme.accentPurple,
-                                    iconColor: AppTheme.accentPurple,
-                                    childrenPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
-                                    children: [
-                                      const SizedBox(height: 10),
-                                      JavaneseAstrologicalGearDial(
-                                        saptawara: _result!.saptawara,
-                                        pancawara: _result!.pancawara,
-                                        wuku: _result!.wuku,
-                                        totalNeptu: _result!.totalNeptu,
+                                    const SizedBox(height: 16),
+                                    JavaneseAstrologicalGearDial(
+                                      saptawara: _result!.saptawara,
+                                      pancawara: _result!.pancawara,
+                                      wuku: _result!.wuku,
+                                      totalNeptu: _result!.totalNeptu,
+                                    ),
+                                    const SizedBox(height: 24),
+                                    const Divider(color: Color(0xFF2E2452), height: 20, thickness: 1.5),
+                                    const SizedBox(height: 16),
+                                    _DetailRow(
+                                      label: 'Kalender Jawa Asapon',
+                                      value: '${_result!.javaneseDay} ${_result!.javaneseMonth} ${_result!.javaneseYear} (${_result!.javaneseYearName})',
+                                    ),
+                                    const SizedBox(height: 12),
+                                    _DetailRow(label: 'Wuku', value: _result!.wuku),
+                                    const SizedBox(height: 12),
+                                    _DetailRow(label: 'Neptu Saptawara', value: '${_result!.saptawara} (${_result!.neptuSaptawara})'),
+                                    const SizedBox(height: 12),
+                                    _DetailRow(label: 'Neptu Pancawara', value: '${_result!.pancawara} (${_result!.neptuPancawara})'),
+                                    const SizedBox(height: 20),
+                                    Text(
+                                      'TOTAL NEPTU: ${_result!.totalNeptu} / 18',
+                                      style: textTheme.labelLarge?.copyWith(
+                                        color: AppTheme.accentGold,
                                       ),
-                                      const SizedBox(height: 24),
-                                      const Divider(color: Color(0xFF2E2452), height: 20, thickness: 1.5),
-                                      const SizedBox(height: 16),
-                                      _DetailRow(
-                                        label: 'Kalender Jawa Asapon',
-                                        value: '${_result!.javaneseDay} ${_result!.javaneseMonth} ${_result!.javaneseYear} (${_result!.javaneseYearName})',
+                                    ),
+                                    const SizedBox(height: 8),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: LinearProgressIndicator(
+                                        value: _result!.totalNeptu / 18,
+                                        backgroundColor: AppTheme.background,
+                                        color: AppTheme.accentPurple,
+                                        minHeight: 10,
                                       ),
-                                      const SizedBox(height: 12),
-                                      _DetailRow(label: 'Wuku', value: _result!.wuku),
-                                      const SizedBox(height: 12),
-                                      _DetailRow(label: 'Neptu Saptawara', value: '${_result!.saptawara} (${_result!.neptuSaptawara})'),
-                                      const SizedBox(height: 12),
-                                      _DetailRow(label: 'Neptu Pancawara', value: '${_result!.pancawara} (${_result!.neptuPancawara})'),
-                                      const SizedBox(height: 20),
-                                      // Neptu composite progress bar
-                                      Text(
-                                        'TOTAL NEPTU: ${_result!.totalNeptu} / 18',
-                                        style: textTheme.labelLarge?.copyWith(
-                                          color: AppTheme.accentGold,
+                                    ),
+                                    const Divider(color: Color(0xFF2E2452), height: 40, thickness: 1.5),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: _AnalysisBadge(label: 'Pangarasan', value: _result!.pangarasan, color: AppTheme.accentPurple),
                                         ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: LinearProgressIndicator(
-                                          value: _result!.totalNeptu / 18,
-                                          backgroundColor: AppTheme.background,
-                                          color: AppTheme.accentPurple,
-                                          minHeight: 10,
+                                        const SizedBox(width: 12),
+                                        Expanded(
+                                          child: _AnalysisBadge(label: 'Pancasuda', value: _result!.pancasuda, color: AppTheme.accentPink),
                                         ),
-                                      ),
-                                      const Divider(color: Color(0xFF2E2452), height: 40, thickness: 1.5),
-                                      _AnalysisBadge(label: 'Pangarasan', value: _result!.pangarasan, color: AppTheme.accentPurple),
-                                      const SizedBox(height: 12),
-                                      _AnalysisBadge(label: 'Pancasuda', value: _result!.pancasuda, color: AppTheme.accentPink),
-                                      const Divider(color: Color(0xFF2E2452), height: 40, thickness: 1.5),
-                                      // Firestore flat JSON preview
-                                      _JsonPreviewSection(
-                                        result: _result!,
-                                        selectedDate: _selectedDate!,
-                                        latitude: double.tryParse(_latController.text) ?? 0.0,
-                                        longitude: double.tryParse(_lngController.text) ?? 0.0,
-                                      ),
-                                    ],
-                                  ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                               const SizedBox(height: 28),
                               if (entry != null) ...[
-                                // 3 Main Cards
-                                WetonDetailCard(
-                                  title: 'Karier & Rezeki',
-                                  content: entry.karirRezeki,
-                                  icon: Icons.work_outline,
-                                  accentColor: AppTheme.accentGold,
+                                // 3 Main Cards — sejajar
+                                IntrinsicHeight(
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: [
+                                      Expanded(
+                                        child: WetonDetailCard(
+                                          title: 'Karier & Rezeki',
+                                          content: entry.karirRezeki,
+                                          icon: Icons.work_outline,
+                                          accentColor: AppTheme.accentGold,
+                                          margin: EdgeInsets.zero,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Expanded(
+                                        child: WetonDetailCard(
+                                          title: 'Asmara & Hubungan',
+                                          content: entry.asmaraHubungan,
+                                          icon: Icons.favorite_border,
+                                          accentColor: AppTheme.accentPink,
+                                          margin: EdgeInsets.zero,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Expanded(
+                                        child: WetonDetailCard(
+                                          title: 'Sisi Gelap & Peringatan',
+                                          content: entry.sisiGelapPeringatan,
+                                          icon: Icons.warning_amber_outlined,
+                                          accentColor: const Color(0xFFF87171),
+                                          margin: EdgeInsets.zero,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                WetonDetailCard(
-                                  title: 'Asmara & Hubungan',
-                                  content: entry.asmaraHubungan,
-                                  icon: Icons.favorite_border,
-                                  accentColor: AppTheme.accentPink,
-                                ),
-                                WetonDetailCard(
-                                  title: 'Sisi Gelap & Peringatan',
-                                  content: entry.sisiGelapPeringatan,
-                                  icon: Icons.warning_amber_outlined,
-                                  accentColor: const Color(0xFFF87171),
-                                ),
+                                const SizedBox(height: 16),
                               ],
                               const SizedBox(height: 12),
                               // Daily Insight Section
@@ -773,69 +784,4 @@ class _AnalysisBadge extends StatelessWidget {
   }
 }
 
-class _JsonPreviewSection extends StatelessWidget {
-  final WetonInfo result;
-  final DateTime selectedDate;
-  final double latitude;
-  final double longitude;
-
-  const _JsonPreviewSection({
-    required this.result,
-    required this.selectedDate,
-    required this.latitude,
-    required this.longitude,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    // Simulate final flat document output for visualization
-    final finalJson = {
-      'biometric_anchor': {
-        'dob_utc_ms': selectedDate.millisecondsSinceEpoch,
-        'coordinates': {
-          'lat': latitude,
-          'lng': longitude,
-        }
-      },
-      'architectural_pillars': {
-        'weton': result.toJson(),
-      }
-    };
-
-    final jsonStr = const JsonEncoder.withIndent('  ').convert(finalJson);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'PREVIEW DOKUMEN FIRESTORE (FLATTENED)',
-          style: textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.2,
-            fontSize: 12,
-          ),
-        ),
-        const SizedBox(height: 12),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: AppTheme.background,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFF2E2452)),
-          ),
-          child: SelectableText(
-            jsonStr,
-            style: GoogleFonts.firaCode(
-              fontSize: 12,
-              color: AppTheme.accentGold,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
 
