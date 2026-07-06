@@ -13,7 +13,6 @@ class ApiService {
   static Future<Map<String, dynamic>> drawTarot({
     required String birthDate,
     String? pangarasan,
-    String? wuku,
     String? drawType,
     int? mangsaId,
     required String authHeader,
@@ -29,7 +28,6 @@ class ApiService {
         body: json.encode({
           'birthDate': birthDate,
           if (pangarasan != null) 'pangarasan': pangarasan,
-          if (wuku != null) 'wukuHariIni': wuku,
           if (drawType != null) 'drawType': drawType,
           if (mangsaId != null) 'mangsaId': mangsaId,
         }),

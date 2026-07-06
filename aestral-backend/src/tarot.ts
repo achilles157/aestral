@@ -108,24 +108,6 @@ function getRemedialRange(el: Element): [start: number, end: number] {
 	}
 }
 
-/**
- * Maps a Wuku name to one of the four elements.
- * Returns `null` when no mapping is found.
- */
-function wukuToElement(wuku: string): Element | null {
-	const lower = wuku.toLowerCase();
-	// Standard Javanese deity/nature elements mapping for the 30 Wukus:
-	const waterWukus = ['landhep', 'gumbreg', 'galungan', 'kuruwelut', 'wayang', 'kulawu', 'prangbakat', 'bala'];
-	const fireWukus = ['sinta', 'kurantil', 'mandasia', 'pahang', 'maktal', 'dhukut'];
-	const earthWukus = ['wukir', 'tolu', 'warigagung', 'kuningan', 'marakeh', 'medangkungan', 'manahil', 'watugunung'];
-	const airWukus = ['warigalit', 'julungwangi', 'sungsang', 'langkir', 'julungpujut', 'tambir', 'wuye', 'wugu'];
-
-	if (waterWukus.includes(lower)) return 'water';
-	if (fireWukus.includes(lower)) return 'fire';
-	if (earthWukus.includes(lower)) return 'earth';
-	if (airWukus.includes(lower)) return 'air';
-	return null;
-}
 
 /**
  * Returns the card index range [start, end] for a given element.
@@ -143,113 +125,6 @@ function getElementRange(el: Element): [start: number, end: number] {
 	}
 }
 
-/**
- * Returns a weighted-random card index (0-77).
- *
- * The user's Pangarasan determines their element; the complementary
- * suit receives a +0.15 weight boost (homeostasis principle).
- * The current Wuku name determines the weekly resonance element;
- * its suit receives a +0.10 weight boost.
- */
-export function getWeightedRandomCard(pangarasan: string, wuku: string): number {
-	const weights = new Float64Array(DECK_SIZE).fill(1.0);
-
-	// 1. Homeostasis / Compensation: boost complementary element of user by +0.15
-	const userElement = pangarasanToElement(pangarasan);
-	if (userElement) {
-		const [start, end] = getRemedialRange(userElement);
-		for (let i = start; i <= end; i++) {
-			weights[i] += 0.15;
-		}
-	}
-
-	// 2. Resonance: boost current Wuku element by +0.10
-	if (wuku) {
-		const wukuElement = wukuToElement(wuku);
-		if (wukuElement) {
-			const [start, end] = getElementRange(wukuElement);
-			for (let i = start; i <= end; i++) {
-				weights[i] += 0.10;
-			}
-		}
-	}
-
-	// Sum weights
-	let totalWeight = 0;
-	for (let i = 0; i < DECK_SIZE; i++) {
-		totalWeight += weights[i];
-	}
-
-	// Weighted pick
-	let pick = Math.random() * totalWeight;
-	for (let i = 0; i < DECK_SIZE; i++) {
-		pick -= weights[i];
-		if (pick <= 0) return i;
-	}
-
-	// Fallback (should never reach here)
-	return DECK_SIZE - 1;
-}
-
-/**
- * Returns a weekly-deterministic card index (0-77) based on birthdate,
- * wuku (weekly cycle), and user pangarasan (elements).
- * It applies elements weighting but yields the same card for the same week.
- */
-export function getWeeklyDeterministicCard(birthDate: string, wuku: string, pangarasan: string): number {
-	const weights = new Float64Array(DECK_SIZE).fill(1.0);
-
-	const userElement = pangarasanToElement(pangarasan);
-	if (userElement) {
-		const [start, end] = getRemedialRange(userElement);
-		for (let i = start; i <= end; i++) {
-			weights[i] += 0.15;
-		}
-	}
-
-	if (wuku) {
-		const wukuElement = wukuToElement(wuku);
-		if (wukuElement) {
-			const [start, end] = getElementRange(wukuElement);
-			for (let i = start; i <= end; i++) {
-				weights[i] += 0.10;
-			}
-		}
-	}
-
-	let totalWeight = 0;
-	for (let i = 0; i < DECK_SIZE; i++) {
-		totalWeight += weights[i];
-	}
-
-	// Create a deterministic hash from birthDate + wuku
-	let hash = 0;
-	const seedStr = birthDate + wuku;
-	for (let i = 0; i < seedStr.length; i++) {
-		hash = seedStr.charCodeAt(i) + ((hash << 5) - hash);
-	}
-	
-	const randVal = (Math.abs(hash) % 10000) / 10000;
-	let pick = randVal * totalWeight;
-
-	for (let i = 0; i < DECK_SIZE; i++) {
-		pick -= weights[i];
-		if (pick <= 0) return i;
-	}
-	return DECK_SIZE - 1;
-}
-
-/**
- * Returns a weekly-deterministic reversal state based on birthdate and wuku.
- */
-export function getWeeklyDeterministicReversed(birthDate: string, wuku: string): boolean {
-	let hash = 0;
-	const seedStr = birthDate + wuku + 'reversed-seed';
-	for (let i = 0; i < seedStr.length; i++) {
-		hash = seedStr.charCodeAt(i) + ((hash << 5) - hash);
-	}
-	return Math.abs(hash) % 2 === 0;
-}
 
 // --- Unique Three-Card Spread ---
 
@@ -324,46 +199,6 @@ export function getDeterministicThreeCards(birthDate: string, pangarasan?: strin
 
 	const futureIndex = drawSingleDeterministicCard(birthDate + '-future', weights);
 	const futureReversed = getIsReversedDeterministic(birthDate + '-future-reversed');
-
-	return [
-		{ cardIndex: pastIndex, isReversed: pastReversed, label: 'past' },
-		{ cardIndex: presentIndex, isReversed: presentReversed, label: 'present' },
-		{ cardIndex: futureIndex, isReversed: futureReversed, label: 'future' }
-	];
-}
-
-/**
- * Returns 3 unique deterministic cards for the current week's cycle (weekly dynamic).
- */
-export function getWeeklyDeterministicThreeCards(birthDate: string, wuku: string, pangarasan: string): DrawnCardInfo[] {
-	const weights = new Float64Array(DECK_SIZE).fill(1.0);
-
-	const userElement = pangarasanToElement(pangarasan);
-	if (userElement) {
-		const [start, end] = getRemedialRange(userElement);
-		for (let i = start; i <= end; i++) {
-			weights[i] += 0.15;
-		}
-	}
-
-	if (wuku) {
-		const wukuElement = wukuToElement(wuku);
-		if (wukuElement) {
-			const [start, end] = getElementRange(wukuElement);
-			for (let i = start; i <= end; i++) {
-				weights[i] += 0.10;
-			}
-		}
-	}
-
-	const pastIndex = drawSingleDeterministicCard(birthDate + wuku + '-past', weights);
-	const pastReversed = getIsReversedDeterministic(birthDate + wuku + '-past-reversed');
-
-	const presentIndex = drawSingleDeterministicCard(birthDate + wuku + '-present', weights);
-	const presentReversed = getIsReversedDeterministic(birthDate + wuku + '-present-reversed');
-
-	const futureIndex = drawSingleDeterministicCard(birthDate + wuku + '-future', weights);
-	const futureReversed = getIsReversedDeterministic(birthDate + wuku + '-future-reversed');
 
 	return [
 		{ cardIndex: pastIndex, isReversed: pastReversed, label: 'past' },

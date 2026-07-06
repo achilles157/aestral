@@ -141,7 +141,6 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
       final response = await ApiService.drawTarot(
         birthDate: birthDateStr,
         pangarasan: birthWeton.pangarasan,
-        wuku: currentWeton.wuku,
         drawType: session.isMock ? 'birth' : _selectedDrawType,
         mangsaId: _selectedDrawType == 'mangsa' ? mangsaId : null,
         authHeader: authHeader,

@@ -1,5 +1,5 @@
 import { parseAuthHeader } from './auth';
-import { getDeterministicThreeCards, getWeeklyDeterministicThreeCards, getMangsaDeterministicThreeCards } from './tarot';
+import { getDeterministicThreeCards, getMangsaDeterministicThreeCards } from './tarot';
 import { getWetonInsight, getPranataMangsaId, getJamInsight } from './weton';
 import { callGemini } from './gemini';
 import { buildSystemInstruction, type AiContext } from './system_prompt';
@@ -62,8 +62,7 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
 interface TarotDrawBody {
 	birthDate?: string;
 	pangarasan?: string;
-	wukuHariIni?: string;
-	drawType?: 'birth' | 'weekly' | 'mangsa';
+	drawType?: 'birth' | 'mangsa';
 	mangsaId?: number;
 }
 
@@ -98,8 +97,7 @@ async function handleTarotDraw(request: Request): Promise<Response> {
 	}
 
 	// Cosmic cycle draw — default for registered users
-	if (drawType === 'mangsa') {
-		if (!body.mangsaId || body.mangsaId < 1 || body.mangsaId > 12) {
+	if (!body.mangsaId || body.mangsaId < 1 || body.mangsaId > 12) {
 			return json({ error: 'mangsaId (1–12) diperlukan untuk tebaran kosmis' }, 400);
 		}
 		const cards = getMangsaDeterministicThreeCards(body.birthDate, body.mangsaId, body.pangarasan);
@@ -110,21 +108,6 @@ async function handleTarotDraw(request: Request): Promise<Response> {
 			cards,
 			message: 'Tebaran 3 Kartu Tarot mengikuti siklus kosmis yang sedang berlangsung.',
 		});
-	}
-
-	// Weekly — backward compatibility
-	const cards = getWeeklyDeterministicThreeCards(
-		body.birthDate,
-		body.wukuHariIni ?? '',
-		body.pangarasan ?? '',
-	);
-	return json({
-		success: true,
-		isDynamic: true,
-		drawType: 'weekly',
-		cards,
-		message: 'Tebaran 3 Kartu Tarot (Masa Lalu, Masa Kini, Masa Depan) berhasil diselaraskan.',
-	});
 }
 
 // --- Weton Daily Handler ---
