@@ -168,13 +168,13 @@ const MANGSA_THEMES: Record<number, { nama: string; candra: string; tema: string
 	2: { nama: 'Karo', candra: 'Bantala rengka', tema: 'Vulnerability & Resilience' },
 	3: { nama: 'Katiga', candra: 'Suta manut ing bapa', tema: 'Mentorship & Disiplin' },
 	4: { nama: 'Kapat', candra: 'Waspa kumembeng jroning kalbu', tema: 'Emotional Healing & Transisi' },
-	5: { nama: 'Kalima', candra: 'Pancuran emas sumawur ing jagat', tema: 'Abundance & Peluang' },
-	6: { nama: 'Kanem', candra: 'Rasa mulya kasucen', tema: 'Maturitas & Flow' },
+	5: { nama: 'Kalima', candra: 'Pancuran mas sumawur ing jagad', tema: 'Abundance & Peluang' },
+	6: { nama: 'Kanem', candra: 'Rasa mulya kasucian', tema: 'Maturitas & Flow' },
 	7: { nama: 'Kapitu', candra: 'Wisa kentar ing maruta', tema: 'Cozy Cocooning & Boundaries' },
 	8: { nama: 'Kawolu', candra: 'Anjrah jroning kayun', tema: 'Passion & Kolaborasi' },
 	9: { nama: 'Kasanga', candra: 'Wedharing wacana mulya', tema: 'Ekspresi Diri & Sharing' },
-	10: { nama: 'Kasepuluh', candra: 'Gedhong mineb jroning kalbu', tema: 'Financial & Security' },
-	11: { nama: 'Dhesta', candra: 'Sotya sinar angrengga wicara', tema: 'Apresiasi & Perlambatan' },
+	10: { nama: 'Kadasa', candra: 'Gedhong mineb jroning kalbu', tema: 'Financial & Security' },
+	11: { nama: 'Dhesta', candra: 'Sotya sinarawedi', tema: 'Apresiasi & Perlambatan' },
 	12: { nama: 'Sada', candra: 'Tirta sah saking sasana', tema: 'Detachment & Refleksi' },
 };
 

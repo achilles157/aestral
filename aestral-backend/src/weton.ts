@@ -220,7 +220,7 @@ export function getPranataMangsaId(year: number, month: number, day: number): nu
 	if (md >= 203 && md <= kawoluEnd) return 8; // Kawolu: 3 Februari - 28/29 Februari
 	
 	if (md >= 301 && md <= 325) return 9;   // Kasanga: 1 Maret - 25 Maret
-	if (md >= 326 && md <= 418) return 10;  // Kasepuluh: 26 Maret - 18 April
+	if (md >= 326 && md <= 418) return 10;  // Kadasa: 26 Maret - 18 April
 	if (md >= 419 && md <= 511) return 11;  // Dhesta: 19 April - 11 Mei
 	if (md >= 512 && md <= 621) return 12;  // Sada: 12 Mei - 21 Juni
 	
