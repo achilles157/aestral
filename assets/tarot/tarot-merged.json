@@ -1142,715 +1142,21 @@
   {
     "id": 22,
     "name_id": "Ace Piala",
-    "name_en": "Ace of Wands",
-    "suit": "Wands",
-    "img": "w01.jpg",
+    "name_en": "Ace of Cups",
+    "suit": "Cups",
+    "img": "c01.jpg",
     "keywords_id": [
       "perasaan baru",
       "cinta",
       "intuisi"
     ],
     "keywords_en": [
-      "Inspiration",
-      "New passion",
-      "Potential"
-    ],
-    "upright_meaning_id": "Piala kasih sayangmu mulai meluap. Cinta, kreativitas, dan kebaikan sedang mengalir bebas. Bukalah hatimu untuk menerima hubungan baru, kedekatan yang mendalam, atau untuk mencintai dirimu sendiri.",
-    "reversed_meaning_id": "Mungkin perasaanmu sedang tersumbat atau terasa terlalu meluap-luap. Apakah kamu terlalu sibuk mencintai orang lain hingga lupa merawat hatimu sendiri? Ambil waktu untuk mengisi kembali energimu.",
-    "upright_meaning_en": "A spark of inspiration ignites within you. The Ace of Wands is a powerful beginning—a new idea, project, or passion is emerging. Embrace this creative fire and take the first step, even if you don't have all the answers yet.",
-    "reversed_meaning_en": "Reversed, your creative energy may be blocked, or you may be hesitating to start something new. Perhaps the spark is there but you feel unsure or unprepared. Give yourself permission to begin imperfectly.",
-    "fortune_telling_en": [
-      "Someone has the \"hots\" for you",
-      "A new job offer is coming your way",
-      "Walk softly, and carry a big stick"
-    ],
-    "questions_to_ask_en": [
-      "What do I really want, more than anything else?",
-      "What happens if I let this opportunity pass me by?",
-      "How clearly have I defined my directions, values, and goals?"
-    ],
-    "elemental_en": "",
-    "archetype_en": "",
-    "numerology_en": "1 (The Origin: the starting point, the seed, opportunity)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "tangan muncul dari awan memegang piala air meluap",
-    "image_prompt_keywords_en": "Hand emerging from cloud holding a leafy wand, castle in background, sky",
-    "archetype_id": "",
-    "elemental_id": "",
-    "numerology_id": "1 (Asal usul: titik awal, benih, peluang)",
-    "mythical_id": "",
-    "fortune_telling_id": [
-      "Seseorang mempunyai hal yang \"menarik\" untuk Anda",
-      "Tawaran pekerjaan baru akan segera menghampiri Anda",
-      "Berjalanlah dengan lembut, dan bawalah tongkat besar"
-    ],
-    "questions_to_ask_id": [
-      "Apa yang sebenarnya saya inginkan, lebih dari apa pun?",
-      "Apa jadinya jika saya membiarkan kesempatan ini berlalu begitu saja?",
-      "Seberapa jelas saya mendefinisikan arah, nilai, dan tujuan saya?"
-    ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Ace Piala' (Ace of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
-  },
-  {
-    "id": 23,
-    "name_id": "Two Piala",
-    "name_en": "Two of Wands",
-    "suit": "Wands",
-    "img": "w02.jpg",
-    "keywords_id": [
-      "persatuan",
-      "kemitraan",
-      "hubungan"
-    ],
-    "keywords_en": [
-      "Planning",
-      "Decisio",
-      "Future vision"
-    ],
-    "upright_meaning_id": "Ada ikatan indah yang didasari rasa saling menghormati dan pengertian. Baik dengan pasangan, teman, atau bahkan dengan dirimu sendiri, nikmatilah keselarasan dan kehangatan hubungan ini.",
-    "reversed_meaning_id": "Mungkin ada ketidakseimbangan atau jarak yang terasa dalam hubunganmu. Apakah komunikasi sedang tersumbat? Mari bicarakan dengan jujur dan penuh kelembutan untuk merajut kembali kedekatan.",
-    "upright_meaning_en": "You are at a crossroads, and it's time to make a decision about your next steps. The Two of Wands encourages you to think big, plan ahead, and step out of your comfort zone. The world is waiting for you.",
-    "reversed_meaning_en": "Reversed, you may be feeling indecisive or stuck in planning mode without taking action. Perhaps you are afraid to leave your comfort zone. Trust yourself—you have everything you need to move forward.",
-    "fortune_telling_en": [
-      "Beware false friends",
-      "Don't be mealy-mouthed; say what you think and do what you want to do"
-    ],
-    "questions_to_ask_en": [
-      "In a conflict, how do you decide who wins?",
-      "What values govern your decision-making process?",
-      "What choice will you make if you make no choice at all?"
-    ],
-    "elemental_en": "",
-    "archetype_en": "",
-    "numerology_en": "2 (The Other: division, debate, duality)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "sepasang kekasih saling bertukar piala, malaikat di atas mereka",
-    "image_prompt_keywords_en": "Man standing on a wall holding a globe, two wands, ships in water, castle, hills",
-    "archetype_id": "",
-    "elemental_id": "",
-    "numerology_id": "2 (Yang Lain: perpecahan, perdebatan, dualitas)",
-    "mythical_id": "",
-    "fortune_telling_id": [
-      "Hati-hati dengan teman palsu",
-      "Jangan bermulut pucat; katakan apa yang Anda pikirkan dan lakukan apa yang ingin Anda lakukan"
-    ],
-    "questions_to_ask_id": [
-      "Dalam suatu konflik, bagaimana Anda memutuskan siapa yang menang?",
-      "Nilai-nilai apa yang mengatur proses pengambilan keputusan Anda?",
-      "Pilihan apa yang akan Anda ambil jika Anda tidak membuat pilihan sama sekali?"
-    ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Two Piala' (Two of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
-  },
-  {
-    "id": 24,
-    "name_id": "Three Piala",
-    "name_en": "Three of Wands",
-    "suit": "Wands",
-    "img": "w03.jpg",
-    "keywords_id": [
-      "persahabatan",
-      "perayaan",
-      "komunitas"
-    ],
-    "keywords_en": [
-      "Expansion",
-      "Exploration",
-      "Progress"
-    ],
-    "upright_meaning_id": "Inilah saatnya merayakan kebersamaan, persahabatan, dan kegembiraan bersama orang-orang terdekatmu. Mari berkumpul, saling mendukung, dan berbagi tawa untuk menghangatkan jiwa.",
-    "reversed_meaning_id": "Apakah kamu merasa terasingkan dari lingkaran sosialmu, atau justru terlalu lelah karena keramaian? Cari kembali kehangatan hubungan yang tulus, bukan sekadar pelarian dari rasa sepi.",
-    "upright_meaning_en": "Your vision is expanding, and you are seeing the bigger picture. The Three of Wands is a card of progress—your plans are coming together, and new opportunities are on the horizon. Keep moving forward with confidence.",
-    "reversed_meaning_en": "Reversed, you may be facing delays or feeling that your efforts are not yielding the results you hoped for. Take a step back and reassess. Sometimes a shift in perspective is all you need.",
-    "fortune_telling_en": [
-      "You'll be planning a trip soon",
-      "Be on the lookout: your ship is coming in"
-    ],
-    "questions_to_ask_en": [
-      "How can you make a habit of breaking your habits?",
-      "How can you be a decisive leader in this circumstance?",
-      "What's your action plan for the next week, month, year, or decade?"
-    ],
-    "elemental_en": "",
-    "archetype_en": "",
-    "numerology_en": "3 (The Result: expression, productivity, output)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "tiga wanita berpesta mengangkat piala di udara",
-    "image_prompt_keywords_en": "Man looking out at ships from a cliff, three wands planted in ground, water",
-    "archetype_id": "",
-    "elemental_id": "",
-    "numerology_id": "3 (Hasilnya: ekspresi, produktivitas, output)",
-    "mythical_id": "",
-    "fortune_telling_id": [
-      "Anda akan segera merencanakan perjalanan",
-      "Waspada: kapal Anda datang"
-    ],
-    "questions_to_ask_id": [
-      "Bagaimana Anda bisa membiasakan diri untuk menghentikan kebiasaan Anda?",
-      "Bagaimana Anda bisa menjadi pemimpin yang tegas dalam situasi seperti ini?",
-      "Apa rencana tindakan Anda untuk minggu, bulan, tahun, atau dekade ke depan?"
-    ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Three Piala' (Three of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
-  },
-  {
-    "id": 25,
-    "name_id": "Four Piala",
-    "name_en": "Four of Wands",
-    "suit": "Wands",
-    "img": "w04.jpg",
-    "keywords_id": [
-      "kontemplasi",
-      "ketidakpuasan",
-      "ketidaksenangan"
-    ],
-    "keywords_en": [
-      "Celebration",
-      "Home",
-      "Community"
-    ],
-    "upright_meaning_id": "Apakah kamu sedang merasa bosan, jenuh, atau tidak bersemangat? Kadang kita terlalu fokus pada apa yang hilang hingga abai pada peluang yang ada di depan mata. Cobalah berhenti sejenak.",
-    "reversed_meaning_id": "Rasa jenuhmu perlahan mulai memudar. Kamu mulai membuka diri terhadap perspektif dan kesempatan baru. Sambutlah uluran tangan semesta dengan hati yang siap menerima hal-hal baik.",
-    "upright_meaning_en": "Four of Wands is a card of joy, celebration, and coming home. You are building a foundation of stability and belonging. Whether it's a family gathering, a milestone, or a sense of community, this is a time to celebrate.",
-    "reversed_meaning_en": "Reversed, you may feel unsettled or disconnected from your sense of home and community. Perhaps a celebration is not going as planned. Reconnect with the people and places that make you feel grounded.",
-    "fortune_telling_en": [
-      "Someone is watching and evaluating your work",
-      "You may get a wedding invitation soon"
-    ],
-    "questions_to_ask_en": [
-      "To what extent am I doing my part?",
-      "What kind of recognition would be most meaningful?",
-      "How might a celebration now impact community morale?"
-    ],
-    "elemental_en": "",
-    "archetype_en": "",
-    "numerology_en": "4 (The Status Quo: stability, equality, persistence)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "pria duduk di bawah pohon dengan tiga piala di depan, malaikat menawarkan piala keempat dari awan",
-    "image_prompt_keywords_en": "Four wands with garland, celebration scene, castle in background, people with flowers",
-    "archetype_id": "",
-    "elemental_id": "",
-    "numerology_id": "4 (Status Quo: stabilitas, kesetaraan, ketekunan)",
-    "mythical_id": "",
-    "fortune_telling_id": [
-      "Seseorang sedang memperhatikan dan mengevaluasi pekerjaan Anda",
-      "Anda mungkin akan segera mendapatkan undangan pernikahan"
-    ],
-    "questions_to_ask_id": [
-      "Sejauh mana saya melakukan bagian saya?",
-      "Pengakuan seperti apa yang paling berarti?",
-      "Bagaimana sebuah perayaan sekarang dapat berdampak pada moral masyarakat?"
-    ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Four Piala' (Four of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
-  },
-  {
-    "id": 26,
-    "name_id": "Five Piala",
-    "name_en": "Five of Wands",
-    "suit": "Wands",
-    "img": "w05.jpg",
-    "keywords_id": [
-      "kehilangan",
-      "kesedihan",
-      "penyesalan"
-    ],
-    "keywords_en": [
-      "Competition",
-      "Conflict",
-      "Challenge"
-    ],
-    "upright_meaning_id": "Wajar jika kamu merasa sedih dan kecewa atas kehilangan yang terjadi. Berdukalah dengan jujur. Namun ingatlah, masih ada harapan yang tersisa di belakangmu. Jangan biarkan kesedihan membutakanmu.",
-    "reversed_meaning_id": "Luka hatimu perlahan mulai membaik. Kamu mulai menerima kenyataan pahit ini dan membuka diri untuk harapan baru. Proses penyembuhan telah dimulai, melangkahlah maju dengan perlahan.",
-    "upright_meaning_en": "The Five of Wands represents healthy competition or creative conflict. You may be facing challenges or disagreements, but these are opportunities to test your ideas and grow. Stay engaged and keep your integrity.",
-    "reversed_meaning_en": "Reversed, you may be avoiding conflict or feeling overwhelmed by competition. Perhaps the conflict has turned unproductive or personal. Take a step back, find common ground, and remember what really matters.",
-    "fortune_telling_en": [
-      "Prepare for a fight with your best friend",
-      "Remember: once you let words loose, you can't take them back"
-    ],
-    "questions_to_ask_en": [
-      "To what extent is your current issue worth fighting for?",
-      "What alternatives are there to outright conflict?",
-      "What happens in a \"fair fight?\" How can you keep this fight fair?"
-    ],
-    "elemental_en": "",
-    "archetype_en": "",
-    "numerology_en": "5 (The Catalyst: instability, resistance, confrontation)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "orang berdiri membelakangi tiga piala yang tumpah, dua piala tetap utuh di belakang",
-    "image_prompt_keywords_en": "Five men with wands in conflict stance, chaotic energy, open field",
-    "archetype_id": "",
-    "elemental_id": "",
-    "numerology_id": "5 (Katalis: ketidakstabilan, perlawanan, konfrontasi)",
-    "mythical_id": "",
-    "fortune_telling_id": [
-      "Bersiaplah untuk bertengkar dengan sahabat Anda",
-      "Ingat: sekali Anda melepaskan kata-kata, Anda tidak dapat menariknya kembali"
-    ],
-    "questions_to_ask_id": [
-      "Sejauh mana isu Anda saat ini layak untuk diperjuangkan?",
-      "Alternatif apa yang ada selain konflik langsung?",
-      "Apa yang terjadi dalam \"pertarungan yang adil?\" Bagaimana Anda bisa menjaga pertarungan ini tetap adil?"
-    ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Five Piala' (Five of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
-  },
-  {
-    "id": 27,
-    "name_id": "Six Piala",
-    "name_en": "Six of Wands",
-    "suit": "Wands",
-    "img": "w06.jpg",
-    "keywords_id": [
-      "kenangan",
-      "nostalgia",
-      "kepedulian"
-    ],
-    "keywords_en": [
-      "Victory",
-      "Recognition",
-      "Confidence"
-    ],
-    "upright_meaning_id": "Mari mengenang masa lalu dengan penuh kehangatan. Memori indah, sahabat lama, atau kesederhanaan masa kecil hadir untuk memelukmu. Ini adalah saat yang baik untuk menyembuhkan luka lama.",
-    "reversed_meaning_id": "Apakah kamu terlalu terjebak dalam nostalgia masa lalu hingga enggan bertumbuh di masa kini? Hargai kenangan indah itu, tapi ingatlah bahwa kehidupanmu yang sebenarnya sedang berjalan sekarang.",
-    "upright_meaning_en": "You are receiving well-deserved recognition for your efforts. The Six of Wands is a card of victory and public acknowledgment. Your hard work has paid off—enjoy this moment of success and let it fuel your confidence.",
-    "reversed_meaning_en": "Reversed, you may be feeling overlooked or struggling with self-doubt despite your achievements. Perhaps you fear that success is temporary or not enough. Trust in your worth—you have earned this.",
-    "fortune_telling_en": [
-      "Someone is planning a party for you, but not everyone feels so good about your recent success",
-      "Watch out for envious friends"
-    ],
-    "questions_to_ask_en": [
-      "What kind of recognition do I crave? Why?",
-      "How freely do I praise the achievements of others?",
-      "What happens when the parade is over?"
-    ],
-    "elemental_en": "",
-    "archetype_en": "",
-    "numerology_en": "6 (The Adjustment: cooperation, collaboration, interaction)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "dua anak bermain di taman dengan piala berisi bunga",
-    "image_prompt_keywords_en": "Man on white horse with laurel wreath, crowd, six wands",
-    "archetype_id": "",
-    "elemental_id": "",
-    "numerology_id": "6 (Penyesuaian: kerjasama, kolaborasi, interaksi)",
-    "mythical_id": "",
-    "fortune_telling_id": [
-      "Seseorang sedang merencanakan pesta untuk Anda, tetapi tidak semua orang merasa senang dengan kesuksesan Anda baru-baru ini",
-      "Hati-hati dengan teman yang iri"
-    ],
-    "questions_to_ask_id": [
-      "Pengakuan seperti apa yang saya dambakan? Mengapa?",
-      "Seberapa bebas saya memuji pencapaian orang lain?",
-      "Apa yang terjadi setelah parade selesai?"
-    ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Six Piala' (Six of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
-  },
-  {
-    "id": 28,
-    "name_id": "Seven Piala",
-    "name_en": "Seven of Wands",
-    "suit": "Wands",
-    "img": "w07.jpg",
-    "keywords_id": [
-      "pilihan",
-      "mimpi",
-      "fantasi"
-    ],
-    "keywords_en": [
-      "Courage",
-      "Defense",
-      "Perseverance"
-    ],
-    "upright_meaning_id": "Banyak pilihan menarik di depanmu, namun tidak semuanya nyata atau baik untukmu. Jangan terburu-buru. Renungkan dengan tenang dan pilihlah apa yang benar-benar sejalan dengan bisikan hatimu.",
-    "reversed_meaning_id": "Kabut kebingungan perlahan mulai menipis. Kini kamu bisa melihat pilihan-pilihanmu dengan lebih jelas tanpa ilusi. Percayalah pada kejernihan pikiranmu dan ambil keputusan dengan mantap.",
-    "upright_meaning_en": "You are standing your ground against challenges and opposition. The Seven of Wands reminds you that you have the strength and courage to defend your position. Stay strong—you are capable of holding your own.",
-    "reversed_meaning_en": "Reversed, you may be feeling overwhelmed or unsure of your ability to stand firm. Perhaps you are backing down from a challenge out of fear. Remember that you are stronger than you think. Stand your ground.",
-    "fortune_telling_en": [
-      "Don't be surprised by a personal attack",
-      "Prepare to defend yourself or someone you love"
-    ],
-    "questions_to_ask_en": [
-      "When do you feel most threatened? When do you get defensive?",
-      "How capable are you of defending yourself?",
-      "What kinds of beliefs are worth defending?"
-    ],
-    "elemental_en": "",
-    "archetype_en": "",
-    "numerology_en": "7 (The Motive: imagination, inner work, psychology)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "orang menatap tujuh piala di awan yang masing-masing berisi imajinasi",
-    "image_prompt_keywords_en": "Man on hill defending with wand against six wands from below, determination",
-    "archetype_id": "",
-    "elemental_id": "",
-    "numerology_id": "7 (Motif: imajinasi, pekerjaan batin, psikologi)",
-    "mythical_id": "",
-    "fortune_telling_id": [
-      "Jangan kaget dengan serangan pribadi",
-      "Bersiaplah untuk membela diri sendiri atau seseorang yang Anda cintai"
-    ],
-    "questions_to_ask_id": [
-      "Kapan Anda merasa paling terancam? Kapan Anda bersikap defensif?",
-      "Seberapa mampukah Anda membela diri?",
-      "Keyakinan seperti apa yang patut dipertahankan?"
-    ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Seven Piala' (Seven of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
-  },
-  {
-    "id": 29,
-    "name_id": "Eight Piala",
-    "name_en": "Eight of Wands",
-    "suit": "Wands",
-    "img": "w08.jpg",
-    "keywords_id": [
-      "meninggalkan",
-      "perpisahan",
-      "pencarian"
-    ],
-    "keywords_en": [
-      "Speed",
-      "Action",
-      "Movement"
-    ],
-    "upright_meaning_id": "Meninggalkan apa yang tidak lagi menumbuhkan jiwamu adalah bentuk keberanian yang luar biasa. Meski terasa berat, melangkah pergi dari hal yang usang akan membawamu pada kedamaian baru.",
-    "reversed_meaning_id": "Apakah kamu bertahan pada situasi yang sebenarnya tidak lagi membahagiakan karena takut akan ketidakpastian? Percayalah pada kekuatanmu sendiri. Melangkah pergi adalah awal dari kebebasanmu.",
-    "upright_meaning_en": "Things are moving quickly—the Eight of Wands brings rapid progress, communication, and momentum. This is a time to act with speed and decisiveness. Opportunities are arriving fast, so stay alert.",
-    "reversed_meaning_en": "Reversed, you may be experiencing delays or feeling overwhelmed by the pace. Perhaps things are moving too fast or too slowly for your comfort. Take a breath, slow down, and trust the timing.",
-    "fortune_telling_en": [
-      "Watch for a surprising letter in the mail",
-      "Your whole world is about to be turned on its ear"
-    ],
-    "questions_to_ask_en": [
-      "How quickly to you adapt to change?",
-      "What would your response be to overwhelming, sudden change?",
-      "What changes are on your horizon? How well have you prepared for them?"
-    ],
-    "elemental_en": "",
-    "archetype_en": "",
-    "numerology_en": "8 (The Action: movement, outer work, swiftness)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "orang berjalan pergi meninggalkan delapan piala di tempat, menatap bulan di kejauhan",
-    "image_prompt_keywords_en": "Eight wands flying through the air, action, momentum, sky, no people",
-    "archetype_id": "",
-    "elemental_id": "",
-    "numerology_id": "8 (Aksi: gerakan, kerja luar, kecepatan)",
-    "mythical_id": "",
-    "fortune_telling_id": [
-      "Perhatikan surat mengejutkan melalui pos",
-      "Seluruh dunia Anda akan segera didengarkan"
-    ],
-    "questions_to_ask_id": [
-      "Seberapa cepat Anda beradaptasi terhadap perubahan?",
-      "Apa tanggapan Anda terhadap perubahan yang tiba-tiba dan luar biasa?",
-      "Perubahan apa yang sedang Anda alami? Seberapa baik Anda mempersiapkan diri menghadapinya?"
-    ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Eight Piala' (Eight of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
-  },
-  {
-    "id": 30,
-    "name_id": "Nine Piala",
-    "name_en": "Nine of Wands",
-    "suit": "Wands",
-    "img": "w09.jpg",
-    "keywords_id": [
-      "kepuasan",
-      "kemandirian",
-      "kenikmatan"
-    ],
-    "keywords_en": [
-      "Resilience",
-      "Boundaries",
-      "Persistence"
-    ],
-    "upright_meaning_id": "Keinginan terdalammu perlahan mulai terwujud. Ini adalah momen kepuasan, kelimpahan, dan kedamaian emosional yang patut disyukuri. Nikmatilah kebahagiaan ini dengan hati yang lapang.",
-    "reversed_meaning_id": "Mungkin pencapaianmu saat ini terasa kurang memuaskan, atau kamu merasa ada yang kurang di dalam hati. Kebahagiaan sejati tidak berasal dari luar, melainkan dari rasa syukur di dalam diri.",
-    "upright_meaning_en": "You are tired and battle-worn, but you are still standing. The Nine of Wands is a card of resilience—you have been through a lot, and you have the strength to keep going. Guard your boundaries and protect what matters.",
-    "reversed_meaning_en": "Reversed, you may be feeling paranoid, defensive, or exhausted. Perhaps you are holding up walls that are no longer necessary. Take a moment to rest and ask yourself what you truly need to protect.",
-    "fortune_telling_en": [
-      "Don't relax yet; there's more to come",
-      "The test you're facing now is happening for one reason: to show you who your real friends are"
-    ],
-    "questions_to_ask_en": [
-      "How do you cope when things get really tough?",
-      "When you get low, what encourages you to go on?",
-      "At what point should you be able to let this situation go?"
-    ],
-    "elemental_en": "",
-    "archetype_en": "",
-    "numerology_en": "9 (The Completion: fullness, readiness, ripeness)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "orang tua tersenyum duduk di depan sembilan piala berkilau",
-    "image_prompt_keywords_en": "Wounded man with bandages, holding a wand, eight wands behind him, weary but determined",
-    "archetype_id": "",
-    "elemental_id": "",
-    "numerology_id": "9 (Penyelesaian: kepenuhan, kesiapan, kematangan)",
-    "mythical_id": "",
-    "fortune_telling_id": [
-      "Jangan santai dulu; masih ada lagi yang akan datang",
-      "Ujian yang Anda hadapi saat ini terjadi karena satu alasan: untuk menunjukkan siapa teman sejati Anda"
-    ],
-    "questions_to_ask_id": [
-      "Bagaimana Anda mengatasinya ketika keadaan menjadi sangat sulit?",
-      "Saat Anda merasa rendah diri, apa yang mendorong Anda untuk terus maju?",
-      "Pada titik manakah Anda harus bisa membiarkan situasi ini berlalu?"
-    ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Nine Piala' (Nine of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
-  },
-  {
-    "id": 31,
-    "name_id": "Ten Piala",
-    "name_en": "Ten of Wands",
-    "suit": "Wands",
-    "img": "w10.jpg",
-    "keywords_id": [
-      "kebahagiaan keluarga",
-      "keutuhan",
-      "harmoni"
-    ],
-    "keywords_en": [
-      "Burden",
-      "Overwhelm",
-      "Responsibility"
-    ],
-    "upright_meaning_id": "Kehangatan cinta, keharmonisan keluarga, dan kebahagiaan sejati sedang melingkupimu. Rasakan indahnya rasa memiliki dan dicintai dengan tulus. Jiwamu kini berada di rumah yang aman.",
-    "reversed_meaning_id": "Mungkin ada jarak atau ketidakharmonisan di rumah atau hubungan terdekatmu saat ini. Jangan kejar kesempurnaan, melainkan fokuslah untuk merajut kembali komunikasi yang tulus dan jujur.",
-    "upright_meaning_en": "You are carrying a heavy load, and it may be becoming too much. The Ten of Wands asks you to examine what you are holding onto. Is this burden yours to carry? Sometimes the greatest responsibility is knowing when to let go.",
-    "reversed_meaning_en": "Reversed, you are beginning to release your burdens. The weight is lifting, and you are learning to delegate or let go. This is a time of relief—allow yourself to drop what no longer serves you.",
-    "fortune_telling_en": [
-      "You're worn out",
-      "Back off, take a time out, and let someone else handle things for a while"
-    ],
-    "questions_to_ask_en": [
-      "How will you know when you reach the end of your rope?",
-      "How easily do you say no to new projects and requests?",
-      "What projects could you delegate...or eliminate?"
-    ],
-    "elemental_en": "",
-    "archetype_en": "",
-    "numerology_en": "10 (The End: finality, completion, exhaustion)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "keluarga bahagia berdiri di bawah pelangi, sepuluh piala di langit",
-    "image_prompt_keywords_en": "Man carrying ten wands, struggling under the weight, town in background",
-    "archetype_id": "",
-    "elemental_id": "",
-    "numerology_id": "10 (Akhir: finalitas, penyelesaian, kelelahan)",
-    "mythical_id": "",
-    "fortune_telling_id": [
-      "Anda lelah",
-      "Mundur, ambil waktu istirahat, dan biarkan orang lain menanganinya untuk sementara waktu"
-    ],
-    "questions_to_ask_id": [
-      "Bagaimana Anda tahu kapan Anda mencapai ujung tali?",
-      "Seberapa mudah Anda menolak proyek dan permintaan baru?",
-      "Proyek apa yang dapat Anda delegasikan...atau hilangkan?"
-    ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Ten Piala' (Ten of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
-  },
-  {
-    "id": 32,
-    "name_id": "Page Piala",
-    "name_en": "Page of Wands",
-    "suit": "Wands",
-    "img": "w11.jpg",
-    "keywords_id": [
-      "pesan",
-      "kejutan emosional",
-      "sensitivitas"
-    ],
-    "keywords_en": [
-      "Enthusiasm",
-      "Exploration",
-      "Curiosity"
-    ],
-    "upright_meaning_id": "Ada pesan manis tentang perasaan atau kreativitas yang ingin hadir dalam hidupmu. Sambutlah ide-ide baru atau getaran cinta yang lembut ini dengan rasa ingin tahu seorang anak kecil.",
-    "reversed_meaning_id": "Apakah kamu merasa emosimu sedang buntu atau sulit mengekspresikan diri secara kreatif? Jangan menghakimi perasaanmu sendiri. Berikan ruang aman bagi jiwamu untuk merasakan segalanya.",
-    "upright_meaning_en": "The Page of Wands brings a burst of youthful enthusiasm and curiosity. You are exploring a new passion or idea with an open heart. This is a time for learning, discovery, and embracing your playful side.",
-    "reversed_meaning_en": "Reversed, you may be feeling uninspired or lacking in direction. Perhaps you are starting projects but not finishing them. Reconnect with your curiosity and give yourself permission to explore without pressure.",
-    "fortune_telling_en": [
-      "This card represents a young man or woman with a fiery, enthusiastic demeanor, likely born a Cancer, Leo, or Virgo, who wants to start a new relationship with you"
-    ],
-    "questions_to_ask_en": [
-      "How easily do you admit your own inexperience?",
-      "How can you be a better student or employee?",
-      "What qualities would make a total beginner's voyage of discovery easier?"
-    ],
-    "elemental_en": "Earth of Fire.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "pemuda memegang piala dari mana muncul ikan kecil, latar belakang laut",
-    "image_prompt_keywords_en": "Young person holding a wand, looking at it, desert landscape, adventurous energy",
-    "archetype_id": "",
-    "elemental_id": "Bumi Api.",
-    "numerology_id": "",
-    "mythical_id": "",
-    "fortune_telling_id": [
-      "Kartu ini mewakili seorang pria atau wanita muda dengan sikap berapi-api dan antusias, kemungkinan besar terlahir sebagai Cancer, Leo, atau Virgo, yang ingin memulai hubungan baru dengan Anda."
-    ],
-    "questions_to_ask_id": [
-      "Seberapa mudah Anda mengakui kurangnya pengalaman Anda?",
-      "Bagaimana Anda bisa menjadi pelajar atau karyawan yang lebih baik?",
-      "Kualitas apa yang membuat perjalanan penemuan seorang pemula menjadi lebih mudah?"
-    ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Page Piala' (Page of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
-  },
-  {
-    "id": 33,
-    "name_id": "Knight Piala",
-    "name_en": "Knight of Wands",
-    "suit": "Wands",
-    "img": "w12.jpg",
-    "keywords_id": [
-      "keromantisan",
-      "inspirasi",
-      "petualangan"
-    ],
-    "keywords_en": [
-      "Passion",
-      "Impulse",
-      "Adventure"
-    ],
-    "upright_meaning_id": "Ikutilah ke mana hatimu menuntunmu—baik dalam cinta, seni, maupun impian terdalammu. Biarkan kelembutan perasaan memandu langkahmu, namun tetap berpijak pada kenyataan yang ada.",
-    "reversed_meaning_id": "Mungkin kamu sedang tenggelam dalam angan-angan kosong atau emosi yang tidak stabil. Jangan biarkan ilusi menjauhkanmu dari realitas. Hubungkan kembali impianmu dengan tindakan nyata.",
-    "upright_meaning_en": "The Knight of Wands is a force of passion and action. You are charging forward with enthusiasm and courage. This is a time to pursue your goals with intensity—just be mindful not to burn out or rush past important details.",
-    "reversed_meaning_en": "Reversed, you may be acting impulsively or aggressively. Perhaps you are moving too fast and missing the bigger picture. Slow down, consider the consequences, and channel your passion more constructively.",
-    "fortune_telling_en": [
-      "This card represents a man with a bold, passionate personality, likely born between July 12th and August 11th, who wants to sweep you off your feet"
-    ],
-    "questions_to_ask_en": [
-      "To what extent have you defined your ultimate goal?",
-      "What's the fastest way to get the job done? Is this necessarily the best way?",
-      "How long has it been since you looked back to see if others really are following your lead?"
-    ],
-    "elemental_en": "Air of Fire.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "pria muda berkuda memegang piala, kuda berjalan tenang",
-    "image_prompt_keywords_en": "Knight on horse with wand, galloping, pyramids in background, red cape",
-    "archetype_id": "",
-    "elemental_id": "Udara Api.",
-    "numerology_id": "",
-    "mythical_id": "",
-    "fortune_telling_id": [
-      "Kartu ini mewakili seorang pria dengan kepribadian yang berani dan penuh gairah, kemungkinan lahir antara 12 Juli dan 11 Agustus, yang ingin membuat Anda terpesona"
-    ],
-    "questions_to_ask_id": [
-      "Sejauh mana Anda telah menetapkan tujuan akhir Anda?",
-      "Apa cara tercepat untuk menyelesaikan pekerjaan? Apakah ini merupakan cara terbaik?",
-      "Sudah berapa lama sejak Anda melihat ke belakang untuk melihat apakah orang lain benar-benar mengikuti jejak Anda?"
-    ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Knight Piala' (Knight of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
-  },
-  {
-    "id": 34,
-    "name_id": "Queen Piala",
-    "name_en": "Queen of Wands",
-    "suit": "Wands",
-    "img": "w13.jpg",
-    "keywords_id": [
-      "belas kasih",
-      "kecerdasan emosional",
-      "pengertian"
-    ],
-    "keywords_en": [
-      "Confidence",
-      "Warmth",
-      "Leadership"
-    ],
-    "upright_meaning_id": "Sensitivitas dan empatimu yang mendalam adalah kekuatan yang luar biasa. Kemampuanmu untuk memahami dan merawat orang lain sangat berharga. Tetaplah menjadi pelindung yang penuh kasih.",
-    "reversed_meaning_id": "Apakah kamu merasa lelah karena terlalu banyak menyerap emosi orang lain? Terkadang kamu perlu menutup cangkirmu agar tidak terkuras habis. Rawatlah dirimu terlebih dahulu.",
-    "upright_meaning_en": "The Queen of Wands is confident, charismatic, and full of warmth. You are a natural leader who inspires others with your passion and positivity. Share your light generously—you have the power to uplift those around you.",
-    "reversed_meaning_en": "Reversed, you may be feeling insecure or trying too hard to be seen. Perhaps you are being overly demanding or controlling. Step back and reconnect with your authentic self—you don't need to perform to be worthy.",
-    "fortune_telling_en": [
-      "This card represents a woman with an attractive, appealing personality, likely born between March 11th and April 20th, who wants to charm you into doing things her way"
-    ],
-    "questions_to_ask_en": [
-      "How attentive am I?",
-      "How can I draw people's attention to what we have in common?",
-      "To what extent am I able to convince people to do what I want them to do?"
-    ],
-    "elemental_en": "Water of Fire.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "ratu duduk di singgasana memegang piala, wajah penuh pengertian",
-    "image_prompt_keywords_en": "Queen on throne with a wand and sunflower, cat at feet, confident posture",
-    "archetype_id": "",
-    "elemental_id": "Air Api.",
-    "numerology_id": "",
-    "mythical_id": "",
-    "fortune_telling_id": [
-      "Kartu ini melambangkan seorang wanita dengan kepribadian yang atraktif dan menawan, kemungkinan besar lahir antara tanggal 11 Maret dan 20 April, yang ingin memikat Anda agar melakukan sesuatu sesuai keinginannya."
-    ],
-    "questions_to_ask_id": [
-      "Seberapa penuh perhatian saya?",
-      "Bagaimana saya bisa menarik perhatian orang terhadap kesamaan yang kita miliki?",
-      "Sejauh mana saya mampu meyakinkan orang untuk melakukan apa yang saya ingin mereka lakukan?"
-    ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Queen Piala' (Queen of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
-  },
-  {
-    "id": 35,
-    "name_id": "King Piala",
-    "name_en": "King of Wands",
-    "suit": "Wands",
-    "img": "w14.jpg",
-    "keywords_id": [
-      "kebijakan",
-      "pengendalian emosi",
-      "kepemimpinan"
-    ],
-    "keywords_en": [
-      "Vision",
-      "Leadership",
-      "Inspiration"
-    ],
-    "upright_meaning_id": "Kamu dipanggil untuk memimpin dengan kecerdasan emosional yang matang. Tetaplah tenang dan penuh welas asih, jadilah pelabuhan yang damai bagi dirimu sendiri dan orang-orang di sekitarmu.",
-    "reversed_meaning_id": "Mungkin perasaanmu sedang berkecamuk atau kamu cenderung menutupi kerapuhan dengan sikap dingin. Tidak apa-apa untuk bersikap rentan. Menghadapi emosi sendiri adalah bentuk kedewasaan.",
-    "upright_meaning_en": "The King of Wands is a visionary leader who inspires others through action and integrity. You have a clear vision and the charisma to bring others along with you. Lead with confidence and generosity.",
-    "reversed_meaning_en": "Reversed, you may be using your power for self-serving purposes or being overly domineering. Perhaps you are impatient or dismissive of others' ideas. Lead with humility—true leadership is about serving, not controlling.",
-    "fortune_telling_en": [
-      "This card represents an older man with a commanding, charismatic personality, likely born between November 13th and December 12th, who prefers to give directions and have them followed"
-    ],
-    "questions_to_ask_en": [
-      "How confident a leader am I?",
-      "How can I project more confidence?",
-      "How can I offer my expertise in ways that inspire others to follow me?"
-    ],
-    "elemental_en": "Fire of Fire",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "raja duduk di singgasana di atas laut, memegang piala, ekspresi wajah tenang",
-    "image_prompt_keywords_en": "King on throne with wand, salamander, crown, fiery energy, commanding presence",
-    "archetype_id": "",
-    "elemental_id": "Api Api",
-    "numerology_id": "",
-    "mythical_id": "",
-    "fortune_telling_id": [
-      "Kartu ini mewakili seorang pria tua dengan kepribadian yang berwibawa dan karismatik, kemungkinan besar lahir antara tanggal 13 November dan 12 Desember, yang lebih suka memberi arahan dan mengikutinya."
-    ],
-    "questions_to_ask_id": [
-      "Seberapa percaya diri saya sebagai seorang pemimpin?",
-      "Bagaimana saya bisa menunjukkan kepercayaan diri yang lebih besar?",
-      "Bagaimana saya bisa menawarkan keahlian saya dengan cara yang menginspirasi orang lain untuk mengikuti saya?"
-    ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'King Piala' (King of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
-  },
-  {
-    "id": 36,
-    "name_id": "Ace Tongkat",
-    "name_en": "Ace of Cups",
-    "suit": "Cups",
-    "img": "c01.jpg",
-    "keywords_id": [
-      "inspirasi",
-      "energi",
-      "kreativitas"
-    ],
-    "keywords_en": [
       "Love",
       "Emotion",
       "Intuition"
     ],
-    "upright_meaning_id": "Percikan inspirasi baru sedang menyala di dalam dirimu. Proyek, ide, atau gairah baru siap untuk kamu mulai. Jangan tunggu sampai semuanya sempurna, melangkahlah dengan keberanian awal.",
-    "reversed_meaning_id": "Energi kreatifmu mungkin sedang tersumbat atau kamu ragu untuk memulai hal baru. Tidak apa-apa jika langkah pertamamu belum sempurna. Berikan dirimu izin untuk mencoba dengan perlahan.",
+    "upright_meaning_id": "Piala kasih sayangmu mulai meluap. Cinta, kreativitas, dan kebaikan sedang mengalir bebas. Bukalah hatimu untuk menerima hubungan baru, kedekatan yang mendalam, atau untuk mencintai dirimu sendiri.",
+    "reversed_meaning_id": "Mungkin perasaanmu sedang tersumbat atau terasa terlalu meluap-luap. Apakah kamu terlalu sibuk mencintai orang lain hingga lupa merawat hatimu sendiri? Ambil waktu untuk mengisi kembali energimu.",
     "upright_meaning_en": "The Ace of Cups opens the floodgates of emotion. Love, compassion, and creativity are flowing freely. This is a time to open your heart—whether to new relationships, deeper connections, or greater self-love.",
     "reversed_meaning_en": "Reversed, your emotions may be blocked or overwhelming. Perhaps you are struggling to express how you feel, or you are pouring love into others while neglecting yourself. Take time to tend to your own heart.",
     "fortune_telling_en": [
@@ -1863,16 +1169,16 @@
       "How would I go about opening myself to spiritual guidance?",
       "What motivates me the most - pleasure or pain? Why?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Water",
+    "archetype_en": "The Vessel of Divine Love and Intuitive Awakening",
     "numerology_en": "1 (The Origin: the starting point, the seed, opportunity)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "tangan muncul dari awan memegang tongkat bercabang, langit biru cerah",
+    "mythical_en": "Associated with the overflowing Holy Grail of Arthurian legend and the primordial waters of creation representing the birth of emotional consciousness.",
+    "image_prompt_keywords_id": "tangan muncul dari awan memegang piala air meluap",
     "image_prompt_keywords_en": "Hand emerging from cloud holding a cup, water overflowing, dove carrying host, lily pond",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Wadah Cinta Ilahi dan Kebangkitan Intuisi",
+    "elemental_id": "Air",
     "numerology_id": "1 (Asal usul: titik awal, benih, peluang)",
-    "mythical_id": "",
+    "mythical_id": "Dihubungkan dengan Cawan Suci dalam legenda Arthurian yang meluap dan perairan purba penciptaan yang melambangkan kelahiran kesadaran emosional.",
     "fortune_telling_id": [
       "Romantisme ada di dalam kartu",
       "Hubungan atau pernikahan baru sudah dekat",
@@ -1883,26 +1189,26 @@
       "Bagaimana cara saya membuka diri terhadap bimbingan spiritual?",
       "Apa yang paling memotivasi saya - kesenangan atau kesakitan? Mengapa?"
     ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Ace Tongkat' (Ace of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+    "ai_hook_id": "Saya menarik kartu Tarot 'Ace Piala' (Ace of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
-    "id": 37,
-    "name_id": "Two Tongkat",
+    "id": 23,
+    "name_id": "Two Piala",
     "name_en": "Two of Cups",
     "suit": "Cups",
     "img": "c02.jpg",
     "keywords_id": [
-      "perencanaan",
+      "persatuan",
       "kemitraan",
-      "masa depan"
+      "hubungan"
     ],
     "keywords_en": [
       "Connection",
       "Partnership",
       "Union"
     ],
-    "upright_meaning_id": "Kamu berada di persimpangan jalan penting untuk merencanakan masa depanmu. Jangan ragu untuk bermimpi besar dan keluar dari zona nyaman. Dunia yang luas sedang menanti langkah beranimu.",
-    "reversed_meaning_id": "Apakah kamu terlalu lama merencanakan sesuatu tanpa pernah memulainya? Rasa takut melangkah keluar dari zona nyaman adalah hal yang wajar. Percayalah, kamu sudah siap untuk bergerak maju.",
+    "upright_meaning_id": "Ada ikatan indah yang didasari rasa saling menghormati dan pengertian. Baik dengan pasangan, teman, atau bahkan dengan dirimu sendiri, nikmatilah keselarasan dan kehangatan hubungan ini.",
+    "reversed_meaning_id": "Mungkin ada ketidakseimbangan atau jarak yang terasa dalam hubunganmu. Apakah komunikasi sedang tersumbat? Mari bicarakan dengan jujur dan penuh kelembutan untuk merajut kembali kedekatan.",
     "upright_meaning_en": "The Two of Cups is a card of deep connection and mutual respect. This can be romantic, platonic, or even a partnership with yourself. There is harmony and understanding—a meeting of hearts and minds.",
     "reversed_meaning_en": "Reversed, there may be imbalance or disconnection in a relationship. Perhaps you are giving more than you are receiving, or communication has broken down. Reconnect with honesty and vulnerability.",
     "fortune_telling_en": [
@@ -1913,16 +1219,16 @@
       "How can I make sure that what I'm feeling is mutual?\",\"When was the last time I felt \"in love\" with someone or something?",
       "What do you need in order to feel emotionally stable?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Water",
+    "archetype_en": "The Architect of Harmonious Union and Mutual Exchange.",
     "numerology_en": "2 (The Other: duality, division, debate)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "seseorang berdiri memegang dunia kecil dengan tongkat, menghadap ke arah cakrawala",
+    "mythical_en": "Reflects the sacred marriage or 'Hieros Gamos', symbolizing the balance of opposites and the divine connection between two souls akin to the legend of Eros and Psyche.",
+    "image_prompt_keywords_id": "sepasang kekasih saling bertukar piala, malaikat di atas mereka",
     "image_prompt_keywords_en": "Man and woman exchanging cups, caduceus with lion, village in background",
-    "archetype_id": "",
-    "elemental_id": "",
-    "numerology_id": "2 (Yang Lain: dualitas, perpecahan, perdebatan)",
-    "mythical_id": "",
+    "archetype_id": "Arsitek Persatuan yang Harmonis dan Pertukaran Timbal Balik.",
+    "elemental_id": "Air",
+    "numerology_id": "2 (Yang Lain: perpecahan, perdebatan, dualitas)",
+    "mythical_id": "Mencerminkan pernikahan suci atau 'Hieros Gamos', yang melambangkan keseimbangan antara hal-hal yang berlawanan dan koneksi ilahi antar dua jiwa seperti legenda Eros dan Psyche.",
     "fortune_telling_id": [
       "Seseorang naksir kamu secara rahasia",
       "Hubungan harus saling menguntungkan; menyingkirkan lintah"
@@ -1931,26 +1237,26 @@
       "Bagaimana saya bisa memastikan bahwa apa yang saya rasakan itu saling menguntungkan?\", \"Kapan terakhir kali saya merasa \"jatuh cinta\" dengan seseorang atau sesuatu?",
       "Apa yang Anda butuhkan agar merasa stabil secara emosional?"
     ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Two Tongkat' (Two of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+    "ai_hook_id": "Saya menarik kartu Tarot 'Two Piala' (Two of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
-    "id": 38,
-    "name_id": "Three Tongkat",
+    "id": 24,
+    "name_id": "Three Piala",
     "name_en": "Three of Cups",
     "suit": "Cups",
     "img": "c03.jpg",
     "keywords_id": [
-      "perluasan",
-      "pertumbuhan",
-      "visi"
+      "persahabatan",
+      "perayaan",
+      "komunitas"
     ],
     "keywords_en": [
       "Celebration",
       "Community",
       "Joy"
     ],
-    "upright_meaning_id": "Usahamu mulai menunjukkan kemajuan yang nyata. Pandanganmu semakin luas dan peluang baru mulai terlihat di cakrawala. Teruskan langkahmu dengan rasa percaya diri yang mantap.",
-    "reversed_meaning_id": "Mungkin ada penundaan atau hasil yang belum sesuai dengan harapanmu saat ini. Jangan berkecil hati. Ambil jeda sejenak untuk meninjau kembali rencanamu; terkadang arah baru diperlukan.",
+    "upright_meaning_id": "Inilah saatnya merayakan kebersamaan, persahabatan, dan kegembiraan bersama orang-orang terdekatmu. Mari berkumpul, saling mendukung, dan berbagi tawa untuk menghangatkan jiwa.",
+    "reversed_meaning_id": "Apakah kamu merasa terasingkan dari lingkaran sosialmu, atau justru terlalu lelah karena keramaian? Cari kembali kehangatan hubungan yang tulus, bukan sekadar pelarian dari rasa sepi.",
     "upright_meaning_en": "Three of Cups is a celebration of community and shared joy. Whether it's a gathering of friends, a family reunion, or a creative collaboration, this is a time to come together and lift each other up.",
     "reversed_meaning_en": "Reversed, you may be feeling left out or overindulging in social activities. Perhaps the celebration feels hollow or you are using it to escape deeper emotions. Seek genuine connection, not just distraction.",
     "fortune_telling_en": [
@@ -1961,16 +1267,16 @@
       "How can I demonstrate my feelings in appropriate ways?",
       "What can I do to show my partner how I really feel?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Water",
+    "archetype_en": "The celebration of communal joy and emotional harmony.",
     "numerology_en": "3 (The Result: expression, productivity, output)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "tiga orang memegang tongkat di tepi laut, menatap ke arah cakrawala",
+    "mythical_en": "Inspired by the Greek Graces (Charites), representing the threefold dance of joy, abundance, and creative inspiration.",
+    "image_prompt_keywords_id": "tiga wanita berpesta mengangkat piala di udara",
     "image_prompt_keywords_en": "Three women dancing, cups raised, flowers, harvest, joy",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Perayaan sukacita komunal dan harmoni emosional.",
+    "elemental_id": "Air",
     "numerology_id": "3 (Hasilnya: ekspresi, produktivitas, output)",
-    "mythical_id": "",
+    "mythical_id": "Terinspirasi oleh para Graces (Charites) dari mitologi Yunani, yang melambangkan tarian tiga serangkai yaitu sukacita, kelimpahan, dan inspirasi kreatif.",
     "fortune_telling_id": [
       "Romansa yang tidak biasa menghampiri Anda: hubungan cinta dengan seseorang yang selama ini Anda abaikan"
     ],
@@ -1979,26 +1285,26 @@
       "Bagaimana saya bisa menunjukkan perasaan saya dengan cara yang pantas?",
       "Apa yang dapat saya lakukan untuk menunjukkan kepada pasangan saya bagaimana perasaan saya sebenarnya?"
     ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Three Tongkat' (Three of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+    "ai_hook_id": "Saya menarik kartu Tarot 'Three Piala' (Three of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
-    "id": 39,
-    "name_id": "Four Tongkat",
+    "id": 25,
+    "name_id": "Four Piala",
     "name_en": "Four of Cups",
     "suit": "Cups",
     "img": "c04.jpg",
     "keywords_id": [
-      "perayaan",
-      "komunitas",
-      "stabilitas"
+      "kontemplasi",
+      "ketidakpuasan",
+      "ketidaksenangan"
     ],
     "keywords_en": [
       "Contemplation",
       "Apathy",
       "Reflection"
     ],
-    "upright_meaning_id": "Ini adalah momen kegembiraan, perayaan, dan rasa syukur atas kestabilan yang telah kamu bangun. Nikmatilah kehangatan rumah dan kebersamaan dengan orang-orang tercinta yang mendukungmu.",
-    "reversed_meaning_id": "Mungkin ada sedikit ketegangan atau rasa tidak tenang di lingkungan rumah atau komunitasmu. Kembalilah pada hubungan sederhana yang membuatmu merasa aman dan diterima apa adanya.",
+    "upright_meaning_id": "Apakah kamu sedang merasa bosan, jenuh, atau tidak bersemangat? Kadang kita terlalu fokus pada apa yang hilang hingga abai pada peluang yang ada di depan mata. Cobalah berhenti sejenak.",
+    "reversed_meaning_id": "Rasa jenuhmu perlahan mulai memudar. Kamu mulai membuka diri terhadap perspektif dan kesempatan baru. Sambutlah uluran tangan semesta dengan hati yang siap menerima hal-hal baik.",
     "upright_meaning_en": "The Four of Cups suggests you are feeling discontent or disconnected from the world around you. Perhaps you are focusing on what you lack instead of seeing the opportunities that are already present. Pause and reflect.",
     "reversed_meaning_en": "Reversed, you are beginning to shift out of apathy and reconnect with your emotions. A new opportunity or perspective is emerging. Open your eyes and heart to what is being offered.",
     "fortune_telling_en": [
@@ -2010,16 +1316,16 @@
       "How can I show my partner that I don't take him or her for granted?",
       "To what extent is my mood blinding me to new opportunities?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Water",
+    "archetype_en": "The introspective soul lost in apathy and contemplation.",
     "numerology_en": "4 (The Status Quo: stability, equality, persistence)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "orang-orang merayakan di depan rumah dengan empat tongkat berhias bunga",
+    "mythical_en": "Reflects the story of the Buddha under the Bodhi tree before enlightenment, choosing to look inward despite the external gifts offered by the universe.",
+    "image_prompt_keywords_id": "pria duduk di bawah pohon dengan tiga piala di depan, malaikat menawarkan piala keempat dari awan",
     "image_prompt_keywords_en": "Man sitting under tree, three cups before him, hand from cloud offering a fourth cup",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Jiwa introspektif yang terhanyut dalam keapatisan dan perenungan.",
+    "elemental_id": "Air",
     "numerology_id": "4 (Status Quo: stabilitas, kesetaraan, ketekunan)",
-    "mythical_id": "",
+    "mythical_id": "Mencerminkan kisah Buddha di bawah pohon Bodhi sebelum pencerahan, di mana ia memilih untuk melihat ke dalam diri meskipun ditawari anugerah oleh alam semesta.",
     "fortune_telling_id": [
       "Seorang kekasih semakin gelisah",
       "Cari tahu apa yang dia butuhkan, atau peluang baru mungkin akan memikat pasangan Anda"
@@ -2029,26 +1335,26 @@
       "Bagaimana saya bisa menunjukkan kepada pasangan saya bahwa saya tidak menganggap remeh dia?",
       "Sejauh mana suasana hati saya membutakan saya terhadap peluang baru?"
     ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Four Tongkat' (Four of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+    "ai_hook_id": "Saya menarik kartu Tarot 'Four Piala' (Four of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
-    "id": 40,
-    "name_id": "Five Tongkat",
+    "id": 26,
+    "name_id": "Five Piala",
     "name_en": "Five of Cups",
     "suit": "Cups",
     "img": "c05.jpg",
     "keywords_id": [
-      "konflik",
-      "kompetisi",
-      "persaingan"
+      "kehilangan",
+      "kesedihan",
+      "penyesalan"
     ],
     "keywords_en": [
       "Grief",
       "Loss",
       "Regret"
     ],
-    "upright_meaning_id": "Tantangan dan perbedaan pendapat di sekitarmu adalah kesempatan untuk menguji ide-idemu. Hadapilah konflik kreatif ini dengan jujur, karena di sinilah ruang bagimu untuk bertumbuh lebih matang.",
-    "reversed_meaning_id": "Apakah kamu sedang menghindari perselisihan karena merasa lelah? Terkadang konflik menjadi tidak sehat jika tidak dikelola. Mundurlah sejenak, cari kesamaan, dan tenangkan dirimu sebelum bicara.",
+    "upright_meaning_id": "Wajar jika kamu merasa sedih dan kecewa atas kehilangan yang terjadi. Berdukalah dengan jujur. Namun ingatlah, masih ada harapan yang tersisa di belakangmu. Jangan biarkan kesedihan membutakanmu.",
+    "reversed_meaning_id": "Luka hatimu perlahan mulai membaik. Kamu mulai menerima kenyataan pahit ini dan membuka diri untuk harapan baru. Proses penyembuhan telah dimulai, melangkahlah maju dengan perlahan.",
     "upright_meaning_en": "The Five of Cups is a card of grief and disappointment. You are mourning a loss, and it's important to honor that pain. But remember—there are two cups still standing behind you. Don't forget what remains.",
     "reversed_meaning_en": "Reversed, you are beginning to heal and move forward from loss. You are acknowledging your grief while also opening yourself to hope and new possibilities. The healing has begun.",
     "fortune_telling_en": [
@@ -2061,16 +1367,16 @@
       "What life lesson might I be learning now?",
       "How can I shift my attention from the past to the future?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Water",
+    "archetype_en": "The Mourner of Lost Expectations",
     "numerology_en": "5 (The Catalyst: instability, resistance, confrontation)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "lima pria saling beradu tongkat kayu",
+    "mythical_en": "Reflects the story of Lot's wife looking back at the burning city of Sodom, fixating on past loss rather than the remaining opportunities. It embodies the spiritual challenge of grief, where the soul must learn to release the spilled cups to notice the two still standing.",
+    "image_prompt_keywords_id": "orang berdiri membelakangi tiga piala yang tumpah, dua piala tetap utuh di belakang",
     "image_prompt_keywords_en": "Man in black cloak mourning three spilled cups, two cups behind him, river, bridge",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Sang Peratap Harapan yang Hilang",
+    "elemental_id": "Air",
     "numerology_id": "5 (Katalis: ketidakstabilan, perlawanan, konfrontasi)",
-    "mythical_id": "",
+    "mythical_id": "Mencerminkan kisah istri Lot yang menoleh ke belakang ke kota Sodom yang terbakar, terpaku pada kehilangan masa lalu alih-alih kesempatan yang tersisa. Ini melambangkan tantangan spiritual dalam duka, di mana jiwa harus belajar melepaskan cawan yang tumpah agar dapat menyadari dua cawan yang masih berdiri.",
     "fortune_telling_id": [
       "Perpisahan akan segera terjadi",
       "Jangan menangisi susu yang tumpah",
@@ -2081,26 +1387,26 @@
       "Pelajaran hidup apa yang mungkin saya pelajari sekarang?",
       "Bagaimana cara mengalihkan perhatian saya dari masa lalu ke masa depan?"
     ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Five Tongkat' (Five of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+    "ai_hook_id": "Saya menarik kartu Tarot 'Five Piala' (Five of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
-    "id": 41,
-    "name_id": "Six Tongkat",
+    "id": 27,
+    "name_id": "Six Piala",
     "name_en": "Six of Cups",
     "suit": "Cups",
     "img": "c06.jpg",
     "keywords_id": [
-      "kemenangan",
-      "pengakuan",
-      "prestasi"
+      "kenangan",
+      "nostalgia",
+      "kepedulian"
     ],
     "keywords_en": [
       "Nostalgia",
       "Innocence",
       "Childhood"
     ],
-    "upright_meaning_id": "Kerja kerasmu akhirnya membuahkan hasil dan diakui secara luas. Nikmatilah momen kemenangan ini dengan penuh rasa syukur. Biarkan kesuksesan kecil ini membangun rasa percaya dirimu untuk melangkah.",
-    "reversed_meaning_id": "Meskipun kamu sudah berusaha keras, mungkin kamu merasa kurang dihargai oleh sekitar. Jangan biarkan keraguan merusak keyakinanmu. Nilai dirimu tidak ditentukan oleh pengakuan dari luar.",
+    "upright_meaning_id": "Mari mengenang masa lalu dengan penuh kehangatan. Memori indah, sahabat lama, atau kesederhanaan masa kecil hadir untuk memelukmu. Ini adalah saat yang baik untuk menyembuhkan luka lama.",
+    "reversed_meaning_id": "Apakah kamu terlalu terjebak dalam nostalgia masa lalu hingga enggan bertumbuh di masa kini? Hargai kenangan indah itu, tapi ingatlah bahwa kehidupanmu yang sebenarnya sedang berjalan sekarang.",
     "upright_meaning_en": "The Six of Cups invites you to revisit the past with tenderness. Childhood memories, old friends, or simple pleasures are calling you. This is a time for nostalgia, healing old wounds, and reconnecting with your inner child.",
     "reversed_meaning_en": "Reversed, you may be stuck in the past or refusing to grow up. Perhaps you are clinging to old patterns or memories that no longer serve you. Honor the past, but don't let it hold you back.",
     "fortune_telling_en": [
@@ -2112,16 +1418,16 @@
       "How can I practice unconditional giving?",
       "How would things change if I became a more charitable person?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Water",
+    "archetype_en": "The Innocent Nostalgic and the Keeper of Childhood Memories",
     "numerology_en": "6 (The Adjustment: cooperation, collaboration, interaction)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "orang di atas kuda mengangkat tongkat berhiaskan daun sebagai lambang kemenangan",
+    "mythical_en": "Reflects the idyllic Garden of Eden or the concept of the 'Eternal Child' (Puer Aeternus), representing a return to a state of pure, untainted emotional simplicity.",
+    "image_prompt_keywords_id": "dua anak bermain di taman dengan piala berisi bunga",
     "image_prompt_keywords_en": "Children in a garden, older child giving cup of flowers to younger, castle in background",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Sang Nostalgia yang Polos dan Penjaga Kenangan Masa Kecil",
+    "elemental_id": "Air",
     "numerology_id": "6 (Penyesuaian: kerjasama, kolaborasi, interaksi)",
-    "mythical_id": "",
+    "mythical_id": "Mencerminkan Taman Eden yang idilis atau konsep 'Anak Abadi' (Puer Aeternus), yang mewakili kembali ke kondisi kesederhanaan emosional yang murni dan tidak tercemar.",
     "fortune_telling_id": [
       "Semangat pelit mencekik kenikmatan hidup Anda",
       "Santai saja dan pikirkan orang lain sekali saja, kenapa tidak?"
@@ -2131,26 +1437,26 @@
       "Bagaimana saya bisa mempraktikkan pemberian tanpa syarat?",
       "Apa yang akan berubah jika saya menjadi orang yang lebih dermawan?"
     ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Six Tongkat' (Six of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+    "ai_hook_id": "Saya menarik kartu Tarot 'Six Piala' (Six of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
-    "id": 42,
-    "name_id": "Seven Tongkat",
+    "id": 28,
+    "name_id": "Seven Piala",
     "name_en": "Seven of Cups",
     "suit": "Cups",
     "img": "c07.jpg",
     "keywords_id": [
-      "ketahanan",
-      "pertahanan",
-      "keberanian"
+      "pilihan",
+      "mimpi",
+      "fantasi"
     ],
     "keywords_en": [
       "Illusion",
       "Choice",
       "Temptation"
     ],
-    "upright_meaning_id": "Kamu sedang berdiri kokoh menghadapi tantangan dan perbedaan pendapat. Ingatlah bahwa kamu memiliki kekuatan dan keberanian untuk mempertahankan prinsipmu. Tetaplah teguh pada kebenaranmu.",
-    "reversed_meaning_id": "Apakah kamu merasa lelah karena harus selalu membela diri? Wajar jika sesekali merasa kewalahan. Ingatlah bahwa kamu lebih kuat dari yang kamu duga. Tarik napas, dan pertahankan batasanmu.",
+    "upright_meaning_id": "Banyak pilihan menarik di depanmu, namun tidak semuanya nyata atau baik untukmu. Jangan terburu-buru. Renungkan dengan tenang dan pilihlah apa yang benar-benar sejalan dengan bisikan hatimu.",
+    "reversed_meaning_id": "Kabut kebingungan perlahan mulai menipis. Kini kamu bisa melihat pilihan-pilihanmu dengan lebih jelas tanpa ilusi. Percayalah pada kejernihan pikiranmu dan ambil keputusan dengan mantap.",
     "upright_meaning_en": "The Seven of Cups shows you a world of possibilities—but not all of them are real. You may be faced with many choices, some of which are illusions. Take your time, discern carefully, and choose what truly aligns with your heart.",
     "reversed_meaning_en": "Reversed, the fog is clearing, and you are seeing through the illusions. Decisions that once seemed confusing are becoming clearer. Trust your clarity and make a choice with confidence.",
     "fortune_telling_en": [
@@ -2162,16 +1468,16 @@
       "How is your imagination working for you? Against you?",
       "How might a clearer personal vision help you choose a single cup from the many available?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Water",
+    "archetype_en": "The Dreamer facing a multitude of choices",
     "numerology_en": "7 (The Motive: imagination, inner work, psychology)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "orang membawa tongkat menghadapi enam tongkat yang diarahkan padanya",
+    "mythical_en": "Inspired by the temptation of Tantalus or the sirens' song, representing the paralyzing nature of illusions and the difficulty of discerning reality from fantasy.",
+    "image_prompt_keywords_id": "orang menatap tujuh piala di awan yang masing-masing berisi imajinasi",
     "image_prompt_keywords_en": "Man facing seven cups with various visions: castle, jewels, snake, wreath, dragon, head, veil",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Sang Pemimpi yang menghadapi berbagai pilihan",
+    "elemental_id": "Air",
     "numerology_id": "7 (Motif: imajinasi, pekerjaan batin, psikologi)",
-    "mythical_id": "",
+    "mythical_id": "Terinspirasi oleh godaan Tantalus atau nyanyian siren, yang mewakili sifat melumpuhkan dari ilusi dan sulitnya membedakan kenyataan dari fantasi.",
     "fortune_telling_id": [
       "Anda diberi batasan",
       "Daripada terpesona oleh kata-kata dan janji-janji mewah, tuntutlah sesuatu yang nyata"
@@ -2181,26 +1487,26 @@
       "Bagaimana imajinasi Anda bekerja untuk Anda? Melawanmu?",
       "Bagaimana visi pribadi yang lebih jelas dapat membantu Anda memilih satu cangkir dari sekian banyak cangkir yang tersedia?"
     ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Seven Tongkat' (Seven of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+    "ai_hook_id": "Saya menarik kartu Tarot 'Seven Piala' (Seven of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
-    "id": 43,
-    "name_id": "Eight Tongkat",
+    "id": 29,
+    "name_id": "Eight Piala",
     "name_en": "Eight of Cups",
     "suit": "Cups",
     "img": "c08.jpg",
     "keywords_id": [
-      "kecepatan",
-      "aksi",
-      "perjalanan"
+      "meninggalkan",
+      "perpisahan",
+      "pencarian"
     ],
     "keywords_en": [
       "Departure",
       "Transition",
       "Letting go"
     ],
-    "upright_meaning_id": "Segala hal berjalan dengan sangat cepat saat ini. Peluang dan pesan baru berdatangan dengan deras. Bersiaplah untuk mengambil tindakan cepat dan keputusan tegas demi menyambut momentum ini.",
-    "reversed_meaning_id": "Laju kehidupan terasa terlalu cepat hingga membuatmu lelah, atau justru ada hambatan yang menundanya. Jangan panik. Tarik napas dalam-dalam, perlambat langkahmu, dan biarkan semua mengalir.",
+    "upright_meaning_id": "Meninggalkan apa yang tidak lagi menumbuhkan jiwamu adalah bentuk keberanian yang luar biasa. Meski terasa berat, melangkah pergi dari hal yang usang akan membawamu pada kedamaian baru.",
+    "reversed_meaning_id": "Apakah kamu bertahan pada situasi yang sebenarnya tidak lagi membahagiakan karena takut akan ketidakpastian? Percayalah pada kekuatanmu sendiri. Melangkah pergi adalah awal dari kebebasanmu.",
     "upright_meaning_en": "The Eight of Cups is a card of walking away. You have come to realize that something in your life no longer serves you, and it's time to leave it behind. This is a brave act of self-preservation and growth.",
     "reversed_meaning_en": "Reversed, you may be struggling to let go or afraid to leave a situation that is familiar but unfulfilling. The journey ahead may be uncertain, but staying is not the answer. Trust that you are ready.",
     "fortune_telling_en": [
@@ -2212,16 +1518,16 @@
       "If I left in search of \"more,\" what would I be looking for, exactly?",
       "How might a retreat enhance my perspective?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Water",
+    "archetype_en": "The Seeker of Spiritual Transcendence",
     "numerology_en": "8 (The Action: movement, outer work, swiftness)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "delapan tongkat melayang di udara berarah ke depan",
+    "mythical_en": "Reflects the journey of the ascetic or the Buddha leaving the palace to pursue enlightenment, symbolizing the deliberate act of walking away from emotional fulfillment to seek a deeper truth.",
+    "image_prompt_keywords_id": "orang berjalan pergi meninggalkan delapan piala di tempat, menatap bulan di kejauhan",
     "image_prompt_keywords_en": "Man walking away from eight stacked cups, moon, mountains, staff",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Pencari Transendensi Spiritual",
+    "elemental_id": "Air",
     "numerology_id": "8 (Aksi: gerakan, kerja luar, kecepatan)",
-    "mythical_id": "",
+    "mythical_id": "Mencerminkan perjalanan seorang pertapa atau Buddha yang meninggalkan istana untuk mengejar pencerahan, melambangkan tindakan sengaja meninggalkan kepuasan emosional demi mencari kebenaran yang lebih dalam.",
     "fortune_telling_id": [
       "Seseorang \"melangkah keluar\" dari Anda, sekarang atau dalam waktu dekat",
       "Mungkin inilah waktunya untuk berhenti membicarakan masalah ini dan terus melanjutkan hidup"
@@ -2231,26 +1537,26 @@
       "Jika saya pergi mencari \"lebih banyak\", sebenarnya apa yang akan saya cari?",
       "Bagaimana retret dapat meningkatkan perspektif saya?"
     ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Eight Tongkat' (Eight of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+    "ai_hook_id": "Saya menarik kartu Tarot 'Eight Piala' (Eight of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
-    "id": 44,
-    "name_id": "Nine Tongkat",
+    "id": 30,
+    "name_id": "Nine Piala",
     "name_en": "Nine of Cups",
     "suit": "Cups",
     "img": "c09.jpg",
     "keywords_id": [
-      "ketahanan",
-      "usia lanjut",
-      "kekuatan batin"
+      "kepuasan",
+      "kemandirian",
+      "kenikmatan"
     ],
     "keywords_en": [
       "Satisfaction",
       "Wish",
       "Fulfillment"
     ],
-    "upright_meaning_id": "Kamu mungkin merasa lelah dan penuh luka perjuangan, namun kamu masih tetap berdiri tegak. Ini bukti ketangguhanmu. Lindungi batasan dirimu dan pertahankan apa yang berharga bagimu sedikit lagi.",
-    "reversed_meaning_id": "Mungkin kamu merasa lelah karena terus bersikap defensif. Apakah dinding pertahanan yang kamu bangun justru mengurungmu? Izinkan dirimu beristirahat dan lepaskan kecurigaan yang melelahkan.",
+    "upright_meaning_id": "Keinginan terdalammu perlahan mulai terwujud. Ini adalah momen kepuasan, kelimpahan, dan kedamaian emosional yang patut disyukuri. Nikmatilah kebahagiaan ini dengan hati yang lapang.",
+    "reversed_meaning_id": "Mungkin pencapaianmu saat ini terasa kurang memuaskan, atau kamu merasa ada yang kurang di dalam hati. Kebahagiaan sejati tidak berasal dari luar, melainkan dari rasa syukur di dalam diri.",
     "upright_meaning_en": "The Nine of Cups is the 'wish card'—your deepest desires are manifesting. This is a time of emotional fulfillment, satisfaction, and contentment. Allow yourself to fully enjoy this moment of abundance.",
     "reversed_meaning_en": "Reversed, you may be feeling that your wishes are not coming true, or you are not allowing yourself to feel satisfied. Perhaps you are chasing external validation instead of inner contentment. Pause and appreciate what you have.",
     "fortune_telling_en": [
@@ -2261,16 +1567,16 @@
       "If I could have anything, what would I have?",
       "What is my attitude toward luxury? Do I deserve it?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Water",
+    "archetype_en": "The Wish-Fulfiller and the Master of Emotional Satisfaction",
     "numerology_en": "9 (The Completion: fullness, readiness, ripeness)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "seseorang terluka berdiri di depan delapan tongkat tegak",
+    "mythical_en": "Often associated with the concept of the 'Cup of Plenty' or Bacchus, representing the zenith of earthly happiness and personal contentment.",
+    "image_prompt_keywords_id": "orang tua tersenyum duduk di depan sembilan piala berkilau",
     "image_prompt_keywords_en": "Man seated with arms crossed, nine cups behind him, smug expression of satisfaction",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Sang Pemenuh Harapan dan Penguasa Kepuasan Emosional",
+    "elemental_id": "Air",
     "numerology_id": "9 (Penyelesaian: kepenuhan, kesiapan, kematangan)",
-    "mythical_id": "",
+    "mythical_id": "Sering dihubungkan dengan konsep 'Piala Kelimpahan' atau Bacchus, yang mewakili puncak kebahagiaan duniawi dan kepuasan pribadi.",
     "fortune_telling_id": [
       "Apa pun yang Anda inginkan, Anda akan mendapatkannya"
     ],
@@ -2279,26 +1585,26 @@
       "Jika saya dapat memiliki sesuatu, apa yang akan saya miliki?",
       "Bagaimana sikap saya terhadap kemewahan? Apakah saya pantas mendapatkannya?"
     ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Nine Tongkat' (Nine of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+    "ai_hook_id": "Saya menarik kartu Tarot 'Nine Piala' (Nine of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
-    "id": 45,
-    "name_id": "Ten Tongkat",
+    "id": 31,
+    "name_id": "Ten Piala",
     "name_en": "Ten of Cups",
     "suit": "Cups",
     "img": "c10.jpg",
     "keywords_id": [
-      "beban",
-      "tanggung jawab",
-      "kelelahan"
+      "kebahagiaan keluarga",
+      "keutuhan",
+      "harmoni"
     ],
     "keywords_en": [
       "Harmony",
       "Family",
       "Joy"
     ],
-    "upright_meaning_id": "Beban yang kamu pikul saat ini terasa terlampau berat. Tanyakan pada dirimu sendiri: apakah semua tanggung jawab ini benar-benar milikmu? Belajarlah untuk melepaskan atau berbagi beban itu.",
-    "reversed_meaning_id": "Beban berat di pundakmu perlahan mulai terangkat. Kamu mulai belajar mendelegasikan tugas atau merelakan hal-hal yang di luar kendalimu. Tarik napas lega, perjalananmu kini terasa lebih ringan.",
+    "upright_meaning_id": "Kehangatan cinta, keharmonisan keluarga, dan kebahagiaan sejati sedang melingkupimu. Rasakan indahnya rasa memiliki dan dicintai dengan tulus. Jiwamu kini berada di rumah yang aman.",
+    "reversed_meaning_id": "Mungkin ada jarak atau ketidakharmonisan di rumah atau hubungan terdekatmu saat ini. Jangan kejar kesempurnaan, melainkan fokuslah untuk merajut kembali komunikasi yang tulus dan jujur.",
     "upright_meaning_en": "The Ten of Cups is a vision of complete emotional fulfillment and harmony. Family, love, and connection are at their peak. This is the joy of belonging, of being deeply loved and understood.",
     "reversed_meaning_en": "Reversed, you may be feeling disconnected from family or struggling with domestic disharmony. Perhaps you are chasing an ideal of happiness that doesn't match your reality. Focus on authentic connection, not perfection.",
     "fortune_telling_en": [
@@ -2310,16 +1616,16 @@
       "What course of action is available when you feel overwhelmed?",
       "How might vows or promises play a role in achieving a greater level of joy in your life?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Water",
+    "archetype_en": "The fulfillment of emotional harmony and domestic bliss.",
     "numerology_en": "10 (The End: finality, completion, exhaustion)",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "orang membungkuk menanggung sepuluh tongkat berat di punggungnya",
+    "mythical_en": "Represents the archetype of the Garden of Eden or the Promised Land, where the seeker experiences a state of spiritual abundance and lasting emotional union.",
+    "image_prompt_keywords_id": "keluarga bahagia berdiri di bawah pelangi, sepuluh piala di langit",
     "image_prompt_keywords_en": "Happy family, rainbow with ten cups, house, children playing, emotional joy",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Pencapaian harmoni emosional dan kebahagiaan rumah tangga.",
+    "elemental_id": "Air",
     "numerology_id": "10 (Akhir: finalitas, penyelesaian, kelelahan)",
-    "mythical_id": "",
+    "mythical_id": "Merepresentasikan arketipe Taman Eden atau Tanah Perjanjian, di mana pencari mengalami kondisi kelimpahan spiritual dan persatuan emosional yang abadi.",
     "fortune_telling_id": [
       "Pernikahan dan keluarga ada di dalam rencana",
       "Harapkan persahabatan berkembang menjadi romansa"
@@ -2329,26 +1635,26 @@
       "Tindakan apa yang tersedia saat Anda merasa kewalahan?",
       "Bagaimana sumpah atau janji dapat berperan dalam mencapai tingkat kebahagiaan yang lebih besar dalam hidup Anda?"
     ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Ten Tongkat' (Ten of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+    "ai_hook_id": "Saya menarik kartu Tarot 'Ten Piala' (Ten of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
-    "id": 46,
-    "name_id": "Page Tongkat",
+    "id": 32,
+    "name_id": "Page Piala",
     "name_en": "Page of Cups",
     "suit": "Cups",
     "img": "c11.jpg",
     "keywords_id": [
-      "eksplorasi",
-      "kegembiraan",
-      "kebebasan"
+      "pesan",
+      "kejutan emosional",
+      "sensitivitas"
     ],
     "keywords_en": [
       "Creativity",
       "Intuition",
       "Messenger"
     ],
-    "upright_meaning_id": "Percikan semangat dan rasa ingin tahu yang besar sedang bangkit dalam dirimu. Sambutlah ide atau minat baru ini dengan hati terbuka. Nikmatilah proses belajar dan menjelajahi hal baru.",
-    "reversed_meaning_id": "Mungkin kamu sedang merasa kehilangan gairah atau bingung menentukan arah. Jangan paksa dirimu untuk langsung sukses. Jalani minatmu dengan perlahan tanpa beban target yang berlebihan.",
+    "upright_meaning_id": "Ada pesan manis tentang perasaan atau kreativitas yang ingin hadir dalam hidupmu. Sambutlah ide-ide baru atau getaran cinta yang lembut ini dengan rasa ingin tahu seorang anak kecil.",
+    "reversed_meaning_id": "Apakah kamu merasa emosimu sedang buntu atau sulit mengekspresikan diri secara kreatif? Jangan menghakimi perasaanmu sendiri. Berikan ruang aman bagi jiwamu untuk merasakan segalanya.",
     "upright_meaning_en": "The Page of Cups brings a message of emotion, creativity, or intuition. You may be exploring your artistic side or opening your heart to new feelings. This is a time of gentle discovery—be open to what emerges.",
     "reversed_meaning_en": "Reversed, you may be feeling emotionally blocked or struggling to express yourself creatively. Perhaps you are ignoring your intuition or avoiding your feelings. Give yourself space to feel and create without judgment.",
     "fortune_telling_en": [
@@ -2360,15 +1666,15 @@
       "How can you maintain enthusiasm over time?"
     ],
     "elemental_en": "Earth of Water.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "pemuda memegang tongkat sambil menulis di gulungan cerah di belakangnya pemandangan alam",
+    "archetype_en": "The Dreamer and Emotional Messenger",
+    "numerology_en": "11 (Page; new perspectives, messages, apprenticeship)",
+    "mythical_en": "Symbolizes the 'Fisher King' or the intuitive youth like Narcissus, representing the discovery of the unconscious mind and the first ripples of artistic inspiration.",
+    "image_prompt_keywords_id": "pemuda memegang piala dari mana muncul ikan kecil, latar belakang laut",
     "image_prompt_keywords_en": "Young person holding a cup with a fish, curious expression, water, fish",
-    "archetype_id": "",
-    "elemental_id": "Bumi Air.",
-    "numerology_id": "",
-    "mythical_id": "",
+    "archetype_id": "Sang Pemimpi dan Pembawa Pesan Emosional",
+    "elemental_id": "Bumi Api.",
+    "numerology_id": "11 (Page; perspektif baru, pesan, pembelajaran)",
+    "mythical_id": "Melambangkan 'Raja Nelayan' atau pemuda intuitif seperti Narkisus, yang mewakili penemuan pikiran bawah sadar dan riak pertama inspirasi artistik.",
     "fortune_telling_id": [
       "Kartu ini melambangkan pria atau wanita muda dengan sikap melamun, kemungkinan besar terlahir sebagai Libra, Scorpio, atau Sagitarius, yang ingin memulai hubungan baru dengan Anda."
     ],
@@ -2377,26 +1683,26 @@
       "Sejauh mana Anda bisa jujur ​​tentang kurangnya pengalaman Anda dalam cinta dan iman?",
       "Bagaimana Anda bisa mempertahankan antusiasme dari waktu ke waktu?"
     ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Page Tongkat' (Page of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+    "ai_hook_id": "Saya menarik kartu Tarot 'Page Piala' (Page of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
-    "id": 47,
-    "name_id": "Knight Tongkat",
+    "id": 33,
+    "name_id": "Knight Piala",
     "name_en": "Knight of Cups",
     "suit": "Cups",
     "img": "c12.jpg",
     "keywords_id": [
-      "aksi",
-      "keberanian",
-      "ketergesaan"
+      "keromantisan",
+      "inspirasi",
+      "petualangan"
     ],
     "keywords_en": [
       "Romance",
       "Dreams",
       "Emotion"
     ],
-    "upright_meaning_id": "Kamu sedang melaju penuh gairah dan tekad yang berkobar. Kejarlah mimpimu dengan berani! Namun ingatlah untuk tetap memperhatikan detail-detail kecil agar tidak terjatuh di tengah jalan.",
-    "reversed_meaning_id": "Apakah kamu bertindak terlalu impulsif hingga mengabaikan konsekuensinya? Berjalan cepat itu baik, tapi pastikan kamu tidak menabrak hal penting. Perlambat lajumu dan pikirkan matang-matang.",
+    "upright_meaning_id": "Ikutilah ke mana hatimu menuntunmu—baik dalam cinta, seni, maupun impian terdalammu. Biarkan kelembutan perasaan memandu langkahmu, namun tetap berpijak pada kenyataan yang ada.",
+    "reversed_meaning_id": "Mungkin kamu sedang tenggelam dalam angan-angan kosong atau emosi yang tidak stabil. Jangan biarkan ilusi menjauhkanmu dari realitas. Hubungkan kembali impianmu dengan tindakan nyata.",
     "upright_meaning_en": "The Knight of Cups is a romantic and dreamy soul. You are being called to follow your heart—whether in love, art, or a deeply felt pursuit. Let your emotions guide you, but stay grounded enough to act on them.",
     "reversed_meaning_en": "Reversed, you may be feeling emotionally volatile or disconnected from your feelings. Perhaps you are chasing an illusion or avoiding reality. Reconnect with your heart and ground your dreams in action.",
     "fortune_telling_en": [
@@ -2408,15 +1714,15 @@
       "How can you inspire others without inciting a riot?"
     ],
     "elemental_en": "Air of Water.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "kesatria berpakaian perang memegang tongkat di kuda berlari kencang",
+    "archetype_en": "The Romantic Seeker of Intuition and Idealism",
+    "numerology_en": "12 (Knight; action, movement, quest)",
+    "mythical_en": "He embodies the legend of Sir Galahad or Percival, representing the spiritual quest for the Holy Grail through emotional purity and poetic inspiration.",
+    "image_prompt_keywords_id": "pria muda berkuda memegang piala, kuda berjalan tenang",
     "image_prompt_keywords_en": "Knight on white horse holding a cup, dreamy expression, river, trees",
-    "archetype_id": "",
-    "elemental_id": "Udara Air.",
-    "numerology_id": "",
-    "mythical_id": "",
+    "archetype_id": "Pencari Romantis yang Mengandalkan Intuisi dan Idealisme",
+    "elemental_id": "Udara Api.",
+    "numerology_id": "12 (Knight; aksi, pergerakan, pencarian)",
+    "mythical_id": "Dia mewujudkan legenda Sir Galahad atau Percival, yang merepresentasikan pencarian spiritual akan Cawan Suci melalui kemurnian emosional dan inspirasi puitis.",
     "fortune_telling_id": [
       "Kartu ini mewakili seorang pria dengan kepribadian emosional dan sensitif, kemungkinan besar lahir antara 13 Oktober dan 11 November, yang ingin Anda mendukung tujuan terbarunya yang penuh semangat."
     ],
@@ -2425,26 +1731,26 @@
       "Apa bedanya mendorong gairah dan semangat membabi buta?",
       "Bagaimana Anda bisa menginspirasi orang lain tanpa memicu kerusuhan?"
     ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Knight Tongkat' (Knight of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+    "ai_hook_id": "Saya menarik kartu Tarot 'Knight Piala' (Knight of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
-    "id": 48,
-    "name_id": "Queen Tongkat",
+    "id": 34,
+    "name_id": "Queen Piala",
     "name_en": "Queen of Cups",
     "suit": "Cups",
     "img": "c13.jpg",
     "keywords_id": [
-      "keberanian",
-      "keteguhan",
-      "sukacita"
+      "belas kasih",
+      "kecerdasan emosional",
+      "pengertian"
     ],
     "keywords_en": [
       "Compassion",
       "Empathy",
       "Nurturing"
     ],
-    "upright_meaning_id": "Pancarkan rasa percaya diri dan pesonamu yang hangat. Keberanianmu untuk menjadi diri sendiri adalah inspirasi bagi orang lain. Terteruslah berkarya dengan integritas dan ketulusan hati.",
-    "reversed_meaning_id": "Mungkin kamu merasa tidak aman atau sedang bersikap terlalu menuntut akhir-akhir ini. Kembalilah pada kelembutan hatimu. Keberanian sejati tidak perlu ditunjukkan dengan kekerasan.",
+    "upright_meaning_id": "Sensitivitas dan empatimu yang mendalam adalah kekuatan yang luar biasa. Kemampuanmu untuk memahami dan merawat orang lain sangat berharga. Tetaplah menjadi pelindung yang penuh kasih.",
+    "reversed_meaning_id": "Apakah kamu merasa lelah karena terlalu banyak menyerap emosi orang lain? Terkadang kamu perlu menutup cangkirmu agar tidak terkuras habis. Rawatlah dirimu terlebih dahulu.",
     "upright_meaning_en": "The Queen of Cups is deeply empathetic, intuitive, and nurturing. You have a gift for understanding and caring for others. Honor your sensitivity—it is not a weakness but a profound strength.",
     "reversed_meaning_en": "Reversed, you may be suppressing your emotions or giving too much of yourself to others. Perhaps you are feeling drained or disconnected from your own needs. Fill your own cup first.",
     "fortune_telling_en": [
@@ -2456,15 +1762,15 @@
       "How can I move from reflection to action?"
     ],
     "elemental_en": "Water of Water.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "ratu tongkat berdiri tegas memegang tongkat, matahari terbenam di latar belakang",
+    "archetype_en": "The compassionate intuitive and the oceanic keeper of the heart.",
+    "numerology_en": "13 (Queen; mastery, inner power, maturity)",
+    "mythical_en": "Often associated with the imagery of Undines or sea deities like Aphrodite, representing the depth of the subconscious and the healing power of emotional receptivity.",
+    "image_prompt_keywords_id": "ratu duduk di singgasana memegang piala, wajah penuh pengertian",
     "image_prompt_keywords_en": "Queen on throne by water, holding ornate cup, compassionate expression, water, shells",
-    "archetype_id": "",
-    "elemental_id": "Air Air.",
-    "numerology_id": "",
-    "mythical_id": "",
+    "archetype_id": "Intuisi yang penuh kasih dan penjaga samudera hati.",
+    "elemental_id": "Air Api.",
+    "numerology_id": "13 (Queen; penguasaan, kekuatan batin, kematangan)",
+    "mythical_id": "Sering dikaitkan dengan citra Undine atau dewi laut seperti Aphrodite, yang merepresentasikan kedalaman alam bawah sadar dan kekuatan penyembuhan dari penerimaan emosional.",
     "fortune_telling_id": [
       "Kartu ini mewakili seorang wanita dengan sifat emosional dan sangat spiritual, kemungkinan besar lahir antara 11 Juni dan 11 Juli, yang menggunakan daya tarik emosional dan spiritual untuk mempengaruhi orang lain agar mengikuti sudut pandangnya."
     ],
@@ -2473,26 +1779,26 @@
       "Sejauh mana saya menjadi korban perasaan saya sendiri?",
       "Bagaimana saya bisa beralih dari refleksi ke tindakan?"
     ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'Queen Tongkat' (Queen of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+    "ai_hook_id": "Saya menarik kartu Tarot 'Queen Piala' (Queen of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
-    "id": 49,
-    "name_id": "King Tongkat",
+    "id": 35,
+    "name_id": "King Piala",
     "name_en": "King of Cups",
     "suit": "Cups",
     "img": "c14.jpg",
     "keywords_id": [
-      "pemimpin",
-      "pandangan luas",
-      "tantangan"
+      "kebijakan",
+      "pengendalian emosi",
+      "kepemimpinan"
     ],
     "keywords_en": [
       "Emotional mastery",
       "Calm",
       "Compassion"
     ],
-    "upright_meaning_id": "Jadilah pemimpin yang menginspirasi lewat tindakan nyata dan kejujuran. Visi yang kamu miliki sangat kuat. Ajaklah orang-orang di sekitarmu bertumbuh bersama dengan penuh kebaikan.",
-    "reversed_meaning_id": "Mungkin kamu sedang bersikap terlalu dominan atau tidak sabar pada proses orang lain. Kepemimpinan sejati bukanlah tentang mengendalikan, melainkan melayani dan mendengarkan dengan sabar.",
+    "upright_meaning_id": "Kamu dipanggil untuk memimpin dengan kecerdasan emosional yang matang. Tetaplah tenang dan penuh welas asih, jadilah pelabuhan yang damai bagi dirimu sendiri dan orang-orang di sekitarmu.",
+    "reversed_meaning_id": "Mungkin perasaanmu sedang berkecamuk atau kamu cenderung menutupi kerapuhan dengan sikap dingin. Tidak apa-apa untuk bersikap rentan. Menghadapi emosi sendiri adalah bentuk kedewasaan.",
     "upright_meaning_en": "The King of Cups has mastered his emotions. He is calm, compassionate, and in control. You are being called to lead with emotional intelligence—to be a steady presence for yourself and others.",
     "reversed_meaning_en": "Reversed, you may be repressing your emotions or using emotional manipulation. Perhaps you are out of touch with your feelings or being overly controlling. Allow yourself to feel—it's safe to be vulnerable.",
     "fortune_telling_en": [
@@ -2504,15 +1810,15 @@
       "To what extent am I capable of keeping a \"stiff upper lip?\""
     ],
     "elemental_en": "Fire of Water.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
-    "image_prompt_keywords_id": "raja tongkat memegang tongkat besar berdiri di bukit, langit terbuka",
+    "archetype_en": "The master of emotional balance and compassionate authority.",
+    "numerology_en": "14 (King; authority, leadership, responsibility)",
+    "mythical_en": "Associated with Poseidon, god of the sea, representing the power to calm turbulent waters, and the figure of the Fisher King who heals through empathy.",
+    "image_prompt_keywords_id": "raja duduk di singgasana di atas laut, memegang piala, ekspresi wajah tenang",
     "image_prompt_keywords_en": "King on throne in stormy sea, holding cup and scepter, calm expression, ship in background",
-    "archetype_id": "",
-    "elemental_id": "Api Air.",
-    "numerology_id": "",
-    "mythical_id": "",
+    "archetype_id": "Penguasa keseimbangan emosional dan otoritas yang penuh kasih.",
+    "elemental_id": "Api Api",
+    "numerology_id": "14 (King; otoritas, kepemimpinan, tanggung jawab)",
+    "mythical_id": "Dihubungkan dengan Poseidon, dewa laut, yang melambangkan kekuatan untuk menenangkan perairan yang bergejolak, serta figur Raja Nelayan yang menyembuhkan melalui empati.",
     "fortune_telling_id": [
       "Kartu ini mewakili seorang pria tua dengan kehadiran yang lembut dan sensitif, kemungkinan besar lahir antara tanggal 9 Februari dan 10 Maret, yang dikenal karena keadilan dan toleransinya."
     ],
@@ -2521,7 +1827,701 @@
       "Bagaimana saya bisa memastikan bahwa saya bersikap seobjektif dan seadil mungkin?",
       "Sejauh mana saya mampu mempertahankan \"bibir atas yang kaku?\""
     ],
-    "ai_hook_id": "Saya menarik kartu Tarot 'King Tongkat' (King of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+    "ai_hook_id": "Saya menarik kartu Tarot 'King Piala' (King of Cups) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 36,
+    "name_id": "Ace Tongkat",
+    "name_en": "Ace of Wands",
+    "suit": "Wands",
+    "img": "w01.jpg",
+    "keywords_id": [
+      "inspirasi",
+      "energi",
+      "kreativitas"
+    ],
+    "keywords_en": [
+      "Inspiration",
+      "New passion",
+      "Potential"
+    ],
+    "upright_meaning_id": "Percikan inspirasi baru sedang menyala di dalam dirimu. Proyek, ide, atau gairah baru siap untuk kamu mulai. Jangan tunggu sampai semuanya sempurna, melangkahlah dengan keberanian awal.",
+    "reversed_meaning_id": "Energi kreatifmu mungkin sedang tersumbat atau kamu ragu untuk memulai hal baru. Tidak apa-apa jika langkah pertamamu belum sempurna. Berikan dirimu izin untuk mencoba dengan perlahan.",
+    "upright_meaning_en": "A spark of inspiration ignites within you. The Ace of Wands is a powerful beginning—a new idea, project, or passion is emerging. Embrace this creative fire and take the first step, even if you don't have all the answers yet.",
+    "reversed_meaning_en": "Reversed, your creative energy may be blocked, or you may be hesitating to start something new. Perhaps the spark is there but you feel unsure or unprepared. Give yourself permission to begin imperfectly.",
+    "fortune_telling_en": [
+      "Someone has the \"hots\" for you",
+      "A new job offer is coming your way",
+      "Walk softly, and carry a big stick"
+    ],
+    "questions_to_ask_en": [
+      "What do I really want, more than anything else?",
+      "What happens if I let this opportunity pass me by?",
+      "How clearly have I defined my directions, values, and goals?"
+    ],
+    "elemental_en": "Fire",
+    "archetype_en": "The Primal Spark of Creation and Will",
+    "numerology_en": "1 (The Origin: the starting point, the seed, opportunity)",
+    "mythical_en": "Associated with the Promethean fire of inspiration and the phallic power of the World Tree, representing the initial burst of divine energy that ignites manifestation.",
+    "image_prompt_keywords_id": "tangan muncul dari awan memegang tongkat bercabang, langit biru cerah",
+    "image_prompt_keywords_en": "Hand emerging from cloud holding a leafy wand, castle in background, sky",
+    "archetype_id": "Percikan Primordial Penciptaan dan Kehendak",
+    "elemental_id": "Api",
+    "numerology_id": "1 (Asal usul: titik awal, benih, peluang)",
+    "mythical_id": "Dihubungkan dengan api inspirasi Prometheus dan kekuatan falis Pohon Dunia, yang mewakili ledakan awal energi ilahi yang memicu manifestasi.",
+    "fortune_telling_id": [
+      "Seseorang mempunyai hal yang \"menarik\" untuk Anda",
+      "Tawaran pekerjaan baru akan segera menghampiri Anda",
+      "Berjalanlah dengan lembut, dan bawalah tongkat besar"
+    ],
+    "questions_to_ask_id": [
+      "Apa yang sebenarnya saya inginkan, lebih dari apa pun?",
+      "Apa jadinya jika saya membiarkan kesempatan ini berlalu begitu saja?",
+      "Seberapa jelas saya mendefinisikan arah, nilai, dan tujuan saya?"
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Ace Tongkat' (Ace of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 37,
+    "name_id": "Two Tongkat",
+    "name_en": "Two of Wands",
+    "suit": "Wands",
+    "img": "w02.jpg",
+    "keywords_id": [
+      "perencanaan",
+      "kemitraan",
+      "masa depan"
+    ],
+    "keywords_en": [
+      "Planning",
+      "Decisio",
+      "Future vision"
+    ],
+    "upright_meaning_id": "Kamu berada di persimpangan jalan penting untuk merencanakan masa depanmu. Jangan ragu untuk bermimpi besar dan keluar dari zona nyaman. Dunia yang luas sedang menanti langkah beranimu.",
+    "reversed_meaning_id": "Apakah kamu terlalu lama merencanakan sesuatu tanpa pernah memulainya? Rasa takut melangkah keluar dari zona nyaman adalah hal yang wajar. Percayalah, kamu sudah siap untuk bergerak maju.",
+    "upright_meaning_en": "You are at a crossroads, and it's time to make a decision about your next steps. The Two of Wands encourages you to think big, plan ahead, and step out of your comfort zone. The world is waiting for you.",
+    "reversed_meaning_en": "Reversed, you may be feeling indecisive or stuck in planning mode without taking action. Perhaps you are afraid to leave your comfort zone. Trust yourself—you have everything you need to move forward.",
+    "fortune_telling_en": [
+      "Beware false friends",
+      "Don't be mealy-mouthed; say what you think and do what you want to do"
+    ],
+    "questions_to_ask_en": [
+      "In a conflict, how do you decide who wins?",
+      "What values govern your decision-making process?",
+      "What choice will you make if you make no choice at all?"
+    ],
+    "elemental_en": "Fire",
+    "archetype_en": "The Visionary Planner at the Threshold",
+    "numerology_en": "2 (The Other: division, debate, duality)",
+    "mythical_en": "Represents the archetype of the world-builder looking beyond the horizon, analogous to Alexander the Great surveying his empire before expansion.",
+    "image_prompt_keywords_id": "seseorang berdiri memegang dunia kecil dengan tongkat, menghadap ke arah cakrawala",
+    "image_prompt_keywords_en": "Man standing on a wall holding a globe, two wands, ships in water, castle, hills",
+    "archetype_id": "Sang Perencana Visioner di Ambang Keputusan",
+    "elemental_id": "Api",
+    "numerology_id": "2 (Yang Lain: dualitas, perpecahan, perdebatan)",
+    "mythical_id": "Mewakili arketipe pembangun dunia yang menatap melampaui cakrawala, dianalogikan dengan Alexander Agung yang meninjau kerajaannya sebelum melakukan ekspansi.",
+    "fortune_telling_id": [
+      "Hati-hati dengan teman palsu",
+      "Jangan bermulut pucat; katakan apa yang Anda pikirkan dan lakukan apa yang ingin Anda lakukan"
+    ],
+    "questions_to_ask_id": [
+      "Dalam suatu konflik, bagaimana Anda memutuskan siapa yang menang?",
+      "Nilai-nilai apa yang mengatur proses pengambilan keputusan Anda?",
+      "Pilihan apa yang akan Anda ambil jika Anda tidak membuat pilihan sama sekali?"
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Two Tongkat' (Two of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 38,
+    "name_id": "Three Tongkat",
+    "name_en": "Three of Wands",
+    "suit": "Wands",
+    "img": "w03.jpg",
+    "keywords_id": [
+      "perluasan",
+      "pertumbuhan",
+      "visi"
+    ],
+    "keywords_en": [
+      "Expansion",
+      "Exploration",
+      "Progress"
+    ],
+    "upright_meaning_id": "Usahamu mulai menunjukkan kemajuan yang nyata. Pandanganmu semakin luas dan peluang baru mulai terlihat di cakrawala. Teruskan langkahmu dengan rasa percaya diri yang mantap.",
+    "reversed_meaning_id": "Mungkin ada penundaan atau hasil yang belum sesuai dengan harapanmu saat ini. Jangan berkecil hati. Ambil jeda sejenak untuk meninjau kembali rencanamu; terkadang arah baru diperlukan.",
+    "upright_meaning_en": "Your vision is expanding, and you are seeing the bigger picture. The Three of Wands is a card of progress—your plans are coming together, and new opportunities are on the horizon. Keep moving forward with confidence.",
+    "reversed_meaning_en": "Reversed, you may be facing delays or feeling that your efforts are not yielding the results you hoped for. Take a step back and reassess. Sometimes a shift in perspective is all you need.",
+    "fortune_telling_en": [
+      "You'll be planning a trip soon",
+      "Be on the lookout: your ship is coming in"
+    ],
+    "questions_to_ask_en": [
+      "How can you make a habit of breaking your habits?",
+      "How can you be a decisive leader in this circumstance?",
+      "What's your action plan for the next week, month, year, or decade?"
+    ],
+    "elemental_en": "Fire",
+    "archetype_en": "The Visionary Merchant or the Pioneer of Long-Term Planning.",
+    "numerology_en": "3 (The Result: expression, productivity, output)",
+    "mythical_en": "Inspired by the legend of Jason and the Argonauts seeking new horizons, it represents the moment of standing on the shore, watching one's ships sail toward success and future prosperity.",
+    "image_prompt_keywords_id": "tiga orang memegang tongkat di tepi laut, menatap ke arah cakrawala",
+    "image_prompt_keywords_en": "Man looking out at ships from a cliff, three wands planted in ground, water",
+    "archetype_id": "Pedagang Visioner atau Pionir Perencanaan Jangka Panjang.",
+    "elemental_id": "Api",
+    "numerology_id": "3 (Hasilnya: ekspresi, produktivitas, output)",
+    "mythical_id": "Terinspirasi oleh legenda Jason dan para Argonaut yang mencari cakrawala baru, ini melambangkan momen berdiri di tepi pantai, menyaksikan kapal-kapal berlayar menuju kesuksesan dan kemakmuran masa depan.",
+    "fortune_telling_id": [
+      "Anda akan segera merencanakan perjalanan",
+      "Waspada: kapal Anda datang"
+    ],
+    "questions_to_ask_id": [
+      "Bagaimana Anda bisa membiasakan diri untuk menghentikan kebiasaan Anda?",
+      "Bagaimana Anda bisa menjadi pemimpin yang tegas dalam situasi seperti ini?",
+      "Apa rencana tindakan Anda untuk minggu, bulan, tahun, atau dekade ke depan?"
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Three Tongkat' (Three of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 39,
+    "name_id": "Four Tongkat",
+    "name_en": "Four of Wands",
+    "suit": "Wands",
+    "img": "w04.jpg",
+    "keywords_id": [
+      "perayaan",
+      "komunitas",
+      "stabilitas"
+    ],
+    "keywords_en": [
+      "Celebration",
+      "Home",
+      "Community"
+    ],
+    "upright_meaning_id": "Ini adalah momen kegembiraan, perayaan, dan rasa syukur atas kestabilan yang telah kamu bangun. Nikmatilah kehangatan rumah dan kebersamaan dengan orang-orang tercinta yang mendukungmu.",
+    "reversed_meaning_id": "Mungkin ada sedikit ketegangan atau rasa tidak tenang di lingkungan rumah atau komunitasmu. Kembalilah pada hubungan sederhana yang membuatmu merasa aman dan diterima apa adanya.",
+    "upright_meaning_en": "Four of Wands is a card of joy, celebration, and coming home. You are building a foundation of stability and belonging. Whether it's a family gathering, a milestone, or a sense of community, this is a time to celebrate.",
+    "reversed_meaning_en": "Reversed, you may feel unsettled or disconnected from your sense of home and community. Perhaps a celebration is not going as planned. Reconnect with the people and places that make you feel grounded.",
+    "fortune_telling_en": [
+      "Someone is watching and evaluating your work",
+      "You may get a wedding invitation soon"
+    ],
+    "questions_to_ask_en": [
+      "To what extent am I doing my part?",
+      "What kind of recognition would be most meaningful?",
+      "How might a celebration now impact community morale?"
+    ],
+    "elemental_en": "Fire",
+    "archetype_en": "The Architect of Celebration and Community",
+    "numerology_en": "4 (The Status Quo: stability, equality, persistence)",
+    "mythical_en": "Represents the stability of the Hestia hearth, symbolizing the homecoming and the sacred gathering within the walls of a completed structure.",
+    "image_prompt_keywords_id": "orang-orang merayakan di depan rumah dengan empat tongkat berhias bunga",
+    "image_prompt_keywords_en": "Four wands with garland, celebration scene, castle in background, people with flowers",
+    "archetype_id": "Arsitek Perayaan dan Komunitas",
+    "elemental_id": "Api",
+    "numerology_id": "4 (Status Quo: stabilitas, kesetaraan, ketekunan)",
+    "mythical_id": "Mewakili stabilitas perapian Hestia, melambangkan kepulangan dan pertemuan suci di dalam dinding bangunan yang telah selesai.",
+    "fortune_telling_id": [
+      "Seseorang sedang memperhatikan dan mengevaluasi pekerjaan Anda",
+      "Anda mungkin akan segera mendapatkan undangan pernikahan"
+    ],
+    "questions_to_ask_id": [
+      "Sejauh mana saya melakukan bagian saya?",
+      "Pengakuan seperti apa yang paling berarti?",
+      "Bagaimana sebuah perayaan sekarang dapat berdampak pada moral masyarakat?"
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Four Tongkat' (Four of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 40,
+    "name_id": "Five Tongkat",
+    "name_en": "Five of Wands",
+    "suit": "Wands",
+    "img": "w05.jpg",
+    "keywords_id": [
+      "konflik",
+      "kompetisi",
+      "persaingan"
+    ],
+    "keywords_en": [
+      "Competition",
+      "Conflict",
+      "Challenge"
+    ],
+    "upright_meaning_id": "Tantangan dan perbedaan pendapat di sekitarmu adalah kesempatan untuk menguji ide-idemu. Hadapilah konflik kreatif ini dengan jujur, karena di sinilah ruang bagimu untuk bertumbuh lebih matang.",
+    "reversed_meaning_id": "Apakah kamu sedang menghindari perselisihan karena merasa lelah? Terkadang konflik menjadi tidak sehat jika tidak dikelola. Mundurlah sejenak, cari kesamaan, dan tenangkan dirimu sebelum bicara.",
+    "upright_meaning_en": "The Five of Wands represents healthy competition or creative conflict. You may be facing challenges or disagreements, but these are opportunities to test your ideas and grow. Stay engaged and keep your integrity.",
+    "reversed_meaning_en": "Reversed, you may be avoiding conflict or feeling overwhelmed by competition. Perhaps the conflict has turned unproductive or personal. Take a step back, find common ground, and remember what really matters.",
+    "fortune_telling_en": [
+      "Prepare for a fight with your best friend",
+      "Remember: once you let words loose, you can't take them back"
+    ],
+    "questions_to_ask_en": [
+      "To what extent is your current issue worth fighting for?",
+      "What alternatives are there to outright conflict?",
+      "What happens in a \"fair fight?\" How can you keep this fight fair?"
+    ],
+    "elemental_en": "Fire",
+    "archetype_en": "The Arena of Competitive Struggle",
+    "numerology_en": "5 (The Catalyst: instability, resistance, confrontation)",
+    "mythical_en": "Reflects the chaos of the Titanomachy or the spirited skirmishes of young warriors training in the gymnasium to sharpen their ego and skills.",
+    "image_prompt_keywords_id": "lima pria saling beradu tongkat kayu",
+    "image_prompt_keywords_en": "Five men with wands in conflict stance, chaotic energy, open field",
+    "archetype_id": "Arena Perjuangan Kompetitif",
+    "elemental_id": "Api",
+    "numerology_id": "5 (Katalis: ketidakstabilan, perlawanan, konfrontasi)",
+    "mythical_id": "Mencerminkan kekacauan Titanomachy atau latihan pertempuran para pejuang muda di gymnasium untuk mengasah ego dan keterampilan mereka.",
+    "fortune_telling_id": [
+      "Bersiaplah untuk bertengkar dengan sahabat Anda",
+      "Ingat: sekali Anda melepaskan kata-kata, Anda tidak dapat menariknya kembali"
+    ],
+    "questions_to_ask_id": [
+      "Sejauh mana isu Anda saat ini layak untuk diperjuangkan?",
+      "Alternatif apa yang ada selain konflik langsung?",
+      "Apa yang terjadi dalam \"pertarungan yang adil?\" Bagaimana Anda bisa menjaga pertarungan ini tetap adil?"
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Five Tongkat' (Five of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 41,
+    "name_id": "Six Tongkat",
+    "name_en": "Six of Wands",
+    "suit": "Wands",
+    "img": "w06.jpg",
+    "keywords_id": [
+      "kemenangan",
+      "pengakuan",
+      "prestasi"
+    ],
+    "keywords_en": [
+      "Victory",
+      "Recognition",
+      "Confidence"
+    ],
+    "upright_meaning_id": "Kerja kerasmu akhirnya membuahkan hasil dan diakui secara luas. Nikmatilah momen kemenangan ini dengan penuh rasa syukur. Biarkan kesuksesan kecil ini membangun rasa percaya dirimu untuk melangkah.",
+    "reversed_meaning_id": "Meskipun kamu sudah berusaha keras, mungkin kamu merasa kurang dihargai oleh sekitar. Jangan biarkan keraguan merusak keyakinanmu. Nilai dirimu tidak ditentukan oleh pengakuan dari luar.",
+    "upright_meaning_en": "You are receiving well-deserved recognition for your efforts. The Six of Wands is a card of victory and public acknowledgment. Your hard work has paid off—enjoy this moment of success and let it fuel your confidence.",
+    "reversed_meaning_en": "Reversed, you may be feeling overlooked or struggling with self-doubt despite your achievements. Perhaps you fear that success is temporary or not enough. Trust in your worth—you have earned this.",
+    "fortune_telling_en": [
+      "Someone is planning a party for you, but not everyone feels so good about your recent success",
+      "Watch out for envious friends"
+    ],
+    "questions_to_ask_en": [
+      "What kind of recognition do I crave? Why?",
+      "How freely do I praise the achievements of others?",
+      "What happens when the parade is over?"
+    ],
+    "elemental_en": "Fire",
+    "archetype_en": "The Victorious Leader and Public Achiever",
+    "numerology_en": "6 (The Adjustment: cooperation, collaboration, interaction)",
+    "mythical_en": "It echoes the triumphant return of a war hero or the coronation of a king, symbolizing the transition from hard work to public recognition and divine favor.",
+    "image_prompt_keywords_id": "orang di atas kuda mengangkat tongkat berhiaskan daun sebagai lambang kemenangan",
+    "image_prompt_keywords_en": "Man on white horse with laurel wreath, crowd, six wands",
+    "archetype_id": "Pemimpin yang Menang dan Pencapaian Publik",
+    "elemental_id": "Api",
+    "numerology_id": "6 (Penyesuaian: kerjasama, kolaborasi, interaksi)",
+    "mythical_id": "Hal ini mencerminkan kepulangan penuh kemenangan seorang pahlawan perang atau penobatan seorang raja, melambangkan transisi dari kerja keras menuju pengakuan publik dan restu ilahi.",
+    "fortune_telling_id": [
+      "Seseorang sedang merencanakan pesta untuk Anda, tetapi tidak semua orang merasa senang dengan kesuksesan Anda baru-baru ini",
+      "Hati-hati dengan teman yang iri"
+    ],
+    "questions_to_ask_id": [
+      "Pengakuan seperti apa yang saya dambakan? Mengapa?",
+      "Seberapa bebas saya memuji pencapaian orang lain?",
+      "Apa yang terjadi setelah parade selesai?"
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Six Tongkat' (Six of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 42,
+    "name_id": "Seven Tongkat",
+    "name_en": "Seven of Wands",
+    "suit": "Wands",
+    "img": "w07.jpg",
+    "keywords_id": [
+      "ketahanan",
+      "pertahanan",
+      "keberanian"
+    ],
+    "keywords_en": [
+      "Courage",
+      "Defense",
+      "Perseverance"
+    ],
+    "upright_meaning_id": "Kamu sedang berdiri kokoh menghadapi tantangan dan perbedaan pendapat. Ingatlah bahwa kamu memiliki kekuatan dan keberanian untuk mempertahankan prinsipmu. Tetaplah teguh pada kebenaranmu.",
+    "reversed_meaning_id": "Apakah kamu merasa lelah karena harus selalu membela diri? Wajar jika sesekali merasa kewalahan. Ingatlah bahwa kamu lebih kuat dari yang kamu duga. Tarik napas, dan pertahankan batasanmu.",
+    "upright_meaning_en": "You are standing your ground against challenges and opposition. The Seven of Wands reminds you that you have the strength and courage to defend your position. Stay strong—you are capable of holding your own.",
+    "reversed_meaning_en": "Reversed, you may be feeling overwhelmed or unsure of your ability to stand firm. Perhaps you are backing down from a challenge out of fear. Remember that you are stronger than you think. Stand your ground.",
+    "fortune_telling_en": [
+      "Don't be surprised by a personal attack",
+      "Prepare to defend yourself or someone you love"
+    ],
+    "questions_to_ask_en": [
+      "When do you feel most threatened? When do you get defensive?",
+      "How capable are you of defending yourself?",
+      "What kinds of beliefs are worth defending?"
+    ],
+    "elemental_en": "Fire",
+    "archetype_en": "The Defiant Guardian of Position",
+    "numerology_en": "7 (The Motive: imagination, inner work, psychology)",
+    "mythical_en": "Reflects the archetypal struggle of Horatius at the bridge, standing firm against overwhelming odds to protect one's territory and beliefs.",
+    "image_prompt_keywords_id": "orang membawa tongkat menghadapi enam tongkat yang diarahkan padanya",
+    "image_prompt_keywords_en": "Man on hill defending with wand against six wands from below, determination",
+    "archetype_id": "Penjaga Posisi yang Defensif",
+    "elemental_id": "Api",
+    "numerology_id": "7 (Motif: imajinasi, pekerjaan batin, psikologi)",
+    "mythical_id": "Mencerminkan perjuangan arketipe Horatius di jembatan, berdiri teguh melawan rintangan besar demi melindungi wilayah dan keyakinan diri.",
+    "fortune_telling_id": [
+      "Jangan kaget dengan serangan pribadi",
+      "Bersiaplah untuk membela diri sendiri atau seseorang yang Anda cintai"
+    ],
+    "questions_to_ask_id": [
+      "Kapan Anda merasa paling terancam? Kapan Anda bersikap defensif?",
+      "Seberapa mampukah Anda membela diri?",
+      "Keyakinan seperti apa yang patut dipertahankan?"
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Seven Tongkat' (Seven of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 43,
+    "name_id": "Eight Tongkat",
+    "name_en": "Eight of Wands",
+    "suit": "Wands",
+    "img": "w08.jpg",
+    "keywords_id": [
+      "kecepatan",
+      "aksi",
+      "perjalanan"
+    ],
+    "keywords_en": [
+      "Speed",
+      "Action",
+      "Movement"
+    ],
+    "upright_meaning_id": "Segala hal berjalan dengan sangat cepat saat ini. Peluang dan pesan baru berdatangan dengan deras. Bersiaplah untuk mengambil tindakan cepat dan keputusan tegas demi menyambut momentum ini.",
+    "reversed_meaning_id": "Laju kehidupan terasa terlalu cepat hingga membuatmu lelah, atau justru ada hambatan yang menundanya. Jangan panik. Tarik napas dalam-dalam, perlambat langkahmu, dan biarkan semua mengalir.",
+    "upright_meaning_en": "Things are moving quickly—the Eight of Wands brings rapid progress, communication, and momentum. This is a time to act with speed and decisiveness. Opportunities are arriving fast, so stay alert.",
+    "reversed_meaning_en": "Reversed, you may be experiencing delays or feeling overwhelmed by the pace. Perhaps things are moving too fast or too slowly for your comfort. Take a breath, slow down, and trust the timing.",
+    "fortune_telling_en": [
+      "Watch for a surprising letter in the mail",
+      "Your whole world is about to be turned on its ear"
+    ],
+    "questions_to_ask_en": [
+      "How quickly to you adapt to change?",
+      "What would your response be to overwhelming, sudden change?",
+      "What changes are on your horizon? How well have you prepared for them?"
+    ],
+    "elemental_en": "Fire",
+    "archetype_en": "The Swift Messenger of Divine Action",
+    "numerology_en": "8 (The Action: movement, outer work, swiftness)",
+    "mythical_en": "Represents the flight of Hermes/Mercury, the Greek messenger god, symbolizing rapid communication, the sudden movement of inspiration, and the manifestation of ideas into reality.",
+    "image_prompt_keywords_id": "delapan tongkat melayang di udara berarah ke depan",
+    "image_prompt_keywords_en": "Eight wands flying through the air, action, momentum, sky, no people",
+    "archetype_id": "Utusan Cepat dari Tindakan Ilahi",
+    "elemental_id": "Api",
+    "numerology_id": "8 (Aksi: gerakan, kerja luar, kecepatan)",
+    "mythical_id": "Mewakili penerbangan Hermes/Merkurius, dewa pembawa pesan Yunani, yang melambangkan komunikasi cepat, pergerakan inspirasi yang tiba-tiba, dan perwujudan ide menjadi kenyataan.",
+    "fortune_telling_id": [
+      "Perhatikan surat mengejutkan melalui pos",
+      "Seluruh dunia Anda akan segera didengarkan"
+    ],
+    "questions_to_ask_id": [
+      "Seberapa cepat Anda beradaptasi terhadap perubahan?",
+      "Apa tanggapan Anda terhadap perubahan yang tiba-tiba dan luar biasa?",
+      "Perubahan apa yang sedang Anda alami? Seberapa baik Anda mempersiapkan diri menghadapinya?"
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Eight Tongkat' (Eight of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 44,
+    "name_id": "Nine Tongkat",
+    "name_en": "Nine of Wands",
+    "suit": "Wands",
+    "img": "w09.jpg",
+    "keywords_id": [
+      "ketahanan",
+      "usia lanjut",
+      "kekuatan batin"
+    ],
+    "keywords_en": [
+      "Resilience",
+      "Boundaries",
+      "Persistence"
+    ],
+    "upright_meaning_id": "Kamu mungkin merasa lelah dan penuh luka perjuangan, namun kamu masih tetap berdiri tegak. Ini bukti ketangguhanmu. Lindungi batasan dirimu dan pertahankan apa yang berharga bagimu sedikit lagi.",
+    "reversed_meaning_id": "Mungkin kamu merasa lelah karena terus bersikap defensif. Apakah dinding pertahanan yang kamu bangun justru mengurungmu? Izinkan dirimu beristirahat dan lepaskan kecurigaan yang melelahkan.",
+    "upright_meaning_en": "You are tired and battle-worn, but you are still standing. The Nine of Wands is a card of resilience—you have been through a lot, and you have the strength to keep going. Guard your boundaries and protect what matters.",
+    "reversed_meaning_en": "Reversed, you may be feeling paranoid, defensive, or exhausted. Perhaps you are holding up walls that are no longer necessary. Take a moment to rest and ask yourself what you truly need to protect.",
+    "fortune_telling_en": [
+      "Don't relax yet; there's more to come",
+      "The test you're facing now is happening for one reason: to show you who your real friends are"
+    ],
+    "questions_to_ask_en": [
+      "How do you cope when things get really tough?",
+      "When you get low, what encourages you to go on?",
+      "At what point should you be able to let this situation go?"
+    ],
+    "elemental_en": "Fire",
+    "archetype_en": "The Wounded Warrior standing guard.",
+    "numerology_en": "9 (The Completion: fullness, readiness, ripeness)",
+    "mythical_en": "Associated with the myth of Atlas bearing the weight of the heavens or the stoic defense of a threshold during a long siege.",
+    "image_prompt_keywords_id": "seseorang terluka berdiri di depan delapan tongkat tegak",
+    "image_prompt_keywords_en": "Wounded man with bandages, holding a wand, eight wands behind him, weary but determined",
+    "archetype_id": "Prajurit yang terluka dan sedang berjaga.",
+    "elemental_id": "Api",
+    "numerology_id": "9 (Penyelesaian: kepenuhan, kesiapan, kematangan)",
+    "mythical_id": "Dihubungkan dengan mitos Atlas yang memikul beban langit atau pertahanan gigih di ambang pintu selama pengepungan yang panjang.",
+    "fortune_telling_id": [
+      "Jangan santai dulu; masih ada lagi yang akan datang",
+      "Ujian yang Anda hadapi saat ini terjadi karena satu alasan: untuk menunjukkan siapa teman sejati Anda"
+    ],
+    "questions_to_ask_id": [
+      "Bagaimana Anda mengatasinya ketika keadaan menjadi sangat sulit?",
+      "Saat Anda merasa rendah diri, apa yang mendorong Anda untuk terus maju?",
+      "Pada titik manakah Anda harus bisa membiarkan situasi ini berlalu?"
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Nine Tongkat' (Nine of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 45,
+    "name_id": "Ten Tongkat",
+    "name_en": "Ten of Wands",
+    "suit": "Wands",
+    "img": "w10.jpg",
+    "keywords_id": [
+      "beban",
+      "tanggung jawab",
+      "kelelahan"
+    ],
+    "keywords_en": [
+      "Burden",
+      "Overwhelm",
+      "Responsibility"
+    ],
+    "upright_meaning_id": "Beban yang kamu pikul saat ini terasa terlampau berat. Tanyakan pada dirimu sendiri: apakah semua tanggung jawab ini benar-benar milikmu? Belajarlah untuk melepaskan atau berbagi beban itu.",
+    "reversed_meaning_id": "Beban berat di pundakmu perlahan mulai terangkat. Kamu mulai belajar mendelegasikan tugas atau merelakan hal-hal yang di luar kendalimu. Tarik napas lega, perjalananmu kini terasa lebih ringan.",
+    "upright_meaning_en": "You are carrying a heavy load, and it may be becoming too much. The Ten of Wands asks you to examine what you are holding onto. Is this burden yours to carry? Sometimes the greatest responsibility is knowing when to let go.",
+    "reversed_meaning_en": "Reversed, you are beginning to release your burdens. The weight is lifting, and you are learning to delegate or let go. This is a time of relief—allow yourself to drop what no longer serves you.",
+    "fortune_telling_en": [
+      "You're worn out",
+      "Back off, take a time out, and let someone else handle things for a while"
+    ],
+    "questions_to_ask_en": [
+      "How will you know when you reach the end of your rope?",
+      "How easily do you say no to new projects and requests?",
+      "What projects could you delegate...or eliminate?"
+    ],
+    "elemental_en": "Fire",
+    "archetype_en": "The Burdened Achiever carrying the weight of responsibilities",
+    "numerology_en": "10 (The End: finality, completion, exhaustion)",
+    "mythical_en": "Reflects the myth of Atlas bearing the weight of the heavens upon his shoulders or Sisyphus endlessly pushing his boulder uphill.",
+    "image_prompt_keywords_id": "orang membungkuk menanggung sepuluh tongkat berat di punggungnya",
+    "image_prompt_keywords_en": "Man carrying ten wands, struggling under the weight, town in background",
+    "archetype_id": "Pencapai yang Terbebani yang memikul berat tanggung jawab",
+    "elemental_id": "Api",
+    "numerology_id": "10 (Akhir: finalitas, penyelesaian, kelelahan)",
+    "mythical_id": "Mencerminkan mitos Atlas yang memikul beban langit di atas pundaknya atau Sisyphus yang tanpa henti mendorong batunya ke atas bukit.",
+    "fortune_telling_id": [
+      "Anda lelah",
+      "Mundur, ambil waktu istirahat, dan biarkan orang lain menanganinya untuk sementara waktu"
+    ],
+    "questions_to_ask_id": [
+      "Bagaimana Anda tahu kapan Anda mencapai ujung tali?",
+      "Seberapa mudah Anda menolak proyek dan permintaan baru?",
+      "Proyek apa yang dapat Anda delegasikan...atau hilangkan?"
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Ten Tongkat' (Ten of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 46,
+    "name_id": "Page Tongkat",
+    "name_en": "Page of Wands",
+    "suit": "Wands",
+    "img": "w11.jpg",
+    "keywords_id": [
+      "eksplorasi",
+      "kegembiraan",
+      "kebebasan"
+    ],
+    "keywords_en": [
+      "Enthusiasm",
+      "Exploration",
+      "Curiosity"
+    ],
+    "upright_meaning_id": "Percikan semangat dan rasa ingin tahu yang besar sedang bangkit dalam dirimu. Sambutlah ide atau minat baru ini dengan hati terbuka. Nikmatilah proses belajar dan menjelajahi hal baru.",
+    "reversed_meaning_id": "Mungkin kamu sedang merasa kehilangan gairah atau bingung menentukan arah. Jangan paksa dirimu untuk langsung sukses. Jalani minatmu dengan perlahan tanpa beban target yang berlebihan.",
+    "upright_meaning_en": "The Page of Wands brings a burst of youthful enthusiasm and curiosity. You are exploring a new passion or idea with an open heart. This is a time for learning, discovery, and embracing your playful side.",
+    "reversed_meaning_en": "Reversed, you may be feeling uninspired or lacking in direction. Perhaps you are starting projects but not finishing them. Reconnect with your curiosity and give yourself permission to explore without pressure.",
+    "fortune_telling_en": [
+      "This card represents a young man or woman with a fiery, enthusiastic demeanor, likely born a Cancer, Leo, or Virgo, who wants to start a new relationship with you"
+    ],
+    "questions_to_ask_en": [
+      "How easily do you admit your own inexperience?",
+      "How can you be a better student or employee?",
+      "What qualities would make a total beginner's voyage of discovery easier?"
+    ],
+    "elemental_en": "Earth of Fire.",
+    "archetype_en": "The enthusiastic messenger of inspiration and creative potential.",
+    "numerology_en": "11 (Page; new perspectives, messages, apprenticeship)",
+    "mythical_en": "Represents the archetype of Hermes or Mercury as the quick-witted messenger of the gods, igniting the spark of new ideas and adventurous exploration.",
+    "image_prompt_keywords_id": "pemuda memegang tongkat sambil menulis di gulungan cerah di belakangnya pemandangan alam",
+    "image_prompt_keywords_en": "Young person holding a wand, looking at it, desert landscape, adventurous energy",
+    "archetype_id": "Utusan antusias yang membawa inspirasi dan potensi kreatif.",
+    "elemental_id": "Bumi Air.",
+    "numerology_id": "11 (Page; perspektif baru, pesan, pembelajaran)",
+    "mythical_id": "Mewakili arketipe Hermes atau Merkurius sebagai pembawa pesan dewa yang cerdas, memicu percikan ide-ide baru dan petualangan eksploratif.",
+    "fortune_telling_id": [
+      "Kartu ini mewakili seorang pria atau wanita muda dengan sikap berapi-api dan antusias, kemungkinan besar terlahir sebagai Cancer, Leo, atau Virgo, yang ingin memulai hubungan baru dengan Anda."
+    ],
+    "questions_to_ask_id": [
+      "Seberapa mudah Anda mengakui kurangnya pengalaman Anda?",
+      "Bagaimana Anda bisa menjadi pelajar atau karyawan yang lebih baik?",
+      "Kualitas apa yang membuat perjalanan penemuan seorang pemula menjadi lebih mudah?"
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Page Tongkat' (Page of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 47,
+    "name_id": "Knight Tongkat",
+    "name_en": "Knight of Wands",
+    "suit": "Wands",
+    "img": "w12.jpg",
+    "keywords_id": [
+      "aksi",
+      "keberanian",
+      "ketergesaan"
+    ],
+    "keywords_en": [
+      "Passion",
+      "Impulse",
+      "Adventure"
+    ],
+    "upright_meaning_id": "Kamu sedang melaju penuh gairah dan tekad yang berkobar. Kejarlah mimpimu dengan berani! Namun ingatlah untuk tetap memperhatikan detail-detail kecil agar tidak terjatuh di tengah jalan.",
+    "reversed_meaning_id": "Apakah kamu bertindak terlalu impulsif hingga mengabaikan konsekuensinya? Berjalan cepat itu baik, tapi pastikan kamu tidak menabrak hal penting. Perlambat lajumu dan pikirkan matang-matang.",
+    "upright_meaning_en": "The Knight of Wands is a force of passion and action. You are charging forward with enthusiasm and courage. This is a time to pursue your goals with intensity—just be mindful not to burn out or rush past important details.",
+    "reversed_meaning_en": "Reversed, you may be acting impulsively or aggressively. Perhaps you are moving too fast and missing the bigger picture. Slow down, consider the consequences, and channel your passion more constructively.",
+    "fortune_telling_en": [
+      "This card represents a man with a bold, passionate personality, likely born between July 12th and August 11th, who wants to sweep you off your feet"
+    ],
+    "questions_to_ask_en": [
+      "To what extent have you defined your ultimate goal?",
+      "What's the fastest way to get the job done? Is this necessarily the best way?",
+      "How long has it been since you looked back to see if others really are following your lead?"
+    ],
+    "elemental_en": "Air of Fire.",
+    "archetype_en": "The Energetic Visionary and Adventurer",
+    "numerology_en": "12 (Knight; action, movement, quest)",
+    "mythical_en": "Associated with the impulsive energy of Apollo driving his sun chariot across the sky, representing the spirit of untamed inspiration and rapid transformation.",
+    "image_prompt_keywords_id": "kesatria berpakaian perang memegang tongkat di kuda berlari kencang",
+    "image_prompt_keywords_en": "Knight on horse with wand, galloping, pyramids in background, red cape",
+    "archetype_id": "Visioner yang Energik dan Petualang",
+    "elemental_id": "Udara Air.",
+    "numerology_id": "12 (Knight; aksi, pergerakan, pencarian)",
+    "mythical_id": "Dihubungkan dengan energi impulsif Apollo yang mengendarai kereta matahari melintasi langit, melambangkan semangat inspirasi yang tak terkendali dan transformasi yang pesat.",
+    "fortune_telling_id": [
+      "Kartu ini mewakili seorang pria dengan kepribadian yang berani dan penuh gairah, kemungkinan lahir antara 12 Juli dan 11 Agustus, yang ingin membuat Anda terpesona"
+    ],
+    "questions_to_ask_id": [
+      "Sejauh mana Anda telah menetapkan tujuan akhir Anda?",
+      "Apa cara tercepat untuk menyelesaikan pekerjaan? Apakah ini merupakan cara terbaik?",
+      "Sudah berapa lama sejak Anda melihat ke belakang untuk melihat apakah orang lain benar-benar mengikuti jejak Anda?"
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Knight Tongkat' (Knight of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 48,
+    "name_id": "Queen Tongkat",
+    "name_en": "Queen of Wands",
+    "suit": "Wands",
+    "img": "w13.jpg",
+    "keywords_id": [
+      "keberanian",
+      "keteguhan",
+      "sukacita"
+    ],
+    "keywords_en": [
+      "Confidence",
+      "Warmth",
+      "Leadership"
+    ],
+    "upright_meaning_id": "Pancarkan rasa percaya diri dan pesonamu yang hangat. Keberanianmu untuk menjadi diri sendiri adalah inspirasi bagi orang lain. Terteruslah berkarya dengan integritas dan ketulusan hati.",
+    "reversed_meaning_id": "Mungkin kamu merasa tidak aman atau sedang bersikap terlalu menuntut akhir-akhir ini. Kembalilah pada kelembutan hatimu. Keberanian sejati tidak perlu ditunjukkan dengan kekerasan.",
+    "upright_meaning_en": "The Queen of Wands is confident, charismatic, and full of warmth. You are a natural leader who inspires others with your passion and positivity. Share your light generously—you have the power to uplift those around you.",
+    "reversed_meaning_en": "Reversed, you may be feeling insecure or trying too hard to be seen. Perhaps you are being overly demanding or controlling. Step back and reconnect with your authentic self—you don't need to perform to be worthy.",
+    "fortune_telling_en": [
+      "This card represents a woman with an attractive, appealing personality, likely born between March 11th and April 20th, who wants to charm you into doing things her way"
+    ],
+    "questions_to_ask_en": [
+      "How attentive am I?",
+      "How can I draw people's attention to what we have in common?",
+      "To what extent am I able to convince people to do what I want them to do?"
+    ],
+    "elemental_en": "Water of Fire.",
+    "archetype_en": "The Radiant Embodiment of Creative Fire and Charismatic Leadership.",
+    "numerology_en": "13 (Queen; mastery, inner power, maturity)",
+    "mythical_en": "She reflects the solar power of goddesses like Sekhmet or Amaterasu, symbolizing the fertile energy of the sun and the independent spirit that commands respect.",
+    "image_prompt_keywords_id": "ratu tongkat berdiri tegas memegang tongkat, matahari terbenam di latar belakang",
+    "image_prompt_keywords_en": "Queen on throne with a wand and sunflower, cat at feet, confident posture",
+    "archetype_id": "Perwujudan Bercahaya dari Api Kreatif dan Kepemimpinan Karismatik.",
+    "elemental_id": "Air Air.",
+    "numerology_id": "13 (Queen; penguasaan, kekuatan batin, kematangan)",
+    "mythical_id": "Dia mencerminkan kekuatan matahari dari dewi-dewi seperti Sekhmet atau Amaterasu, melambangkan energi subur sang surya dan semangat mandiri yang memancarkan kewibawaan.",
+    "fortune_telling_id": [
+      "Kartu ini melambangkan seorang wanita dengan kepribadian yang atraktif dan menawan, kemungkinan besar lahir antara tanggal 11 Maret dan 20 April, yang ingin memikat Anda agar melakukan sesuatu sesuai keinginannya."
+    ],
+    "questions_to_ask_id": [
+      "Seberapa penuh perhatian saya?",
+      "Bagaimana saya bisa menarik perhatian orang terhadap kesamaan yang kita miliki?",
+      "Sejauh mana saya mampu meyakinkan orang untuk melakukan apa yang saya ingin mereka lakukan?"
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'Queen Tongkat' (Queen of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
+  },
+  {
+    "id": 49,
+    "name_id": "King Tongkat",
+    "name_en": "King of Wands",
+    "suit": "Wands",
+    "img": "w14.jpg",
+    "keywords_id": [
+      "pemimpin",
+      "pandangan luas",
+      "tantangan"
+    ],
+    "keywords_en": [
+      "Vision",
+      "Leadership",
+      "Inspiration"
+    ],
+    "upright_meaning_id": "Jadilah pemimpin yang menginspirasi lewat tindakan nyata dan kejujuran. Visi yang kamu miliki sangat kuat. Ajaklah orang-orang di sekitarmu bertumbuh bersama dengan penuh kebaikan.",
+    "reversed_meaning_id": "Mungkin kamu sedang bersikap terlalu dominan atau tidak sabar pada proses orang lain. Kepemimpinan sejati bukanlah tentang mengendalikan, melainkan melayani dan mendengarkan dengan sabar.",
+    "upright_meaning_en": "The King of Wands is a visionary leader who inspires others through action and integrity. You have a clear vision and the charisma to bring others along with you. Lead with confidence and generosity.",
+    "reversed_meaning_en": "Reversed, you may be using your power for self-serving purposes or being overly domineering. Perhaps you are impatient or dismissive of others' ideas. Lead with humility—true leadership is about serving, not controlling.",
+    "fortune_telling_en": [
+      "This card represents an older man with a commanding, charismatic personality, likely born between November 13th and December 12th, who prefers to give directions and have them followed"
+    ],
+    "questions_to_ask_en": [
+      "How confident a leader am I?",
+      "How can I project more confidence?",
+      "How can I offer my expertise in ways that inspire others to follow me?"
+    ],
+    "elemental_en": "Fire of Fire",
+    "archetype_en": "The charismatic leader and visionary catalyst of creative fire.",
+    "numerology_en": "14 (King; authority, leadership, responsibility)",
+    "mythical_en": "Often associated with the solar power of Apollo or the bold ambition of Prometheus who brings the fire of inspiration to humanity.",
+    "image_prompt_keywords_id": "raja tongkat memegang tongkat besar berdiri di bukit, langit terbuka",
+    "image_prompt_keywords_en": "King on throne with wand, salamander, crown, fiery energy, commanding presence",
+    "archetype_id": "Pemimpin karismatik dan katalis visioner dari api kreatif.",
+    "elemental_id": "Api Air.",
+    "numerology_id": "14 (King; otoritas, kepemimpinan, tanggung jawab)",
+    "mythical_id": "Sering dikaitkan dengan kekuatan matahari Apollo atau ambisi berani Prometheus yang membawa api inspirasi kepada umat manusia.",
+    "fortune_telling_id": [
+      "Kartu ini mewakili seorang pria tua dengan kepribadian yang berwibawa dan karismatik, kemungkinan besar lahir antara tanggal 13 November dan 12 Desember, yang lebih suka memberi arahan dan mengikutinya."
+    ],
+    "questions_to_ask_id": [
+      "Seberapa percaya diri saya sebagai seorang pemimpin?",
+      "Bagaimana saya bisa menunjukkan kepercayaan diri yang lebih besar?",
+      "Bagaimana saya bisa menawarkan keahlian saya dengan cara yang menginspirasi orang lain untuk mengikuti saya?"
+    ],
+    "ai_hook_id": "Saya menarik kartu Tarot 'King Tongkat' (King of Wands) hari ini. Bagaimana kartu ini melambangkan saran tindakan dan tantangan tersembunyi untuk weton lahir saya?"
   },
   {
     "id": 50,
@@ -2552,16 +2552,16 @@
       "What do I think about my own problem-solving ability?",
       "Who can supply me with the pure and simple facts?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Air",
+    "archetype_en": "The Blade of Divine Clarity and Intellectual Breakthrough",
     "numerology_en": "1 (The Origin: the starting point, the seed, opportunity)",
-    "mythical_en": "",
+    "mythical_en": "Represents the sword of Archangel Michael severing illusions or the mythical Sword of Truth capable of cutting through the veil of ignorance.",
     "image_prompt_keywords_id": "tangan memegang pedang yang muncul dari awan, langit cerah",
     "image_prompt_keywords_en": "Hand emerging from cloud holding a sword with crown, mountains, victory",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Pedang Kejelasan Ilahi dan Terobosan Intelektual",
+    "elemental_id": "Udara",
     "numerology_id": "1 (Asal usul: titik awal, benih, peluang)",
-    "mythical_id": "",
+    "mythical_id": "Mewakili pedang Malaikat Agung Mikail yang memutus ilusi atau Pedang Kebenaran mistis yang mampu menembus selubung ketidaktahuan.",
     "fortune_telling_id": [
       "Saatnya menentukan pilihan adalah sekarang",
       "Berhentilah bimbang dan lakukan apa yang Anda tahu terbaik"
@@ -2602,16 +2602,16 @@
       "How can I get past being defensive and see the facts?",
       "What viewpoints, other than my own, play a role in this situation?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Air",
+    "archetype_en": "The Blindfolded Mediator of Equilibrium",
     "numerology_en": "2 (The Other: duality, division, debate)",
-    "mythical_en": "",
+    "mythical_en": "Reflects the myth of Themis, the goddess of justice, who holds the scales of balance while blindfolded to ensure impartial judgment between conflicting truths.",
     "image_prompt_keywords_id": "wanita bermata tertutup memegang dua pedang, duduk di laut berombak",
     "image_prompt_keywords_en": "Blindfolded woman seated holding two swords crossed, water, moon",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Sang Mediator Berpenutup Mata dalam Keseimbangan",
+    "elemental_id": "Udara",
     "numerology_id": "2 (Yang Lain: dualitas, perpecahan, perdebatan)",
-    "mythical_id": "",
+    "mythical_id": "Mencerminkan mitos Themis, dewi keadilan, yang memegang timbangan keseimbangan dengan mata tertutup untuk memastikan penilaian yang adil di antara kebenaran yang bertentangan.",
     "fortune_telling_id": [
       "Terkadang, satu-satunya cara untuk menang adalah dengan menolak bertarung",
       "Anda terjebak untuk saat ini; biarkan waktu berlalu sebelum mengambil tindakan"
@@ -2652,16 +2652,16 @@
       "To what extent are my emotions a matter of choice?",
       "How can I learn from the mistakes of the past?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Air",
+    "archetype_en": "The Sorrowful Heart of Experience",
     "numerology_en": "3 (The Result: expression, productivity, output)",
-    "mythical_en": "",
+    "mythical_en": "Represents the piercing grief of the Mater Dolorosa or the wounding of the ego necessary for spiritual awakening and the integration of painful truths.",
     "image_prompt_keywords_id": "tiga pedang besar menancap di hati melayang di depan awan gelap",
     "image_prompt_keywords_en": "Heart pierced by three swords, stormy sky, rain",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Hati yang Berduka dalam Pengalaman",
+    "elemental_id": "Udara",
     "numerology_id": "3 (Hasilnya: ekspresi, produktivitas, output)",
-    "mythical_id": "",
+    "mythical_id": "Merepresentasikan kesedihan mendalam seperti Mater Dolorosa atau luka pada ego yang diperlukan untuk kebangkitan spiritual dan integrasi kebenaran yang menyakitkan.",
     "fortune_telling_id": [
       "Perpisahan dan perselingkuhan banyak terjadi",
       "Namun, apa yang menyakitkan sekarang, akan menjadi baik bagi Anda di kemudian hari"
@@ -2702,16 +2702,16 @@
       "How difficult is it for you to meditate?",
       "What would happen if you simply refused to make a decision today?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Air",
+    "archetype_en": "The sanctuary of restorative rest and meditative retreat.",
     "numerology_en": "4 (The Status Quo: stability, equality, persistence)",
-    "mythical_en": "",
+    "mythical_en": "Reflects the concept of the 'Incubation Chamber' used in ancient Greek healing temples, where seekers slept to receive divine wisdom or physical healing.",
     "image_prompt_keywords_id": "orang berbaring di gereja, dua pedang terpasang di tanah di dekatnya",
     "image_prompt_keywords_en": "Knight lying on tomb, hands in prayer, three swords above, one below, stained glass window",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Tempat perlindungan bagi istirahat pemulihan dan retret meditatif.",
+    "elemental_id": "Udara",
     "numerology_id": "4 (Status Quo: stabilitas, kesetaraan, ketekunan)",
-    "mythical_id": "",
+    "mythical_id": "Mencerminkan konsep 'Ruang Inkubasi' yang digunakan dalam kuil penyembuhan Yunani kuno, di mana pencari tidur untuk menerima kebijaksanaan ilahi atau kesembuhan fisik.",
     "fortune_telling_id": [
       "Jangan membuat keputusan apa pun sekarang",
       "Tunggu, dan Anda akan senang melakukannya"
@@ -2752,16 +2752,16 @@
       "How can I do what's necessary without making others feel defeated?",
       "What's the difference between selfish action and acting in my own best interest?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Air",
+    "archetype_en": "The Pyrrhic Victor or the ruthless strategist.",
     "numerology_en": "5 (The Catalyst: instability, resistance, confrontation)",
-    "mythical_en": "",
+    "mythical_en": "Reflects the hollow victory of King Pyrrhus or the discord caused by Eris during the Trojan War, where winning comes at the expense of integrity.",
     "image_prompt_keywords_id": "dua pria berjalan pergi meninggalkan tiga pedang teronggok di tanah",
     "image_prompt_keywords_en": "Man smirking with three swords, two swords on ground, defeated figures walking away",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Sang Pemenang yang Merugi atau ahli strategi yang kejam.",
+    "elemental_id": "Udara",
     "numerology_id": "5 (Katalis: ketidakstabilan, perlawanan, konfrontasi)",
-    "mythical_id": "",
+    "mythical_id": "Mencerminkan kemenangan hampa Raja Pyrrhus atau perselisihan yang disebabkan oleh Eris selama Perang Troya, di mana kemenangan dicapai dengan mengorbankan integritas.",
     "fortune_telling_id": [
       "Seseorang mencuri dari Anda, secara finansial atau romantis",
       "Berhati-hatilah terhadap teman yang membicarakan Anda di belakang"
@@ -2802,16 +2802,16 @@
       "How willing am I to lend aid to others? To request it when I need it?",
       "How prepared am I to deal with change? With unexpected outcomes?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Air",
+    "archetype_en": "The transition from troubled waters to calmer shores.",
     "numerology_en": "6 (The Adjustment: cooperation, collaboration, interaction)",
-    "mythical_en": "",
+    "mythical_en": "Analogous to Charon ferrying souls across the River Styx, representing a necessary movement away from past trauma toward psychological healing.",
     "image_prompt_keywords_id": "orang di perahu membawa enam pedang melintas di perairan tenang",
     "image_prompt_keywords_en": "Boat carrying figures with six swords, ferryman, water becoming calmer ahead",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Transisi dari perairan bermasalah menuju pantai yang lebih tenang.",
+    "elemental_id": "Udara",
     "numerology_id": "6 (Penyesuaian: kerjasama, kolaborasi, interaksi)",
-    "mythical_id": "",
+    "mythical_id": "Dianalogikan seperti Charon yang menyeberangkan jiwa melintasi Sungai Styx, melambangkan pergerakan yang diperlukan untuk meninggalkan trauma masa lalu menuju penyembuhan psikologis.",
     "fortune_telling_id": [
       "Anda akan segera melakukan perjalanan panjang melintasi air",
       "Tindakan mempunyai konsekuensi yang tidak terduga, jadi bersiaplah"
@@ -2852,16 +2852,16 @@
       "How well-defined is my sense of ethics?",
       "How should I respond when I know others are breaking the rules?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Air",
+    "archetype_en": "The Sly Strategist and Lone Operator",
     "numerology_en": "7 (The Motive: imagination, inner work, psychology)",
-    "mythical_en": "",
+    "mythical_en": "Reflects the archetypal trickster, such as Hermes or Loki, who uses wit and deceit to bypass obstacles rather than confronting them head-on.",
     "image_prompt_keywords_id": "orang mencuri lima pedang dari kamp, dua pedang lainnya masih tertancap di tanah",
     "image_prompt_keywords_en": "Man sneaking away with five swords, two swords left behind, campsite in background",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Sang Strategis yang Licik dan Operator Mandiri",
+    "elemental_id": "Udara",
     "numerology_id": "7 (Motif: imajinasi, pekerjaan batin, psikologi)",
-    "mythical_id": "",
+    "mythical_id": "Mencerminkan arketipe penipu (trickster), seperti Hermes atau Loki, yang menggunakan kecerdikan dan tipu daya untuk melewati hambatan alih-alih menghadapinya secara langsung.",
     "fortune_telling_id": [
       "Jangan berasumsi bahwa orang-orang di sekitar Anda layak mendapatkan kepercayaan Anda",
       "Mintalah penjelasan tentang di mana saja orang-orang berada, dan apa yang telah mereka lakukan"
@@ -2902,16 +2902,16 @@
       "What, exactly, are the obstacles? What resources, exactly, are needed to move them?",
       "To what extent is your powerlessness a matter of attitude?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Air",
+    "archetype_en": "The Prisoner of Self-Imposed Limitations",
     "numerology_en": "8 (The Action: movement, outer work, swiftness)",
-    "mythical_en": "",
+    "mythical_en": "Reflects the psychological state of Psyche in the dark palace, symbolizing the paralysis caused by fear and the illusion of being trapped by forces that only exist in the mind.",
     "image_prompt_keywords_id": "wanita terikat di dalam kerangka pedang yang membentuk lingkaran",
     "image_prompt_keywords_en": "Bound woman surrounded by eight swords, blindfolded, castle in background, marsh",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Tahanan Batasan Diri Sendiri",
+    "elemental_id": "Udara",
     "numerology_id": "8 (Aksi: gerakan, kerja luar, kecepatan)",
-    "mythical_id": "",
+    "mythical_id": "Mencerminkan kondisi psikologis Psyche di istana gelap, melambangkan kelumpuhan yang disebabkan oleh ketakutan dan ilusi keterjebakan oleh kekuatan yang hanya ada di dalam pikiran.",
     "fortune_telling_id": [
       "Berhentilah bermain sebagai korban",
       "Begitu Anda menyadari bahwa Anda adalah hambatan terbesar bagi diri Anda sendiri, tidak ada yang bisa menghalangi Anda"
@@ -2951,16 +2951,16 @@
       "To what other ends might you devote the energy you're giving to anxiety?",
       "How can you know when it's time to stop thinking and start acting?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Air",
+    "archetype_en": "The prisoner of the night and mental anguish.",
     "numerology_en": "9 (The Completion: fullness, readiness, ripeness)",
-    "mythical_en": "",
+    "mythical_en": "Often associated with the torment of Orestes pursued by the Furies or the concept of the 'dark night of the soul' where psychological shadows manifest as reality.",
     "image_prompt_keywords_id": "orang duduk di samping tempat tidur, sembilan pedang tergantung di dinding di belakangnya",
     "image_prompt_keywords_en": "Woman sitting up in bed with nine swords on wall, hands covering face, distress",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Tahanan malam dan penderitaan mental.",
+    "elemental_id": "Udara",
     "numerology_id": "9 (Penyelesaian: kepenuhan, kesiapan, kematangan)",
-    "mythical_id": "",
+    "mythical_id": "Sering dikaitkan dengan siksaan Orestes yang dikejar oleh para Furies atau konsep 'malam gelap jiwa' di mana bayangan psikologis terwujud sebagai kenyataan.",
     "fortune_telling_id": [
       "Jika Anda mengambil tindakan yang Anda pertimbangkan sekarang, Anda akan menyesal di kemudian hari"
     ],
@@ -3000,16 +3000,16 @@
       "How can you tell when interest has given way to obsession?",
       "When your own limits are reached, where can you turn for aid?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Air",
+    "archetype_en": "The ultimate surrender to the inevitable cycle of endings.",
     "numerology_en": "10 (The End: finality, completion, exhaustion)",
-    "mythical_en": "",
+    "mythical_en": "It parallels the betrayal of Julius Caesar or the martyrdom of Saint Sebastian, symbolizing the moment where resistance ceases and transformation begins through total collapse.",
     "image_prompt_keywords_id": "seseorang terbaring di tanah dengan sepuluh pedang menancap di punggungnya",
     "image_prompt_keywords_en": "Man lying face down with ten swords in back, black sky, peaceful water in distance",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Penyerahan diri sepenuhnya pada siklus akhir yang tak terelakkan.",
+    "elemental_id": "Udara",
     "numerology_id": "10 (Akhir: finalitas, penyelesaian, kelelahan)",
-    "mythical_id": "",
+    "mythical_id": "Ini sejajar dengan pengkhianatan Julius Caesar atau kemartiran Santo Sebastianus, melambangkan momen di mana perlawanan berhenti dan transformasi dimulai melalui kehancuran total.",
     "fortune_telling_id": [
       "Bencana",
       "Tunda rencana dan jangan mengambil tindakan sampai keadaan membaik"
@@ -3050,15 +3050,15 @@
       "To what extent are you open to new information?"
     ],
     "elemental_en": "Earth of Air.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
+    "archetype_en": "The Vigilant Intellectual Explorer",
+    "numerology_en": "11 (Page; new perspectives, messages, apprenticeship)",
+    "mythical_en": "Associated with Hermes, the messenger god who represents quick-witted intelligence, curiosity, and the swift gathering of information.",
     "image_prompt_keywords_id": "anak memegang pedang muda ke udara, kilatan petir di langit",
     "image_prompt_keywords_en": "Young person with sword, wind, clouds, energetic stance",
-    "archetype_id": "",
+    "archetype_id": "Sang Penjelajah Intelektual yang Waspada",
     "elemental_id": "Bumi Udara.",
-    "numerology_id": "",
-    "mythical_id": "",
+    "numerology_id": "11 (Page; perspektif baru, pesan, pembelajaran)",
+    "mythical_id": "Dihubungkan dengan Hermes, dewa pembawa pesan yang melambangkan kecerdasan yang tajam, rasa ingin tahu, dan pengumpulan informasi yang cepat.",
     "fortune_telling_id": [
       "Kartu ini mewakili seorang pria atau wanita muda dengan sikap yang lapang dan intelektual, kemungkinan besar terlahir sebagai Capricorn, Aquarius, atau Pisces, yang ingin mempelajari sesuatu yang baru dari Anda atau berdiskusi dengan Anda."
     ],
@@ -3099,15 +3099,15 @@
       "How can I share what I know without alienating others?"
     ],
     "elemental_en": "Air of Air.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
+    "archetype_en": "The swift crusader of intellect and relentless focus.",
+    "numerology_en": "12 (Knight; action, movement, quest)",
+    "mythical_en": "Represents the archetype of Hermes or Mercury, the divine messenger who embodies the speed of thought and the sharp, piercing power of mental clarity.",
     "image_prompt_keywords_id": "kesatria berjas baja memegang pedang tegak di atas kuda berlari kencang",
     "image_prompt_keywords_en": "Knight on horse with sword raised, charging, trees bending in wind",
-    "archetype_id": "",
+    "archetype_id": "Sang ksatria intelektual yang gesit dan memiliki fokus tanpa henti.",
     "elemental_id": "Udara Udara.",
-    "numerology_id": "",
-    "mythical_id": "",
+    "numerology_id": "12 (Knight; aksi, pergerakan, pencarian)",
+    "mythical_id": "Mewakili arketipe Hermes atau Merkurius, sang pembawa pesan dewa yang melambangkan kecepatan pikiran dan kekuatan tajam dari kejernihan mental.",
     "fortune_telling_id": [
       "Sebuah kesalahan membuat seseorang mengatakan sesuatu yang dia sesali",
       "Jika ini adalah Anda, bersiaplah untuk meminta maaf dan move on"
@@ -3148,15 +3148,15 @@
       "What is the best possible way to say what I want to say?"
     ],
     "elemental_en": "Water of Air.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
+    "archetype_en": "The Clear-Sighted Intellectual Sovereign",
+    "numerology_en": "13 (Queen; mastery, inner power, maturity)",
+    "mythical_en": "Associated with the wisdom of Athena, goddess of strategy and justice, who cuts through illusions with the sword of truth.",
     "image_prompt_keywords_id": "ratu memegang pedang di depan patung gargoyle, wajah serius",
     "image_prompt_keywords_en": "Queen on throne with sword, clouds, birds, hand raised",
-    "archetype_id": "",
+    "archetype_id": "Sang Penguasa Intelektual yang Berpandangan Jernih",
     "elemental_id": "Air Udara.",
-    "numerology_id": "",
-    "mythical_id": "",
+    "numerology_id": "13 (Queen; penguasaan, kekuatan batin, kematangan)",
+    "mythical_id": "Dihubungkan dengan kebijaksanaan Athena, dewi strategi dan keadilan, yang memotong ilusi dengan pedang kebenaran.",
     "fortune_telling_id": [
       "Kartu ini mewakili seorang wanita dengan sifat artistik dan intelektual, kemungkinan lahir antara 12 September dan 12 Oktober, yang menggunakan komunikasi yang cerdas dan positif untuk mempengaruhi orang lain agar mengikuti sudut pandangnya."
     ],
@@ -3196,15 +3196,15 @@
       "If you were to ask others, \"What's my area of expertise?\" what would they say?"
     ],
     "elemental_en": "Fire of Air.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
+    "archetype_en": "The Rational Authority and Intellectual Commander.",
+    "numerology_en": "14 (King; authority, leadership, responsibility)",
+    "mythical_en": "Often associated with King Solomon for his legendary wisdom and objective judgment, or the archetype of the 'Logos' as the ordering principle of the universe.",
     "image_prompt_keywords_id": "raja berjubah duduk di singgasana, memegang pedang tegak, wajah tegas",
     "image_prompt_keywords_en": "King on throne with sword, butterflies, stern but fair expression",
-    "archetype_id": "",
+    "archetype_id": "Otoritas Rasional dan Komandan Intelektual.",
     "elemental_id": "Api Udara.",
-    "numerology_id": "",
-    "mythical_id": "",
+    "numerology_id": "14 (King; otoritas, kepemimpinan, tanggung jawab)",
+    "mythical_id": "Sering dikaitkan dengan Raja Salomo karena kebijaksanaannya yang legendaris dan penilaian objektif, atau arketipe 'Logos' sebagai prinsip keteraturan alam semesta.",
     "fortune_telling_id": [
       "Kartu ini mewakili seorang pria tua dengan semangat berwawasan luas dan penuh pertimbangan, kemungkinan lahir antara 11 Mei dan 10 Juni, yang dikenal karena integritasnya dan kemampuan tajam dalam mengambil keputusan."
     ],
@@ -3244,16 +3244,16 @@
       "What resources are available to me?",
       "What will be the physical and financial impact of my decisions?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Earth",
+    "archetype_en": "The seed of material manifestation and potential prosperity.",
     "numerology_en": "1 (The Origin: the starting point, the seed, opportunity)",
-    "mythical_en": "",
+    "mythical_en": "Represents the Golden Apple of Hesperides or the mythical Midas touch, symbolizing the grounding of divine energy into tangible reality.",
     "image_prompt_keywords_id": "tangan muncul dari awan memegang koin emas besar",
     "image_prompt_keywords_en": "Hand emerging from cloud holding a pentacle, garden, path, mountains",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Benih manifestasi material dan potensi kemakmuran.",
+    "elemental_id": "Tanah",
     "numerology_id": "1 (Asal usul: titik awal, benih, peluang)",
-    "mythical_id": "",
+    "mythical_id": "Melambangkan Apel Emas Hesperides atau sentuhan Midas yang mistis, melambangkan pembumian energi ilahi ke dalam realitas nyata.",
     "fortune_telling_id": [
       "Kesehatan Anda akan meningkat",
       "Cek yang Anda cari benar-benar ada melalui pos"
@@ -3294,16 +3294,16 @@
       "How willing am I to sacrifice a little pleasure now in order to have more pleasure later on?",
       "Given my current situation, which course of action will give me more of what I really need?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Earth",
+    "archetype_en": "The Dynamic Juggler of Resources",
     "numerology_en": "2 (The Other: duality, division, debate)",
-    "mythical_en": "",
+    "mythical_en": "Reflects the eternal dance of the lemniscate, symbolizing the rhythmic ebb and flow of life's dualities similar to the shifting tides governed by the moon.",
     "image_prompt_keywords_id": "orang jongkok sambil menjuggling dua koin dengan lambang tak hingga di antara keduanya",
     "image_prompt_keywords_en": "Man juggling two pentacles in infinity loop, ships on water",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Sang Penyeimbang Sumber Daya yang Dinamis",
+    "elemental_id": "Tanah",
     "numerology_id": "2 (Yang Lain: dualitas, perpecahan, perdebatan)",
-    "mythical_id": "",
+    "mythical_id": "Mencerminkan tarian abadi lemniskat, melambangkan pasang surut ritmis dualitas kehidupan yang serupa dengan perubahan air laut yang diatur oleh bulan.",
     "fortune_telling_id": [
       "Saatnya menyeimbangkan anggaran",
       "Hindari godaan untuk menghabiskan dana penting untuk barang-barang yang tidak penting"
@@ -3344,16 +3344,16 @@
       "What's expected of me? How large a role do I play in controlling those expectations?",
       "What's been agreed to? How well has that agreement been followed?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Earth",
+    "archetype_en": "The Master Craftsman and Collaborative Builder",
     "numerology_en": "3 (The Result: expression, productivity, output)",
-    "mythical_en": "",
+    "mythical_en": "Symbolizes the building of King Solomon's Temple, representing the integration of spiritual wisdom into material architecture through collective human effort.",
     "image_prompt_keywords_id": "tiga tukang batu membangun patung, satu memegang palu, dua orang lainnya memahat batu",
     "image_prompt_keywords_en": "Sculptor and two others working on a cathedral, pentacles on stone",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Sang Pengrajin Ahli dan Pembangun Kolaboratif",
+    "elemental_id": "Tanah",
     "numerology_id": "3 (Hasilnya: ekspresi, produktivitas, output)",
-    "mythical_id": "",
+    "mythical_id": "Melambangkan pembangunan Bait Suci Raja Salomo, yang mewakili integrasi kebijaksanaan spiritual ke dalam arsitektur material melalui usaha kolektif manusia.",
     "fortune_telling_id": [
       "Kontrak bernilai tinggi ada di masa depan Anda",
       "Jika Anda bekerja keras, Anda akan berhasil"
@@ -3393,16 +3393,16 @@
       "What kinds of things must be preserved at all costs?",
       "When is greediness or stinginess a good trait to have? When might generosity work against you?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Earth",
+    "archetype_en": "The Guardian of Possessions and Material Security",
     "numerology_en": "4 (The Status Quo: stability, equality, persistence)",
-    "mythical_en": "",
+    "mythical_en": "Associated with the myth of King Midas and his golden touch, symbolizing the isolation that comes from hoarding and the fear of losing one's material stability.",
     "image_prompt_keywords_id": "orang tua duduk memeluk koin di tangan, dikelilingi empat koin lainnya di tanah",
     "image_prompt_keywords_en": "Man holding two pentacles, two under feet, crown, city in background",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Penjaga Harta Benda dan Keamanan Material",
+    "elemental_id": "Tanah",
     "numerology_id": "4 (Status Quo: stabilitas, kesetaraan, ketekunan)",
-    "mythical_id": "",
+    "mythical_id": "Dihubungkan dengan mitos Raja Midas dan sentuhan emasnya, melambangkan keterasingan yang muncul dari sifat kikir serta ketakutan akan kehilangan stabilitas material.",
     "fortune_telling_id": [
       "Hari hujan akan segera tiba—saatnya menabung"
     ],
@@ -3442,16 +3442,16 @@
       "What people or groups would come to my aid if I asked?",
       "How might an impoverished spirit be impacting my physical or financial condition?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Earth",
+    "archetype_en": "The Outsider experiencing the sting of material lack and spiritual isolation.",
     "numerology_en": "5 (The Catalyst: instability, resistance, confrontation)",
-    "mythical_en": "",
+    "mythical_en": "Associated with the parable of the beggar at the gate and the archetype of the 'dark night of the soul' where support is often closer than perceived.",
     "image_prompt_keywords_id": "dua orang miskin berjalan melewati patung gereja salju dengan dua koin di jendela",
     "image_prompt_keywords_en": "Two figures walking in snow, one injured, church window with five pentacles",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Sosok terbuang yang mengalami penderitaan akibat kekurangan materi dan keterasingan spiritual.",
+    "elemental_id": "Tanah",
     "numerology_id": "5 (Katalis: ketidakstabilan, perlawanan, konfrontasi)",
-    "mythical_id": "",
+    "mythical_id": "Dihubungkan dengan perumpamaan pengemis di depan gerbang dan arketipe 'malam gelap jiwa' di mana pertolongan sering kali lebih dekat daripada yang disadari.",
     "fortune_telling_id": [
       "Keuangan semakin ketat",
       "Bersiaplah untuk kemunduran"
@@ -3492,16 +3492,16 @@
       "How can I know if I'm treating others fairly?",
       "What could I give that no one else can?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Earth",
+    "archetype_en": "The Benevolent Provider of Balance",
     "numerology_en": "6 (The Adjustment: cooperation, collaboration, interaction)",
-    "mythical_en": "",
+    "mythical_en": "Associated with the concept of Ma'at and the scales of justice, reflecting the spiritual law of reciprocity, karma, and the equilibrium of giving and receiving.",
     "image_prompt_keywords_id": "orang kaya memberi koin kepada dua pengemis, timbangan emas tergantung di atasnya",
     "image_prompt_keywords_en": "Wealthy man giving coins to two beggars, scales in hand",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Penyedia Keseimbangan yang Dermawan",
+    "elemental_id": "Tanah",
     "numerology_id": "6 (Penyesuaian: kerjasama, kolaborasi, interaksi)",
-    "mythical_id": "",
+    "mythical_id": "Dihubungkan dengan konsep Ma'at dan timbangan keadilan, mencerminkan hukum spiritual tentang timbal balik, karma, dan keseimbangan antara memberi dan menerima.",
     "fortune_telling_id": [
       "Saat Anda membutuhkan bantuan, mintalah",
       "Namun ingat: apa yang Anda terima mungkin dibatasi oleh apa yang telah Anda berikan kepada orang lain di masa lalu"
@@ -3542,16 +3542,16 @@
       "What are the terms of success?",
       "How can I be happier with the progress I've made?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Earth",
+    "archetype_en": "The Patient Cultivator of Potential",
     "numerology_en": "7 (The Motive: imagination, inner work, psychology)",
-    "mythical_en": "",
+    "mythical_en": "Often associated with the myth of Demeter waiting for the harvest or the spiritual concept of 'Sowing and Reaping,' reflecting the period of gestation before fruition.",
     "image_prompt_keywords_id": "petani beristirahat memeriksa lima koin tertancap di tanah",
     "image_prompt_keywords_en": "Man leaning on staff, looking at seven pentacles on vine, weeding",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Sang Penggarap Potensi yang Sabar",
+    "elemental_id": "Tanah",
     "numerology_id": "7 (Motif: imajinasi, pekerjaan batin, psikologi)",
-    "mythical_id": "",
+    "mythical_id": "Sering dikaitkan dengan mitos Demeter yang menunggu masa panen atau konsep spiritual 'Menabur dan Menuai', yang mencerminkan masa penantian sebelum membuahkan hasil.",
     "fortune_telling_id": [
       "Segala sesuatunya tidak akan berjalan seperti yang diharapkan",
       "Ambil potongannya dan bersiap untuk melanjutkan"
@@ -3592,16 +3592,16 @@
       "How can you improve your level of dedication and focus?",
       "What work do you do best? What about that work appeals to you?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Earth",
+    "archetype_en": "The Diligent Apprentice mastering a craft.",
     "numerology_en": "8 (The Action: movement, outer work, swiftness)",
-    "mythical_en": "",
+    "mythical_en": "Associated with the archetypal smith Hephaestus, representing the spiritual value of dedicated labor and the transmutation of raw talent into perfected skill through repetitive, mindful practice.",
     "image_prompt_keywords_id": "tukang kayu bekerja giat di mejanya, delapan koin di sekitarnya",
     "image_prompt_keywords_en": "Engraver at work on pentacles, concentration, workshop",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Sang Murid Tekun yang menguasai keahlian.",
+    "elemental_id": "Tanah",
     "numerology_id": "8 (Aksi: gerakan, kerja luar, kecepatan)",
-    "mythical_id": "",
+    "mythical_id": "Dihubungkan dengan arketipe pandai besi Hephaestus, melambangkan nilai spiritual dari kerja keras yang berdedikasi serta transformasi bakat mentah menjadi keahlian sempurna melalui latihan yang penuh kesadaran dan pengulangan.",
     "fortune_telling_id": [
       "Berhentilah menganalisis, meneliti, dan membuat garis besar secara berlebihan",
       "Kencangkan sabuk pengaman dan selesaikan pekerjaan"
@@ -3641,16 +3641,16 @@
       "Could you make a complex task easier by breaking it down into smaller steps?",
       "How patient are you during the learning process? With yourself? With others?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Earth",
+    "archetype_en": "The Sovereign of Self-Sufficiency",
     "numerology_en": "9 (The Completion: fullness, readiness, ripeness)",
-    "mythical_en": "",
+    "mythical_en": "Associated with the archetype of the Garden of Hesperides, representing a state of cultivated abundance, refined solitude, and the harvest of one's personal efforts.",
     "image_prompt_keywords_id": "wanita kaya berdiri di kebun dengan sembilan koin emas, wajah puas",
     "image_prompt_keywords_en": "Woman in garden with bird on glove, nine pentacles, lush surroundings",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Sang Penguasa Kemandirian",
+    "elemental_id": "Tanah",
     "numerology_id": "9 (Penyelesaian: kepenuhan, kesiapan, kematangan)",
-    "mythical_id": "",
+    "mythical_id": "Dihubungkan dengan arketipe Taman Hesperides, yang mewakili kondisi kelimpahan yang terolah, kesendirian yang elegan, dan panen dari usaha pribadi seseorang.",
     "fortune_telling_id": [
       "Sampai Anda menghargai apa yang Anda miliki, Anda tidak akan beruntung mendapatkan lebih banyak"
     ],
@@ -3690,16 +3690,16 @@
       "How do I feel about wealth and abundance? How do I define these terms?",
       "How might shedding some possessions open room for growth?"
     ],
-    "elemental_en": "",
-    "archetype_en": "",
+    "elemental_en": "Earth",
+    "archetype_en": "The Legacy Bearer and Guardian of Generational Wealth",
     "numerology_en": "10 (The End: finality, completion, exhaustion)",
-    "mythical_en": "",
+    "mythical_en": "Reflects the Norse concept of the family tree and the fulfillment of the hero's journey where personal achievement merges into the prosperity of the entire bloodline.",
     "image_prompt_keywords_id": "keluarga berkumpul di depan rumah besar dengan pohon keberlimpahan di latar belakang",
     "image_prompt_keywords_en": "Elderly man with family, ten pentacles arranged in tree of life, archway with family crest",
-    "archetype_id": "",
-    "elemental_id": "",
+    "archetype_id": "Pewaris Warisan dan Penjaga Kekayaan Lintas Generasi",
+    "elemental_id": "Tanah",
     "numerology_id": "10 (Akhir: finalitas, penyelesaian, kelelahan)",
-    "mythical_id": "",
+    "mythical_id": "Mencerminkan konsep pohon keluarga dalam mitologi Nordik dan puncak perjalanan pahlawan di mana pencapaian pribadi menyatu menjadi kemakmuran bagi seluruh garis keturunan.",
     "fortune_telling_id": [
       "Uang besar akan segera tiba",
       "Harapkan berkat yang kuat menghampiri Anda"
@@ -3740,15 +3740,15 @@
       "What's the most practical choice you could make?"
     ],
     "elemental_en": "Earth of Earth.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
+    "archetype_en": "The Manifesting Student and Seeker of Grounded Potential",
+    "numerology_en": "11 (Page; new perspectives, messages, apprenticeship)",
+    "mythical_en": "Associated with the myth of Hermes as a youthful messenger of trade and alchemy, representing the initial spark of turning intellectual ideas into tangible material success.",
     "image_prompt_keywords_id": "pemuda memegang koin sambil menulis di buku catatan",
     "image_prompt_keywords_en": "Young person holding pentacle, looking at it, green field, study",
-    "archetype_id": "",
+    "archetype_id": "Sang Pelajar yang Mewujudkan dan Pencari Potensi Nyata",
     "elemental_id": "Bumi Bumi.",
-    "numerology_id": "",
-    "mythical_id": "",
+    "numerology_id": "11 (Page; perspektif baru, pesan, pembelajaran)",
+    "mythical_id": "Dihubungkan dengan mitos Hermes sebagai pembawa pesan muda dalam perdagangan dan alkimia, yang mewakili percikan awal dalam mengubah ide intelektual menjadi kesuksesan material yang nyata.",
     "fortune_telling_id": [
       "Kartu ini mewakili seorang pria atau wanita muda dengan sikap bersahaja dan praktis, kemungkinan besar terlahir sebagai Aries, Taurus, atau Gemini, yang dengan senang hati mendorong Anda untuk mengambil risiko finansial atau seksual"
     ],
@@ -3789,15 +3789,15 @@
       "How realistic are my goals?"
     ],
     "elemental_en": "Air of Earth.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
+    "archetype_en": "The Diligent Steward of the Earth",
+    "numerology_en": "12 (Knight; action, movement, quest)",
+    "mythical_en": "Reflects the steadfastness of Hephaestus, the divine craftsman, representing the patient toil required to manifest physical abundance through labor and reliability.",
     "image_prompt_keywords_id": "kesatria memegang koin di kuda pelan, latar padang terbuka",
     "image_prompt_keywords_en": "Knight on horse holding pentacle, plodding forward, fields",
-    "archetype_id": "",
+    "archetype_id": "Sang Pengelola Bumi yang Tekun",
     "elemental_id": "Udara Bumi.",
-    "numerology_id": "",
-    "mythical_id": "",
+    "numerology_id": "12 (Knight; aksi, pergerakan, pencarian)",
+    "mythical_id": "Mencerminkan keteguhan Hephaestus, sang pengrajin ilahi, yang mewakili kerja keras penuh kesabaran untuk mewujudkan kelimpahan fisik melalui usaha dan keandalan.",
     "fortune_telling_id": [
       "Orang yang pelit mungkin akan menegur Anda karena membelanjakan uang",
       "Bersiaplah untuk membela keputusan ekonomi atau seksual"
@@ -3838,15 +3838,15 @@
       "What would I have to give up in order to \"have it all?\""
     ],
     "elemental_en": "Water of Earth.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
+    "archetype_en": "The Nurturer of the Earthly Realm",
+    "numerology_en": "13 (Queen; mastery, inner power, maturity)",
+    "mythical_en": "Associated with Demeter, the Greek goddess of the harvest, embodying the fertility of the land and the protective maternal instinct that sustains all life.",
     "image_prompt_keywords_id": "ratu duduk di singgasana dikelilingi alam subur, memegang koin emas",
     "image_prompt_keywords_en": "Queen on throne in nature, holding pentacle, flowers, rabbit, abundant surroundings",
-    "archetype_id": "",
+    "archetype_id": "Sang Pemelihara Alam Duniawi",
     "elemental_id": "Air Bumi.",
-    "numerology_id": "",
-    "mythical_id": "",
+    "numerology_id": "13 (Queen; penguasaan, kekuatan batin, kematangan)",
+    "mythical_id": "Dihubungkan dengan Demeter, dewi panen dalam mitologi Yunani, yang melambangkan kesuburan tanah dan naluri keibuan pelindung yang menopang kehidupan.",
     "fortune_telling_id": [
       "Kartu ini mewakili seorang wanita dengan sifat sensual dan ekspansif, kemungkinan lahir antara tanggal 13 dan 31 Desember, yang menggunakan daya tarik sensual dan janji imbalan untuk mempengaruhi orang lain agar mengikuti sudut pandangnya."
     ],
@@ -3886,15 +3886,15 @@
       "To what extent is a conservative viewpoint valuable? At what point does it become more of a burden than a blessing?"
     ],
     "elemental_en": "Fire of Earth.",
-    "archetype_en": "",
-    "numerology_en": "",
-    "mythical_en": "",
+    "archetype_en": "The Provider and Master of Material Abundance",
+    "numerology_en": "14 (King; authority, leadership, responsibility)",
+    "mythical_en": "Associated with King Midas in his mastery over wealth or the stability of the Norse god Freyr, symbolizing the successful cultivation of the earth and tangible prosperity.",
     "image_prompt_keywords_id": "raja duduk di singgasana berhiaskan bahan emas, memegang tongkat dan koin, dikelilingi dekorasi mewah",
     "image_prompt_keywords_en": "King on throne with pentacle, castle in background, bull, abundance",
-    "archetype_id": "",
+    "archetype_id": "Penyedia dan Penguasa Kelimpahan Materi",
     "elemental_id": "Api Bumi.",
-    "numerology_id": "",
-    "mythical_id": "",
+    "numerology_id": "14 (King; otoritas, kepemimpinan, tanggung jawab)",
+    "mythical_id": "Dihubungkan dengan Raja Midas dalam penguasaannya atas kekayaan atau stabilitas dewa Norse Freyr, melambangkan keberhasilan dalam mengolah bumi dan kemakmuran yang nyata.",
     "fortune_telling_id": [
       "Kartu ini mewakili seorang pria lanjut usia dengan semangat konservatif secara finansial, sosial, dan politik, kemungkinan besar lahir antara 12 Agustus dan 11 September, yang dikenal suka menaruh uang di mulutnya."
     ],
