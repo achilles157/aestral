@@ -1,6 +1,7 @@
 import { parseAuthHeader } from './auth';
 import { getDeterministicThreeCards, getMangsaDeterministicThreeCards } from './tarot';
 import { getWetonInsight, getPranataMangsaId, getJamInsight } from './weton';
+import { calculateBaziChart, type BaziChartResult } from './bazi';
 import { callGemini } from './gemini';
 import { buildSystemInstruction, type AiContext } from './system_prompt';
 import { isRateLimited, getRateLimitResetSeconds } from './rate_limiter';
@@ -52,6 +53,14 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
 
 	if (method === 'POST' && pathname === '/api/tarot/reading') {
 		return handleTarotReading(request, env);
+	}
+
+	if (method === 'POST' && pathname === '/api/bazi/chart') {
+		return handleBaziChart(request);
+	}
+
+	if (method === 'POST' && pathname === '/api/bazi/insight') {
+		return handleBaziInsight(request, env);
 	}
 
 	return json({ error: 'Not Found' }, 404);
@@ -488,6 +497,155 @@ async function handleTarotReading(request: Request, env: Env): Promise<Response>
 		});
 	} catch (err) {
 		const message = err instanceof Error ? err.message : 'Terjadi kesalahan pada orakel tarot.';
+		return json({ error: message }, 500);
+	}
+}
+
+// --- Ba Zi Chart Handler ---
+
+interface BaziChartBody {
+	birthDate?: string;
+	birthHour?: number;
+	latitude?: number;
+	longitude?: number;
+}
+
+async function handleBaziChart(request: Request): Promise<Response> {
+	const authToken = parseAuthHeader(request.headers.get('Authorization'));
+	if (!authToken) {
+		return json({ error: 'Authorization header required' }, 400);
+	}
+
+	let body: BaziChartBody;
+	try {
+		body = (await request.json()) as BaziChartBody;
+	} catch {
+		return json({ error: 'Invalid JSON body' }, 400);
+	}
+
+	if (!body.birthDate) {
+		return json({ error: 'birthDate is required (format: YYYY-MM-DD)' }, 400);
+	}
+
+	// Validate date format
+	if (!/^\d{4}-\d{2}-\d{2}$/.test(body.birthDate)) {
+		return json({ error: 'birthDate must be in YYYY-MM-DD format' }, 400);
+	}
+
+	// Validate optional hour
+	if (body.birthHour !== undefined && (body.birthHour < 0 || body.birthHour > 23)) {
+		return json({ error: 'birthHour must be between 0 and 23' }, 400);
+	}
+
+	try {
+		const result: BaziChartResult = calculateBaziChart(
+			body.birthDate,
+			body.birthHour,
+			body.latitude,
+			body.longitude,
+		);
+
+		return json({
+			success: true,
+			isDynamic: authToken.type !== 'guest',
+			data: result,
+		});
+	} catch (err) {
+		const message = err instanceof Error ? err.message : 'Gagal menghitung peta Ba Zi.';
+		return json({ error: message }, 500);
+	}
+}
+
+// --- Ba Zi Insight Handler ---
+
+interface BaziInsightBody extends BaziChartBody {
+	prompt?: string;
+	/** Optional Day Master arketipe label from 10day-masters.json */
+	dayMasterArketipe?: string;
+}
+
+async function handleBaziInsight(request: Request, env: Env): Promise<Response> {
+	const authToken = parseAuthHeader(request.headers.get('Authorization'));
+	if (!authToken) {
+		return json({ error: 'Authorization header required' }, 400);
+	}
+
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+	if (isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS)) {
+		const resetSeconds = getRateLimitResetSeconds(clientIp, CHAT_RATE_LIMIT_WINDOW_MS);
+		return new Response(
+			JSON.stringify({
+				error: 'Terlalu banyak pertanyaan. Orakel kosmis sedang beristirahat.',
+				retryAfterSeconds: resetSeconds,
+			}),
+			{
+				status: 429,
+				headers: { 'Content-Type': 'application/json', 'Retry-After': String(resetSeconds), ...CORS_HEADERS },
+			},
+		);
+	}
+
+	let body: BaziInsightBody;
+	try {
+		body = (await request.json()) as BaziInsightBody;
+	} catch {
+		return json({ error: 'Invalid JSON body' }, 400);
+	}
+
+	if (!body.birthDate) {
+		return json({ error: 'birthDate is required (format: YYYY-MM-DD)' }, 400);
+	}
+
+	const apiKey = env.GEMINI_API_KEY;
+	if (!apiKey || apiKey === 'PLACEHOLDER_REPLACE_WITH_WRANGLER_SECRET') {
+		return json({ error: 'AI service belum dikonfigurasi' }, 503);
+	}
+
+	try {
+		const chart: BaziChartResult = calculateBaziChart(
+			body.birthDate,
+			body.birthHour,
+			body.latitude,
+			body.longitude,
+		);
+
+		// Format pillar strings for AI context
+		const formatPillar = (p: BaziChartResult['yearPillar']) =>
+			`${p.stemNameId} ${p.branchZodiacId} (${p.stemSymbol}${p.branchSymbol} — ${p.id})`;
+
+		const { kayu, api, tanah, logam, air } = chart.wuXingBalance;
+		const wuXingStr = `Kayu:${kayu} Api:${api} Tanah:${tanah} Logam:${logam} Air:${air}`;
+
+		const arketipe = body.dayMasterArketipe ?? chart.dayMasterElement;
+		const polarity = chart.dayPillar.stemIndex % 2 === 0 ? 'Yang' : 'Yin';
+		const dayMasterLabel = `${chart.dayMasterId.charAt(0).toUpperCase() + chart.dayMasterId.slice(1)} — ${chart.dayMasterElement.charAt(0).toUpperCase() + chart.dayMasterElement.slice(1)} ${polarity} — ${arketipe}`;
+
+		const aiContext: AiContext = {
+			baziChart: {
+				yearPillar:     formatPillar(chart.yearPillar),
+				monthPillar:    formatPillar(chart.monthPillar),
+				dayPillar:      formatPillar(chart.dayPillar),
+				hourPillar:     chart.hourPillar ? formatPillar(chart.hourPillar) : null,
+				dayMasterId:    chart.dayMasterId,
+				dayMasterLabel,
+				wuXingBalance:  wuXingStr,
+			},
+		};
+
+		const userPrompt = body.prompt?.trim() ||
+			`Bacakan peta kosmis Ba Zi saya. Fokus pada Day Master saya dan apa yang perlu saya sadari tentang diri sendiri.`;
+
+		const systemInstruction = buildSystemInstruction(aiContext);
+		const aiResponse = await callGemini(systemInstruction, userPrompt, apiKey);
+
+		return json({
+			success: true,
+			chart,
+			response: aiResponse,
+			trueSolarTimeNote: chart.trueSolarTimeNote,
+		});
+	} catch (err) {
+		const message = err instanceof Error ? err.message : 'Terjadi kesalahan pada orakel Ba Zi.';
 		return json({ error: message }, 500);
 	}
 }

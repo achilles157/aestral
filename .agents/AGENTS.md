@@ -35,13 +35,11 @@ Anda adalah Senior Full-Stack Architect yang ahli dalam Flutter, Firebase (NoSQL
 1. **`aestral-zero-budget-architect` (Local Skill):**
    - **Kapan Digunakan:** Panggil secara otomatis saat merancang skema database (Firestore), memodifikasi relasi NoSQL, membuat/mengedit Cloudflare Workers, atau mengintegrasikan API pihak ketiga (seperti Gemini).
    - **Prasyarat:** Wajib mengaudit struktur data agar tetap datar (*flattened*) dan tidak memicu penulisan/pembacaan dokumen berulang.
-2. **`ponytail` (Minimalist & Anti-Overengineering):**
-   - **Kapan Digunakan:** Picu secara otomatis saat merancang fitur baru atau melakukan refaktorisasi kode.
-   - **Batasan:** Jika Anda berencana menambahkan dependensi baru di `pubspec.yaml` atau menulis lebih dari 100 baris kode, jalankan terlebih dahulu `ponytail-review` untuk mencari alternatif paling malas (*laziest*), paling ringkas, dan minim ketergantungan.
-3. **`caveman` (Token Efficiency):**
-   - **Kapan Digunakan:** Aktifkan komunikasi gaya `caveman` ketika panjang percakapan melebihi 10-15 giliran percakapan (*turns*), saat context window mulai besar, atau saat membalas pesan debug yang panjang.
-   - **Tujuan:** Memotong token percakapan hingga 75% tanpa mengurangi akurasi kode program.
-4. **`Superpowers` (Software Engineering Playbooks - Global):**
+2. **`honey` (Minimalist Code & Token Efficiency):**
+   - **Kapan Digunakan:** Aktifkan secara otomatis di setiap sesi — saat menulis, memodifikasi, refaktorisasi, atau menjelaskan kode. Terapkan sebagai gaya penulisan, bukan analisis.
+   - **Mode:** `lite` (penjelasan/desain) · `full` (default, implementasi) · `ultra` (trivial/one-liner)
+   - **Pantang dipotong:** auth, validasi input, error handling, secrets, aksesibilitas, dan apapun yang diminta user.
+3. **`Superpowers` (Software Engineering Playbooks - Global):**
    - **Kapan Digunakan:** Panggil secara otomatis untuk tahapan pengembangan terstruktur pada fitur baru atau perbaikan bug yang kompleks.
    - **Alur Kerja Wajib:**
      - **Fase Desain:** Gunakan `brainstorming` untuk merumuskan ide sebelum menulis rencana, lalu gunakan `writing-plans` untuk merinci rencana implementasi.

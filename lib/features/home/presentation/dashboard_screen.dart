@@ -6,6 +6,7 @@ import '../../auth/services/profile_service.dart';
 import '../../tarot/presentation/tarot_draw_screen.dart';
 import '../../weton/presentation/weton_calculator_screen.dart';
 import '../../weton/presentation/astrological_planner_screen.dart';
+import '../../bazi/presentation/bazi_calculator_screen.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/weton_utils.dart';
 import '../../../core/utils/navigation_helper.dart';
@@ -215,6 +216,18 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> with SingleTi
           Navigator.push(
             context,
             createCosmicPageRoute(const AstrologicalPlannerScreen()),
+          );
+        },
+      ),
+      CarouselItem(
+        title: 'Ba Zi — 四柱八字',
+        subtitle: 'Peta langit kelahiran: 4 Pilar, Day Master, dan keseimbangan 5 Elemen Wu Xing',
+        icon: Icons.grid_4x4_rounded,
+        accentColor: Color(0xFF60A5FA),
+        onTap: () {
+          Navigator.push(
+            context,
+            createCosmicPageRoute(const BaziCalculatorScreen()),
           );
         },
       ),

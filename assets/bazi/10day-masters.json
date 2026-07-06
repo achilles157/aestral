@@ -1,0 +1,222 @@
+[
+  {
+    "id": "jia",
+    "elemen": "Kayu Yang",
+    "metafora_alam": "Pohon Besar yang Kokoh",
+    "arketipe_modern": "Sang Pelopor",
+    "karakter_dasar": "Jia adalah pohon besar—teguh, berprinsip, dan selalu tumbuh ke atas. Mereka adalah pemimpin alami yang mengayomi, dengan visi jangka panjang dan tekad yang sulit digoyahkan.",
+    "dinamika_karier": "Kamu berkembang di lingkungan yang memberi ruang untuk memimpin dan berinovasi. Cocok sebagai founder, direktur, atau manajer senior. Hindari birokrasi berlebihan—kamu butuh otonomi untuk berkarya.",
+    "industri_cocok": [
+      "Founder & Startup",
+      "Manajemen Senior",
+      "Kepemimpinan Organisasi"
+    ],
+    "tags_karakter": [
+      "Teguh",
+      "Visioner",
+      "Mengayomi",
+      "Berprinsip"
+    ],
+    "dinamika_asmara": "Dalam cinta, kamu setia dan protektif, tapi kadang terlalu kaku. Pasanganmu mungkin merasa 'diawasi' bukan 'dicintai'. Belajar melepaskan kontrol adalah kunci keintiman sejati.",
+    "pesan_kesadaran": "Kekuatanmu adalah keteguhan—tapi ingat, pohon yang tidak pernah melentur akan patah saat badai. Belajar mendengar sebelum memutuskan.",
+    "ai_hook": "Kamu adalah Sang Pelopor yang selalu tumbuh ke atas — tapi ada satu akar tersembunyi yang selama ini menahanmu dari puncak tertinggimu. Tanya AI Oracle untuk menemukannya."
+  },
+  {
+    "id": "yi",
+    "elemen": "Kayu Yin",
+    "metafora_alam": "Rumput yang Lentur",
+    "arketipe_modern": "Sang Penyesuai",
+    "karakter_dasar": "Yi adalah rumput yang meliuk mengikuti angin—fleksibel, adaptif, dan penuh empati. Mereka adalah pendengar ulung yang mampu membaca ruangan dan menyesuaikan diri dengan siapa pun.",
+    "dinamika_karier": "Kamu unggul di peran yang membutuhkan diplomasi dan kecerdasan emosional: HR, konsultan, atau customer experience. Hindari pekerjaan yang terlalu kaku dan berulang—kamu butuh variasi.",
+    "industri_cocok": [
+      "Sumber Daya Manusia",
+      "Konsultan",
+      "Customer Experience"
+    ],
+    "tags_karakter": [
+      "Fleksibel",
+      "Empatik",
+      "Diplomatis",
+      "Adaptif"
+    ],
+    "dinamika_asmara": "Kamu adalah pasangan yang penuh perhatian dan selalu berusaha memahami. Tapi hati-hati: terlalu banyak menyesuaikan diri bisa membuatmu kehilangan jati diri. Cinta sejati menerimamu apa adanya.",
+    "pesan_kesadaran": "Fleksibilitas adalah kekuatanmu—tapi jangan sampai lentur berarti kehilangan bentuk. Ketahui kapan harus tetap teguh pada nilai-nilai intimu.",
+    "ai_hook": "Kelenturanmu membuatmu bertahan dalam badai apapun — tapi ada satu titik buta yang membuat orang mengambil keuntungan tanpa kamu sadari. Tanya AI Oracle untuk melihatnya."
+  },
+  {
+    "id": "bing",
+    "elemen": "Api Yang",
+    "metafora_alam": "Matahari di Siang Hari",
+    "arketipe_modern": "Sang Visioner",
+    "karakter_dasar": "Bing adalah matahari—terang, hangat, dan tak terbendung. Mereka adalah pembawa semangat dengan karisma alami yang mampu menerangi dan menginspirasi siapa pun di sekitarnya.",
+    "dinamika_karier": "Kamu adalah pemimpin yang karismatik—cocok di bidang yang membutuhkan visi dan energi: CEO, motivator, atau public figure. Kamu membutuhkan audiens; kerja di balik layar akan membuatmu layu.",
+    "industri_cocok": [
+      "CEO & Kepemimpinan",
+      "Media & Hiburan",
+      "Motivator Publik"
+    ],
+    "tags_karakter": [
+      "Karismatik",
+      "Inspiratif",
+      "Bersemangat",
+      "Visioner"
+    ],
+    "dinamika_asmara": "Kamu mencintai dengan penuh gairah dan kemurahan hati. Tapi api yang terlalu terang kadang membuat pasangan kepanasan. Belajar memberi ruang dan mendengar—cinta bukan hanya tentang memberi cahaya.",
+    "pesan_kesadaran": "Terangmu adalah anugerah—tapi ingat, matahari juga harus terbenam. Jangan takut untuk beristirahat dan menunjukkan sisi rapuhmu.",
+    "ai_hook": "Karisma Mataharimu menerangi siapa saja di sekitarmu — tapi ada satu energi yang secara diam-diam menguras cahayamu sendiri. Tanya AI Oracle untuk mengetahuinya."
+  },
+  {
+    "id": "ding",
+    "elemen": "Api Yin",
+    "metafora_alam": "Lilin yang Menghangatkan",
+    "arketipe_modern": "Sang Penghangat",
+    "karakter_dasar": "Ding adalah lilin—tenang, hangat, dan menciptakan suasana nyaman. Mereka adalah penjaga keintiman yang bisa membuat siapa pun merasa 'di rumah' hanya dengan kehadirannya.",
+    "dinamika_karier": "Kamu unggul dalam peran yang membutuhkan kehangatan dan sentuhan personal: konselor, desainer interior, atau hospitality. Hindari lingkungan yang kompetitif dan dingin—kamu butuh koneksi manusia.",
+    "industri_cocok": [
+      "Konseling & Terapi",
+      "Desain Interior",
+      "Hospitality"
+    ],
+    "tags_karakter": [
+      "Hangat",
+      "Penuh Perhatian",
+      "Intuitif",
+      "Tenang"
+    ],
+    "dinamika_asmara": "Kamu adalah pasangan yang menenangkan—kehadiranmu adalah pelukan yang tak terlihat. Tapi lilin juga bisa padam jika terlalu banyak ditiup. Jangan biarkan dirimu menjadi 'penghangat' yang kehabisan bahan bakar.",
+    "pesan_kesadaran": "Ketenanganmu adalah kekuatan—tapi jangan biarkan kebaikanmu membuat orang lain memanfaatkanmu. Nyala kecil yang konsisten lebih berharga dari nyala besar yang cepat padam.",
+    "ai_hook": "Kehangatan Lilinmu menenangkan semua orang — tapi ada satu kerentanan yang terus-menerus memadamkan apimu di momen paling penting. Tanya AI Oracle untuk mengenal bayangan ini."
+  },
+  {
+    "id": "wu",
+    "elemen": "Tanah Yang",
+    "metafora_alam": "Gunung yang Kokoh",
+    "arketipe_modern": "Sang Penjaga",
+    "karakter_dasar": "Wu adalah gunung—stabil, dapat diandalkan, dan menjadi fondasi bagi banyak orang. Mereka adalah pilar kekuatan yang memberi rasa aman pada siapa pun di dekatnya.",
+    "dinamika_karier": "Kamu adalah tulang punggung organisasi—cocok sebagai manajer operasional, arsitek, atau di bidang real estate. Kamu butuh pekerjaan yang stabil dan terukur; chaos bukan temanmu.",
+    "industri_cocok": [
+      "Manajemen Operasional",
+      "Arsitektur",
+      "Real Estat"
+    ],
+    "tags_karakter": [
+      "Stabil",
+      "Dapat Diandalkan",
+      "Protektif",
+      "Terorganisir"
+    ],
+    "dinamika_asmara": "Kamu adalah pasangan yang bisa diandalkan—tempat sandaran yang aman. Tapi gunung yang terlalu kokoh kadang terasa dingin. Belajar menunjukkan emosi dan kerentanan adalah kunci cinta yang hangat.",
+    "pesan_kesadaran": "Stabilitasmu adalah berkah—tapi jangan biarkan kenyamanan membuatmu berhenti berkembang. Gunung juga terbentuk dari pergeseran dan perubahan.",
+    "ai_hook": "Stabilitasmu adalah fondasi bagi banyak orang — tapi ada satu ketakutan tersembunyi yang membuat Gunung ini tidak pernah benar-benar maju. Tanya AI Oracle."
+  },
+  {
+    "id": "ji",
+    "elemen": "Tanah Yin",
+    "metafora_alam": "Tanah yang Subur",
+    "arketipe_modern": "Sang Pemelihara",
+    "karakter_dasar": "Ji adalah tanah subur—sabar, merawat, dan memberi kehidupan bagi apa pun yang tumbuh di atasnya. Mereka adalah pengasuh alami yang selalu memastikan orang lain merasa diperhatikan.",
+    "dinamika_karier": "Kamu cocok di bidang yang membutuhkan kesabaran dan perhatian: pertanian, pendidikan, atau manajemen sumber daya. Kamu adalah 'perekat' tim yang membuat semua orang tetap terhubung.",
+    "industri_cocok": [
+      "Pendidikan",
+      "Manajemen SDM",
+      "Pertanian & Lingkungan"
+    ],
+    "tags_karakter": [
+      "Sabar",
+      "Merawat",
+      "Kolaboratif",
+      "Teliti"
+    ],
+    "dinamika_asmara": "Kamu adalah pasangan yang merawat—selalu memastikan kebutuhan pasangan terpenuhi. Tapi jangan sampai merawat orang lain membuatmu lupa merawat diri. Cinta sejati adalah jalan dua arah.",
+    "pesan_kesadaran": "Kebaikanmu adalah anugerah—tapi ingat, tanah yang terus-menerus memberi tanpa istirahat akan kehabisan nutrisi. Belajar menerima juga bagian dari memberi.",
+    "ai_hook": "Kamu merawat semua orang dengan tulus — tapi ada satu kebutuhan terdalam yang tidak pernah kamu berikan pada dirimu sendiri. Tanya AI Oracle untuk menemukannya."
+  },
+  {
+    "id": "geng",
+    "elemen": "Logam Yang",
+    "metafora_alam": "Pedang yang Tajam",
+    "arketipe_modern": "Sang Pendekar",
+    "karakter_dasar": "Geng adalah pedang—tajam, tegas, dan tidak mentolerir ketidakadilan. Mereka adalah pejuang kebenaran yang berani dan selalu siap membela apa yang mereka yakini.",
+    "dinamika_karier": "Kamu unggul di bidang yang membutuhkan ketegasan dan keberanian: hukum, militer, atau bedah. Kamu butuh tantangan—pekerjaan yang terlalu aman akan membuatmu berkarat.",
+    "industri_cocok": [
+      "Hukum & Keadilan",
+      "Militer & Keamanan",
+      "Bedah & Medis"
+    ],
+    "tags_karakter": [
+      "Tegas",
+      "Berani",
+      "Berintegritas",
+      "Pejuang"
+    ],
+    "dinamika_asmara": "Kamu mencintai dengan sepenuh hati dan kesetiaan baja. Tapi pedang yang terlalu tajam bisa melukai. Belajar menggunakan 'sarung'—kelembutan—adalah kunci hubungan yang bertahan lama.",
+    "pesan_kesadaran": "Ketajamanmu adalah kekuatan—tapi ingat, pedang terbaik adalah yang tidak perlu selalu dikeluarkan. Kelembutan bukan kelemahan, tapi pilihan.",
+    "ai_hook": "Ketajamanmu sangat kuat dan tanpa kompromi — tapi ada satu luka lama yang terus membuat pedang ini retak di saat paling krusial. Tanya AI Oracle."
+  },
+  {
+    "id": "xin",
+    "elemen": "Logam Yin",
+    "metafora_alam": "Perhiasan yang Berkilau",
+    "arketipe_modern": "Sang Estet",
+    "karakter_dasar": "Xin adalah perhiasan—halus, indah, dan penuh detail. Mereka adalah perfeksionis dengan selera tinggi yang melihat keindahan di mana orang lain hanya melihat biasa.",
+    "dinamika_karier": "Kamu cocok di bidang yang membutuhkan ketelitian dan estetika: desain, seni, atau quality assurance. Kamu butuh lingkungan yang menghargai kualitas, bukan kuantitas.",
+    "industri_cocok": [
+      "Desain & Seni",
+      "Quality Assurance",
+      "Perhiasan & Mode"
+    ],
+    "tags_karakter": [
+      "Perfeksionis",
+      "Estetis",
+      "Detail-Oriented",
+      "Halus"
+    ],
+    "dinamika_asmara": "Kamu adalah pasangan yang penuh perhatian pada detail—ingat tanggal penting, kata-kata kecil, dan hal-hal yang tak terlihat. Tapi perfeksionismu kadang membuatmu sulit puas. Cinta bukan tentang sempurna.",
+    "pesan_kesadaran": "Keindahan adalah bahasamu—tapi ingat, perhiasan terbaik adalah yang bisa dinikmati, bukan hanya dipajang. Belajar menerima ketidaksempurnaan, dalam dirimu dan orang lain.",
+    "ai_hook": "Kilauanmu mempesona dunia dari luar — tapi ada satu bayangan gelap yang menyembunyikan nilai sejatimu dari dirimu sendiri. Tanya AI Oracle untuk melihatnya."
+  },
+  {
+    "id": "ren",
+    "elemen": "Air Yang",
+    "metafora_alam": "Sungai yang Mengalir",
+    "arketipe_modern": "Sang Petualang",
+    "karakter_dasar": "Ren adalah sungai—mengalir bebas, penuh energi, dan selalu mencari jalan baru. Mereka adalah jiwa petualang yang tak pernah puas dengan rutinitas dan selalu haus akan pengalaman.",
+    "dinamika_karier": "Kamu berkembang di lingkungan yang dinamis: travel, ekspedisi, atau startup. Kamu butuh kebebasan bergerak—kerja kantoran yang monoton akan membuatmu mati perlahan.",
+    "industri_cocok": [
+      "Startup & Inovasi",
+      "Travel & Ekspedisi",
+      "Wirausaha"
+    ],
+    "tags_karakter": [
+      "Bebas",
+      "Dinamis",
+      "Inovatif",
+      "Berani"
+    ],
+    "dinamika_asmara": "Kamu adalah pasangan yang penuh kejutan—tidak pernah membosankan. Tapi sungai yang terlalu deras kadang membuat pasangan kewalahan. Belajar berlabuh dan konsisten adalah kunci cinta yang dalam.",
+    "pesan_kesadaran": "Kebebasan adalah darahmu—tapi ingat, sungai yang tidak pernah berhenti akan kehilangan kedalaman. Terkadang, berhenti sejenak justru membuatmu lebih kaya.",
+    "ai_hook": "Arus bawahmu membawa kebijaksanaan yang dalam — tapi ada satu rintangan tersembunyi yang membuat sungai besar ini terus berputar di tempat yang sama. Tanya AI Oracle."
+  },
+  {
+    "id": "gui",
+    "elemen": "Air Yin",
+    "metafora_alam": "Embun Pagi yang Tenang",
+    "arketipe_modern": "Sang Perenung",
+    "karakter_dasar": "Gui adalah embun—halus, tenang, dan penuh kedalaman yang tak terlihat. Mereka adalah perenung dengan intuisi tajam yang bisa merasakan apa yang tidak terucapkan oleh orang lain.",
+    "dinamika_karier": "Kamu unggul di bidang yang membutuhkan intuisi dan kedalaman: psikologi, penelitian, atau seni. Kamu butuh ketenangan untuk berpikir—keramaian dan kebisingan adalah musuhmu.",
+    "industri_cocok": [
+      "Psikologi & Riset",
+      "Seni & Sastra",
+      "Konsultan Strategi"
+    ],
+    "tags_karakter": [
+      "Intuitif",
+      "Mendalam",
+      "Reflektif",
+      "Sensitif"
+    ],
+    "dinamika_asmara": "Kamu adalah pasangan yang dalam—tidak banyak bicara tapi penuh makna. Tapi kedalamanmu kadang membuat pasangan merasa tidak cukup 'masuk'. Belajar membuka diri dan berbagi adalah kunci cinta yang terhubung.",
+    "pesan_kesadaran": "Intuisi adalah anugerahmu—tapi ingat, tidak semua yang kamu rasakan adalah kebenaran mutlak. Kadang, bicara lebih baik dari pada hanya merasakan.",
+    "ai_hook": "Intuisi jernihmu menyentuh kebenaran yang tidak bisa dilihat orang lain — tapi ada satu pola bawah sadar yang terus mengaburkan visimu sendiri. Tanya AI Oracle untuk mengungkapnya."
+  }
+]

@@ -70,6 +70,46 @@ class ProfileService {
     return false;
   }
 
+  /// Saves only the biometric anchor (DOB + coordinates) without touching weton.
+  /// Uses Firestore merge so existing architectural_pillars data is preserved.
+  /// Called by Ba Zi screen after a successful calculation.
+  Future<bool> saveBirthData({
+    required DateTime dob,
+    required double latitude,
+    required double longitude,
+    String? gender, // 'male' | 'female' | null
+  }) async {
+    final session = _ref.read(authProvider);
+    if (session == null) return false;
+
+    final Map<String, dynamic> anchor = {
+      'dob_utc_ms': dob.millisecondsSinceEpoch,
+      'coordinates': {'lat': latitude, 'lng': longitude},
+    };
+    if (gender != null) anchor['gender'] = gender;
+
+    final data = {'biometric_anchor': anchor};
+
+    try {
+      if (isFirebaseAvailable && !session.isMock) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(session.uid)
+            .set(data, SetOptions(merge: true));
+        return true;
+      } else {
+        _temporaryGuestProfile = {
+          ...?_temporaryGuestProfile,
+          ...data,
+        };
+        return true;
+      }
+    } catch (e) {
+      debugPrint('Error saving birth data: $e');
+    }
+    return false;
+  }
+
   Future<Map<String, dynamic>?> loadProfile() async {
     final session = _ref.read(authProvider);
     if (session == null) return null;

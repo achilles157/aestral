@@ -1,0 +1,92 @@
+[
+  {
+    "id": "jia",
+    "index": 0,
+    "symbol": "甲",
+    "pinyin": "Jiǎ",
+    "name_id": "Kayu Yang",
+    "element": "kayu",
+    "polarity": "yang"
+  },
+  {
+    "id": "yi",
+    "index": 1,
+    "symbol": "乙",
+    "pinyin": "Yǐ",
+    "name_id": "Kayu Yin",
+    "element": "kayu",
+    "polarity": "yin"
+  },
+  {
+    "id": "bing",
+    "index": 2,
+    "symbol": "丙",
+    "pinyin": "Bǐng",
+    "name_id": "Api Yang",
+    "element": "api",
+    "polarity": "yang"
+  },
+  {
+    "id": "ding",
+    "index": 3,
+    "symbol": "丁",
+    "pinyin": "Dīng",
+    "name_id": "Api Yin",
+    "element": "api",
+    "polarity": "yin"
+  },
+  {
+    "id": "wu",
+    "index": 4,
+    "symbol": "戊",
+    "pinyin": "Wù",
+    "name_id": "Tanah Yang",
+    "element": "tanah",
+    "polarity": "yang"
+  },
+  {
+    "id": "ji",
+    "index": 5,
+    "symbol": "己",
+    "pinyin": "Jǐ",
+    "name_id": "Tanah Yin",
+    "element": "tanah",
+    "polarity": "yin"
+  },
+  {
+    "id": "geng",
+    "index": 6,
+    "symbol": "庚",
+    "pinyin": "Gēng",
+    "name_id": "Logam Yang",
+    "element": "logam",
+    "polarity": "yang"
+  },
+  {
+    "id": "xin",
+    "index": 7,
+    "symbol": "辛",
+    "pinyin": "Xīn",
+    "name_id": "Logam Yin",
+    "element": "logam",
+    "polarity": "yin"
+  },
+  {
+    "id": "ren",
+    "index": 8,
+    "symbol": "壬",
+    "pinyin": "Rén",
+    "name_id": "Air Yang",
+    "element": "air",
+    "polarity": "yang"
+  },
+  {
+    "id": "gui",
+    "index": 9,
+    "symbol": "癸",
+    "pinyin": "Guǐ",
+    "name_id": "Air Yin",
+    "element": "air",
+    "polarity": "yin"
+  }
+]

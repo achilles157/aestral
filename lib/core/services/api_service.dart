@@ -192,4 +192,83 @@ class ApiService {
       rethrow;
     }
   }
+
+  /// Calls POST /api/bazi/chart — kalkulasi 4 Pilar Ba Zi dari backend.
+  /// Menerima koordinat untuk koreksi True Solar Time (TST).
+  static Future<Map<String, dynamic>> getBaziChart({
+    required String birthDate,
+    int? birthHour,
+    double? latitude,
+    double? longitude,
+    required String authHeader,
+  }) async {
+    final url = Uri.parse('$baseUrl/api/bazi/chart');
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authHeader,
+        },
+        body: json.encode({
+          'birthDate': birthDate,
+          if (birthHour != null) 'birthHour': birthHour,
+          if (latitude != null) 'latitude': latitude,
+          if (longitude != null) 'longitude': longitude,
+        }),
+      ).timeout(const Duration(seconds: 10));
+
+      if (response.statusCode != 200) {
+        throw Exception('Status ${response.statusCode}: ${response.body}');
+      }
+
+      final data = json.decode(response.body);
+      if (data is Map<String, dynamic>) return data;
+      throw Exception('Invalid response format');
+    } catch (e) {
+      debugPrint('ApiService.getBaziChart error: $e');
+      rethrow;
+    }
+  }
+
+  /// Calls POST /api/bazi/insight — kalkulasi + narasi AI Oracle Ba Zi via Gemini.
+  static Future<Map<String, dynamic>> getBaziInsight({
+    required String birthDate,
+    int? birthHour,
+    double? latitude,
+    double? longitude,
+    String? prompt,
+    String? dayMasterArketipe,
+    required String authHeader,
+  }) async {
+    final url = Uri.parse('$baseUrl/api/bazi/insight');
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authHeader,
+        },
+        body: json.encode({
+          'birthDate': birthDate,
+          if (birthHour != null) 'birthHour': birthHour,
+          if (latitude != null) 'latitude': latitude,
+          if (longitude != null) 'longitude': longitude,
+          if (prompt != null) 'prompt': prompt,
+          if (dayMasterArketipe != null) 'dayMasterArketipe': dayMasterArketipe,
+        }),
+      ).timeout(const Duration(seconds: 30));
+
+      if (response.statusCode != 200) {
+        throw Exception('Status ${response.statusCode}: ${response.body}');
+      }
+
+      final data = json.decode(response.body);
+      if (data is Map<String, dynamic>) return data;
+      throw Exception('Invalid response format');
+    } catch (e) {
+      debugPrint('ApiService.getBaziInsight error: $e');
+      rethrow;
+    }
+  }
 }

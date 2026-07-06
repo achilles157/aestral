@@ -1,0 +1,132 @@
+[
+  {
+    "id": "direct_wealth",
+    "nama_tradisional": "Direct Wealth (正財)",
+    "nama_modern": "Sang Pembangun",
+    "fokus_utama": "Stabilitas & Keamanan Finansial",
+    "interpretasi_psikologis": "Direct Wealth adalah energi yang mendambakan kepastian—kamu bekerja keras untuk membangun fondasi yang kokoh. Setiap langkah dihitung, setiap risiko dipertimbangkan matang-matang. Kamu adalah penjaga perapian yang memastikan tidak ada yang kelaparan.",
+    "superpower_karier": [
+      "Manajemen keuangan yang disiplin",
+      "Konsistensi dan keandalan tinggi",
+      "Kemampuan membangun dari nol dengan sabar"
+    ],
+    "ai_hook": ""
+  },
+  {
+    "id": "indirect_wealth",
+    "nama_tradisional": "Indirect Wealth (偏財)",
+    "nama_modern": "Sang Jaring",
+    "fokus_utama": "Kebebasan & Peluang",
+    "interpretasi_psikologis": "Indirect Wealth adalah jiwa petualang finansial—kamu melihat peluang di mana orang lain melihat risiko. Tidak terikat pada satu sumber, kamu membangun jaring koneksi dan membuka pintu bagi keberuntungan yang tak terduga.",
+    "superpower_karier": [
+      "Networking dan membangun relasi",
+      "Keberanian mengambil risiko terukur",
+      "Melihat peluang di tengah ketidakpastian"
+    ],
+    "ai_hook": ""
+  },
+  {
+    "id": "direct_officer",
+    "nama_tradisional": "Direct Officer (正官)",
+    "nama_modern": "Sang Penjaga Aturan",
+    "fokus_utama": "Keteraturan & Tanggung Jawab",
+    "interpretasi_psikologis": "Direct Officer adalah energi yang menghormati struktur—kamu percaya bahwa aturan ada untuk melindungi dan memberdayakan. Seperti 'coach' yang tegas namun adil, kamu membawa ketertiban ke mana pun kamu pergi. Kamu adalah 'orang yang bertanggung jawab' dalam setiap tim.",
+    "superpower_karier": [
+      "Integritas dan tanggung jawab tinggi",
+      "Kemampuan mengelola sistem dan prosedur",
+      "Kepemimpinan yang adil dan terstruktur"
+    ],
+    "ai_hook": ""
+  },
+  {
+    "id": "seven_killings",
+    "nama_tradisional": "Seven Killings (七殺)",
+    "nama_modern": "Sang Pendobrak",
+    "fokus_utama": "Kemenangan & Transformasi",
+    "interpretasi_psikologis": "Seven Killings adalah energi yang tidak takut pada tekanan—justru di situlah kamu hidup. Kamu adalah 'A-type personality' yang didorong oleh kompetisi dan tantangan. Bukan sekadar menang, kamu ingin mengubah permainan itu sendiri.",
+    "superpower_karier": [
+      "Ketahanan mental di bawah tekanan ekstrem",
+      "Keberanian mengambil keputusan sulit",
+      "Kemampuan membawa perubahan radikal"
+    ],
+    "ai_hook": ""
+  },
+  {
+    "id": "direct_resource",
+    "nama_tradisional": "Direct Resource (正印)",
+    "nama_modern": "Sang Pustaka",
+    "fokus_utama": "Pengetahuan & Kebijaksanaan",
+    "interpretasi_psikologis": "Direct Resource adalah energi yang haus akan pemahaman—kamu belajar bukan untuk pamer, tapi untuk menjadi versi terbaik dirimu. Seperti 'scholar', kamu mencari makna di balik setiap informasi.",
+    "superpower_karier": [
+      "Kemampuan belajar dan mengajar yang luar biasa",
+      "Empati dan kecerdasan emosional tinggi",
+      "Analisis mendalam dan pemikiran sistemik"
+    ],
+    "ai_hook": ""
+  },
+  {
+    "id": "indirect_resource",
+    "nama_tradisional": "Indirect Resource (偏印)",
+    "nama_modern": "Sang Perenung",
+    "fokus_utama": "Kedalaman & Orisinalitas",
+    "interpretasi_psikologis": "Indirect Resource adalah energi yang mencintai kesendirian—bukan karena anti-sosial, tapi karena di sanalah ide-ide terbaik lahir. Kamu adalah 'pemikir lateral' yang melihat koneksi yang tidak terlihat oleh orang lain.",
+    "superpower_karier": [
+      "Pemikiran out-of-the-box dan inovasi",
+      "Kemampuan fokus mendalam",
+      "Intuisi dan wawasan yang tajam"
+    ],
+    "ai_hook": ""
+  },
+  {
+    "id": "eating_god",
+    "nama_tradisional": "Eating God (食神)",
+    "nama_modern": "Sang Pencipta",
+    "fokus_utama": "Ekspresi & Kenikmatan",
+    "interpretasi_psikologis": "Eating God adalah energi kreatif yang lembut—kamu mengekspresikan diri dengan cara yang mengundang, bukan memaksa. Seperti 'seniman', kamu menikmati proses dan membawa keindahan ke dunia.",
+    "superpower_karier": [
+      "Kreativitas dan inovasi yang mengalir",
+      "Komunikasi yang memikat dan membangun",
+      "Kemampuan menikmati proses, bukan hanya hasil"
+    ],
+    "ai_hook": ""
+  },
+  {
+    "id": "hurting_officer",
+    "nama_tradisional": "Hurting Officer (傷官)",
+    "nama_modern": "Sang Pembangkang",
+    "fokus_utama": "Kebebasan & Inovasi Radikal",
+    "interpretasi_psikologis": "Hurting Officer adalah energi yang menolak status quo—kamu lahir untuk mempertanyakan, menantang, dan menciptakan cara baru. Kecerdasanmu kadang terasa 'terlalu tajam' bagi yang tidak siap.",
+    "superpower_karier": [
+      "Pemikiran kritis dan kemampuan memecah masalah",
+      "Keberanian menantang norma dan otoritas",
+      "Inovasi radikal yang mengubah industri"
+    ],
+    "ai_hook": ""
+  },
+  {
+    "id": "friend",
+    "nama_tradisional": "Friend (比肩)",
+    "nama_modern": "Sang Sahabat",
+    "fokus_utama": "Identitas & Kemandirian",
+    "interpretasi_psikologis": "Friend adalah energi yang menjaga 'aku' tetap utuh—kamu tahu siapa dirimu dan tidak mudah terpengaruh. Seperti 'individu yang sadar diri', kamu membangun dari kekuatan internal, bukan validasi eksternal.",
+    "superpower_karier": [
+      "Kepercayaan diri dan kemandirian",
+      "Kemampuan bekerja sendiri dengan fokus",
+      "Loyalitas dan konsistensi dalam tim"
+    ],
+    "ai_hook": ""
+  },
+  {
+    "id": "rob_wealth",
+    "nama_tradisional": "Rob Wealth (劫財)",
+    "nama_modern": "Sang Kolaborator Kompetitif",
+    "fokus_utama": "Ekspansi & Pengaruh",
+    "interpretasi_psikologis": "Rob Wealth adalah energi yang bergerak cepat dan percaya diri—kamu tidak takut 'masuk' ke ruang orang lain karena kamu percaya ada cukup untuk semua. Bukan pencuri, tapi 'pemburu peluang' yang kolaboratif.",
+    "superpower_karier": [
+      "Keberanian mengambil inisiatif",
+      "Kemampuan memobilisasi orang dan sumber daya",
+      "Adaptasi cepat di lingkungan baru"
+    ],
+    "ai_hook": ""
+  }
+]

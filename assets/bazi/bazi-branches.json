@@ -1,0 +1,122 @@
+[
+  {
+    "id": "zi",
+    "index": 0,
+    "symbol": "子",
+    "pinyin": "Zǐ",
+    "zodiac_id": "Tikus",
+    "element": "air",
+    "polarity": "yang",
+    "hidden_stems": ["gui"]
+  },
+  {
+    "id": "chou",
+    "index": 1,
+    "symbol": "丑",
+    "pinyin": "Chǒu",
+    "zodiac_id": "Kerbau",
+    "element": "tanah",
+    "polarity": "yin",
+    "hidden_stems": ["ji", "gui", "xin"]
+  },
+  {
+    "id": "yin",
+    "index": 2,
+    "symbol": "寅",
+    "pinyin": "Yín",
+    "zodiac_id": "Harimau",
+    "element": "kayu",
+    "polarity": "yang",
+    "hidden_stems": ["jia", "bing", "wu"]
+  },
+  {
+    "id": "mao",
+    "index": 3,
+    "symbol": "卯",
+    "pinyin": "Mǎo",
+    "zodiac_id": "Kelinci",
+    "element": "kayu",
+    "polarity": "yin",
+    "hidden_stems": ["yi"]
+  },
+  {
+    "id": "chen",
+    "index": 4,
+    "symbol": "辰",
+    "pinyin": "Chén",
+    "zodiac_id": "Naga",
+    "element": "tanah",
+    "polarity": "yang",
+    "hidden_stems": ["wu", "yi", "gui"]
+  },
+  {
+    "id": "si",
+    "index": 5,
+    "symbol": "巳",
+    "pinyin": "Sì",
+    "zodiac_id": "Ular",
+    "element": "api",
+    "polarity": "yin",
+    "hidden_stems": ["bing", "wu", "geng"]
+  },
+  {
+    "id": "wu",
+    "index": 6,
+    "symbol": "午",
+    "pinyin": "Wǔ",
+    "zodiac_id": "Kuda",
+    "element": "api",
+    "polarity": "yang",
+    "hidden_stems": ["ding", "ji"]
+  },
+  {
+    "id": "wei",
+    "index": 7,
+    "symbol": "未",
+    "pinyin": "Wèi",
+    "zodiac_id": "Kambing",
+    "element": "tanah",
+    "polarity": "yin",
+    "hidden_stems": ["ji", "ding", "yi"]
+  },
+  {
+    "id": "shen",
+    "index": 8,
+    "symbol": "申",
+    "pinyin": "Shēn",
+    "zodiac_id": "Monyet",
+    "element": "logam",
+    "polarity": "yang",
+    "hidden_stems": ["geng", "ren", "wu"]
+  },
+  {
+    "id": "you",
+    "index": 9,
+    "symbol": "酉",
+    "pinyin": "Yǒu",
+    "zodiac_id": "Ayam",
+    "element": "logam",
+    "polarity": "yin",
+    "hidden_stems": ["xin"]
+  },
+  {
+    "id": "xu",
+    "index": 10,
+    "symbol": "戌",
+    "pinyin": "Xū",
+    "zodiac_id": "Anjing",
+    "element": "tanah",
+    "polarity": "yang",
+    "hidden_stems": ["wu", "xin", "ding"]
+  },
+  {
+    "id": "hai",
+    "index": 11,
+    "symbol": "亥",
+    "pinyin": "Hài",
+    "zodiac_id": "Babi",
+    "element": "air",
+    "polarity": "yin",
+    "hidden_stems": ["ren", "jia"]
+  }
+]
