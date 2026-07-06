@@ -67,7 +67,7 @@ class SeasonalBanner extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         );
-      case 10: // Kasepuluh - Security
+      case 10: // Kadasa - Security
         return const LinearGradient(
           colors: [Color(0xFF0F172A), Color(0xFF1E293B), Color(0xFF334155)],
           begin: Alignment.topLeft,
