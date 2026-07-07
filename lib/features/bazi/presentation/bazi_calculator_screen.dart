@@ -273,12 +273,27 @@ class _BaziCalculatorScreenState
         ),
         centerTitle: true,
       ),
-      body: SafeArea(
-        top: false,
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 350),
-          child: _buildStep(),
-        ),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.12,
+              child: Image.asset(
+                'assets/images/bazi_bg.png',
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) =>
+                    const SizedBox.shrink(),
+              ),
+            ),
+          ),
+          SafeArea(
+            top: false,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 350),
+              child: _buildStep(),
+            ),
+          ),
+        ],
       ),
     );
   }

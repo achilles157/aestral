@@ -380,6 +380,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           _buildProfileHeader(session),
           const SizedBox(height: 20),
           _buildIdentityCard(),
+          if (session == null || session.isMock) ...[
+            const SizedBox(height: 12),
+            _buildGuestUpsellCard(),
+          ],
           const SizedBox(height: 20),
           _buildQuickNavGrid(crossAxisCount: 2, childAspectRatio: 1.6),
           const SizedBox(height: 24),
@@ -399,6 +403,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 _buildProfileHeader(session),
                 const SizedBox(height: 24),
                 _buildIdentityCard(),
+                if (session == null || session.isMock) ...[
+                  const SizedBox(height: 12),
+                  _buildGuestUpsellCard(),
+                ],
                 const SizedBox(height: 24),
                 _buildFooter(session),
               ],
@@ -637,12 +645,44 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 
   Widget _buildNoIdentityPrompt() => Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            'Belum ada data kelahiran.',
-            style: GoogleFonts.outfit(color: AppTheme.textMuted, fontSize: 13),
+          const SizedBox(height: 4),
+          // Decorative icon cluster
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.star_outline_rounded,
+                  color: AppTheme.accentGold.withValues(alpha: 0.35), size: 13),
+              const SizedBox(width: 6),
+              Icon(Icons.auto_awesome,
+                  color: AppTheme.accentGold.withValues(alpha: 0.65), size: 18),
+              const SizedBox(width: 6),
+              Icon(Icons.star_outline_rounded,
+                  color: AppTheme.accentGold.withValues(alpha: 0.35), size: 13),
+            ],
           ),
           const SizedBox(height: 12),
+          Text(
+            'Identitas Kosmis Belum Terisi',
+            style: GoogleFonts.playfairDisplay(
+              color: AppTheme.textLight,
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Masukkan tanggal lahir untuk membuka\nweton, Ba Zi, dan wawasan kosmis Anda.',
+            style: GoogleFonts.outfit(
+              color: AppTheme.textMuted,
+              fontSize: 12,
+              height: 1.6,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
@@ -836,6 +876,75 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       ),
     );
   }
+
+  Widget _buildGuestUpsellCard() => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              AppTheme.accentPurple.withValues(alpha: 0.12),
+              AppTheme.accentGold.withValues(alpha: 0.06),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+          border: Border.all(
+            color: AppTheme.accentPurple.withValues(alpha: 0.30),
+            width: 1,
+          ),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.lock_open_rounded,
+                color: AppTheme.accentPurple, size: 20),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Simpan perjalanan kosmis Anda',
+                    style: GoogleFonts.outfit(
+                      color: AppTheme.textLight,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Masuk untuk sinkronisasi data & history bacaan lintas perangkat.',
+                    style: GoogleFonts.outfit(
+                      color: AppTheme.textMuted,
+                      fontSize: 11,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            TextButton(
+              onPressed: () =>
+                  ref.read(authProvider.notifier).signInWithGoogle(),
+              style: TextButton.styleFrom(
+                foregroundColor: AppTheme.accentPurple,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: Text(
+                'Masuk',
+                style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
 
   Widget _buildFooter(UserSession? session) {
     return Column(

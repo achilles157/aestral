@@ -339,7 +339,7 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
             child: Opacity(
               opacity: 0.12,
               child: Image.asset(
-                'assets/images/app_bg.png',
+                'assets/images/planner_bg.png',
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
               ),

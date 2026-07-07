@@ -397,7 +397,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
             child: Opacity(
               opacity: 0.12,
               child: Image.asset(
-                'assets/images/stars_bg.png',
+                'assets/images/tarot_bg.png',
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
               ),
@@ -507,37 +507,54 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                   color: Colors.transparent,
                                   padding: const EdgeInsets.symmetric(vertical: 12),
                                   child: drawnCards == null
-                                      ? Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: List.generate(3, (index) {
-                                            final labelText = index == 0 
-                                                ? (currentLang == 'id' ? 'Masa Lalu' : 'Past') 
-                                                : index == 1 
-                                                    ? (currentLang == 'id' ? 'Masa Kini' : 'Present') 
-                                                    : (currentLang == 'id' ? 'Masa Depan' : 'Future');
-                                            const cardWidth = 90.0;
-                                            const cardHeight = 145.0;
-                                            return Column(
-                                              children: [
-                                                Text(
-                                                  labelText,
-                                                  style: GoogleFonts.outfit(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: AppTheme.textLight.withValues(alpha: 0.4),
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 8),
-                                                const Opacity(
-                                                  opacity: 0.6,
-                                                  child: CardBack(
-                                                    width: cardWidth,
-                                                    height: cardHeight,
-                                                  ),
-                                                ),
-                                              ],
-                                            );
-                                          }),
+                                      ? Column(
+                                          children: [
+                                            Text(
+                                              currentLang == 'id'
+                                                  ? 'Tanyakan sesuatu pada semesta,\nlalu tarik tiga kartu.'
+                                                  : 'Ask the universe something,\nthen draw your three cards.',
+                                              style: GoogleFonts.playfairDisplay(
+                                                fontSize: 13,
+                                                color: AppTheme.textLight.withValues(alpha: 0.45),
+                                                fontStyle: FontStyle.italic,
+                                                height: 1.7,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            const SizedBox(height: 20),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: List.generate(3, (index) {
+                                                final labelText = index == 0 
+                                                    ? (currentLang == 'id' ? 'Masa Lalu' : 'Past') 
+                                                    : index == 1 
+                                                        ? (currentLang == 'id' ? 'Masa Kini' : 'Present') 
+                                                        : (currentLang == 'id' ? 'Masa Depan' : 'Future');
+                                                const cardWidth = 90.0;
+                                                const cardHeight = 145.0;
+                                                return Column(
+                                                  children: [
+                                                    Text(
+                                                      labelText,
+                                                      style: GoogleFonts.outfit(
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: AppTheme.textLight.withValues(alpha: 0.4),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 8),
+                                                    const Opacity(
+                                                      opacity: 0.6,
+                                                      child: CardBack(
+                                                        width: cardWidth,
+                                                        height: cardHeight,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              }),
+                                            ),
+                                          ],
                                         )
                                       : Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
