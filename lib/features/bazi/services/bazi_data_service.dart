@@ -36,6 +36,13 @@ final baziGodsProvider =
   return (json.decode(data) as List<dynamic>).cast<Map<String, dynamic>>();
 });
 
+/// Loads dm-strength-levels.json — Day Master strength level labels and descriptions.
+final baziStrengthLevelsProvider =
+    FutureProvider<List<Map<String, dynamic>>>((ref) async {
+  final data = await rootBundle.loadString('assets/bazi/dm-strength-levels.json');
+  return (json.decode(data) as List<dynamic>).cast<Map<String, dynamic>>();
+});
+
 /// Convenience extension: find an entry by its "id" field.
 extension BaziListX on List<Map<String, dynamic>> {
   Map<String, dynamic>? findById(String id) {

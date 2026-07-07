@@ -18,6 +18,9 @@ import 'widgets/bazi_element_balance_card.dart';
 import 'widgets/bazi_pillar_column.dart';
 import 'widgets/bazi_luck_pillars_widget.dart';
 import 'widgets/bazi_ten_gods_widget.dart';
+import 'widgets/bazi_strength_card.dart';
+import 'widgets/bazi_relations_card.dart';
+import 'widgets/bazi_annual_pillar_card.dart';
 
 class BaziCalculatorScreen extends ConsumerStatefulWidget {
   const BaziCalculatorScreen({super.key});
@@ -49,6 +52,16 @@ class _BaziCalculatorScreenState
   bool? _isMale;
   List<LuckPillar>? _luckPillars;
   bool _luckForward = true;
+
+  // Derived analytical state (computed from chart after calculation)
+  String? _dmStrength;
+  List<String>? _yongShen;
+  List<String>? _jiShen;
+  List<int>? _emptyBranches;
+  BaziRelations? _branchRelations;
+  BaziPillar? _annualPillar;
+  BaziRelations? _annualRelations;
+  List<int>? _noblemen;
 
   // ─── Lifecycle ────────────────────────────────────────────────────────
 
@@ -135,6 +148,14 @@ class _BaziCalculatorScreenState
         _aiInsight = null;
         _errorMsg = null;
         _luckPillars = null;
+        _dmStrength = null;
+        _yongShen = null;
+        _jiShen = null;
+        _emptyBranches = null;
+        _branchRelations = null;
+        _annualPillar = null;
+        _annualRelations = null;
+        _noblemen = null;
       });
     }
   }
@@ -213,6 +234,26 @@ class _BaziCalculatorScreenState
           yearStemIndex: _chart!.yearPillar.stemIndex,
           isMale: _isMale!,
         );
+      });
+    }
+
+    // Compute derived analytical state (strength, elements, relations, annual)
+    if (_chart != null) {
+      final String strength = BaziUtils.getDayMasterStrength(
+          _chart!.monthPillar.branchIndex, _chart!.dayMasterElement);
+      final favorable = BaziUtils.getFavorableElements(
+          _chart!.dayMasterElement, strength);
+      final annual = BaziUtils.getCurrentAnnualPillar();
+      setState(() {
+        _dmStrength      = strength;
+        _yongShen        = favorable.yongShen;
+        _jiShen          = favorable.jiShen;
+        _emptyBranches   = BaziUtils.getEmptyBranches(_chart!.dayPillar);
+        _branchRelations = BaziUtils.detectBranchRelations(_chart!.allPillars);
+        _annualPillar    = annual;
+        _annualRelations = BaziUtils.detectBranchRelations(
+            [..._chart!.allPillars, annual]);
+        _noblemen        = BaziUtils.getNobleman(_chart!.dayPillar.stemIndex);
       });
     }
   }
@@ -675,11 +716,13 @@ class _BaziCalculatorScreenState
 
     final mastersAsync = ref.watch(baziDayMastersProvider);
     final pillarsAsync = ref.watch(baziPillarsProvider);
+    final godsAsync         = ref.watch(baziGodsProvider);
+    final strengthAsync     = ref.watch(baziStrengthLevelsProvider);
 
-    final masterData = mastersAsync.asData?.value
-        .findById(_chart!.dayMasterId);
-    final pillarData = pillarsAsync.asData?.value
-        .findById(_chart!.dayPillar.id);
+    final masterData = mastersAsync.asData?.value.findById(_chart!.dayMasterId);
+    final pillarData = pillarsAsync.asData?.value.findById(_chart!.dayPillar.id);
+    final godsData      = godsAsync.asData?.value;
+    final strengthData  = strengthAsync.asData?.value;
 
     final Color elementColor =
         kBaziElementColors[_chart!.dayMasterElement] ?? AppTheme.accentGold;
@@ -719,20 +762,60 @@ class _BaziCalculatorScreenState
           BaziFourPillarsChart(chart: _chart!),
           const SizedBox(height: 8),
 
-          // Ten Gods row
-          BaziTenGodsWidget(chart: _chart!, elementColor: elementColor),
+          // Ten Gods row — tap any chip for detail sheet
+          BaziTenGodsWidget(
+            chart: _chart!,
+            elementColor: elementColor,
+            godsData: godsData,
+          ),
           const SizedBox(height: 16),
 
-          // Day Master Card
+          // Day Master Strength + 用神/忌神 + 天乙貴人
+          if (_dmStrength != null) ...[
+            BaziStrengthCard(
+              dayPillar:   _chart!.dayPillar,
+              monthPillar: _chart!.monthPillar,
+              dmStrength:  _dmStrength!,
+              yongShen:    _yongShen ?? [],
+              jiShen:      _jiShen ?? [],
+              noblemen:    _noblemen ?? [],
+              allPillars:  _chart!.allPillars,
+              elementColor: elementColor,
+              strengthData: strengthData,
+            ),
+            const SizedBox(height: 16),
+          ],
+
+          // Day Master archetype card
           BaziDayMasterCard(
             dayPillar: _chart!.dayPillar,
             masterData: masterData,
           ),
           const SizedBox(height: 16),
 
-          // Element Balance Card
+          // Wu Xing Pentagon Radar
           BaziElementBalanceCard(balance: _chart!.wuXingBalance),
           const SizedBox(height: 16),
+
+          // Branch Relations 六冲/六合/三合/空亡
+          if (_branchRelations != null && _emptyBranches != null) ...[
+            BaziBranchRelationsCard(
+              relations:     _branchRelations!,
+              emptyBranches: _emptyBranches!,
+              pillars:       _chart!.allPillars,
+            ),
+            const SizedBox(height: 16),
+          ],
+
+          // Annual Pillar 流年
+          if (_annualPillar != null && _annualRelations != null) ...[
+            BaziAnnualPillarCard(
+              annualPillar:    _annualPillar!,
+              natalChart:      _chart!,
+              annualRelations: _annualRelations!,
+            ),
+            const SizedBox(height: 16),
+          ],
 
           // Day Pillar detail from bazi-pillars.json
           if (pillarData != null) _buildPillarDetailCard(pillarData, elementColor),
@@ -746,9 +829,10 @@ class _BaziCalculatorScreenState
           const SizedBox(height: 16),
           _luckPillars != null
               ? BaziLuckPillarsWidget(
-                  pillars: _luckPillars!,
+                  pillars:     _luckPillars!,
                   elementColor: elementColor,
-                  isForward: _luckForward,
+                  isForward:   _luckForward,
+                  birthDate:   _birthDate!,
                 )
               : _buildLuckPillarsPlaceholder(elementColor),
 

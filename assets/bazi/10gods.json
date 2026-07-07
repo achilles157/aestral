@@ -1,6 +1,8 @@
 [
   {
     "id": "direct_wealth",
+    "hanzi": "正財",
+    "nama_pendek": "Pembangun",
     "nama_tradisional": "Direct Wealth (正財)",
     "nama_modern": "Sang Pembangun",
     "fokus_utama": "Stabilitas & Keamanan Finansial",
@@ -14,6 +16,8 @@
   },
   {
     "id": "indirect_wealth",
+    "hanzi": "偏財",
+    "nama_pendek": "Jaring",
     "nama_tradisional": "Indirect Wealth (偏財)",
     "nama_modern": "Sang Jaring",
     "fokus_utama": "Kebebasan & Peluang",
@@ -27,6 +31,8 @@
   },
   {
     "id": "direct_officer",
+    "hanzi": "正官",
+    "nama_pendek": "Penjaga",
     "nama_tradisional": "Direct Officer (正官)",
     "nama_modern": "Sang Penjaga Aturan",
     "fokus_utama": "Keteraturan & Tanggung Jawab",
@@ -40,6 +46,8 @@
   },
   {
     "id": "seven_killings",
+    "hanzi": "七殺",
+    "nama_pendek": "Pendobrak",
     "nama_tradisional": "Seven Killings (七殺)",
     "nama_modern": "Sang Pendobrak",
     "fokus_utama": "Kemenangan & Transformasi",
@@ -53,6 +61,8 @@
   },
   {
     "id": "direct_resource",
+    "hanzi": "正印",
+    "nama_pendek": "Pustaka",
     "nama_tradisional": "Direct Resource (正印)",
     "nama_modern": "Sang Pustaka",
     "fokus_utama": "Pengetahuan & Kebijaksanaan",
@@ -66,6 +76,8 @@
   },
   {
     "id": "indirect_resource",
+    "hanzi": "偏印",
+    "nama_pendek": "Perenung",
     "nama_tradisional": "Indirect Resource (偏印)",
     "nama_modern": "Sang Perenung",
     "fokus_utama": "Kedalaman & Orisinalitas",
@@ -79,6 +91,8 @@
   },
   {
     "id": "eating_god",
+    "hanzi": "食神",
+    "nama_pendek": "Pencipta",
     "nama_tradisional": "Eating God (食神)",
     "nama_modern": "Sang Pencipta",
     "fokus_utama": "Ekspresi & Kenikmatan",
@@ -92,6 +106,8 @@
   },
   {
     "id": "hurting_officer",
+    "hanzi": "傷官",
+    "nama_pendek": "Pembangkang",
     "nama_tradisional": "Hurting Officer (傷官)",
     "nama_modern": "Sang Pembangkang",
     "fokus_utama": "Kebebasan & Inovasi Radikal",
@@ -105,6 +121,8 @@
   },
   {
     "id": "friend",
+    "hanzi": "比肩",
+    "nama_pendek": "Sahabat",
     "nama_tradisional": "Friend (比肩)",
     "nama_modern": "Sang Sahabat",
     "fokus_utama": "Identitas & Kemandirian",
@@ -118,6 +136,8 @@
   },
   {
     "id": "rob_wealth",
+    "hanzi": "劫財",
+    "nama_pendek": "Kolaborator",
     "nama_tradisional": "Rob Wealth (劫財)",
     "nama_modern": "Sang Kolaborator Kompetitif",
     "fokus_utama": "Ekspansi & Pengaruh",

@@ -1,0 +1,7 @@
+[
+  { "id": "Sangat Lemah", "label": "Sangat Lemah", "deskripsi": "DM sangat lemah — butuh banyak dukungan" },
+  { "id": "Lemah",        "label": "Lemah",        "deskripsi": "DM lemah — perlu penguatan dari lingkungan" },
+  { "id": "Sedang",       "label": "Sedang",        "deskripsi": "DM seimbang — chart relatif harmonis" },
+  { "id": "Kuat",         "label": "Kuat",          "deskripsi": "DM kuat — elemen penopang berlimpah" },
+  { "id": "Sangat Kuat",  "label": "Sangat Kuat",   "deskripsi": "DM sangat dominan — butuh elemen penyeimbang" }
+]
