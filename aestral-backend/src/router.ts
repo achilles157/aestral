@@ -1,4 +1,4 @@
-import { parseAuthHeader, validateBearerToken, type AuthToken } from './auth';
+import { parseAuthHeader, verifyFirebaseJwt, type AuthToken } from './auth';
 import { getDeterministicThreeCards, getMangsaDeterministicThreeCards } from './tarot';
 import { getWetonInsight, getPranataMangsaId, getJamInsight } from './weton';
 import { calculateBaziChart, type BaziChartResult } from './bazi';
@@ -29,16 +29,16 @@ function json(data: unknown, status = 200): Response {
  *
  * Returns `{ authToken }` on success, or an error `Response` to short-circuit.
  */
-function requireAuth(
+async function requireAuth(
 	authHeader: string | null,
 	env: Env,
-): { authToken: AuthToken } | Response {
+): Promise<{ authToken: AuthToken } | Response> {
 	const authToken = parseAuthHeader(authHeader);
 	if (!authToken) {
 		return json({ error: 'Authorization header diperlukan' }, 401);
 	}
 	if (authToken.type === 'bearer') {
-		const err = validateBearerToken(authToken.value, env.FIREBASE_PROJECT_ID);
+		const err = await verifyFirebaseJwt(authToken.value, env.FIREBASE_PROJECT_ID, env.RATE_LIMIT_KV);
 		if (err) return json({ error: err.error }, err.status);
 	}
 	return { authToken };
@@ -100,7 +100,7 @@ interface TarotDrawBody {
 }
 
 async function handleTarotDraw(request: Request, env: Env): Promise<Response> {
-	const authResult = requireAuth(request.headers.get('Authorization'), env);
+	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
 	const { authToken } = authResult;
 
@@ -150,7 +150,7 @@ interface WetonDailyBody {
 }
 
 async function handleWetonDaily(request: Request, env: Env): Promise<Response> {
-	const authResult = requireAuth(request.headers.get('Authorization'), env);
+	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
 	const { authToken } = authResult;
 
@@ -210,7 +210,7 @@ const MANGSA_THEMES: Record<number, { nama: string; candra: string; tema: string
 };
 
 async function handleCalendarMonth(request: Request, env: Env): Promise<Response> {
-	const authResult = requireAuth(request.headers.get('Authorization'), env);
+	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
 
 	let body: CalendarMonthBody;
@@ -371,7 +371,7 @@ const CHAT_RATE_LIMIT_MAX = 5;
 const CHAT_RATE_LIMIT_WINDOW_MS = 60_000;
 
 async function handleChat(request: Request, env: Env): Promise<Response> {
-	const authResult = requireAuth(request.headers.get('Authorization'), env);
+	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
 
 	// Extract client IP from Cloudflare header
@@ -447,7 +447,7 @@ interface TarotReadingBody {
 }
 
 async function handleTarotReading(request: Request, env: Env): Promise<Response> {
-	const authResult = requireAuth(request.headers.get('Authorization'), env);
+	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
 
 	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';
@@ -527,7 +527,7 @@ interface BaziChartBody {
 }
 
 async function handleBaziChart(request: Request, env: Env): Promise<Response> {
-	const authResult = requireAuth(request.headers.get('Authorization'), env);
+	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
 	const { authToken } = authResult;
 
@@ -580,7 +580,7 @@ interface BaziInsightBody extends BaziChartBody {
 }
 
 async function handleBaziInsight(request: Request, env: Env): Promise<Response> {
-	const authResult = requireAuth(request.headers.get('Authorization'), env);
+	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
 
 	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';

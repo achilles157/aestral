@@ -108,32 +108,100 @@ export function validateFirebaseClaims(
 	return true;
 }
 
+const FIREBASE_JWKS_URL =
+	'https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com';
+const JWKS_CACHE_KEY = 'firebase_jwks_v1';
+const JWKS_CACHE_TTL_SECONDS = 21_600; // 6 hours — matches Google's typical Cache-Control
+
 /**
- * Validates a bearer token against Firebase JWT claims.
- *
- * Checks JWT structure, payload expiry, and Firebase iss/aud/sub claims.
- * NOTE: RS256 signature verification (JWK fetch) is deferred to a future pass.
- * This still eliminates tokens with wrong project, expired tokens, and
- * malformed payloads — covering the most common abuse vectors.
- *
- * Returns `{ error, status }` if invalid, or `null` if the token passes.
+ * Fetches Firebase public keys from Google, caching the result in KV.
+ * On a cold cache miss this adds one network round-trip; subsequent calls
+ * within the TTL window are served entirely from KV (~1 ms).
  */
-export function validateBearerToken(
+async function getFirebaseJwks(kv: KVNamespace): Promise<JsonWebKey[]> {
+	const cached = await kv.get<{ keys: JsonWebKey[] }>(JWKS_CACHE_KEY, 'json');
+	if (cached?.keys?.length) return cached.keys;
+
+	const resp = await fetch(FIREBASE_JWKS_URL);
+	if (!resp.ok) throw new Error(`JWKS fetch failed: ${resp.status}`);
+
+	const jwks = (await resp.json()) as { keys: JsonWebKey[] };
+	await kv.put(JWKS_CACHE_KEY, JSON.stringify(jwks), {
+		expirationTtl: JWKS_CACHE_TTL_SECONDS,
+	});
+	return jwks.keys;
+}
+
+/**
+ * Full Firebase JWT verification — two layers:
+ *   1. Claims validation (structure, expiry, iss/aud/sub) — no network, fast.
+ *   2. RS256 signature verification against Google's public keys (KV-cached).
+ *
+ * Fail-open on JWKS fetch errors so a transient Google outage doesn't block
+ * legitimate users; claims validation still filters malformed/expired tokens.
+ *
+ * Returns `{ error, status }` if the token is invalid, or `null` if valid.
+ */
+export async function verifyFirebaseJwt(
 	token: string,
 	projectId: string,
-): { error: string; status: number } | null {
+	kv: KVNamespace,
+): Promise<{ error: string; status: number } | null> {
+	// ── Layer 1: claims (fast path — no network) ─────────────────────────────
 	const payload = decodeJwtPayload(token);
-	if (!payload) {
-		return { error: 'Token tidak valid atau rusak', status: 401 };
+	if (!payload) return { error: 'Token tidak valid atau rusak', status: 401 };
+	if (isTokenExpired(payload)) return { error: 'Token kedaluwarsa, silakan login ulang', status: 401 };
+	if (!validateFirebaseClaims(payload, projectId)) return { error: 'Token tidak dikenali', status: 403 };
+
+	// ── Layer 2: RS256 signature ─────────────────────────────────────────────
+	const parts = token.split('.');
+
+	let header: Record<string, unknown>;
+	try {
+		const decoded = atob(parts[0].replace(/-/g, '+').replace(/_/g, '/'));
+		header = JSON.parse(decoded) as Record<string, unknown>;
+	} catch {
+		return { error: 'Token header tidak dapat dibaca', status: 401 };
 	}
 
-	if (isTokenExpired(payload)) {
-		return { error: 'Token kedaluwarsa, silakan login ulang', status: 401 };
+	if (header.alg !== 'RS256' || typeof header.kid !== 'string') {
+		return { error: 'Algoritma token tidak didukung', status: 401 };
 	}
 
-	if (!validateFirebaseClaims(payload, projectId)) {
-		return { error: 'Token tidak dikenali oleh sistem', status: 403 };
+	let keys: JsonWebKey[];
+	try {
+		keys = await getFirebaseJwks(kv);
+	} catch {
+		// JWKS endpoint unreachable — fail open, claims layer still provides
+		// meaningful protection against expired / wrong-project tokens.
+		return null;
 	}
 
-	return null;
+	const jwk = keys.find((k) => (k as unknown as { kid?: string }).kid === header.kid);
+	if (!jwk) return { error: 'Kunci publik token tidak ditemukan', status: 401 };
+
+	try {
+		const cryptoKey = await crypto.subtle.importKey(
+			'jwk',
+			jwk,
+			{ name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
+			false,
+			['verify'],
+		);
+
+		const signingInput = new TextEncoder().encode(`${parts[0]}.${parts[1]}`);
+		const sigPadded = parts[2].replace(/-/g, '+').replace(/_/g, '/');
+		const sigBytes = Uint8Array.from(atob(sigPadded), (c) => c.charCodeAt(0));
+
+		const valid = await crypto.subtle.verify(
+			{ name: 'RSASSA-PKCS1-v1_5' },
+			cryptoKey,
+			sigBytes,
+			signingInput,
+		);
+
+		return valid ? null : { error: 'Tanda tangan token tidak valid', status: 401 };
+	} catch {
+		return { error: 'Verifikasi token gagal', status: 401 };
+	}
 }
