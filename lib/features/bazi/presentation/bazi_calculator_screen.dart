@@ -103,7 +103,23 @@ class _BaziCalculatorScreenState
   void _nextStep() {
     if (_step == 0 && _birthDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Pilih tanggal lahir terlebih dahulu.')),
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Icons.warning_amber_rounded,
+                  color: AppTheme.accentGold, size: 16),
+              const SizedBox(width: 8),
+              const Text('Pilih tanggal lahir terlebih dahulu.'),
+            ],
+          ),
+          backgroundColor: AppTheme.cardBg,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: const BorderSide(
+                color: AppTheme.accentGold, width: 1),
+          ),
+        ),
       );
       return;
     }
@@ -837,11 +853,25 @@ class _BaziCalculatorScreenState
     }
 
     return _isAiLoading
-        ? const Center(
+        ? Center(
             child: Padding(
-              padding: EdgeInsets.all(24),
-              child: CircularProgressIndicator(
-                  color: AppTheme.accentGold, strokeWidth: 2),
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const CircularProgressIndicator(
+                      color: AppTheme.accentGold, strokeWidth: 2),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Membaca peta bintang...',
+                    style: GoogleFonts.outfit(
+                      fontSize: 12,
+                      color: AppTheme.textMuted,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
         : Column(

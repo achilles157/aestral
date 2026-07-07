@@ -783,9 +783,34 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                           },
                                         ),
                                       ),
+                                      const SizedBox(height: 12),
+                                      // Dot indicator — swipe affordance antar kartu
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: List.generate(3, (i) {
+                                          final bool isActive =
+                                              i == _activeCarouselIndex;
+                                          return AnimatedContainer(
+                                            duration: const Duration(
+                                                milliseconds: 200),
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 3),
+                                            width: isActive ? 20 : 6,
+                                            height: 6,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(3),
+                                              color: isActive
+                                                  ? AppTheme.accentGold
+                                                  : Colors.white
+                                                      .withValues(alpha: 0.25),
+                                            ),
+                                          );
+                                        }),
+                                      ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                   _buildOracleSection(drawnCards),
                                   const SizedBox(height: 24),
                                 ],
