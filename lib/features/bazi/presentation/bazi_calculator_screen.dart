@@ -279,13 +279,26 @@ class _BaziCalculatorScreenState
                 onPressed: _prevStep,
               )
             : null,
-        title: Text(
-          '四柱八字  Ba Zi',
-          style: GoogleFonts.playfairDisplay(
-            color: AppTheme.accentGold,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '四柱八字  Ba Zi',
+              style: GoogleFonts.playfairDisplay(
+                color: AppTheme.accentGold,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            Text(
+              'Langkah ${_step + 1} dari 3',
+              style: GoogleFonts.outfit(
+                color: AppTheme.textMuted,
+                fontSize: 11,
+                letterSpacing: 0.3,
+              ),
+            ),
+          ],
         ),
         centerTitle: true,
       ),
