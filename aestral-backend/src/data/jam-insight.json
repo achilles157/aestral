@@ -1,0 +1,30 @@
+{
+  "Minggu": {
+    "jamBaik": ["06:00 - 08:24 (Saat Rezeki)", "10:48 - 13:12 (Saat Gedhong)"],
+    "jamNaas": ["08:24 - 10:48 (Saat Loro)",   "13:12 - 15:36 (Saat Pati)"]
+  },
+  "Senin": {
+    "jamBaik": ["08:24 - 10:48 (Saat Rezeki)", "13:12 - 15:36 (Saat Gedhong)"],
+    "jamNaas": ["06:00 - 08:24 (Saat Loro)",   "10:48 - 13:12 (Saat Pati)"]
+  },
+  "Selasa": {
+    "jamBaik": ["10:48 - 13:12 (Saat Rezeki)", "15:36 - 18:00 (Saat Gedhong)"],
+    "jamNaas": ["08:24 - 10:48 (Saat Loro)",   "13:12 - 15:36 (Saat Pati)"]
+  },
+  "Rabu": {
+    "jamBaik": ["06:00 - 08:24 (Saat Rezeki)", "13:12 - 15:36 (Saat Gedhong)"],
+    "jamNaas": ["10:48 - 13:12 (Saat Loro)",   "15:36 - 18:00 (Saat Pati)"]
+  },
+  "Kamis": {
+    "jamBaik": ["08:24 - 10:48 (Saat Rezeki)", "15:36 - 18:00 (Saat Gedhong)"],
+    "jamNaas": ["06:00 - 08:24 (Saat Loro)",   "13:12 - 15:36 (Saat Pati)"]
+  },
+  "Jumat": {
+    "jamBaik": ["06:00 - 08:24 (Saat Rezeki)", "10:48 - 13:12 (Saat Gedhong)"],
+    "jamNaas": ["08:24 - 10:48 (Saat Loro)",   "15:36 - 18:00 (Saat Pati)"]
+  },
+  "Sabtu": {
+    "jamBaik": ["08:24 - 10:48 (Saat Rezeki)", "13:12 - 15:36 (Saat Gedhong)"],
+    "jamNaas": ["06:00 - 08:24 (Saat Loro)",   "10:48 - 13:12 (Saat Pati)"]
+  }
+}

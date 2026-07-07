@@ -1,0 +1,21 @@
+{
+  "_comment": "Sumber: Primbon Betaljemur Adammakna. Pangarasan ditentukan oleh saptawara; pancasuda oleh totalNeptu % 7.",
+  "pangarasan": {
+    "Minggu": "Lakuning Angin (Pandai bergaul, lentur, menyejukkan)",
+    "Senin":  "Lakuning Kembang (Menawan, halus budi, menyukai kedamaian)",
+    "Selasa": "Lakuning Geni (Hangat, bersemangat, namun mudah tersulut)",
+    "Rabu":   "Lakuning Lemah (Kuat, stabil, dan teguh pendirian)",
+    "Kamis":  "Lakuning Lintang (Penyendiri, namun bersinar dalam kelompok)",
+    "Jumat":  "Lakuning Banyu (Tenang, mengalir ke tempat rendah, rendah hati)",
+    "Sabtu":  "Lakuning Banyu (Tenang, mengalir ke tempat rendah, rendah hati)"
+  },
+  "pancasuda": [
+    "Lebu Katiup Angin (Luwes, adaptif, butuh arah yang lebih jelas)",
+    "Wisesa Segara (Berwibawa, kuat tekad, punya pengaruh diam-diam)",
+    "Wasesa Segara (Pemaaf, pemurah, wibawa yang lapang)",
+    "Tunggak Semi (Tangguh, selalu bangkit, potensi tersembunyi besar)",
+    "Satriya Wirang (Berani menanggung beban, menempa mental baja)",
+    "Bumi Kapetak (Tekun bekerja, sabar, tahan terhadap penderitaan)",
+    "Satriya Wibawa (Berwibawa, dihormati, berjiwa pemimpin alami)"
+  ]
+}

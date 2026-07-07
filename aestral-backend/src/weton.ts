@@ -5,6 +5,8 @@
  * cycle lookups, plus neptu-based daily insight calculations.
  */
 
+import JAM_INSIGHT from './data/jam-insight.json';
+
 // --- Saptawara (7-day cycle) ---
 
 const SAPTAWARA_NAMES = [
@@ -155,47 +157,11 @@ export function calculateSisaBagi(
 /**
  * Returns Javanese hours (Saat Pitu/Saat Lima) that are considered favorable (jamBaik)
  * or unfavorable (jamNaas) based on the target day's Saptawara name.
+ * Data source: src/data/jam-insight.json
  */
 export function getJamInsight(saptawaraName: string): { jamBaik: string[]; jamNaas: string[] } {
-	switch (saptawaraName) {
-		case 'Minggu':
-			return {
-				jamBaik: ['06:00 - 08:24 (Saat Rezeki)', '10:48 - 13:12 (Saat Gedhong)'],
-				jamNaas: ['08:24 - 10:48 (Saat Loro)', '13:12 - 15:36 (Saat Pati)'],
-			};
-		case 'Senin':
-			return {
-				jamBaik: ['08:24 - 10:48 (Saat Rezeki)', '13:12 - 15:36 (Saat Gedhong)'],
-				jamNaas: ['06:00 - 08:24 (Saat Loro)', '10:48 - 13:12 (Saat Pati)'],
-			};
-		case 'Selasa':
-			return {
-				jamBaik: ['10:48 - 13:12 (Saat Rezeki)', '15:36 - 18:00 (Saat Gedhong)'],
-				jamNaas: ['08:24 - 10:48 (Saat Loro)', '13:12 - 15:36 (Saat Pati)'],
-			};
-		case 'Rabu':
-			return {
-				jamBaik: ['06:00 - 08:24 (Saat Rezeki)', '13:12 - 15:36 (Saat Gedhong)'],
-				jamNaas: ['10:48 - 13:12 (Saat Loro)', '15:36 - 18:00 (Saat Pati)'],
-			};
-		case 'Kamis':
-			return {
-				jamBaik: ['08:24 - 10:48 (Saat Rezeki)', '15:36 - 18:00 (Saat Gedhong)'],
-				jamNaas: ['06:00 - 08:24 (Saat Loro)', '13:12 - 15:36 (Saat Pati)'],
-			};
-		case 'Jumat':
-			return {
-				jamBaik: ['06:00 - 08:24 (Saat Rezeki)', '10:48 - 13:12 (Saat Gedhong)'],
-				jamNaas: ['08:24 - 10:48 (Saat Loro)', '15:36 - 18:00 (Saat Pati)'],
-			};
-		case 'Sabtu':
-			return {
-				jamBaik: ['08:24 - 10:48 (Saat Rezeki)', '13:12 - 15:36 (Saat Gedhong)'],
-				jamNaas: ['06:00 - 08:24 (Saat Loro)', '10:48 - 13:12 (Saat Pati)'],
-			};
-		default:
-			return { jamBaik: [], jamNaas: [] };
-	}
+	const entry = (JAM_INSIGHT as Record<string, { jamBaik: string[]; jamNaas: string[] }>)[saptawaraName];
+	return entry ?? { jamBaik: [], jamNaas: [] };
 }
 
 /**

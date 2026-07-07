@@ -165,7 +165,7 @@ class WetonUtils {
     final String javaneseYearName = yearNames[yearIdx];
 
     // Character mapping
-    final charData = _getCharacterData(saptawara, pancawara);
+    final charData = _getCharacterData(saptawara, totalNeptu);
 
     return WetonInfo(
       saptawara: saptawara,
@@ -184,54 +184,46 @@ class WetonUtils {
     );
   }
 
-  static Map<String, String> _getCharacterData(String day, String pasaran) {
-    final String key = '${day}_$pasaran';
-    final data = _wetonDatabase[key];
-    if (data != null) return data;
+  // ─── Pangarasan ──────────────────────────────────────────────────────────
+  // Source of truth: assets/weton/pangarasan-pancasuda.json
+  // Loaded at startup via WetonUtils.loadCharacterData(). Empty map until then.
+  static var _pangarasanByDay = <String, String>{};
 
-    // Fallback if not specifically mapped
-    return {
-      'summary': 'Pribadi yang memiliki watak dinamis dan suka menolong sesama.',
-      'pangarasan': 'Lakuning Banyu (Tenang, mengalir ke tempat rendah)',
-      'pancasuda': 'Wasesa Segara (Pemaaf dan murah hati)',
-    };
+  // ─── Pancasuda ───────────────────────────────────────────────────────────
+  // Source of truth: assets/weton/pangarasan-pancasuda.json (index = totalNeptu % 7)
+  // Loaded at startup via WetonUtils.loadCharacterData(). Empty list until then.
+  static var _pancasudaByIndex = <String>[];
+
+  /// Loads pangarasan and pancasuda lookup data from the decoded JSON asset.
+  /// Call once before runApp() so calculateWeton() has data immediately available.
+  static void loadCharacterData(Map<String, dynamic> data) {
+    _pangarasanByDay = Map<String, String>.from(
+      data['pangarasan'] as Map<String, dynamic>,
+    );
+    _pancasudaByIndex = List<String>.from(data['pancasuda'] as List<dynamic>);
   }
 
-  static const Map<String, Map<String, String>> _wetonDatabase = {
-    'Sabtu_Pon': {
-      'summary': 'Pribadi yang sabar, bertanggung jawab, berwawasan luas, dan suka menolong, dengan pembawaan yang tenang.',
-      'pangarasan': 'Lakuning Banyu (Tenang, mengalir ke tempat rendah, rendah hati)',
-      'pancasuda': 'Wasesa Segara (Pemaaf, pemurah, berwibawa)',
-    },
-    'Selasa_Legi': {
-      'summary': 'Pribadi yang memiliki semangat tinggi, mandiri, cerdas, dan mudah bergaul, namun terkadang temperamental.',
-      'pangarasan': 'Lakuning Geni (Hangat, bersemangat, namun mudah marah)',
-      'pancasuda': 'Wisesa Segara (Suka memaafkan dan berhati mulia)',
-    },
-    'Senin_Kliwon': {
-      'summary': 'Pribadi yang cerdas, sangat peduli dengan keluarga, namun terkadang terlalu perasa dan mudah cemas.',
-      'pangarasan': 'Lakuning Kembang (Menawan, menyukai kedamaian)',
-      'pancasuda': 'Bumi Kapetak (Tekun bekerja, tahan penderitaan)',
-    },
-    'Minggu_Wage': {
-      'summary': 'Pribadi yang penurut, setia, berwibawa, dan pandai menghibur orang lain, namun cenderung keras kepala.',
-      'pangarasan': 'Lakuning Angin (Pandai bergaul, menyejukkan)',
-      'pancasuda': 'Wasesa Segara (Pemaaf dan murah hati)',
-    },
-    'Kamis_Wage': {
-      'summary': 'Pribadi yang setia pada janji, suka menolong, pekerja keras, namun cenderung mudah tersinggung.',
-      'pangarasan': 'Lakuning Lintang (Penyendiri, namun bersinar dalam kelompok)',
-      'pancasuda': 'Bumi Kapetak (Sabar dan tekun bekerja)',
-    },
-    // We can add additional key mappings as fallback. Let's make sure the major ones are present.
-  };
+  /// Mengembalikan data karakter (pangarasan & pancasuda) secara algoritmik.
+  ///
+  /// - Pangarasan ditentukan oleh saptawara (hari Masehi).
+  /// - Pancasuda ditentukan oleh totalNeptu % 7.
+  static Map<String, String> _getCharacterData(String day, int totalNeptu) {
+    return {
+      'summary':    'Pribadi yang memiliki watak dinamis dan suka menolong sesama.',
+      'pangarasan': _pangarasanByDay[day] ?? '',
+      'pancasuda':  _pancasudaByIndex.isNotEmpty
+                    ? _pancasudaByIndex[totalNeptu % 7]
+                    : '',
+    };
+  }
 
   static int calculatePranataMangsaId(DateTime date) {
     final int month = date.month;
     final int day = date.day;
     final int year = date.year;
     
-    final bool isKabisat = year % 4 == 0;
+    // Gregorian leap year: divisible by 4, except century years unless divisible by 400.
+    final bool isKabisat = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
     final int md = month * 100 + day;
 
     if (md >= 622 && md <= 801) return 1;

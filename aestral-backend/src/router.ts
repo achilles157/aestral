@@ -6,6 +6,7 @@ import { callGemini } from './gemini';
 import { buildSystemInstruction, type AiContext } from './system_prompt';
 import { isRateLimited, getRateLimitResetSeconds } from './rate_limiter';
 import { buildTarotSystemInstruction, buildTarotUserPrompt, parseTarotResponse, type TarotCardInput, type TarotReadingContext } from './tarot_reading_prompt';
+import MANGSA_THEMES from './data/mangsa-themes.json';
 
 const CORS_HEADERS: Record<string, string> = {
 	'Access-Control-Allow-Origin': '*',
@@ -194,21 +195,6 @@ interface CalendarMonthBody {
 	targetMonth?: number;
 }
 
-const MANGSA_THEMES: Record<number, { nama: string; candra: string; tema: string }> = {
-	1: { nama: 'Kasa', candra: 'Sotya murca saking embanan', tema: 'Ego-Death & Decluttering' },
-	2: { nama: 'Karo', candra: 'Bantala rengka', tema: 'Vulnerability & Resilience' },
-	3: { nama: 'Katiga', candra: 'Suta manut ing bapa', tema: 'Mentorship & Disiplin' },
-	4: { nama: 'Kapat', candra: 'Waspa kumembeng jroning kalbu', tema: 'Emotional Healing & Transisi' },
-	5: { nama: 'Kalima', candra: 'Pancuran mas sumawur ing jagad', tema: 'Abundance & Peluang' },
-	6: { nama: 'Kanem', candra: 'Rasa mulya kasucian', tema: 'Maturitas & Flow' },
-	7: { nama: 'Kapitu', candra: 'Wisa kentar ing maruta', tema: 'Cozy Cocooning & Boundaries' },
-	8: { nama: 'Kawolu', candra: 'Anjrah jroning kayun', tema: 'Passion & Kolaborasi' },
-	9: { nama: 'Kasanga', candra: 'Wedharing wacana mulya', tema: 'Ekspresi Diri & Sharing' },
-	10: { nama: 'Kadasa', candra: 'Gedhong mineb jroning kalbu', tema: 'Financial & Security' },
-	11: { nama: 'Dhesta', candra: 'Sotya sinarawedi', tema: 'Apresiasi & Perlambatan' },
-	12: { nama: 'Sada', candra: 'Tirta sah saking sasana', tema: 'Detachment & Refleksi' },
-};
-
 async function handleCalendarMonth(request: Request, env: Env): Promise<Response> {
 	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
@@ -228,7 +214,8 @@ async function handleCalendarMonth(request: Request, env: Env): Promise<Response
 
 	// Calculate active Pranata Mangsa of the selected month (using 15th as midpoint representation)
 	const midPranataId = getPranataMangsaId(targetYear, targetMonth, 15);
-	const theme = MANGSA_THEMES[midPranataId];
+	// Source of truth: src/data/mangsa-themes.json (array index = id - 1)
+	const theme = MANGSA_THEMES[midPranataId - 1];
 
 	// Determine total days in target month
 	const totalDays = new Date(targetYear, targetMonth, 0).getDate();

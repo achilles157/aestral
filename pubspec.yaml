@@ -79,6 +79,7 @@ flutter:
     - assets/weton/sisabagi.json
     - assets/weton/wuku.json
     - assets/weton/pranata_mangsa.json
+    - assets/weton/pangarasan-pancasuda.json
     - assets/bazi/
 
   # An image asset can refer to one or more resolution-specific "variants", see

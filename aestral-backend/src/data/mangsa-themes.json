@@ -1,0 +1,14 @@
+[
+  { "id": 1,  "nama": "Kasa",    "candra": "Sotya murca saking embanan",       "tema": "Ego-Death & Decluttering" },
+  { "id": 2,  "nama": "Karo",    "candra": "Bantala rengka",                   "tema": "Vulnerability & Resilience" },
+  { "id": 3,  "nama": "Katiga",  "candra": "Suta manut ing bapa",              "tema": "Mentorship & Disiplin" },
+  { "id": 4,  "nama": "Kapat",   "candra": "Waspa kumembeng jroning kalbu",    "tema": "Emotional Healing & Transisi" },
+  { "id": 5,  "nama": "Kalima",  "candra": "Pancuran mas sumawur ing jagad",   "tema": "Abundance & Peluang" },
+  { "id": 6,  "nama": "Kanem",   "candra": "Rasa mulya kasucian",              "tema": "Maturitas & Flow" },
+  { "id": 7,  "nama": "Kapitu",  "candra": "Wisa kentar ing maruta",           "tema": "Cozy Cocooning & Boundaries" },
+  { "id": 8,  "nama": "Kawolu",  "candra": "Anjrah jroning kayun",             "tema": "Passion & Kolaborasi" },
+  { "id": 9,  "nama": "Kasanga", "candra": "Wedharing wacana mulya",           "tema": "Ekspresi Diri & Sharing" },
+  { "id": 10, "nama": "Kadasa",  "candra": "Gedhong mineb jroning kalbu",      "tema": "Financial & Security" },
+  { "id": 11, "nama": "Dhesta",  "candra": "Sotya sinarawedi",                 "tema": "Apresiasi & Perlambatan" },
+  { "id": 12, "nama": "Sada",    "candra": "Tirta sah saking sasana",          "tema": "Detachment & Refleksi" }
+]

@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'core/theme/app_theme.dart';
+import 'core/utils/weton_utils.dart';
 import 'features/auth/presentation/login_screen.dart';
 import 'features/auth/services/auth_service.dart';
 import 'features/home/presentation/main_shell.dart';
@@ -14,6 +17,18 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // ── Weton character data ───────────────────────────────────────────────────
+  // Pangarasan & pancasuda loaded from JSON once before runApp() so that
+  // WetonUtils.calculateWeton() has data ready on first call.
+  try {
+    final charJson = await rootBundle.loadString(
+      'assets/weton/pangarasan-pancasuda.json',
+    );
+    WetonUtils.loadCharacterData(jsonDecode(charJson) as Map<String, dynamic>);
+  } catch (e) {
+    debugPrint('WetonUtils: character data load failed — $e');
+  }
 
   // ── Global error handlers ──────────────────────────────────────────────────
 
