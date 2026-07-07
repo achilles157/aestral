@@ -91,6 +91,7 @@ class _FadingIndexedStack extends StatefulWidget {
 class _FadingIndexedStackState extends State<_FadingIndexedStack> {
   int _currentIndex = 0;
   double _opacity = 1.0;
+  Offset _slideOffset = Offset.zero;
 
   @override
   void initState() {
@@ -102,13 +103,18 @@ class _FadingIndexedStackState extends State<_FadingIndexedStack> {
   void didUpdateWidget(_FadingIndexedStack oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.index != widget.index) {
-      // Fade out, switch index, fade in
-      setState(() => _opacity = 0.0);
-      Future.delayed(const Duration(milliseconds: 120), () {
+      // Slide + fade out, switch index, slide + fade in
+      final bool goingRight = widget.index > oldWidget.index;
+      setState(() {
+        _opacity = 0.0;
+        _slideOffset = Offset(goingRight ? 0.04 : -0.04, 0);
+      });
+      Future.delayed(const Duration(milliseconds: 130), () {
         if (mounted) {
           setState(() {
             _currentIndex = widget.index;
             _opacity = 1.0;
+            _slideOffset = Offset.zero;
           });
         }
       });
@@ -117,13 +123,18 @@ class _FadingIndexedStackState extends State<_FadingIndexedStack> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: _opacity,
-      duration: const Duration(milliseconds: 150),
-      curve: Curves.easeIn,
-      child: IndexedStack(
-        index: _currentIndex,
-        children: widget.children,
+    return AnimatedSlide(
+      offset: _slideOffset,
+      duration: const Duration(milliseconds: 180),
+      curve: Curves.easeOutCubic,
+      child: AnimatedOpacity(
+        opacity: _opacity,
+        duration: const Duration(milliseconds: 150),
+        curve: Curves.easeIn,
+        child: IndexedStack(
+          index: _currentIndex,
+          children: widget.children,
+        ),
       ),
     );
   }
