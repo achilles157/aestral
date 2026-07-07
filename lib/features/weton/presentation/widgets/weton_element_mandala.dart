@@ -114,17 +114,22 @@ class _WetonElementMandalaState extends State<WetonElementMandala>
 
     return Column(
       children: [
-        Center(
-          child: AnimatedBuilder(
-            animation: _progress,
-            builder: (context, _) => CustomPaint(
-              size: const Size(260, 260),
-              painter: _WetonElementMandalaPainter(
-                geni: values['geni']!,
-                banyu: values['banyu']!,
-                lemah: values['lemah']!,
-                angin: values['angin']!,
-                progress: _progress.value,
+        Semantics(
+          label: 'Mandala elemen kosmis weton — radar diagram yang menggambarkan '
+              'keseimbangan empat elemen Jawa: Geni, Banyu, Lemah, dan Angin.',
+          excludeSemantics: false,
+          child: Center(
+            child: AnimatedBuilder(
+              animation: _progress,
+              builder: (context, _) => CustomPaint(
+                size: const Size(260, 260),
+                painter: _WetonElementMandalaPainter(
+                  geni: values['geni']!,
+                  banyu: values['banyu']!,
+                  lemah: values['lemah']!,
+                  angin: values['angin']!,
+                  progress: _progress.value,
+                ),
               ),
             ),
           ),
