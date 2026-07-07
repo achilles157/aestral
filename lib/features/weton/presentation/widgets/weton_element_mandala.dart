@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 
-class WetonElementMandala extends StatelessWidget {
+class WetonElementMandala extends StatefulWidget {
   final String saptawara;
   final String pancawara;
 
@@ -13,13 +13,52 @@ class WetonElementMandala extends StatelessWidget {
     required this.pancawara,
   });
 
+  @override
+  State<WetonElementMandala> createState() => _WetonElementMandalaState();
+}
+
+class _WetonElementMandalaState extends State<WetonElementMandala>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _progress;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+    _progress = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutCubic,
+    );
+    _controller.forward();
+  }
+
+  @override
+  void didUpdateWidget(WetonElementMandala oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Re-animate when weton data changes
+    if (oldWidget.saptawara != widget.saptawara ||
+        oldWidget.pancawara != widget.pancawara) {
+      _controller.forward(from: 0.0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   Map<String, double> get elementValues {
     double geni = 1.0;
     double banyu = 1.0;
     double lemah = 1.0;
     double angin = 1.0;
 
-    final sStr = saptawara.toLowerCase();
+    final sStr = widget.saptawara.toLowerCase();
     if (sStr.contains('ahad') || sStr.contains('minggu')) {
       geni += 2.0;
       angin += 1.0;
@@ -40,7 +79,7 @@ class WetonElementMandala extends StatelessWidget {
       geni += 1.0;
     }
 
-    final pStr = pancawara.toLowerCase();
+    final pStr = widget.pancawara.toLowerCase();
     if (pStr.contains('legi')) {
       angin += 3.0;
       lemah += 1.0;
@@ -72,17 +111,21 @@ class WetonElementMandala extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final values = elementValues;
-    
+
     return Column(
       children: [
         Center(
-          child: CustomPaint(
-            size: const Size(260, 260),
-            painter: _WetonElementMandalaPainter(
-              geni: values['geni']!,
-              banyu: values['banyu']!,
-              lemah: values['lemah']!,
-              angin: values['angin']!,
+          child: AnimatedBuilder(
+            animation: _progress,
+            builder: (context, _) => CustomPaint(
+              size: const Size(260, 260),
+              painter: _WetonElementMandalaPainter(
+                geni: values['geni']!,
+                banyu: values['banyu']!,
+                lemah: values['lemah']!,
+                angin: values['angin']!,
+                progress: _progress.value,
+              ),
             ),
           ),
         ),
@@ -97,7 +140,7 @@ class WetonElementMandala extends StatelessWidget {
             _buildElementChip('Lemah (Tanah)', values['lemah']!, AppTheme.elementEarth),
             _buildElementChip('Angin (Udara)', values['angin']!, AppTheme.elementCosmic),
           ],
-        )
+        ),
       ],
     );
   }
@@ -121,7 +164,10 @@ class WetonElementMandala extends StatelessWidget {
               color: color,
               shape: BoxShape.circle,
               boxShadow: [
-                BoxShadow(color: color.withValues(alpha: 0.6), blurRadius: 4, spreadRadius: 1),
+                BoxShadow(
+                    color: color.withValues(alpha: 0.6),
+                    blurRadius: 4,
+                    spreadRadius: 1),
               ],
             ),
           ),
@@ -145,12 +191,14 @@ class _WetonElementMandalaPainter extends CustomPainter {
   final double banyu;
   final double lemah;
   final double angin;
+  final double progress;
 
   _WetonElementMandalaPainter({
     required this.geni,
     required this.banyu,
     required this.lemah,
     required this.angin,
+    this.progress = 1.0,
   });
 
   @override
@@ -158,23 +206,33 @@ class _WetonElementMandalaPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final maxRadius = (size.width / 2) * 0.75;
 
+    // Background grid — fade in with progress
     final goldPaint = Paint()
-      ..color = AppTheme.accentGold.withValues(alpha: 0.25)
+      ..color = AppTheme.accentGold.withValues(alpha: 0.25 * progress)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
 
     final goldDottedPaint = Paint()
-      ..color = AppTheme.accentGold.withValues(alpha: 0.12)
+      ..color = AppTheme.accentGold.withValues(alpha: 0.12 * progress)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.8;
 
     for (var i = 1; i <= 4; i++) {
-      canvas.drawCircle(center, maxRadius * (i / 4), goldPaint);
+      canvas.drawCircle(center, maxRadius * (i / 4) * progress, goldPaint);
     }
 
-    canvas.drawLine(Offset(center.dx, center.dy - maxRadius), Offset(center.dx, center.dy + maxRadius), goldDottedPaint);
-    canvas.drawLine(Offset(center.dx - maxRadius, center.dy), Offset(center.dx + maxRadius, center.dy), goldDottedPaint);
+    canvas.drawLine(
+      Offset(center.dx, center.dy - maxRadius * progress),
+      Offset(center.dx, center.dy + maxRadius * progress),
+      goldDottedPaint,
+    );
+    canvas.drawLine(
+      Offset(center.dx - maxRadius * progress, center.dy),
+      Offset(center.dx + maxRadius * progress, center.dy),
+      goldDottedPaint,
+    );
 
+    // Directional labels — fade in
     final textPainter = TextPainter(
       textDirection: ui.TextDirection.ltr,
     );
@@ -185,28 +243,36 @@ class _WetonElementMandalaPainter extends CustomPainter {
         style: GoogleFonts.playfairDisplay(
           fontSize: 9,
           fontWeight: FontWeight.bold,
-          color: color,
+          color: color.withValues(alpha: progress),
           height: 1.2,
         ),
       );
       textPainter.layout();
-      textPainter.paint(canvas, Offset(pos.dx - textPainter.width / 2, pos.dy - textPainter.height / 2));
+      textPainter.paint(
+          canvas,
+          Offset(pos.dx - textPainter.width / 2,
+              pos.dy - textPainter.height / 2));
     }
 
-    drawLabel('BANYU\n(North)', Offset(center.dx, center.dy - maxRadius - 16), AppTheme.elementWater);
-    drawLabel('ANGIN\n(East)', Offset(center.dx + maxRadius + 22, center.dy), AppTheme.elementCosmic);
-    drawLabel('GENI\n(South)', Offset(center.dx, center.dy + maxRadius + 16), AppTheme.elementFire);
-    drawLabel('LEMAH\n(West)', Offset(center.dx - maxRadius - 22, center.dy), AppTheme.elementEarth);
+    drawLabel('BANYU\n(North)', Offset(center.dx, center.dy - maxRadius - 16),
+        AppTheme.elementWater);
+    drawLabel('ANGIN\n(East)', Offset(center.dx + maxRadius + 22, center.dy),
+        AppTheme.elementCosmic);
+    drawLabel('GENI\n(South)', Offset(center.dx, center.dy + maxRadius + 16),
+        AppTheme.elementFire);
+    drawLabel('LEMAH\n(West)', Offset(center.dx - maxRadius - 22, center.dy),
+        AppTheme.elementEarth);
 
+    // Radar diamond — expand from center based on progress
     final nVal = 0.2 + (banyu * 0.8);
     final eVal = 0.2 + (angin * 0.8);
     final sVal = 0.2 + (geni * 0.8);
     final wVal = 0.2 + (lemah * 0.8);
 
-    final double nY = center.dy - (nVal.clamp(0.2, 1.0) * maxRadius);
-    final double eX = center.dx + (eVal.clamp(0.2, 1.0) * maxRadius);
-    final double sY = center.dy + (sVal.clamp(0.2, 1.0) * maxRadius);
-    final double wX = center.dx - (wVal.clamp(0.2, 1.0) * maxRadius);
+    final double nY = center.dy - (nVal.clamp(0.2, 1.0) * maxRadius * progress);
+    final double eX = center.dx + (eVal.clamp(0.2, 1.0) * maxRadius * progress);
+    final double sY = center.dy + (sVal.clamp(0.2, 1.0) * maxRadius * progress);
+    final double wX = center.dx - (wVal.clamp(0.2, 1.0) * maxRadius * progress);
 
     final path = Path()
       ..moveTo(center.dx, nY)
@@ -216,17 +282,21 @@ class _WetonElementMandalaPainter extends CustomPainter {
       ..close();
 
     final fillPaint = Paint()
-      ..color = AppTheme.accentPurple.withValues(alpha: 0.2)
+      ..color = AppTheme.accentPurple.withValues(alpha: 0.2 * progress)
       ..style = PaintingStyle.fill;
     canvas.drawPath(path, fillPaint);
 
     final strokePaint = Paint()
-      ..color = AppTheme.accentGold.withValues(alpha: 0.7)
+      ..color = AppTheme.accentGold.withValues(alpha: 0.7 * progress)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0;
     canvas.drawPath(path, strokePaint);
 
-    canvas.drawCircle(center, 3, Paint()..color = AppTheme.accentGold);
+    canvas.drawCircle(
+      center,
+      3 * progress,
+      Paint()..color = AppTheme.accentGold.withValues(alpha: progress),
+    );
   }
 
   @override
@@ -234,6 +304,7 @@ class _WetonElementMandalaPainter extends CustomPainter {
     return oldDelegate.geni != geni ||
         oldDelegate.banyu != banyu ||
         oldDelegate.lemah != lemah ||
-        oldDelegate.angin != angin;
+        oldDelegate.angin != angin ||
+        oldDelegate.progress != progress;
   }
 }
