@@ -113,3 +113,32 @@ assets/weton/Riset Astrologi Primbon Jawa Modern.md
 .agents/
 .superpowers/
 skills-lock.json
+
+# ZCode session checkpoints & logs
+.zcode/
+*.zcode-session
+.zcode-*
+
+# Wrangler secrets (Cloudflare Workers)
+.dev.vars
+.wrangler/
+wrangler.toml.local
+
+# API keys & tokens (catch-all)
+*_api_key*
+*_secret*
+*_token*
+*_credentials*
+!*_example*
+!*_template*
+
+# Database & Cache
+*.db
+*.sqlite
+*.sqlite3
+.cache/
+
+# Personal identifiable data (PII)
+**/users_backup.json
+**/profile_data.json
+**/customer_*.csv
