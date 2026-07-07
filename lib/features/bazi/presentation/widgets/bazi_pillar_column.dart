@@ -69,7 +69,7 @@ class BaziPillarColumn extends StatelessWidget {
         ? (kBaziElementColors[pillar!.element] ?? AppTheme.accentGold)
         : Colors.white24;
 
-    final Color glowColor = elementColor.withOpacity(0.18);
+    final Color glowColor = elementColor.withValues(alpha: 0.18);
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 400),
@@ -77,7 +77,7 @@ class BaziPillarColumn extends StatelessWidget {
         color: AppTheme.cardBg,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isHighlighted ? elementColor : elementColor.withOpacity(0.4),
+          color: isHighlighted ? elementColor : elementColor.withValues(alpha: 0.4),
           width: isHighlighted ? 1.5 : 0.8,
         ),
         boxShadow: isHighlighted
@@ -93,7 +93,7 @@ class BaziPillarColumn extends StatelessWidget {
             label,
             style: GoogleFonts.outfit(
               fontSize: 10,
-              color: elementColor.withOpacity(0.8),
+              color: elementColor.withValues(alpha: 0.8),
               fontWeight: FontWeight.w600,
               letterSpacing: 1.2,
             ),
@@ -122,14 +122,14 @@ class BaziPillarColumn extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Divider(color: elementColor.withOpacity(0.25), height: 1),
+            Divider(color: elementColor.withValues(alpha: 0.25), height: 1),
             const SizedBox(height: 10),
             // Earthly Branch symbol
             Text(
               pillar!.branchSymbol,
               style: GoogleFonts.playfairDisplay(
                 fontSize: 24,
-                color: elementColor.withOpacity(0.85),
+                color: elementColor.withValues(alpha: 0.85),
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -152,9 +152,9 @@ class BaziPillarColumn extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
               decoration: BoxDecoration(
-                color: elementColor.withOpacity(0.12),
+                color: elementColor.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: elementColor.withOpacity(0.3)),
+                border: Border.all(color: elementColor.withValues(alpha: 0.3)),
               ),
               child: Text(
                 pillar!.id.replaceAll('_', ' '),
@@ -211,7 +211,7 @@ class _CangGanRow extends StatelessWidget {
             _kStemSymbol[s] ?? '',
             style: TextStyle(
               fontSize: 9,
-              color: c.withOpacity(0.65),
+              color: c.withValues(alpha: 0.65),
               fontWeight: FontWeight.w600,
             ),
           ),

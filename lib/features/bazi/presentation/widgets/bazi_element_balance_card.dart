@@ -101,7 +101,7 @@ class BaziElementBalanceCard extends StatelessWidget {
                       child: LinearProgressIndicator(
                         value: fraction,
                         minHeight: 8,
-                        backgroundColor: el.color.withOpacity(0.1),
+                        backgroundColor: el.color.withValues(alpha: 0.1),
                         valueColor:
                             AlwaysStoppedAnimation<Color>(el.color),
                       ),
@@ -136,7 +136,7 @@ class BaziElementBalanceCard extends StatelessWidget {
               _badge(
                   '↓ ${balance.deficient.toUpperCase()}',
                   (kBaziElementColors[balance.deficient] ?? Colors.white38)
-                      .withOpacity(0.6)),
+                      .withValues(alpha: 0.6)),
             ],
           ),
         ],
@@ -147,9 +147,9 @@ class BaziElementBalanceCard extends StatelessWidget {
   Widget _badge(String label, Color color) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.12),
+          color: color.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Text(
           label,

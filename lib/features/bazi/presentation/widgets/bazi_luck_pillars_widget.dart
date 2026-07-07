@@ -74,9 +74,9 @@ class BaziLuckPillarsWidget extends StatelessWidget {
   Widget _directionChip() => Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         decoration: BoxDecoration(
-          color: elementColor.withOpacity(0.12),
+          color: elementColor.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: elementColor.withOpacity(0.3)),
+          border: Border.all(color: elementColor.withValues(alpha: 0.3)),
         ),
         child: Text(
           isForward ? '顺运' : '逆运',
@@ -102,9 +102,9 @@ class _LuckPillarCard extends StatelessWidget {
       margin: const EdgeInsets.only(right: 8),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.08),
+        color: color.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: color.withOpacity(0.25)),
+        border: Border.all(color: color.withValues(alpha: 0.25)),
       ),
       child: Column(
         children: [
@@ -132,7 +132,7 @@ class _LuckPillarCard extends StatelessWidget {
             lp.pillar.branchSymbol,
             style: GoogleFonts.playfairDisplay(
               fontSize: 20,
-              color: color.withOpacity(0.7),
+              color: color.withValues(alpha: 0.7),
               fontWeight: FontWeight.bold,
             ),
           ),

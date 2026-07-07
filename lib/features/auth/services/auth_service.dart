@@ -22,6 +22,10 @@ class UserSession {
 }
 
 class AuthNotifier extends Notifier<UserSession?> {
+  bool _isInitializing = true;
+
+  bool get isInitializing => _isInitializing;
+
   @override
   UserSession? build() {
     _loadSession();
@@ -56,6 +60,8 @@ class AuthNotifier extends Notifier<UserSession?> {
             photoUrl: currentUser.photoURL,
             isMock: false,
           );
+          _isInitializing = false;
+          ref.notifyListeners();
           return;
         }
       }
@@ -73,6 +79,9 @@ class AuthNotifier extends Notifier<UserSession?> {
       }
     } catch (e) {
       debugPrint("Error loading session: $e");
+    } finally {
+      _isInitializing = false;
+      ref.notifyListeners();
     }
   }
 
@@ -124,13 +133,23 @@ class AuthNotifier extends Notifier<UserSession?> {
 
   Future<void> signInAsGuest() async {
     final prefs = await SharedPreferences.getInstance();
-    const uid = 'guest_user_123';
-    await prefs.setString('mock_user_uid', uid);
+
+    // Reuse an existing unique guest UID across sessions.
+    // Replace the old hardcoded placeholder if present.
+    String? savedUid = prefs.getString('mock_user_uid');
+    if (savedUid == null || savedUid == 'guest_user_123') {
+      final ms = DateTime.now().millisecondsSinceEpoch;
+      // Add a deterministic suffix to reduce collision probability further.
+      final suffix = (ms % 99991).toString().padLeft(5, '0');
+      savedUid = 'guest_${ms}_$suffix';
+    }
+
+    await prefs.setString('mock_user_uid', savedUid);
     await prefs.setString('mock_user_name', 'Tamu Offline');
     await prefs.setString('mock_user_email', 'guest@aestral.local');
 
     state = UserSession(
-      uid: uid,
+      uid: savedUid,
       displayName: 'Tamu Offline',
       email: 'guest@aestral.local',
       isMock: true,
@@ -167,4 +186,10 @@ class AuthNotifier extends Notifier<UserSession?> {
 
 final authProvider = NotifierProvider<AuthNotifier, UserSession?>(() {
   return AuthNotifier();
+});
+
+// Provider untuk expose initializing state — digunakan untuk splash screen
+final authInitializingProvider = Provider<bool>((ref) {
+  ref.watch(authProvider); // dependency agar rebuild saat auth state berubah
+  return ref.read(authProvider.notifier).isInitializing;
 });

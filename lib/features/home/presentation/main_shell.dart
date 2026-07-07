@@ -46,7 +46,7 @@ class MainShell extends ConsumerWidget {
             bottom: MediaQuery.of(context).padding.bottom + 88,
           ),
         ),
-        child: IndexedStack(
+        child: _FadingIndexedStack(
           index: activeTab,
           children: _screens,
         ),
@@ -69,6 +69,64 @@ class _NavItem {
   final IconData icon;
   final String   label;
   const _NavItem({required this.icon, required this.label});
+}
+
+// ---------------------------------------------------------------------------
+// Fading IndexedStack — smooth opacity transition saat ganti tab
+// ---------------------------------------------------------------------------
+
+class _FadingIndexedStack extends StatefulWidget {
+  const _FadingIndexedStack({
+    required this.index,
+    required this.children,
+  });
+
+  final int index;
+  final List<Widget> children;
+
+  @override
+  State<_FadingIndexedStack> createState() => _FadingIndexedStackState();
+}
+
+class _FadingIndexedStackState extends State<_FadingIndexedStack> {
+  int _currentIndex = 0;
+  double _opacity = 1.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.index;
+  }
+
+  @override
+  void didUpdateWidget(_FadingIndexedStack oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.index != widget.index) {
+      // Fade out, switch index, fade in
+      setState(() => _opacity = 0.0);
+      Future.delayed(const Duration(milliseconds: 120), () {
+        if (mounted) {
+          setState(() {
+            _currentIndex = widget.index;
+            _opacity = 1.0;
+          });
+        }
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      opacity: _opacity,
+      duration: const Duration(milliseconds: 150),
+      curve: Curves.easeIn,
+      child: IndexedStack(
+        index: _currentIndex,
+        children: widget.children,
+      ),
+    );
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -117,10 +175,16 @@ class _CosmicNavBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 for (int i = 0; i < items.length; i++)
-                  _NavButton(
-                    item: items[i],
-                    isActive: i == activeIndex,
-                    onTap: () => onTap(i),
+                  Semantics(
+                    label: '${items[i].label}, tab ${i + 1} dari ${items.length}',
+                    selected: i == activeIndex,
+                    button: true,
+                    excludeSemantics: true,
+                    child: _NavButton(
+                      item: items[i],
+                      isActive: i == activeIndex,
+                      onTap: () => onTap(i),
+                    ),
                   ),
               ],
             ),
@@ -150,7 +214,7 @@ class _NavButton extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 240),
         curve: Curves.easeInOut,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: isActive
             ? BoxDecoration(
                 color: AppTheme.accentGold.withValues(alpha: 0.12),

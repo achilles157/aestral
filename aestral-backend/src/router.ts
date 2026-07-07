@@ -1,4 +1,4 @@
-import { parseAuthHeader } from './auth';
+import { parseAuthHeader, validateBearerToken, type AuthToken } from './auth';
 import { getDeterministicThreeCards, getMangsaDeterministicThreeCards } from './tarot';
 import { getWetonInsight, getPranataMangsaId, getJamInsight } from './weton';
 import { calculateBaziChart, type BaziChartResult } from './bazi';
@@ -20,6 +20,30 @@ function json(data: unknown, status = 200): Response {
 	});
 }
 
+/**
+ * Parses and validates the Authorization header.
+ *
+ * - Missing / malformed header → 401
+ * - Bearer tokens: validates JWT expiry + Firebase iss/aud/sub claims → 401/403
+ * - Guest tokens: accepted as-is (limited feature set enforced per handler)
+ *
+ * Returns `{ authToken }` on success, or an error `Response` to short-circuit.
+ */
+function requireAuth(
+	authHeader: string | null,
+	env: Env,
+): { authToken: AuthToken } | Response {
+	const authToken = parseAuthHeader(authHeader);
+	if (!authToken) {
+		return json({ error: 'Authorization header diperlukan' }, 401);
+	}
+	if (authToken.type === 'bearer') {
+		const err = validateBearerToken(authToken.value, env.FIREBASE_PROJECT_ID);
+		if (err) return json({ error: err.error }, err.status);
+	}
+	return { authToken };
+}
+
 export async function handleRequest(request: Request, env: Env): Promise<Response> {
 	const url = new URL(request.url);
 	const { pathname } = url;
@@ -36,15 +60,15 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
 	}
 
 	if (method === 'POST' && pathname === '/api/tarot/draw') {
-		return handleTarotDraw(request);
+		return handleTarotDraw(request, env);
 	}
 
 	if (method === 'POST' && pathname === '/api/weton/daily') {
-		return handleWetonDaily(request);
+		return handleWetonDaily(request, env);
 	}
 
 	if (method === 'POST' && pathname === '/api/calendar/month') {
-		return handleCalendarMonth(request);
+		return handleCalendarMonth(request, env);
 	}
 
 	if (method === 'POST' && pathname === '/api/chat') {
@@ -56,7 +80,7 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
 	}
 
 	if (method === 'POST' && pathname === '/api/bazi/chart') {
-		return handleBaziChart(request);
+		return handleBaziChart(request, env);
 	}
 
 	if (method === 'POST' && pathname === '/api/bazi/insight') {
@@ -75,11 +99,10 @@ interface TarotDrawBody {
 	mangsaId?: number;
 }
 
-async function handleTarotDraw(request: Request): Promise<Response> {
-	const authToken = parseAuthHeader(request.headers.get('Authorization'));
-	if (!authToken) {
-		return json({ error: 'Authorization header required' }, 400);
-	}
+async function handleTarotDraw(request: Request, env: Env): Promise<Response> {
+	const authResult = requireAuth(request.headers.get('Authorization'), env);
+	if (authResult instanceof Response) return authResult;
+	const { authToken } = authResult;
 
 	let body: TarotDrawBody;
 	try {
@@ -126,11 +149,10 @@ interface WetonDailyBody {
 	targetDate?: string;
 }
 
-async function handleWetonDaily(request: Request): Promise<Response> {
-	const authToken = parseAuthHeader(request.headers.get('Authorization'));
-	if (!authToken) {
-		return json({ error: 'Authorization header required' }, 400);
-	}
+async function handleWetonDaily(request: Request, env: Env): Promise<Response> {
+	const authResult = requireAuth(request.headers.get('Authorization'), env);
+	if (authResult instanceof Response) return authResult;
+	const { authToken } = authResult;
 
 	let body: WetonDailyBody;
 	try {
@@ -187,11 +209,9 @@ const MANGSA_THEMES: Record<number, { nama: string; candra: string; tema: string
 	12: { nama: 'Sada', candra: 'Tirta sah saking sasana', tema: 'Detachment & Refleksi' },
 };
 
-async function handleCalendarMonth(request: Request): Promise<Response> {
-	const authToken = parseAuthHeader(request.headers.get('Authorization'));
-	if (!authToken) {
-		return json({ error: 'Authorization header required' }, 400);
-	}
+async function handleCalendarMonth(request: Request, env: Env): Promise<Response> {
+	const authResult = requireAuth(request.headers.get('Authorization'), env);
+	if (authResult instanceof Response) return authResult;
 
 	let body: CalendarMonthBody;
 	try {
@@ -351,10 +371,8 @@ const CHAT_RATE_LIMIT_MAX = 5;
 const CHAT_RATE_LIMIT_WINDOW_MS = 60_000;
 
 async function handleChat(request: Request, env: Env): Promise<Response> {
-	const authToken = parseAuthHeader(request.headers.get('Authorization'));
-	if (!authToken) {
-		return json({ error: 'Authorization header required' }, 400);
-	}
+	const authResult = requireAuth(request.headers.get('Authorization'), env);
+	if (authResult instanceof Response) return authResult;
 
 	// Extract client IP from Cloudflare header
 	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';
@@ -429,10 +447,8 @@ interface TarotReadingBody {
 }
 
 async function handleTarotReading(request: Request, env: Env): Promise<Response> {
-	const authToken = parseAuthHeader(request.headers.get('Authorization'));
-	if (!authToken) {
-		return json({ error: 'Authorization header required' }, 400);
-	}
+	const authResult = requireAuth(request.headers.get('Authorization'), env);
+	if (authResult instanceof Response) return authResult;
 
 	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';
 	if (await isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
@@ -510,11 +526,10 @@ interface BaziChartBody {
 	longitude?: number;
 }
 
-async function handleBaziChart(request: Request): Promise<Response> {
-	const authToken = parseAuthHeader(request.headers.get('Authorization'));
-	if (!authToken) {
-		return json({ error: 'Authorization header required' }, 400);
-	}
+async function handleBaziChart(request: Request, env: Env): Promise<Response> {
+	const authResult = requireAuth(request.headers.get('Authorization'), env);
+	if (authResult instanceof Response) return authResult;
+	const { authToken } = authResult;
 
 	let body: BaziChartBody;
 	try {
@@ -565,10 +580,8 @@ interface BaziInsightBody extends BaziChartBody {
 }
 
 async function handleBaziInsight(request: Request, env: Env): Promise<Response> {
-	const authToken = parseAuthHeader(request.headers.get('Authorization'));
-	if (!authToken) {
-		return json({ error: 'Authorization header required' }, 400);
-	}
+	const authResult = requireAuth(request.headers.get('Authorization'), env);
+	if (authResult instanceof Response) return authResult;
 
 	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';
 	if (await isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {

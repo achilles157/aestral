@@ -280,7 +280,8 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                       ),
                     ),
                   ),
-                  // Timeline Items
+                  // Timeline Items — menggunakan Row+CrossAxisAlignment.start
+                  // menggantikan IntrinsicHeight untuk menghindari double layout pass
                   Column(
                     children: List.generate(slots.length, (idx) {
                       final slot = slots[idx];
@@ -292,168 +293,200 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
 
                       final taskKey = 'planner_task_${dateStr}_${slot['type']}_${slot['index']}';
                       final isChecked = _checklists[taskKey] ?? false;
-
                       final cardColor = isBaik ? const Color(0xFF10B981) : AppTheme.accentPink;
 
-                      return IntrinsicHeight(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            // Timeline Node alignment (offset to match Circadian Wave)
-                            Container(
-                              width: 32,
-                              alignment: isBaik ? const Alignment(0.5, 0.0) : const Alignment(-0.5, 0.0),
-                              child: Container(
-                                width: 10,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: cardColor,
-                                  border: Border.all(color: AppTheme.accentGold, width: 1.5),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: cardColor.withValues(alpha: 0.6),
-                                      blurRadius: 4,
-                                      spreadRadius: 1,
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Timeline dot — top-aligned, offset dengan padding agar sejajar header card
+                          SizedBox(
+                            width: 32,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 20.0),
+                              child: Align(
+                                alignment: isBaik
+                                    ? const Alignment(0.5, 0.0)
+                                    : const Alignment(-0.5, 0.0),
+                                child: Container(
+                                  width: 10,
+                                  height: 10,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: cardColor,
+                                    border: Border.all(
+                                      color: AppTheme.accentGold,
+                                      width: 1.5,
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            // Timeline Glass Card Content
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 16.0),
-                                child: GlassCard(
-                                  borderColor: cardColor.withValues(alpha: 0.25),
-                                  borderWidth: 1.0,
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Theme(
-                                        data: Theme.of(context).copyWith(unselectedWidgetColor: Colors.white30),
-                                        child: Checkbox(
-                                          value: isChecked,
-                                          activeColor: cardColor,
-                                          onChanged: (val) async {
-                                            if (val != null && _prefs != null) {
-                                              await _prefs!.setBool(taskKey, val);
-                                              setState(() {
-                                                _checklists[taskKey] = val;
-                                              });
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(
-                                                  range,
-                                                  style: GoogleFonts.outfit(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 15,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                Container(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                                  decoration: BoxDecoration(
-                                                    color: cardColor.withValues(alpha: 0.15),
-                                                    borderRadius: BorderRadius.circular(10),
-                                                  ),
-                                                  child: Text(
-                                                    label,
-                                                    style: GoogleFonts.outfit(
-                                                      fontSize: 9,
-                                                      fontWeight: FontWeight.bold,
-                                                      color: cardColor,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 6),
-                                            Text(
-                                              rec,
-                                              style: GoogleFonts.outfit(
-                                                fontSize: 13,
-                                                height: 1.4,
-                                                color: Colors.white70,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            OutlinedButton.icon(
-                                              onPressed: () {
-                                                final session = ref.read(authProvider);
-                                                final authHeader = session == null
-                                                    ? 'Guest anonymous'
-                                                    : session.isMock
-                                                        ? 'Guest ${session.uid}'
-                                                        : 'Bearer ${session.uid}';
-                                                final birthDate = widget.birthDate;
-                                                final WetonInfo? birthWeton = birthDate != null ? WetonUtils.calculateWeton(birthDate) : null;
-                                                final birthWetonName = birthWeton != null ? '${birthWeton.saptawara} ${birthWeton.pancawara}' : (dayData['weton_hari_ini'] ?? 'Minggu Legi');
-                                                final neptuVal = birthWeton != null ? birthWeton.totalNeptu : (dayData['neptu'] ?? 10);
-                                                final karakterVal = birthWeton?.characterSummary ?? '';
-                                                final pangarasanVal = birthWeton?.pangarasan ?? '';
-
-                                                final aiHookText = birthWeton != null
-                                                    ? 'Hari ini memiliki energi Weton ${dayData['weton_hari_ini']} dan Wuku ${dayData['wuku']}. Bagaimana pengaruh spesifik dari jam $label ($range) hari ini terhadap aktivitas dan keselarasan energi saya yang lahir dengan weton $birthWetonName?'
-                                                    : 'Sebagai seorang dengan weton $birthWetonName, bagaimana pengaruh jam $label ($range) hari ini terhadap aktivitas dan keselarasan energi saya?';
-
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) => AiAstrologerDialog(
-                                                    prompt: aiHookText,
-                                                    contextTitle: '$label ($range)',
-                                                    authHeader: authHeader,
-                                                    aiContext: {
-                                                      'wetonLahir': {
-                                                        'nama': birthWetonName,
-                                                        'neptu': neptuVal,
-                                                        'elemen': '',
-                                                        if (karakterVal.isNotEmpty) 'karakter': karakterVal,
-                                                      },
-                                                      'wukuBerjalan': {
-                                                        'nama': dayData['wuku'] ?? '',
-                                                        'elemen': '',
-                                                      },
-                                                      if (pangarasanVal.isNotEmpty) 'pangarasan': pangarasanVal,
-                                                    },
-                                                  ),
-                                                );
-                                              },
-                                              style: OutlinedButton.styleFrom(
-                                                side: BorderSide(color: cardColor.withValues(alpha: 0.5), width: 1.0),
-                                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                              ),
-                                              icon: Icon(Icons.auto_awesome, size: 12, color: cardColor),
-                                              label: Text(
-                                                'Tanyakan Kebingungan Anda',
-                                                style: GoogleFonts.outfit(fontSize: 11, color: cardColor, fontWeight: FontWeight.bold),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: cardColor.withValues(alpha: 0.6),
+                                        blurRadius: 4,
+                                        spreadRadius: 1,
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(width: 12),
+                          // Card konten
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: GlassCard(
+                                borderColor: cardColor.withValues(alpha: 0.25),
+                                borderWidth: 1.0,
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Theme(
+                                      data: Theme.of(context).copyWith(
+                                        unselectedWidgetColor: Colors.white30,
+                                      ),
+                                      child: Checkbox(
+                                        value: isChecked,
+                                        activeColor: cardColor,
+                                        onChanged: (val) async {
+                                          if (val != null && _prefs != null) {
+                                            await _prefs!.setBool(taskKey, val);
+                                            setState(() {
+                                              _checklists[taskKey] = val;
+                                            });
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                range,
+                                                style: GoogleFonts.outfit(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 10,
+                                                  vertical: 5,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: cardColor.withValues(alpha: 0.15),
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),
+                                                child: Text(
+                                                  label,
+                                                  style: GoogleFonts.outfit(
+                                                    fontSize: 11,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: cardColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 6),
+                                          Text(
+                                            rec,
+                                            style: GoogleFonts.outfit(
+                                              fontSize: 13,
+                                              height: 1.4,
+                                              color: Colors.white70,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          OutlinedButton.icon(
+                                            onPressed: () {
+                                              final session = ref.read(authProvider);
+                                              final authHeader = session == null
+                                                  ? 'Guest anonymous'
+                                                  : session.isMock
+                                                      ? 'Guest ${session.uid}'
+                                                      : 'Bearer ${session.uid}';
+                                              final birthDate = widget.birthDate;
+                                              final WetonInfo? birthWeton = birthDate != null
+                                                  ? WetonUtils.calculateWeton(birthDate)
+                                                  : null;
+                                              final birthWetonName = birthWeton != null
+                                                  ? '${birthWeton.saptawara} ${birthWeton.pancawara}'
+                                                  : (dayData['weton_hari_ini'] ?? 'Minggu Legi');
+                                              final neptuVal = birthWeton != null
+                                                  ? birthWeton.totalNeptu
+                                                  : (dayData['neptu'] ?? 10);
+                                              final karakterVal = birthWeton?.characterSummary ?? '';
+                                              final pangarasanVal = birthWeton?.pangarasan ?? '';
+
+                                              final aiHookText = birthWeton != null
+                                                  ? 'Hari ini memiliki energi Weton ${dayData['weton_hari_ini']} dan Wuku ${dayData['wuku']}. Bagaimana pengaruh spesifik dari jam $label ($range) hari ini terhadap aktivitas dan keselarasan energi saya yang lahir dengan weton $birthWetonName?'
+                                                  : 'Sebagai seorang dengan weton $birthWetonName, bagaimana pengaruh jam $label ($range) hari ini terhadap aktivitas dan keselarasan energi saya?';
+
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) => AiAstrologerDialog(
+                                                  prompt: aiHookText,
+                                                  contextTitle: '$label ($range)',
+                                                  authHeader: authHeader,
+                                                  aiContext: {
+                                                    'wetonLahir': {
+                                                      'nama': birthWetonName,
+                                                      'neptu': neptuVal,
+                                                      'elemen': '',
+                                                      if (karakterVal.isNotEmpty) 'karakter': karakterVal,
+                                                    },
+                                                    'wukuBerjalan': {
+                                                      'nama': dayData['wuku'] ?? '',
+                                                      'elemen': '',
+                                                    },
+                                                    if (pangarasanVal.isNotEmpty) 'pangarasan': pangarasanVal,
+                                                  },
+                                                ),
+                                              );
+                                            },
+                                            style: OutlinedButton.styleFrom(
+                                              side: BorderSide(
+                                                color: cardColor.withValues(alpha: 0.5),
+                                                width: 1.0,
+                                              ),
+                                              padding: const EdgeInsets.symmetric(
+                                                horizontal: 12,
+                                                vertical: 6,
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                            icon: Icon(
+                                              Icons.auto_awesome,
+                                              size: 12,
+                                              color: cardColor,
+                                            ),
+                                            label: Text(
+                                              '✨ Tanya AI Orakel',
+                                              style: GoogleFonts.outfit(
+                                                fontSize: 11,
+                                                color: cardColor,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       );
                     }),
                   ),

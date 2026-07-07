@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/login_screen.dart';
 import 'features/auth/services/auth_service.dart';
@@ -65,13 +66,18 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isInitializing = ref.watch(authInitializingProvider);
     final session = ref.watch(authProvider);
 
     return MaterialApp(
       title: 'Aestral',
       theme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      home: session == null ? const LoginScreen() : const MainShell(),
+      home: isInitializing
+          ? const _AestralSplashScreen()
+          : session == null
+              ? const LoginScreen()
+              : const MainShell(),
     );
   }
 }
@@ -125,6 +131,59 @@ class _AestralErrorWidget extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// ── Splash screen ──────────────────────────────────────────────────────────────
+
+/// Displayed while Firebase and auth state are initializing.
+class _AestralSplashScreen extends StatelessWidget {
+  const _AestralSplashScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppTheme.background,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.auto_awesome,
+              color: AppTheme.accentGold,
+              size: 64,
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'AESTRAL',
+              style: GoogleFonts.playfairDisplay(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.accentGold,
+                letterSpacing: 4,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Menyelaraskan energi kosmis...',
+              style: GoogleFonts.outfit(
+                fontSize: 14,
+                color: AppTheme.textMuted,
+              ),
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: 32,
+              height: 32,
+              child: CircularProgressIndicator(
+                color: AppTheme.accentGold,
+                strokeWidth: 2,
+              ),
+            ),
+          ],
         ),
       ),
     );

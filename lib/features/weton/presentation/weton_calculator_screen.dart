@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/weton_utils.dart';
-import '../../../core/services/city_service.dart';
 import '../../../core/providers/birth_profile_provider.dart';
 import '../../../core/models/birth_profile.dart';
 import '../../auth/services/auth_service.dart';
@@ -15,12 +15,9 @@ import 'widgets/seasonal_banner.dart';
 import 'components/weton_detail_card.dart';
 import '../../../core/widgets/glass_card.dart';
 import '../../../core/widgets/ai_astrologer_dialog.dart';
-import '../../../core/widgets/astrological_dial_timepiece.dart';
 import 'widgets/javanese_astrological_gear_dial.dart';
 import 'widgets/weton_element_mandala.dart';
-import '../../../core/widgets/city_search_sheet.dart';
 import 'widgets/daily_insight_card.dart';
-import 'widgets/weton_step_wizards.dart';
 
 class WetonCalculatorScreen extends ConsumerStatefulWidget {
   const WetonCalculatorScreen({super.key});
@@ -31,55 +28,38 @@ class WetonCalculatorScreen extends ConsumerStatefulWidget {
 
 class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
   DateTime? _selectedDate;
-  TimeOfDay? _selectedTime;
-  CityPreset _selectedCity = _cityPresets[0]; // Default to Jakarta
-  List<CityPreset> _allCities = [];
-  int _currentStep = 0;
-  
-  final TextEditingController _latController = TextEditingController();
-  final TextEditingController _lngController = TextEditingController();
   
   WetonInfo? _result;
   bool _isSaving = false;
   Map<String, dynamic>? _dailyInsightData;
   bool _isLoadingDaily = false;
 
-  static const List<CityPreset> _cityPresets = [
-    CityPreset(name: 'Jakarta', latitude: -6.2088, longitude: 106.8456),
-    CityPreset(name: 'Surabaya', latitude: -7.2575, longitude: 112.7521),
-    CityPreset(name: 'Bandung', latitude: -6.9175, longitude: 107.6191),
-    CityPreset(name: 'Medan', latitude: 3.5952, longitude: 98.6722),
-    CityPreset(name: 'Makassar', latitude: -5.1477, longitude: 119.4327),
-    CityPreset(name: 'Yogyakarta', latitude: -7.7956, longitude: 110.3695),
-    CityPreset(name: 'Semarang', latitude: -6.9932, longitude: 110.4203),
-    CityPreset(name: 'Denpasar', latitude: -8.6500, longitude: 115.2167),
-    CityPreset(name: 'Koordinat Kustom', latitude: 0.0, longitude: 0.0),
-  ];
+  /// Safely parses a hex color string (e.g. "#RRGGBB") into a [Color].
+  /// Returns null if the string is null, malformed, or not exactly 6 hex digits.
+  Color? _parseHexColor(String? hexWithHash) {
+    if (hexWithHash == null) return null;
+    try {
+      final hex = hexWithHash.replaceAll('#', '');
+      if (hex.length != 6) return null;
+      return Color(int.parse('FF$hex', radix: 16));
+    } catch (e) {
+      debugPrint('_parseHexColor: invalid value "$hexWithHash"');
+      return null;
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    _latController.text = _selectedCity.latitude.toString();
-    _lngController.text = _selectedCity.longitude.toString();
-    _loadCitiesFromCsv();
     _loadSavedProfileAndCalculate();
   }
 
   Future<void> _loadSavedProfileAndCalculate() async {
     final profile = await ref.read(birthProfileProvider.future);
     if (profile.dobDate != null) {
-      final dob = profile.dobDate!;
-      final lat = profile.latitude ?? 0.0;
-      final lng = profile.longitude ?? 0.0;
       if (mounted) {
         setState(() {
-          _selectedDate = dob;
-          _latController.text = lat.toString();
-          _lngController.text = lng.toString();
-          _selectedCity = _cityPresets.firstWhere(
-            (c) => (c.latitude - lat).abs() < 0.0001 && (c.longitude - lng).abs() < 0.0001,
-            orElse: () => _cityPresets.last,
-          );
+          _selectedDate = profile.dobDate!;
         });
         _handleCalculate();
       }
@@ -88,60 +68,38 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
 
   @override
   void dispose() {
-    _latController.dispose();
-    _lngController.dispose();
     super.dispose();
   }
 
-  void _presentDatePicker() {
-    showModalBottomSheet(
+  Future<void> _presentDatePicker() async {
+    final picked = await showDatePicker(
       context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return AstrologicalDialTimepiece(
-          initialDateTime: _selectedDate ?? DateTime(2000, 1, 1),
-          showTime: false,
-          onDateTimeSelected: (dt) {
-            setState(() {
-              _selectedDate = dt;
-            });
-          },
-        );
-      },
+      initialDate: _selectedDate ?? DateTime(1990, 1, 1),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+      builder: (ctx, child) => Theme(
+        data: Theme.of(ctx).copyWith(
+          colorScheme: const ColorScheme.dark(
+            primary: AppTheme.accentPurple,
+            onPrimary: Colors.white,
+            surface: AppTheme.cardBg,
+            onSurface: Colors.white,
+          ),
+        ),
+        child: child!,
+      ),
     );
-  }
-
-  void _presentTimePicker() {
-    final now = DateTime.now();
-    final initialDateTime = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      _selectedTime?.hour ?? 12,
-      _selectedTime?.minute ?? 0,
-    );
-
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return AstrologicalDialTimepiece(
-          initialDateTime: initialDateTime,
-          showTime: true,
-          onDateTimeSelected: (dt) {
-            setState(() {
-              _selectedTime = TimeOfDay(hour: dt.hour, minute: dt.minute);
-            });
-          },
-        );
-      },
-    );
+    if (picked != null) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
   }
 
   Future<void> _handleCalculate() async {
     if (_selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Pilih tanggal lahir terlebih dahulu!'), backgroundColor: Colors.redAccent),
+        const SnackBar(content: Text('Pilih tanggal lahir terlebih dahulu!'), backgroundColor: AppTheme.error),
       );
       return;
     }
@@ -222,21 +180,24 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
         });
       }
     }
+
+    // Persist birth date to profile so other features auto-fill
+    final current = ref.read(birthProfileProvider).value ?? const BirthProfile();
+    ref.read(birthProfileProvider.notifier).saveAll(
+      dob: dob,
+      birthHour: current.birthHour,
+      latitude: current.latitude ?? 0.0,
+      longitude: current.longitude ?? 0.0,
+      cityName: current.cityName ?? '',
+      gender: current.gender,
+    ).catchError((e) {
+      debugPrint('WetonCalculatorScreen: auto-save birth profile error: $e');
+    });
   }
 
   void _handleSaveProfile() async {
     if (_result == null || _selectedDate == null) return;
     
-    final double? lat = double.tryParse(_latController.text);
-    final double? lng = double.tryParse(_lngController.text);
-    
-    if (lat == null || lng == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Koordinat lintang/bujur tidak valid!'), backgroundColor: Colors.redAccent),
-      );
-      return;
-    }
-
     setState(() => _isSaving = true);
     
     bool success = false;
@@ -245,9 +206,9 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
       await ref.read(birthProfileProvider.notifier).saveAll(
         dob: _selectedDate!,
         birthHour: current.birthHour,
-        latitude: lat,
-        longitude: lng,
-        cityName: _selectedCity.name,
+        latitude: current.latitude ?? 0.0,
+        longitude: current.longitude ?? 0.0,
+        cityName: current.cityName ?? '',
         gender: current.gender,
       );
       success = true;
@@ -261,7 +222,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(success ? 'Profil berhasil disimpan ke takdir Anda!' : 'Gagal menyimpan profil.'),
-          backgroundColor: success ? AppTheme.accentPurple : Colors.redAccent,
+          backgroundColor: success ? AppTheme.accentPurple : AppTheme.error,
         ),
       );
     }
@@ -328,54 +289,94 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),
-                    // Date & Time Picker Card
-                    // Stepped Wizard (Ritus Langkah Lahir)
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 400),
-                      child: _currentStep == 0
-                          ? WaktuKosmisStepCard(
-                              selectedDate: _selectedDate,
-                              selectedTime: _selectedTime,
-                              onPresentDatePicker: _presentDatePicker,
-                              onPresentTimePicker: _presentTimePicker,
-                              onNextStep: () {
-                                if (_selectedDate == null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Pilih tanggal lahir terlebih dahulu!'),
-                                      backgroundColor: Colors.redAccent,
+                    // Date picker card (replaces stepped wizard)
+                    GlassCard(
+                      borderColor: AppTheme.accentPurple.withValues(alpha: 0.25),
+                      borderWidth: 1.2,
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.star_outline, color: AppTheme.accentGold, size: 18),
+                              const SizedBox(width: 8),
+                              Text(
+                                'TANGGAL LAHIR KOSMIS',
+                                style: textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.5,
+                                  color: AppTheme.accentGold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Pilih tanggal lahir untuk menyelaraskan energi Weton Anda.',
+                            style: textTheme.bodySmall?.copyWith(color: AppTheme.textMuted),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          // Date display & button
+                          GestureDetector(
+                            onTap: _presentDatePicker,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.04),
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: AppTheme.accentPurple.withValues(alpha: 0.35),
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.calendar_month, color: AppTheme.accentGold, size: 20),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Text(
+                                      _selectedDate == null
+                                          ? 'Tentukan Tanggal Lahir...'
+                                          : DateFormat('dd MMMM yyyy').format(_selectedDate!),
+                                      style: GoogleFonts.outfit(
+                                        color: _selectedDate == null ? Colors.white38 : AppTheme.textLight,
+                                        fontSize: 15,
+                                        fontWeight: _selectedDate == null ? FontWeight.w400 : FontWeight.w600,
+                                      ),
                                     ),
-                                  );
-                                  return;
-                                }
-                                setState(() {
-                                  _currentStep = 1;
-                                });
-                              },
-                            )
-                          : KoordinatBumiStepCard(
-                              selectedCity: _selectedCity,
-                              latController: _latController,
-                              lngController: _lngController,
-                              onSelectCity: () async {
-                                final selected = await _showCitySearchSheet(context);
-                                if (selected != null) {
-                                  setState(() {
-                                    _selectedCity = selected;
-                                    if (selected.name != 'Koordinat Kustom') {
-                                      _latController.text = selected.latitude.toString();
-                                      _lngController.text = selected.longitude.toString();
-                                    }
-                                  });
-                                }
-                              },
-                              onBackPressed: () {
-                                setState(() {
-                                  _currentStep = 0;
-                                });
-                              },
-                              onCalculate: _handleCalculate,
+                                  ),
+                                  const Icon(Icons.edit, color: AppTheme.accentPurple, size: 16),
+                                ],
+                              ),
                             ),
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: _handleCalculate,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.accentPurple,
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Hitung Primbon Weton',
+                                  style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(width: 8),
+                                const Icon(Icons.auto_awesome, size: 16),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 20),
                     // Calculation Results
@@ -414,11 +415,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                           const SizedBox(width: 12),
                                           Builder(
                                             builder: (context) {
-                                              final hexStr = entry!.warnaHarmoni!.replaceAll('#', '');
-                                              Color? harmoniColor;
-                                              if (hexStr.length == 6) {
-                                                harmoniColor = Color(int.parse('FF$hexStr', radix: 16));
-                                              }
+                                              Color? harmoniColor = _parseHexColor(entry!.warnaHarmoni);
                                               if (harmoniColor == null) return const SizedBox.shrink();
                                               return Container(
                                                 width: 14,
@@ -530,54 +527,64 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                               ),
                               const SizedBox(height: 28),
                               if (entry != null) ...[
-                                // 3 Main Cards — sejajar
-                                IntrinsicHeight(
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                                    children: [
-                                      Expanded(
-                                        child: WetonDetailCard(
-                                          title: 'Karier & Rezeki',
-                                          content: entry.karirRezeki,
-                                          icon: Icons.work_outline,
-                                          accentColor: AppTheme.accentGold,
-                                          margin: EdgeInsets.zero,
-                                        ),
+                                // 3 Main Cards — sejajar di layar lebar, vertikal di layar sempit
+                                LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    final useRow = constraints.maxWidth >= 380;
+                                    final cards = [
+                                      WetonDetailCard(
+                                        title: 'Karier & Rezeki',
+                                        content: entry.karirRezeki,
+                                        icon: Icons.work_outline,
+                                        accentColor: AppTheme.accentGold,
+                                        margin: EdgeInsets.zero,
                                       ),
-                                      const SizedBox(width: 12),
-                                      Expanded(
-                                        child: WetonDetailCard(
-                                          title: 'Asmara & Hubungan',
-                                          content: entry.asmaraHubungan,
-                                          icon: Icons.favorite_border,
-                                          accentColor: AppTheme.accentPink,
-                                          margin: EdgeInsets.zero,
-                                        ),
+                                      WetonDetailCard(
+                                        title: 'Asmara & Hubungan',
+                                        content: entry.asmaraHubungan,
+                                        icon: Icons.favorite_border,
+                                        accentColor: AppTheme.accentPink,
+                                        margin: EdgeInsets.zero,
                                       ),
-                                      const SizedBox(width: 12),
-                                      Expanded(
-                                        child: WetonDetailCard(
-                                          title: 'Sisi Gelap & Peringatan',
-                                          content: entry.sisiGelapPeringatan,
-                                          icon: Icons.warning_amber_outlined,
-                                          accentColor: const Color(0xFFF87171),
-                                          margin: EdgeInsets.zero,
-                                        ),
+                                      WetonDetailCard(
+                                        title: 'Sisi Gelap & Peringatan',
+                                        content: entry.sisiGelapPeringatan,
+                                        icon: Icons.warning_amber_outlined,
+                                        accentColor: const Color(0xFFF87171),
+                                        margin: EdgeInsets.zero,
                                       ),
-                                    ],
-                                  ),
+                                    ];
+                                    if (useRow) {
+                                      return IntrinsicHeight(
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                                          children: [
+                                            Expanded(child: cards[0]),
+                                            const SizedBox(width: 12),
+                                            Expanded(child: cards[1]),
+                                            const SizedBox(width: 12),
+                                            Expanded(child: cards[2]),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                    return Column(
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      children: [
+                                        cards[0],
+                                        const SizedBox(height: 12),
+                                        cards[1],
+                                        const SizedBox(height: 12),
+                                        cards[2],
+                                      ],
+                                    );
+                                  },
                                 ),
                                  if (entry.saranHarian != null && entry.saranHarian!.isNotEmpty) ...[
                                     const SizedBox(height: 16),
                                     Builder(
                                       builder: (context) {
-                                        Color? harmoniColor;
-                                        if (entry.warnaHarmoni != null) {
-                                          final hexStr = entry.warnaHarmoni!.replaceAll('#', '');
-                                          if (hexStr.length == 6) {
-                                            harmoniColor = Color(int.parse('FF$hexStr', radix: 16));
-                                          }
-                                        }
+                                        final Color? harmoniColor = _parseHexColor(entry.warnaHarmoni);
                                         final themeColor = harmoniColor ?? AppTheme.accentGold;
                                         return Container(
                                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -644,9 +651,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                      backgroundColor: AppTheme.accentPurple.withValues(alpha: 0.2),
                                      foregroundColor: Colors.white,
                                      side: BorderSide(
-                                       color: entry.warnaHarmoni != null
-                                           ? Color(int.parse('FF${entry.warnaHarmoni!.replaceAll('#', '')}', radix: 16))
-                                           : AppTheme.accentPurple,
+                                       color: _parseHexColor(entry.warnaHarmoni) ?? AppTheme.accentPurple,
                                        width: 1.5,
                                      ),
                                      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
@@ -657,9 +662,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                    ),
                                    icon: Icon(
                                      Icons.auto_awesome,
-                                     color: entry.warnaHarmoni != null
-                                         ? Color(int.parse('FF${entry.warnaHarmoni!.replaceAll('#', '')}', radix: 16))
-                                         : AppTheme.accentGold,
+                                     color: _parseHexColor(entry.warnaHarmoni) ?? AppTheme.accentGold,
                                      size: 18,
                                    ),
                                    label: Text(
@@ -683,55 +686,80 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                   ),
                                 ),
                               ] else if (_dailyInsightData != null) ...[
-                                sisaBagiAsync.when(
-                                  data: (sisaBagiList) {
-                                    return wukuAsync.when(
-                                      data: (wukuList) {
-                                        return pranataMangsaAsync.when(
-                                          data: (pranataList) {
-                                            final dailyInfo = _dailyInsightData!['daily'] as Map<String, dynamic>;
-                                            final weeklyInfo = _dailyInsightData!['weekly'] as Map<String, dynamic>;
-                                            final targetWetonInfo = _dailyInsightData!['targetWeton'] as Map<String, dynamic>?;
+                                // Semua provider dimuat — tampilkan satu spinner terpadu
+                                // hingga ketiganya siap, lalu reveal sekaligus
+                                Builder(
+                                  builder: (context) {
+                                    final allLoading = sisaBagiAsync.isLoading ||
+                                        wukuAsync.isLoading ||
+                                        pranataMangsaAsync.isLoading;
+                                    final anyError = sisaBagiAsync.hasError ||
+                                        wukuAsync.hasError ||
+                                        pranataMangsaAsync.hasError;
 
-                                            final sisaBagiVal = dailyInfo['sisaBagi'] as int;
-                                            final wukuIndex = weeklyInfo['wukuIndex'] as int;
-                                            final wukuName = weeklyInfo['wukuName'] as String;
+                                    if (allLoading) {
+                                      return const Center(
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(vertical: 32.0),
+                                          child: CircularProgressIndicator(
+                                            color: AppTheme.accentPurple,
+                                          ),
+                                        ),
+                                      );
+                                    }
 
-                                            final sisaBagiEntry = sisaBagiList.firstWhere(
-                                              (s) => s['sisa_bagi'] == sisaBagiVal,
-                                              orElse: () => sisaBagiList.first,
-                                            );
+                                    if (anyError) {
+                                      return Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                          child: Text(
+                                            'Gagal memuat data harian.',
+                                            style: GoogleFonts.outfit(
+                                              color: AppTheme.accentPink,
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
 
-                                            final wukuEntry = wukuList.firstWhere(
-                                              (w) => w['id'] == wukuIndex || w['id'] == wukuIndex + 1 || w['nama_wuku'].toString().toLowerCase() == wukuName.toLowerCase(),
-                                              orElse: () => wukuList.first,
-                                            );
+                                    final sisaBagiList = sisaBagiAsync.value!;
+                                    final wukuList = wukuAsync.value!;
+                                    final pranataList = pranataMangsaAsync.value!;
 
-                                            // Lookup target pranata mangsa ID
-                                            final targetPranataId = targetWetonInfo?['pranataMangsaId'] as int? ?? 1;
-                                            final targetPranata = pranataList.firstWhere(
-                                              (m) => m.id == targetPranataId,
-                                              orElse: () => pranataList.first,
-                                            );
+                                    final dailyInfo = _dailyInsightData!['daily'] as Map<String, dynamic>;
+                                    final weeklyInfo = _dailyInsightData!['weekly'] as Map<String, dynamic>;
+                                    final targetWetonInfo = _dailyInsightData!['targetWeton'] as Map<String, dynamic>?;
 
-                                            return Column(
-                                              children: [
-                                                DailyInsightCard(sisaBagi: sisaBagiEntry, wuku: wukuEntry),
-                                                const SizedBox(height: 20),
-                                                SeasonalBanner(mangsa: targetPranata),
-                                              ],
-                                            );
-                                          },
-                                          loading: () => const Center(child: CircularProgressIndicator(color: AppTheme.accentPurple)),
-                                          error: (err, _) => Center(child: Text('Gagal memuat Pranata Mangsa: $err')),
-                                        );
-                                      },
-                                      loading: () => const Center(child: CircularProgressIndicator(color: AppTheme.accentPurple)),
-                                      error: (err, _) => Center(child: Text('Gagal memuat wuku harian: $err')),
+                                    final sisaBagiVal = dailyInfo['sisaBagi'] as int;
+                                    final wukuIndex = weeklyInfo['wukuIndex'] as int;
+                                    final wukuName = weeklyInfo['wukuName'] as String;
+
+                                    final sisaBagiEntry = sisaBagiList.firstWhere(
+                                      (s) => s['sisa_bagi'] == sisaBagiVal,
+                                      orElse: () => sisaBagiList.first,
+                                    );
+                                    final wukuEntry = wukuList.firstWhere(
+                                      (w) =>
+                                          w['id'] == wukuIndex ||
+                                          w['id'] == wukuIndex + 1 ||
+                                          w['nama_wuku'].toString().toLowerCase() == wukuName.toLowerCase(),
+                                      orElse: () => wukuList.first,
+                                    );
+                                    final targetPranataId = targetWetonInfo?['pranataMangsaId'] as int? ?? 1;
+                                    final targetPranata = pranataList.firstWhere(
+                                      (m) => m.id == targetPranataId,
+                                      orElse: () => pranataList.first,
+                                    );
+
+                                    return Column(
+                                      children: [
+                                        DailyInsightCard(sisaBagi: sisaBagiEntry, wuku: wukuEntry),
+                                        const SizedBox(height: 20),
+                                        SeasonalBanner(mangsa: targetPranata),
+                                      ],
                                     );
                                   },
-                                  loading: () => const Center(child: CircularProgressIndicator(color: AppTheme.accentPurple)),
-                                  error: (err, _) => Center(child: Text('Gagal memuat fase harian: $err')),
                                 ),
                               ],
                               // Save profile button (Cloud Sync / SharedPreferences)
@@ -759,7 +787,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                         error: (err, stack) => Center(
                           child: Text(
                             'Gagal memuat kamus weton: $err',
-                            style: const TextStyle(color: Colors.redAccent),
+                            style: const TextStyle(color: AppTheme.error),
                           ),
                         ),
                       ),
@@ -770,36 +798,6 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  /// Loads all cities from CSV via shared [CityService].
-  void _loadCitiesFromCsv() async {
-    final cities = await CityService.loadCitiesFromCsv();
-    if (mounted) setState(() => _allCities = cities);
-  }
-
-  String _formatCityName(String name) {
-    if (name.isEmpty) return '';
-    return name.split(' ').map((word) {
-      if (word.isEmpty) return '';
-      return word[0].toUpperCase() + word.substring(1).toLowerCase();
-    }).join(' ');
-  }
-
-  Future<CityPreset?> _showCitySearchSheet(BuildContext context) {
-    return showModalBottomSheet<CityPreset>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: AppTheme.cardBg,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (context) {
-        return CitySearchSheet(
-          cityPresets: _allCities.isEmpty ? _cityPresets : _allCities,
-        );
-      },
     );
   }
 }

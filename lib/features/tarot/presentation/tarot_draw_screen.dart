@@ -71,6 +71,9 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
   }
 
   Future<void> _handleDraw(List<TarotCard> deck) async {
+    // Guard against double-tap while a draw is already in progress
+    if (_isLoading) return;
+
     final messenger = ScaffoldMessenger.of(context);
     final drawnCards = ref.read(drawnCardProvider);
     
@@ -174,11 +177,16 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
 
   void _revealCard(int index) {
     if (_cardRevealedStates[index]) return;
-    _flipControllers[index].forward().then((_) {
-      setState(() {
-        _cardRevealedStates[index] = true;
+    final reduceMotion = MediaQuery.of(context).disableAnimations;
+    if (reduceMotion) {
+      // Skip flip animation — langsung reveal
+      _flipControllers[index].value = pi;
+      setState(() => _cardRevealedStates[index] = true);
+    } else {
+      _flipControllers[index].forward().then((_) {
+        setState(() => _cardRevealedStates[index] = true);
       });
-    });
+    }
   }
 
   Future<void> _generateOracleReading(List<DrawnCardInfo> drawnCards) async {
@@ -619,24 +627,34 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                 ),
                               ),
                               const SizedBox(height: 32),
-                              _isLoading
-                                  ? const CircularProgressIndicator(color: AppTheme.accentGold)
-                                  : GlassButton(
+                              GlassButton(
                                       onPressed: () => _handleDraw(deck),
+                                      isEnabled: !_isLoading,
                                       glowColor: drawnCards != null 
                                           ? AppTheme.accentPink 
                                           : AppTheme.accentPurple,
-                                      icon: Icon(
-                                        drawnCards != null 
-                                            ? Icons.refresh 
-                                            : Icons.auto_awesome, 
-                                        color: AppTheme.textLight,
-                                        size: 20,
-                                      ),
+                                      icon: _isLoading
+                                          ? const SizedBox(
+                                              width: 18,
+                                              height: 18,
+                                              child: CircularProgressIndicator(
+                                                color: AppTheme.textLight,
+                                                strokeWidth: 2,
+                                              ),
+                                            )
+                                          : Icon(
+                                              drawnCards != null 
+                                                  ? Icons.refresh 
+                                                  : Icons.auto_awesome, 
+                                              color: AppTheme.textLight,
+                                              size: 20,
+                                            ),
                                       label: Text(
-                                        drawnCards != null 
-                                            ? (currentLang == 'id' ? 'Tarik Ulang' : 'Redraw') 
-                                            : (currentLang == 'id' ? 'Tarik Kartu' : 'Draw Card'),
+                                        _isLoading
+                                            ? (currentLang == 'id' ? 'Menarik...' : 'Drawing...')
+                                            : drawnCards != null 
+                                                ? (currentLang == 'id' ? 'Tarik Ulang' : 'Redraw') 
+                                                : (currentLang == 'id' ? 'Tarik Kartu' : 'Draw Card'),
                                       ),
                                     ),
                               const SizedBox(height: 16),
@@ -701,7 +719,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                       ),
                                       const SizedBox(height: 16),
                                       SizedBox(
-                                        height: 480,
+                                        height: MediaQuery.of(context).size.height * 0.55,
                                         child: PageView.builder(
                                           controller: _pageController,
                                           itemCount: 3,

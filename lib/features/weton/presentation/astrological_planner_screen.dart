@@ -27,6 +27,7 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
   DateTime _currentMonth = DateTime.now();
   DateTime? _birthDate;
   bool _isLoadingCalendar = false;
+  bool _isUsingFallbackDate = false;
   Map<String, dynamic>? _calendarData;
   String? _errorMessage;
 
@@ -46,9 +47,13 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
       final profile = await ref.read(birthProfileProvider.future);
       if (profile.dobDate != null) {
         _birthDate = profile.dobDate;
+        _isUsingFallbackDate = false;
+      } else {
+        // No birth profile saved — use placeholder so the calendar can still
+        // render, but flag it so the UI can warn the user.
+        _birthDate = DateTime(1995, 10, 25);
+        _isUsingFallbackDate = true;
       }
-      
-      _birthDate ??= DateTime(1995, 10, 25);
       await _fetchCalendarData();
     } catch (e) {
       if (mounted) {
@@ -383,6 +388,64 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
                         ),
                       ),
                     ] else if (_calendarData != null) ...[
+                      // Warn user if birth date is a placeholder, not their real profile
+                      if (_isUsingFallbackDate)
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 16),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.orange.withValues(alpha: 0.12),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.orange.withValues(alpha: 0.40),
+                              width: 1,
+                            ),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Icon(
+                                Icons.info_outline,
+                                color: Colors.orange,
+                                size: 18,
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Text(
+                                  'Kalender ini menggunakan tanggal lahir contoh. '
+                                  'Isi profil lahir Anda untuk hasil yang akurat.',
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 13,
+                                    color: Colors.orange.shade200,
+                                    height: 1.4,
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: _presentDatePicker,
+                                style: TextButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 4,
+                                  ),
+                                  minimumSize: Size.zero,
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: Text(
+                                  'Isi Profil',
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.orange,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       _buildPranataHeader(pranataListAsync),
                       const SizedBox(height: 16),
                       AstrologicalPlannerCalendarGrid(

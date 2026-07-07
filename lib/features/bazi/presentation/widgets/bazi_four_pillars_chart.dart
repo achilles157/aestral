@@ -48,7 +48,7 @@ class BaziFourPillarsChart extends StatelessWidget {
             style: GoogleFonts.outfit(
               fontSize: 11,
               color: kBaziElementColors[chart.dayMasterElement]
-                      ?.withOpacity(0.9) ??
+                      ?.withValues(alpha: 0.9) ??
                   AppTheme.accentGold,
             ),
           ),
@@ -95,10 +95,10 @@ class BaziFourPillarsChart extends StatelessWidget {
               padding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
-                color: const Color(0xFF60A5FA).withOpacity(0.08),
+                color: const Color(0xFF60A5FA).withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                    color: const Color(0xFF60A5FA).withOpacity(0.2)),
+                    color: const Color(0xFF60A5FA).withValues(alpha: 0.2)),
               ),
               child: Row(
                 children: [
@@ -110,7 +110,7 @@ class BaziFourPillarsChart extends StatelessWidget {
                       chart.trueSolarTimeNote!,
                       style: GoogleFonts.outfit(
                         fontSize: 9,
-                        color: const Color(0xFF60A5FA).withOpacity(0.8),
+                        color: const Color(0xFF60A5FA).withValues(alpha: 0.8),
                         height: 1.3,
                       ),
                     ),

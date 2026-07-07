@@ -18,6 +18,12 @@ class AppTheme {
   static const Color elementMetal = Color(0xFFE5E7EB);
   static const Color elementCosmic = Color(0xFFC084FC);
 
+  // Semantic State Colors — gunakan token ini, hindari hardcode di widget
+  static const Color success = Color(0xFF10B981);
+  static const Color error   = Color(0xFFF87171);
+  static const Color warning = Color(0xFFFB923C);
+  static const Color info    = Color(0xFF60A5FA);
+
   // Standard Border Radii
   static const double radiusSmall = 12.0;
   static const double radiusMedium = 16.0;

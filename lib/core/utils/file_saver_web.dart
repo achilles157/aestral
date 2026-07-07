@@ -1,14 +1,19 @@
 import 'dart:typed_data';
-import 'dart:html' as html;
+import 'dart:js_interop';
+import 'package:web/web.dart' as web;
 
 Future<void> savePngBytes(Uint8List bytes, String fileName) async {
-  final blob = html.Blob([bytes], 'image/png');
-  final url = html.Url.createObjectUrlFromBlob(blob);
-  final anchor = html.AnchorElement(href: url)
+  final blob = web.Blob(
+    [bytes.toJS].toJS,
+    web.BlobPropertyBag(type: 'image/png'),
+  );
+  final url = web.URL.createObjectURL(blob);
+  final anchor = web.HTMLAnchorElement()
+    ..href = url
     ..setAttribute('download', fileName)
     ..style.display = 'none';
-  html.document.body?.children.add(anchor);
+  web.document.body?.append(anchor);
   anchor.click();
-  html.document.body?.children.remove(anchor);
-  html.Url.revokeObjectUrl(url);
+  web.document.body?.removeChild(anchor);
+  web.URL.revokeObjectURL(url);
 }

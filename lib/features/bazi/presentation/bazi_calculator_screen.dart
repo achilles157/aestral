@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/bazi_utils.dart';
@@ -141,9 +142,14 @@ class _BaziCalculatorScreenState
 
     try {
       final authToken = ref.read(authProvider);
-      final authHeader = authToken != null && !authToken.isMock
-          ? 'Bearer ${authToken.uid}'
-          : 'Guest ${authToken?.uid ?? 'anonymous'}';
+      String authHeader;
+      if (authToken != null && !authToken.isMock) {
+        // Firebase ID Token is the signed JWT — never send the plain UID as a bearer token.
+        final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+        authHeader = idToken != null ? 'Bearer $idToken' : 'Guest ${authToken.uid}';
+      } else {
+        authHeader = 'Guest ${authToken?.uid ?? 'anonymous'}';
+      }
 
       final result = await ApiService.getBaziChart(
         birthDate: dateStr,
@@ -215,9 +221,13 @@ class _BaziCalculatorScreenState
 
     try {
       final authToken = ref.read(authProvider);
-      final authHeader = authToken != null && !authToken.isMock
-          ? 'Bearer ${authToken.uid}'
-          : 'Guest ${authToken?.uid ?? 'anonymous'}';
+      String authHeader;
+      if (authToken != null && !authToken.isMock) {
+        final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+        authHeader = idToken != null ? 'Bearer $idToken' : 'Guest ${authToken.uid}';
+      } else {
+        authHeader = 'Guest ${authToken?.uid ?? 'anonymous'}';
+      }
 
       final result = await ApiService.getBaziInsight(
         birthDate: dateStr,
@@ -408,7 +418,7 @@ class _BaziCalculatorScreenState
                 Switch(
                   value: _includeHour,
                   onChanged: (v) => setState(() => _includeHour = v),
-                  activeColor: AppTheme.accentPurple,
+                  activeThumbColor: AppTheme.accentPurple,
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -856,13 +866,13 @@ class _BaziCalculatorScreenState
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: elementColor.withOpacity(0.12),
+              color: elementColor.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: elementColor.withOpacity(0.3)),
+              border: Border.all(color: elementColor.withValues(alpha: 0.3)),
             ),
             child: Icon(
               Icons.timeline_rounded,
-              color: elementColor.withOpacity(0.7),
+              color: elementColor.withValues(alpha: 0.7),
               size: 18,
             ),
           ),
@@ -921,10 +931,10 @@ class _BaziCalculatorScreenState
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            color: selected ? color.withOpacity(0.18) : Colors.white.withOpacity(0.04),
+            color: selected ? color.withValues(alpha: 0.18) : Colors.white.withValues(alpha: 0.04),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: selected ? color.withOpacity(0.6) : Colors.white12,
+              color: selected ? color.withValues(alpha: 0.6) : Colors.white12,
             ),
           ),
           child: Row(
@@ -987,10 +997,10 @@ class _BaziCalculatorScreenState
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(14),
           color: onTap != null
-              ? btnColor.withOpacity(0.85)
+              ? btnColor.withValues(alpha: 0.85)
               : Colors.white12,
           boxShadow: onTap != null
-              ? [BoxShadow(color: btnColor.withOpacity(0.35), blurRadius: 16)]
+              ? [BoxShadow(color: btnColor.withValues(alpha: 0.35), blurRadius: 16)]
               : [],
         ),
         child: Center(
@@ -1011,9 +1021,9 @@ class _BaziCalculatorScreenState
         padding:
             const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.12),
+          color: color.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Text(
           label,

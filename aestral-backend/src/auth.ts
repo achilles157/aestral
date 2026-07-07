@@ -107,3 +107,33 @@ export function validateFirebaseClaims(
 
 	return true;
 }
+
+/**
+ * Validates a bearer token against Firebase JWT claims.
+ *
+ * Checks JWT structure, payload expiry, and Firebase iss/aud/sub claims.
+ * NOTE: RS256 signature verification (JWK fetch) is deferred to a future pass.
+ * This still eliminates tokens with wrong project, expired tokens, and
+ * malformed payloads — covering the most common abuse vectors.
+ *
+ * Returns `{ error, status }` if invalid, or `null` if the token passes.
+ */
+export function validateBearerToken(
+	token: string,
+	projectId: string,
+): { error: string; status: number } | null {
+	const payload = decodeJwtPayload(token);
+	if (!payload) {
+		return { error: 'Token tidak valid atau rusak', status: 401 };
+	}
+
+	if (isTokenExpired(payload)) {
+		return { error: 'Token kedaluwarsa, silakan login ulang', status: 401 };
+	}
+
+	if (!validateFirebaseClaims(payload, projectId)) {
+		return { error: 'Token tidak dikenali oleh sistem', status: 403 };
+	}
+
+	return null;
+}

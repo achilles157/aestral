@@ -59,7 +59,6 @@ class BirthProfile {
   factory BirthProfile.fromJson(Map<String, dynamic> json) {
     final anchor = json['biometric_anchor'] as Map<String, dynamic>?;
     final coords = anchor?['coordinates'] as Map<String, dynamic>?;
-    final pillars = json['architectural_pillars'] as Map<String, dynamic>?;
 
     DateTime? dob;
     final ms = anchor?['dob_utc_ms'] as int?;
@@ -71,11 +70,9 @@ class BirthProfile {
 
     WetonInfo? weton;
     if (dob != null) {
-      // Prefer cached weton from storage; recompute if missing
-      final wetonJson = pillars?['weton'] as Map<String, dynamic>?;
-      weton = wetonJson != null
-          ? WetonUtils.calculateWeton(dob) // recompute for correctness
-          : WetonUtils.calculateWeton(dob);
+      // WetonUtils.calculateWeton is pure and deterministic — always recompute
+      // from dob so we never silently return stale cached data.
+      weton = WetonUtils.calculateWeton(dob);
     }
 
     return BirthProfile(
