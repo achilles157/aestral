@@ -99,7 +99,20 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
   Future<void> _handleCalculate() async {
     if (_selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Pilih tanggal lahir terlebih dahulu!'), backgroundColor: AppTheme.error),
+        SnackBar(
+          content: const Row(
+            children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.white, size: 16),
+              SizedBox(width: 8),
+              Text('Pilih tanggal lahir terlebih dahulu!'),
+            ],
+          ),
+          backgroundColor: AppTheme.error,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
       );
       return;
     }
@@ -221,8 +234,22 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(success ? 'Profil berhasil disimpan ke takdir Anda!' : 'Gagal menyimpan profil.'),
+          content: Row(
+            children: [
+              Icon(
+                success ? Icons.check_circle_outline : Icons.warning_amber_rounded,
+                color: Colors.white,
+                size: 16,
+              ),
+              const SizedBox(width: 8),
+              Text(success ? 'Profil berhasil disimpan ke takdir Anda!' : 'Gagal menyimpan profil.'),
+            ],
+          ),
           backgroundColor: success ? AppTheme.accentPurple : AppTheme.error,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       );
     }
