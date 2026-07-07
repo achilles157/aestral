@@ -36,6 +36,8 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
   final ScreenshotController _screenshotController = ScreenshotController();
   late PageController _pageController;
   List<bool> _cardRevealedStates = [false, false, false];
+  // Ceremony pulse state — brief scale pulse sebelum flip dimulai
+  List<bool> _cardPulsing = [false, false, false];
   int _activeCarouselIndex = 0;
   bool _isLoading = false;
   String _selectedDrawType = 'mangsa';
@@ -183,8 +185,14 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
       _flipControllers[index].value = pi;
       setState(() => _cardRevealedStates[index] = true);
     } else {
-      _flipControllers[index].forward().then((_) {
-        setState(() => _cardRevealedStates[index] = true);
+      // Ceremony: brief scale pulse sebelum flip dimulai
+      setState(() => _cardPulsing[index] = true);
+      Future.delayed(const Duration(milliseconds: 180), () {
+        if (!mounted) return;
+        setState(() => _cardPulsing[index] = false);
+        _flipControllers[index].forward().then((_) {
+          if (mounted) setState(() => _cardRevealedStates[index] = true);
+        });
       });
     }
   }
@@ -589,7 +597,11 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                                 const SizedBox(height: 8),
                                                 GestureDetector(
                                                   onTap: () => _revealCard(index),
-                                                  child: AnimatedBuilder(
+                                                  child: AnimatedScale(
+                                                    scale: _cardPulsing[index] ? 1.08 : 1.0,
+                                                    duration: const Duration(milliseconds: 160),
+                                                    curve: Curves.easeOut,
+                                                    child: AnimatedBuilder(
                                                     animation: _flipAnimations[index],
                                                     builder: (context, child) {
                                                       return Stack(
@@ -635,6 +647,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                                         ],
                                                       );
                                                     },
+                                                  ),
                                                   ),
                                                 ),
                                               ],
