@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/weton_utils.dart';
-import '../../auth/services/profile_service.dart';
+import '../../../core/services/city_service.dart';
+import '../../../core/providers/birth_profile_provider.dart';
+import '../../../core/models/birth_profile.dart';
 import '../../auth/services/auth_service.dart';
 import '../services/weton_dictionary_service.dart';
 import '../../../core/services/api_service.dart';
@@ -13,10 +14,11 @@ import '../data/pranata_mangsa_repository.dart';
 import 'widgets/seasonal_banner.dart';
 import 'components/weton_detail_card.dart';
 import '../../../core/widgets/glass_card.dart';
+import '../../../core/widgets/ai_astrologer_dialog.dart';
 import '../../../core/widgets/astrological_dial_timepiece.dart';
 import 'widgets/javanese_astrological_gear_dial.dart';
 import 'widgets/weton_element_mandala.dart';
-import 'widgets/city_search_sheet.dart';
+import '../../../core/widgets/city_search_sheet.dart';
 import 'widgets/daily_insight_card.dart';
 import 'widgets/weton_step_wizards.dart';
 
@@ -64,27 +66,22 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
   }
 
   Future<void> _loadSavedProfileAndCalculate() async {
-    await Future.delayed(Duration.zero);
-    final profile = await ref.read(profileProvider).loadProfile();
-    if (profile != null) {
-      final dobUtcMs = profile['biometric_anchor']?['dob_utc_ms'] as int?;
-      if (dobUtcMs != null) {
-        final dob = DateTime.fromMillisecondsSinceEpoch(dobUtcMs);
-        final coords = profile['biometric_anchor']?['coordinates'] as Map<String, dynamic>?;
-        final lat = coords?['lat'] as double? ?? 0.0;
-        final lng = coords?['lng'] as double? ?? 0.0;
-        if (mounted) {
-          setState(() {
-            _selectedDate = dob;
-            _latController.text = lat.toString();
-            _lngController.text = lng.toString();
-            _selectedCity = _cityPresets.firstWhere(
-              (c) => (c.latitude - lat).abs() < 0.0001 && (c.longitude - lng).abs() < 0.0001,
-              orElse: () => _cityPresets.last,
-            );
-          });
-          _handleCalculate();
-        }
+    final profile = await ref.read(birthProfileProvider.future);
+    if (profile.dobDate != null) {
+      final dob = profile.dobDate!;
+      final lat = profile.latitude ?? 0.0;
+      final lng = profile.longitude ?? 0.0;
+      if (mounted) {
+        setState(() {
+          _selectedDate = dob;
+          _latController.text = lat.toString();
+          _lngController.text = lng.toString();
+          _selectedCity = _cityPresets.firstWhere(
+            (c) => (c.latitude - lat).abs() < 0.0001 && (c.longitude - lng).abs() < 0.0001,
+            orElse: () => _cityPresets.last,
+          );
+        });
+        _handleCalculate();
       }
     }
   }
@@ -242,23 +239,21 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
 
     setState(() => _isSaving = true);
     
-    // Calculate final DateTime combining date and time
-    final hour = _selectedTime?.hour ?? 12;
-    final minute = _selectedTime?.minute ?? 0;
-    final combinedDateTime = DateTime(
-      _selectedDate!.year,
-      _selectedDate!.month,
-      _selectedDate!.day,
-      hour,
-      minute,
-    );
-
-    final success = await ref.read(profileProvider).saveProfile(
-      dob: combinedDateTime,
-      latitude: lat,
-      longitude: lng,
-      weton: _result!,
-    );
+    bool success = false;
+    try {
+      final current = ref.read(birthProfileProvider).value ?? const BirthProfile();
+      await ref.read(birthProfileProvider.notifier).saveAll(
+        dob: _selectedDate!,
+        birthHour: current.birthHour,
+        latitude: lat,
+        longitude: lng,
+        cityName: _selectedCity.name,
+        gender: current.gender,
+      );
+      success = true;
+    } catch (e) {
+      debugPrint('WetonCalculatorScreen: save error — $e');
+    }
 
     setState(() => _isSaving = false);
 
@@ -291,10 +286,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
             color: AppTheme.accentGold,
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.textLight),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
       ),
       extendBodyBehindAppBar: true,
       body: Stack(
@@ -409,11 +401,44 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                       ),
                                     ),
                                     const SizedBox(height: 4),
-                                    Text(
-                                      wetonName,
-                                      style: textTheme.displayLarge?.copyWith(
-                                        color: AppTheme.textLight,
-                                      ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          wetonName,
+                                          style: textTheme.displayLarge?.copyWith(
+                                            color: AppTheme.textLight,
+                                          ),
+                                        ),
+                                        if (entry?.warnaHarmoni != null) ...[
+                                          const SizedBox(width: 12),
+                                          Builder(
+                                            builder: (context) {
+                                              final hexStr = entry!.warnaHarmoni!.replaceAll('#', '');
+                                              Color? harmoniColor;
+                                              if (hexStr.length == 6) {
+                                                harmoniColor = Color(int.parse('FF$hexStr', radix: 16));
+                                              }
+                                              if (harmoniColor == null) return const SizedBox.shrink();
+                                              return Container(
+                                                width: 14,
+                                                height: 14,
+                                                decoration: BoxDecoration(
+                                                  color: harmoniColor,
+                                                  shape: BoxShape.circle,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: harmoniColor.withValues(alpha: 0.8),
+                                                      blurRadius: 10,
+                                                      spreadRadius: 2,
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ],
                                     ),
                                     if (entry != null) ...[
                                       const SizedBox(height: 8),
@@ -542,8 +567,112 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(height: 16),
-                              ],
+                                 if (entry.saranHarian != null && entry.saranHarian!.isNotEmpty) ...[
+                                    const SizedBox(height: 16),
+                                    Builder(
+                                      builder: (context) {
+                                        Color? harmoniColor;
+                                        if (entry.warnaHarmoni != null) {
+                                          final hexStr = entry.warnaHarmoni!.replaceAll('#', '');
+                                          if (hexStr.length == 6) {
+                                            harmoniColor = Color(int.parse('FF$hexStr', radix: 16));
+                                          }
+                                        }
+                                        final themeColor = harmoniColor ?? AppTheme.accentGold;
+                                        return Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                          decoration: BoxDecoration(
+                                            color: themeColor.withValues(alpha: 0.08),
+                                            borderRadius: BorderRadius.circular(16),
+                                            border: Border.all(
+                                              color: themeColor.withValues(alpha: 0.3),
+                                              width: 1.2,
+                                            ),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.lightbulb_outline, color: themeColor, size: 20),
+                                              const SizedBox(width: 12),
+                                              Expanded(
+                                                child: Text(
+                                                  entry.saranHarian!,
+                                                  style: GoogleFonts.outfit(
+                                                    fontSize: 13,
+                                                    height: 1.4,
+                                                    color: AppTheme.textLight.withValues(alpha: 0.9),
+                                                    fontStyle: FontStyle.italic,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                 const SizedBox(height: 16),
+                                 ElevatedButton.icon(
+                                   onPressed: () {
+                                     final session = ref.read(authProvider);
+                                     final authHeader = session == null
+                                         ? 'Guest anonymous'
+                                         : session.isMock
+                                             ? 'Guest ${session.uid}'
+                                             : 'Bearer ${session.uid}';
+                                     
+                                     final aiHookText = 'Sebagai seorang dengan weton ${_result!.saptawara} ${_result!.pancawara} (Neptu ${_result!.totalNeptu}), bagaimana karakter dasar saya memengaruhi potensi diri saya dan apa saran orakel untuk hidup sehari-hari?';
+                                     
+                                     showDialog(
+                                       context: context,
+                                       builder: (context) => AiAstrologerDialog(
+                                         prompt: aiHookText,
+                                         contextTitle: 'Weton ${_result!.saptawara} ${_result!.pancawara}',
+                                         authHeader: authHeader,
+                                         aiContext: {
+                                           'wetonLahir': {
+                                             'nama': '${_result!.saptawara} ${_result!.pancawara}',
+                                             'neptu': _result!.totalNeptu,
+                                             'elemen': '',
+                                             'karakter': _result!.characterSummary,
+                                           },
+                                           'pangarasan': _result!.pangarasan,
+                                         },
+                                       ),
+                                     );
+                                   },
+                                   style: ElevatedButton.styleFrom(
+                                     backgroundColor: AppTheme.accentPurple.withValues(alpha: 0.2),
+                                     foregroundColor: Colors.white,
+                                     side: BorderSide(
+                                       color: entry.warnaHarmoni != null
+                                           ? Color(int.parse('FF${entry.warnaHarmoni!.replaceAll('#', '')}', radix: 16))
+                                           : AppTheme.accentPurple,
+                                       width: 1.5,
+                                     ),
+                                     padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                                     shape: RoundedRectangleBorder(
+                                       borderRadius: BorderRadius.circular(16),
+                                     ),
+                                     elevation: 0,
+                                   ),
+                                   icon: Icon(
+                                     Icons.auto_awesome,
+                                     color: entry.warnaHarmoni != null
+                                         ? Color(int.parse('FF${entry.warnaHarmoni!.replaceAll('#', '')}', radix: 16))
+                                         : AppTheme.accentGold,
+                                     size: 18,
+                                   ),
+                                   label: Text(
+                                     'Tanyakan Orakel Weton Lahir Anda',
+                                     style: GoogleFonts.outfit(
+                                       fontSize: 14,
+                                       fontWeight: FontWeight.bold,
+                                       letterSpacing: 1.0,
+                                     ),
+                                   ),
+                                 ),
+                                 const SizedBox(height: 24),
+                               ],
                               const SizedBox(height: 12),
                               // Daily Insight Section
                               if (_isLoadingDaily) ...[
@@ -644,48 +773,10 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
     );
   }
 
+  /// Loads all cities from CSV via shared [CityService].
   void _loadCitiesFromCsv() async {
-    try {
-      final String csvString = await rootBundle.loadString('assets/data/lat_long_kota_kab.csv');
-      final lines = csvString.split('\n');
-      final List<CityPreset> loadedCities = [];
-      
-      // Add custom coordinate option at the top
-      loadedCities.add(const CityPreset(name: 'Koordinat Kustom', latitude: 0.0, longitude: 0.0));
-      
-      for (int i = 1; i < lines.length; i++) {
-        final line = lines[i].trim();
-        if (line.isEmpty) continue;
-        
-        final tokens = line.split(',');
-        if (tokens.length >= 6) {
-          final rawName = tokens[3].trim();
-          final String name = _formatCityName(rawName);
-          final double lat = double.tryParse(tokens[4].trim()) ?? 0.0;
-          final double long = double.tryParse(tokens[5].trim()) ?? 0.0;
-          
-          loadedCities.add(CityPreset(name: name, latitude: lat, longitude: long));
-        }
-      }
-      
-      // Sort cities by name (keeping Custom Coordinate at index 0)
-      if (loadedCities.length > 1) {
-        final custom = loadedCities[0];
-        final rest = loadedCities.sublist(1);
-        rest.sort((a, b) => a.name.compareTo(b.name));
-        loadedCities.clear();
-        loadedCities.add(custom);
-        loadedCities.addAll(rest);
-      }
-      
-      if (mounted) {
-        setState(() {
-          _allCities = loadedCities;
-        });
-      }
-    } catch (e) {
-      debugPrint("Error loading cities CSV: $e");
-    }
+    final cities = await CityService.loadCitiesFromCsv();
+    if (mounted) setState(() => _allCities = cities);
   }
 
   String _formatCityName(String name) {

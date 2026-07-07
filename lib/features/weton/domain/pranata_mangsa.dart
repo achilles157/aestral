@@ -10,6 +10,7 @@ class PranataMangsaModel {
   final String ramalanAsmara;
   final String pesanKesadaran;
   final List<String> saranAktivitas;
+  final String tandaAlam;
 
   const PranataMangsaModel({
     required this.id,
@@ -23,6 +24,7 @@ class PranataMangsaModel {
     required this.ramalanAsmara,
     required this.pesanKesadaran,
     required this.saranAktivitas,
+    required this.tandaAlam,
   });
 
   factory PranataMangsaModel.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,7 @@ class PranataMangsaModel {
       ramalanAsmara: json['ramalan_asmara'] as String,
       pesanKesadaran: json['pesan_kesadaran'] as String,
       saranAktivitas: (json['saran_aktivitas'] as List<dynamic>).map((e) => e as String).toList(),
+      tandaAlam: json['tanda_alam'] as String? ?? '',
     );
   }
 
@@ -54,6 +57,7 @@ class PranataMangsaModel {
       'ramalan_asmara': ramalanAsmara,
       'pesan_kesadaran': pesanKesadaran,
       'saran_aktivitas': saranAktivitas,
+      'tanda_alam': tandaAlam,
     };
   }
 }

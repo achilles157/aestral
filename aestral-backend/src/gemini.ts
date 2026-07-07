@@ -4,6 +4,8 @@
  * Model: gemini-3.1-flash-lite (stable, fast, efficient).
  */
 
+import { sanitizePrompt } from './sanitize';
+
 const GEMINI_MODEL = 'gemini-3.1-flash-lite';
 const GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/models';
 
@@ -64,7 +66,7 @@ export async function callGemini(
 		contents: [
 			{
 				role: 'user',
-				parts: [{ text: userPrompt }],
+				parts: [{ text: sanitizePrompt(userPrompt, 500) }],
 			},
 		],
 		generationConfig: {

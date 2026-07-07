@@ -78,28 +78,31 @@ void main() {
 
     // ─── Wu Xing Balance ──────────────────────────────────────────────────
 
-    test('Wu Xing Balance 1990-10-10 tanpa jam — 6 karakter', () {
-      // Year geng(logam)+wu(api), Month bing(api)+xu(tanah), Day geng(logam)+wu(api)
-      // → kayu=0, api=3, tanah=1, logam=2, air=0
+    test('Wu Xing Balance 1990-10-10 tanpa jam — dengan Cang Gan', () {
+      // Year geng(logam)+wu(api|ding,ji), Month bing(api)+xu(tanah|wu,xin,ding),
+      // Day  geng(logam)+wu(api|ding,ji)
+      // → kayu=0, api=6, tanah=4, logam=3, air=0, total=13
       final chart = BaziUtils.calculateBaziChart(DateTime(1990, 10, 10));
       expect(chart.hourPillar, isNull);
       expect(chart.wuXingBalance.kayu,  0);
-      expect(chart.wuXingBalance.api,   3);
-      expect(chart.wuXingBalance.tanah, 1);
-      expect(chart.wuXingBalance.logam, 2);
+      expect(chart.wuXingBalance.api,   6);
+      expect(chart.wuXingBalance.tanah, 4);
+      expect(chart.wuXingBalance.logam, 3);
       expect(chart.wuXingBalance.air,   0);
-      expect(chart.wuXingBalance.total, 6);
+      expect(chart.wuXingBalance.total, 13);
     });
 
-    test('Wu Xing Balance 2000-01-01 tanpa jam — 6 karakter', () {
-      // Year ji(tanah)+mao(kayu), Month bing(api)+zi(air), Day geng(logam)+chen(tanah)
-      // → kayu=1, api=1, tanah=2, logam=1, air=1
+    test('Wu Xing Balance 2000-01-01 tanpa jam — dengan Cang Gan', () {
+      // Year ji(tanah)+mao(kayu|yi), Month bing(api)+zi(air|gui),
+      // Day  geng(logam)+chen(tanah|wu,yi,gui)
+      // → kayu=3, api=1, tanah=3, logam=1, air=3, total=11
       final chart = BaziUtils.calculateBaziChart(DateTime(2000, 1, 1));
-      expect(chart.wuXingBalance.kayu,  1);
+      expect(chart.wuXingBalance.kayu,  3);
       expect(chart.wuXingBalance.api,   1);
-      expect(chart.wuXingBalance.tanah, 2);
+      expect(chart.wuXingBalance.tanah, 3);
       expect(chart.wuXingBalance.logam, 1);
-      expect(chart.wuXingBalance.air,   1);
+      expect(chart.wuXingBalance.air,   3);
+      expect(chart.wuXingBalance.total, 11);
     });
 
     // ─── Hour Pillar ──────────────────────────────────────────────────────
@@ -112,7 +115,8 @@ void main() {
       expect(chart.hourPillar, isNotNull);
       expect(chart.adjustedHour, 14);
       expect(chart.trueSolarTimeNote, isNull); // tanpa longitude
-      expect(chart.wuXingBalance.total, 8);    // 8 karakter penuh
+      // 13 (3 pilar) + 5 (gui_wei + hidden ji,ding,yi) = 18
+      expect(chart.wuXingBalance.total, 18);
     });
 
     test('Hour Pillar 14:00 bujur 106.84° Jakarta: TST = 14:07', () {
@@ -128,6 +132,37 @@ void main() {
       expect(chart.trueSolarTimeNote, contains('105'));
     });
 
+    // ─── Solar Term Edge Cases (Bug Fix Regression) ───────────────────────
+
+    test('Year Pillar 2021-02-03: xin_chou — Li Chun jatuh Feb 3 di 2021', () {
+      // Li Chun 2021 = Feb 3 (bukan Feb 4 fixed)
+      // Dengan lookup table: Feb 3 2021 adalah pada/setelah Li Chun → tahun 2021 = Xin Chou
+      final chart = BaziUtils.calculateBaziChart(DateTime(2021, 2, 3));
+      expect(chart.yearPillar.id,       'xin_chou');
+      expect(chart.yearPillar.stemId,   'xin');
+      expect(chart.yearPillar.branchId, 'chou');
+    });
+
+    test('Year Pillar 2021-02-02: geng_zi — sehari sebelum Li Chun 2021', () {
+      // Feb 2, 2021 masih sebelum Li Chun (Feb 3) → adjustedYear = 2020 = Geng Zi
+      final chart = BaziUtils.calculateBaziChart(DateTime(2021, 2, 2));
+      expect(chart.yearPillar.id,       'geng_zi');
+      expect(chart.yearPillar.stemId,   'geng');
+      expect(chart.yearPillar.branchId, 'zi');
+    });
+
+    test('Month Pillar 2024-04-04: chen (Dragon) — QingMing jatuh Apr 4 di 2024', () {
+      // Qing Ming 2024 = Apr 4, bukan Apr 5 → bulan Dragon (Chen), bukan Rabbit (Mao)
+      final chart = BaziUtils.calculateBaziChart(DateTime(2024, 4, 4));
+      expect(chart.monthPillar.branchId, 'chen');
+    });
+
+    test('Month Pillar 2024-04-03: mao (Rabbit) — sehari sebelum QingMing 2024', () {
+      // Apr 3, 2024 masih bulan Rabbit (sebelum Qing Ming Apr 4)
+      final chart = BaziUtils.calculateBaziChart(DateTime(2024, 4, 3));
+      expect(chart.monthPillar.branchId, 'mao');
+    });
+
     // ─── True Solar Time ──────────────────────────────────────────────────
 
     test('applyTrueSolarTime: 14:00 bujur 106.84° → 14:07', () {
@@ -137,7 +172,7 @@ void main() {
     });
 
     test('applyTrueSolarTime: 14:00 bujur 119.4° Makassar (WITA) → koreksi negatif', () {
-      // stdMeridian = 120°, offset = (119.4 - 120) × 4 = -2.4 mnt → 13:57
+      // stdMeridian = 120°, offset = (119.4 - 120) × 4 = -2.4 mnt → 13:58
       final tst = BaziUtils.applyTrueSolarTime(14, 0, 119.4);
       expect(tst.hour,   13);
       expect(tst.minute, 58); // round(-2.4) = -2, 14:00 - 2 mnt = 13:58

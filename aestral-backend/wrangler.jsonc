@@ -32,7 +32,20 @@
 	 * Note: Use secrets to store sensitive data.
 	 * https://developers.cloudflare.com/workers/configuration/secrets/
 	 */
-	"vars": {}
+	"vars": {},
+	/**
+	 * KV Namespaces
+	 * Used for persistent rate limiting across cold starts and redeploys.
+	 * Create with: wrangler kv:namespace create RATE_LIMIT_KV
+	 * Then replace the id below with the generated namespace ID.
+	 * https://developers.cloudflare.com/workers/wrangler/configuration/#kv-namespaces
+	 */
+	"kv_namespaces": [
+		{
+			"binding": "RATE_LIMIT_KV",
+			"id": "fb9178f725eb469da1aea7c2cf5dfe21"
+		}
+	]
 	/**
 	 * Service Bindings (communicate between multiple Workers)
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings

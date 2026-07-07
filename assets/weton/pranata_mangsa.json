@@ -6,16 +6,17 @@
     "tanggal_siklus": "22 Juni - 1 Agustus",
     "candra_mangsa": "Sotya murca saking embanan",
     "arketipe_modern": "Sang Dekonstruktor Visioner",
-    "karakter_energi": "Siklus ini membawa energi pelepasan dan dekonstruksi yang kuat untuk melepaskan zona nyaman. Waktunya mengevaluasi beban kerja demi menciptakan ruang baru bagi pertumbuhan yang lebih sehat.",
-    "ramalan_karier": "Lakukan audit karier mendalam dan pangkas proyek yang tidak produktif. Hindari memulai ekspansi besar, fokuslah pada perencanaan strategis dan eliminasi hambatan internal institusi.",
-    "ramalan_asmara": "Waktu terbaik untuk menyembuhkan luka masa lalu dan melepas ekspektasi berlebih pada pasangan. Prioritaskan ruang privasi individual guna memulihkan serta menjaga kestabilan emosional.",
-    "pesan_kesadaran": "Lepaskan apa yang tidak lagi mendukung pertumbuhanmu agar jiwamu menemukan kebebasan baru.",
+    "karakter_energi": "Musim Kasa adalah waktu untuk 'bersih-bersih' emosional, di mana kamu diundang untuk melepas beban ekspektasi yang selama ini bikin kamu merasa capek sendiri. Ini adalah momen yang tepat untuk berhenti memaksakan diri agar terlihat oke di depan semua orang dan mulai mendengarkan apa yang sebenarnya dibutuhkan jiwamu.",
+    "ramalan_karier": "Jangan merasa bersalah kalau harus bilang 'tidak' pada proyek yang menguras energi atau menetapkan batasan lebih tegas di kantor. Fokuslah untuk merapikan prioritasmu dan kurangi beban kerja yang cuma bikin kamu kena burnout, karena produktivitas sesungguhnya dimulai dari kesehatan mentalmu.",
+    "ramalan_asmara": "Ini saatnya buat berhenti jadi 'people-pleaser' dalam hubungan dan berani jujur soal kebutuhan pribadimu sendiri. Menjaga ruang privasi bukan berarti menjauh, tapi cara sehat agar kamu punya energi lebih untuk mencintai dirimu dan pasangan secara lebih tulus.",
+    "pesan_kesadaran": "Ingat, melepaskan hal yang tidak lagi sejalan bukan berarti kamu gagal, tapi itu langkah berani untuk memberi ruang bagi versi dirimu yang lebih tenang.",
     "saran_aktivitas": [
       "Lakukan audit pengeluaran bulanan dan hapus langganan tidak terpakai",
       "Bersihkan lemari pakaian atau meja kerja Anda",
       "Batasi konsumsi media sosial untuk menjernihkan pikiran"
     ],
-    "ai_hook": "Saat ini kita berada di Mangsa Kasa. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
+    "ai_hook": "Saat ini kita berada di Mangsa Kasa. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?",
+    "tanda_alam": "Daun-daun jati mulai berguguran di tengah hawa kering yang menyengat, menjadi pertanda alam bahwa siklus kehidupan di bumi sedang bersiap untuk menyucikan diri."
   },
   {
     "id": 2,
@@ -24,16 +25,17 @@
     "tanggal_siklus": "2 Agustus - 24 Agustus",
     "candra_mangsa": "Bantala rengka",
     "arketipe_modern": "Sang Penyintas Resilien",
-    "karakter_energi": "Menghadirkan tantangan berupa hambatan eksternal yang menguji ketahanan mental. Energi ini mendorong adaptabilitas tinggi di tengah situasi kering atau minimnya dukungan struktural.",
-    "ramalan_karier": "Hadapi hambatan proyek dengan kesabaran ekstra dan optimalkan ketersediaan sumber daya yang ada. Jangan terburu-buru mengambil inisiatif keputusan finansial berisiko tinggi saat ini.",
-    "ramalan_asmara": "Komunikasi rentan mengalami gesekan karena akumulasi kelelahan emosional. Praktikkan mendengarkan secara aktif sebelum merespons argumen pasangan guna menghindari konflik berlarut.",
-    "pesan_kesadaran": "Di tengah situasi yang terasa gersang, ketangguhan sejatimu sedang dibentuk secara perlahan.",
+    "karakter_energi": "Musim Karo ini rasanya seperti sedang menghadapi burnout kolektif di mana segalanya terasa seret dan menuntut mental kita untuk tetap tenang meski dukungan sedang minim. Ini bukan soal seberapa cepat kamu berlari, tapi tentang bagaimana kamu tetap bisa 'survive' dengan tetap menjadi dirimu sendiri di tengah tekanan yang mengeringkan energi.",
+    "ramalan_karier": "Kalau proyek lagi macet atau atasan terlalu banyak menuntut, jangan dipaksakan sampai *breakdown*; ambil napas dan fokus saja pada apa yang ada di depan mata. Tahan dulu keinginan buat ambil risiko besar atau *resign* impulsif, prioritaskan kesehatan mentalmu di atas validasi kantor saat ini.",
+    "ramalan_asmara": "Karena kamu sedang capek, jangan biarkan lelahmu jadi pelampiasan ke pasangan; coba lebih banyak mendengar daripada langsung defensif saat ada konflik. Ingat, *it’s you and your partner versus the problem*, bukan saling serang untuk pembuktian diri.",
+    "pesan_kesadaran": "Ingatlah bahwa fase 'gersang' yang kamu rasakan hari ini adalah proses pendewasaan yang sedang menempa ketangguhanmu menjadi lebih kuat dari sebelumnya.",
     "saran_aktivitas": [
       "Jurnal harian untuk melacak kecemasan dan hal-hal yang Anda syukuri",
       "Fokus pada self-healing, minum cukup air, dan olahraga ringan",
       "Evaluasi rencana investasi masa depan Anda"
     ],
-    "ai_hook": "Saat ini kita berada di Mangsa Karo. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
+    "ai_hook": "Saat ini kita berada di Mangsa Karo. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?",
+    "tanda_alam": "Tanah mulai retak dan kering akibat kemarau panjang, menjadi isyarat alam bagi para petani untuk bersiap menyambut siklus kesuburan yang akan datang."
   },
   {
     "id": 3,
@@ -42,16 +44,17 @@
     "tanggal_siklus": "25 Agustus - 17 September",
     "candra_mangsa": "Suta manut ing bapa",
     "arketipe_modern": "Sang Penyelaras Alur",
-    "karakter_energi": "Siklus penyelarasan diri dengan bimbingan mentor dan sistem kerja yang terstruktur. Menekankan pentingnya kerendahan hati untuk belajar dan mengikuti kerangka arahan yang divalidasi.",
-    "ramalan_karier": "Ikuti protokol kerja dasar dan cari bimbingan strategis dari senior atau mentor tepercaya. Ini saat krusial untuk menyerap keahlian baru alih-alih berupaya mendominasi dinamika tim.",
-    "ramalan_asmara": "Bangun hubungan berbasis rasa hormat dan perumusan kesepakatan bersama. Menyelaraskan visi masa depan dengan pasangan akan secara signifikan memperkuat fondasi komitmen kalian.",
-    "pesan_kesadaran": "Menurunkan ego untuk menerima arahan terstruktur adalah langkah bijak menuju kematangan diri.",
+    "karakter_energi": "Musim Katiga ini adalah momen buat kamu menarik napas sejenak dan belajar dari orang yang lebih berpengalaman tanpa harus merasa harus langsung jadi ahli. Ini waktu yang tepat untuk menurunkan ekspektasi diri yang berlebihan dan mulai menyerap ilmu baru dengan hati yang lebih terbuka.",
+    "ramalan_karier": "Jangan merasa harus selalu tahu segalanya; cobalah untuk mengikuti alur kerja yang sudah ada dan jangan ragu bertanya pada mentor atau rekan senior saat merasa buntu. Fokuslah pada pengembangan diri daripada terjebak dalam kompetisi yang melelahkan.",
+    "ramalan_asmara": "Jalin hubungan yang sehat dengan cara jujur soal apa yang kamu inginkan dan dengarkan juga ekspektasi pasanganmu. Sinkronisasi visi masa depan akan membuat hubungan kalian terasa jauh lebih tenang dan stabil.",
+    "pesan_kesadaran": "Merendahkan ego untuk belajar bukan berarti kamu lemah, melainkan cara cerdas untuk tumbuh lebih dewasa.",
     "saran_aktivitas": [
       "Hubungi mentor atau rekan senior untuk sesi bincang karier kasual",
       "Beli buku atau langganan kursus edukatif baru",
       "Buat jadwal rutinitas harian yang lebih disiplin"
     ],
-    "ai_hook": "Saat ini kita berada di Mangsa Katiga. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
+    "ai_hook": "Saat ini kita berada di Mangsa Katiga. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?",
+    "tanda_alam": "Tanah mulai retak dan dedaunan berguguran di tengah terik matahari, menandai masa di mana alam bersiap untuk beristirahat dalam kekeringan yang panjang."
   },
   {
     "id": 4,
@@ -60,16 +63,17 @@
     "tanggal_siklus": "18 September - 12 Oktober",
     "candra_mangsa": "Waspa kumembeng jroning kalbu",
     "arketipe_modern": "Sang Alkemis Emosi",
-    "karakter_energi": "Fase introspeksi mendalam di mana emosi yang terpendam mulai disadari secara penuh. Energi transisi pancaroba ini menuntut regulasi stres dan perhatian serius pada kesehatan mental.",
-    "ramalan_karier": "Waspadai tanda awal kelelahan mental atau kehabisan tenaga akibat beban kerja numpuk. Kelola batas stamina dengan bijak dan jangan ragu menetapkan perimeter profesional yang definitif.",
-    "ramalan_asmara": "Momen yang sangat representatif untuk membicarakan perasaan sensitif secara autentik dan aman. Hindari memendam kekecewaan supaya tidak bereskalasi menjadi konflik struktural berat.",
-    "pesan_kesadaran": "Validasi setiap beban emosi yang muncul tanpa menghakiminya sebagai bentuk cinta pada diri sendiri.",
+    "karakter_energi": "Memasuki Kapat, kamu mungkin merasa lebih emosional dari biasanya karena lelah dengan rutinitas; anggap ini sebagai sinyal tubuh agar kamu segera melambat dan memberi ruang untuk bernapas.",
+    "ramalan_karier": "Jangan merasa bersalah kalau harus bilang 'tidak' atau menolak tugas tambahan demi menjaga kewarasan. Ingat, memprioritaskan kesehatan mentalmu bukanlah tanda kelemahan, melainkan bentuk profesionalisme agar kamu terhindar dari burnout.",
+    "ramalan_asmara": "Jujurlah tentang apa yang sedang kamu rasakan tanpa perlu takut dinilai, karena komunikasi yang autentik adalah cara terbaik untuk menjaga hubungan tetap sehat dan minim drama.",
+    "pesan_kesadaran": "Validasi setiap emosimu hari ini; kamu tidak harus selalu terlihat kuat untuk menjadi berharga.",
     "saran_aktivitas": [
       "Lakukan aktivitas seni atau kreatif tanpa takut dinilai orang lain",
       "Habiskan waktu di alam terbuka atau taman kota di pagi hari",
       "Latih pernapasan (mindful breathing) untuk melepas stres terpendam"
     ],
-    "ai_hook": "Saat ini kita berada di Mangsa Kapat. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
+    "ai_hook": "Saat ini kita berada di Mangsa Kapat. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?",
+    "tanda_alam": "Embun mulai menghilang dari dedaunan kering dan udara terasa lebih dingin, menandai fase saat alam menyimpan air di kedalaman bumi."
   },
   {
     "id": 5,
@@ -78,16 +82,17 @@
     "tanggal_siklus": "13 Oktober - 8 November",
     "candra_mangsa": "Pancuran mas sumawur ing jagad",
     "arketipe_modern": "Sang Katalis Kelimpahan",
-    "karakter_energi": "Siklus ini memancarkan frekuensi optimisme, kreativitas ekspansif, dan limpahan peluang bagai hujan emas. Momen presisi untuk menyambut kolaborasi dan menyebarkan dampak positif.",
-    "ramalan_karier": "Ambil inisiatif agresif untuk mengajukan proposal kreatif atau melamar posisi krusial yang menantang. Ekstensifikasi jejaring profesional tim akan mendatangkan keuntungan finansial eksponensial.",
-    "ramalan_asmara": "Hubungan dipenuhi kejutan menyenangkan yang secara langsung mempererat kedekatan emosional psikis. Bagi profil lajang, ini periode kondusif membuka hati untuk penjajakan koneksi mutual.",
-    "pesan_kesadaran": "Sambut setiap momentum eksternal dengan jiwa terbuka dan bagikan energi inspiratifmu pada dunia.",
+    "karakter_energi": "Kalima membawa angin segar bagi kamu yang merasa lelah dengan rutinitas, membuka ruang bagi kreativitas untuk tumbuh kembali di tengah sibuknya kota. Ini adalah waktu yang tepat untuk berhenti sejenak, menarik napas, dan menyadari bahwa peluang baik bisa datang dari ketenangan batin.",
+    "ramalan_karier": "Jangan merasa harus membuktikan diri terus-menerus; ini saatnya untuk berani berkata 'tidak' pada beban kerja berlebih dan fokus pada proyek yang benar-benar memantik semangatmu. Percayalah, kualitas kinerjamu akan lebih bersinar saat kamu tidak lagi terjebak dalam sindrom impostor.",
+    "ramalan_asmara": "Jika kamu selama ini terlalu sibuk menyenangkan orang lain, inilah saatnya membangun batasan yang sehat agar hubunganmu terasa lebih jujur dan intim. Bagi yang lajang, berhentilah memaksa untuk mencari; biarkan dirimu bernapas dan koneksi yang tulus akan datang di saat yang tepat.",
+    "pesan_kesadaran": "Kamu tidak perlu menjadi sempurna untuk merasa berharga; cukup hadir untuk dirimu sendiri hari ini.",
     "saran_aktivitas": [
       "Ajukan proposal proyek atau kirim aplikasi kerja ke tempat impian Anda",
       "Jadwalkan kencan seru di luar ruangan (seperti piknik atau jalan-jalan santai)",
       "Lakukan donasi atau kebaikan kecil untuk mengalirkan energi keberkahan"
     ],
-    "ai_hook": "Saat ini kita berada di Mangsa Kalima. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
+    "ai_hook": "Saat ini kita berada di Mangsa Kalima. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?",
+    "tanda_alam": "Hujan mulai turun membasahi bumi setelah kemarau panjang, membawa kesuburan bagi tanah yang retak dan menumbuhkan harapan baru bagi para petani."
   },
   {
     "id": 6,
@@ -96,16 +101,17 @@
     "tanggal_siklus": "9 November - 21 Desember",
     "candra_mangsa": "Rasa mulya kasucian",
     "arketipe_modern": "Sang Maestro Eksekusi",
-    "karakter_energi": "Energi produktivitas ekuilibrium puncak yang terkalibrasi fokus tajam, dedikasi, dan komitmen absolut. Kerangka waktu terbaik merealisasikan visi konseptual menjadi manuver aksi nyata.",
-    "ramalan_karier": "Eksekusi cetak biru proyek dengan disiplin spartan karena probabilitas keberhasilan teknis sangat tinggi. Pertahankan integritas profesional agar valuasimu makin solid di struktur direksi.",
-    "ramalan_asmara": "Buktikan dedikasi romansa melalui penyediaan tindakan nyata, sokongan karier, dan alokasi waktu presensial. Kedalaman komitmen konsisten akan meningkatkan resolusi ke jenjang serius.",
-    "pesan_kesadaran": "Dedikasikan kapabilitas dan konsentrasimu seutuhnya pada aktualisasi kerja yang bernilai hakiki.",
+    "karakter_energi": "Musim Kanem adalah waktu yang tepat buat 'tancap gas' meraih mimpi, tapi jangan sampai terjebak dalam hustle culture yang bikin kamu burnout. Energi bulan ini mendukungmu untuk mengubah ide-ide besar jadi kenyataan lewat langkah kecil yang konsisten tanpa harus mengorbankan kewarasanmu.",
+    "ramalan_karier": "Fokuslah pada kualitas, bukan sekadar kecepatan, dan jangan takut untuk bilang 'tidak' pada tugas yang nggak krusial agar kamu punya ruang untuk bernapas. Kamu sudah bekerja sangat keras; sekarang saatnya tunjukkan progresmu dengan penuh percaya diri tanpa perlu merasa minder atau imposter syndrome.",
+    "ramalan_asmara": "Cinta bukan cuma soal kata-kata manis, tapi tentang hadir sepenuhnya dan memberi dukungan nyata saat pasanganmu sedang berjuang di hari yang berat. Alokasikan waktu berkualitas yang berkualitas, meski cuma sebentar, untuk mempererat bonding dan rasa aman di antara kalian.",
+    "pesan_kesadaran": "Ingatlah bahwa pencapaianmu tidak mendefinisikan nilai dirimu sebagai manusia yang berharga.",
     "saran_aktivitas": [
       "Adakan makan malam kecil bersama orang terdekat untuk merayakan kesuksesan bersama",
       "Tulis rangkuman refleksi diri mengenai pencapaian setahun terakhir",
       "Manjakan diri Anda dengan sesi spa atau pijat relaksasi"
     ],
-    "ai_hook": "Saat ini kita berada di Mangsa Kanem. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
+    "ai_hook": "Saat ini kita berada di Mangsa Kanem. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?",
+    "tanda_alam": "Hujan deras mulai membasahi bumi dengan melimpah, menyuburkan tanah dan menyucikan jiwa dalam keheningan musim yang penuh berkah."
   },
   {
     "id": 7,
@@ -114,16 +120,17 @@
     "tanggal_siklus": "22 Desember - 2 Februari",
     "candra_mangsa": "Wisa kentar ing maruta",
     "arketipe_modern": "Sang Navigator Badai",
-    "karakter_energi": "Fase purifikasi intensif dari segala energi destruktif dan limitasi psikologis yang mendegradasi. Menginstruksikan proses detoksifikasi mental di tengah konstelasi dinamika korporat turbulen.",
-    "ramalan_karier": "Fokus pada resolusi friksi operasional internal dan pembenahan infrastruktur kerja disfungsional. Isolasi diri dari manuver politik kantor guna mencegah distraksi eksekusi performa dasar.",
-    "ramalan_asmara": "Terapkan mitigasi beban emosional dengan terminasi interaksi beracun atau konfrontasi penyelesaian konflik lama. Kejujuran presisi menjadi algoritma sentral pemulihan keharmonisan.",
-    "pesan_kesadaran": "Biarkan badai membersihkan sisa elemen merusak agar harmoni sejati kembali mengakar di pusat batinmu.",
+    "karakter_energi": "Masa Kapitu adalah waktu buat 'berbenah diri' dari rasa lelah yang numpuk dan rasa nggak cukup yang sering bikin kamu merasa kurang. Ini saat yang tepat untuk buang jauh-jauh beban mental yang nggak perlu biar kamu bisa ngerasa ringan lagi.",
+    "ramalan_karier": "Nggak perlu ikut-ikutan drama atau politik kantor yang cuma bikin capek; lebih baik fokus dulu sama kesehatan mentalmu dan selesaikan tanggung jawab dengan tenang. Ingat, kamu nggak harus selalu jadi 'yes-person' untuk bisa dihargai kualitas kerjanya.",
+    "ramalan_asmara": "Kalau ada hubungan yang bikin kamu ngerasa *drained* atau belum tuntas, sekarang saatnya jujur dan tegas soal apa yang sebenarnya kamu butuhin. Jangan takut untuk bikin batasan demi kedamaian batinmu sendiri.",
+    "pesan_kesadaran": "Biarkan dirimu istirahat sejenak, karena melepaskan apa yang menyakitimu adalah langkah awal untuk menemukan dirimu yang sejati.",
     "saran_aktivitas": [
       "Matikan notifikasi pekerjaan setelah jam kantor untuk menjaga kesehatan mental",
       "Buat minuman hangat dan nikmati waktu santai membaca buku di rumah",
       "Lakukan meditasi grounding untuk meredakan kecemasan makro"
     ],
-    "ai_hook": "Saat ini kita berada di Mangsa Kapitu. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
+    "ai_hook": "Saat ini kita berada di Mangsa Kapitu. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?",
+    "tanda_alam": "Hujan turun dengan lebat diiringi angin kencang yang menyapu bumi, menandai masa pembersihan alam saat sungai-sungai meluap dan tanah menjadi sangat basah."
   },
   {
     "id": 8,
@@ -132,16 +139,17 @@
     "tanggal_siklus": "3 Februari - 28 Februari",
     "candra_mangsa": "Anjrah jroning kayun",
     "arketipe_modern": "Sang Penghubung Hasrat",
-    "karakter_energi": "Mensimulasikan gairah konstruktif berjejaring, proyeksi eksistensi diri yang kasual, dan orkestrasi kolaboratif. Dinamika sosial kultural ini mengkatalisis pertumbuhan kompetensi kohesi.",
-    "ramalan_karier": "Perluas jangkauan radar profesional melalui agenda pertukaran wacana grup atau penetrasi kerja lintas sektoral. Persilangan diskursus tim pasti membuahkan prototipe inovatif komprehensif.",
-    "ramalan_asmara": "Artikulasikan ketertarikan afeksi secara lugas natural dan rayakan momen interaksi hangat nir-intervensi. Frekuensi siklus ini optimal mensponsori eksplorasi ikatan romantisme adaptif ringan.",
-    "pesan_kesadaran": "Izinkan dirimu terhubung secara transparan dengan orang lain untuk memperkaya variabilitas perspektif hidup.",
+    "karakter_energi": "Musim Kawolu ini mengajak kamu untuk keluar dari gelembung isolasi dan mulai terhubung kembali dengan orang-orang yang membuatmu merasa diterima apa adanya. Ini adalah waktu yang tepat untuk berkolaborasi tanpa perlu memaksakan diri tampil sempurna.",
+    "ramalan_karier": "Jangan merasa harus menyelesaikan semuanya sendirian; cobalah delegasikan tugas dan buka ruang diskusi agar beban kerjamu lebih ringan. Ingat, validitas profesionalmu tidak ditentukan oleh seberapa besar kamu mengorbankan waktu istirahatmu.",
+    "ramalan_asmara": "Tunjukkan sisi dirimu yang paling jujur dan rentan karena di sanalah letak daya tarik yang sesungguhnya. Kamu tidak perlu melakukan 'permainan' untuk disukai; cukup hadir dan nikmati koneksi yang mengalir apa adanya.",
+    "pesan_kesadaran": "Meminta bantuan bukan tanda kelemahan, melainkan keberanian untuk mengakui bahwa kamu pun layak disokong.",
     "saran_aktivitas": [
       "Hadiri acara komunitas, seminar, atau pertemuan sosial baru",
       "Ubah penampilan atau gaya berpakaian Anda untuk meningkatkan kepercayaan diri",
       "Mulailah mengerjakan proyek hobi yang paling membuat Anda bersemangat"
     ],
-    "ai_hook": "Saat ini kita berada di Mangsa Kawolu. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
+    "ai_hook": "Saat ini kita berada di Mangsa Kawolu. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?",
+    "tanda_alam": "Hujan deras mulai berkurang dan telur serangga menetas di dedaunan, menandai waktu alam semesta bersiap untuk kehidupan baru."
   },
   {
     "id": 9,
@@ -150,16 +158,17 @@
     "tanggal_siklus": "1 Maret - 25 Maret",
     "candra_mangsa": "Wedharing wacana mulya",
     "arketipe_modern": "Sang Komunikator Ulung",
-    "karakter_energi": "Energi resonansi vokal yang dirancang menyokong diseminasi wacana publik, peluncuran narasi, dan orasi persuasi. Proyeksi ekspresi faktual akan menarik kapital apresiasi partisipatif masif.",
-    "ramalan_karier": "Akselerasikan momentum penyajian orasi proposal, eksibisi capaian, atau promosi kompetensi portofolio eksekutif. Vokalisasikan postulat strategismu dengan artikulasi percaya diri mutlak.",
-    "ramalan_asmara": "Distribusikan afirmasi verbal konstruktif spesifik secara reguler guna melegitimasi trajektori afeksi mutual. Keterbukaan merangkai cetak biru cita-cita akan menyolidkan koneksi esensial.",
-    "pesan_kesadaran": "Suarakan prinsip kebaikan dari integritas hati terdalam karena vibrasi logikamu menahan probabilitas besar.",
+    "karakter_energi": "Kasanga adalah momen di mana suaramu punya daya tarik alami, jadi jangan ragu untuk berbagi ide atau unek-unek yang selama ini kamu simpan. Ini adalah saatnya untuk tampil lebih autentik dan membiarkan dunia melihat sisi jujur dari dirimu tanpa perlu merasa terbebani untuk tampil sempurna.",
+    "ramalan_karier": "Kalau kamu merasa lelah dengan ekspektasi orang lain, gunakan energi bulan ini untuk mulai menetapkan batasan yang sehat dan berani speak up soal apa yang sebenarnya kamu butuhkan. Percayalah, saat kamu mengomunikasikan karyamu dengan yakin, apresiasi yang tepat akan datang dengan sendirinya.",
+    "ramalan_asmara": "Jangan lelah untuk terbuka tentang impian dan ketakutanmu kepada pasangan, karena kejujuran adalah cara terbaik untuk mempererat koneksi. Validasi perasaan satu sama lain lewat percakapan yang tulus akan membuat hubunganmu terasa jauh lebih aman dan nyaman.",
+    "pesan_kesadaran": "Ingatlah bahwa suaramu berharga, maka bicaralah dengan integritas dan kebaikan dari hati yang paling dalam.",
     "saran_aktivitas": [
       "Tulis jurnal reflektif atau bagikan tulisan edukasi di LinkedIn/blog",
       "Luangkan waktu 1 jam khusus untuk mendengarkan curhat pasangan secara aktif",
       "Rapikan catatan-catatan ide kerja Anda agar lebih terstruktur"
     ],
-    "ai_hook": "Saat ini kita berada di Mangsa Kasanga. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
+    "ai_hook": "Saat ini kita berada di Mangsa Kasanga. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?",
+    "tanda_alam": "Hujan deras mulai berkurang dan suara serangga malam kian nyaring, menandai alam yang bersiap menyambut pergantian musim dengan penuh kebijaksanaan."
   },
   {
     "id": 10,
@@ -168,16 +177,17 @@
     "tanggal_siklus": "26 Maret - 18 April",
     "candra_mangsa": "Gedhong mineb jroning kalbu",
     "arketipe_modern": "Sang Pelindung Potensi",
-    "karakter_energi": "Siklus preservasi laten, manajemen perlindungan privasi diri, dan retensi modal kekuatan sebelum fase transisi akhir. Mewajibkan implementasi isolasi strategis serta pemulihan fungsi saraf.",
-    "ramalan_karier": "Karantina kerahasiaan masterplan manuver krusial hingga matang sempurna sebelum distribusi presentasi terbuka. Dedikasikan kuota waktu untuk perapian dokumentasi inventaris intelektual.",
-    "ramalan_asmara": "Konsumsi momen intimasi di zona aman tanpa tendensi amplifikasi publikasi metrik media sosial. Restriksi penetrasi observasi eksternal ampuh memproteksi kerentanan eksklusif romantisme.",
-    "pesan_kesadaran": "Simpan agregasi ambisi di balik perimeter keheningan agar kapital tenagamu terakumulasi tanpa presipitasi.",
+    "karakter_energi": "Musim Kadasa adalah fase di mana tubuh dan mentalmu berteriak minta rehat dari hiruk-pikuk kota. Ini adalah waktu terbaik untuk memulihkan energi yang terkuras akibat burnout dan membangun kembali ketenangan batin sebelum menghadapi babak baru.",
+    "ramalan_karier": "Jangan merasa harus selalu tampil produktif; simpan dulu ide-ide besarmu dan fokuslah merapikan prioritas kerja tanpa perlu validasi orang lain. Ingat, berani berkata 'tidak' pada beban kerja berlebih adalah bagian dari strategi profesional yang cerdas.",
+    "ramalan_asmara": "Nikmati momen kedekatan tanpa perlu pamer di media sosial, karena privasi adalah bentuk perlindungan terbaik bagi hubunganmu. Fokuslah pada kualitas hubungan yang otentik dan biarkan dirimu merasa aman tanpa takut dihakimi.",
+    "pesan_kesadaran": "Jaga api ambisimu di tempat yang teduh agar kamu bisa tumbuh kuat tanpa harus merasa lelah oleh ekspektasi dunia.",
     "saran_aktivitas": [
       "Hitung kekayaan bersih (net worth) Anda dan evaluasi portofolio investasi",
       "Beli hadiah kecil berkualitas untuk diri sendiri dan orang yang membantu Anda",
       "Set alokasi tabungan otomatis untuk dana darurat Anda"
     ],
-    "ai_hook": "Saat ini kita berada di Mangsa Kadasa. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
+    "ai_hook": "Saat ini kita berada di Mangsa Kadasa. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?",
+    "tanda_alam": "Hujan mulai mereda dan embun menggantung di ujung dedaunan, menandai waktu saat segala kehidupan kembali merenung ke dalam sanubari sebelum musim kemarau tiba."
   },
   {
     "id": 11,
@@ -186,16 +196,17 @@
     "tanggal_siklus": "19 April - 11 Mei",
     "candra_mangsa": "Sotya sinarawedi",
     "arketipe_modern": "Sang Mentor Suportif",
-    "karakter_energi": "Energi fasilitasi perkembangan personil, pendampingan navigasi wawasan, dan redistribusi modal empiris berkepedulian. Mengalihkan prioritas ego pada perayaan eskalasi kesuksesan komunal.",
-    "ramalan_karier": "Substitusikan orientasi individualis dengan pendedikasian advokasi pendampingan bakat-bakat rekrutan junior. Transfer ilmu yang suportif niscaya mengkalibrasi status hierarki otoritas moralmu.",
-    "ramalan_asmara": "Wujudkan rasionalisasi afeksi lewat asistensi konkret memelihara trayek aktualisasi personal pendamping hidup. Kapasitas akomodasi empati akan mende-eskalasi friksi kompetitif rumah tangga.",
-    "pesan_kesadaran": "Sumbangsihkan modal literasi serta kepedulian tulus karena dengan memfasilitasi sejawat kita bermutasi unggul.",
+    "karakter_energi": "Musim Dhesta adalah waktu yang tepat untuk berhenti sejenak dari perlombaan ego dan mulai merayakan kemenangan orang-orang di sekitar kita. Ini saatnya kamu bertumbuh dengan cara menjadi pendukung bagi orang lain, bukan sekadar fokus pada pencapaian pribadi.",
+    "ramalan_karier": "Alihkan energimu dari rasa haus akan validasi pribadi dengan menjadi mentor bagi rekan yang lebih muda. Kamu akan merasa jauh lebih bermakna dan dihormati saat kamu membantu orang lain berkembang tanpa perlu merasa terancam.",
+    "ramalan_asmara": "Hubungan yang sehat bukan soal siapa yang paling dominan, tapi soal seberapa tulus kamu mendukung mimpi pasanganmu. Berhenti berkompetisi, mulailah menjadi 'support system' terbaik agar konflik kecil tidak lagi menguras energimu.",
+    "pesan_kesadaran": "Ingatlah bahwa keberhasilanmu akan terasa jauh lebih manis saat kamu tidak merayakannya sendirian.",
     "saran_aktivitas": [
       "Kirim pesan apresiasi atau hadiah kecil ke teman yang selalu mendukung Anda",
       "Latih rasa syukur harian dengan mencatat 3 hal baik setiap malam sebelum tidur",
       "Lakukan digital detox di akhir pekan bersama keluarga atau pasangan"
     ],
-    "ai_hook": "Saat ini kita berada di Mangsa Dhesta. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
+    "ai_hook": "Saat ini kita berada di Mangsa Dhesta. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?",
+    "tanda_alam": "Matahari bersinar terik menyinari bumi yang mulai mengering, saat embun pagi perlahan memudar di penghujung musim kemarau."
   },
   {
     "id": 12,
@@ -204,15 +215,16 @@
     "tanggal_siklus": "12 Mei - 21 Juni",
     "candra_mangsa": "Tirta sah saking sasana",
     "arketipe_modern": "Sang Minimalis Bijak",
-    "karakter_energi": "Siklus purifikasi penyusutan ekspansi dan reduksi pengeluaran daya menuju titik limitasi akhir ekuilibrium orbit. Mendorong praktik fungsional minimalis guna stabilisasi rasio kewarasan psikis.",
-    "ramalan_karier": "Tuntaskan ekor tanggungan operasional dan blokir penerimaan delegasi wewenang ekstra beresiko komplikasi. Optimalkan resolusi evaluasi retrospektif serta sinkronisasi peredaan ketegangan.",
-    "ramalan_asmara": "Sediakan privilese margin jarak otonom antar individu guna menganulasi probabilitas kejemuan repetitif domestik. Valorisasi independensi emosional sukses mengaktifkan sirkulasi mutualisme asri.",
-    "pesan_kesadaran": "Sederhanakan komplikasi ekspektasi lalu berhematlah pada konsumsi persepsi demi rekonstruksi sumbu spiritualmu.",
+    "karakter_energi": "Musim Sada adalah momen buat kamu menarik napas panjang dan pelan-pelan melepas beban yang sudah terlalu lama dipanggul. Saatnya menyederhanakan hidup supaya energi yang tersisa bisa dipakai buat menjaga kewarasanmu sendiri.",
+    "ramalan_karier": "Jangan merasa harus bilang 'iya' untuk semua tambahan tugas kalau itu bikin kamu burnout, karena sekarang saatnya berani pasang boundary yang tegas. Fokus saja menyelesaikan apa yang sudah ada dan berhenti memaksakan diri untuk jadi sempurna di mata semua orang.",
+    "ramalan_asmara": "Terkadang, jarak sedikit itu perlu supaya kamu dan pasangan bisa punya ruang napas untuk jadi diri sendiri lagi. Hubungan yang sehat justru tumbuh subur saat kalian berdua merasa nyaman dengan kemandirian masing-masing tanpa harus terus-menerus menempel.",
+    "pesan_kesadaran": "Berhentilah menuntut diri sendiri terlalu keras, karena kamu berhak untuk sekadar tenang dan menjadi cukup.",
     "saran_aktivitas": [
       "Lakukan meditasi pelepasan emosi untuk membuang dendam atau rasa bersalah",
       "Tulis rencana resolusi besar untuk siklus Pranata Mangsa berikutnya",
       "Nikmati keheningan malam hari tanpa distraksi layar ponsel"
     ],
-    "ai_hook": "Saat ini kita berada di Mangsa Sada. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?"
+    "ai_hook": "Saat ini kita berada di Mangsa Sada. Bagaimana pengaruh musim ini terhadap weton lahir saya, dan bagaimana langkah mitigasi emosional saya?",
+    "tanda_alam": "Air mulai surut dari sumbernya dan bumi mengering, menandai masa persiapan alam untuk menyambut siklus kehidupan yang baru."
   }
 ]

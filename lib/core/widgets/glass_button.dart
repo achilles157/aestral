@@ -11,6 +11,10 @@ class GlassButton extends StatelessWidget {
   final double borderWidth;
   final EdgeInsetsGeometry padding;
 
+  /// Optional semantic label for screen readers.
+  /// If null, the label widget's text will be used by Flutter's default semantics.
+  final String? semanticLabel;
+
   const GlassButton({
     super.key,
     required this.onPressed,
@@ -20,35 +24,40 @@ class GlassButton extends StatelessWidget {
     this.borderRadius = 16.0,
     this.borderWidth = 1.0,
     this.padding = const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+    this.semanticLabel,
   });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      borderRadius: BorderRadius.circular(borderRadius),
-      child: GlassCard(
-        borderRadius: borderRadius,
-        borderColor: (glowColor ?? AppTheme.accentPurple).withValues(alpha: 0.35),
-        borderWidth: borderWidth,
-        color: Colors.white.withValues(alpha: 0.04),
-        padding: padding,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (icon != null) ...[
-              icon!,
-              const SizedBox(width: 8),
-            ],
-            DefaultTextStyle(
-              style: const TextStyle(
-                color: AppTheme.textLight,
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
+    return Semantics(
+      button: true,
+      label: semanticLabel,
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: GlassCard(
+          borderRadius: borderRadius,
+          borderColor: (glowColor ?? AppTheme.accentPurple).withValues(alpha: 0.35),
+          borderWidth: borderWidth,
+          color: Colors.white.withValues(alpha: 0.04),
+          padding: padding,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (icon != null) ...[
+                ExcludeSemantics(child: icon!),
+                const SizedBox(width: 8),
+              ],
+              DefaultTextStyle(
+                style: const TextStyle(
+                  color: AppTheme.textLight,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                ),
+                child: label,
               ),
-              child: label,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

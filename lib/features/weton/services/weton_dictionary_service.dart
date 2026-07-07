@@ -10,6 +10,8 @@ class WetonDictionaryEntry {
   final String asmaraHubungan;
   final String sisiGelapPeringatan;
   final String aiHook;
+  final String? warnaHarmoni;
+  final String? saranHarian;
 
   WetonDictionaryEntry({
     required this.id,
@@ -19,6 +21,8 @@ class WetonDictionaryEntry {
     required this.asmaraHubungan,
     required this.sisiGelapPeringatan,
     required this.aiHook,
+    this.warnaHarmoni,
+    this.saranHarian,
   });
 
   factory WetonDictionaryEntry.fromJson(Map<String, dynamic> json) {
@@ -30,6 +34,8 @@ class WetonDictionaryEntry {
       asmaraHubungan: json['asmara_hubungan'] as String,
       sisiGelapPeringatan: json['sisi_gelap_peringatan'] as String,
       aiHook: json['ai_hook'] as String? ?? 'Bagaimana pengaruh Weton ${json['weton_name']} saya terhadap nasib dan sisi gelap karakter saya?',
+      warnaHarmoni: json['warna_harmoni'] as String?,
+      saranHarian: json['saran_harian'] as String?,
     );
   }
 }

@@ -21,7 +21,9 @@
       "mengayomi",
       "setia"
     ],
-    "ai_hook": "Sebagai seorang Minggu Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Minggu Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#F8FAFC",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk menjernihkan pikiran dengan ketenangan, biarkan kejujuranmu membawa cahaya bagi orang-orang di sekitarmu."
   },
   {
     "id": 2,
@@ -45,7 +47,9 @@
       "komunikatif",
       "karismatik"
     ],
-    "ai_hook": "Sebagai seorang Minggu Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Minggu Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#C2410C",
+    "saran_harian": "Hari ini, pancarkan energi keberanianmu dengan fokus menyelesaikan satu target utama sebelum membantu orang lain."
   },
   {
     "id": 3,
@@ -69,7 +73,9 @@
       "konsisten",
       "tangguh"
     ],
-    "ai_hook": "Sebagai seorang Minggu Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Minggu Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#F59E0B",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk menonjolkan kecerdasanmu dengan tetap bersikap rendah hati dan menyebarkan energi positif kepada orang di sekitarmu."
   },
   {
     "id": 4,
@@ -94,7 +100,9 @@
       "teliti",
       "hati_hati"
     ],
-    "ai_hook": "Sebagai seorang Minggu Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Minggu Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#2D3436",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk menenangkan pikiran dan fokus pada perencanaan strategis demi masa depan yang lebih kokoh."
   },
   {
     "id": 5,
@@ -118,7 +126,9 @@
       "visioner",
       "misterius"
     ],
-    "ai_hook": "Sebagai seorang Minggu Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Minggu Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#8B5CF6",
+    "saran_harian": "Hari ini, pancarkan energi kebijaksanaanmu dengan mendengarkan lebih banyak daripada berbicara untuk memperkuat hubungan harmonis dengan orang-orang di sekitarmu."
   },
   {
     "id": 6,
@@ -142,7 +152,9 @@
       "tekun",
       "introvert"
     ],
-    "ai_hook": "Sebagai seorang Senin Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Senin Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#F8FAFC",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk bersikap terbuka dan jujur dalam berkomunikasi, biarkan energi kejernihan Legi membimbing setiap keputusanmu."
   },
   {
     "id": 7,
@@ -166,7 +178,9 @@
       "dedikatif",
       "karismatik"
     ],
-    "ai_hook": "Sebagai seorang Senin Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Senin Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#CB4154",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk menyalurkan ambisimu dengan kesabaran, karena ketegasanmu akan membawa hasil yang gemilang jika dibarengi dengan ketenangan hati."
   },
   {
     "id": 8,
@@ -190,7 +204,9 @@
       "pemimpin",
       "prinsipil"
     ],
-    "ai_hook": "Sebagai seorang Senin Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Senin Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#FBBF24",
+    "saran_harian": "Hari ini, pancarkan energi positifmu dengan mendengarkan orang lain lebih dalam dan biarkan kebijaksanaan batinmu memandu setiap keputusan yang kamu ambil."
   },
   {
     "id": 9,
@@ -214,7 +230,9 @@
       "adaptif",
       "pembelajar"
     ],
-    "ai_hook": "Sebagai seorang Senin Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Senin Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#2D2D2D",
+    "saran_harian": "Hari ini, fokuslah pada ketenangan batin dan jadilah pendengar yang baik sebelum mengambil keputusan besar."
   },
   {
     "id": 10,
@@ -238,7 +256,9 @@
       "analitis",
       "komunikatif"
     ],
-    "ai_hook": "Sebagai seorang Senin Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Senin Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#6D28D9",
+    "saran_harian": "Hari ini, pancarkan energi tenangmu dengan mendengarkan rekan kerja dengan penuh perhatian sebelum mengambil keputusan penting."
   },
   {
     "id": 11,
@@ -262,7 +282,9 @@
       "tangguh",
       "mandiri"
     ],
-    "ai_hook": "Sebagai seorang Selasa Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Selasa Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#F8FAFC",
+    "saran_harian": "Gunakan kejernihan pikiranmu hari ini untuk menata langkah kecil, karena kesabaran adalah kunci untuk menuai hasil yang manis."
   },
   {
     "id": 12,
@@ -286,7 +308,9 @@
       "berani",
       "kompetitif"
     ],
-    "ai_hook": "Sebagai seorang Selasa Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Selasa Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#C0392B",
+    "saran_harian": "Gunakan energi keberanianmu hari ini untuk menyelesaikan satu hal yang selama ini kamu tunda dengan penuh ketenangan."
   },
   {
     "id": 13,
@@ -310,7 +334,9 @@
       "bisnis_oriented",
       "sensitif"
     ],
-    "ai_hook": "Sebagai seorang Selasa Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Selasa Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#FBBF24",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk menyebarkan kehangatan kepada orang di sekitar Anda dengan tutur kata yang lembut dan penuh empati."
   },
   {
     "id": 14,
@@ -334,7 +360,9 @@
       "ekspresif",
       "bebas"
     ],
-    "ai_hook": "Sebagai seorang Selasa Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Selasa Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#2D2D2D",
+    "saran_harian": "Hari ini, fokuslah pada ketenangan batin dan jadilah pendengar yang baik agar energimu tetap stabil dan membumi."
   },
   {
     "id": 15,
@@ -358,7 +386,9 @@
       "mandiri",
       "pemimpin"
     ],
-    "ai_hook": "Sebagai seorang Selasa Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Selasa Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#7E22CE",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk menyeimbangkan ambisi dengan ketenangan batin, dengarkan intuisi tajammu sebelum melangkah."
   },
   {
     "id": 16,
@@ -382,7 +412,9 @@
       "disiplin",
       "bersyukur"
     ],
-    "ai_hook": "Sebagai seorang Rabu Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Rabu Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#E2E8F0",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk menunjukkan ketegasanmu dalam bertindak; percayalah pada kebijaksanaan batinmu saat mengambil keputusan penting."
   },
   {
     "id": 17,
@@ -406,7 +438,9 @@
       "fokus",
       "pemaaf"
     ],
-    "ai_hook": "Sebagai seorang Rabu Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Rabu Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#C2410C",
+    "saran_harian": "Hari ini, pancarkan energi keberanianmu dengan langkah yang tenang dan penuh kasih kepada sesama."
   },
   {
     "id": 18,
@@ -430,7 +464,9 @@
       "karismatik",
       "berpengaruh"
     ],
-    "ai_hook": "Sebagai seorang Rabu Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Rabu Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#FBBF24",
+    "saran_harian": "Hari ini, pancarkan energi positifmu dengan bersikap sabar dan terbuka dalam setiap komunikasi agar hubunganmu dengan sesama semakin harmonis."
   },
   {
     "id": 19,
@@ -454,7 +490,9 @@
       "penyayang",
       "sensitif"
     ],
-    "ai_hook": "Sebagai seorang Rabu Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Rabu Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#2D2A26",
+    "saran_harian": "Gunakan ketenangan batinmu hari ini untuk merencanakan langkah besar dengan lebih matang dan penuh perhitungan."
   },
   {
     "id": 20,
@@ -478,7 +516,9 @@
       "sederhana",
       "stabil"
     ],
-    "ai_hook": "Sebagai seorang Rabu Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Rabu Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#6D28D9",
+    "saran_harian": "Hari ini, pancarkan kebijaksanaanmu dengan mendengarkan lebih banyak daripada berbicara agar energi Rabu Kliwon-mu membawa kedamaian bagi sekitarmu."
   },
   {
     "id": 21,
@@ -502,7 +542,9 @@
       "independen",
       "perfeksionis"
     ],
-    "ai_hook": "Sebagai seorang Kamis Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Kamis Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#E5E7EB",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk menunjukkan kemurahan hatimu dengan tulus, karena energi Kamis Legi akan melipatgandakan kebaikan yang kamu tebarkan."
   },
   {
     "id": 22,
@@ -526,7 +568,9 @@
       "sabar",
       "bijaksana"
     ],
-    "ai_hook": "Sebagai seorang Kamis Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Kamis Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#C2410C",
+    "saran_harian": "Hari ini, fokuslah menyalurkan ambisi besarmu dengan kesabaran agar setiap langkah yang kamu ambil membawa keberkahan bagi orang-orang di sekitarmu."
   },
   {
     "id": 23,
@@ -550,7 +594,9 @@
       "bijaksana",
       "empatik"
     ],
-    "ai_hook": "Sebagai seorang Kamis Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Kamis Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#FBBF24",
+    "saran_harian": "Hari ini, pancarkan energi kebijaksanaanmu dengan bersikap sabar saat mendengarkan ide orang lain agar kolaborasi berjalan lebih harmonis."
   },
   {
     "id": 24,
@@ -574,7 +620,9 @@
       "loyal",
       "konsisten"
     ],
-    "ai_hook": "Sebagai seorang Kamis Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Kamis Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#2D2D2D",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk menunjukkan keteguhan prinsipmu dengan tetap rendah hati dan bijaksana dalam setiap keputusan yang diambil."
   },
   {
     "id": 25,
@@ -598,7 +646,9 @@
       "pembelajar",
       "beruntung"
     ],
-    "ai_hook": "Sebagai seorang Kamis Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Kamis Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#8B5CF6",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk menyelaraskan ambisi dengan kelembutan hati agar langkahmu semakin diberkati."
   },
   {
     "id": 26,
@@ -622,7 +672,9 @@
       "integritas",
       "tegas"
     ],
-    "ai_hook": "Sebagai seorang Jumat Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Jumat Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#F8FAFC",
+    "saran_harian": "Hari ini, biarkan hatimu tetap jernih dan tenang seperti warna putih, karena kejujuran niatmu akan membuka pintu keberuntungan yang tak terduga."
   },
   {
     "id": 27,
@@ -646,7 +698,9 @@
       "gigih",
       "keras_kepala"
     ],
-    "ai_hook": "Sebagai seorang Jumat Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Jumat Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#C2410C",
+    "saran_harian": "Hari ini, pancarkan energi hangatmu dengan memberikan apresiasi tulus kepada rekan kerja atau orang tersayang di sekitarmu."
   },
   {
     "id": 28,
@@ -670,7 +724,9 @@
       "tenang",
       "sensitif"
     ],
-    "ai_hook": "Sebagai seorang Jumat Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Jumat Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#FBBF24",
+    "saran_harian": "Hari ini, pancarkan energi ceriamu dengan berbagi senyuman tulus kepada orang di sekitarmu, karena kebaikan kecil adalah kunci kedamaian hatimu."
   },
   {
     "id": 29,
@@ -694,7 +750,9 @@
       "peduli",
       "keras_kepala"
     ],
-    "ai_hook": "Sebagai seorang Jumat Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Jumat Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#2D2D2D",
+    "saran_harian": "Hari ini, jadilah pendengar yang bijak dan berikan ruang bagi ketenangan batin agar energi fokusmu membawa hasil yang maksimal."
   },
   {
     "id": 30,
@@ -718,7 +776,9 @@
       "dermawan",
       "karismatik"
     ],
-    "ai_hook": "Sebagai seorang Jumat Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Jumat Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#6D28D9",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk menyeimbangkan ambisimu dengan kepedulian terhadap orang di sekitarmu agar energi Jumat Kliwonmu membawa kedamaian bagi banyak orang."
   },
   {
     "id": 31,
@@ -742,7 +802,9 @@
       "cerdik",
       "open_minded"
     ],
-    "ai_hook": "Sebagai seorang Sabtu Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Sabtu Legi, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#E5E7EB",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk menunjukkan kepemimpinanmu dengan rendah hati; berikan apresiasi kepada rekan kerjamu agar energi positif Sabtu Legi semakin terpancar."
   },
   {
     "id": 32,
@@ -766,7 +828,9 @@
       "ambisius",
       "emosional"
     ],
-    "ai_hook": "Sebagai seorang Sabtu Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Sabtu Pahing, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#C2410C",
+    "saran_harian": "Gunakan energi api Sabtu Pahing hari ini untuk fokus menyelesaikan satu tugas besar dengan penuh keyakinan dan kesabaran."
   },
   {
     "id": 33,
@@ -791,7 +855,9 @@
       "teliti",
       "dedikatif"
     ],
-    "ai_hook": "Sebagai seorang Sabtu Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Sabtu Pon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#F59E0B",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk menyebarkan keceriaan dan kebijaksanaanmu kepada orang di sekitar, tetaplah rendah hati dalam setiap pencapaianmu."
   },
   {
     "id": 34,
@@ -815,7 +881,9 @@
       "konsisten",
       "integritas"
     ],
-    "ai_hook": "Sebagai seorang Sabtu Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Sabtu Wage, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#2D2D2D",
+    "saran_harian": "Hari ini adalah waktu yang tepat untuk menunjukkan keteguhan prinsipmu dengan tetap rendah hati dan penuh empati kepada orang di sekitar."
   },
   {
     "id": 35,
@@ -839,6 +907,8 @@
       "ramah",
       "ragu_ragu"
     ],
-    "ai_hook": "Sebagai seorang Sabtu Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?"
+    "ai_hook": "Sebagai seorang Sabtu Kliwon, bagaimana weton saya memengaruhi kecenderungan karier dan cara saya mengendalikan sisi gelap karakter saya?",
+    "warna_harmoni": "#6D28D9",
+    "saran_harian": "Hari ini, pancarkan ketenangan batinmu dengan menjadi pendengar yang baik bagi orang-orang di sekitarmu."
   }
 ]

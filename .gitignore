@@ -109,6 +109,10 @@ weight-rng.md
 firebase_setup_guide.md
 assets/weton/Riset Astrologi Primbon Jawa Modern.md
 
+# Scripts — keep source (.js) but ignore generated output files
+scripts/*_output.txt
+scripts/*_output.json
+
 # AI Agent & Skills Configuration
 .agents/
 .superpowers/

@@ -5,8 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:screenshot/screenshot.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/file_saver.dart';
-import '../../../../core/utils/weton_utils.dart';
-import '../../../auth/services/profile_service.dart';
+import '../../../../core/providers/birth_profile_provider.dart';
 
 Future<DateTime?> showOnboardingBirthdayModal(BuildContext context, WidgetRef ref) async {
   DateTime? tempDate;
@@ -105,13 +104,13 @@ Future<DateTime?> showOnboardingBirthdayModal(BuildContext context, WidgetRef re
                     ? null
                     : () async {
                         final dob = tempDate!;
-                        final weton = WetonUtils.calculateWeton(dob);
-                        final success = await ref.read(profileProvider).saveProfile(
-                          dob: dob,
-                          latitude: 0.0,
-                          longitude: 0.0,
-                          weton: weton,
-                        );
+                        bool success = false;
+                        try {
+                          await ref.read(birthProfileProvider.notifier).saveDob(dob);
+                          success = true;
+                        } catch (e) {
+                          debugPrint('tarot_draw_modals: error saving dob: $e');
+                        }
                         if (context.mounted) {
                           if (success) {
                             Navigator.pop(context, dob);

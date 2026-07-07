@@ -14,7 +14,8 @@ import 'widgets/tiltable_tarot_card.dart';
 import 'widgets/tarot_draw_modals.dart';
 import 'widgets/tarot_reading_detail_panel.dart';
 import '../../auth/services/auth_service.dart';
-import '../../auth/services/profile_service.dart';
+import '../../../core/providers/birth_profile_provider.dart';
+import '../../../core/models/birth_profile.dart';
 import '../../../core/utils/weton_utils.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/widgets/radial_glow_painter.dart';
@@ -98,10 +99,10 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
     setState(() => _isLoading = true);
 
     try {
-      Map<String, dynamic>? profile = await ref.read(profileProvider).loadProfile();
-      int? dobUtcMs = profile?['biometric_anchor']?['dob_utc_ms'] as int?;
+      BirthProfile profile = await ref.read(birthProfileProvider.future);
+      DateTime? selectedDate = profile.dobDate;
 
-      if (dobUtcMs == null) {
+      if (selectedDate == null) {
         if (!mounted) return;
         // Show onboarding modal
         final pickedDob = await showOnboardingBirthdayModal(context, ref);
@@ -110,20 +111,19 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
           setState(() => _isLoading = false);
           return;
         }
-        profile = await ref.read(profileProvider).loadProfile();
-        dobUtcMs = profile?['biometric_anchor']?['dob_utc_ms'] as int?;
+        profile = await ref.read(birthProfileProvider.future);
+        selectedDate = profile.dobDate;
       }
 
-      if (dobUtcMs == null) {
+      if (selectedDate == null) {
         setState(() => _isLoading = false);
         return;
       }
 
-      final birthDateTime = DateTime.fromMillisecondsSinceEpoch(dobUtcMs);
+      final birthDateTime = selectedDate;
       final birthDateStr = "${birthDateTime.year}-${birthDateTime.month.toString().padLeft(2, '0')}-${birthDateTime.day.toString().padLeft(2, '0')}";
 
       final birthWeton = WetonUtils.calculateWeton(birthDateTime);
-      final currentWeton = WetonUtils.calculateWeton(DateTime.now());
       final mangsaId = WetonUtils.calculatePranataMangsaId(DateTime.now());
 
       String authHeader = 'Guest ${session.uid}';
@@ -348,10 +348,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
             fontSize: 20,
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.textLight),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
         actions: [
           Container(
             margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),

@@ -1,3 +1,5 @@
+import 'dart:math' show min;
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
@@ -149,31 +151,53 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
             const SizedBox(height: 20),
             // AI Response area
             if (_isThinking)
-              const Center(
+              Semantics(
+                label: 'Orakel sedang memproses jawaban, mohon tunggu',
+                liveRegion: true,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 32.0),
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircularProgressIndicator(color: AppTheme.accentGold),
-                      SizedBox(height: 12),
-                      Text(
-                        'Menghubungkan dengan vibrasi kosmis...',
-                        style:
-                            TextStyle(color: AppTheme.textMuted, fontSize: 13),
+                      ExcludeSemantics(child: _ShimmerLine(width: double.infinity, height: 14)),
+                      const SizedBox(height: 10),
+                      ExcludeSemantics(child: _ShimmerLine(width: double.infinity, height: 14)),
+                      const SizedBox(height: 10),
+                      ExcludeSemantics(
+                        child: Builder(builder: (context) {
+                          final w = MediaQuery.of(context).size.width * 0.55;
+                          return _ShimmerLine(width: min(w, 240), height: 14);
+                        }),
+                      ),
+                      const SizedBox(height: 20),
+                      const Center(
+                        child: Text(
+                          'Menghubungkan dengan vibrasi kosmis...',
+                          style: TextStyle(
+                            color: AppTheme.textMuted,
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
               )
             else ...[
-              Flexible(
-                child: SingleChildScrollView(
-                  child: Text(
-                    _aiResponse,
-                    style: GoogleFonts.outfit(
-                      fontSize: 15,
-                      height: 1.6,
-                      color: AppTheme.textLight,
+              Semantics(
+                label: _isOffline
+                    ? 'Respons orakel (mode offline): $_aiResponse'
+                    : 'Respons orakel: $_aiResponse',
+                liveRegion: true,
+                child: Flexible(
+                  child: SingleChildScrollView(
+                    child: Text(
+                      _aiResponse,
+                      style: GoogleFonts.outfit(
+                        fontSize: 15,
+                        height: 1.6,
+                        color: AppTheme.textLight,
+                      ),
                     ),
                   ),
                 ),
@@ -181,18 +205,20 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
               // Offline indicator
               if (_isOffline) ...[
                 const SizedBox(height: 12),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                        color: Colors.orange.withValues(alpha: 0.3)),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
+                Semantics(
+                  label: 'Mode offline aktif — respons kosmis terbatas',
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                          color: Colors.orange.withValues(alpha: 0.3)),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
                       const Icon(Icons.wifi_off,
                           color: Colors.orange, size: 13),
                       const SizedBox(width: 6),
@@ -221,6 +247,73 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
           ],
         ),
       ),
+    );
+  }
+}
+
+// ── Shimmer skeleton line ──────────────────────────────────────────────────────
+
+/// Animated shimmer placeholder line untuk loading state AI response.
+/// Tidak butuh package eksternal — murni AnimationController + LinearGradient.
+class _ShimmerLine extends StatefulWidget {
+  const _ShimmerLine({required this.width, required this.height});
+
+  final double width;
+  final double height;
+
+  @override
+  State<_ShimmerLine> createState() => _ShimmerLineState();
+}
+
+class _ShimmerLineState extends State<_ShimmerLine>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _anim;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat();
+    _anim = Tween<double>(begin: -1.0, end: 2.0).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _anim,
+      builder: (context, _) {
+        final v = _anim.value;
+        return Container(
+          width: widget.width,
+          height: widget.height,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              stops: [
+                (v - 0.4).clamp(0.0, 1.0),
+                v.clamp(0.0, 1.0),
+                (v + 0.4).clamp(0.0, 1.0),
+              ],
+              colors: [
+                Colors.white.withValues(alpha: 0.04),
+                Colors.white.withValues(alpha: 0.10),
+                Colors.white.withValues(alpha: 0.04),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

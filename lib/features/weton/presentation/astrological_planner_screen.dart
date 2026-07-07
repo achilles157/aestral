@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/theme/app_theme.dart';
-import '../../auth/services/profile_service.dart';
+import '../../../core/providers/birth_profile_provider.dart';
 import '../../auth/services/auth_service.dart';
 import '../../../core/services/api_service.dart';
 import 'widgets/seasonal_banner.dart';
@@ -43,12 +43,9 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
     });
 
     try {
-      final profile = await ref.read(profileProvider).loadProfile();
-      if (profile != null) {
-        final dobUtcMs = profile['biometric_anchor']?['dob_utc_ms'] as int?;
-        if (dobUtcMs != null) {
-          _birthDate = DateTime.fromMillisecondsSinceEpoch(dobUtcMs);
-        }
+      final profile = await ref.read(birthProfileProvider.future);
+      if (profile.dobDate != null) {
+        _birthDate = profile.dobDate;
       }
       
       _birthDate ??= DateTime(1995, 10, 25);
@@ -279,6 +276,7 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
                   child: AstrologicalPlannerTimeline(
                     dayData: dayData,
                     scrollController: scrollController,
+                    birthDate: _birthDate,
                   ),
                 ),
               ],
@@ -306,10 +304,7 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
             color: AppTheme.accentGold,
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.textLight),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.cake_outlined, color: AppTheme.accentGold),

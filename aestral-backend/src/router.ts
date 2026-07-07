@@ -259,11 +259,11 @@ async function handleCalendarMonth(request: Request): Promise<Response> {
 			const range = match ? match[1].trim() : '06:00 - 08:24';
 			const label = match ? match[2].trim() : 'Jam Rahayu';
 			
-			let rekomendasi = 'Ikuti alur energi harian dengan penuh kesadaran.';
+			let rekomendasi = 'Energi hari ini kondusif, saatnya bergerak maju dengan percaya diri.';
 			if (label.includes('Rezeki')) {
-				rekomendasi = 'Sangat baik untuk memulai negosiasi, mempromosikan ide, dan urusan finansial.';
+				rekomendasi = 'Waktunya bersinar! Waktu terbaik buat pitching ide, nego gaji/proyek, atau bikin deal finansial penting.';
 			} else if (label.includes('Gedhong')) {
-				rekomendasi = 'Sempurna untuk merencanakan investasi, menata ruang kerja, atau menandatangani kontrak.';
+				rekomendasi = 'Saatnya menata aset. Sangat cocok untuk investasi, tanda tangan kontrak, atau merapikan workspace.';
 			}
 			return { range, label, rekomendasi };
 		});
@@ -273,11 +273,11 @@ async function handleCalendarMonth(request: Request): Promise<Response> {
 			const range = match ? match[1].trim() : '08:24 - 10:48';
 			const label = match ? match[2].trim() : 'Jam Waspada';
 			
-			let rekomendasi = 'Fase energi rawan. Hindari perdebatan dan tunda keputusan krusial.';
+			let rekomendasi = 'Fase energi rawan, luangkan waktu sejenak untuk menenangkan diri.';
 			if (label.includes('Loro')) {
-				rekomendasi = 'Periode rentan stres. Kurangi intensitas kerja, lakukan meditasi atau istirahat sejenak.';
+				rekomendasi = 'Jeda dulu. Fase ini bikin gampang capek. Hindari meeting tegang, ambil minum, dan luruskan punggung.';
 			} else if (label.includes('Pati')) {
-				rekomendasi = 'Fase pelepasan ego. Fokus pada evaluasi diri mandiri, tunda peluncuran besar.';
+				rekomendasi = 'Fase pelepasan ego. Tunda peluncuran penting atau keputusan krusial. Fokus evaluasi mandiri atau istirahat total.';
 			}
 			return { range, label, rekomendasi };
 		});
@@ -359,9 +359,9 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
 	// Extract client IP from Cloudflare header
 	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';
 
-	// Check rate limit
-	if (isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS)) {
-		const resetSeconds = getRateLimitResetSeconds(clientIp, CHAT_RATE_LIMIT_WINDOW_MS);
+	// Check rate limit (now async with KV)
+	if (await isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
+		const resetSeconds = await getRateLimitResetSeconds(clientIp, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
 		return new Response(
 			JSON.stringify({
 				error: 'Terlalu banyak pertanyaan. Kosmis butuh waktu untuk bernafas. Coba lagi dalam beberapa saat.',
@@ -435,8 +435,8 @@ async function handleTarotReading(request: Request, env: Env): Promise<Response>
 	}
 
 	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';
-	if (isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS)) {
-		const resetSeconds = getRateLimitResetSeconds(clientIp, CHAT_RATE_LIMIT_WINDOW_MS);
+	if (await isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
+		const resetSeconds = await getRateLimitResetSeconds(clientIp, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
 		return new Response(
 			JSON.stringify({
 				error: 'Terlalu banyak permintaan. Orakel sedang beristirahat sejenak.',
@@ -571,8 +571,8 @@ async function handleBaziInsight(request: Request, env: Env): Promise<Response> 
 	}
 
 	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';
-	if (isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS)) {
-		const resetSeconds = getRateLimitResetSeconds(clientIp, CHAT_RATE_LIMIT_WINDOW_MS);
+	if (await isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
+		const resetSeconds = await getRateLimitResetSeconds(clientIp, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
 		return new Response(
 			JSON.stringify({
 				error: 'Terlalu banyak pertanyaan. Orakel kosmis sedang beristirahat.',

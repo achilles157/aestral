@@ -4,9 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/bazi_utils.dart';
 import '../../../core/services/api_service.dart';
+import '../../../core/services/city_service.dart';
 import '../../../core/widgets/glass_card.dart';
+import '../../../core/widgets/city_search_sheet.dart';
 import '../../auth/services/auth_service.dart';
-import '../../auth/services/profile_service.dart';
+import '../../../core/providers/birth_profile_provider.dart';
 import '../domain/bazi_chart.dart';
 import '../services/bazi_data_service.dart';
 import 'widgets/bazi_four_pillars_chart.dart';
@@ -15,29 +17,6 @@ import 'widgets/bazi_element_balance_card.dart';
 import 'widgets/bazi_pillar_column.dart';
 import 'widgets/bazi_luck_pillars_widget.dart';
 import 'widgets/bazi_ten_gods_widget.dart';
-
-// Simple city preset — coordinates for True Solar Time correction
-class _CityPreset {
-  final String name;
-  final double latitude;
-  final double longitude;
-  const _CityPreset(this.name, this.latitude, this.longitude);
-}
-
-const List<_CityPreset> _kCities = [
-  _CityPreset('Jakarta',     -6.2088,  106.8456),
-  _CityPreset('Surabaya',    -7.2575,  112.7521),
-  _CityPreset('Bandung',     -6.9175,  107.6191),
-  _CityPreset('Medan',        3.5952,   98.6722),
-  _CityPreset('Makassar',    -5.1477,  119.4327),
-  _CityPreset('Yogyakarta',  -7.7956,  110.3695),
-  _CityPreset('Denpasar',    -8.6500,  115.2167),
-  _CityPreset('Semarang',    -6.9932,  110.4203),
-  _CityPreset('Palembang',   -2.9761,  104.7754),
-  _CityPreset('Manado',       1.4748,  124.8421),
-  _CityPreset('Jayapura',    -2.5337,  140.7181),
-  _CityPreset('Lainnya',      0.0,       0.0),
-];
 
 class BaziCalculatorScreen extends ConsumerStatefulWidget {
   const BaziCalculatorScreen({super.key});
@@ -53,7 +32,9 @@ class _BaziCalculatorScreenState
   DateTime? _birthDate;
   int? _birthHour;
   bool _includeHour = false;
-  _CityPreset _selectedCity = _kCities.first;
+  CityPreset _selectedCity =
+      const CityPreset(name: 'Jakarta', latitude: -6.2088, longitude: 106.8456);
+  List<CityPreset> _allCities = [];
 
   BaziChart? _chart;
   bool _isLoading = false;
@@ -73,38 +54,46 @@ class _BaziCalculatorScreenState
   @override
   void initState() {
     super.initState();
+    _loadCitiesFromCsv();
     _loadSavedProfile();
   }
 
-  /// Pre-fills tanggal lahir & kota dari profil tersimpan (parity dengan WetonCalculatorScreen).
+  /// Loads all cities from CSV via shared [CityService].
+  void _loadCitiesFromCsv() async {
+    final cities = await CityService.loadCitiesFromCsv();
+    if (mounted) setState(() => _allCities = cities);
+  }
+
+  /// Pre-fills tanggal lahir, jam lahir, gender, & kota dari profil tersimpan.
   Future<void> _loadSavedProfile() async {
-    await Future.delayed(Duration.zero); // tunggu widget fully mounted
-    final profile = await ref.read(profileProvider).loadProfile();
-    if (profile == null) return;
+    final profile = await ref.read(birthProfileProvider.future);
+    if (profile.dobDate == null) return;
 
-    final dobUtcMs = profile['biometric_anchor']?['dob_utc_ms'] as int?;
-    if (dobUtcMs == null) return;
-
-    final dob = DateTime.fromMillisecondsSinceEpoch(dobUtcMs);
-    final coords =
-        profile['biometric_anchor']?['coordinates'] as Map<String, dynamic>?;
-    final lat = coords?['lat'] as double? ?? 0.0;
-    final lng = coords?['lng'] as double? ?? 0.0;
+    final dob = profile.dobDate!;
+    final lat = profile.latitude ?? 0.0;
+    final lng = profile.longitude ?? 0.0;
 
     if (!mounted) return;
     setState(() {
       _birthDate = dob;
-      // Cocokkan ke preset kota; fallback ke 'Lainnya' bila tidak ada yang cocok
-      _selectedCity = _kCities.firstWhere(
-        (c) =>
-            (c.latitude - lat).abs() < 0.0001 &&
-            (c.longitude - lng).abs() < 0.0001,
-        orElse: () => _kCities.last,
-      );
-      // Restore gender for Luck Pillars direction
-      final String? genderStr =
-          profile['biometric_anchor']?['gender'] as String?;
-      if (genderStr != null) _isMale = genderStr == 'male';
+      _selectedCity = _allCities.isNotEmpty
+          ? _allCities.firstWhere(
+              (c) => (c.latitude - lat).abs() < 0.001 &&
+                  (c.longitude - lng).abs() < 0.001,
+              orElse: () => CityPreset(
+                  name: profile.cityName ?? 'Lokasi Tersimpan', latitude: lat, longitude: lng),
+            )
+          : CityPreset(
+              name: profile.cityName ?? 'Lokasi Tersimpan', latitude: lat, longitude: lng);
+      
+      if (profile.gender != null) {
+        _isMale = profile.gender == 'male';
+      }
+      
+      if (profile.birthHour != null) {
+        _birthHour = profile.birthHour;
+        _includeHour = true;
+      }
     });
   }
 
@@ -179,12 +168,16 @@ class _BaziCalculatorScreenState
 
     // Persist birth data so other features (Weton, Tarot) can auto-fill (fire-and-forget)
     if (_chart != null) {
-      ref.read(profileProvider).saveBirthData(
+      ref.read(birthProfileProvider.notifier).saveAll(
         dob: _birthDate!,
+        birthHour: _includeHour ? _birthHour : null,
         latitude: _selectedCity.latitude,
         longitude: _selectedCity.longitude,
+        cityName: _selectedCity.name,
         gender: _isMale == null ? null : (_isMale! ? 'male' : 'female'),
-      );
+      ).catchError((e) {
+        debugPrint('BaziCalculatorScreen: error saving birth profile: $e');
+      });
     }
 
     // Compute Luck Pillars if gender is known
@@ -252,17 +245,14 @@ class _BaziCalculatorScreenState
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        automaticallyImplyLeading: false,
         leading: _step > 0
             ? IconButton(
                 icon: const Icon(Icons.arrow_back_ios_new,
                     color: AppTheme.accentGold, size: 18),
                 onPressed: _prevStep,
               )
-            : IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new,
-                    color: AppTheme.accentGold, size: 18),
-                onPressed: () => Navigator.pop(context),
-              ),
+            : null,
         title: Text(
           '四柱八字  Ba Zi',
           style: GoogleFonts.playfairDisplay(
@@ -273,9 +263,12 @@ class _BaziCalculatorScreenState
         ),
         centerTitle: true,
       ),
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 350),
-        child: _buildStep(),
+      body: SafeArea(
+        top: false,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 350),
+          child: _buildStep(),
+        ),
       ),
     );
   }
@@ -494,26 +487,38 @@ class _BaziCalculatorScreenState
           ),
           const SizedBox(height: 16),
 
-          GlassCard(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<_CityPreset>(
-                value: _selectedCity,
-                isExpanded: true,
-                dropdownColor: AppTheme.cardBg,
-                icon: const Icon(Icons.expand_more_rounded,
-                    color: AppTheme.accentGold),
-                style: GoogleFonts.outfit(
-                    color: Colors.white, fontSize: 14),
-                items: _kCities
-                    .map((c) => DropdownMenuItem(
-                          value: c,
-                          child: Text(c.name),
-                        ))
-                    .toList(),
-                onChanged: (c) {
-                  if (c != null) setState(() => _selectedCity = c);
-                },
+          GestureDetector(
+            onTap: () async {
+              final picked = await showModalBottomSheet<CityPreset>(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: AppTheme.cardBg,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                ),
+                builder: (_) => CitySearchSheet(cityPresets: _allCities),
+              );
+              if (picked != null) setState(() => _selectedCity = picked);
+            },
+            child: GlassCard(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  const Icon(Icons.location_on_rounded,
+                      color: AppTheme.accentGold, size: 20),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      _selectedCity.name,
+                      style: GoogleFonts.outfit(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  const Icon(Icons.search_rounded,
+                      color: Colors.white38, size: 18),
+                ],
               ),
             ),
           ),

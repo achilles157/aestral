@@ -10,15 +10,18 @@ import '../../../../core/widgets/glass_card.dart';
 import '../../services/weton_dictionary_service.dart';
 import 'circadian_rhythm_wave_painter.dart';
 import '../../../auth/services/auth_service.dart';
+import '../../../../core/utils/weton_utils.dart';
 
 class AstrologicalPlannerTimeline extends ConsumerStatefulWidget {
   final Map<String, dynamic> dayData;
   final ScrollController scrollController;
+  final DateTime? birthDate;
 
   const AstrologicalPlannerTimeline({
     super.key,
     required this.dayData,
     required this.scrollController,
+    this.birthDate,
   });
 
   @override
@@ -395,9 +398,17 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                                                     : session.isMock
                                                         ? 'Guest ${session.uid}'
                                                         : 'Bearer ${session.uid}';
-                                                final aiHookText =
-                                                    'Sebagai seorang dengan weton ${dayData['weton_hari_ini']}, '
-                                                    'bagaimana pengaruh jam $label ($range) hari ini terhadap aktivitas dan keselarasan energi saya?';
+                                                final birthDate = widget.birthDate;
+                                                final WetonInfo? birthWeton = birthDate != null ? WetonUtils.calculateWeton(birthDate) : null;
+                                                final birthWetonName = birthWeton != null ? '${birthWeton.saptawara} ${birthWeton.pancawara}' : (dayData['weton_hari_ini'] ?? 'Minggu Legi');
+                                                final neptuVal = birthWeton != null ? birthWeton.totalNeptu : (dayData['neptu'] ?? 10);
+                                                final karakterVal = birthWeton?.characterSummary ?? '';
+                                                final pangarasanVal = birthWeton?.pangarasan ?? '';
+
+                                                final aiHookText = birthWeton != null
+                                                    ? 'Hari ini memiliki energi Weton ${dayData['weton_hari_ini']} dan Wuku ${dayData['wuku']}. Bagaimana pengaruh spesifik dari jam $label ($range) hari ini terhadap aktivitas dan keselarasan energi saya yang lahir dengan weton $birthWetonName?'
+                                                    : 'Sebagai seorang dengan weton $birthWetonName, bagaimana pengaruh jam $label ($range) hari ini terhadap aktivitas dan keselarasan energi saya?';
+
                                                 showDialog(
                                                   context: context,
                                                   builder: (context) => AiAstrologerDialog(
@@ -406,14 +417,16 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                                                     authHeader: authHeader,
                                                     aiContext: {
                                                       'wetonLahir': {
-                                                        'nama': dayData['weton_hari_ini'] ?? '',
-                                                        'neptu': dayData['neptu'] ?? 0,
+                                                        'nama': birthWetonName,
+                                                        'neptu': neptuVal,
                                                         'elemen': '',
+                                                        if (karakterVal.isNotEmpty) 'karakter': karakterVal,
                                                       },
                                                       'wukuBerjalan': {
                                                         'nama': dayData['wuku'] ?? '',
                                                         'elemen': '',
                                                       },
+                                                      if (pangarasanVal.isNotEmpty) 'pangarasan': pangarasanVal,
                                                     },
                                                   ),
                                                 );

@@ -199,6 +199,16 @@ class SeasonalBanner extends StatelessWidget {
                       color: AppTheme.textLight.withValues(alpha: 0.9),
                     ),
                   ),
+                  if (mangsa.tandaAlam.isNotEmpty) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      'Tanda Alam: ${mangsa.tandaAlam}',
+                      style: GoogleFonts.outfit(
+                        fontSize: 12,
+                        color: AppTheme.textLight.withValues(alpha: 0.65),
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: 16),
                   const Divider(color: Colors.white24, height: 1),
                   const SizedBox(height: 16),

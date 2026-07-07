@@ -17,12 +17,15 @@ void main() {
       ramalanAsmara: 'Melepas adalah bagian dari proses.',
       pesanKesadaran: 'Kadang kita harus merelakan yang lama.',
       saranAktivitas: ['Declutter digital dan fisik', 'Bersihkan meja kerja Anda'],
+      tandaAlam: 'Daun berguguran',
     );
 
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
-          body: SeasonalBanner(mangsa: mockMangsa),
+          body: SingleChildScrollView(
+            child: SeasonalBanner(mangsa: mockMangsa),
+          ),
         ),
       ),
     );

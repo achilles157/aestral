@@ -206,6 +206,26 @@ class DailyInsightCard extends StatelessWidget {
                     height: 1.5,
                   ),
                 ),
+                if (wuku['pantangan_wuku'] != null && wuku['pantangan_wuku'].toString().isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.info_outline, color: Color(0xFFF87171), size: 16),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Pantangan: ${wuku['pantangan_wuku']}',
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: const Color(0xFFF87171),
+                            fontWeight: FontWeight.bold,
+                            height: 1.4,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
                 const SizedBox(height: 16),
                 
                 // Pesan Kesadaran Box

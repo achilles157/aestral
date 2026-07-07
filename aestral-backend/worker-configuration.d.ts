@@ -3,6 +3,7 @@
 // Runtime types generated with workerd@1.20260625.1 2026-06-30 global_fetch_strictly_public,nodejs_compat
 interface __BaseEnv_Env {
 	GEMINI_API_KEY: "PLACEHOLDER_REPLACE_WITH_WRANGLER_SECRET";
+	RATE_LIMIT_KV: KVNamespace;
 }
 declare namespace Cloudflare {
 	interface GlobalProps {
