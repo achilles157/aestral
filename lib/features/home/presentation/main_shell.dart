@@ -206,54 +206,75 @@ class _CosmicNavBar extends StatelessWidget {
   }
 }
 
-class _NavButton extends StatelessWidget {
+class _NavButton extends StatefulWidget {
   const _NavButton({
     required this.item,
     required this.isActive,
     required this.onTap,
   });
 
-  final _NavItem   item;
-  final bool       isActive;
+  final _NavItem     item;
+  final bool         isActive;
   final VoidCallback onTap;
+
+  @override
+  State<_NavButton> createState() => _NavButtonState();
+}
+
+class _NavButtonState extends State<_NavButton> {
+  bool _pressed = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
+      onTapDown: (_) => setState(() => _pressed = true),
+      onTapUp: (_) => setState(() => _pressed = false),
+      onTapCancel: () => setState(() => _pressed = false),
       behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 240),
+      child: AnimatedScale(
+        scale: _pressed ? 0.88 : 1.0,
+        duration: const Duration(milliseconds: 80),
         curve: Curves.easeInOut,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: isActive
-            ? BoxDecoration(
-                color: AppTheme.accentGold.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: AppTheme.accentGold.withValues(alpha: 0.35),
-                  width: 1,
-                ),
-              )
-            : const BoxDecoration(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              item.icon,
-              size: isActive ? 22 : 20,
-              color: isActive ? AppTheme.accentGold : AppTheme.textMuted,
-            ),
-            const SizedBox(height: 2),
-            Text(
-              item.label,
-              style: GoogleFonts.outfit(
-                fontSize: 10,
-                fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
-                color: isActive ? AppTheme.accentGold : AppTheme.textMuted,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 240),
+          curve: Curves.easeInOut,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: widget.isActive
+              ? BoxDecoration(
+                  color: AppTheme.accentGold.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: AppTheme.accentGold.withValues(alpha: 0.35),
+                    width: 1,
+                  ),
+                )
+              : const BoxDecoration(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                widget.item.icon,
+                size: widget.isActive ? 22 : 20,
+                color: widget.isActive
+                    ? AppTheme.accentGold
+                    : AppTheme.textMuted,
               ),
-            ),
-          ],
+              const SizedBox(height: 2),
+              Text(
+                widget.item.label,
+                style: GoogleFonts.outfit(
+                  fontSize: 10,
+                  fontWeight: widget.isActive
+                      ? FontWeight.w600
+                      : FontWeight.normal,
+                  color: widget.isActive
+                      ? AppTheme.accentGold
+                      : AppTheme.textMuted,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
