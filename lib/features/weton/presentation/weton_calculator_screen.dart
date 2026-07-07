@@ -124,7 +124,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
     });
 
     final session = ref.read(authProvider);
-    String authHeader = 'Guest guest_user_123';
+    String authHeader = 'Guest anonymous';
     if (session != null) {
       if (session.isMock) {
         authHeader = 'Guest ${session.uid}';
@@ -646,13 +646,16 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                   ],
                                  const SizedBox(height: 16),
                                  ElevatedButton.icon(
-                                   onPressed: () {
+                                   onPressed: () async {
                                      final session = ref.read(authProvider);
-                                     final authHeader = session == null
-                                         ? 'Guest anonymous'
-                                         : session.isMock
-                                             ? 'Guest ${session.uid}'
-                                             : 'Bearer ${session.uid}';
+                                     String authHeader;
+                                     if (session == null || session.isMock) {
+                                       authHeader = 'Guest ${session?.uid ?? 'anonymous'}';
+                                     } else {
+                                       // Firebase ID Token (signed JWT) — never send plain UID as bearer
+                                       final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+                                       authHeader = idToken != null ? 'Bearer $idToken' : 'Guest ${session.uid}';
+                                     }
                                      
                                      final aiHookText = 'Sebagai seorang dengan weton ${_result!.saptawara} ${_result!.pancawara} (Neptu ${_result!.totalNeptu}), bagaimana karakter dasar saya memengaruhi potensi diri saya dan apa saran orakel untuk hidup sehari-hari?';
                                      

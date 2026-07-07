@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -405,13 +406,15 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                                           ),
                                           const SizedBox(height: 10),
                                           OutlinedButton.icon(
-                                            onPressed: () {
+                                            onPressed: () async {
                                               final session = ref.read(authProvider);
-                                              final authHeader = session == null
-                                                  ? 'Guest anonymous'
-                                                  : session.isMock
-                                                      ? 'Guest ${session.uid}'
-                                                      : 'Bearer ${session.uid}';
+                                              String authHeader;
+                                              if (session == null || session.isMock) {
+                                                authHeader = 'Guest ${session?.uid ?? 'anonymous'}';
+                                              } else {
+                                                final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+                                                authHeader = idToken != null ? 'Bearer $idToken' : 'Guest ${session.uid}';
+                                              }
                                               final birthDate = widget.birthDate;
                                               final WetonInfo? birthWeton = birthDate != null
                                                   ? WetonUtils.calculateWeton(birthDate)
