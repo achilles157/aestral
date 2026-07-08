@@ -7,7 +7,6 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/widgets/glass_card.dart';
 import '../../../core/widgets/ai_astrologer_dialog.dart';
-import '../../auth/services/auth_service.dart';
 import '../services/weton_dictionary_service.dart';
 
 class WetonCompatibilityScreen extends ConsumerStatefulWidget {
@@ -26,7 +25,7 @@ class _WetonCompatibilityScreenState
   WetonCompatibility? _result;
   String? _errorMessage;
 
-  final DateFormat _fmt = DateFormat('d MMMM yyyy', 'id');
+  final DateFormat _fmt = DateFormat('d MMM yyyy');
 
   // ── Date Picker ──────────────────────────────────────────────────────────────
 
@@ -78,7 +77,8 @@ class _WetonCompatibilityScreenState
 
     try {
       final user = FirebaseAuth.instance.currentUser;
-      final authHeader = await AuthService.getAuthHeader(user);
+      final idToken = await user?.getIdToken();
+      final authHeader = idToken != null ? 'Bearer $idToken' : 'Guest anonymous';
 
       final fmt = DateFormat('yyyy-MM-dd');
       final response = await ApiService.getWetonCompatibility(
@@ -112,7 +112,8 @@ class _WetonCompatibilityScreenState
 
   Future<void> _openAiOracle(WetonCompatibility result) async {
     final user = FirebaseAuth.instance.currentUser;
-    final authHeader = await AuthService.getAuthHeader(user);
+    final idToken = await user?.getIdToken();
+    final authHeader = idToken != null ? 'Bearer $idToken' : 'Guest anonymous';
 
     if (!mounted) return;
     showDialog<void>(
@@ -130,9 +131,9 @@ class _WetonCompatibilityScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: const Color(0xFF0D0D1A),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color(0xFF0D0D1A),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white70),
@@ -157,11 +158,20 @@ class _WetonCompatibilityScreenState
           ),
         ),
         child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final isWide = constraints.maxWidth >= 600;
+              final hPad = isWide ? 0.0 : 20.0;
+              return SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: hPad, vertical: 12),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 560),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
                 _buildIntroText(),
                 const SizedBox(height: 20),
                 _buildDateInputCard(
@@ -190,8 +200,13 @@ class _WetonCompatibilityScreenState
                   _buildResultSection(_result!),
                 ],
                 const SizedBox(height: 40),
-              ],
-            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),

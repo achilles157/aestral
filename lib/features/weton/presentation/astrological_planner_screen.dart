@@ -346,13 +346,18 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
             ),
           ),
           SafeArea(
-            child: SingleChildScrollView(
-              physics: const ClampingScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 800),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                     _buildHeaderSection(),
                     const SizedBox(height: 16),
                     if (_isLoadingCalendar) ...[
@@ -456,8 +461,12 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
                       const SizedBox(height: 24),
                     ],
                   ],
-                ),
-              ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ],

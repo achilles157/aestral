@@ -44,7 +44,18 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
     final firstDate = DateTime.parse(firstDayStr);
     final prefixBlankCells = firstDate.weekday == 7 ? 0 : firstDate.weekday;
 
-    return GlassCard(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Scale fonts and cell proportions based on available width
+        final cellWidth = (constraints.maxWidth - 24) / 7; // 24 = padding + spacing
+        final dateFontSize = (cellWidth * 0.22).clamp(11.0, 18.0);
+        final pasaranFontSize = (cellWidth * 0.13).clamp(8.0, 12.0);
+        final dotRadius = (cellWidth * 0.06).clamp(3.0, 5.5);
+
+        return Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 700),
+            child: GlassCard(
       borderColor: AppTheme.accentPurple.withValues(alpha: 0.25),
       borderWidth: 1.0,
       padding: const EdgeInsets.all(12.0),
@@ -110,42 +121,53 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
                       : Colors.white.withValues(alpha: 0.03),
                   child: Stack(
                     children: [
-                      CustomPaint(
-                        painter: RadialGlowPainter(
-                          glowColor: statusColor,
-                          radiusMultiplier: 0.8,
-                          opacity: 0.2,
+                      Positioned.fill(
+                        child: CustomPaint(
+                          painter: RadialGlowPainter(
+                            glowColor: statusColor,
+                            radiusMultiplier: 0.8,
+                            opacity: 0.2,
+                          ),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            child: Text(
                               date.day.toString(),
+                              textAlign: TextAlign.center,
                               style: GoogleFonts.outfit(
-                                fontSize: 14,
+                                fontSize: dateFontSize,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
                             ),
-                            const SizedBox(height: 2),
-                            Text(
+                          ),
+                          const SizedBox(height: 2),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Text(
                               pasaran,
+                              textAlign: TextAlign.center,
                               style: GoogleFonts.outfit(
-                                fontSize: 9,
+                                fontSize: pasaranFontSize,
                                 color: AppTheme.textLight.withValues(alpha: 0.6),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       // Dino Was indicator — small red dot in top-right corner
                       if (isDinoWas)
-                        const Positioned(
+                        Positioned(
                           top: 4,
                           right: 4,
                           child: CircleAvatar(
-                            radius: 3.5,
-                            backgroundColor: Color(0xFFF87171),
+                            radius: dotRadius,
+                            backgroundColor: const Color(0xFFF87171),
                           ),
                         ),
                     ],
@@ -156,6 +178,10 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
           ),
         ],
       ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

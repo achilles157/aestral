@@ -305,12 +305,17 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
             ),
           ),
           SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 680),
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
                     Text(
                       'Pahami watak bawaan lahir dan elemen spiritual Anda berdasarkan keselarasan kalender Jawa.',
                       style: textTheme.bodyLarge,
@@ -849,6 +854,10 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                   ],
                 ),
               ),
+            ),
+          ),
+                );
+              },
             ),
           ),
         ],
