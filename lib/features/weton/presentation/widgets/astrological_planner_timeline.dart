@@ -5,8 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../features/ai/presentation/oracle_chat_screen.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../../core/widgets/ai_astrologer_dialog.dart';
 import '../../../../core/widgets/glass_card.dart';
 import '../../services/weton_dictionary_service.dart';
 import 'circadian_rhythm_wave_painter.dart';
@@ -478,29 +478,44 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                                               final karakterVal = birthWeton?.characterSummary ?? '';
                                               final pangarasanVal = birthWeton?.pangarasan ?? '';
 
-                                              final aiHookText = birthWeton != null
-                                                  ? 'Hari ini memiliki energi Weton ${dayData['weton_hari_ini']} dan Wuku ${dayData['wuku']}. Bagaimana pengaruh spesifik dari jam $label ($range) hari ini terhadap aktivitas dan keselarasan energi saya yang lahir dengan weton $birthWetonName?'
-                                                  : 'Sebagai seorang dengan weton $birthWetonName, bagaimana pengaruh jam $label ($range) hari ini terhadap aktivitas dan keselarasan energi saya?';
+                                              // Elemen weton berdasarkan saptawara (Naga Dina)
+                                              const saptawaraElemenMap = {
+                                                'Ahad': 'Api', 'Minggu': 'Api',
+                                                'Senin': 'Air',
+                                                'Selasa': 'Api',
+                                                'Rabu': 'Tanah',
+                                                'Kamis': 'Kayu',
+                                                'Jumat': 'Air',
+                                                'Sabtu': 'Tanah',
+                                              };
+                                              final wetonElemen = birthWeton != null
+                                                  ? (saptawaraElemenMap[birthWeton.saptawara] ?? '')
+                                                  : '';
 
-                                              showDialog(
-                                                context: context,
-                                                builder: (context) => AiAstrologerDialog(
-                                                  prompt: aiHookText,
-                                                  contextTitle: '$label ($range)',
-                                                  authHeader: authHeader,
-                                                  aiContext: {
-                                                    'wetonLahir': {
-                                                      'nama': birthWetonName,
-                                                      'neptu': neptuVal,
-                                                      'elemen': '',
-                                                      if (karakterVal.isNotEmpty) 'karakter': karakterVal,
+                                              if (!context.mounted) return;
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (_) => OracleChatScreen(
+                                                    oracleType: 'weton',
+                                                    authHeader: authHeader,
+                                                    aiContext: {
+                                                      'wetonLahir': {
+                                                        'nama': birthWetonName,
+                                                        'neptu': neptuVal,
+                                                        'elemen': wetonElemen,
+                                                        if (karakterVal.isNotEmpty) 'karakter': karakterVal,
+                                                      },
+                                                      'wukuBerjalan': {
+                                                        'nama': dayData['wuku'] ?? '',
+                                                        'elemen': dayData['wuku_elemen'] ?? '',
+                                                      },
+                                                      if (pangarasanVal.isNotEmpty) 'pangarasan': pangarasanVal,
+                                                      'plannerHour': {
+                                                        'label': label,
+                                                        'range': range,
+                                                      }
                                                     },
-                                                    'wukuBerjalan': {
-                                                      'nama': dayData['wuku'] ?? '',
-                                                      'elemen': '',
-                                                    },
-                                                    if (pangarasanVal.isNotEmpty) 'pangarasan': pangarasanVal,
-                                                  },
+                                                  ),
                                                 ),
                                               );
                                             },

@@ -22,6 +22,7 @@ import '../../../core/widgets/radial_glow_painter.dart';
 import '../../../core/widgets/glass_button.dart';
 import '../models/tarot_oracle_reading.dart';
 import 'widgets/tarot_oracle_panel.dart';
+import '../../ai/presentation/oracle_chat_screen.dart';
 
 class TarotDrawScreen extends ConsumerStatefulWidget {
   const TarotDrawScreen({super.key});
@@ -257,11 +258,83 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
     }
   }
 
+  Future<void> _consultOracle(List<DrawnCardInfo> drawnCards) async {
+    String authHeader = 'Guest anonymous';
+    final session = ref.read(authProvider);
+    if (session != null) {
+      if (session.isMock) {
+        authHeader = 'Guest ${session.uid}';
+      } else {
+        try {
+          final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+          if (token != null) authHeader = 'Bearer $token';
+        } catch (e) {
+          debugPrint('Error getting token: $e');
+        }
+      }
+    }
+    if (!mounted) return;
+
+    final aiContext = {
+      'tarotCards': drawnCards
+          .map((c) => {
+                'name': c.card.nameId,
+                'label': c.label,
+                'isReversed': c.isReversed,
+                'archetype': c.card.archetypeId,
+                'element': c.card.elementalId,
+                'aiHook': c.card.aiHookId,
+                'keywords': c.card.keywordsId,
+              })
+          .toList(),
+    };
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => OracleChatScreen(
+          oracleType: 'tarot',
+          authHeader: authHeader,
+          aiContext: aiContext,
+        ),
+      ),
+    );
+  }
+
   Widget _buildOracleSection(List<DrawnCardInfo> drawnCards) {
     if (_oracleReading != null) {
-      return TarotOraclePanel(
-        oracleReading: _oracleReading!,
-        drawnCards: drawnCards,
+      return Column(
+        children: [
+          TarotOraclePanel(
+            oracleReading: _oracleReading!,
+            drawnCards: drawnCards,
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton.icon(
+            onPressed: () => _consultOracle(drawnCards),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF9C27B0).withValues(alpha: 0.15),
+              side: BorderSide(
+                  color: const Color(0xFF9C27B0).withValues(alpha: 0.5),
+                  width: 1),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
+              elevation: 0,
+            ),
+            icon: const Icon(Icons.auto_awesome,
+                color: Color(0xFFCE93D8), size: 18),
+            label: Text(
+              '✦ Tanya Madame Sophia',
+              style: GoogleFonts.playfairDisplay(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFFCE93D8),
+                letterSpacing: 1.2,
+              ),
+            ),
+          ),
+        ],
       );
     }
 

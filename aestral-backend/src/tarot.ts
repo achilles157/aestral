@@ -302,3 +302,78 @@ export function getMangsaDeterministicThreeCards(
 		{ cardIndex: futureIndex, isReversed: futureReversed, label: 'future' },
 	];
 }
+
+/**
+ * Maps a Wuku name (Javanese week cycle) to classical elements or neutral/major.
+ */
+function wukuToElement(wuku: string): ElementOrNeutral {
+	const lower = wuku.toLowerCase().trim();
+	const wukus = [
+		'sinta', 'landep', 'wukir', 'kurantil', 'tolu', 'gumbreg', 
+		'warigalit', 'warigagung', 'julungwangi', 'sungsang', 
+		'galungan', 'kuningan', 'langkir', 'mandasiya', 'julungpujut', 
+		'pahang', 'kuruwelut', 'marakeh', 'tambir', 'medangkungan', 
+		'maktal', 'wuye', 'manahil', 'prangbakat', 'bala', 
+		'wugu', 'wayang', 'kulawu', 'dukut', 'watugunung'
+	];
+	const idx = wukus.indexOf(lower);
+	if (idx === -1) return 'neutral';
+	
+	const mapping: ElementOrNeutral[] = [
+		'neutral', 'fire', 'water', 'air', 'earth',
+		'neutral', 'fire', 'water', 'air', 'earth',
+		'neutral', 'fire', 'water', 'air', 'earth',
+		'neutral', 'fire', 'water', 'air', 'earth',
+		'neutral', 'fire', 'water', 'air', 'earth',
+		'neutral', 'fire', 'water', 'air', 'earth',
+	];
+	return mapping[idx % 6] ?? 'neutral';
+}
+
+/**
+ * Returns 3 unique deterministic cards aligned to the weekly Wuku cycle.
+ */
+export function getWeeklyDeterministicThreeCards(
+	birthDate: string,
+	wuku: string,
+	pangarasan?: string,
+): DrawnCardInfo[] {
+	const baseSeed = birthDate + '-weekly-' + wuku.toLowerCase();
+
+	function buildWeights(excludeIndices: number[]): Float64Array {
+		const w = new Float64Array(DECK_SIZE).fill(1.0);
+
+		if (pangarasan) {
+			const userEl = pangarasanToElement(pangarasan);
+			if (userEl) {
+				const [s, e] = getRemedialRange(userEl);
+				for (let i = s; i <= e; i++) w[i] += 0.15;
+			}
+		}
+
+		const wukuEl = wukuToElement(wuku);
+		applyMangsaBoost(w, wukuEl, 0.20);
+
+		for (const idx of excludeIndices) w[idx] = 0;
+		return w;
+	}
+
+	const pastWeights = buildWeights([]);
+	const pastIndex = drawSingleDeterministicCard(baseSeed + '-past', pastWeights);
+	const pastReversed = getIsReversedDeterministic(baseSeed + '-past-reversed');
+
+	const presentWeights = buildWeights([pastIndex]);
+	const presentIndex = drawSingleDeterministicCard(baseSeed + '-present', presentWeights);
+	const presentReversed = getIsReversedDeterministic(baseSeed + '-present-reversed');
+
+	const futureWeights = buildWeights([pastIndex, presentIndex]);
+	const futureIndex = drawSingleDeterministicCard(baseSeed + '-future', futureWeights);
+	const futureReversed = getIsReversedDeterministic(baseSeed + '-future-reversed');
+
+	return [
+		{ cardIndex: pastIndex, isReversed: pastReversed, label: 'past' },
+		{ cardIndex: presentIndex, isReversed: presentReversed, label: 'present' },
+		{ cardIndex: futureIndex, isReversed: futureReversed, label: 'future' },
+	];
+}
+

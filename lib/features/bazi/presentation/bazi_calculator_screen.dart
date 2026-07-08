@@ -21,6 +21,7 @@ import 'widgets/bazi_ten_gods_widget.dart';
 import 'widgets/bazi_strength_card.dart';
 import 'widgets/bazi_relations_card.dart';
 import 'widgets/bazi_annual_pillar_card.dart';
+import '../../../features/ai/presentation/oracle_chat_screen.dart';
 
 class BaziCalculatorScreen extends ConsumerStatefulWidget {
   const BaziCalculatorScreen({super.key});
@@ -43,10 +44,6 @@ class _BaziCalculatorScreenState
   BaziChart? _chart;
   bool _isLoading = false;
   String? _errorMsg;
-
-  // AI Oracle
-  bool _isAiLoading = false;
-  String? _aiInsight;
 
   // Luck Pillars
   bool? _isMale;
@@ -145,7 +142,6 @@ class _BaziCalculatorScreenState
       setState(() {
         _step--;
         _chart = null;
-        _aiInsight = null;
         _errorMsg = null;
         _luckPillars = null;
         _dmStrength = null;
@@ -258,49 +254,52 @@ class _BaziCalculatorScreenState
 
   Future<void> _consultOracle() async {
     if (_chart == null || _birthDate == null) return;
-    setState(() => _isAiLoading = true);
 
-    final String dateStr =
-        '${_birthDate!.year}-${_birthDate!.month.toString().padLeft(2, '0')}-${_birthDate!.day.toString().padLeft(2, '0')}';
     final double? lng =
         _selectedCity.longitude != 0.0 ? _selectedCity.longitude : null;
     final double? lat =
         _selectedCity.latitude != 0.0 ? _selectedCity.latitude : null;
 
-    // Get Day Master arketipe from loaded data
     final mastersAsync = ref.read(baziDayMastersProvider);
     final masterData = mastersAsync.asData?.value.findById(_chart!.dayMasterId);
     final arketipe = masterData?['arketipe_modern'] as String?;
 
-    try {
-      final authToken = ref.read(authProvider);
-      String authHeader;
-      if (authToken != null && !authToken.isMock) {
-        final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
-        authHeader = idToken != null ? 'Bearer $idToken' : 'Guest ${authToken.uid}';
-      } else {
-        authHeader = 'Guest ${authToken?.uid ?? 'anonymous'}';
-      }
-
-      final result = await ApiService.getBaziInsight(
-        birthDate: dateStr,
-        birthHour: _includeHour ? _birthHour : null,
-        latitude: lat,
-        longitude: lng,
-        dayMasterArketipe: arketipe,
-        isMale: _isMale,
-        currentAge: _birthDate != null
-            ? DateTime.now().year - _birthDate!.year
-            : null,
-        authHeader: authHeader,
-      );
-      setState(() => _aiInsight = result['response'] as String?);
-    } catch (e) {
-      setState(() => _aiInsight =
-          'Orakel kosmis sedang beristirahat. Coba lagi sebentar.');
-    } finally {
-      setState(() => _isAiLoading = false);
+    final authToken = ref.read(authProvider);
+    String authHeader;
+    if (authToken != null && !authToken.isMock) {
+      final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+      authHeader = idToken != null ? 'Bearer $idToken' : 'Guest ${authToken.uid}';
+    } else {
+      authHeader = 'Guest ${authToken?.uid ?? 'anonymous'}';
     }
+
+    if (!mounted) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => OracleChatScreen(
+          oracleType: 'bazi',
+          authHeader: authHeader,
+          aiContext: {
+            'baziChart': {
+              'yearPillar': '${_chart!.yearPillar.stemNameId} ${_chart!.yearPillar.branchZodiacId}',
+              'monthPillar': '${_chart!.monthPillar.stemNameId} ${_chart!.monthPillar.branchZodiacId}',
+              'dayPillar': '${_chart!.dayPillar.stemNameId} ${_chart!.dayPillar.branchZodiacId}',
+              'hourPillar': _chart!.hourPillar != null
+                  ? '${_chart!.hourPillar!.stemNameId} ${_chart!.hourPillar!.branchZodiacId}'
+                  : null,
+              'dayMasterId': _chart!.dayMasterId,
+              'dayMasterLabel': arketipe != null
+                  ? '${_chart!.dayMasterId} — ${_chart!.dayMasterElement} — $arketipe'
+                  : _chart!.dayMasterId,
+              'wuXingBalance':
+                  'Kayu:${_chart!.wuXingBalance.kayu} Api:${_chart!.wuXingBalance.api} Tanah:${_chart!.wuXingBalance.tanah} Logam:${_chart!.wuXingBalance.logam} Air:${_chart!.wuXingBalance.air}',
+            },
+            if (lat != null) 'latitude': lat,
+            if (lng != null) 'longitude': lng,
+          },
+        ),
+      ),
+    );
   }
 
   // ─── UI ───────────────────────────────────────────────────────────────
@@ -915,87 +914,32 @@ class _BaziCalculatorScreenState
   }
 
   Widget _buildAiSection(Color elementColor, {String? aiHook}) {
-    if (_aiInsight != null) {
-      return GlassCard(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.auto_awesome,
-                    color: AppTheme.accentGold, size: 16),
-                const SizedBox(width: 8),
-                Text(
-                  'Oracle Ba Zi',
-                  style: GoogleFonts.playfairDisplay(
-                    fontSize: 15,
-                    color: AppTheme.accentGold,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              _aiInsight!,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (aiHook != null && aiHook.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Text(
+              aiHook,
               style: GoogleFonts.outfit(
-                  fontSize: 13,
-                  color: Colors.white70,
-                  height: 1.65),
+                fontSize: 12,
+                color: Colors.white38,
+                height: 1.6,
+                fontStyle: FontStyle.italic,
+              ),
+              textAlign: TextAlign.center,
             ),
-          ],
+          ),
+        _primaryButton(
+          '✦ Bicara dengan Suhu Wang',
+          _consultOracle,
+          color: elementColor,
         ),
-      );
-    }
-
-    return _isAiLoading
-        ? Center(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const CircularProgressIndicator(
-                      color: AppTheme.accentGold, strokeWidth: 2),
-                  const SizedBox(height: 12),
-                  Text(
-                    'Membaca peta bintang...',
-                    style: GoogleFonts.outfit(
-                      fontSize: 12,
-                      color: AppTheme.textMuted,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
-        : Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (aiHook != null && aiHook.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    aiHook,
-                    style: GoogleFonts.outfit(
-                      fontSize: 12,
-                      color: Colors.white38,
-                      height: 1.6,
-                      fontStyle: FontStyle.italic,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              _primaryButton(
-                '✦ Konsultasi AI Oracle',
-                _consultOracle,
-                color: elementColor,
-              ),
-            ],
-          );
+      ],
+    );
   }
+
 
   // ─── Luck Pillars placeholder ─────────────────────────────────────────
 

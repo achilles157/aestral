@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/widgets/glass_card.dart';
-import '../../../core/widgets/ai_astrologer_dialog.dart';
+import '../../../features/ai/presentation/oracle_chat_screen.dart';
 import '../services/weton_dictionary_service.dart';
 
 class WetonCompatibilityScreen extends ConsumerStatefulWidget {
@@ -116,12 +116,27 @@ class _WetonCompatibilityScreenState
     final authHeader = idToken != null ? 'Bearer $idToken' : 'Guest anonymous';
 
     if (!mounted) return;
-    showDialog<void>(
-      context: context,
-      builder: (_) => AiAstrologerDialog(
-        prompt: result.aiHook,
-        contextTitle: 'Kompatibilitas ${result.namaFase}',
-        authHeader: authHeader,
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => OracleChatScreen(
+          oracleType: 'weton',
+          authHeader: authHeader,
+          aiContext: {
+            'wetonLahir': {
+              'neptu': result.neptu1,
+              'karakter': '',
+            },
+            'compatibility': {
+              'neptu1': result.neptu1,
+              'neptu2': result.neptu2,
+              'namaFase': result.namaFase,
+              'arketipeRelasi': result.arketipeRelasi,
+              'dinamikaPsikologis': result.dinamikaPsikologis,
+              'potensiGesekan': result.potensiGesekan,
+              'saranKomunikasi': result.saranKomunikasi,
+            }
+          },
+        ),
       ),
     );
   }

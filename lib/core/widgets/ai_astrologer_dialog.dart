@@ -49,13 +49,11 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
       final responseText =
           result['response'] as String? ?? _getFallbackResponse();
 
-      // Cache the response locally — errors are swallowed intentionally
       ChatCacheService.saveMessage(ChatMessage(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
-        prompt: widget.prompt,
-        response: responseText,
+        role: 'model',
+        text: responseText,
         timestamp: DateTime.now(),
-        contextTitle: widget.contextTitle,
       ));
 
       setState(() {

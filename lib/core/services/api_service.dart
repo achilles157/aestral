@@ -358,6 +358,60 @@ class ApiService {
     });
   }
 
+  /// Calls POST /api/oracle/chat — kirim pesan ke salah satu Oracle persona:
+  /// weton (Ki Sabdo), bazi (Suhu Wang), tarot (Madame Sophia), synthesis (Sesepuh Kosmis).
+  /// Mendukung multi-turn history dan Structured Output JSON (message + card opsional).
+  static Future<Map<String, dynamic>> sendOracleChat({
+    required String oracleType,
+    required String prompt,
+    required String authHeader,
+    List<Map<String, dynamic>>? chatHistory,
+    bool isFirstOpen = false,
+    int daysSinceLastOpen = 0,
+    String? lastTopic,
+    Map<String, dynamic>? context,
+  }) async {
+    final url = Uri.parse('$baseUrl/api/oracle/chat');
+    // Oracle endpoint: no retry — timeout means Gemini is overloaded,
+    // retrying wastes rate limit budget (3× consumption, up to 105s wait).
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authHeader,
+        },
+        body: json.encode({
+          'oracleType': oracleType,
+          'prompt': prompt,
+          if (chatHistory != null && chatHistory.isNotEmpty)
+            'chatHistory': chatHistory,
+          'isFirstOpen': isFirstOpen,
+          'daysSinceLastOpen': daysSinceLastOpen,
+          if (lastTopic != null) 'lastTopic': lastTopic,
+          if (context != null) 'context': context,
+        }),
+      ).timeout(const Duration(seconds: 35));
+
+      if (response.statusCode == 429) {
+        final data = json.decode(response.body);
+        throw Exception(
+            'RATE_LIMIT:${data['retryAfterSeconds'] ?? 60}');
+      }
+
+      if (response.statusCode != 200) {
+        throw Exception('Status ${response.statusCode}: ${response.body}');
+      }
+
+      final data = json.decode(response.body);
+      if (data is Map<String, dynamic>) return data;
+      throw Exception('Invalid response format');
+    } catch (e) {
+      debugPrint('ApiService.sendOracleChat error: $e');
+      rethrow;
+    }
+  }
+
   static Future<Map<String, dynamic>> getLuckPillars({
     required String birthDate,
     int? birthHour,

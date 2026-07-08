@@ -14,7 +14,7 @@ import '../data/pranata_mangsa_repository.dart';
 import 'widgets/seasonal_banner.dart';
 import 'components/weton_detail_card.dart';
 import '../../../core/widgets/glass_card.dart';
-import '../../../core/widgets/ai_astrologer_dialog.dart';
+import '../../../features/ai/presentation/oracle_chat_screen.dart';
 import 'widgets/javanese_astrological_gear_dial.dart';
 import 'widgets/weton_element_mandala.dart';
 import 'widgets/daily_insight_card.dart';
@@ -663,23 +663,22 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                        authHeader = idToken != null ? 'Bearer $idToken' : 'Guest ${session.uid}';
                                      }
                                      
-                                     final aiHookText = 'Sebagai seorang dengan weton ${_result!.saptawara} ${_result!.pancawara} (Neptu ${_result!.totalNeptu}), bagaimana karakter dasar saya memengaruhi potensi diri saya dan apa saran orakel untuk hidup sehari-hari?';
-                                     
-                                     showDialog(
-                                       context: context,
-                                       builder: (context) => AiAstrologerDialog(
-                                         prompt: aiHookText,
-                                         contextTitle: 'Weton ${_result!.saptawara} ${_result!.pancawara}',
-                                         authHeader: authHeader,
-                                         aiContext: {
-                                           'wetonLahir': {
-                                             'nama': '${_result!.saptawara} ${_result!.pancawara}',
-                                             'neptu': _result!.totalNeptu,
-                                             'elemen': '',
-                                             'karakter': _result!.characterSummary,
+                                     if (!context.mounted) return;
+                                     Navigator.of(context).push(
+                                       MaterialPageRoute(
+                                         builder: (_) => OracleChatScreen(
+                                           oracleType: 'weton',
+                                           authHeader: authHeader,
+                                           aiContext: {
+                                             'wetonLahir': {
+                                               'nama': '${_result!.saptawara} ${_result!.pancawara}',
+                                               'neptu': _result!.totalNeptu,
+                                               'elemen': '',
+                                               'karakter': _result!.characterSummary,
+                                             },
+                                             'pangarasan': _result!.pangarasan,
                                            },
-                                           'pangarasan': _result!.pangarasan,
-                                         },
+                                         ),
                                        ),
                                      );
                                    },

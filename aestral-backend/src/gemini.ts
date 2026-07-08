@@ -13,7 +13,7 @@ interface GeminiPart {
 	text: string;
 }
 
-interface GeminiContent {
+export interface GeminiContent {
 	role: string;
 	parts: GeminiPart[];
 }
@@ -110,4 +110,86 @@ export async function callGemini(
 	}
 
 	return text;
+}
+
+/**
+ * Call Gemini with multi-turn chat history and optional structured JSON output.
+ *
+ * @param systemInstruction - Master system prompt
+ * @param chatHistory - Full conversation history including the current user message as the last entry
+ * @param apiKey - Gemini API key
+ * @param options - responseSchema, maxOutputTokens, temperature
+ * @returns Parsed JSON object matching the oracle response schema
+ */
+export async function callGeminiStructured(
+	systemInstruction: string,
+	chatHistory: GeminiContent[],
+	apiKey: string,
+	options?: {
+		responseSchema?: object;
+		maxOutputTokens?: number;
+		temperature?: number;
+	},
+): Promise<{ message: string; card?: { type: string; data: Record<string, unknown> } | null }> {
+	const url = `${GEMINI_BASE_URL}/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+
+	const generationConfig: Record<string, unknown> = {
+		maxOutputTokens: options?.maxOutputTokens ?? 800,
+		temperature: options?.temperature ?? 0.88,
+		topP: 0.9,
+	};
+
+	if (options?.responseSchema) {
+		generationConfig.responseMimeType = 'application/json';
+		generationConfig.responseSchema = options.responseSchema;
+	}
+
+	// Sanitize user messages in history to prevent prompt injection via multi-turn chat
+	const sanitizedHistory = chatHistory.map((msg) => ({
+		...msg,
+		parts: msg.parts.map((part) => ({
+			...part,
+			text: msg.role === 'user' ? sanitizePrompt(part.text, 600) : part.text,
+		})),
+	}));
+
+	const body = {
+		system_instruction: { parts: [{ text: systemInstruction }] },
+		contents: sanitizedHistory,
+		generationConfig,
+	};
+
+	const response = await fetch(url, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(body),
+	});
+
+	if (!response.ok) {
+		const errorText = await response.text();
+		throw new Error(`Gemini API error ${response.status}: ${errorText}`);
+	}
+
+	const data = (await response.json()) as GeminiResponse;
+
+	if (data.error) {
+		throw new Error(`Gemini API error: ${data.error.message}`);
+	}
+
+	const candidate = data.candidates?.[0];
+	if (!candidate) throw new Error('Gemini API returned no candidates');
+
+	if (candidate.finishReason === 'SAFETY') {
+		throw new Error('Respons diblokir oleh filter keamanan Gemini. Coba tanyakan dengan cara yang berbeda.');
+	}
+
+	const text = candidate.content?.parts?.[0]?.text;
+	if (!text) throw new Error('Gemini API returned empty content');
+
+	try {
+		return JSON.parse(text) as { message: string; card?: { type: string; data: Record<string, unknown> } | null };
+	} catch {
+		// Fallback: wrap raw text if JSON parse fails
+		return { message: text, card: null };
+	}
 }
