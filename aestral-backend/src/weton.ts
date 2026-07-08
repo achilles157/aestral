@@ -287,3 +287,34 @@ export function getWetonInsight(
 		},
 	};
 }
+
+/**
+ * Checks if a target date falls on the user's personal Dino Was (naas) day.
+ *
+ * Formula (Primbon Betaljemur Adammakna):
+ *   naas_hari_index    = (birth_hari_index + 2) % 7
+ *   naas_pasaran_index = (birth_pasaran_index + 2) % 5
+ *
+ * Dino Was overrides Pancasuda in the planner hierarchy.
+ *
+ * @param birthDate  - format YYYY-MM-DD
+ * @param targetDate - format YYYY-MM-DD
+ */
+export function checkIsDinoWas(birthDate: string, targetDate: string): boolean {
+	const [by, bm, bd] = birthDate.split('-').map(Number);
+	const [ty, tm, td] = targetDate.split('-').map(Number);
+
+	const birthJdn  = dateToJdn(by, bm, bd);
+	const targetJdn = dateToJdn(ty, tm, td);
+
+	const birthHariIdx    = ((birthJdn % 7) + 7) % 7;
+	const birthPasaranIdx = ((birthJdn % 5) + 5) % 5;
+
+	const naasHariIdx    = (birthHariIdx + 2) % 7;
+	const naasPasaranIdx = (birthPasaranIdx + 2) % 5;
+
+	const targetHariIdx    = ((targetJdn % 7) + 7) % 7;
+	const targetPasaranIdx = ((targetJdn % 5) + 5) % 5;
+
+	return targetHariIdx === naasHariIdx && targetPasaranIdx === naasPasaranIdx;
+}

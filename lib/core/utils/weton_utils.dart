@@ -244,4 +244,34 @@ class WetonUtils {
     
     return 12;
   }
+
+  // ─── Dino Was (Personal Naas Day) ────────────────────────────────────────
+  // Source: Kitab Primbon Betaljemur Adammakna
+  // Dino Was repeats cyclically every 35 days (LCM of 7 and 5).
+
+  /// Returns the Dino Was naas day combination for a given birth date.
+  static ({String hari, String pasaran}) calculateDinoWas(DateTime birthDate) {
+    final int birthJdn        = dateToJdn(birthDate.year, birthDate.month, birthDate.day);
+    final int birthHariIdx    = birthJdn % 7;
+    final int birthPasaranIdx = birthJdn % 5;
+
+    final int naasHariIdx    = (birthHariIdx + 2) % 7;
+    final int naasPasaranIdx = (birthPasaranIdx + 2) % 5;
+
+    return (
+      hari:    saptawaraNames[naasHariIdx],
+      pasaran: pancawaraNames[naasPasaranIdx],
+    );
+  }
+
+  /// Returns true if [targetDate] is the Dino Was day for [birthDate].
+  static bool checkIsDinoWas(DateTime birthDate, DateTime targetDate) {
+    final int birthJdn  = dateToJdn(birthDate.year, birthDate.month, birthDate.day);
+    final int targetJdn = dateToJdn(targetDate.year, targetDate.month, targetDate.day);
+
+    final int naasHariIdx    = (birthJdn % 7 + 2) % 7;
+    final int naasPasaranIdx = (birthJdn % 5 + 2) % 5;
+
+    return targetJdn % 7 == naasHariIdx && targetJdn % 5 == naasPasaranIdx;
+  }
 }

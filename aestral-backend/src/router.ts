@@ -1,12 +1,22 @@
 import { parseAuthHeader, verifyFirebaseJwt, type AuthToken } from './auth';
 import { getDeterministicThreeCards, getMangsaDeterministicThreeCards } from './tarot';
-import { getWetonInsight, getPranataMangsaId, getJamInsight } from './weton';
+import { getWetonInsight, getPranataMangsaId, getJamInsight, checkIsDinoWas, dateToJdn, calculateTotalNeptu } from './weton';
 import { calculateBaziChart, type BaziChartResult } from './bazi';
 import { callGemini } from './gemini';
 import { buildSystemInstruction, type AiContext } from './system_prompt';
 import { isRateLimited, getRateLimitResetSeconds } from './rate_limiter';
 import { buildTarotSystemInstruction, buildTarotUserPrompt, parseTarotResponse, type TarotCardInput, type TarotReadingContext } from './tarot_reading_prompt';
 import MANGSA_THEMES from './data/mangsa-themes.json';
+import COMPATIBILITY_DATA from './data/kamus-kompatibilitas-pasangan.json';
+
+// Maps Pancasuda sisa_bagi result to planner label category (see assets/weton/kamus-label-planner.json)
+const PLANNER_LABEL_MAP: Record<number, string> = {
+	0: 'restorasi',
+	1: 'ekspansi',
+	2: 'stabil',
+	3: 'ekspansi',
+	4: 'restorasi',
+};
 
 const CORS_HEADERS: Record<string, string> = {
 	'Access-Control-Allow-Origin': '*',
@@ -86,6 +96,10 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
 
 	if (method === 'POST' && pathname === '/api/bazi/insight') {
 		return handleBaziInsight(request, env);
+	}
+
+	if (method === 'POST' && pathname === '/api/weton/compatibility') {
+		return handleWetonCompatibility(request, env);
 	}
 
 	return json({ error: 'Not Found' }, 404);
@@ -225,7 +239,8 @@ async function handleCalendarMonth(request: Request, env: Env): Promise<Response
 	for (let d = 1; d <= totalDays; d++) {
 		const dateStr = `${targetYear}-${targetMonth.toString().padStart(2, '0')}-${d.toString().padStart(2, '0')}`;
 
-		const insight = getWetonInsight(birthDate, dateStr);
+		const insight   = getWetonInsight(birthDate, dateStr);
+		const isDinoWas = checkIsDinoWas(birthDate, dateStr);
 
 		const sisaBagiVal = insight.daily.sisaBagi;
 		let vibeWarna = 'blue';
@@ -294,12 +309,15 @@ async function handleCalendarMonth(request: Request, env: Env): Promise<Response
 			weton_hari_ini: `${insight.targetWeton.saptawara} ${insight.targetWeton.pancawara}`,
 			wuku: insight.targetWeton.wuku,
 			neptu: insight.targetWeton.totalNeptu,
+			// Dino Was overrides Pancasuda in the planner hierarchy (Primbon Betaljemur Adammakna)
+			is_dino_was: isDinoWas,
 			pancasuda: {
 				sisa_bagi: sisaBagiVal,
 				fase: insight.daily.fase,
 				tingkat_energi: tingkatEnergi,
 				vibe_warna: vibeWarna,
 				saran_singkat: saranSingkat,
+				planner_label: isDinoWas ? 'restorasi' : (PLANNER_LABEL_MAP[sisaBagiVal] ?? 'stabil'),
 			},
 			timetable: {
 				jam_baik: jamBaikParsed,
@@ -500,6 +518,88 @@ async function handleTarotReading(request: Request, env: Env): Promise<Response>
 		});
 	} catch (err) {
 		const message = err instanceof Error ? err.message : 'Terjadi kesalahan pada orakel tarot.';
+		return json({ error: message }, 500);
+	}
+}
+
+// --- Weton Compatibility Handler ---
+
+interface WetonCompatibilityBody {
+	birthDate1?: string;
+	birthDate2?: string;
+}
+
+interface CompatibilityEntry {
+	sisa_bagi: number;
+	nama_tradisional: string;
+	arketipe_relasi: string;
+	dinamika_psikologis: string;
+	potensi_gesekan: string;
+	saran_komunikasi: string;
+	ai_hook: string;
+}
+
+async function handleWetonCompatibility(request: Request, env: Env): Promise<Response> {
+	const authResult = await requireAuth(request.headers.get('Authorization'), env);
+	if (authResult instanceof Response) return authResult;
+	const { authToken } = authResult;
+
+	// Kompatibilitas hanya untuk registered user
+	if (authToken.type === 'guest') {
+		return json({ error: 'Fitur kompatibilitas pasangan memerlukan akun terdaftar.' }, 403);
+	}
+
+	let body: WetonCompatibilityBody;
+	try {
+		body = (await request.json()) as WetonCompatibilityBody;
+	} catch {
+		return json({ error: 'Invalid JSON body' }, 400);
+	}
+
+	if (!body.birthDate1 || !body.birthDate2) {
+		return json({ error: 'birthDate1 dan birthDate2 diperlukan (format: YYYY-MM-DD)' }, 400);
+	}
+
+	const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+	if (!dateRegex.test(body.birthDate1) || !dateRegex.test(body.birthDate2)) {
+		return json({ error: 'Format tanggal harus YYYY-MM-DD' }, 400);
+	}
+
+	try {
+		const [y1, m1, d1] = body.birthDate1.split('-').map(Number);
+		const [y2, m2, d2] = body.birthDate2.split('-').map(Number);
+		const jdn1 = dateToJdn(y1, m1, d1);
+		const jdn2 = dateToJdn(y2, m2, d2);
+		const neptu1 = calculateTotalNeptu(jdn1);
+		const neptu2 = calculateTotalNeptu(jdn2);
+
+		// Modulo 8: hasil 0 = Pesthi (sisa_bagi: 0 di JSON)
+		const sisaBagi = (neptu1 + neptu2) % 8;
+
+		const entry = (COMPATIBILITY_DATA as CompatibilityEntry[]).find(
+			(e) => e.sisa_bagi === sisaBagi,
+		);
+
+		if (!entry) {
+			return json({ error: 'Data kompatibilitas tidak ditemukan untuk sisa bagi ini.' }, 500);
+		}
+
+		return json({
+			success: true,
+			data: {
+				neptu1,
+				neptu2,
+				sisa_bagi: sisaBagi,
+				nama_fase: entry.nama_tradisional,
+				arketipe_relasi: entry.arketipe_relasi,
+				dinamika_psikologis: entry.dinamika_psikologis,
+				potensi_gesekan: entry.potensi_gesekan,
+				saran_komunikasi: entry.saran_komunikasi,
+				ai_hook: entry.ai_hook,
+			},
+		});
+	} catch (err) {
+		const message = err instanceof Error ? err.message : 'Gagal menghitung kompatibilitas.';
 		return json({ error: message }, 500);
 	}
 }

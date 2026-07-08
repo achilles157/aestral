@@ -1,9 +1,23 @@
 [
   {
+    "sisa_bagi": 0,
+    "nama_fase": "Pati",
+    "tingkat_energi": "Waspada",
+    "planner_label": "restorasi",
+    "interpretasi_harian": "Hari ini tentang 'mati' buat hal-hal yang udah nggak sehat buat kamu. Kamu mungkin terlihat sangat tegas dan berani buat ninggalin toxic cycle, padahal di lubuk hati terdalam, kamu sebenarnya takut kesepian dan cemas karena kehilangan pegangan. Padahal, melepaskan itu justru cara semesta buat ngasih ruang baru buat kamu bernapas. Jangan takut buat jadi 'jahat' atau 'egoistis' kalau itu artinya kamu memilih kesehatan mental dan kebahagiaanmu sendiri. Kamu layak buat mulai lagi dari awal.",
+    "saran_aktivitas": [
+      "Melakukan pembersihan digital: unfollow akun yang memicu rasa tidak aman (insecurity) dan menghapus aplikasi toksik.",
+      "Menulis seluruh hal di luar kendalimu, merobek kertas tersebut, dan secara simbolis merelakan kepergiannya.",
+      "Mengakhiri batas kompromi pada kebiasaan buruk, lingkungan kerja tak suportif, atau dinamika hubungan manipulatif."
+    ],
+    "ai_hook": "Fase Pati hari ini memicu kecemasan. Kebiasaan buruk atau hubungan toksik apa yang harus saya lepaskan secara radikal hari ini?"
+  },
+  {
     "sisa_bagi": 1,
     "nama_fase": "Sandang",
     "tingkat_energi": "Tinggi",
-    "interpretasi_harian": "Hari ini auramu lagi on-point banget! Kamu bakal terlihat super meyakinkan di mata orang lain, seolah semuanya berjalan mulus. Tapi jujur deh, di balik outfit keren dan 'pencitraan' yang rapi itu, kamu sebenarnya lagi ngerasa cemas kalau orang lain bakal ngeliat sisi dirimu yang masih berantakan. It’s okay to have a little imposter syndrome—fase Sandang ini adalah waktu buat kamu ngerayain kepercayaan diri kamu sambil tetep sadar kalau validasi orang lain itu cuma bonus, bukan definisi diri kamu yang sebenarnya.",
+    "planner_label": "ekspansi",
+    "interpretasi_harian": "Hari ini auramu lagi on-point banget! Kamu bakal terlihat super meyakinkan di mata orang lain, seolah semuanya berjalan mulus. Tapi jujur deh, di balik outfit keren dan 'pencitraan' yang rapi itu, kamu sebenarnya lagi ngerasa cemas kalau orang lain bakal ngeliat sisi dirimu yang masih berantakan. It's okay to have a little imposter syndrome—fase Sandang ini adalah waktu buat kamu ngerayain kepercayaan diri kamu sambil tetep sadar kalau validasi orang lain itu cuma bonus, bukan definisi diri kamu yang sebenarnya.",
     "saran_aktivitas": [
       "Merapikan ulang portofolio karier, resume, atau desain profil LinkedIn agar lebih profesional.",
       "Mengkurasi pakaian (outfit of the day) yang membuatmu merasa sangat percaya diri menghadapi pekerjaan.",
@@ -15,6 +29,7 @@
     "sisa_bagi": 2,
     "nama_fase": "Pangan",
     "tingkat_energi": "Stabil",
+    "planner_label": "stabil",
     "interpretasi_harian": "Fase ini ngajak kamu buat 'makan'—bukan cuma soal nutrisi, tapi juga asupan buat pikiran dan dompet. Kamu kelihatan tenang banget dan punya manajemen hidup yang solid, padahal di dalam hati, kamu sering banget merasa takut kalau kenyamanan ini bakal hilang tiba-tiba. Gunakan energi stabil hari ini buat ngasih nutrisi ke diri sendiri; entah itu baca buku bagus atau atur keuangan biar nggak gampang panik kalau ada pengeluaran mendadak. Kamu layak dapat kedamaian, kok.",
     "saran_aktivitas": [
       "Membaca literatur inspiratif, mendengarkan podcast edukatif, atau mengikuti kelas pengembangan diri daring.",
@@ -27,6 +42,7 @@
     "sisa_bagi": 3,
     "nama_fase": "Gedhong",
     "tingkat_energi": "Tinggi",
+    "planner_label": "ekspansi",
     "interpretasi_harian": "Hari ini energi kamu lagi 'pembangun' banget! Kamu kelihatan ambisius dan fokus banget sama masa depan, kayak orang yang punya segalanya di bawah kendali. Tapi di balik rencana-rencana besar itu, sebenarnya ada ketakutan kecil kalau kamu nggak cukup mampu buat menopang beban ekspektasi yang kamu buat sendiri. Nggak apa-apa, kamu cuma manusia. Fokuslah buat bangun fondasi yang pelan tapi pasti, biar 'gedung' kehidupanmu punya pondasi mental yang nggak gampang goyah.",
     "saran_aktivitas": [
       "Membuka portofolio investasi seperti reksa dana, menabung emas, atau merencanakan asuransi jangka panjang.",
@@ -39,6 +55,7 @@
     "sisa_bagi": 4,
     "nama_fase": "Loro",
     "tingkat_energi": "Waspada",
+    "planner_label": "restorasi",
     "interpretasi_harian": "Loro bukan berarti kamu bakal sakit, tapi ini cara semesta buat bilang: 'Slow down, bestie!'. Di luar, kamu mungkin masih kelihatan berusaha buat tetep produktif dan 'jagoan' di depan semua orang. Padahal, batin kamu sebenarnya udah teriak minta istirahat karena burnout. Jangan terlalu keras sama diri sendiri. Kesehatan mental kamu lebih berharga daripada deadline apa pun. Izinin diri kamu buat rapuh sejenak hari ini, karena itu tanda kamu manusia, bukan robot.",
     "saran_aktivitas": [
       "Menuliskan beban emosional pada jurnal pikiran (journaling) guna meredakan kecemasan dan stres pekerjaan.",
@@ -46,17 +63,5 @@
       "Melakukan sesi relaksasi, meditasi pernapasan terpandu, atau berkonsultasi secara privat dengan psikolog."
     ],
     "ai_hook": "Bagaimana cara terbaik merawat kesehatan mental saya di hari Loro yang berenergi Waspada ini?"
-  },
-  {
-    "sisa_bagi": 0,
-    "nama_fase": "Pati",
-    "tingkat_energi": "Waspada",
-    "interpretasi_harian": "Hari ini tentang 'mati' buat hal-hal yang udah nggak sehat buat kamu. Kamu mungkin terlihat sangat tegas dan berani buat ninggalin toxic cycle, padahal di lubuk hati terdalam, kamu sebenarnya takut kesepian dan cemas karena kehilangan pegangan. Padahal, melepaskan itu justru cara semesta buat ngasih ruang baru buat kamu bernapas. Jangan takut buat jadi 'jahat' atau 'egoistis' kalau itu artinya kamu memilih kesehatan mental dan kebahagiaanmu sendiri. Kamu layak buat mulai lagi dari awal.",
-    "saran_aktivitas": [
-      "Melakukan pembersihan digital: unfollow akun yang memicu rasa tidak aman (insecurity) dan menghapus aplikasi toksik.",
-      "Menulis seluruh hal di luar kendalimu, merobek kertas tersebut, dan secara simbolis merelakan kepergiannya.",
-      "Mengakhiri batas kompromi pada kebiasaan buruk, lingkungan kerja tak suportif, atau dinamika hubungan manipulatif."
-    ],
-    "ai_hook": "Fase Pati hari ini memicu kecemasan. Kebiasaan buruk atau hubungan toksik apa yang harus saya lepaskan secara radikal hari ini?"
   }
 ]

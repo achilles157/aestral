@@ -1,0 +1,117 @@
+{
+  "saptawara": [
+    {
+      "id": "minggu",
+      "nama": "Minggu",
+      "nama_jawa": "Radite",
+      "neptu": 5,
+      "index": 0,
+      "simbolisme": "Meneng (Diam)"
+    },
+    {
+      "id": "senin",
+      "nama": "Senin",
+      "nama_jawa": "Soma",
+      "neptu": 4,
+      "index": 1,
+      "simbolisme": "Maju (Bergerak maju)"
+    },
+    {
+      "id": "selasa",
+      "nama": "Selasa",
+      "nama_jawa": "Hanggara",
+      "neptu": 3,
+      "index": 2,
+      "simbolisme": "Mundur (Bergerak mundur)"
+    },
+    {
+      "id": "rabu",
+      "nama": "Rabu",
+      "nama_jawa": "Buda",
+      "neptu": 7,
+      "index": 3,
+      "simbolisme": "Mangiwa (Bergerak ke kiri)"
+    },
+    {
+      "id": "kamis",
+      "nama": "Kamis",
+      "nama_jawa": "Respati",
+      "neptu": 8,
+      "index": 4,
+      "simbolisme": "Manengen (Bergerak ke kanan)"
+    },
+    {
+      "id": "jumat",
+      "nama": "Jumat",
+      "nama_jawa": "Sukra",
+      "neptu": 6,
+      "index": 5,
+      "simbolisme": "Munggah (Naik ke atas)"
+    },
+    {
+      "id": "sabtu",
+      "nama": "Sabtu",
+      "nama_jawa": "Tumpak",
+      "neptu": 9,
+      "index": 6,
+      "simbolisme": "Temurun (Turun ke bawah)"
+    }
+  ],
+  "pancawara": [
+    {
+      "id": "legi",
+      "nama": "Legi",
+      "nama_jawa": "Manis",
+      "neptu": 5,
+      "index": 0,
+      "simbolisme": "Mungkur (Berbalik arah ke belakang)"
+    },
+    {
+      "id": "pahing",
+      "nama": "Pahing",
+      "nama_jawa": "Jenar",
+      "neptu": 9,
+      "index": 1,
+      "simbolisme": "Madep (Menghadap)"
+    },
+    {
+      "id": "pon",
+      "nama": "Pon",
+      "nama_jawa": "Palguna",
+      "neptu": 7,
+      "index": 2,
+      "simbolisme": "Sare (Tidur/Istirahat)"
+    },
+    {
+      "id": "wage",
+      "nama": "Wage",
+      "nama_jawa": "Cemengan",
+      "neptu": 4,
+      "index": 3,
+      "simbolisme": "Lenggah (Duduk)"
+    },
+    {
+      "id": "kliwon",
+      "nama": "Kliwon",
+      "nama_jawa": "Kasih",
+      "neptu": 8,
+      "index": 4,
+      "simbolisme": "Jumeneng (Berdiri)"
+    }
+  ],
+  "dino_was_formula": {
+    "deskripsi": "Hari naas personal (Dino Was) dihitung dari weton lahir user. Merepresentasikan lembah kurva bioritme personal yang berulang secara siklikal setiap 35 hari.",
+    "rumus_hari": "naas_hari_index = (birth_hari_index + 2) % 7",
+    "rumus_pasaran": "naas_pasaran_index = (birth_pasaran_index + 2) % 5",
+    "contoh": "Lahir Minggu (index 0) Legi (index 0) — Dino Was jatuh pada Selasa (index 2) Pon (index 2)",
+    "sumber": "Kitab Primbon Betaljemur Adammakna, KPH Tjokroningrat"
+  },
+  "pancasuda_formula": {
+    "deskripsi": "Menentukan kualitas energi harian yang dipersonalisasi per weton user. Berbeda dari sisabagi umum karena memperhitungkan neptu weton kelahiran user, sehingga hari yang sama bisa menghasilkan energi berbeda untuk dua orang dengan weton berbeda.",
+    "rumus": "sisa_bagi = (neptu_weton_user + neptu_hari_target) % 5",
+    "catatan": "Jika hasil = 0, gunakan entry sisa_bagi: 0 (Pati) di sisabagi.json. neptu_weton_user = neptu_saptawara + neptu_pancawara dari weton kelahiran.",
+    "hierarki": "Pengecekan Dino Was selalu menggantikan hasil Pancasuda. Jika hari target adalah Dino Was user, label selalu 'restorasi' terlepas dari hasil Pancasuda.",
+    "referensi_mapping": "Lihat field planner_label di sisabagi.json untuk pemetaan hasil ke kategori planner harian.",
+    "sumber": "Kitab Primbon Betaljemur Adammakna, KPH Tjokroningrat"
+  }
+}

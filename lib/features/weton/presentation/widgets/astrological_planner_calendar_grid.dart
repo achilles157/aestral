@@ -93,6 +93,8 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
               final statusColor = _getPancasudaColor(vibe);
 
               final isToday = DateUtils.isSameDay(date, DateTime.now());
+              // Dino Was: personal naas day — shown as red indicator dot
+              final bool isDinoWas = dayData['is_dino_was'] as bool? ?? false;
 
               return InkWell(
                 onTap: () => onDayTapped(dayData),
@@ -106,33 +108,47 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
                   color: isToday
                       ? AppTheme.accentPurple.withValues(alpha: 0.12)
                       : Colors.white.withValues(alpha: 0.03),
-                  child: CustomPaint(
-                    painter: RadialGlowPainter(
-                      glowColor: statusColor,
-                      radiusMultiplier: 0.8,
-                      opacity: 0.2,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          date.day.toString(),
-                          style: GoogleFonts.outfit(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                  child: Stack(
+                    children: [
+                      CustomPaint(
+                        painter: RadialGlowPainter(
+                          glowColor: statusColor,
+                          radiusMultiplier: 0.8,
+                          opacity: 0.2,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              date.day.toString(),
+                              style: GoogleFonts.outfit(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              pasaran,
+                              style: GoogleFonts.outfit(
+                                fontSize: 9,
+                                color: AppTheme.textLight.withValues(alpha: 0.6),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Dino Was indicator — small red dot in top-right corner
+                      if (isDinoWas)
+                        const Positioned(
+                          top: 4,
+                          right: 4,
+                          child: CircleAvatar(
+                            radius: 3.5,
+                            backgroundColor: Color(0xFFF87171),
                           ),
                         ),
-                        const SizedBox(height: 2),
-                        Text(
-                          pasaran,
-                          style: GoogleFonts.outfit(
-                            fontSize: 9,
-                            color: AppTheme.textLight.withValues(alpha: 0.6),
-                          ),
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
                 ),
               );

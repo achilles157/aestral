@@ -233,6 +233,42 @@ class ApiService {
     });
   }
 
+  /// Calls POST /api/weton/compatibility — hitung kompatibilitas dua weton.
+  /// Hanya untuk registered user (bearer). Guest akan mendapat 403.
+  static Future<Map<String, dynamic>> getWetonCompatibility({
+    required String birthDate1,
+    required String birthDate2,
+    required String authHeader,
+  }) async {
+    final url = Uri.parse('$baseUrl/api/weton/compatibility');
+    return _withRetry(() async {
+      try {
+        final response = await http.post(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authHeader,
+          },
+          body: json.encode({
+            'birthDate1': birthDate1,
+            'birthDate2': birthDate2,
+          }),
+        ).timeout(const Duration(seconds: 10));
+
+        if (response.statusCode != 200) {
+          throw Exception('Status ${response.statusCode}: ${response.body}');
+        }
+
+        final data = json.decode(response.body);
+        if (data is Map<String, dynamic>) return data;
+        throw Exception('Invalid response format');
+      } catch (e) {
+        debugPrint('ApiService.getWetonCompatibility error: $e');
+        rethrow;
+      }
+    });
+  }
+
   /// Calls POST /api/bazi/chart — kalkulasi 4 Pilar Ba Zi dari backend.
   /// [latitude] diterima backend tapi belum dipakai dalam kalkulasi
   /// (reserved untuk koreksi Equation of Time di fase berikutnya).

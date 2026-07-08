@@ -18,6 +18,7 @@ import '../../../core/widgets/ai_astrologer_dialog.dart';
 import 'widgets/javanese_astrological_gear_dial.dart';
 import 'widgets/weton_element_mandala.dart';
 import 'widgets/daily_insight_card.dart';
+import 'weton_compatibility_screen.dart';
 
 class WetonCalculatorScreen extends ConsumerStatefulWidget {
   const WetonCalculatorScreen({super.key});
@@ -804,6 +805,30 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                       icon: const Icon(Icons.cloud_upload_outlined),
                                       label: const Text('Simpan Profil Saya'),
                                     ),
+                              const SizedBox(height: 12),
+                              OutlinedButton.icon(
+                                onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute<void>(
+                                    builder: (_) => const WetonCompatibilityScreen(),
+                                  ),
+                                ),
+                                style: OutlinedButton.styleFrom(
+                                  side: const BorderSide(color: AppTheme.accentGold, width: 1.2),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(vertical: 14),
+                                  foregroundColor: AppTheme.accentGold,
+                                ),
+                                icon: const Icon(Icons.favorite_rounded, size: 18),
+                                label: Text(
+                                  'Kompatibilitas Pasangan',
+                                  style: GoogleFonts.outfit(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
                               const SizedBox(height: 40),
                             ],
                           );

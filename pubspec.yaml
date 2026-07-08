@@ -80,6 +80,9 @@ flutter:
     - assets/weton/wuku.json
     - assets/weton/pranata_mangsa.json
     - assets/weton/pangarasan-pancasuda.json
+    - assets/weton/neptu.json
+    - assets/weton/kamus-label-planner.json
+    - assets/weton/kamus-kompatibilitas-pasangan.json
     - assets/bazi/
 
   # An image asset can refer to one or more resolution-specific "variants", see

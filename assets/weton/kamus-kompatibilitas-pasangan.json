@@ -1,0 +1,74 @@
+[
+  {
+    "sisa_bagi": 0,
+    "nama_tradisional": "Pesthi",
+    "arketipe_relasi": "Sang Penjaga Keharmonisan",
+    "dinamika_psikologis": "Hubungan yang adem ayem—stabil, harmonis, dan langgeng. Keduanya memiliki visi dan misi hidup yang selaras, mampu menghadapi badai dengan tenang tanpa kehilangan ikatan.",
+    "potensi_gesekan": "Konflik besar jarang terjadi, tapi konflik kecil yang tidak diselesaikan bisa menumpuk menjadi 'gunung es' yang tak terlihat.",
+    "saran_komunikasi": "Jangan abaikan 'masalah kecil'. Jadikan kebiasaan untuk menyelesaikan perbedaan segera dengan kepala dingin, sebelum menjadi besar.",
+    "ai_hook": "Sebagai pasangan Pesthi, aktivitas apa yang bisa kami lakukan untuk menyegarkan dinamika hubungan agar tidak jatuh dalam rutinitas yang terlalu stagnan?"
+  },
+  {
+    "sisa_bagi": 1,
+    "nama_tradisional": "Pegat",
+    "arketipe_relasi": "Kemitraan yang Menantang",
+    "dinamika_psikologis": "Pasangan ini memiliki energi yang sangat berbeda—satu cenderung dominan, satu lagi mengikuti. Dinamika ini bisa terasa seperti rollercoaster emosional; ada ketertarikan kuat di awal, tapi perbedaan gaya komunikasi sering menimbulkan salah paham.",
+    "potensi_gesekan": "Trigger utama: saat salah satu pihak merasa tidak didengar atau direndahkan. Ekspektasi yang tidak realistis tentang 'siapa yang harus berubah' sering menjadi sumber konflik berulang.",
+    "saran_komunikasi": "Latih active listening tanpa judgment. Fokus pada 'saya merasa...' daripada 'kamu selalu...'. Ciptakan ruang aman untuk mengungkapkan kerentanan.",
+    "ai_hook": "Kami adalah pasangan Pegat. Latihan komunikasi apa yang paling efektif untuk menjembatani perbedaan gaya kelekatan kami?"
+  },
+  {
+    "sisa_bagi": 2,
+    "nama_tradisional": "Ratu",
+    "arketipe_relasi": "Sang Penyeimbang",
+    "dinamika_psikologis": "Koneksi ini terasa seperti 'rumah'—nyaman, stabil, dan penuh penerimaan. Keduanya memiliki love language yang selaras; kehadiran satu sama lain terasa menenangkan dan menguatkan.",
+    "potensi_gesekan": "Risiko terbesar adalah kebosanan atau complacency. Terlalu nyaman bisa membuat kedua pihak lupa untuk terus 'berkencan' dan merawat hubungan secara aktif.",
+    "saran_komunikasi": "Jangan anggap remeh quality time. Buat ritual mingguan yang sifatnya menyegarkan, seperti date night atau aktivitas baru bersama.",
+    "ai_hook": "Sebagai pasangan Ratu, bagaimana kami menjaga keotentikan hubungan di tengah tekanan ekspektasi sosial dan menghindari burnout emosional?"
+  },
+  {
+    "sisa_bagi": 3,
+    "nama_tradisional": "Jodoh",
+    "arketipe_relasi": "Kolaborator Sejati",
+    "dinamika_psikologis": "Pasangan ini terasa seperti 'tim yang sempurna'—visi hidup selaras, saling melengkapi, dan memiliki rasa saling percaya yang dalam. Keduanya merasa 'bertemu jodoh' dalam arti paling positif.",
+    "potensi_gesekan": "Karena terlalu serasi, kedua pihak bisa kehilangan identitas individu. Terlalu banyak waktu bersama tanpa 'me time' bisa memicu kelelahan emosional.",
+    "saran_komunikasi": "Jaga keseimbangan antara 'kita' dan 'aku'. Dukung pertumbuhan pribadi masing-masing sebagai bagian dari pertumbuhan bersama.",
+    "ai_hook": "Kami adalah pasangan Jodoh. Bagaimana kami menjaga identitas dan pertumbuhan individu tanpa mengorbankan keharmonisan hubungan?"
+  },
+  {
+    "sisa_bagi": 4,
+    "nama_tradisional": "Topo",
+    "arketipe_relasi": "Sang Pembangun Fondasi",
+    "dinamika_psikologis": "Hubungan ini dibangun di atas kerja keras dan kesabaran. Seperti membangun rumah dari nol, butuh waktu dan energi ekstra—tapi hasilnya akan kokoh dan bertahan lama.",
+    "potensi_gesekan": "Trigger: saat salah satu merasa 'bekerja lebih keras' dari yang lain. Persepsi ketidakadilan dalam pembagian peran bisa memicu resentment yang terpendam.",
+    "saran_komunikasi": "Buat 'check-in' rutin untuk mengevaluasi pembagian peran dan tanggung jawab. Rayakan setiap pencapaian kecil bersama.",
+    "ai_hook": "Sebagai pasangan Topo, strategi apa yang paling efektif untuk membangun ketahanan bersama dan menjaga motivasi di fase awal yang penuh tantangan ini?"
+  },
+  {
+    "sisa_bagi": 5,
+    "nama_tradisional": "Tinari",
+    "arketipe_relasi": "Sang Pemanen Kebahagiaan",
+    "dinamika_psikologis": "Pasangan ini sering merasa 'beruntung' memiliki satu sama lain. Ada rasa syukur dan apresiasi yang mengalir dua arah. Kebahagiaan sederhana terasa lebih bermakna.",
+    "potensi_gesekan": "Karena terlalu fokus pada kebahagiaan saat ini, bisa mengabaikan perencanaan masa depan. Konflik muncul saat realitas finansial atau karir 'mengganggu' kebahagiaan.",
+    "saran_komunikasi": "Nikmati kebahagiaan hari ini, tapi sisihkan waktu untuk bicara tentang mimpi dan rencana jangka panjang. Keseimbangan adalah kunci.",
+    "ai_hook": "Kami adalah pasangan Tinari. Bagaimana kami menyeimbangkan kebahagiaan hari ini dengan perencanaan masa depan yang matang dan pengelolaan risiko yang bijak?"
+  },
+  {
+    "sisa_bagi": 6,
+    "nama_tradisional": "Padu",
+    "arketipe_relasi": "Kemitraan yang Dinamis",
+    "dinamika_psikologis": "Hubungan ini penuh warna—ada pasang surut yang intens. Keduanya memiliki ego yang kuat dan pendirian yang teguh. Konflik sering terjadi, tapi justru menjadi katalis pertumbuhan.",
+    "potensi_gesekan": "Trigger: persaingan tidak sehat—siapa yang lebih sukses, lebih benar, atau lebih berhak. Ego yang bentrok bisa mengubah diskusi menjadi adu argumen.",
+    "saran_komunikasi": "Bedakan antara 'kompetisi sehat' dan 'konflik destruktif'. Gunakan energi persaingan untuk saling mendukung, bukan saling menjatuhkan.",
+    "ai_hook": "Sebagai pasangan Padu, teknik komunikasi apa yang bisa kami gunakan untuk mengubah energi konflik menjadi kekuatan kolaborasi yang produktif?"
+  },
+  {
+    "sisa_bagi": 7,
+    "nama_tradisional": "Sujanan",
+    "arketipe_relasi": "Sang Penjaga Kepercayaan",
+    "dinamika_psikologis": "Kepercayaan adalah fondasi utama hubungan ini. Ada kecenderungan protektif yang kuat—kadang berlebihan. Keduanya belajar untuk saling percaya dan memberi ruang.",
+    "potensi_gesekan": "Kecemburuan atau rasa tidak aman (insecurity) adalah trigger utama. Kecenderungan untuk 'memeriksa' atau 'mengawasi' bisa merusak ikatan jika tidak dikelola.",
+    "saran_komunikasi": "Bangun kepercayaan melalui transparansi, bukan kontrol. Bicarakan rasa tidak aman dengan jujur, tanpa menyalahkan pasangan.",
+    "ai_hook": "Kami adalah pasangan Sujanan. Rutinitas dan kebiasaan harian apa yang bisa kami bangun bersama untuk memperkuat kepercayaan dasar dan mengurangi kecemasan relasional?"
+  }
+]

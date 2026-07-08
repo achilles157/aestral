@@ -1,0 +1,45 @@
+[
+  {
+    "id": "restorasi",
+    "label": "Hari Restorasi & Grounding",
+    "kategori": "Hari Naas (Dino Was)",
+    "deskripsi_psikologis": "Hari di mana energi mental dan fisik sedang dalam titik terendah. Bukan berarti 'sial', tapi sinyal bahwa tubuh dan pikiran butuh istirahat. Ini adalah waktu untuk introspeksi, bukan ekspansi.",
+    "rekomendasi_aktivitas": [
+      "Fokus pada pekerjaan deep-work yang tidak melibatkan orang lain (menulis, coding, desain, riset)",
+      "Tunda penandatanganan kontrak atau keputusan finansial besar hingga keesokan hari",
+      "Lakukan perawatan diri: meditasi, journaling, atau sekadar istirahat tanpa gangguan",
+      "Hindari rapat penting atau presentasi krusial",
+      "Gunakan waktu untuk merapikan ruang kerja dan 'declutter' digital"
+    ],
+    "ai_hook": "Hari ini weton saya masuk fase Restorasi. Aktivitas apa yang paling tepat untuk memulihkan energi saya hari ini?"
+  },
+  {
+    "id": "stabil",
+    "label": "Hari Operasional Stabil",
+    "kategori": "Hari Biasa",
+    "deskripsi_psikologis": "Energi netral—cukup untuk menjalani rutinitas harian dengan baik, tanpa perlu ekspektasi berlebihan. Hari yang cocok untuk menyelesaikan tugas rutin dan menjaga konsistensi.",
+    "rekomendasi_aktivitas": [
+      "Selesaikan tugas-tugas administratif dan pekerjaan rutin",
+      "Lakukan koordinasi tim dan sinkronisasi proyek",
+      "Kerjakan pekerjaan yang membutuhkan fokus sedang—tidak terlalu ringan, tidak terlalu berat",
+      "Manfaatkan untuk belajar atau mengikuti pelatihan singkat",
+      "Jaga keseimbangan antara pekerjaan dan istirahat"
+    ],
+    "ai_hook": "Bagaimana cara memaksimalkan hari Operasional Stabil ini sesuai weton dan tujuan saya?"
+  },
+  {
+    "id": "ekspansi",
+    "label": "Hari Ekspansi & Visibilitas",
+    "kategori": "Hari Baik/Puncak",
+    "deskripsi_psikologis": "Energi sedang di puncak—mental jernih, percaya diri tinggi, dan kemampuan komunikasi optimal. Hari terbaik untuk mengambil langkah berani dan memaksimalkan visibilitas.",
+    "rekomendasi_aktivitas": [
+      "Lakukan pitching ide atau presentasi ke klien/atasan",
+      "Memulai proyek baru atau fase baru dalam pekerjaan",
+      "Negosiasi kontrak, gaji, atau kesepakatan penting",
+      "Bangun koneksi baru melalui networking atau event profesional",
+      "Posting konten atau portofolio di media sosial profesional",
+      "Ambil keputusan besar yang sudah direncanakan sejak lama"
+    ],
+    "ai_hook": "Hari ini adalah Hari Ekspansi untuk weton saya. Langkah strategis apa yang paling tepat saya ambil hari ini?"
+  }
+]

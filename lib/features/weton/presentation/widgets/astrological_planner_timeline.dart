@@ -79,6 +79,8 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
     final vibeColor = _getPancasudaColor(pancasuda['vibe_warna'] as String);
     final wukuName = dayData['wuku'] as String;
     final timetable = dayData['timetable'] as Map<String, dynamic>?;
+    // Dino Was: personal naas day — overrides Pancasuda in planner hierarchy
+    final bool isDinoWas = dayData['is_dino_was'] as bool? ?? false;
 
     final List<dynamic> jamBaik = timetable?['jam_baik'] as List<dynamic>? ?? [];
     final List<dynamic> jamNaas = timetable?['jam_naas'] as List<dynamic>? ?? [];
@@ -110,6 +112,54 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
       controller: widget.scrollController,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       children: [
+        // Dino Was warning banner — shown when this day is the user's personal naas day
+        if (isDinoWas) ...[
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF87171).withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: const Color(0xFFF87171).withValues(alpha: 0.5),
+                width: 1.2,
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.warning_amber_rounded, color: Color(0xFFF87171), size: 20),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'DINO WAS — Hari Naas Personal',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFFF87171),
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Hari ini adalah hari naas pribadimu. Tunda keputusan penting, hindari konfrontasi, dan prioritaskan restorasi diri.',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          color: Colors.white60,
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
         GlassCard(
           borderColor: vibeColor.withValues(alpha: 0.35),
           borderWidth: 1.5,

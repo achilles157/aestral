@@ -73,3 +73,93 @@ WetonDictionaryEntry? lookupWetonEntry(List<WetonDictionaryEntry> list, String w
   }
   return null;
 }
+
+// ─── Planner Label ───────────────────────────────────────────────────────────
+
+class PlannerLabelEntry {
+  final String id;
+  final String label;
+  final String kategori;
+  final String deskripsiPsikologis;
+  final List<String> rekomendasiAktivitas;
+  final String aiHook;
+
+  PlannerLabelEntry({
+    required this.id,
+    required this.label,
+    required this.kategori,
+    required this.deskripsiPsikologis,
+    required this.rekomendasiAktivitas,
+    required this.aiHook,
+  });
+
+  factory PlannerLabelEntry.fromJson(Map<String, dynamic> json) {
+    return PlannerLabelEntry(
+      id: json['id'] as String,
+      label: json['label'] as String,
+      kategori: json['kategori'] as String,
+      deskripsiPsikologis: json['deskripsi_psikologis'] as String,
+      rekomendasiAktivitas: (json['rekomendasi_aktivitas'] as List<dynamic>)
+          .map((e) => e.toString())
+          .toList(),
+      aiHook: json['ai_hook'] as String? ?? '',
+    );
+  }
+}
+
+final plannerLabelProvider = FutureProvider<List<PlannerLabelEntry>>((ref) async {
+  final String jsonString =
+      await rootBundle.loadString('assets/weton/kamus-label-planner.json');
+  final List<dynamic> jsonList = json.decode(jsonString);
+  return jsonList
+      .map((j) => PlannerLabelEntry.fromJson(j as Map<String, dynamic>))
+      .toList();
+});
+
+PlannerLabelEntry? lookupPlannerLabel(List<PlannerLabelEntry> list, String id) {
+  try {
+    return list.firstWhere((e) => e.id == id);
+  } catch (_) {
+    return null;
+  }
+}
+
+// ─── Weton Compatibility ──────────────────────────────────────────────────────
+
+class WetonCompatibility {
+  final int neptu1;
+  final int neptu2;
+  final int sisaBagi;
+  final String namaFase;
+  final String arketipeRelasi;
+  final String dinamikaPsikologis;
+  final String potensiGesekan;
+  final String saranKomunikasi;
+  final String aiHook;
+
+  const WetonCompatibility({
+    required this.neptu1,
+    required this.neptu2,
+    required this.sisaBagi,
+    required this.namaFase,
+    required this.arketipeRelasi,
+    required this.dinamikaPsikologis,
+    required this.potensiGesekan,
+    required this.saranKomunikasi,
+    required this.aiHook,
+  });
+
+  factory WetonCompatibility.fromJson(Map<String, dynamic> json) {
+    return WetonCompatibility(
+      neptu1: json['neptu1'] as int,
+      neptu2: json['neptu2'] as int,
+      sisaBagi: json['sisa_bagi'] as int,
+      namaFase: json['nama_fase'] as String,
+      arketipeRelasi: json['arketipe_relasi'] as String,
+      dinamikaPsikologis: json['dinamika_psikologis'] as String,
+      potensiGesekan: json['potensi_gesekan'] as String,
+      saranKomunikasi: json['saran_komunikasi'] as String,
+      aiHook: json['ai_hook'] as String,
+    );
+  }
+}

@@ -1,0 +1,526 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/services/api_service.dart';
+import '../../../core/widgets/glass_card.dart';
+import '../../../core/widgets/ai_astrologer_dialog.dart';
+import '../../auth/services/auth_service.dart';
+import '../services/weton_dictionary_service.dart';
+
+class WetonCompatibilityScreen extends ConsumerStatefulWidget {
+  const WetonCompatibilityScreen({super.key});
+
+  @override
+  ConsumerState<WetonCompatibilityScreen> createState() =>
+      _WetonCompatibilityScreenState();
+}
+
+class _WetonCompatibilityScreenState
+    extends ConsumerState<WetonCompatibilityScreen> {
+  DateTime? _birthDate1;
+  DateTime? _birthDate2;
+  bool _isLoading = false;
+  WetonCompatibility? _result;
+  String? _errorMessage;
+
+  final DateFormat _fmt = DateFormat('d MMMM yyyy', 'id');
+
+  // ── Date Picker ──────────────────────────────────────────────────────────────
+
+  Future<void> _pickDate({required bool isFirst}) async {
+    final initial = (isFirst ? _birthDate1 : _birthDate2) ?? DateTime(1990, 1, 1);
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: initial,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+      builder: (ctx, child) => Theme(
+        data: Theme.of(ctx).copyWith(
+          colorScheme: ColorScheme.dark(
+            primary: AppTheme.accentGold,
+            onPrimary: Colors.black,
+            surface: const Color(0xFF1A1A2E),
+            onSurface: Colors.white,
+          ),
+        ),
+        child: child!,
+      ),
+    );
+    if (picked == null) return;
+    setState(() {
+      if (isFirst) {
+        _birthDate1 = picked;
+      } else {
+        _birthDate2 = picked;
+      }
+      // Clear result when input changes
+      _result = null;
+      _errorMessage = null;
+    });
+  }
+
+  // ── Calculate ────────────────────────────────────────────────────────────────
+
+  Future<void> _calculate() async {
+    if (_birthDate1 == null || _birthDate2 == null) {
+      setState(() => _errorMessage = 'Masukkan tanggal lahir keduanya terlebih dahulu.');
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+      _result = null;
+    });
+
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      final authHeader = await AuthService.getAuthHeader(user);
+
+      final fmt = DateFormat('yyyy-MM-dd');
+      final response = await ApiService.getWetonCompatibility(
+        birthDate1: fmt.format(_birthDate1!),
+        birthDate2: fmt.format(_birthDate2!),
+        authHeader: authHeader,
+      );
+
+      if (response['success'] == true && response['data'] != null) {
+        setState(() {
+          _result = WetonCompatibility.fromJson(
+            response['data'] as Map<String, dynamic>,
+          );
+        });
+      } else {
+        setState(() {
+          _errorMessage = response['error']?.toString() ??
+              'Gagal menghitung kompatibilitas.';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _errorMessage = e.toString().replaceFirst('Exception: ', '');
+      });
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  // ── AI Oracle ────────────────────────────────────────────────────────────────
+
+  Future<void> _openAiOracle(WetonCompatibility result) async {
+    final user = FirebaseAuth.instance.currentUser;
+    final authHeader = await AuthService.getAuthHeader(user);
+
+    if (!mounted) return;
+    showDialog<void>(
+      context: context,
+      builder: (_) => AiAstrologerDialog(
+        prompt: result.aiHook,
+        contextTitle: 'Kompatibilitas ${result.namaFase}',
+        authHeader: authHeader,
+      ),
+    );
+  }
+
+  // ── Build ────────────────────────────────────────────────────────────────────
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white70),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          'Kompatibilitas Pasangan',
+          style: GoogleFonts.cinzel(
+            color: AppTheme.accentGold,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        centerTitle: true,
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF0D0D1A), Color(0xFF1A0D2E)],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _buildIntroText(),
+                const SizedBox(height: 20),
+                _buildDateInputCard(
+                  label: 'Tanggal Lahir — Orang Pertama',
+                  icon: Icons.person_outline_rounded,
+                  date: _birthDate1,
+                  onTap: () => _pickDate(isFirst: true),
+                ),
+                const SizedBox(height: 12),
+                _buildHeartDivider(),
+                const SizedBox(height: 12),
+                _buildDateInputCard(
+                  label: 'Tanggal Lahir — Orang Kedua',
+                  icon: Icons.person_outline_rounded,
+                  date: _birthDate2,
+                  onTap: () => _pickDate(isFirst: false),
+                ),
+                const SizedBox(height: 24),
+                _buildCalculateButton(),
+                if (_errorMessage != null) ...[
+                  const SizedBox(height: 16),
+                  _buildErrorBanner(_errorMessage!),
+                ],
+                if (_result != null) ...[
+                  const SizedBox(height: 28),
+                  _buildResultSection(_result!),
+                ],
+                const SizedBox(height: 40),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ── UI Components ────────────────────────────────────────────────────────────
+
+  Widget _buildIntroText() {
+    return Text(
+      'Temukan pola energi relasional dua weton berdasarkan perhitungan neptu Jawa.',
+      textAlign: TextAlign.center,
+      style: GoogleFonts.lato(
+        color: Colors.white54,
+        fontSize: 13,
+        height: 1.5,
+      ),
+    );
+  }
+
+  Widget _buildDateInputCard({
+    required String label,
+    required IconData icon,
+    required DateTime? date,
+    required VoidCallback onTap,
+  }) {
+    return GlassCard(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: Icon(icon, color: AppTheme.accentGold.withValues(alpha: 0.8), size: 22),
+        title: Text(
+          label,
+          style: GoogleFonts.lato(
+            color: Colors.white54,
+            fontSize: 11,
+            letterSpacing: 0.4,
+          ),
+        ),
+        subtitle: Text(
+          date != null ? _fmt.format(date) : 'Pilih tanggal lahir...',
+          style: GoogleFonts.lato(
+            color: date != null ? Colors.white : Colors.white38,
+            fontSize: 15,
+            fontWeight: date != null ? FontWeight.w600 : FontWeight.normal,
+          ),
+        ),
+        trailing: Icon(
+          Icons.calendar_today_rounded,
+          color: Colors.white38,
+          size: 18,
+        ),
+        onTap: onTap,
+      ),
+    );
+  }
+
+  Widget _buildHeartDivider() {
+    return Row(
+      children: [
+        Expanded(
+          child: Divider(color: Colors.white12, thickness: 1),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Icon(
+            Icons.favorite_rounded,
+            color: AppTheme.accentGold.withValues(alpha: 0.5),
+            size: 18,
+          ),
+        ),
+        Expanded(
+          child: Divider(color: Colors.white12, thickness: 1),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCalculateButton() {
+    final canCalculate = _birthDate1 != null && _birthDate2 != null && !_isLoading;
+    return SizedBox(
+      height: 50,
+      child: ElevatedButton(
+        onPressed: canCalculate ? _calculate : null,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppTheme.accentGold,
+          disabledBackgroundColor: Colors.white10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          elevation: 0,
+        ),
+        child: _isLoading
+            ? const SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.black,
+                ),
+              )
+            : Text(
+                'Baca Pola Relasional',
+                style: GoogleFonts.cinzel(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.5,
+                ),
+              ),
+      ),
+    );
+  }
+
+  Widget _buildErrorBanner(String message) {
+    return GlassCard(
+      borderColor: Colors.redAccent.withValues(alpha: 0.4),
+      padding: const EdgeInsets.all(14),
+      child: Row(
+        children: [
+          const Icon(Icons.error_outline_rounded, color: Colors.redAccent, size: 18),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              message,
+              style: GoogleFonts.lato(color: Colors.redAccent, fontSize: 13),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildResultSection(WetonCompatibility result) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _buildNeptuRow(result),
+        const SizedBox(height: 16),
+        _buildFaseHeader(result),
+        const SizedBox(height: 16),
+        _buildInfoCard(
+          icon: Icons.psychology_outlined,
+          title: 'Dinamika Psikologis',
+          body: result.dinamikaPsikologis,
+        ),
+        const SizedBox(height: 12),
+        _buildInfoCard(
+          icon: Icons.bolt_rounded,
+          title: 'Potensi Gesekan',
+          body: result.potensiGesekan,
+          iconColor: const Color(0xFFFF8C42),
+        ),
+        const SizedBox(height: 12),
+        _buildInfoCard(
+          icon: Icons.chat_bubble_outline_rounded,
+          title: 'Saran Komunikasi',
+          body: result.saranKomunikasi,
+          iconColor: const Color(0xFF4CAF95),
+        ),
+        const SizedBox(height: 20),
+        _buildAiOracleButton(result),
+      ],
+    );
+  }
+
+  Widget _buildNeptuRow(WetonCompatibility result) {
+    return GlassCard(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildNeptuBadge('Neptu I', result.neptu1),
+          Column(
+            children: [
+              Text(
+                '+',
+                style: GoogleFonts.cinzel(
+                  color: Colors.white38,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ],
+          ),
+          _buildNeptuBadge('Neptu II', result.neptu2),
+          Column(
+            children: [
+              Text(
+                '% 8',
+                style: GoogleFonts.cinzel(
+                  color: Colors.white38,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ],
+          ),
+          _buildNeptuBadge('Sisa Bagi', result.sisaBagi, highlight: true),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNeptuBadge(String label, int value, {bool highlight = false}) {
+    return Column(
+      children: [
+        Text(
+          '$value',
+          style: GoogleFonts.cinzel(
+            color: highlight ? AppTheme.accentGold : Colors.white,
+            fontSize: highlight ? 28 : 22,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          label,
+          style: GoogleFonts.lato(
+            color: Colors.white38,
+            fontSize: 10,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFaseHeader(WetonCompatibility result) {
+    return GlassCard(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          AppTheme.accentGold.withValues(alpha: 0.12),
+          Colors.purple.withValues(alpha: 0.08),
+        ],
+      ),
+      borderColor: AppTheme.accentGold.withValues(alpha: 0.3),
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          Text(
+            result.namaFase,
+            style: GoogleFonts.cinzel(
+              color: AppTheme.accentGold,
+              fontSize: 28,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 2,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            result.arketipeRelasi,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.lato(
+              color: Colors.white70,
+              fontSize: 14,
+              fontStyle: FontStyle.italic,
+              letterSpacing: 0.3,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoCard({
+    required IconData icon,
+    required String title,
+    required String body,
+    Color? iconColor,
+  }) {
+    return GlassCard(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                icon,
+                color: iconColor ?? AppTheme.accentGold.withValues(alpha: 0.8),
+                size: 18,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: GoogleFonts.cinzel(
+                  color: Colors.white70,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.5,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            body,
+            style: GoogleFonts.lato(
+              color: Colors.white.withValues(alpha: 0.85),
+              fontSize: 14,
+              height: 1.6,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAiOracleButton(WetonCompatibility result) {
+    return OutlinedButton.icon(
+      onPressed: () => _openAiOracle(result),
+      style: OutlinedButton.styleFrom(
+        side: BorderSide(color: AppTheme.accentGold.withValues(alpha: 0.5)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        foregroundColor: AppTheme.accentGold,
+      ),
+      icon: const Icon(Icons.auto_awesome_rounded, size: 18),
+      label: Text(
+        'Tanya Orakel AI',
+        style: GoogleFonts.cinzel(
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+        ),
+      ),
+    );
+  }
+}
