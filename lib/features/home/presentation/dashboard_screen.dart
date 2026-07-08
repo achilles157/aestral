@@ -12,7 +12,6 @@ import '../../../core/widgets/city_search_sheet.dart';
 import 'widgets/starry_background.dart';
 import '../../../features/ai/presentation/oracle_chat_screen.dart';
 import '../../../features/tarot/services/tarot_data.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -979,21 +978,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             child: ElevatedButton(
               onPressed: canOpenSesepuh
                   ? () async {
-                      String authHeader = 'Guest anonymous';
-                      if (session != null) {
-                        if (session.isMock) {
-                          authHeader = 'Guest ${session.uid}';
-                        } else {
-                          try {
-                            final token = await FirebaseAuth.instance.currentUser?.getIdToken();
-                            if (token != null) {
-                              authHeader = 'Bearer $token';
-                            }
-                          } catch (e) {
-                            debugPrint('Error getting ID token: $e');
-                          }
-                        }
-                      }
+                      final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
                       
                       if (!mounted) return;
                       // Build synthesis context from all available data sources

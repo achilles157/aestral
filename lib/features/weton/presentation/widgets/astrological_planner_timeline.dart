@@ -457,14 +457,7 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                                           const SizedBox(height: 10),
                                           OutlinedButton.icon(
                                             onPressed: () async {
-                                              final session = ref.read(authProvider);
-                                              String authHeader;
-                                              if (session == null || session.isMock) {
-                                                authHeader = 'Guest ${session?.uid ?? 'anonymous'}';
-                                              } else {
-                                                final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
-                                                authHeader = idToken != null ? 'Bearer $idToken' : 'Guest ${session.uid}';
-                                              }
+                                              final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
                                               final birthDate = widget.birthDate;
                                               final WetonInfo? birthWeton = birthDate != null
                                                   ? WetonUtils.calculateWeton(birthDate)

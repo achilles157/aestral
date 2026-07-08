@@ -124,22 +124,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
       _isLoadingDaily = true;
     });
 
-    final session = ref.read(authProvider);
-    String authHeader = 'Guest anonymous';
-    if (session != null) {
-      if (session.isMock) {
-        authHeader = 'Guest ${session.uid}';
-      } else {
-        try {
-          final token = await FirebaseAuth.instance.currentUser?.getIdToken();
-          if (token != null) {
-            authHeader = 'Bearer $token';
-          }
-        } catch (e) {
-          debugPrint('Error getting ID token: $e');
-        }
-      }
-    }
+    final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
 
     final birthDateStr = "${dob.year}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}";
 
@@ -653,15 +638,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                  const SizedBox(height: 16),
                                  ElevatedButton.icon(
                                    onPressed: () async {
-                                     final session = ref.read(authProvider);
-                                     String authHeader;
-                                     if (session == null || session.isMock) {
-                                       authHeader = 'Guest ${session?.uid ?? 'anonymous'}';
-                                     } else {
-                                       // Firebase ID Token (signed JWT) — never send plain UID as bearer
-                                       final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
-                                       authHeader = idToken != null ? 'Bearer $idToken' : 'Guest ${session.uid}';
-                                     }
+                                     final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
                                      
                                      if (!context.mounted) return;
                                      Navigator.of(context).push(

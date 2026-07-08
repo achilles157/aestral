@@ -132,17 +132,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
       final birthWeton = WetonUtils.calculateWeton(birthDateTime);
       final mangsaId = WetonUtils.calculatePranataMangsaId(DateTime.now());
 
-      String authHeader = 'Guest ${session.uid}';
-      if (!session.isMock) {
-        try {
-          final token = await FirebaseAuth.instance.currentUser?.getIdToken();
-          if (token != null) {
-            authHeader = 'Bearer $token';
-          }
-        } catch (e) {
-          debugPrint('Error getting ID token: $e');
-        }
-      }
+      final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
 
       final response = await ApiService.drawTarot(
         birthDate: birthDateStr,
@@ -212,13 +202,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
         return;
       }
 
-      String authHeader = 'Guest ${session.uid}';
-      if (!session.isMock) {
-        try {
-          final token = await FirebaseAuth.instance.currentUser?.getIdToken();
-          if (token != null) authHeader = 'Bearer $token';
-        } catch (_) {}
-      }
+      final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
 
       final cards = drawnCards.map((info) => <String, dynamic>{
         'label': info.label,
@@ -259,20 +243,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
   }
 
   Future<void> _consultOracle(List<DrawnCardInfo> drawnCards) async {
-    String authHeader = 'Guest anonymous';
-    final session = ref.read(authProvider);
-    if (session != null) {
-      if (session.isMock) {
-        authHeader = 'Guest ${session.uid}';
-      } else {
-        try {
-          final token = await FirebaseAuth.instance.currentUser?.getIdToken();
-          if (token != null) authHeader = 'Bearer $token';
-        } catch (e) {
-          debugPrint('Error getting token: $e');
-        }
-      }
-    }
+    final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
     if (!mounted) return;
 
     final aiContext = {

@@ -156,6 +156,24 @@ class AuthNotifier extends Notifier<UserSession?> {
     );
   }
 
+  /// Builds the Authorization header for all API calls.
+  /// Returns `'Bearer {idToken}'` for authenticated Firebase users,
+  /// or `'Guest {uid}'` for guest/mock sessions.
+  /// Use this instead of building the header inline in each screen.
+  Future<String> getAuthHeader() async {
+    final session = state;
+    if (session == null || session.isMock) {
+      return 'Guest ${session?.uid ?? 'anonymous'}';
+    }
+    try {
+      final token = await FirebaseAuth.instance.currentUser?.getIdToken();
+      return token != null ? 'Bearer $token' : 'Guest ${session.uid}';
+    } catch (e) {
+      debugPrint('AuthNotifier.getAuthHeader: $e');
+      return 'Guest ${session.uid}';
+    }
+  }
+
   Future<void> signOut() async {
     if (isFirebaseAvailable) {
       try {

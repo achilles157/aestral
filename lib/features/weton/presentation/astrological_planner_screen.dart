@@ -74,23 +74,7 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
     });
 
     final birthStr = DateFormat('yyyy-MM-dd').format(_birthDate!);
-    final session = ref.read(authProvider);
-    String authHeader = 'Guest guest_user_123';
-    
-    if (session != null) {
-      if (session.isMock) {
-        authHeader = 'Guest ${session.uid}';
-      } else {
-        try {
-          final token = await FirebaseAuth.instance.currentUser?.getIdToken();
-          if (token != null) {
-            authHeader = 'Bearer $token';
-          }
-        } catch (e) {
-          debugPrint('Planner: Gagal mendapatkan token Firebase: $e');
-        }
-      }
-    }
+    final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
 
     try {
       final response = await ApiService.getCalendarMonth(

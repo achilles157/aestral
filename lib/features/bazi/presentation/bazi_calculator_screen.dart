@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/bazi_utils.dart';
@@ -174,15 +173,7 @@ class _BaziCalculatorScreenState
     final int? hour = _includeHour ? _birthHour : null;
 
     try {
-      final authToken = ref.read(authProvider);
-      String authHeader;
-      if (authToken != null && !authToken.isMock) {
-        // Firebase ID Token is the signed JWT — never send the plain UID as a bearer token.
-        final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
-        authHeader = idToken != null ? 'Bearer $idToken' : 'Guest ${authToken.uid}';
-      } else {
-        authHeader = 'Guest ${authToken?.uid ?? 'anonymous'}';
-      }
+      final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
 
       final result = await ApiService.getBaziChart(
         birthDate: dateStr,
@@ -264,14 +255,7 @@ class _BaziCalculatorScreenState
     final masterData = mastersAsync.asData?.value.findById(_chart!.dayMasterId);
     final arketipe = masterData?['arketipe_modern'] as String?;
 
-    final authToken = ref.read(authProvider);
-    String authHeader;
-    if (authToken != null && !authToken.isMock) {
-      final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
-      authHeader = idToken != null ? 'Bearer $idToken' : 'Guest ${authToken.uid}';
-    } else {
-      authHeader = 'Guest ${authToken?.uid ?? 'anonymous'}';
-    }
+    final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
 
     if (!mounted) return;
     Navigator.of(context).push(

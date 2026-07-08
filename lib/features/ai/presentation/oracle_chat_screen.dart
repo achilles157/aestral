@@ -42,10 +42,16 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
   // Cross-oracle suggestion prompt after session
   bool _showSesepuhHint = false;
 
+  // Topic-based ambient glow — warna berubah per topik percakapan (PRD section 4)
+  late Color _topicGlowColor;
+  late Color _prevGlowColor;
+
   @override
   void initState() {
     super.initState();
     _config = kOracleConfigs[widget.oracleType] ?? kOracleConfigs['weton']!;
+    _topicGlowColor = Color(_config.accentColor);
+    _prevGlowColor = Color(_config.accentColor);
 
     _glowCtrl = AnimationController(
       vsync: this,
@@ -99,18 +105,50 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
 
   Color get _accentColor => Color(_config.accentColor);
 
+  /// Deteksi elemen/topik dari teks oracle untuk ambient glow dinamis (PRD section 4).
+  Color _detectTopicColor(String text) {
+    final t = text.toLowerCase();
+    if (RegExp(r'karier|ambisi|semangat|motivasi|api|berani|tegas|tindakan|keberanian').hasMatch(t)) {
+      return const Color(0xFFE64A19); // Api — merah-oranye
+    }
+    if (RegExp(r'emosi|asmara|intuisi|mimpi|perasaan|batin|hubungan|cinta|air').hasMatch(t)) {
+      return const Color(0xFF1565C0); // Air — biru
+    }
+    if (RegExp(r'pertumbuhan|berkembang|kreatif|kreativitas|inspirasi|kayu|tumbuh').hasMatch(t)) {
+      return const Color(0xFF2E7D32); // Kayu — hijau
+    }
+    if (RegExp(r'keluarga|stabilitas|rumah|kesehatan|tanah|rezeki|materi|pondasi').hasMatch(t)) {
+      return const Color(0xFF6D4C41); // Tanah — coklat
+    }
+    if (RegExp(r'keuangan|uang|finansial|logika|disiplin|logam|struktur|fokus').hasMatch(t)) {
+      return const Color(0xFF78909C); // Logam — biru-abu
+    }
+    return _accentColor; // Default: warna persona oracle
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(oracleChatProvider(widget.oracleType));
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     final bottomPadding = MediaQuery.of(context).padding.bottom;
 
-    // Auto-scroll only when a new message is added
+    // Auto-scroll when new message added + update topic glow from oracle response
     ref.listen<OracleChatState>(
       oracleChatProvider(widget.oracleType),
       (prev, next) {
         if (prev != null && next.messages.length > prev.messages.length) {
           _scrollToBottom();
+          // Detect element/topik dari pesan oracle terbaru untuk ambient glow
+          final lastMsg = next.messages.last;
+          if (lastMsg.role == 'model' && lastMsg.text.isNotEmpty) {
+            final detected = _detectTopicColor(lastMsg.text);
+            if (detected != _topicGlowColor) {
+              setState(() {
+                _prevGlowColor = _topicGlowColor;
+                _topicGlowColor = detected;
+              });
+            }
+          }
         }
       },
     );
@@ -141,27 +179,35 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
               ),
             ),
           ),
-          // Animated ambient glow dari warna persona oracle
-          AnimatedBuilder(
-            animation: _glowCtrl,
-            builder: (_, __) {
-              final glow = Curves.easeInOut.transform(_glowCtrl.value);
-              return Positioned(
-                top: -120,
-                left: -80,
-                child: Container(
-                  width: 380,
-                  height: 380,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: RadialGradient(
-                      colors: [
-                        _accentColor.withValues(alpha: 0.10 + glow * 0.08),
-                        Colors.transparent,
-                      ],
+          // Ambient glow — warna berubah perlahan mengikuti topik percakapan (PRD section 4)
+          TweenAnimationBuilder<Color?>(
+            tween: ColorTween(begin: _prevGlowColor, end: _topicGlowColor),
+            duration: const Duration(milliseconds: 1500),
+            curve: Curves.easeInOut,
+            builder: (_, animColor, __) {
+              return AnimatedBuilder(
+                animation: _glowCtrl,
+                builder: (_, __) {
+                  final glow = Curves.easeInOut.transform(_glowCtrl.value);
+                  final c = animColor ?? _topicGlowColor;
+                  return Positioned(
+                    top: -120,
+                    left: -80,
+                    child: Container(
+                      width: 380,
+                      height: 380,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: RadialGradient(
+                          colors: [
+                            c.withValues(alpha: 0.10 + glow * 0.08),
+                            Colors.transparent,
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               );
             },
           ),
@@ -615,69 +661,6 @@ class _OracleBubble extends StatelessWidget {
             if (message.card != null)
               buildOracleCard(message.card!, accentColor),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Animasi loader mandala berpulsasi — menggantikan CircularProgressIndicator standar.
-class _DivinationLoader extends StatelessWidget {
-  final Color color;
-  final AnimationController controller;
-
-  const _DivinationLoader({required this.color, required this.controller});
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 14, right: 48),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.08),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(4),
-            topRight: Radius.circular(18),
-            bottomLeft: Radius.circular(18),
-            bottomRight: Radius.circular(18),
-          ),
-          border: Border.all(color: color.withValues(alpha: 0.20)),
-        ),
-        child: AnimatedBuilder(
-          animation: controller,
-          builder: (_, __) {
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: List.generate(3, (i) {
-                final delay = i * 0.33;
-                final t = (controller.value + delay) % 1.0;
-                final scale = 0.6 + 0.4 * math.sin(t * math.pi);
-                return Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 3, vertical: 4 - (4 * scale - 4).abs()),
-                  child: Transform.scale(
-                    scale: scale,
-                    child: Container(
-                      width: 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: color,
-                        boxShadow: [
-                          BoxShadow(
-                            color: color.withValues(alpha: 0.6 * scale),
-                            blurRadius: 6,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }),
-            );
-          },
         ),
       ),
     );
