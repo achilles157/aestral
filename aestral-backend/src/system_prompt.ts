@@ -43,6 +43,12 @@ export interface AiContext {
 		dayMasterLabel: string;
 		/** e.g. "Kayu:0 Api:2 Tanah:3 Logam:2 Air:1" */
 		wuXingBalance: string;
+		/** e.g. "Tahun: direct_resource | Bulan: seven_killings | Jam: eating_god" */
+		tenGods?: string;
+		/** e.g. "Kuat | Yong Shen: api, logam | Ji Shen: kayu, tanah" */
+		dmStrength?: string;
+		/** e.g. "Logam Yang Naga (庚辰) — usia 32–41" */
+		daYunAktif?: string;
 	};
 }
 
@@ -110,13 +116,16 @@ ${pm.pesanKesadaran ? `- Pesan kesadaran mangsa: ${pm.pesanKesadaran}` : ''}`);
 	if (context.baziChart) {
 		const bz = context.baziChart;
 		const hourLine = bz.hourPillar ? `- Pilar Jam    : ${bz.hourPillar}` : '- Pilar Jam    : Tidak diketahui';
+		const tenGodsLine = bz.tenGods ? `\n- 10 Gods      : ${bz.tenGods}` : '';
+		const dmStrengthLine = bz.dmStrength ? `\n- Kekuatan DM  : ${bz.dmStrength}` : '';
+		const daYunLine = bz.daYunAktif ? `\n- Da Yun Aktif : ${bz.daYunAktif}` : '';
 		sections.push(`DATA PENGGUNA — BA ZI (四柱八字):
 - Pilar Tahun  : ${bz.yearPillar}
 - Pilar Bulan  : ${bz.monthPillar}
 - Pilar Hari   : ${bz.dayPillar}
 ${hourLine}
 - Day Master   : ${bz.dayMasterLabel}
-- Keseimbangan 5 Elemen (Wu Xing): ${bz.wuXingBalance}`);
+- Keseimbangan 5 Elemen (Wu Xing): ${bz.wuXingBalance}${tenGodsLine}${dmStrengthLine}${daYunLine}`);
 
 		// Ba Zi-specific behavioral guidelines — override the generic ones
 		sections.push(`PETUNJUK JAWABAN KHUSUS BA ZI:

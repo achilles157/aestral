@@ -121,6 +121,64 @@ class WuXingBalance {
   }
 }
 
+/// Day Master strength and elemental prescription.
+class DayMasterStrength {
+  /// Strength label, e.g. "Kuat", "Lemah", "Sedang"
+  final String label;
+
+  /// Favorable elements — 用神 yòngshén
+  final List<String> yongShen;
+
+  /// Unfavorable elements — 忌神 jìshén
+  final List<String> jiShen;
+
+  const DayMasterStrength({
+    required this.label,
+    required this.yongShen,
+    required this.jiShen,
+  });
+
+  factory DayMasterStrength.fromJson(Map<String, dynamic> json) => DayMasterStrength(
+        label:    json['label'] as String,
+        yongShen: List<String>.from(json['yongShen'] as List),
+        jiShen:   List<String>.from(json['jiShen'] as List),
+      );
+
+  Map<String, dynamic> toJson() => {
+        'label':    label,
+        'yongShen': yongShen,
+        'jiShen':   jiShen,
+      };
+}
+
+/// Ten Gods (十神) relationship of each pillar's Heavenly Stem relative to the Day Master.
+/// Day Pillar is always the Day Master itself — not included here.
+class TenGods {
+  final String year;
+  final String month;
+
+  /// Null when birth hour is unknown
+  final String? hour;
+
+  const TenGods({
+    required this.year,
+    required this.month,
+    this.hour,
+  });
+
+  factory TenGods.fromJson(Map<String, dynamic> json) => TenGods(
+        year: json['year'] as String,
+        month: json['month'] as String,
+        hour: json['hour'] as String?,
+      );
+
+  Map<String, dynamic> toJson() => {
+        'year': year,
+        'month': month,
+        'hour': hour,
+      };
+}
+
 class BaziChart {
   final BaziPillar yearPillar;
   final BaziPillar monthPillar;
@@ -134,6 +192,12 @@ class BaziChart {
 
   final String dayMasterElement;
   final WuXingBalance wuXingBalance;
+
+  /// Ten Gods relationship per pillar stem relative to Day Master
+  final TenGods tenGods;
+
+  /// Day Master strength and favorable/unfavorable elements
+  final DayMasterStrength dmStrength;
 
   /// Human-readable True Solar Time correction note, null if no longitude given
   final String? trueSolarTimeNote;
@@ -149,6 +213,8 @@ class BaziChart {
     required this.dayMasterId,
     required this.dayMasterElement,
     required this.wuXingBalance,
+    required this.tenGods,
+    required this.dmStrength,
     this.trueSolarTimeNote,
     this.adjustedHour,
   });
@@ -164,6 +230,9 @@ class BaziChart {
         dayMasterElement: json['dayMasterElement'] as String,
         wuXingBalance: WuXingBalance.fromJson(
             json['wuXingBalance'] as Map<String, dynamic>),
+        tenGods: TenGods.fromJson(json['tenGods'] as Map<String, dynamic>),
+        dmStrength: DayMasterStrength.fromJson(
+            json['dmStrength'] as Map<String, dynamic>),
         trueSolarTimeNote: json['trueSolarTimeNote'] as String?,
         adjustedHour: json['adjustedHour'] as int?,
       );
@@ -187,4 +256,67 @@ class LuckPillar {
   int get endAge => startAge + 9;
 
   const LuckPillar({required this.pillar, required this.startAge});
+
+  factory LuckPillar.fromJson(Map<String, dynamic> json) => LuckPillar(
+        pillar:   BaziPillar.fromJson(json['pillar'] as Map<String, dynamic>),
+        startAge: json['startAge'] as int,
+      );
+
+  Map<String, dynamic> toJson() => {
+        'pillar':   pillar.toJson(),
+        'startAge': startAge,
+        'endAge':   endAge,
+      };
+}
+
+// ─── Branch Interaction Models ───────────────────────────────────────────────
+// Used by BaziUtils.detectBranchRelations() and BaziBranchRelationsCard.
+// Pillar index convention: 0=Tahun, 1=Bulan, 2=Hari, 3=Jam, 4=Annual (流年).
+
+/// A Six Clash (六冲) between two pillars' Earthly Branches.
+class BaziClash {
+  final int indexA;
+  final int indexB;
+  const BaziClash({required this.indexA, required this.indexB});
+}
+
+/// A Six Harmony (六合) between two pillars' Earthly Branches.
+class BaziHarmony {
+  final int indexA;
+  final int indexB;
+
+  /// The element produced by this harmony, e.g. 'kayu'.
+  final String resultElement;
+  const BaziHarmony({
+    required this.indexA,
+    required this.indexB,
+    required this.resultElement,
+  });
+}
+
+/// A Three Harmony (三合) triad — complete (all 3 present) or partial (2 of 3).
+class BaziTriad {
+  final List<int> pillarIndices;
+  final String element;
+  final bool isComplete;
+  const BaziTriad({
+    required this.pillarIndices,
+    required this.element,
+    required this.isComplete,
+  });
+}
+
+/// All detected branch interaction patterns within a chart or between charts.
+class BaziRelations {
+  final List<BaziClash> clashes;
+  final List<BaziHarmony> harmonies;
+  final List<BaziTriad> triads;
+
+  const BaziRelations({
+    this.clashes = const [],
+    this.harmonies = const [],
+    this.triads = const [],
+  });
+
+  bool get isEmpty => clashes.isEmpty && harmonies.isEmpty && triads.isEmpty;
 }

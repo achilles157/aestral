@@ -399,6 +399,24 @@ class BaziUtils {
       yearPillar, monthPillar, dayPillar, hourPillar,
     ]);
 
+    // Ten Gods — relationship of each pillar stem relative to Day Master
+    final int dmIdx = dayPillar.stemIndex;
+    final TenGods tenGods = TenGods(
+      year:  getTenGodId(dmIdx, yearPillar.stemIndex),
+      month: getTenGodId(dmIdx, monthPillar.stemIndex),
+      hour:  hourPillar != null ? getTenGodId(dmIdx, hourPillar.stemIndex) : null,
+    );
+
+    // Day Master Strength
+    final String strengthLabel = getDayMasterStrength(
+        monthPillar.branchIndex, dayPillar.element);
+    final favorable = getFavorableElements(dayPillar.element, strengthLabel);
+    final DayMasterStrength dmStrength = DayMasterStrength(
+      label:    strengthLabel,
+      yongShen: favorable.yongShen,
+      jiShen:   favorable.jiShen,
+    );
+
     return BaziChart(
       yearPillar:        yearPillar,
       monthPillar:       monthPillar,
@@ -407,6 +425,8 @@ class BaziUtils {
       dayMasterId:       dayPillar.stemId,
       dayMasterElement:  dayPillar.element,
       wuXingBalance:     balance,
+      tenGods:           tenGods,
+      dmStrength:        dmStrength,
       trueSolarTimeNote: trueSolarTimeNote,
       adjustedHour:      adjustedHour,
     );
@@ -441,22 +461,7 @@ class BaziUtils {
 
   // ─── Luck Pillars 大運 ──────────────────────────────────────────────────
 
-  /// Approximate dates (month, day) of the 12 節 solar terms.
-  /// Used to calculate days-to-nearest-term for luck pillar starting age.
-  static const List<(int, int)> _kSolarTermDates = [
-    (1,  6),  // Xiao Han  小寒
-    (2,  4),  // Li Chun   立春
-    (3,  6),  // Jing Zhe  惊蛰
-    (4,  5),  // Qing Ming 清明
-    (5,  6),  // Li Xia    立夏
-    (6,  6),  // Mang Zhong 芒种
-    (7,  7),  // Xiao Shu  小暑
-    (8,  7),  // Li Qiu    立秋
-    (9,  8),  // Bai Lu    白露
-    (10, 8),  // Han Lu    寒露
-    (11, 7),  // Li Dong   立冬
-    (12, 7),  // Da Xue    大雪
-  ];
+  // _kSolarTermDates removed — _daysToNearestSolarTerm now uses _jieDays directly.
 
   /// Builds a [BaziPillar] directly from its 0–59 sexagenary cycle position.
   static BaziPillar _buildPillarFromCycleIndex(int cycleIdx) {
@@ -470,8 +475,12 @@ class BaziUtils {
     final int birthJdn = dateToJdn(birth.year, birth.month, birth.day);
     final List<int> candidates = [];
     for (int yr = birth.year - 1; yr <= birth.year + 1; yr++) {
-      for (final (int m, int d) in _kSolarTermDates) {
-        candidates.add(dateToJdn(yr, m, d));
+      for (int termIdx = 0; termIdx < 12; termIdx++) {
+        // termIdx 0 = XiaoHan (Jan), 1 = LiChun (Feb), ..., 11 = DaXue (Dec)
+        // Use precise _jieDays instead of approximate fixed dates.
+        final int month = termIdx + 1;
+        final int day   = _getJieDay(termIdx, yr);
+        candidates.add(dateToJdn(yr, month, day));
       }
     }
     if (isForward) {
@@ -519,4 +528,199 @@ class BaziUtils {
       );
     });
   }
+
+  // ─── Day Master Strength 旺衰 ─────────────────────────────────────────────
+
+  /// Strength matrix: dmElement → scores indexed by branchIndex (0–11).
+  /// Score: 4=Sangat Kuat(旺), 3=Kuat(相), 2=Sedang(休), 1=Lemah(囚), 0=Sangat Lemah(死).
+  ///
+  /// Rule for each (dmElement, branch surface element) cell:
+  ///   same element        → 4 旺  |  branch generates DM (生我) → 3 相
+  ///   DM generates branch → 2 休  |  DM controls branch  (我克) → 1 囚
+  ///   branch controls DM  → 0 死
+  ///
+  /// Branch surface elements (Zi→Hai):
+  ///   air,tanah,kayu,kayu,tanah,api,api,tanah,logam,logam,tanah,air
+  static const Map<String, List<int>> _dmStrengthMatrix = {
+    //         Zi  Cou  Yin  Mao  Che  Si   Wu   Wei  She  You  Xu   Hai
+    'kayu':  [ 3,   1,   4,   4,   1,   2,   2,   1,   0,   0,   1,   3],
+    'api':   [ 0,   2,   3,   3,   2,   4,   4,   2,   1,   1,   2,   0],
+    'tanah': [ 1,   4,   0,   0,   4,   3,   3,   4,   2,   2,   4,   1],
+    'logam': [ 2,   3,   1,   1,   3,   0,   0,   3,   4,   4,   3,   2],
+    'air':   [ 4,   0,   2,   2,   0,   1,   1,   0,   3,   3,   0,   4],
+  };
+
+  static const List<String> _dmStrengthLabels = [
+    'Sangat Lemah', // 0 — 死
+    'Lemah',        // 1 — 囚
+    'Sedang',       // 2 — 休
+    'Kuat',         // 3 — 相
+    'Sangat Kuat',  // 4 — 旺
+  ];
+
+  /// Returns the Day Master strength label based on the month branch season.
+  /// Verified: Api DM + Wei(7) month → Sedang(休) ✓
+  static String getDayMasterStrength(int monthBranchIndex, String dmElement) {
+    final scores = _dmStrengthMatrix[dmElement];
+    if (scores == null) return 'Sedang';
+    return _dmStrengthLabels[scores[monthBranchIndex]];
+  }
+
+  // ─── Favorable / Unfavorable Elements 用神/忌神 ───────────────────────────
+
+  /// Returns yongShen (用神 favorable) and jiShen (忌神 unfavorable) element lists.
+  ///
+  /// Strong DM (Sangat Kuat/Kuat): needs 我生 (drain) + 克我 (control).
+  /// Weak   DM (Sangat Lemah/Lemah): needs 生我 (support) + 比劫 (same).
+  /// Sedang: lean toward support (生我 + 比劫).
+  static ({List<String> yongShen, List<String> jiShen}) getFavorableElements(
+    String dmElement,
+    String strength,
+  ) {
+    final String generates    = _generates[dmElement]!;
+    final String generatedBy  = _generates.entries
+        .firstWhere((e) => e.value == dmElement).key;
+    final String controlledBy = _controls.entries
+        .firstWhere((e) => e.value == dmElement).key;
+
+    switch (strength) {
+      case 'Sangat Kuat':
+      case 'Kuat':
+        return (yongShen: [generates, controlledBy],
+                jiShen:   [generatedBy, dmElement]);
+      case 'Sangat Lemah':
+      case 'Lemah':
+        return (yongShen: [generatedBy, dmElement],
+                jiShen:   [controlledBy, generates]);
+      default: // Sedang
+        return (yongShen: [generatedBy, dmElement],
+                jiShen:   [controlledBy]);
+    }
+  }
+
+  // ─── Empty Branches 空亡 ──────────────────────────────────────────────────
+
+  /// Returns the two Empty (空亡 Kongwang) branch indices for the Day Pillar.
+  ///
+  /// Each 10-day group uses 10 consecutive branches; the remaining 2 are empty.
+  /// Formula: group = ci÷10, startBranch = (-2·group mod 12),
+  ///          empty = [startBranch+10, startBranch+11] (mod 12).
+  /// Example: 丙午 (ci=42, group=4) → empty Yin(2), Mao(3) ✓
+  static List<int> getEmptyBranches(BaziPillar dayPillar) {
+    final int ci           = _sexagenaryIndex(dayPillar.stemIndex, dayPillar.branchIndex);
+    final int group        = ci ~/ 10;
+    final int startBranch  = ((-2 * group) % 12 + 12) % 12;
+    return [(startBranch + 10) % 12, (startBranch + 11) % 12];
+  }
+
+  // ─── Branch Relations 六冲/六合/三合 ──────────────────────────────────────
+
+  /// Six Harmony (六合) pairs keyed as "branchA_branchB" → result element.
+  static const Map<String, String> _sixHarmonyResult = {
+    '0_1': 'tanah', '1_0': 'tanah',    // 子丑合 → Tanah
+    '2_11': 'kayu', '11_2': 'kayu',    // 寅亥合 → Kayu
+    '3_10': 'api',  '10_3': 'api',     // 卯戌合 → Api
+    '4_9':  'logam','9_4':  'logam',   // 辰酉合 → Logam
+    '5_8':  'air',  '8_5':  'air',     // 巳申合 → Air
+    '6_7':  'api',  '7_6':  'api',     // 午未合 → Api
+  };
+
+  /// Three Harmony (三合) triads: (branch indices, result element).
+  static const List<(List<int>, String)> _threeHarmonyTriads = [
+    ([8, 0, 4],  'air'),    // 申子辰 → Water
+    ([11, 3, 7], 'kayu'),   // 亥卯未 → Wood
+    ([2, 6, 10], 'api'),    // 寅午戌 → Fire
+    ([5, 9, 1],  'logam'),  // 巳酉丑 → Metal
+  ];
+
+  /// Detects Six Clashes (六冲), Six Harmonies (六合), Three Harmonies (三合)
+  /// among the given pillars.
+  ///
+  /// Index convention: 0=Tahun, 1=Bulan, 2=Hari, 3=Jam, 4=Annual(流年).
+  /// Null entries (unknown hour) are skipped.
+  static BaziRelations detectBranchRelations(List<BaziPillar?> pillars) {
+    final clashes   = <BaziClash>[];
+    final harmonies = <BaziHarmony>[];
+    final triads    = <BaziTriad>[];
+
+    // Build valid (pillarIndex, branchIndex) list
+    final valid = <(int, int)>[];
+    for (int i = 0; i < pillars.length; i++) {
+      if (pillars[i] != null) valid.add((i, pillars[i]!.branchIndex));
+    }
+
+    // Pairwise: Six Clashes + Six Harmonies
+    for (int i = 0; i < valid.length; i++) {
+      for (int j = i + 1; j < valid.length; j++) {
+        final (int idxA, int bA) = valid[i];
+        final (int idxB, int bB) = valid[j];
+
+        // Six Clash: branch distance == 6
+        if ((bA - bB).abs() == 6) {
+          clashes.add(BaziClash(indexA: idxA, indexB: idxB));
+        }
+
+        // Six Harmony
+        final String? result = _sixHarmonyResult['${bA}_$bB'];
+        if (result != null) {
+          harmonies.add(BaziHarmony(
+            indexA: idxA, indexB: idxB, resultElement: result));
+        }
+      }
+    }
+
+    // Three Harmonies — detect complete (3) and partial (2)
+    final presentBranches = valid.map((e) => e.$2).toSet();
+    for (final (List<int> trio, String el) in _threeHarmonyTriads) {
+      final matched = <int>[];
+      for (final branch in trio) {
+        for (final (int idx, int b) in valid) {
+          if (b == branch) matched.add(idx);
+        }
+      }
+      if (matched.length >= 2) {
+        triads.add(BaziTriad(
+          pillarIndices: matched,
+          element:       el,
+          isComplete:    matched.length == 3 &&
+                         trio.every((b) => presentBranches.contains(b)),
+        ));
+      }
+    }
+
+    return BaziRelations(clashes: clashes, harmonies: harmonies, triads: triads);
+  }
+
+  // ─── Annual Pillar 流年 ───────────────────────────────────────────────────
+
+  /// Returns the Year Pillar for the current calendar date (今年流年).
+  static BaziPillar getCurrentAnnualPillar() {
+    final now = DateTime.now();
+    return getYearPillar(now.year, now.month, now.day);
+  }
+
+  // ─── Nobleman Star 天乙貴人 ───────────────────────────────────────────────
+
+  /// Returns the two Nobleman (天乙貴人) Earthly Branch indices for the Day Stem.
+  ///
+  /// Traditional Zi Ping assignment:
+  ///   Jia(0)/Wu(4)/Geng(6)/Xin(7) → Chou(1), Wei(7)
+  ///   Yi(1)/Ji(5)                  → Zi(0),   Shen(8)
+  ///   Bing(2)/Ding(3)              → Hai(11), You(9)
+  ///   Ren(8)/Gui(9)                → Mao(3),  Si(5)
+  static const List<List<int>> _nobelmanTable = [
+    [1, 7],   // 0 Jia  → Chou, Wei
+    [0, 8],   // 1 Yi   → Zi,   Shen
+    [11, 9],  // 2 Bing → Hai,  You
+    [11, 9],  // 3 Ding → Hai,  You
+    [1, 7],   // 4 Wu   → Chou, Wei
+    [0, 8],   // 5 Ji   → Zi,   Shen
+    [1, 7],   // 6 Geng → Chou, Wei
+    [1, 7],   // 7 Xin  → Chou, Wei
+    [3, 5],   // 8 Ren  → Mao,  Si
+    [3, 5],   // 9 Gui  → Mao,  Si
+  ];
+
+  static List<int> getNobleman(int dayStemIndex) =>
+      _nobelmanTable[dayStemIndex % 10];
 }

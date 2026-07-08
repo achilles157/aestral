@@ -239,15 +239,11 @@ class _BaziCalculatorScreenState
 
     // Compute derived analytical state (strength, elements, relations, annual)
     if (_chart != null) {
-      final String strength = BaziUtils.getDayMasterStrength(
-          _chart!.monthPillar.branchIndex, _chart!.dayMasterElement);
-      final favorable = BaziUtils.getFavorableElements(
-          _chart!.dayMasterElement, strength);
       final annual = BaziUtils.getCurrentAnnualPillar();
       setState(() {
-        _dmStrength      = strength;
-        _yongShen        = favorable.yongShen;
-        _jiShen          = favorable.jiShen;
+        _dmStrength      = _chart!.dmStrength.label;
+        _yongShen        = _chart!.dmStrength.yongShen;
+        _jiShen          = _chart!.dmStrength.jiShen;
         _emptyBranches   = BaziUtils.getEmptyBranches(_chart!.dayPillar);
         _branchRelations = BaziUtils.detectBranchRelations(_chart!.allPillars);
         _annualPillar    = annual;
@@ -292,6 +288,10 @@ class _BaziCalculatorScreenState
         latitude: lat,
         longitude: lng,
         dayMasterArketipe: arketipe,
+        isMale: _isMale,
+        currentAge: _birthDate != null
+            ? DateTime.now().year - _birthDate!.year
+            : null,
         authHeader: authHeader,
       );
       setState(() => _aiInsight = result['response'] as String?);

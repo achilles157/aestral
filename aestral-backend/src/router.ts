@@ -1,7 +1,7 @@
 import { parseAuthHeader, verifyFirebaseJwt, type AuthToken } from './auth';
 import { getDeterministicThreeCards, getMangsaDeterministicThreeCards } from './tarot';
 import { getWetonInsight, getPranataMangsaId, getJamInsight, checkIsDinoWas, dateToJdn, calculateTotalNeptu } from './weton';
-import { calculateBaziChart, type BaziChartResult } from './bazi';
+import { calculateBaziChart, calculateLuckPillars, type BaziChartResult } from './bazi';
 import { callGemini } from './gemini';
 import { buildSystemInstruction, type AiContext } from './system_prompt';
 import { isRateLimited, getRateLimitResetSeconds } from './rate_limiter';
@@ -92,6 +92,10 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
 
 	if (method === 'POST' && pathname === '/api/bazi/chart') {
 		return handleBaziChart(request, env);
+	}
+
+	if (method === 'POST' && pathname === '/api/bazi/luck-pillars') {
+		return handleBaziLuckPillars(request, env);
 	}
 
 	if (method === 'POST' && pathname === '/api/bazi/insight') {
@@ -658,12 +662,78 @@ async function handleBaziChart(request: Request, env: Env): Promise<Response> {
 	}
 }
 
+// --- Ba Zi Luck Pillars Handler ---
+
+interface BaziLuckPillarsBody extends BaziChartBody {
+	isMale?: boolean;
+}
+
+async function handleBaziLuckPillars(request: Request, env: Env): Promise<Response> {
+	const authResult = await requireAuth(request.headers.get('Authorization'), env);
+	if (authResult instanceof Response) return authResult;
+	const { authToken } = authResult;
+
+	// Luck Pillars requires registered user (gender is personal data)
+	if (authToken.type === 'guest') {
+		return json({ error: 'Da Yun membutuhkan akun terdaftar' }, 403);
+	}
+
+	let body: BaziLuckPillarsBody;
+	try {
+		body = (await request.json()) as BaziLuckPillarsBody;
+	} catch {
+		return json({ error: 'Invalid JSON body' }, 400);
+	}
+
+	if (!body.birthDate) {
+		return json({ error: 'birthDate is required (format: YYYY-MM-DD)' }, 400);
+	}
+
+	if (!/^\d{4}-\d{2}-\d{2}$/.test(body.birthDate)) {
+		return json({ error: 'birthDate must be in YYYY-MM-DD format' }, 400);
+	}
+
+	if (body.isMale === undefined || body.isMale === null) {
+		return json({ error: 'isMale is required for Da Yun calculation' }, 400);
+	}
+
+	try {
+		const chart = calculateBaziChart(
+			body.birthDate,
+			body.birthHour,
+			body.latitude,
+			body.longitude,
+		);
+
+		const result = calculateLuckPillars(
+			body.birthDate,
+			chart.monthPillar,
+			chart.yearPillar.stemIndex,
+			body.isMale,
+		);
+
+		return json({
+			success: true,
+			pillars:   result.pillars,
+			isForward: result.isForward,
+			startAge:  result.startAge,
+		});
+	} catch (err) {
+		const message = err instanceof Error ? err.message : 'Gagal menghitung Da Yun.';
+		return json({ error: message }, 500);
+	}
+}
+
 // --- Ba Zi Insight Handler ---
 
 interface BaziInsightBody extends BaziChartBody {
 	prompt?: string;
 	/** Optional Day Master arketipe label from 10day-masters.json */
 	dayMasterArketipe?: string;
+	/** Required for Da Yun active pillar context */
+	isMale?: boolean;
+	/** Current age of the user — used to find active Da Yun pillar */
+	currentAge?: number;
 }
 
 async function handleBaziInsight(request: Request, env: Env): Promise<Response> {
@@ -720,6 +790,38 @@ async function handleBaziInsight(request: Request, env: Env): Promise<Response> 
 		const polarity = chart.dayPillar.stemIndex % 2 === 0 ? 'Yang' : 'Yin';
 		const dayMasterLabel = `${chart.dayMasterId.charAt(0).toUpperCase() + chart.dayMasterId.slice(1)} — ${chart.dayMasterElement.charAt(0).toUpperCase() + chart.dayMasterElement.slice(1)} ${polarity} — ${arketipe}`;
 
+		// Format Ten Gods as readable string for AI context
+		const tg = chart.tenGods;
+		const tenGodsStr = [
+			`Tahun: ${tg.year}`,
+			`Bulan: ${tg.month}`,
+			tg.hour ? `Jam: ${tg.hour}` : null,
+		].filter(Boolean).join(' | ');
+
+		// Format Day Master Strength for AI context
+		const dmStr = chart.dmStrength;
+		const dmStrengthStr = `${dmStr.label} | Yong Shen: ${dmStr.yongShen.join(', ')} | Ji Shen: ${dmStr.jiShen.join(', ')}`;
+
+		// Format Da Yun aktif for AI context (if isMale + currentAge provided)
+		let daYunAktif: string | undefined;
+		if (body.isMale !== undefined && body.currentAge !== undefined) {
+			const lp = calculateLuckPillars(
+				body.birthDate,
+				chart.monthPillar,
+				chart.yearPillar.stemIndex,
+				body.isMale,
+			);
+			const active = lp.pillars.find(
+				p => body.currentAge! >= p.startAge && body.currentAge! <= p.endAge,
+			);
+			if (active) {
+				daYunAktif =
+					`${active.pillar.stemNameId} ${active.pillar.branchZodiacId} ` +
+					`(${active.pillar.stemSymbol}${active.pillar.branchSymbol}) — ` +
+					`usia ${active.startAge}–${active.endAge}`;
+			}
+		}
+
 		const aiContext: AiContext = {
 			baziChart: {
 				yearPillar:     formatPillar(chart.yearPillar),
@@ -729,6 +831,9 @@ async function handleBaziInsight(request: Request, env: Env): Promise<Response> 
 				dayMasterId:    chart.dayMasterId,
 				dayMasterLabel,
 				wuXingBalance:  wuXingStr,
+				tenGods:        tenGodsStr,
+				dmStrength:     dmStrengthStr,
+				daYunAktif,
 			},
 		};
 

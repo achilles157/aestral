@@ -53,6 +53,36 @@ const BRANCH_ELEMENTS: readonly string[] = [
 	'api', 'tanah', 'logam', 'logam', 'tanah', 'air',
 ];
 
+// ─── Wu Xing Interaction Cycles ──────────────────────────────────────────────
+
+/** Sheng (生) — producing cycle */
+const GENERATES: Record<string, string> = {
+	kayu: 'api', api: 'tanah', tanah: 'logam', logam: 'air', air: 'kayu',
+};
+
+/** Ke (克) — controlling cycle */
+const CONTROLS: Record<string, string> = {
+	kayu: 'tanah', tanah: 'air', air: 'api', api: 'logam', logam: 'kayu',
+};
+
+// ─── Day Master Strength (旺衰) ───────────────────────────────────────────────
+//
+// Scores indexed by Month Branch (0=Zi … 11=Hai) per DM element.
+// 0=Sangat Lemah(死) 1=Lemah(囚) 2=Sedang(休) 3=Kuat(相) 4=Sangat Kuat(旺)
+
+const DM_STRENGTH_MATRIX: Record<string, readonly number[]> = {
+	//         Zi  Cou  Yin  Mao  Che  Si   Wu   Wei  She  You  Xu   Hai
+	kayu:   [  3,   1,   4,   4,   1,   2,   2,   1,   0,   0,   1,   3],
+	api:    [  0,   2,   3,   3,   2,   4,   4,   2,   1,   1,   2,   0],
+	tanah:  [  1,   4,   0,   0,   4,   3,   3,   4,   2,   2,   4,   1],
+	logam:  [  2,   3,   1,   1,   3,   0,   0,   3,   4,   4,   3,   2],
+	air:    [  4,   0,   2,   2,   0,   1,   1,   0,   3,   3,   0,   4],
+};
+
+const DM_STRENGTH_LABELS = [
+	'Sangat Lemah', 'Lemah', 'Sedang', 'Kuat', 'Sangat Kuat',
+] as const;
+
 // ─── Cang Gan (藏干 Hidden Stems) ───────────────────────────────────────────
 // Each branch contains 1-3 hidden stems that contribute to Wu Xing balance.
 
@@ -319,6 +349,27 @@ export interface WuXingBalance {
 	air: number;
 }
 
+/**
+ * Ten Gods (十神) relationship of each pillar's Heavenly Stem relative to the Day Master.
+ * Day Pillar is always the Day Master itself — not included here.
+ */
+export interface TenGods {
+	year:  string;
+	month: string;
+	/** Null when birth hour is unknown */
+	hour:  string | null;
+}
+
+/** Day Master strength and elemental prescription */
+export interface DayMasterStrength {
+	/** e.g. "Kuat", "Lemah", "Sedang" */
+	label: string;
+	/** Favorable elements — 用神 yòngshén */
+	yongShen: string[];
+	/** Unfavorable elements — 忌神 jìshén */
+	jiShen: string[];
+}
+
 export interface BaziChartResult {
 	yearPillar: BaziPillar;
 	monthPillar: BaziPillar;
@@ -329,10 +380,74 @@ export interface BaziChartResult {
 	dayMasterId: string;
 	dayMasterElement: string;
 	wuXingBalance: WuXingBalance;
+	/** Ten Gods relationship per pillar stem relative to Day Master */
+	tenGods: TenGods;
+	/** Day Master strength and favorable/unfavorable elements */
+	dmStrength: DayMasterStrength;
 	/** Human-readable TST correction note, null if no longitude provided */
 	trueSolarTimeNote: string | null;
 	/** TST-adjusted hour used for Hour Pillar, null if birthHour not provided */
 	adjustedHour: number | null;
+}
+
+// ─── Ten Gods (十神) ──────────────────────────────────────────────────────────
+
+/**
+ * Returns the Ten God relationship ID of a target stem relative to the Day Master stem.
+ *
+ * The ten gods are determined by two axes:
+ *   1. The Wu Xing relationship (same element, generates, controls, etc.)
+ *   2. Polarity parity — same parity (both Yang or both Yin) → "indirect/sibling" variant
+ *
+ * @param dmStemIndex     Day Master stem index (0–9)
+ * @param targetStemIndex Target stem index to classify (0–9)
+ */
+function getTenGodId(dmStemIndex: number, targetStemIndex: number): string {
+	const dmEl  = STEM_ELEMENTS[dmStemIndex];
+	const tgEl  = STEM_ELEMENTS[targetStemIndex];
+	const same  = (dmStemIndex % 2) === (targetStemIndex % 2);
+
+	if (tgEl === dmEl)              return same ? 'friend'            : 'rob_wealth';
+	if (GENERATES[dmEl] === tgEl)   return same ? 'eating_god'        : 'hurting_officer';
+	if (CONTROLS[dmEl]  === tgEl)   return same ? 'indirect_wealth'   : 'direct_wealth';
+	if (CONTROLS[tgEl]  === dmEl)   return same ? 'seven_killings'    : 'direct_officer';
+	if (GENERATES[tgEl] === dmEl)   return same ? 'indirect_resource' : 'direct_resource';
+	return 'friend'; // unreachable with valid 0–9 stem indices
+}
+
+/**
+ * Returns the strength label of the Day Master based on the Month Branch.
+ * Uses the seasonal rooting (月令) principle.
+ */
+function getDayMasterStrength(monthBranchIndex: number, dmElement: string): string {
+	const scores = DM_STRENGTH_MATRIX[dmElement];
+	if (!scores) return 'Sedang';
+	return DM_STRENGTH_LABELS[scores[monthBranchIndex]];
+}
+
+/**
+ * Returns favorable (用神 yòngshén) and unfavorable (忌神 jìshén) elements
+ * based on Day Master element and strength.
+ *
+ * Strong DM  → needs drain (output) + control to balance excess.
+ * Weak DM    → needs support (resource) + same element to reinforce.
+ */
+function getFavorableElements(
+	dmElement: string,
+	strength: string,
+): { yongShen: string[]; jiShen: string[] } {
+	const generates    = GENERATES[dmElement];
+	const generatedBy  = Object.entries(GENERATES).find(([, v]) => v === dmElement)![0];
+	const controlledBy = Object.entries(CONTROLS).find(([, v]) => v === dmElement)![0];
+
+	if (strength === 'Kuat' || strength === 'Sangat Kuat') {
+		return { yongShen: [generates, controlledBy], jiShen: [generatedBy, dmElement] };
+	}
+	if (strength === 'Lemah' || strength === 'Sangat Lemah') {
+		return { yongShen: [generatedBy, dmElement], jiShen: [controlledBy, generates] };
+	}
+	// Sedang
+	return { yongShen: [generatedBy, dmElement], jiShen: [controlledBy] };
 }
 
 // ─── Core Utility ─────────────────────────────────────────────────────────
@@ -520,6 +635,85 @@ function calculateWuXingBalance(pillars: Array<BaziPillar | null>): WuXingBalanc
 
 // ─── Main Export ──────────────────────────────────────────────────────────
 
+// ─── Luck Pillars (大運 Da Yun) ───────────────────────────────────────────────
+
+export interface LuckPillar {
+	pillar: BaziPillar;
+	startAge: number;
+	/** startAge + 9 */
+	endAge: number;
+}
+
+export interface LuckPillarsResult {
+	pillars: LuckPillar[];
+	/** true = forward (顺运), false = backward (逆运) */
+	isForward: boolean;
+	/** Age at which the first luck pillar begins */
+	startAge: number;
+}
+
+/**
+ * Returns the number of days between the birth date and the nearest
+ * solar term (forward or backward), used to derive Da Yun start age.
+ */
+function daysToNearestSolarTerm(
+	year: number, month: number, day: number,
+	isForward: boolean,
+): number {
+	const birthJdn = dateToJdn(year, month, day);
+	const candidates: number[] = [];
+	for (let yr = year - 1; yr <= year + 1; yr++) {
+		for (let termIdx = 0; termIdx < 12; termIdx++) {
+			const d = getJieDay(termIdx, yr);
+			candidates.push(dateToJdn(yr, termIdx + 1, d));
+		}
+	}
+	if (isForward) {
+		const nexts = candidates.filter(j => j > birthJdn).sort((a, b) => a - b);
+		return nexts.length ? nexts[0] - birthJdn : 30;
+	} else {
+		const prevs = candidates.filter(j => j < birthJdn).sort((a, b) => b - a);
+		return prevs.length ? birthJdn - prevs[0] : 30;
+	}
+}
+
+/**
+ * Calculates 8 ten-year Luck Pillar cycles (大運) from the Month Pillar sequence.
+ *
+ * Direction rule:
+ *   Male + Yang Year  OR  Female + Yin Year  → forward (顺运)
+ *   Male + Yin Year   OR  Female + Yang Year → backward (逆运)
+ *
+ * Start age = round(days to nearest solar term / 3), clamped 1–99.
+ * Each subsequent pillar adds 10 years.
+ */
+export function calculateLuckPillars(
+	birthDate: string,
+	monthPillar: BaziPillar,
+	yearStemIndex: number,
+	isMale: boolean,
+	count = 8,
+): LuckPillarsResult {
+	const [y, m, d] = birthDate.split('-').map(Number);
+	const isYangYear = yearStemIndex % 2 === 0;
+	const isForward  = isMale === isYangYear;
+
+	const days     = daysToNearestSolarTerm(y, m, d, isForward);
+	const startAge = Math.min(Math.max(Math.round(days / 3), 1), 99);
+
+	const monthCycleIdx = getSexagenaryIndex(monthPillar.stemIndex, monthPillar.branchIndex);
+	const step = isForward ? 1 : -1;
+
+	const pillars: LuckPillar[] = Array.from({ length: count }, (_, i) => {
+		const cycleIdx = ((monthCycleIdx + step * (i + 1)) % 60 + 60) % 60;
+		const pillar   = buildPillar(cycleIdx % 10, cycleIdx % 12);
+		const sa       = startAge + i * 10;
+		return { pillar, startAge: sa, endAge: sa + 9 };
+	});
+
+	return { pillars, isForward, startAge };
+}
+
 /**
  * Calculates a complete Ba Zi (Four Pillars of Destiny) chart.
  *
@@ -581,6 +775,19 @@ export function calculateBaziChart(
 		yearPillar, monthPillar, dayPillar, hourPillar,
 	]);
 
+	// --- Ten Gods ---
+	const dmIdx = dayPillar.stemIndex;
+	const tenGods: TenGods = {
+		year:  getTenGodId(dmIdx, yearPillar.stemIndex),
+		month: getTenGodId(dmIdx, monthPillar.stemIndex),
+		hour:  hourPillar ? getTenGodId(dmIdx, hourPillar.stemIndex) : null,
+	};
+
+	// --- Day Master Strength ---
+	const strengthLabel = getDayMasterStrength(monthPillar.branchIndex, dayPillar.element);
+	const { yongShen, jiShen } = getFavorableElements(dayPillar.element, strengthLabel);
+	const dmStrength: DayMasterStrength = { label: strengthLabel, yongShen, jiShen };
+
 	return {
 		yearPillar,
 		monthPillar,
@@ -589,6 +796,8 @@ export function calculateBaziChart(
 		dayMasterId:      dayPillar.stemId,
 		dayMasterElement: dayPillar.element,
 		wuXingBalance,
+		tenGods,
+		dmStrength,
 		trueSolarTimeNote,
 		adjustedHour,
 	};

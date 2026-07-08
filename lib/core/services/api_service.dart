@@ -319,6 +319,8 @@ class ApiService {
     double? longitude,
     String? prompt,
     String? dayMasterArketipe,
+    bool? isMale,
+    int? currentAge,
     required String authHeader,
   }) async {
     final url = Uri.parse('$baseUrl/api/bazi/insight');
@@ -337,6 +339,8 @@ class ApiService {
             if (longitude != null) 'longitude': longitude,
             if (prompt != null) 'prompt': prompt,
             if (dayMasterArketipe != null) 'dayMasterArketipe': dayMasterArketipe,
+            if (isMale != null) 'isMale': isMale,
+            if (currentAge != null) 'currentAge': currentAge,
           }),
         ).timeout(const Duration(seconds: 30));
 
@@ -349,6 +353,46 @@ class ApiService {
         throw Exception('Invalid response format');
       } catch (e) {
         debugPrint('ApiService.getBaziInsight error: $e');
+        rethrow;
+      }
+    });
+  }
+
+  static Future<Map<String, dynamic>> getLuckPillars({
+    required String birthDate,
+    int? birthHour,
+    double? latitude,
+    double? longitude,
+    required bool isMale,
+    required String authHeader,
+  }) async {
+    final url = Uri.parse('$baseUrl/api/bazi/luck-pillars');
+    return _withRetry(() async {
+      try {
+        final response = await http.post(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authHeader,
+          },
+          body: json.encode({
+            'birthDate': birthDate,
+            if (birthHour != null) 'birthHour': birthHour,
+            if (latitude != null) 'latitude': latitude,
+            if (longitude != null) 'longitude': longitude,
+            'isMale': isMale,
+          }),
+        ).timeout(const Duration(seconds: 30));
+
+        if (response.statusCode != 200) {
+          throw Exception('Status ${response.statusCode}: ${response.body}');
+        }
+
+        final data = json.decode(response.body);
+        if (data is Map<String, dynamic>) return data;
+        throw Exception('Invalid response format');
+      } catch (e) {
+        debugPrint('ApiService.getLuckPillars error: $e');
         rethrow;
       }
     });
