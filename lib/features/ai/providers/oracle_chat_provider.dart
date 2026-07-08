@@ -50,7 +50,7 @@ const Map<String, OracleConfig> kOracleConfigs = {
     name: 'Sesepuh Kosmis',
     greetingTitle: 'Grand Reading',
     accentColor: 0xFF5C6BC0, // Deep indigo
-    bgAsset: 'assets/images/weton_bg.png', // Fallback — ganti dengan mandala_bg.png jika ada
+    bgAsset: 'assets/images/mandala_bg.png',
   ),
 };
 
@@ -144,18 +144,19 @@ class OracleChatState {
 
 final oracleChatProvider = NotifierProvider.family<
     OracleChatNotifier, OracleChatState, String>(
-  OracleChatNotifier.new,
+  (String oracleType) => OracleChatNotifier(oracleType),
 );
 
 // ── Notifier ─────────────────────────────────────────────────────────────────
 
-class OracleChatNotifier extends FamilyNotifier<OracleChatState, String> {
+class OracleChatNotifier extends Notifier<OracleChatState> {
+  final String oracleType;
+  OracleChatNotifier(this.oracleType);
+
   @override
-  OracleChatState build(String arg) {
+  OracleChatState build() {
     return const OracleChatState();
   }
-
-  String get oracleType => arg;
 
   // Local storage key helpers
   String get _tsKey => 'oracle_${oracleType}_lastOpenTimestamp';
