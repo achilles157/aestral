@@ -93,13 +93,13 @@ class _WetonCompatibilityScreenState
         });
       } else {
         setState(() {
-          _errorMessage = response['error']?.toString() ??
-              'Gagal menghitung kompatibilitas.';
+          _errorMessage = 'Gagal menghitung kompatibilitas. Coba lagi.';
         });
       }
     } catch (e) {
+      debugPrint('WetonCompatibilityScreen: API error — $e');
       setState(() {
-        _errorMessage = e.toString().replaceFirst('Exception: ', '');
+        _errorMessage = 'Koneksi terganggu. Pastikan internet tersambung dan coba lagi.';
       });
     } finally {
       if (mounted) setState(() => _isLoading = false);
