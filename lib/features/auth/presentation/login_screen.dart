@@ -100,58 +100,65 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   // ── Business logic (unchanged) ──────────────────────────────────────
 
-  void _handleGoogleSignIn() async {
+  Future<void> _handleGoogleSignIn() async {
     setState(() => _isLoading = true);
     final auth = ref.read(authProvider.notifier);
-
-    if (auth.isFirebaseAvailable) {
-      final success = await auth.signInWithGoogle();
-      if (!success) {
+    try {
+      if (auth.isFirebaseAvailable) {
+        final success = await auth.signInWithGoogle();
+        if (!success) {
+          if (mounted) {
+            setState(() => _isLoading = false);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Gagal Masuk via Google. Coba lagi atau gunakan Akun Tamu.'),
+                backgroundColor: Colors.redAccent,
+              ),
+            );
+          }
+        }
+      } else {
         if (mounted) {
           setState(() => _isLoading = false);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Gagal Masuk via Google. Coba lagi atau gunakan Akun Tamu.'),
-              backgroundColor: Colors.redAccent,
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              backgroundColor: AppTheme.cardBg,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: const BorderSide(color: AppTheme.accentGold, width: 1.5),
+              ),
+              title: const Text('Firebase Belum Siap', style: TextStyle(color: AppTheme.accentGold)),
+              content: const Text(
+                'Aplikasi mendeteksi bahwa berkas konfigurasi Firebase Anda belum terpasang. '
+                'Silakan baca berkas "firebase_setup_guide.md" untuk petunjuk setup.\n\n'
+                'Untuk sekarang, Anda dapat memilih "Masuk Sebagai Tamu" untuk menguji aplikasi secara offline.',
+                style: TextStyle(color: AppTheme.textLight),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK', style: TextStyle(color: AppTheme.textLight)),
+                ),
+              ],
             ),
           );
         }
       }
-    } else {
-      if (mounted) {
-        setState(() => _isLoading = false);
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            backgroundColor: AppTheme.cardBg,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-              side: const BorderSide(color: AppTheme.accentGold, width: 1.5),
-            ),
-            title: const Text('Firebase Belum Siap', style: TextStyle(color: AppTheme.accentGold)),
-            content: const Text(
-              'Aplikasi mendeteksi bahwa berkas konfigurasi Firebase Anda belum terpasang. '
-              'Silakan baca berkas "firebase_setup_guide.md" untuk petunjuk setup.\n\n'
-              'Untuk sekarang, Anda dapat memilih "Masuk Sebagai Tamu" untuk menguji aplikasi secara offline.',
-              style: TextStyle(color: AppTheme.textLight),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('OK', style: TextStyle(color: AppTheme.textLight)),
-              ),
-            ],
-          ),
-        );
-      }
+    } catch (e) {
+      debugPrint('LoginScreen._handleGoogleSignIn error: $e');
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
-  void _handleGuestSignIn() async {
-    if (mounted) {
-      setState(() => _isLoading = true);
+  Future<void> _handleGuestSignIn() async {
+    if (mounted) setState(() => _isLoading = true);
+    try {
+      await ref.read(authProvider.notifier).signInAsGuest();
+    } catch (e) {
+      debugPrint('LoginScreen._handleGuestSignIn error: $e');
+      if (mounted) setState(() => _isLoading = false);
     }
-    await ref.read(authProvider.notifier).signInAsGuest();
   }
 
   // ── UI ───────────────────────────────────────────────────────────────

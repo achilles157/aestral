@@ -155,6 +155,23 @@ async function dispatch(request: Request, env: Env): Promise<Response> {
 	return json({ error: 'Not Found' }, 404);
 }
 
+// ─── Input validation ────────────────────────────────────────────────────────
+
+/**
+ * Validates an ISO date string (YYYY-MM-DD).
+ * Rejects obviously invalid values: wrong format, out-of-range years, or
+ * calendar-impossible dates (e.g. Feb 30).
+ */
+function validateIsoDate(dateStr: string): boolean {
+	if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return false;
+	const [y, m, d] = dateStr.split('-').map(Number);
+	if (y < 1900 || y > 2100) return false;
+	if (m < 1 || m > 12) return false;
+	if (d < 1 || d > 31) return false;
+	const dt = new Date(`${dateStr}T00:00:00Z`);
+	return dt.getFullYear() === y && dt.getMonth() + 1 === m && dt.getDate() === d;
+}
+
 // --- Tarot Draw Handler ---
 
 interface TarotDrawBody {
@@ -170,6 +187,12 @@ async function handleTarotDraw(request: Request, env: Env): Promise<Response> {
 	if (authResult instanceof Response) return authResult;
 	const { authToken } = authResult;
 
+	const clientIpTarot = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+	if (await isRateLimited(clientIpTarot, DATA_RATE_LIMIT_MAX, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
+		const resetSeconds = await getRateLimitResetSeconds(clientIpTarot, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
+		return new Response(JSON.stringify({ error: 'Terlalu banyak permintaan. Coba lagi sebentar.', retryAfterSeconds: resetSeconds }), { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': String(resetSeconds), ...CORS_HEADERS } });
+	}
+
 	let body: TarotDrawBody;
 	try {
 		body = (await request.json()) as TarotDrawBody;
@@ -177,8 +200,8 @@ async function handleTarotDraw(request: Request, env: Env): Promise<Response> {
 		return json({ error: 'Invalid JSON body' }, 400);
 	}
 
-	if (!body.birthDate) {
-		return json({ error: 'birthDate is required' }, 400);
+	if (!body.birthDate || !validateIsoDate(body.birthDate)) {
+		return json({ error: 'birthDate harus format YYYY-MM-DD yang valid (1900–2100)' }, 400);
 	}
 
 	const drawType = body.drawType ?? (authToken.type === 'guest' ? 'birth' : 'mangsa');
@@ -239,8 +262,8 @@ async function handleWetonDaily(request: Request, env: Env): Promise<Response> {
 		return json({ error: 'Invalid JSON body' }, 400);
 	}
 
-	if (!body.birthDate) {
-		return json({ error: 'birthDate is required' }, 400);
+	if (!body.birthDate || !validateIsoDate(body.birthDate)) {
+		return json({ error: 'birthDate harus format YYYY-MM-DD yang valid (1900–2100)' }, 400);
 	}
 
 	const { birthDate, targetDate } = body;
@@ -284,7 +307,10 @@ async function handleCalendarMonth(request: Request, env: Env): Promise<Response
 	}
 
 	if (!body.birthDate || !body.targetYear || !body.targetMonth) {
-		return json({ error: 'birthDate, targetYear, and targetMonth are required' }, 400);
+		return json({ error: 'birthDate, targetYear, dan targetMonth diperlukan' }, 400);
+	}
+	if (!validateIsoDate(body.birthDate)) {
+		return json({ error: 'birthDate harus format YYYY-MM-DD yang valid (1900–2100)' }, 400);
 	}
 
 	const { birthDate, targetYear, targetMonth } = body;
@@ -434,9 +460,13 @@ interface ChatBody {
 	pangarasan?: string;
 }
 
-// Rate limit: 5 requests per minute per IP
+// Rate limit: 5 requests per minute per IP (AI endpoints)
 const CHAT_RATE_LIMIT_MAX = 5;
 const CHAT_RATE_LIMIT_WINDOW_MS = 60_000;
+
+// Rate limit: 30 requests per minute per IP (data endpoints)
+const DATA_RATE_LIMIT_MAX = 30;
+const DATA_RATE_LIMIT_WINDOW_MS = 60_000;
 
 async function handleChat(request: Request, env: Env): Promise<Response> {
 	const authResult = await requireAuth(request.headers.get('Authorization'), env);
