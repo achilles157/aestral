@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../features/ai/presentation/oracle_chat_screen.dart';
+import '../../../../core/widgets/ai_astrologer_dialog.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/glass_card.dart';
 import '../../services/weton_dictionary_service.dart';
@@ -454,91 +453,6 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                                               color: Colors.white70,
                                             ),
                                           ),
-                                          const SizedBox(height: 10),
-                                          OutlinedButton.icon(
-                                            onPressed: () async {
-                                              final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
-                                              final birthDate = widget.birthDate;
-                                              final WetonInfo? birthWeton = birthDate != null
-                                                  ? WetonUtils.calculateWeton(birthDate)
-                                                  : null;
-                                              final birthWetonName = birthWeton != null
-                                                  ? '${birthWeton.saptawara} ${birthWeton.pancawara}'
-                                                  : (dayData['weton_hari_ini'] ?? 'Minggu Legi');
-                                              final neptuVal = birthWeton != null
-                                                  ? birthWeton.totalNeptu
-                                                  : (dayData['neptu'] ?? 10);
-                                              final karakterVal = birthWeton?.characterSummary ?? '';
-                                              final pangarasanVal = birthWeton?.pangarasan ?? '';
-
-                                              // Elemen weton berdasarkan saptawara (Naga Dina)
-                                              const saptawaraElemenMap = {
-                                                'Ahad': 'Api', 'Minggu': 'Api',
-                                                'Senin': 'Air',
-                                                'Selasa': 'Api',
-                                                'Rabu': 'Tanah',
-                                                'Kamis': 'Kayu',
-                                                'Jumat': 'Air',
-                                                'Sabtu': 'Tanah',
-                                              };
-                                              final wetonElemen = birthWeton != null
-                                                  ? (saptawaraElemenMap[birthWeton.saptawara] ?? '')
-                                                  : '';
-
-                                              if (!context.mounted) return;
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (_) => OracleChatScreen(
-                                                    oracleType: 'weton',
-                                                    authHeader: authHeader,
-                                                    aiContext: {
-                                                      'wetonLahir': {
-                                                        'nama': birthWetonName,
-                                                        'neptu': neptuVal,
-                                                        'elemen': wetonElemen,
-                                                        if (karakterVal.isNotEmpty) 'karakter': karakterVal,
-                                                      },
-                                                      'wukuBerjalan': {
-                                                        'nama': dayData['wuku'] ?? '',
-                                                        'elemen': dayData['wuku_elemen'] ?? '',
-                                                      },
-                                                      if (pangarasanVal.isNotEmpty) 'pangarasan': pangarasanVal,
-                                                      'plannerHour': {
-                                                        'label': label,
-                                                        'range': range,
-                                                      }
-                                                    },
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                            style: OutlinedButton.styleFrom(
-                                              side: BorderSide(
-                                                color: cardColor.withValues(alpha: 0.5),
-                                                width: 1.0,
-                                              ),
-                                              padding: const EdgeInsets.symmetric(
-                                                horizontal: 12,
-                                                vertical: 6,
-                                              ),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(10),
-                                              ),
-                                            ),
-                                            icon: Icon(
-                                              Icons.auto_awesome,
-                                              size: 12,
-                                              color: cardColor,
-                                            ),
-                                            label: Text(
-                                              '✨ Tanya AI Orakel',
-                                              style: GoogleFonts.outfit(
-                                                fontSize: 11,
-                                                color: cardColor,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
                                         ],
                                       ),
                                     ),
@@ -555,6 +469,182 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
               ),
 
         const SizedBox(height: 16),
+        // ── Saran Oracle Harian ────────────────────────────────────────────
+        ElevatedButton.icon(
+          onPressed: () async {
+            final birthDate = widget.birthDate;
+            final WetonInfo? birthWeton = birthDate != null
+                ? WetonUtils.calculateWeton(birthDate)
+                : null;
+            final birthWetonName = birthWeton != null
+                ? '${birthWeton.saptawara} ${birthWeton.pancawara}'
+                : (dayData['weton_hari_ini'] ?? 'Minggu Legi');
+            final neptuVal = birthWeton != null
+                ? birthWeton.totalNeptu
+                : (dayData['neptu'] ?? 10);
+            final karakterVal = birthWeton?.characterSummary ?? '';
+            final pangarasanVal = birthWeton?.pangarasan ?? '';
+            const saptawaraElemenMap = {
+              'Ahad': 'Api', 'Minggu': 'Api',
+              'Senin': 'Air', 'Selasa': 'Api',
+              'Rabu': 'Tanah', 'Kamis': 'Kayu',
+              'Jumat': 'Air', 'Sabtu': 'Tanah',
+            };
+            final wetonElemen = birthWeton != null
+                ? (saptawaraElemenMap[birthWeton.saptawara] ?? '')
+                : '';
+
+            // Step 1: dialog input rencana hari ini
+            final inputCtrl = TextEditingController();
+            if (!context.mounted) return;
+            final userInput = await showDialog<String>(
+              context: context,
+              builder: (dialogCtx) => AlertDialog(
+                backgroundColor: const Color(0xFF1A1A2E),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                title: Text(
+                  'Ceritakan rencanamu hari ini',
+                  style: GoogleFonts.playfairDisplay(
+                    color: AppTheme.accentGold,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Oracle akan menyesuaikan saran dengan energi kosmis hari ini.',
+                      style: GoogleFonts.outfit(
+                          color: Colors.white60, fontSize: 12),
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: inputCtrl,
+                      maxLines: 4,
+                      style: GoogleFonts.outfit(
+                          color: Colors.white, fontSize: 14),
+                      decoration: InputDecoration(
+                        hintText:
+                            'Contoh: meeting penting jam 10, deadline proyek, atau hari santai...',
+                        hintStyle: GoogleFonts.outfit(
+                            color: Colors.white30, fontSize: 12),
+                        filled: true,
+                        fillColor: Colors.white.withValues(alpha: 0.06),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                              color: AppTheme.accentGold
+                                  .withValues(alpha: 0.3)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide:
+                              const BorderSide(color: Colors.white24),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                              color: AppTheme.accentGold
+                                  .withValues(alpha: 0.6)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(dialogCtx).pop(),
+                    child: Text('Batal',
+                        style:
+                            GoogleFonts.outfit(color: Colors.white38)),
+                  ),
+                  ElevatedButton(
+                    onPressed: () =>
+                        Navigator.of(dialogCtx).pop(inputCtrl.text.trim()),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          AppTheme.accentGold.withValues(alpha: 0.2),
+                      foregroundColor: AppTheme.accentGold,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                    child: Text('Tanya Oracle',
+                        style: GoogleFonts.outfit(
+                            fontWeight: FontWeight.bold)),
+                  ),
+                ],
+              ),
+            );
+            inputCtrl.dispose();
+            if (userInput == null || userInput.isEmpty) return;
+            if (!context.mounted) return;
+
+            // Step 2: ambil auth + build prompt
+            final authHeader =
+                await ref.read(authProvider.notifier).getAuthHeader();
+            if (!context.mounted) return;
+
+            final tanggal = DateFormat('dd MMMM yyyy')
+                .format(DateTime.parse(dateStr));
+            final wukuBerjalan = dayData['wuku'] ?? '';
+            final wetonHariIni =
+                dayData['weton_hari_ini'] ?? birthWetonName;
+
+            final prompt =
+                'Hari ini $tanggal, weton $wetonHariIni (Neptu $neptuVal), '
+                'wuku $wukuBerjalan. '
+                'Rencana hari ini: "$userInput". '
+                'Berikan saran komprehensif tentang cara menyelaraskan rencana '
+                'tersebut dengan energi kosmis hari ini. Sertakan: waktu terbaik '
+                'untuk menjalankan aktivitas, hal yang perlu diwaspadai, dan satu '
+                'pesan penyemangat yang personal.';
+
+            final aiContext = <String, dynamic>{
+              'wetonLahir': {
+                'nama': birthWetonName,
+                'neptu': neptuVal,
+                'elemen': wetonElemen,
+                if (karakterVal.isNotEmpty) 'karakter': karakterVal,
+              },
+              'wukuBerjalan': {
+                'nama': wukuBerjalan,
+                'elemen': dayData['wuku_elemen'] ?? '',
+              },
+              if (pangarasanVal.isNotEmpty) 'pangarasan': pangarasanVal,
+            };
+
+            // Step 3: tampilkan AiAstrologerDialog
+            showDialog(
+              context: context,
+              builder: (_) => AiAstrologerDialog(
+                prompt: prompt,
+                contextTitle: 'Oracle Harian',
+                authHeader: authHeader,
+                aiContext: aiContext,
+              ),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppTheme.accentGold.withValues(alpha: 0.15),
+            foregroundColor: AppTheme.accentGold,
+            side: BorderSide(
+                color: AppTheme.accentGold.withValues(alpha: 0.5)),
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            elevation: 0,
+          ),
+          icon: const Icon(Icons.auto_awesome, size: 18),
+          label: Text(
+            '✨ Apa rencanamu hari ini?',
+            style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+          ),
+        ),
+        const SizedBox(height: 12),
         ElevatedButton.icon(
           onPressed: () {
             final buffer = StringBuffer();
