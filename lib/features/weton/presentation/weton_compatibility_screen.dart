@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/widgets/glass_card.dart';
 import '../../../features/ai/presentation/oracle_chat_screen.dart';
 import '../services/weton_dictionary_service.dart';
+import '../../auth/services/auth_service.dart';
 
 class WetonCompatibilityScreen extends ConsumerStatefulWidget {
   const WetonCompatibilityScreen({super.key});
@@ -76,9 +76,7 @@ class _WetonCompatibilityScreenState
     });
 
     try {
-      final user = FirebaseAuth.instance.currentUser;
-      final idToken = await user?.getIdToken();
-      final authHeader = idToken != null ? 'Bearer $idToken' : 'Guest anonymous';
+      final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
 
       final fmt = DateFormat('yyyy-MM-dd');
       final response = await ApiService.getWetonCompatibility(
@@ -111,9 +109,7 @@ class _WetonCompatibilityScreenState
   // ── AI Oracle ────────────────────────────────────────────────────────────────
 
   Future<void> _openAiOracle(WetonCompatibility result) async {
-    final user = FirebaseAuth.instance.currentUser;
-    final idToken = await user?.getIdToken();
-    final authHeader = idToken != null ? 'Bearer $idToken' : 'Guest anonymous';
+    final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
 
     if (!mounted) return;
     Navigator.of(context).push(
