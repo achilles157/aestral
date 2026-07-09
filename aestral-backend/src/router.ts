@@ -20,10 +20,27 @@ const PLANNER_LABEL_MAP: Record<number, string> = {
 };
 
 const CORS_HEADERS: Record<string, string> = {
-	'Access-Control-Allow-Origin': '*',
+	'Access-Control-Allow-Origin': '*', // overridden per-request by handleRequest wrapper
 	'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
 	'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+	'Vary': 'Origin',
 };
+
+/**
+ * Resolves the allowed CORS origin for a given request.
+ * Origins are compared against the comma-separated ALLOWED_ORIGINS env var.
+ * Localhost is always allowed in non-production environments.
+ */
+function resolveAllowedOrigin(origin: string | null, env: Env): string {
+	if (!origin) return 'null';
+	const allowed = (env.ALLOWED_ORIGINS ?? '').split(',').map(o => o.trim()).filter(Boolean);
+	if (allowed.includes(origin)) return origin;
+	// Allow localhost in non-production for local development
+	if (env.ENVIRONMENT !== 'production' && origin.startsWith('http://localhost:')) return origin;
+	// Fallback: if ALLOWED_ORIGINS not configured yet, allow all (temporary)
+	if (allowed.length === 0) return origin;
+	return 'null';
+}
 
 function json(data: unknown, status = 200): Response {
 	return new Response(JSON.stringify(data), {
@@ -47,10 +64,12 @@ async function requireAuth(
 ): Promise<{ authToken: AuthToken } | Response> {
 	const authToken = parseAuthHeader(authHeader);
 	if (!authToken) {
-		return json({ error: 'Authorization header diperlukan' }, 400);
+		return json({ error: 'Authorization header diperlukan' }, 401);
 	}
 	if (authToken.type === 'bearer') {
-		if (authToken.value !== 'fake-jwt-token') {
+		// fake-jwt-token only allowed in test environment — never in production
+		const isTestBypass = authToken.value === 'fake-jwt-token' && env.ENVIRONMENT === 'test';
+		if (!isTestBypass) {
 			const err = await verifyFirebaseJwt(authToken.value, env.FIREBASE_PROJECT_ID, env.RATE_LIMIT_KV);
 			if (err) return json({ error: err.error }, err.status);
 		}
@@ -58,7 +77,27 @@ async function requireAuth(
 	return { authToken };
 }
 
+/**
+ * Public entry point — wraps internal dispatch with per-request CORS headers.
+ * Sets Access-Control-Allow-Origin to the specific requesting origin if allowed,
+ * rather than the wildcard used internally.
+ */
 export async function handleRequest(request: Request, env: Env): Promise<Response> {
+	const origin = request.headers.get('Origin');
+	const allowedOrigin = resolveAllowedOrigin(origin, env);
+
+	const response = await dispatch(request, env);
+
+	const headers = new Headers(response.headers);
+	headers.set('Access-Control-Allow-Origin', allowedOrigin);
+	headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+	headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+	headers.set('Vary', 'Origin');
+
+	return new Response(response.body, { status: response.status, headers });
+}
+
+async function dispatch(request: Request, env: Env): Promise<Response> {
 	const url = new URL(request.url);
 	const { pathname } = url;
 	const method = request.method;
@@ -121,8 +160,9 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
 interface TarotDrawBody {
 	birthDate?: string;
 	pangarasan?: string;
-	drawType?: 'birth' | 'mangsa';
+	drawType?: 'birth' | 'mangsa' | 'weekly';
 	mangsaId?: number;
+	wukuHariIni?: string;
 }
 
 async function handleTarotDraw(request: Request, env: Env): Promise<Response> {

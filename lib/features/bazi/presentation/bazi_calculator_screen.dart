@@ -177,7 +177,8 @@ class _BaziCalculatorScreenState
       );
       final data = result['data'] as Map<String, dynamic>;
       setState(() => _chart = BaziChart.fromJson(data));
-    } catch (_) {
+    } catch (e) {
+      debugPrint('BaziCalculatorScreen: API failed, fallback offline — $e');
       // Offline fallback — pure Dart calculation
       final offline = BaziUtils.calculateBaziChart(
         _birthDate!,

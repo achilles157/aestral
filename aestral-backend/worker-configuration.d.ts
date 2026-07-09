@@ -6,6 +6,10 @@ interface __BaseEnv_Env {
 	RATE_LIMIT_KV: KVNamespace;
 	/** Firebase project ID for JWT claim validation (iss/aud). Set in wrangler.jsonc vars. */
 	FIREBASE_PROJECT_ID: string;
+	/** 'production' | 'test' — controls fake-jwt-token bypass gate. */
+	ENVIRONMENT: string;
+	/** Comma-separated allowed CORS origins, e.g. "https://aestral.web.app". */
+	ALLOWED_ORIGINS: string;
 }
 declare namespace Cloudflare {
 	interface GlobalProps {

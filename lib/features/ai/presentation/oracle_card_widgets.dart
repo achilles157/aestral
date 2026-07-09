@@ -19,7 +19,8 @@ Widget buildOracleCard(OracleCard card, Color accentColor) {
       default:
         return const SizedBox.shrink();
     }
-  } catch (_) {
+  } catch (e) {
+    debugPrint('buildOracleCard: gagal parse card — $e');
     return const SizedBox.shrink();
   }
 }

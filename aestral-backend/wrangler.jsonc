@@ -35,7 +35,13 @@
 	"vars": {
 		// Firebase project ID — used to validate JWT iss/aud claims on bearer tokens.
 		// Not a secret: this value is the same as the public project name.
-		"FIREBASE_PROJECT_ID": "aestral-ca7ae"
+		"FIREBASE_PROJECT_ID": "aestral-ca7ae",
+		// Environment tag — 'production' in deployed workers, 'test' in vitest.
+		// Controls whether fake-jwt-token bypass is allowed.
+		"ENVIRONMENT": "production",
+		// Comma-separated list of allowed CORS origins.
+		// Update with your production Flutter web domain(s).
+		"ALLOWED_ORIGINS": "https://aestral.web.app,https://aestral.firebaseapp.com"
 	},
 	/**
 	 * KV Namespaces

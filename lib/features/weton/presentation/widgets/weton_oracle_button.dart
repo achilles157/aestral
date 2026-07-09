@@ -61,7 +61,9 @@ class WetonOracleButton extends ConsumerWidget {
               'nama':   wukuEntry['nama_wuku'] ?? wukuName,
               'elemen': wukuEntry['elemen']    ?? '',
             };
-          } catch (_) {}
+          } catch (e) {
+            debugPrint('WetonOracleButton: gagal build wuku context — $e');
+          }
         }
 
         // ── Pranata Mangsa berjalan ────────────────────────────────────────
@@ -81,7 +83,9 @@ class WetonOracleButton extends ConsumerWidget {
               if (pranata.karakterEnergi.isNotEmpty) 'karakterEnergi': pranata.karakterEnergi,
               if (pranata.pesanKesadaran.isNotEmpty) 'pesanKesadaran': pranata.pesanKesadaran,
             };
-          } catch (_) {}
+          } catch (e) {
+            debugPrint('WetonOracleButton: gagal build wuku context — $e');
+          }
         }
 
         if (!context.mounted) return;
