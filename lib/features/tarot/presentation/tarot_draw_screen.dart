@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../services/tarot_data.dart';
 import '../models/tarot_card.dart';
