@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/providers/birth_profile_provider.dart';
 import '../providers/oracle_chat_provider.dart';
-import '../models/chat_message.dart';
 import '../../tarot/services/tarot_data.dart';
 import 'oracle_card_widgets.dart';
 
@@ -179,6 +178,14 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
               ),
             ),
           ),
+          // Overlay tambahan untuk synthesis oracle — mandala_bg cukup terang sehingga
+          // teks chat jadi susah terbaca tanpa dim ekstra ini
+          if (widget.oracleType == 'synthesis')
+            Positioned.fill(
+              child: Container(
+                color: Colors.black.withValues(alpha: 0.42),
+              ),
+            ),
           // Ambient glow — warna berubah perlahan mengikuti topik percakapan (PRD section 4)
           TweenAnimationBuilder<Color?>(
             tween: ColorTween(begin: _prevGlowColor, end: _topicGlowColor),
@@ -309,7 +316,7 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _PulsingMandala(color: _accentColor),
+          OraclePulsingMandala(color: _accentColor),
           const SizedBox(height: 20),
           Text(
             'Sentuh sebuah topik\nuntuk memulai dialog',
@@ -353,14 +360,14 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                 border: Border.all(
                     color: _accentColor.withValues(alpha: 0.20)),
               ),
-              child: _PulsingMandala(color: _accentColor),
+              child: OraclePulsingMandala(color: _accentColor),
             ),
           );
         }
         final msg = msgs[i];
         return msg.role == 'user'
-            ? _UserBubble(message: msg)
-            : _OracleBubble(
+            ? OracleChatUserBubble(message: msg)
+            : OracleChatOracleBubble(
                 message: msg,
                 accentColor: _accentColor,
                 oracleName: _config.name,
@@ -383,7 +390,7 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
         itemCount: pills.length,
         separatorBuilder: (_, __) => const SizedBox(width: 8),
         itemBuilder: (ctx, i) {
-          return _SuggestionPill(
+          return OracleSuggestionPill(
             label: pills[i],
             accentColor: _accentColor,
             onTap: () async {
@@ -557,212 +564,6 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                         ),
                 ),
               ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ── Sub-widgets ───────────────────────────────────────────────────────────────
-
-class _UserBubble extends StatelessWidget {
-  final ChatMessage message;
-
-  const _UserBubble({required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 12, left: 48),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: const Color(0xFF2E2452).withValues(alpha: 0.85),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(18),
-            topRight: Radius.circular(18),
-            bottomLeft: Radius.circular(18),
-            bottomRight: Radius.circular(4),
-          ),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
-        ),
-        child: Text(
-          message.text,
-          style: GoogleFonts.outfit(
-            fontSize: 14,
-            height: 1.45,
-            color: Colors.white.withValues(alpha: 0.90),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _OracleBubble extends StatelessWidget {
-  final ChatMessage message;
-  final Color accentColor;
-  final String oracleName;
-
-  const _OracleBubble({
-    required this.message,
-    required this.accentColor,
-    required this.oracleName,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 14, right: 48),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Oracle name label
-            Padding(
-              padding: const EdgeInsets.only(bottom: 5, left: 2),
-              child: Text(
-                oracleName,
-                style: GoogleFonts.outfit(
-                  fontSize: 11,
-                  color: accentColor.withValues(alpha: 0.8),
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.5,
-                ),
-              ),
-            ),
-            // Message bubble
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-              decoration: BoxDecoration(
-                color: accentColor.withValues(alpha: 0.08),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                  topRight: Radius.circular(18),
-                  bottomLeft: Radius.circular(18),
-                  bottomRight: Radius.circular(18),
-                ),
-                border: Border.all(color: accentColor.withValues(alpha: 0.22)),
-              ),
-              child: Text(
-                message.text,
-                style: GoogleFonts.outfit(
-                  fontSize: 14,
-                  height: 1.55,
-                  color: Colors.white.withValues(alpha: 0.90),
-                ),
-              ),
-            ),
-            // Rich card (opsional)
-            if (message.card != null)
-              buildOracleCard(message.card!, accentColor),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Mandala pulsing untuk empty state.
-class _PulsingMandala extends StatefulWidget {
-  final Color color;
-  const _PulsingMandala({required this.color});
-
-  @override
-  State<_PulsingMandala> createState() => _PulsingMandalaState();
-}
-
-class _PulsingMandalaState extends State<_PulsingMandala>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _ctrl;
-  late final Animation<double> _pulse;
-
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(
-        vsync: this, duration: const Duration(seconds: 2))
-      ..repeat(reverse: true);
-    _pulse = Tween<double>(begin: 0.85, end: 1.0).animate(
-        CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
-  }
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _pulse,
-      builder: (_, __) {
-        return Transform.scale(
-          scale: _pulse.value,
-          child: Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: widget.color.withValues(alpha: 0.10),
-              border:
-                  Border.all(color: widget.color.withValues(alpha: 0.35), width: 1.5),
-              boxShadow: [
-                BoxShadow(
-                  color: widget.color.withValues(alpha: 0.25 * _pulse.value),
-                  blurRadius: 24,
-                  spreadRadius: 4,
-                ),
-              ],
-            ),
-            child: Icon(Icons.auto_awesome,
-                color: widget.color.withValues(alpha: 0.75), size: 32),
-          ),
-        );
-      },
-    );
-  }
-}
-
-/// Tombol kapsul saran pertanyaan floating.
-class _SuggestionPill extends StatelessWidget {
-  final String label;
-  final Color accentColor;
-  final VoidCallback onTap;
-
-  const _SuggestionPill({
-    required this.label,
-    required this.accentColor,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(22),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-            decoration: BoxDecoration(
-              color: accentColor.withValues(alpha: 0.10),
-              borderRadius: BorderRadius.circular(22),
-              border: Border.all(color: accentColor.withValues(alpha: 0.30)),
-            ),
-            child: Text(
-              label,
-              style: GoogleFonts.outfit(
-                fontSize: 12,
-                color: Colors.white.withValues(alpha: 0.85),
-                fontWeight: FontWeight.w500,
-              ),
             ),
           ),
         ),

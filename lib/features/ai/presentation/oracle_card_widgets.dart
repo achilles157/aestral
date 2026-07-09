@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -354,6 +355,212 @@ class _KeyInsightCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ── Sub-widgets ───────────────────────────────────────────────────────────────
+
+class OracleChatUserBubble extends StatelessWidget {
+  final ChatMessage message;
+
+  const OracleChatUserBubble({required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12, left: 48),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(
+          color: const Color(0xFF2E2452).withValues(alpha: 0.85),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(18),
+            topRight: Radius.circular(18),
+            bottomLeft: Radius.circular(18),
+            bottomRight: Radius.circular(4),
+          ),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+        ),
+        child: Text(
+          message.text,
+          style: GoogleFonts.outfit(
+            fontSize: 14,
+            height: 1.45,
+            color: Colors.white.withValues(alpha: 0.90),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class OracleChatOracleBubble extends StatelessWidget {
+  final ChatMessage message;
+  final Color accentColor;
+  final String oracleName;
+
+  const OracleChatOracleBubble({
+    required this.message,
+    required this.accentColor,
+    required this.oracleName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 14, right: 48),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Oracle name label
+            Padding(
+              padding: const EdgeInsets.only(bottom: 5, left: 2),
+              child: Text(
+                oracleName,
+                style: GoogleFonts.outfit(
+                  fontSize: 11,
+                  color: accentColor.withValues(alpha: 0.8),
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.5,
+                ),
+              ),
+            ),
+            // Message bubble
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              decoration: BoxDecoration(
+                color: accentColor.withValues(alpha: 0.08),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  topRight: Radius.circular(18),
+                  bottomLeft: Radius.circular(18),
+                  bottomRight: Radius.circular(18),
+                ),
+                border: Border.all(color: accentColor.withValues(alpha: 0.22)),
+              ),
+              child: Text(
+                message.text,
+                style: GoogleFonts.outfit(
+                  fontSize: 14,
+                  height: 1.55,
+                  color: Colors.white.withValues(alpha: 0.90),
+                ),
+              ),
+            ),
+            // Rich card (opsional)
+            if (message.card != null)
+              buildOracleCard(message.card!, accentColor),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Mandala pulsing untuk empty state.
+class OraclePulsingMandala extends StatefulWidget {
+  final Color color;
+  const OraclePulsingMandala({required this.color});
+
+  @override
+  State<OraclePulsingMandala> createState() => _OraclePulsingMandalaState();
+}
+
+class _OraclePulsingMandalaState extends State<OraclePulsingMandala>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _ctrl;
+  late final Animation<double> _pulse;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+        vsync: this, duration: const Duration(seconds: 2))
+      ..repeat(reverse: true);
+    _pulse = Tween<double>(begin: 0.85, end: 1.0).animate(
+        CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _pulse,
+      builder: (_, __) {
+        return Transform.scale(
+          scale: _pulse.value,
+          child: Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: widget.color.withValues(alpha: 0.10),
+              border:
+                  Border.all(color: widget.color.withValues(alpha: 0.35), width: 1.5),
+              boxShadow: [
+                BoxShadow(
+                  color: widget.color.withValues(alpha: 0.25 * _pulse.value),
+                  blurRadius: 24,
+                  spreadRadius: 4,
+                ),
+              ],
+            ),
+            child: Icon(Icons.auto_awesome,
+                color: widget.color.withValues(alpha: 0.75), size: 32),
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// Tombol kapsul saran pertanyaan floating.
+class OracleSuggestionPill extends StatelessWidget {
+  final String label;
+  final Color accentColor;
+  final VoidCallback onTap;
+
+  const OracleSuggestionPill({
+    required this.label,
+    required this.accentColor,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(22),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+            decoration: BoxDecoration(
+              color: accentColor.withValues(alpha: 0.10),
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: accentColor.withValues(alpha: 0.30)),
+            ),
+            child: Text(
+              label,
+              style: GoogleFonts.outfit(
+                fontSize: 12,
+                color: Colors.white.withValues(alpha: 0.85),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
