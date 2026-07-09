@@ -360,22 +360,27 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
   }
 
   Widget _buildLangButton(BuildContext context, WidgetRef ref, String label, bool isActive) {
-    return GestureDetector(
-      onTap: () {
-        ref.read(tarotLanguageProvider.notifier).setLanguage(label.toLowerCase());
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18),
-          color: isActive ? AppTheme.accentGold : Colors.transparent,
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.outfit(
-            fontSize: 9,
-            fontWeight: FontWeight.bold,
-            color: isActive ? AppTheme.background : AppTheme.textLight,
+    return Semantics(
+      label: 'Bahasa $label${isActive ? ', dipilih' : ''}',
+      button: true,
+      selected: isActive,
+      child: GestureDetector(
+        onTap: () {
+          ref.read(tarotLanguageProvider.notifier).setLanguage(label.toLowerCase());
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            color: isActive ? AppTheme.accentGold : Colors.transparent,
+          ),
+          child: Text(
+            label,
+            style: GoogleFonts.outfit(
+              fontSize: 9,
+              fontWeight: FontWeight.bold,
+              color: isActive ? AppTheme.background : AppTheme.textLight,
+            ),
           ),
         ),
       ),
@@ -576,7 +581,12 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                                   ),
                                                 ),
                                                 const SizedBox(height: 8),
-                                                GestureDetector(
+                                                Semantics(
+                                                  label: _cardRevealedStates[index]
+                                                      ? 'Kartu sudah tersingkap'
+                                                      : 'Ketuk untuk menyingkap kartu',
+                                                  button: !_cardRevealedStates[index],
+                                                  child: GestureDetector(
                                                   onTap: () => _revealCard(index),
                                                   child: AnimatedScale(
                                                     scale: _cardPulsing[index] ? 1.08 : 1.0,
@@ -630,6 +640,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                                     },
                                                   ),
                                                   ),
+                                                ),
                                                 ),
                                               ],
                                             );

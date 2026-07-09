@@ -542,7 +542,10 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                             ),
                           ),
                         )
-                      : GestureDetector(
+                      : Semantics(
+                          label: 'Kirim pesan',
+                          button: true,
+                          child: GestureDetector(
                           key: const ValueKey('send'),
                           onTap: () => _send(_inputCtrl.text),
                           child: Container(
@@ -561,6 +564,7 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                             child: const Icon(Icons.send_rounded,
                                 color: Colors.white, size: 18),
                           ),
+                        ),
                         ),
                 ),
               ],
