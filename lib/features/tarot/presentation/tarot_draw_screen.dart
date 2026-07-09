@@ -11,7 +11,6 @@ import '../../../core/theme/app_theme.dart';
 import 'widgets/tarot_card_display.dart';
 import 'widgets/tiltable_tarot_card.dart';
 import 'widgets/tarot_draw_modals.dart';
-import 'widgets/tarot_reading_detail_panel.dart';
 import '../../auth/services/auth_service.dart';
 import '../../../core/providers/birth_profile_provider.dart';
 import '../../../core/models/birth_profile.dart';
@@ -21,6 +20,8 @@ import '../../../core/widgets/radial_glow_painter.dart';
 import '../../../core/widgets/glass_button.dart';
 import '../models/tarot_oracle_reading.dart';
 import 'widgets/tarot_oracle_panel.dart';
+import 'widgets/tarot_draw_type_toggle.dart';
+import 'widgets/tarot_carousel_section.dart';
 import '../../ai/presentation/oracle_chat_screen.dart';
 
 class TarotDrawScreen extends ConsumerStatefulWidget {
@@ -470,75 +471,12 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               if (session != null && !session.isMock && drawnCards == null) ...[
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 24),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withValues(alpha: 0.05),
-                                    borderRadius: BorderRadius.circular(30),
-                                    border: Border.all(
-                                      color: AppTheme.accentGold.withValues(alpha: 0.3),
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _selectedDrawType = 'mangsa';
-                                          });
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                          decoration: BoxDecoration(
-                                            color: _selectedDrawType == 'mangsa'
-                                                ? AppTheme.accentPurple
-                                                : Colors.transparent,
-                                            borderRadius: BorderRadius.circular(30),
-                                          ),
-                                          child: Text(
-                                            currentLang == 'id' ? 'Tarot Kosmis' : 'Cosmic Tarot',
-                                            style: GoogleFonts.outfit(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                              color: _selectedDrawType == 'mangsa'
-                                                  ? AppTheme.textLight
-                                                  : AppTheme.textLight.withValues(alpha: 0.6),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _selectedDrawType = 'birth';
-                                          });
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                          decoration: BoxDecoration(
-                                            color: _selectedDrawType == 'birth'
-                                                ? AppTheme.accentPurple
-                                                : Colors.transparent,
-                                            borderRadius: BorderRadius.circular(30),
-                                          ),
-                                          child: Text(
-                                            currentLang == 'id' ? 'Tarot Lahir' : 'Birth Tarot',
-                                            style: GoogleFonts.outfit(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                              color: _selectedDrawType == 'birth'
-                                                  ? AppTheme.textLight
-                                                  : AppTheme.textLight.withValues(alpha: 0.6),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                                              TarotDrawTypeToggle(
+                                                selectedDrawType: _selectedDrawType,
+                                                currentLang: currentLang,
+                                                onTypeChanged: (t) => setState(() => _selectedDrawType = t),
+                                              ),
+                                            ],
                               Text(
                                 session == null || session.isMock || _selectedDrawType == 'birth'
                                     ? (currentLang == 'id' 
@@ -749,124 +687,15 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                 const SizedBox(height: 16),
                                 // Carousel detail reading
                                 if (allFlipped) ...[
-                                  Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: List.generate(3, (index) {
-                                          final isActive = _activeCarouselIndex == index;
-                                          final labelText = index == 0 
-                                              ? (currentLang == 'id' ? 'Masa Lalu' : 'Past') 
-                                              : index == 1 
-                                                  ? (currentLang == 'id' ? 'Masa Kini' : 'Present') 
-                                                  : (currentLang == 'id' ? 'Masa Depan' : 'Future');
-                                          return GestureDetector(
-                                            onTap: () {
-                                              _pageController.animateToPage(
-                                                index,
-                                                duration: const Duration(milliseconds: 350),
-                                                curve: Curves.easeInOut,
-                                              );
-                                            },
-                                            child: Container(
-                                              margin: const EdgeInsets.symmetric(horizontal: 8),
-                                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                              decoration: BoxDecoration(
-                                                color: isActive ? AppTheme.accentPurple : Colors.transparent,
-                                                borderRadius: BorderRadius.circular(20),
-                                                border: Border.all(
-                                                  color: isActive ? Colors.transparent : Colors.white24,
-                                                ),
-                                              ),
-                                              child: Text(
-                                                labelText,
-                                                style: GoogleFonts.outfit(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: isActive ? Colors.white : Colors.white70,
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                      const SizedBox(height: 16),
-                                      SizedBox(
-                                        height: MediaQuery.of(context).size.height * 0.55,
-                                        child: PageView.builder(
-                                          controller: _pageController,
-                                          itemCount: 3,
-                                          onPageChanged: (index) {
-                                            setState(() {
-                                              _activeCarouselIndex = index;
-                                            });
-                                          },
-                                          itemBuilder: (context, index) {
-                                            final cardInfo = drawnCards[index];
-                                            final card = cardInfo.card;
-                                            final isReversed = cardInfo.isReversed;
-                                            
-                                            Color suitColor = AppTheme.accentPurple;
-                                            String elementLabel = '';
-                                            final suit = card.suit.toLowerCase();
-                                            if (suit.contains('cup')) {
-                                              suitColor = AppTheme.elementWater;
-                                              elementLabel = currentLang == 'id' ? 'ELEMEN AIR' : 'WATER ELEMENT';
-                                            } else if (suit.contains('wand')) {
-                                              suitColor = AppTheme.elementFire;
-                                              elementLabel = currentLang == 'id' ? 'ELEMEN API' : 'FIRE ELEMENT';
-                                            } else if (suit.contains('pentacle')) {
-                                              suitColor = AppTheme.elementEarth;
-                                              elementLabel = currentLang == 'id' ? 'ELEMEN TANAH' : 'EARTH ELEMENT';
-                                            } else if (suit.contains('sword')) {
-                                              suitColor = AppTheme.elementMetal;
-                                              elementLabel = currentLang == 'id' ? 'ELEMEN LOGAM' : 'METAL ELEMENT';
-                                            } else {
-                                              suitColor = AppTheme.elementCosmic;
-                                              elementLabel = currentLang == 'id' ? 'KOSMIS / SPIRIT' : 'COSMIC / SPIRIT';
-                                            }
-
-                                            return Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                              child: TarotReadingDetailPanel(
-                                                card: card,
-                                                isReversed: isReversed,
-                                                currentLang: currentLang,
-                                                suitColor: suitColor,
-                                                elementLabel: elementLabel,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      const SizedBox(height: 12),
-                                      // Dot indicator — swipe affordance antar kartu
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: List.generate(3, (i) {
-                                          final bool isActive =
-                                              i == _activeCarouselIndex;
-                                          return AnimatedContainer(
-                                            duration: const Duration(
-                                                milliseconds: 200),
-                                            margin: const EdgeInsets.symmetric(
-                                                horizontal: 3),
-                                            width: isActive ? 20 : 6,
-                                            height: 6,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(3),
-                                              color: isActive
-                                                  ? AppTheme.accentGold
-                                                  : Colors.white
-                                                      .withValues(alpha: 0.25),
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                    ],
+                                  TarotCarouselSection(
+                                    drawnCards: drawnCards,
+                                    activeIndex: _activeCarouselIndex,
+                                    currentLang: currentLang,
+                                    pageController: _pageController,
+                                    onPageChanged: (i) =>
+                                        setState(() => _activeCarouselIndex = i),
                                   ),
-                                const SizedBox(height: 20),
+                                  const SizedBox(height: 20),
                                   _buildOracleSection(drawnCards),
                                   const SizedBox(height: 24),
                                 ],
