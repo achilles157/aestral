@@ -5,22 +5,15 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/bazi_utils.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/services/city_service.dart';
-import '../../../core/widgets/glass_card.dart';
 import '../../../core/widgets/city_search_sheet.dart';
 import '../../auth/services/auth_service.dart';
 import '../../../core/providers/birth_profile_provider.dart';
 import '../domain/bazi_chart.dart';
 import '../services/bazi_data_service.dart';
-import 'widgets/bazi_four_pillars_chart.dart';
-import 'widgets/bazi_day_master_card.dart';
-import 'widgets/bazi_element_balance_card.dart';
-import 'widgets/bazi_pillar_column.dart';
-import 'widgets/bazi_luck_pillars_widget.dart';
-import 'widgets/bazi_ten_gods_widget.dart';
-import 'widgets/bazi_strength_card.dart';
-import 'widgets/bazi_relations_card.dart';
-import 'widgets/bazi_annual_pillar_card.dart';
 import '../../../features/ai/presentation/oracle_chat_screen.dart';
+import 'widgets/bazi_date_picker_step.dart';
+import 'widgets/bazi_input_step.dart';
+import 'widgets/bazi_results_view.dart';
 
 class BaziCalculatorScreen extends ConsumerStatefulWidget {
   const BaziCalculatorScreen({super.key});
@@ -246,14 +239,36 @@ class _BaziCalculatorScreenState
   Future<void> _consultOracle() async {
     if (_chart == null || _birthDate == null) return;
 
-    final double? lng =
-        _selectedCity.longitude != 0.0 ? _selectedCity.longitude : null;
-    final double? lat =
-        _selectedCity.latitude != 0.0 ? _selectedCity.latitude : null;
-
     final mastersAsync = ref.read(baziDayMastersProvider);
     final masterData = mastersAsync.asData?.value.findById(_chart!.dayMasterId);
     final arketipe = masterData?['arketipe_modern'] as String?;
+
+    // Hitung Da Yun aktif dari luck pillars berdasarkan usia saat ini
+    String? daYunAktifStr;
+    if (_luckPillars != null && _luckPillars!.isNotEmpty) {
+      final currentAge = DateTime.now().year - _birthDate!.year;
+      try {
+        final activeLp = _luckPillars!.firstWhere(
+          (lp) => currentAge >= lp.startAge && currentAge <= lp.endAge,
+        );
+        daYunAktifStr =
+            'Da Yun: ${activeLp.pillar.stemNameId} ${activeLp.pillar.branchZodiacId}'
+            ' (usia ${activeLp.startAge}–${activeLp.endAge})';
+      } catch (_) {
+        // Usia di luar range pilar yang dihitung — pakai pilar terakhir
+        final lastLp = _luckPillars!.last;
+        daYunAktifStr =
+            'Da Yun terakhir: ${lastLp.pillar.stemNameId} ${lastLp.pillar.branchZodiacId}'
+            ' (usia ${lastLp.startAge}+)';
+      }
+    }
+    // Gabungkan dengan pilar tahunan sebagai konteks timing tambahan
+    if (_annualPillar != null) {
+      final annualStr =
+          'Pilar Tahun ${DateTime.now().year}: ${_annualPillar!.stemNameId} ${_annualPillar!.branchZodiacId}';
+      daYunAktifStr =
+          daYunAktifStr != null ? '$daYunAktifStr · $annualStr' : annualStr;
+    }
 
     final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
 
@@ -277,9 +292,20 @@ class _BaziCalculatorScreenState
                   : _chart!.dayMasterId,
               'wuXingBalance':
                   'Kayu:${_chart!.wuXingBalance.kayu} Api:${_chart!.wuXingBalance.api} Tanah:${_chart!.wuXingBalance.tanah} Logam:${_chart!.wuXingBalance.logam} Air:${_chart!.wuXingBalance.air}',
+              if (_dmStrength != null)
+                'dmStrength': [
+                  _dmStrength!,
+                  if (_yongShen?.isNotEmpty == true) 'Yong Shen: $_yongShen',
+                  if (_jiShen?.isNotEmpty == true) 'Ji Shen: $_jiShen',
+                ].join(' · '),
+              if (_chart!.tenGods.year.isNotEmpty || _chart!.tenGods.month.isNotEmpty)
+                'tenGods': [
+                  if (_chart!.tenGods.year.isNotEmpty) 'Tahun: ${_chart!.tenGods.year}',
+                  if (_chart!.tenGods.month.isNotEmpty) 'Bulan: ${_chart!.tenGods.month}',
+                  if (_chart!.tenGods.hour?.isNotEmpty == true) 'Jam: ${_chart!.tenGods.hour}',
+                ].join(', '),
+              if (daYunAktifStr != null) 'daYunAktif': daYunAktifStr,
             },
-            if (lat != null) 'latitude': lat,
-            if (lng != null) 'longitude': lng,
           },
         ),
       ),
@@ -354,79 +380,49 @@ class _BaziCalculatorScreenState
   Widget _buildStep() {
     switch (_step) {
       case 0:
-        return _buildStep0();
+        return BaziDatePickerStep(
+          step: _step,
+          birthDate: _birthDate,
+          onPickDate: _pickDate,
+          onNext: _birthDate != null ? _nextStep : null,
+        );
       case 1:
-        return _buildStep1();
+        return BaziInputStep(
+          step: _step,
+          includeHour: _includeHour,
+          birthHour: _birthHour,
+          selectedCity: _selectedCity,
+          allCities: _allCities,
+          isMale: _isMale,
+          onToggleHour: (v) => setState(() => _includeHour = v),
+          onHourPicked: (h) => setState(() => _birthHour = h),
+          onCityPicked: (city) => setState(() => _selectedCity = city),
+          onGenderChanged: (male) => setState(() => _isMale = male),
+          onNext: _nextStep,
+        );
       case 2:
-        return _buildStep2();
+        return BaziResultsView(
+          chart: _chart,
+          birthDate: _birthDate,
+          isLoading: _isLoading,
+          errorMsg: _errorMsg,
+          dmStrength: _dmStrength,
+          yongShen: _yongShen,
+          jiShen: _jiShen,
+          noblemen: _noblemen,
+          emptyBranches: _emptyBranches,
+          branchRelations: _branchRelations,
+          annualPillar: _annualPillar,
+          annualRelations: _annualRelations,
+          luckPillars: _luckPillars,
+          luckForward: _luckForward,
+          onRetry: _calculate,
+          onConsultOracle: _consultOracle,
+          onRecalculate: _prevStep,
+        );
       default:
         return const SizedBox.shrink();
     }
-  }
-
-  // ─── Step 0: Date selection ───────────────────────────────────────────
-
-  Widget _buildStep0() {
-    return SingleChildScrollView(
-      key: const ValueKey('step0'),
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _stepIndicator(0),
-          const SizedBox(height: 32),
-          Text(
-            'Tanggal Lahir',
-            style: GoogleFonts.playfairDisplay(
-              fontSize: 22,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'Digunakan untuk menghitung 4 Pilar Ba Zi berdasarkan siklus kalender surya.',
-            style: GoogleFonts.outfit(
-                fontSize: 13, color: Colors.white60, height: 1.5),
-          ),
-          const SizedBox(height: 32),
-          GestureDetector(
-            onTap: _pickDate,
-            child: GlassCard(
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                children: [
-                  const Icon(Icons.calendar_month_rounded,
-                      color: AppTheme.accentGold, size: 22),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Text(
-                      _birthDate == null
-                          ? 'Ketuk untuk memilih tanggal...'
-                          : '${_birthDate!.day} / ${_birthDate!.month} / ${_birthDate!.year}',
-                      style: GoogleFonts.outfit(
-                        fontSize: 16,
-                        color: _birthDate == null
-                            ? Colors.white38
-                            : Colors.white,
-                        fontWeight: _birthDate == null
-                            ? FontWeight.w400
-                            : FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  if (_birthDate != null)
-                    const Icon(Icons.check_circle_rounded,
-                        color: Color(0xFF4ADE80), size: 18),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 40),
-          _primaryButton('Lanjut →', _birthDate != null ? _nextStep : null),
-        ],
-      ),
-    );
   }
 
   Future<void> _pickDate() async {
@@ -449,658 +445,4 @@ class _BaziCalculatorScreenState
     );
     if (picked != null) setState(() => _birthDate = picked);
   }
-
-  // ─── Step 1: Hour + City ──────────────────────────────────────────────
-
-  Widget _buildStep1() {
-    return SingleChildScrollView(
-      key: const ValueKey('step1'),
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _stepIndicator(1),
-          const SizedBox(height: 32),
-
-          // Hour section
-          Text(
-            'Jam Lahir (Opsional)',
-            style: GoogleFonts.playfairDisplay(
-              fontSize: 20,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'Menambah Pilar Jam meningkatkan akurasi peta kosmis. Jika tidak tahu, lewati.',
-            style: GoogleFonts.outfit(
-                fontSize: 12, color: Colors.white60, height: 1.5),
-          ),
-          const SizedBox(height: 16),
-
-          GlassCard(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              children: [
-                Switch(
-                  value: _includeHour,
-                  onChanged: (v) => setState(() => _includeHour = v),
-                  activeThumbColor: AppTheme.accentPurple,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  _includeHour ? 'Sertakan jam lahir' : 'Lewati — jam tidak diketahui',
-                  style: GoogleFonts.outfit(
-                      fontSize: 13, color: Colors.white70),
-                ),
-              ],
-            ),
-          ),
-
-          if (_includeHour) ...[
-            const SizedBox(height: 16),
-            GlassCard(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Jam lahir (waktu lokal setempat)',
-                    style: GoogleFonts.outfit(
-                        fontSize: 11,
-                        color: Colors.white54,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      const Icon(Icons.access_time_rounded,
-                          color: AppTheme.accentPurple, size: 20),
-                      const SizedBox(width: 10),
-                      Text(
-                        _birthHour == null
-                            ? '--:--'
-                            : '${_birthHour.toString().padLeft(2, '0')}:00',
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 22,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Spacer(),
-                      TextButton(
-                        onPressed: _pickHour,
-                        child: Text(
-                          'Pilih',
-                          style: GoogleFonts.outfit(
-                            color: AppTheme.accentPurple,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-
-          const SizedBox(height: 28),
-
-          // City section
-          Text(
-            'Kota Kelahiran (Opsional)',
-            style: GoogleFonts.playfairDisplay(
-              fontSize: 20,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'Digunakan untuk mengoreksi jam lahir ke True Solar Time (TST) agar akurasi pilar jam meningkat.',
-            style: GoogleFonts.outfit(
-                fontSize: 12, color: Colors.white60, height: 1.5),
-          ),
-          const SizedBox(height: 16),
-
-          GestureDetector(
-            onTap: () async {
-              final picked = await showModalBottomSheet<CityPreset>(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: AppTheme.cardBg,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                ),
-                builder: (_) => CitySearchSheet(cityPresets: _allCities),
-              );
-              if (picked != null) setState(() => _selectedCity = picked);
-            },
-            child: GlassCard(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  const Icon(Icons.location_on_rounded,
-                      color: AppTheme.accentGold, size: 20),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      _selectedCity.name,
-                      style: GoogleFonts.outfit(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  const Icon(Icons.search_rounded,
-                      color: Colors.white38, size: 18),
-                ],
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 28),
-
-          // Gender — needed for Luck Pillars direction
-          Text(
-            'Jenis Kelamin (Opsional)',
-            style: GoogleFonts.playfairDisplay(
-              fontSize: 20,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'Diperlukan untuk menghitung siklus 10 tahun Luck Pillars (大運).',
-            style: GoogleFonts.outfit(
-                fontSize: 12, color: Colors.white60, height: 1.5),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              _genderChip('Pria', true),
-              const SizedBox(width: 10),
-              _genderChip('Wanita', false),
-            ],
-          ),
-
-          const SizedBox(height: 40),
-          _primaryButton('Hitung Peta Ba Zi ✦', _nextStep),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _pickHour() async {
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay(hour: _birthHour ?? 12, minute: 0),
-      builder: (ctx, child) => Theme(
-        data: Theme.of(ctx).copyWith(
-          colorScheme: const ColorScheme.dark(
-            primary: AppTheme.accentPurple,
-            onPrimary: Colors.white,
-            surface: AppTheme.cardBg,
-            onSurface: Colors.white,
-          ),
-        ),
-        child: child!,
-      ),
-    );
-    if (picked != null) setState(() => _birthHour = picked.hour);
-  }
-
-  // ─── Step 2: Results ──────────────────────────────────────────────────
-
-  Widget _buildStep2() {
-    if (_isLoading) {
-      return Center(
-        key: const ValueKey('loading'),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const CircularProgressIndicator(color: AppTheme.accentGold),
-            const SizedBox(height: 20),
-            Text(
-              'Memetakan langit kelahiranmu...',
-              style: GoogleFonts.outfit(color: Colors.white60, fontSize: 13),
-            ),
-          ],
-        ),
-      );
-    }
-
-    if (_chart == null) {
-      return Center(
-        key: const ValueKey('error'),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.error_outline, color: Colors.redAccent, size: 40),
-            const SizedBox(height: 12),
-            Text(
-              _errorMsg ?? 'Gagal menghitung peta Ba Zi.',
-              style: GoogleFonts.outfit(color: Colors.white60),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: _calculate,
-              child: const Text('Coba lagi',
-                  style: TextStyle(color: AppTheme.accentGold)),
-            ),
-          ],
-        ),
-      );
-    }
-
-    final mastersAsync = ref.watch(baziDayMastersProvider);
-    final pillarsAsync = ref.watch(baziPillarsProvider);
-    final godsAsync         = ref.watch(baziGodsProvider);
-    final strengthAsync     = ref.watch(baziStrengthLevelsProvider);
-
-    final masterData = mastersAsync.asData?.value.findById(_chart!.dayMasterId);
-    final pillarData = pillarsAsync.asData?.value.findById(_chart!.dayPillar.id);
-    final godsData      = godsAsync.asData?.value;
-    final strengthData  = strengthAsync.asData?.value;
-
-    final Color elementColor =
-        kBaziElementColors[_chart!.dayMasterElement] ?? AppTheme.accentGold;
-
-    return SingleChildScrollView(
-      key: const ValueKey('results'),
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Header
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Column(
-              children: [
-                Text(
-                  'Peta Langit Kelahiran',
-                  style: GoogleFonts.playfairDisplay(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${_birthDate!.day} / ${_birthDate!.month} / ${_birthDate!.year}',
-                  style: GoogleFonts.outfit(
-                      fontSize: 13, color: Colors.white54),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-
-          // Four Pillars Chart
-          BaziFourPillarsChart(chart: _chart!),
-          const SizedBox(height: 8),
-
-          // Ten Gods row — tap any chip for detail sheet
-          BaziTenGodsWidget(
-            chart: _chart!,
-            elementColor: elementColor,
-            godsData: godsData,
-          ),
-          const SizedBox(height: 16),
-
-          // Day Master Strength + 用神/忌神 + 天乙貴人
-          if (_dmStrength != null) ...[
-            BaziStrengthCard(
-              dayPillar:   _chart!.dayPillar,
-              monthPillar: _chart!.monthPillar,
-              dmStrength:  _dmStrength!,
-              yongShen:    _yongShen ?? [],
-              jiShen:      _jiShen ?? [],
-              noblemen:    _noblemen ?? [],
-              allPillars:  _chart!.allPillars,
-              elementColor: elementColor,
-              strengthData: strengthData,
-            ),
-            const SizedBox(height: 16),
-          ],
-
-          // Day Master archetype card
-          BaziDayMasterCard(
-            dayPillar: _chart!.dayPillar,
-            masterData: masterData,
-          ),
-          const SizedBox(height: 16),
-
-          // Wu Xing Pentagon Radar
-          BaziElementBalanceCard(balance: _chart!.wuXingBalance),
-          const SizedBox(height: 16),
-
-          // Branch Relations 六冲/六合/三合/空亡
-          if (_branchRelations != null && _emptyBranches != null) ...[
-            BaziBranchRelationsCard(
-              relations:     _branchRelations!,
-              emptyBranches: _emptyBranches!,
-              pillars:       _chart!.allPillars,
-            ),
-            const SizedBox(height: 16),
-          ],
-
-          // Annual Pillar 流年
-          if (_annualPillar != null && _annualRelations != null) ...[
-            BaziAnnualPillarCard(
-              annualPillar:    _annualPillar!,
-              natalChart:      _chart!,
-              annualRelations: _annualRelations!,
-            ),
-            const SizedBox(height: 16),
-          ],
-
-          // Day Pillar detail from bazi-pillars.json
-          if (pillarData != null) _buildPillarDetailCard(pillarData, elementColor),
-
-          // AI Oracle section
-          const SizedBox(height: 16),
-          _buildAiSection(elementColor,
-              aiHook: masterData?['ai_hook'] as String?),
-
-          // Luck Pillars — real widget if gender known, placeholder otherwise
-          const SizedBox(height: 16),
-          _luckPillars != null
-              ? BaziLuckPillarsWidget(
-                  pillars:     _luckPillars!,
-                  elementColor: elementColor,
-                  isForward:   _luckForward,
-                  birthDate:   _birthDate!,
-                )
-              : _buildLuckPillarsPlaceholder(elementColor),
-
-          // Recalculate
-          const SizedBox(height: 24),
-          TextButton.icon(
-            onPressed: _prevStep,
-            icon: const Icon(Icons.refresh_rounded,
-                color: Colors.white38, size: 16),
-            label: Text(
-              'Hitung ulang dengan data berbeda',
-              style: GoogleFonts.outfit(
-                  fontSize: 12, color: Colors.white38),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPillarDetailCard(
-      Map<String, dynamic> data, Color elementColor) {
-    final String summary = data['character_summary'] as String? ?? '';
-    final List<String> career =
-        (data['career_tendency'] as List<dynamic>?)?.cast<String>() ?? [];
-    final List<String> tags =
-        (data['tags'] as List<dynamic>?)?.cast<String>() ?? [];
-
-    return GlassCard(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text('日柱 ',
-                  style: GoogleFonts.playfairDisplay(
-                      fontSize: 16,
-                      color: elementColor,
-                      fontWeight: FontWeight.bold)),
-              Text(
-                data['pillar_name'] as String? ?? '',
-                style: GoogleFonts.outfit(
-                    fontSize: 13,
-                    color: Colors.white70,
-                    fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          if (summary.isNotEmpty)
-            Text(summary,
-                style: GoogleFonts.outfit(
-                    fontSize: 12,
-                    color: Colors.white60,
-                    height: 1.5)),
-          if (career.isNotEmpty) ...[
-            const SizedBox(height: 10),
-            Wrap(
-              spacing: 6,
-              runSpacing: 6,
-              children: career
-                  .map((c) => _smallChip(c, elementColor))
-                  .toList(),
-            ),
-          ],
-          if (tags.isNotEmpty) ...[
-            const SizedBox(height: 6),
-            Wrap(
-              spacing: 6,
-              runSpacing: 6,
-              children: tags
-                  .map((t) => _smallChip(t, Colors.white38))
-                  .toList(),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAiSection(Color elementColor, {String? aiHook}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        if (aiHook != null && aiHook.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Text(
-              aiHook,
-              style: GoogleFonts.outfit(
-                fontSize: 12,
-                color: Colors.white38,
-                height: 1.6,
-                fontStyle: FontStyle.italic,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        _primaryButton(
-          '✦ Bicara dengan Suhu Wang',
-          _consultOracle,
-          color: elementColor,
-        ),
-      ],
-    );
-  }
-
-
-  // ─── Luck Pillars placeholder ─────────────────────────────────────────
-
-  Widget _buildLuckPillarsPlaceholder(Color elementColor) {
-    return GlassCard(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-      child: Row(
-        children: [
-          Container(
-            width: 38,
-            height: 38,
-            decoration: BoxDecoration(
-              color: elementColor.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: elementColor.withValues(alpha: 0.3)),
-            ),
-            child: Icon(
-              Icons.timeline_rounded,
-              color: elementColor.withValues(alpha: 0.7),
-              size: 18,
-            ),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '大運  Luck Pillars',
-                  style: GoogleFonts.playfairDisplay(
-                    fontSize: 14,
-                    color: Colors.white70,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  'Siklus 10 tahun nasib segera hadir.',
-                  style: GoogleFonts.outfit(
-                    fontSize: 11,
-                    color: Colors.white38,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.white10,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              'Segera',
-              style: GoogleFonts.outfit(
-                fontSize: 10,
-                color: Colors.white38,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _genderChip(String label, bool isMale) {
-    final bool selected = _isMale == isMale;
-    final Color color = isMale ? AppTheme.accentPurple : const Color(0xFFF472B6);
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => setState(() => _isMale = isMale),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          decoration: BoxDecoration(
-            color: selected ? color.withValues(alpha: 0.18) : Colors.white.withValues(alpha: 0.04),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: selected ? color.withValues(alpha: 0.6) : Colors.white12,
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                isMale ? Icons.male_rounded : Icons.female_rounded,
-                color: selected ? color : Colors.white38,
-                size: 18,
-              ),
-              const SizedBox(width: 6),
-              Text(
-                label,
-                style: GoogleFonts.outfit(
-                  fontSize: 13,
-                  color: selected ? Colors.white : Colors.white38,
-                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ─── Shared widgets ───────────────────────────────────────────────────
-
-  Widget _stepIndicator(int active) {
-    return Row(
-      children: List.generate(3, (i) {
-        final bool done = i < active;
-        final bool current = i == active;
-        return Expanded(
-          child: Container(
-            margin: EdgeInsets.only(right: i < 2 ? 6 : 0),
-            height: 3,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(2),
-              color: done
-                  ? AppTheme.accentGold
-                  : current
-                      ? AppTheme.accentPurple
-                      : Colors.white12,
-            ),
-          ),
-        );
-      }),
-    );
-  }
-
-  Widget _primaryButton(String label, VoidCallback? onTap,
-      {Color? color}) {
-    final Color btnColor = color ?? AppTheme.accentPurple;
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        height: 52,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          color: onTap != null
-              ? btnColor.withValues(alpha: 0.85)
-              : Colors.white12,
-          boxShadow: onTap != null
-              ? [BoxShadow(color: btnColor.withValues(alpha: 0.35), blurRadius: 16)]
-              : [],
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: GoogleFonts.outfit(
-              fontSize: 15,
-              color: onTap != null ? Colors.white : Colors.white30,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _smallChip(String label, Color color) => Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-        decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.12),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: color.withValues(alpha: 0.3)),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.outfit(
-              fontSize: 10,
-              color: color,
-              fontWeight: FontWeight.w500),
-        ),
-      );
 }
