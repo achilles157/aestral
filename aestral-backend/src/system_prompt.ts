@@ -10,6 +10,7 @@ export interface AiContext {
 		neptu: number;
 		elemen: string;
 		karakter?: string;
+		pancasuda?: string;
 	};
 	wukuBerjalan?: {
 		nama: string;
@@ -68,15 +69,16 @@ KARAKTER SUARA:
 	// User Astrological Context
 	if (context.wetonLahir) {
 		const w = context.wetonLahir;
-		sections.push(`DATA PENGGUNA — WETON LAHIR:
-- Weton: ${w.nama}
-- Neptu (total unsur kosmik): ${w.neptu}
-- Elemen penyeimbang: ${w.elemen}
-${w.karakter ? `- Karakter dasar: ${w.karakter}` : ''}`);
-	}
-
-	if (context.pangarasan) {
-		sections.push(`- Pangarasan (watak kelembutan): ${context.pangarasan}`);
+		const lines = [
+			'DATA PENGGUNA — WETON LAHIR:',
+			`- Weton: ${w.nama}`,
+			`- Neptu (total unsur kosmik): ${w.neptu}`,
+			w.elemen ? `- Elemen penyeimbang: ${w.elemen}` : null,
+			w.karakter ? `- Karakter dasar: ${w.karakter}` : null,
+			w.pancasuda ? `- Pancasuda (watak tindakan): ${w.pancasuda}` : null,
+			context.pangarasan ? `- Pangarasan (watak kelembutan): ${context.pangarasan}` : null,
+		].filter(Boolean).join('\n');
+		sections.push(lines);
 	}
 
 	if (context.wukuBerjalan) {
