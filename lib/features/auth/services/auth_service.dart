@@ -22,9 +22,6 @@ class UserSession {
 }
 
 class AuthNotifier extends Notifier<UserSession?> {
-  bool _isInitializing = true;
-
-  bool get isInitializing => _isInitializing;
 
   @override
   UserSession? build() {
@@ -60,7 +57,7 @@ class AuthNotifier extends Notifier<UserSession?> {
             photoUrl: currentUser.photoURL,
             isMock: false,
           );
-          _isInitializing = false;
+          ref.read(authInitializingProvider.notifier).complete();
           ref.notifyListeners();
           return;
         }
@@ -80,7 +77,7 @@ class AuthNotifier extends Notifier<UserSession?> {
     } catch (e) {
       debugPrint("Error loading session: $e");
     } finally {
-      _isInitializing = false;
+      ref.read(authInitializingProvider.notifier).complete();
       ref.notifyListeners();
     }
   }
@@ -206,8 +203,15 @@ final authProvider = NotifierProvider<AuthNotifier, UserSession?>(() {
   return AuthNotifier();
 });
 
-// Provider untuk expose initializing state — digunakan untuk splash screen
-final authInitializingProvider = Provider<bool>((ref) {
-  ref.watch(authProvider); // dependency agar rebuild saat auth state berubah
-  return ref.read(authProvider.notifier).isInitializing;
-});
+/// Provider untuk splash screen — di-set false oleh AuthNotifier saat inisialisasi selesai.
+/// NotifierProvider<bool> lebih idiomatik daripada membaca getter dari notifier instance.
+final authInitializingProvider =
+    NotifierProvider<_InitializingNotifier, bool>(_InitializingNotifier.new);
+
+class _InitializingNotifier extends Notifier<bool> {
+  @override
+  bool build() => true;
+
+  /// Dipanggil oleh AuthNotifier saat _loadSession() selesai.
+  void complete() => state = false;
+}

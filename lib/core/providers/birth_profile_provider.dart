@@ -183,26 +183,13 @@ class BirthProfileNotifier extends AsyncNotifier<BirthProfile> {
   }
 
   /// In-memory cache for guest/offline users. Lives as long as the notifier.
-  static Map<String, dynamic>? _guestCache;
+  Map<String, dynamic>? _guestCache;
 
   /// Seed the in-memory guest cache (e.g. from a migration or test helper).
-  static void seedGuestCache(Map<String, dynamic> data) {
-    _guestCache = _deepMergeStatic(_guestCache ?? {}, data);
+  void seedGuestCache(Map<String, dynamic> data) {
+    _guestCache = _deepMerge(_guestCache ?? {}, data);
   }
 
-  static Map<String, dynamic> _deepMergeStatic(
-      Map<String, dynamic> base, Map<String, dynamic> overlay) {
-    final result = Map<String, dynamic>.from(base);
-    overlay.forEach((key, value) {
-      if (value is Map<String, dynamic> && result[key] is Map<String, dynamic>) {
-        result[key] =
-            _deepMergeStatic(result[key] as Map<String, dynamic>, value);
-      } else {
-        result[key] = value;
-      }
-    });
-    return result;
-  }
 }
 
 final birthProfileProvider =
