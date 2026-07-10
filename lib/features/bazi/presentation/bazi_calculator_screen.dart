@@ -33,24 +33,10 @@ class _BaziCalculatorScreenState
       const CityPreset(name: 'Jakarta', latitude: -6.2088, longitude: 106.8456);
   List<CityPreset> _allCities = [];
 
-  BaziChart? _chart;
   bool _isLoading = false;
   String? _errorMsg;
-
-  // Luck Pillars
-  bool? _isMale;
-  List<LuckPillar>? _luckPillars;
-  bool _luckForward = true;
-
-  // Derived analytical state (computed from chart after calculation)
-  String? _dmStrength;
-  List<String>? _yongShen;
-  List<String>? _jiShen;
-  List<int>? _emptyBranches;
-  BaziRelations? _branchRelations;
-  BaziPillar? _annualPillar;
-  BaziRelations? _annualRelations;
-  List<int>? _noblemen;
+  bool? _isMale;            // user input: needed for Luck Pillars direction
+  _BaziResultData? _result; // null = chart not yet calculated
 
   // ─── Lifecycle ────────────────────────────────────────────────────────
 
@@ -133,17 +119,8 @@ class _BaziCalculatorScreenState
     if (_step > 0) {
       setState(() {
         _step--;
-        _chart = null;
         _errorMsg = null;
-        _luckPillars = null;
-        _dmStrength = null;
-        _yongShen = null;
-        _jiShen = null;
-        _emptyBranches = null;
-        _branchRelations = null;
-        _annualPillar = null;
-        _annualRelations = null;
-        _noblemen = null;
+        _result = null;
       });
     }
   }
@@ -152,104 +129,97 @@ class _BaziCalculatorScreenState
 
   Future<void> _calculate() async {
     if (_birthDate == null) return;
-    setState(() {
-      _isLoading = true;
-      _errorMsg = null;
-    });
+    setState(() { _isLoading = true; _errorMsg = null; _result = null; });
 
-    final String dateStr =
-        '${_birthDate!.year}-${_birthDate!.month.toString().padLeft(2, '0')}-${_birthDate!.day.toString().padLeft(2, '0')}';
-    final double? lng =
-        _selectedCity.longitude != 0.0 ? _selectedCity.longitude : null;
-    final double? lat =
-        _selectedCity.latitude != 0.0 ? _selectedCity.latitude : null;
+    final String dateStr = '${_birthDate!.year}-${_birthDate!.month.toString().padLeft(2, '0')}-${_birthDate!.day.toString().padLeft(2, '0')}';
+    final double? lng = _selectedCity.longitude != 0.0 ? _selectedCity.longitude : null;
+    final double? lat = _selectedCity.latitude != 0.0 ? _selectedCity.latitude : null;
     final int? hour = _includeHour ? _birthHour : null;
 
+    BaziChart? chart;
     try {
       final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
-
-      final result = await ApiService.getBaziChart(
+      final apiResult = await ApiService.getBaziChart(
         birthDate: dateStr,
         birthHour: hour,
         latitude: lat,
         longitude: lng,
         authHeader: authHeader,
       );
-      final data = result['data'] as Map<String, dynamic>;
-      setState(() => _chart = BaziChart.fromJson(data));
+      final data = apiResult['data'] as Map<String, dynamic>;
+      chart = BaziChart.fromJson(data);
     } catch (e) {
       debugPrint('BaziCalculatorScreen: API failed, fallback offline — $e');
-      // Offline fallback — pure Dart calculation
-      final offline = BaziUtils.calculateBaziChart(
+      chart = BaziUtils.calculateBaziChart(
         _birthDate!,
         birthHour: hour,
         longitude: lng,
       );
-      setState(() => _chart = offline);
     } finally {
       setState(() => _isLoading = false);
     }
 
-    // Persist birth data so other features (Weton, Tarot) can auto-fill (fire-and-forget)
-    if (_chart != null) {
-      ref.read(birthProfileProvider.notifier).saveAll(
-        dob: _birthDate!,
-        birthHour: _includeHour ? _birthHour : null,
-        latitude: _selectedCity.latitude,
-        longitude: _selectedCity.longitude,
-        cityName: _selectedCity.name,
-        gender: _isMale == null ? null : (_isMale! ? 'male' : 'female'),
-      ).catchError((e) {
-        debugPrint('BaziCalculatorScreen: error saving birth profile: $e');
-      });
-    }
+
+    // Persist birth data (fire-and-forget)
+    ref.read(birthProfileProvider.notifier).saveAll(
+      dob: _birthDate!,
+      birthHour: _includeHour ? _birthHour : null,
+      latitude: _selectedCity.latitude,
+      longitude: _selectedCity.longitude,
+      cityName: _selectedCity.name,
+      gender: _isMale == null ? null : (_isMale! ? 'male' : 'female'),
+    ).catchError((e) {
+      debugPrint('BaziCalculatorScreen: error saving birth profile: $e');
+    });
 
     // Compute Luck Pillars if gender is known
-    if (_chart != null && _isMale != null) {
-      final bool isYang = _chart!.yearPillar.stemIndex % 2 == 0;
-      _luckForward = _isMale! == isYang;
-      setState(() {
-        _luckPillars = BaziUtils.calculateLuckPillars(
-          birthDate: _birthDate!,
-          monthPillar: _chart!.monthPillar,
-          yearStemIndex: _chart!.yearPillar.stemIndex,
-          isMale: _isMale!,
-        );
-      });
+    List<LuckPillar>? luckPillars;
+    bool luckForward = true;
+    if (_isMale != null) {
+      final bool isYang = chart.yearPillar.stemIndex % 2 == 0;
+      luckForward = _isMale! == isYang;
+      luckPillars = BaziUtils.calculateLuckPillars(
+        birthDate: _birthDate!,
+        monthPillar: chart.monthPillar,
+        yearStemIndex: chart.yearPillar.stemIndex,
+        isMale: _isMale!,
+      );
     }
 
-    // Compute derived analytical state (strength, elements, relations, annual)
-    if (_chart != null) {
-      final annual = BaziUtils.getCurrentAnnualPillar();
-      setState(() {
-        _dmStrength      = _chart!.dmStrength.label;
-        _yongShen        = _chart!.dmStrength.yongShen;
-        _jiShen          = _chart!.dmStrength.jiShen;
-        _emptyBranches   = BaziUtils.getEmptyBranches(_chart!.dayPillar);
-        _branchRelations = BaziUtils.detectBranchRelations(_chart!.allPillars);
-        _annualPillar    = annual;
-        _annualRelations = BaziUtils.detectBranchRelations(
-            [..._chart!.allPillars, annual]);
-        _noblemen        = BaziUtils.getNobleman(_chart!.dayPillar.stemIndex);
-      });
-    }
+    // Compute all derived state and consolidate into _BaziResultData
+    final annual = BaziUtils.getCurrentAnnualPillar();
+    setState(() {
+      _result = _BaziResultData(
+        chart: chart!,
+        luckPillars: luckPillars,
+        luckForward: luckForward,
+        dmStrength:      chart.dmStrength.label,
+        yongShen:        chart.dmStrength.yongShen,
+        jiShen:          chart.dmStrength.jiShen,
+        emptyBranches:   BaziUtils.getEmptyBranches(chart.dayPillar),
+        branchRelations: BaziUtils.detectBranchRelations(chart.allPillars),
+        annualPillar:    annual,
+        annualRelations: BaziUtils.detectBranchRelations([...chart.allPillars, annual]),
+        noblemen:        BaziUtils.getNobleman(chart.dayPillar.stemIndex),
+      );
+    });
   }
 
   // ─── AI Oracle ────────────────────────────────────────────────────────
 
   Future<void> _consultOracle() async {
-    if (_chart == null || _birthDate == null) return;
+    if (_result == null || _birthDate == null) return;
 
     final mastersAsync = ref.read(baziDayMastersProvider);
-    final masterData = mastersAsync.asData?.value.findById(_chart!.dayMasterId);
+    final masterData = mastersAsync.asData?.value.findById(_result!.chart.dayMasterId);
     final arketipe = masterData?['arketipe_modern'] as String?;
 
     // Hitung Da Yun aktif dari luck pillars berdasarkan usia saat ini
     String? daYunAktifStr;
-    if (_luckPillars != null && _luckPillars!.isNotEmpty) {
+    if (_result!.luckPillars != null && _result!.luckPillars!.isNotEmpty) {
       final currentAge = DateTime.now().year - _birthDate!.year;
       try {
-        final activeLp = _luckPillars!.firstWhere(
+        final activeLp = _result!.luckPillars!.firstWhere(
           (lp) => currentAge >= lp.startAge && currentAge <= lp.endAge,
         );
         daYunAktifStr =
@@ -257,16 +227,16 @@ class _BaziCalculatorScreenState
             ' (usia ${activeLp.startAge}–${activeLp.endAge})';
       } catch (_) {
         // Usia di luar range pilar yang dihitung — pakai pilar terakhir
-        final lastLp = _luckPillars!.last;
+        final lastLp = _result!.luckPillars!.last;
         daYunAktifStr =
             'Da Yun terakhir: ${lastLp.pillar.stemNameId} ${lastLp.pillar.branchZodiacId}'
             ' (usia ${lastLp.startAge}+)';
       }
     }
     // Gabungkan dengan pilar tahunan sebagai konteks timing tambahan
-    if (_annualPillar != null) {
+    if (_result!.annualPillar != null) {
       final annualStr =
-          'Pilar Tahun ${DateTime.now().year}: ${_annualPillar!.stemNameId} ${_annualPillar!.branchZodiacId}';
+          'Pilar Tahun ${DateTime.now().year}: ${_result!.annualPillar!.stemNameId} ${_result!.annualPillar!.branchZodiacId}';
       daYunAktifStr =
           daYunAktifStr != null ? '$daYunAktifStr · $annualStr' : annualStr;
     }
@@ -281,29 +251,29 @@ class _BaziCalculatorScreenState
           authHeader: authHeader,
           aiContext: {
             'baziChart': {
-              'yearPillar': '${_chart!.yearPillar.stemNameId} ${_chart!.yearPillar.branchZodiacId}',
-              'monthPillar': '${_chart!.monthPillar.stemNameId} ${_chart!.monthPillar.branchZodiacId}',
-              'dayPillar': '${_chart!.dayPillar.stemNameId} ${_chart!.dayPillar.branchZodiacId}',
-              'hourPillar': _chart!.hourPillar != null
-                  ? '${_chart!.hourPillar!.stemNameId} ${_chart!.hourPillar!.branchZodiacId}'
+              'yearPillar': '${_result!.chart.yearPillar.stemNameId} ${_result!.chart.yearPillar.branchZodiacId}',
+              'monthPillar': '${_result!.chart.monthPillar.stemNameId} ${_result!.chart.monthPillar.branchZodiacId}',
+              'dayPillar': '${_result!.chart.dayPillar.stemNameId} ${_result!.chart.dayPillar.branchZodiacId}',
+              'hourPillar': _result!.chart.hourPillar != null
+                  ? '${_result!.chart.hourPillar!.stemNameId} ${_result!.chart.hourPillar!.branchZodiacId}'
                   : null,
-              'dayMasterId': _chart!.dayMasterId,
+              'dayMasterId': _result!.chart.dayMasterId,
               'dayMasterLabel': arketipe != null
-                  ? '${_chart!.dayMasterId} — ${_chart!.dayMasterElement} — $arketipe'
-                  : _chart!.dayMasterId,
+                  ? '${_result!.chart.dayMasterId} — ${_result!.chart.dayMasterElement} — $arketipe'
+                  : _result!.chart.dayMasterId,
               'wuXingBalance':
-                  'Kayu:${_chart!.wuXingBalance.kayu} Api:${_chart!.wuXingBalance.api} Tanah:${_chart!.wuXingBalance.tanah} Logam:${_chart!.wuXingBalance.logam} Air:${_chart!.wuXingBalance.air}',
-              if (_dmStrength != null)
+                  'Kayu:${_result!.chart.wuXingBalance.kayu} Api:${_result!.chart.wuXingBalance.api} Tanah:${_result!.chart.wuXingBalance.tanah} Logam:${_result!.chart.wuXingBalance.logam} Air:${_result!.chart.wuXingBalance.air}',
+              if (_result!.dmStrength != null)
                 'dmStrength': [
-                  _dmStrength!,
-                  if (_yongShen?.isNotEmpty == true) 'Yong Shen: $_yongShen',
-                  if (_jiShen?.isNotEmpty == true) 'Ji Shen: $_jiShen',
+                  _result!.dmStrength!,
+                  if (_result!.yongShen?.isNotEmpty == true) 'Yong Shen: ${_result!.yongShen}',
+                  if (_result!.jiShen?.isNotEmpty == true) 'Ji Shen: ${_result!.jiShen}',
                 ].join(' · '),
-              if (_chart!.tenGods.year.isNotEmpty || _chart!.tenGods.month.isNotEmpty)
+              if (_result!.chart.tenGods.year.isNotEmpty || _result!.chart.tenGods.month.isNotEmpty)
                 'tenGods': [
-                  if (_chart!.tenGods.year.isNotEmpty) 'Tahun: ${_chart!.tenGods.year}',
-                  if (_chart!.tenGods.month.isNotEmpty) 'Bulan: ${_chart!.tenGods.month}',
-                  if (_chart!.tenGods.hour?.isNotEmpty == true) 'Jam: ${_chart!.tenGods.hour}',
+                  if (_result!.chart.tenGods.year.isNotEmpty) 'Tahun: ${_result!.chart.tenGods.year}',
+                  if (_result!.chart.tenGods.month.isNotEmpty) 'Bulan: ${_result!.chart.tenGods.month}',
+                  if (_result!.chart.tenGods.hour?.isNotEmpty == true) 'Jam: ${_result!.chart.tenGods.hour}',
                 ].join(', '),
               if (daYunAktifStr != null) 'daYunAktif': daYunAktifStr,
             },
@@ -403,20 +373,20 @@ class _BaziCalculatorScreenState
         );
       case 2:
         return BaziResultsView(
-          chart: _chart,
+          chart: _result?.chart,
           birthDate: _birthDate,
           isLoading: _isLoading,
           errorMsg: _errorMsg,
-          dmStrength: _dmStrength,
-          yongShen: _yongShen,
-          jiShen: _jiShen,
-          noblemen: _noblemen,
-          emptyBranches: _emptyBranches,
-          branchRelations: _branchRelations,
-          annualPillar: _annualPillar,
-          annualRelations: _annualRelations,
-          luckPillars: _luckPillars,
-          luckForward: _luckForward,
+          dmStrength: _result?.dmStrength,
+          yongShen: _result?.yongShen,
+          jiShen: _result?.jiShen,
+          noblemen: _result?.noblemen,
+          emptyBranches: _result?.emptyBranches,
+          branchRelations: _result?.branchRelations,
+          annualPillar: _result?.annualPillar,
+          annualRelations: _result?.annualRelations,
+          luckPillars: _result?.luckPillars,
+          luckForward: _result?.luckForward ?? true,
           onRetry: _calculate,
           onConsultOracle: _consultOracle,
           onRecalculate: _prevStep,
@@ -446,4 +416,36 @@ class _BaziCalculatorScreenState
     );
     if (picked != null) setState(() => _birthDate = picked);
   }
+}
+
+// ── Result data container ─────────────────────────────────────────────────
+
+/// All Ba Zi calculation results consolidated into one immutable object.
+/// [_BaziCalculatorScreenState._result] is null before the first calculation.
+class _BaziResultData {
+  final BaziChart chart;
+  final List<LuckPillar>? luckPillars;
+  final bool luckForward;
+  final String? dmStrength;
+  final List<String>? yongShen;
+  final List<String>? jiShen;
+  final List<int>? emptyBranches;
+  final BaziRelations? branchRelations;
+  final BaziPillar? annualPillar;
+  final BaziRelations? annualRelations;
+  final List<int>? noblemen;
+
+  const _BaziResultData({
+    required this.chart,
+    this.luckPillars,
+    this.luckForward = true,
+    this.dmStrength,
+    this.yongShen,
+    this.jiShen,
+    this.emptyBranches,
+    this.branchRelations,
+    this.annualPillar,
+    this.annualRelations,
+    this.noblemen,
+  });
 }
