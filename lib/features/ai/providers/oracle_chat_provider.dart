@@ -254,6 +254,7 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
     required String prompt,
     required String authHeader,
     Map<String, dynamic>? context,
+    bool isSilent = false,
   }) async {
     if (state.isLoading) return;
 
@@ -265,17 +266,19 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
     );
 
     state = state.copyWith(
-      messages: [...state.messages, userMsg],
+      messages: isSilent ? state.messages : [...state.messages, userMsg],
       isLoading: true,
       clearError: true,
     );
 
     try {
-      // Build Gemini-format history (semua messages kecuali yang baru saja ditambahkan)
-      final historyForApi = state.messages
-          .take(state.messages.length - 1) // exclude msg baru
-          .map((m) => m.toGeminiContent())
-          .toList();
+      // Build Gemini-format history (exclude the current user message if it was added to state.messages)
+      final historyForApi = isSilent
+          ? state.messages.map((m) => m.toGeminiContent()).toList()
+          : state.messages
+              .take(state.messages.length - 1) // exclude msg baru
+              .map((m) => m.toGeminiContent())
+              .toList();
 
       final result = await ApiService.sendOracleChat(
         oracleType: oracleType,

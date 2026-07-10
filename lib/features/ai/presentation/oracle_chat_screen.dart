@@ -8,6 +8,8 @@ import '../../../core/providers/birth_profile_provider.dart';
 import '../providers/oracle_chat_provider.dart';
 import '../../tarot/services/tarot_data.dart';
 import 'oracle_card_widgets.dart';
+import '../../auth/services/auth_service.dart';
+import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
 
 /// Layar obrolan kosmis utama — mitra dialog spiritual Aestral Oracle.
 /// Mendukung 4 persona: weton (Ki Sabdo), bazi (Suhu Wang), tarot (Madame Sophia), synthesis (Sesepuh Kosmis).
@@ -58,8 +60,20 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
     )..repeat(reverse: true);
 
     // Initialize provider state from local storage
-    Future.microtask(() {
-      ref.read(oracleChatProvider(widget.oracleType).notifier).initialize(aiContext: widget.aiContext);
+    Future.microtask(() async {
+      await ref.read(oracleChatProvider(widget.oracleType).notifier).initialize(aiContext: widget.aiContext);
+      
+      // Auto-trigger a silent greeting from the oracle if conversation is empty
+      final currentState = ref.read(oracleChatProvider(widget.oracleType));
+      if (currentState.messages.isEmpty) {
+        final dynamicAuthHeader = await ref.read(authProvider.notifier).getAuthHeader();
+        ref.read(oracleChatProvider(widget.oracleType).notifier).sendMessage(
+              prompt: 'Halo',
+              authHeader: dynamicAuthHeader,
+              context: widget.aiContext,
+              isSilent: true,
+            );
+      }
     });
   }
 
@@ -88,9 +102,11 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
     _inputCtrl.clear();
     FocusScope.of(context).unfocus();
 
+    final dynamicAuthHeader = await ref.read(authProvider.notifier).getAuthHeader();
+
     await ref.read(oracleChatProvider(widget.oracleType).notifier).sendMessage(
           prompt: text.trim(),
-          authHeader: widget.authHeader,
+          authHeader: dynamicAuthHeader,
           context: widget.aiContext,
         );
     _scrollToBottom();
@@ -130,6 +146,8 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
     final state = ref.watch(oracleChatProvider(widget.oracleType));
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final authState = ref.watch(authProvider);
+    final isGuest = authState == null || authState.isMock;
 
     // Auto-scroll when new message added + update topic glow from oracle response
     ref.listen<OracleChatState>(
@@ -231,8 +249,12 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                 ),
                 if (_showSesepuhHint && widget.oracleType != 'synthesis')
                   _buildSesepuhHint(),
-                _buildSuggestionPills(state),
-                _buildInputRow(state, bottomInset, bottomPadding),
+                if (isGuest)
+                  _buildSoftGatePanel(bottomInset, bottomPadding)
+                else ...[
+                  _buildSuggestionPills(state),
+                  _buildInputRow(state, bottomInset, bottomPadding),
+                ],
               ],
             ),
           ),
@@ -442,15 +464,19 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                 .toList(),
         };
 
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => OracleChatScreen(
-              oracleType: 'synthesis',
-              authHeader: widget.authHeader,
-              aiContext: synthesisContext.isEmpty ? null : synthesisContext,
-            ),
-          ),
-        );
+        ref.read(authProvider.notifier).getAuthHeader().then((dynamicAuthHeader) {
+          if (mounted) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => OracleChatScreen(
+                  oracleType: 'synthesis',
+                  authHeader: dynamicAuthHeader,
+                  aiContext: synthesisContext.isEmpty ? null : synthesisContext,
+                ),
+              ),
+            );
+          }
+        });
       },
       child: Container(
         margin: const EdgeInsets.fromLTRB(16, 8, 16, 4),
@@ -566,6 +592,95 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                           ),
                         ),
                         ),
+                ),
+              ],
+            ),
+          ),
+        ),
+    );
+  }
+
+  Widget _buildSoftGatePanel(double bottomInset, double bottomPadding) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+          16, 8, 16, math.max(bottomInset, bottomPadding) + 12),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: const Color(0xFF0F0B26).withValues(alpha: 0.60),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: _accentColor.withValues(alpha: 0.35), width: 1.5),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.lock_outline, color: AppTheme.accentGold, size: 20),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Orakel Menanti Jawabanmu',
+                      style: GoogleFonts.playfairDisplay(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Masuk dengan Google atau Email untuk membalas dialog dan menyimpan perjalanan kosmismu.',
+                  style: GoogleFonts.outfit(
+                    fontSize: 13,
+                    color: Colors.white70,
+                    height: 1.4,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                InkWell(
+                  onTap: () async {
+                    final success = await CosmicAuthBottomSheet.show(context);
+                    if (success == true) {
+                      setState(() {});
+                    }
+                  },
+                  borderRadius: BorderRadius.circular(16),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          _accentColor,
+                          _accentColor.withValues(alpha: 0.70),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: _accentColor.withValues(alpha: 0.3),
+                          blurRadius: 10,
+                          offset: const Offset(0, 3),
+                        )
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Masuk / Daftar',
+                        style: GoogleFonts.outfit(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

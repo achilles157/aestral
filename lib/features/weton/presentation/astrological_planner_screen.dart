@@ -13,6 +13,7 @@ import 'widgets/astrological_planner_calendar_grid.dart';
 import 'widgets/astrological_planner_timeline.dart';
 import '../../../core/widgets/glass_card.dart';
 import '../../../core/widgets/astrological_dial_timepiece.dart';
+import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
 import '../../../core/widgets/glass_button.dart';
 
 class AstrologicalPlannerScreen extends ConsumerStatefulWidget {
@@ -37,6 +38,16 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
   }
 
   Future<void> _loadProfileAndFetch() async {
+    final authState = ref.read(authProvider);
+    final isGuest = authState == null || authState.isMock;
+    if (isGuest) {
+      setState(() {
+        _isLoadingCalendar = false;
+        _errorMessage = null;
+      });
+      return;
+    }
+
     setState(() {
       _isLoadingCalendar = true;
       _errorMessage = null;
@@ -280,6 +291,8 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
   @override
   Widget build(BuildContext context) {
     final pranataListAsync = ref.watch(pranataMangsaListProvider);
+    final authState = ref.watch(authProvider);
+    final isGuest = authState == null || authState.isMock;
 
     return Scaffold(
       appBar: AppBar(
@@ -293,13 +306,15 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
           ),
         ),
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.cake_outlined, color: AppTheme.accentGold),
-            onPressed: _presentDatePicker,
-            tooltip: 'Sesuaikan Tanggal Lahir',
-          )
-        ],
+        actions: isGuest
+            ? null
+            : [
+                IconButton(
+                  icon: const Icon(Icons.cake_outlined, color: AppTheme.accentGold),
+                  onPressed: _presentDatePicker,
+                  tooltip: 'Sesuaikan Tanggal Lahir',
+                )
+              ],
       ),
       extendBodyBehindAppBar: true,
       body: Stack(
@@ -328,17 +343,19 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
               ),
             ),
           ),
-          SafeArea(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return SingleChildScrollView(
-                  physics: const ClampingScrollPhysics(),
-                  child: Center(
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 800),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Column(
+          isGuest
+              ? SafeArea(child: _buildGatedBody())
+              : SafeArea(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return SingleChildScrollView(
+                        physics: const ClampingScrollPhysics(),
+                        child: Center(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 800),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                     _buildHeaderSection(),
@@ -453,6 +470,108 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildGatedBody() {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 500),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: GlassCard(
+            borderOpacity: 0.25,
+            bgColor: Colors.white.withValues(alpha: 0.05),
+            child: Padding(
+              padding: const EdgeInsets.all(28.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Lock Icon with glowing background
+                  Container(
+                    width: 64,
+                    height: 64,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppTheme.accentGold.withValues(alpha: 0.10),
+                      border: Border.all(
+                        color: AppTheme.accentGold.withValues(alpha: 0.40),
+                        width: 1.5,
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.lock_outline,
+                      color: AppTheme.accentGold,
+                      size: 28,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    'Astrological Planner Terkunci',
+                    style: GoogleFonts.playfairDisplay(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Planner membutuhkan sinkronisasi energi kosmis harian Anda secara berkesinambungan.\n\n'
+                    'Masuk atau daftarkan akun untuk melihat kalender keberuntungan personal Anda, saran jam aktivitas harian, dan melacak ritme sirkadian Anda.',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.outfit(
+                      fontSize: 14,
+                      color: Colors.white70,
+                      height: 1.5,
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  // Google Sign-in Button
+                  InkWell(
+                    onTap: () async {
+                      final success = await CosmicAuthBottomSheet.show(context);
+                      if (success == true) {
+                        _loadProfileAndFetch();
+                      }
+                    },
+                    borderRadius: BorderRadius.circular(16),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFFE5C07B),
+                            Color(0xFFBA8B32),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppTheme.accentGold.withValues(alpha: 0.3),
+                            blurRadius: 12,
+                            offset: const Offset(0, 3),
+                          )
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Masuk dengan Google',
+                          style: GoogleFonts.outfit(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -13,6 +13,7 @@ import 'widgets/dashboard_sesepuh_card.dart';
 import 'widgets/dashboard_guest_upsell_card.dart';
 import 'widgets/dashboard_footer.dart';
 import 'widgets/edit_profile_dialog.dart';
+import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});

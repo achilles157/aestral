@@ -6,6 +6,7 @@ import '../../../../core/providers/birth_profile_provider.dart';
 import '../../../ai/presentation/oracle_chat_screen.dart';
 import '../../../auth/services/auth_service.dart';
 import '../../../tarot/services/tarot_data.dart';
+import '../../../../core/widgets/cosmic_auth_bottom_sheet.dart';
 
 /// Card "Sesepuh Kosmis" — Grand Reading synthesis dari Weton + Tarot.
 /// Tombol aktif hanya ketika user punya profil lahir DAN sudah menarik Tarot.
@@ -105,6 +106,16 @@ class DashboardSesepuhCard extends ConsumerWidget {
             child: ElevatedButton(
               onPressed: canOpen
                   ? () async {
+                      final authState = ref.read(authProvider);
+                      final isGuest = authState == null || authState.isMock;
+                      if (isGuest) {
+                        CosmicAuthBottomSheet.show(
+                          context,
+                          message: 'Orakel Sintesis Sesepuh Kosmis mengintegrasikan seluruh sistem nasib Anda. Masuk sekarang untuk membuka Grand Reading.',
+                        );
+                        return;
+                      }
+
                       final authHeader =
                           await ref.read(authProvider.notifier).getAuthHeader();
                       if (!context.mounted) return;
