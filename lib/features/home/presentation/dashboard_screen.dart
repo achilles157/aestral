@@ -13,7 +13,6 @@ import 'widgets/dashboard_sesepuh_card.dart';
 import 'widgets/dashboard_guest_upsell_card.dart';
 import 'widgets/dashboard_footer.dart';
 import 'widgets/edit_profile_dialog.dart';
-import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -49,7 +48,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final session = ref.watch(authProvider);
+    final session    = ref.watch(authProvider);
+    final hasProfile = ref.watch(birthProfileProvider).value?.dobDate != null;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -93,8 +93,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 960),
                       child: isDesktop
-                          ? _buildDesktopLayout(session)
-                          : _buildMobileLayout(session),
+                          ? _buildDesktopLayout(session, hasProfile: hasProfile)
+                          : _buildMobileLayout(session, hasProfile: hasProfile),
                     ),
                   ),
                 );
@@ -105,9 +105,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       ),
     );
   }
-  Widget _buildMobileLayout(UserSession? session) {
-    final hasProfile =
-        ref.watch(birthProfileProvider).value?.dobDate != null;
+  Widget _buildMobileLayout(UserSession? session, {required bool hasProfile}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -132,9 +130,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     );
   }
 
-  Widget _buildDesktopLayout(UserSession? session) {
-    final hasProfile =
-        ref.watch(birthProfileProvider).value?.dobDate != null;
+  Widget _buildDesktopLayout(UserSession? session, {required bool hasProfile}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
