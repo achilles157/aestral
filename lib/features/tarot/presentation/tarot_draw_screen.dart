@@ -271,6 +271,60 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
     );
   }
 
+
+  // ─── Empty card placeholder row ─────────────────────────────────────────
+
+  Widget _buildEmptyCardRow(String currentLang) {
+    return Column(
+        children: [
+          Text(
+            currentLang == 'id'
+                ? 'Tanyakan sesuatu pada semesta,\nlalu tarik tiga kartu.'
+                : 'Ask the universe something,\nthen draw your three cards.',
+            style: GoogleFonts.playfairDisplay(
+              fontSize: 13,
+              color: AppTheme.textLight.withValues(alpha: 0.45),
+              fontStyle: FontStyle.italic,
+              height: 1.7,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: List.generate(3, (index) {
+              final labelText = index == 0 
+                  ? (currentLang == 'id' ? 'Masa Lalu' : 'Past') 
+                  : index == 1 
+                      ? (currentLang == 'id' ? 'Masa Kini' : 'Present') 
+                      : (currentLang == 'id' ? 'Masa Depan' : 'Future');
+              const cardWidth = 90.0;
+              const cardHeight = 145.0;
+              return Column(
+                children: [
+                  Text(
+                    labelText,
+                    style: GoogleFonts.outfit(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.textLight.withValues(alpha: 0.4),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Opacity(
+                    opacity: 0.6,
+                    child: CardBack(
+                      width: cardWidth,
+                      height: cardHeight,
+                    ),
+                  ),
+                ],
+              );
+            }),
+          ),
+        ],
+    );
+  }
   Widget _buildOracleSection(List<DrawnCardInfo> drawnCards) {
     if (_oracleReading != null) {
       return Column(
@@ -501,55 +555,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
                                   color: Colors.transparent,
                                   padding: const EdgeInsets.symmetric(vertical: 12),
                                   child: drawnCards == null
-                                      ? Column(
-                                          children: [
-                                            Text(
-                                              currentLang == 'id'
-                                                  ? 'Tanyakan sesuatu pada semesta,\nlalu tarik tiga kartu.'
-                                                  : 'Ask the universe something,\nthen draw your three cards.',
-                                              style: GoogleFonts.playfairDisplay(
-                                                fontSize: 13,
-                                                color: AppTheme.textLight.withValues(alpha: 0.45),
-                                                fontStyle: FontStyle.italic,
-                                                height: 1.7,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            const SizedBox(height: 20),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                              children: List.generate(3, (index) {
-                                                final labelText = index == 0 
-                                                    ? (currentLang == 'id' ? 'Masa Lalu' : 'Past') 
-                                                    : index == 1 
-                                                        ? (currentLang == 'id' ? 'Masa Kini' : 'Present') 
-                                                        : (currentLang == 'id' ? 'Masa Depan' : 'Future');
-                                                const cardWidth = 90.0;
-                                                const cardHeight = 145.0;
-                                                return Column(
-                                                  children: [
-                                                    Text(
-                                                      labelText,
-                                                      style: GoogleFonts.outfit(
-                                                        fontSize: 12,
-                                                        fontWeight: FontWeight.bold,
-                                                        color: AppTheme.textLight.withValues(alpha: 0.4),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 8),
-                                                    const Opacity(
-                                                      opacity: 0.6,
-                                                      child: CardBack(
-                                                        width: cardWidth,
-                                                        height: cardHeight,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                );
-                                              }),
-                                            ),
-                                          ],
-                                        )
+                                      ? _buildEmptyCardRow(currentLang)
                                       : Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: List.generate(3, (index) {
