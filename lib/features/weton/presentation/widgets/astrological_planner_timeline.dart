@@ -81,6 +81,9 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
     // Dino Was: personal naas day — overrides Pancasuda in planner hierarchy
     final bool isDinoWas = dayData['is_dino_was'] as bool? ?? false;
 
+    final bool isWukuRawan = dayData['is_wuku_rawan'] as bool? ?? false;
+    final bool isMangsaRawan = dayData['is_mangsa_rawan'] as bool? ?? false;
+
     final List<dynamic> jamBaik = timetable?['jam_baik'] as List<dynamic>? ?? [];
     final List<dynamic> jamNaas = timetable?['jam_naas'] as List<dynamic>? ?? [];
 
@@ -145,6 +148,104 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                       const SizedBox(height: 4),
                       Text(
                         'Hari ini adalah hari naas pribadimu. Tunda keputusan penting, hindari konfrontasi, dan prioritaskan restorasi diri.',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          color: Colors.white60,
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+
+        // Wuku Rawan warning banner — shown when this day is in user's personal wuku rawan week
+        if (isWukuRawan) ...[
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFB923C).withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: const Color(0xFFFB923C).withValues(alpha: 0.5),
+                width: 1.2,
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.shield_outlined, color: Color(0xFFFB923C), size: 20),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'PEKAN RAWAN — Oposisi Wuku Lahir',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFFFB923C),
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Wuku berjalan saat ini berlawanan penuh (180°) dengan Wuku lahirmu (${widget.birthDate != null ? WetonUtils.calculateWeton(widget.birthDate!).wuku : ''} vs $wukuName). Kurangi ambisi berlebih, tetap mawas diri, dan hindari spekulasi bisnis atau penandatanganan kontrak besar pekan ini.',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          color: Colors.white60,
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+
+        // Mangsa Rawan warning banner — shown when this day is in user's personal mangsa rawan season
+        if (isMangsaRawan) ...[
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFB923C).withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: const Color(0xFFFB923C).withValues(alpha: 0.5),
+                width: 1.2,
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.thermostat_outlined, color: Color(0xFFFB923C), size: 20),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'MUSIM RAWAN — Oposisi Pranata Mangsa Lahir',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFFFB923C),
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Siklus Pranata Mangsa berjalan berada di titik oposisi 6 mangsa dengan Mangsa lahirmu. Energi tubuh rentan mengalami penyesuaian ekstrem dan penurunan imunitas. Fokuslah pada istirahat cukup dan hindari kelelahan fisik.',
                         style: GoogleFonts.outfit(
                           fontSize: 12,
                           color: Colors.white60,

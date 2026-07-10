@@ -12,11 +12,17 @@ import 'core/utils/weton_utils.dart';
 import 'features/auth/presentation/login_screen.dart';
 import 'features/auth/services/auth_service.dart';
 import 'features/home/presentation/main_shell.dart';
+import 'features/home/presentation/onboarding_screen.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'core/providers/birth_profile_provider.dart';
 
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize date formatting for Indonesian locale used in Onboarding
+  await initializeDateFormatting('id', null);
 
   // ── Weton character data ───────────────────────────────────────────────────
   // Pangarasan & pancasuda loaded from JSON once before runApp() so that
@@ -83,16 +89,19 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isInitializing = ref.watch(authInitializingProvider);
     final session = ref.watch(authProvider);
+    final profileAsync = ref.watch(birthProfileProvider);
 
     return MaterialApp(
       title: 'Aestral',
       theme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      home: isInitializing
+      home: isInitializing || (session != null && profileAsync.isLoading)
           ? const _AestralSplashScreen()
           : session == null
               ? const LoginScreen()
-              : const MainShell(),
+              : (!session.isMock && profileAsync.value?.dobDate == null && !profileAsync.hasError)
+                  ? const OnboardingScreen()
+                  : const MainShell(),
     );
   }
 }

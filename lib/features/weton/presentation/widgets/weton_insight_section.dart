@@ -20,7 +20,7 @@ class WetonInsightSection extends StatelessWidget {
         // ── 3 Main Cards ───────────────────────────────────────────────────
         LayoutBuilder(
           builder: (context, constraints) {
-            final useRow = constraints.maxWidth >= 380;
+            final useRow = constraints.maxWidth >= 768;
             final cards = [
               WetonDetailCard(
                 title: 'Karier & Rezeki',

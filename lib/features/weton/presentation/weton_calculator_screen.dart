@@ -16,6 +16,7 @@ import 'widgets/weton_insight_section.dart';
 import 'widgets/weton_oracle_button.dart';
 import 'widgets/weton_daily_section.dart';
 import 'weton_compatibility_screen.dart';
+import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
 
 class WetonCalculatorScreen extends ConsumerStatefulWidget {
   const WetonCalculatorScreen({super.key});
@@ -176,6 +177,21 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
     ).catchError((e) {
       debugPrint('WetonCalculatorScreen: auto-save birth profile error: $e');
     });
+    // Banner untuk tamu — ingatkan data in-memory, hilang jika app ditutup
+    final authState = ref.read(authProvider);
+    if ((authState?.isMock ?? true) && mounted) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+          content: const Text('Data tersimpan sementara — tutup app, data hilang.'),
+          action: SnackBarAction(
+            label: 'Simpan',
+            onPressed: () => CosmicAuthBottomSheet.show(context),
+          ),
+          duration: const Duration(seconds: 6),
+          behavior: SnackBarBehavior.floating,
+        ));
+    }
   }
 
   void _handleSaveProfile() async {

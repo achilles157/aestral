@@ -101,6 +101,8 @@ class OracleChatState {
   final bool isFirstOpen;
   final int daysSinceLastOpen;
   final String? lastTopic;
+  /// Jumlah exchange non-silent yang sudah selesai. Gate tamu muncul saat >= 1.
+  final int guestMessageCount;
 
   const OracleChatState({
     this.messages = const [],
@@ -112,6 +114,7 @@ class OracleChatState {
     this.isFirstOpen = true,
     this.daysSinceLastOpen = 0,
     this.lastTopic,
+    this.guestMessageCount = 0,
   });
 
   OracleChatState copyWith({
@@ -125,6 +128,7 @@ class OracleChatState {
     bool? isFirstOpen,
     int? daysSinceLastOpen,
     String? lastTopic,
+    int? guestMessageCount,
   }) {
     return OracleChatState(
       messages: messages ?? this.messages,
@@ -136,6 +140,7 @@ class OracleChatState {
       isFirstOpen: isFirstOpen ?? this.isFirstOpen,
       daysSinceLastOpen: daysSinceLastOpen ?? this.daysSinceLastOpen,
       lastTopic: lastTopic ?? this.lastTopic,
+      guestMessageCount: guestMessageCount ?? this.guestMessageCount,
     );
   }
 }
@@ -319,8 +324,9 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
       state = state.copyWith(
         messages: [...state.messages, modelMsg],
         isLoading: false,
-        // Setelah first message terkirim, sudah bukan first open lagi
         isFirstOpen: false,
+        // Increment hanya untuk exchange non-silent (bukan greeting otomatis)
+        guestMessageCount: isSilent ? state.guestMessageCount : state.guestMessageCount + 1,
       );
     } catch (e) {
       final errStr = e.toString();

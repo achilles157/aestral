@@ -46,7 +46,7 @@ class DashboardGuestUpsellCard extends ConsumerWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Masuk untuk sinkronisasi data & history bacaan lintas perangkat.',
+                  'Simpan untuk sinkronisasi data & history bacaan lintas perangkat.',
                   style: GoogleFonts.outfit(
                     color: AppTheme.textMuted,
                     fontSize: 11,
@@ -68,7 +68,7 @@ class DashboardGuestUpsellCard extends ConsumerWidget {
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             child: Text(
-              'Masuk',
+              'Simpan',
               style: GoogleFonts.outfit(
                   fontWeight: FontWeight.bold, fontSize: 12),
             ),

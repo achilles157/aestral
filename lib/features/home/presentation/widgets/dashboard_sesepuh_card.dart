@@ -20,7 +20,9 @@ class DashboardSesepuhCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tarotDrawn = ref.read(drawnCardProvider)?.isNotEmpty ?? false;
-    final canOpen    = hasProfile && tarotDrawn;
+    final baziDone   = ref.read(birthProfileProvider).value?.cityName?.isNotEmpty ?? false;
+    final systemsDone = [hasProfile, tarotDrawn, baziDone].where((v) => v).length;
+    final canOpen    = systemsDone >= 2;
 
     return Container(
       padding: const EdgeInsets.all(18),

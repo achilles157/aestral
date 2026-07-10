@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -155,25 +156,31 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
             icon: const Icon(Icons.chevron_left, color: AppTheme.accentGold),
             onPressed: () => _changeMonth(-1),
           ),
-          Column(
-            children: [
-              Text(
-                DateFormat('MMMM yyyy').format(_currentMonth),
-                style: GoogleFonts.playfairDisplay(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              if (_birthDate != null)
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
                 Text(
-                  'Profil Lahir: ${DateFormat('dd MMM yyyy').format(_birthDate!)}',
-                  style: GoogleFonts.outfit(
-                    fontSize: 11,
-                    color: AppTheme.accentGold.withValues(alpha: 0.8),
+                  DateFormat('MMMM yyyy').format(_currentMonth),
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
-            ],
+                if (_birthDate != null) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    'Profil Lahir: ${DateFormat('dd MMM yyyy').format(_birthDate!)}',
+                    style: GoogleFonts.outfit(
+                      fontSize: 11,
+                      color: AppTheme.accentGold.withValues(alpha: 0.8),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ],
+            ),
           ),
           IconButton(
             icon: const Icon(Icons.chevron_right, color: AppTheme.accentGold),
@@ -344,7 +351,7 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
             ),
           ),
           isGuest
-              ? SafeArea(child: _buildGatedBody())
+              ? _buildGuestPreview()
               : SafeArea(
                   child: LayoutBuilder(
                     builder: (context, constraints) {
@@ -474,104 +481,171 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
     );
   }
 
-  Widget _buildGatedBody() {
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 500),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: GlassCard(
-            borderOpacity: 0.25,
-            bgColor: Colors.white.withValues(alpha: 0.05),
+  /// Preview berembun untuk tamu — kalender statis diblur + CTA di bawah.
+  Widget _buildGuestPreview() {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        // Blurred mock calendar
+        ImageFiltered(
+          imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: IgnorePointer(child: _buildMockCalendar()),
+        ),
+        // Gradient fade to bottom
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.transparent, Color(0xE60D0D1A)],
+              stops: [0.25, 0.75],
+            ),
+          ),
+        ),
+        // Compact CTA
+        SafeArea(
+          child: Align(
+            alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.all(28.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Lock Icon with glowing background
-                  Container(
-                    width: 64,
-                    height: 64,
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 28),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppTheme.accentGold.withValues(alpha: 0.10),
+                      color: Colors.white.withValues(alpha: 0.07),
+                      borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: AppTheme.accentGold.withValues(alpha: 0.40),
-                        width: 1.5,
+                        color: AppTheme.accentGold.withValues(alpha: 0.30),
                       ),
                     ),
-                    child: const Icon(
-                      Icons.lock_outline,
-                      color: AppTheme.accentGold,
-                      size: 28,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    'Astrological Planner Terkunci',
-                    style: GoogleFonts.playfairDisplay(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Planner membutuhkan sinkronisasi energi kosmis harian Anda secara berkesinambungan.\n\n'
-                    'Masuk atau daftarkan akun untuk melihat kalender keberuntungan personal Anda, saran jam aktivitas harian, dan melacak ritme sirkadian Anda.',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.outfit(
-                      fontSize: 14,
-                      color: Colors.white70,
-                      height: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  // Google Sign-in Button
-                  InkWell(
-                    onTap: () async {
-                      final success = await CosmicAuthBottomSheet.show(context);
-                      if (success == true) {
-                        _loadProfileAndFetch();
-                      }
-                    },
-                    borderRadius: BorderRadius.circular(16),
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color(0xFFE5C07B),
-                            Color(0xFFBA8B32),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppTheme.accentGold.withValues(alpha: 0.3),
-                            blurRadius: 12,
-                            offset: const Offset(0, 3),
-                          )
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Masuk dengan Google',
-                          style: GoogleFonts.outfit(
-                            fontSize: 15,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Hari baikmu menunggumu',
+                          style: GoogleFonts.playfairDisplay(
+                            fontSize: 17,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color: Colors.white,
                           ),
                         ),
-                      ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Simpan profil kosmismu untuk membuka kalender keberuntungan personal.',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.outfit(
+                            fontSize: 13,
+                            color: Colors.white70,
+                            height: 1.4,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        InkWell(
+                          onTap: () async {
+                            final success =
+                                await CosmicAuthBottomSheet.show(context);
+                            if (success == true) _loadProfileAndFetch();
+                          },
+                          borderRadius: BorderRadius.circular(14),
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(vertical: 13),
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFFE5C07B), Color(0xFFBA8B32)],
+                              ),
+                              borderRadius: BorderRadius.circular(14),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppTheme.accentGold
+                                      .withValues(alpha: 0.30),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Simpan & Buka Planner',
+                                style: GoogleFonts.outfit(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
             ),
           ),
         ),
+      ],
+    );
+  }
+
+  /// Kalender statis palsu — hanya untuk efek preview blur pada tamu.
+  Widget _buildMockCalendar() {
+    final now = DateTime.now();
+    final daysInMonth = DateUtils.getDaysInMonth(now.year, now.month);
+    // Pola deterministik: hari ke-7 & ke-5 = emas, hari ke-3 = merah
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 80, 16, 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            DateFormat('MMMM yyyy').format(now),
+            style: GoogleFonts.playfairDisplay(
+              color: AppTheme.accentGold,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 7,
+              childAspectRatio: 1.0,
+              crossAxisSpacing: 4,
+              mainAxisSpacing: 4,
+            ),
+            itemCount: daysInMonth,
+            itemBuilder: (_, i) {
+              final day = i + 1;
+              final color = (day % 7 == 0 || day % 5 == 0)
+                  ? AppTheme.accentGold.withValues(alpha: 0.55)
+                  : (day % 3 == 0)
+                      ? Colors.red.withValues(alpha: 0.35)
+                      : Colors.white.withValues(alpha: 0.07);
+              return Container(
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Text(
+                    '$day',
+                    style: GoogleFonts.outfit(
+                      fontSize: 12,
+                      color: Colors.white70,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

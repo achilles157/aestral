@@ -225,6 +225,8 @@ export function getWetonInsight(
 		hariNaasLahir: string;
 		jamBaik: string[];
 		jamNaas: string[];
+		isWukuRawan: boolean;
+		isMangsaRawan: boolean;
 	};
 	weekly: {
 		wukuIndex: number;
@@ -257,6 +259,13 @@ export function getWetonInsight(
 	const birthPranataId = getPranataMangsaId(by, bm, bd);
 	const targetPranataId = getPranataMangsaId(ty, tm, td);
 
+	// Wuku Oposisi: berjarak 15 indeks (180 derajat) dalam lingkaran 30 wuku
+	const isWukuRawan = ((birthWuku.index + 15) % 30) === targetWuku.index;
+
+	// Pranata Mangsa Oposisi: berjarak 6 indeks (180 derajat) dalam 12 mangsa
+	const oppositeMangsaId = ((birthPranataId - 1 + 6) % 12) + 1;
+	const isMangsaRawan = targetPranataId === oppositeMangsaId;
+
 	return {
 		birthWeton: {
 			saptawara: birthSapta.name,
@@ -280,6 +289,8 @@ export function getWetonInsight(
 			hariNaasLahir: birthWetonName,
 			jamBaik: hours.jamBaik,
 			jamNaas: hours.jamNaas,
+			isWukuRawan,
+			isMangsaRawan,
 		},
 		weekly: {
 			wukuIndex: targetWuku.index,

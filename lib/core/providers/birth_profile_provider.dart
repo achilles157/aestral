@@ -24,6 +24,17 @@ class BirthProfileNotifier extends AsyncNotifier<BirthProfile> {
 
     try {
       if (_firebaseAvailable && !session.isMock) {
+        // Migrate guest cache → Firestore on first real-user load.
+        // Runs before the read so the same _load() call returns migrated data.
+        final cache = _guestCache;
+        if (cache != null && cache.isNotEmpty) {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(session.uid)
+              .set(cache, SetOptions(merge: true));
+          _guestCache = null;
+          debugPrint('BirthProfileNotifier: guest cache migrated → ${session.uid}');
+        }
         final doc = await FirebaseFirestore.instance
             .collection('users')
             .doc(session.uid)

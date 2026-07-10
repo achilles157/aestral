@@ -14,6 +14,7 @@ import '../../../features/ai/presentation/oracle_chat_screen.dart';
 import 'widgets/bazi_date_picker_step.dart';
 import 'widgets/bazi_input_step.dart';
 import 'widgets/bazi_results_view.dart';
+import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
 
 class BaziCalculatorScreen extends ConsumerStatefulWidget {
   const BaziCalculatorScreen({super.key});
@@ -171,6 +172,21 @@ class _BaziCalculatorScreenState
     ).catchError((e) {
       debugPrint('BaziCalculatorScreen: error saving birth profile: $e');
     });
+    // Banner untuk tamu — ingatkan data in-memory, hilang jika app ditutup
+    final authState = ref.read(authProvider);
+    if ((authState?.isMock ?? true) && mounted) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+          content: const Text('Data tersimpan sementara — tutup app, data hilang.'),
+          action: SnackBarAction(
+            label: 'Simpan',
+            onPressed: () => CosmicAuthBottomSheet.show(context),
+          ),
+          duration: const Duration(seconds: 6),
+          behavior: SnackBarBehavior.floating,
+        ));
+    }
 
     // Compute Luck Pillars if gender is known
     List<LuckPillar>? luckPillars;

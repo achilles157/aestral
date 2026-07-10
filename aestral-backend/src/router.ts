@@ -35,6 +35,8 @@ function resolveAllowedOrigin(origin: string | null, env: Env): string {
 	if (!origin) return '*';
 	const allowed = (env.ALLOWED_ORIGINS ?? '').split(',').map(o => o.trim()).filter(Boolean);
 	if (allowed.includes(origin)) return origin;
+	// Allow localhost and 127.0.0.1 always for local development/testing
+	if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) return origin;
 	// Allow localhost in non-production for local development
 	if (env.ENVIRONMENT !== 'production' && origin.startsWith('http://localhost:')) return origin;
 	// Fallback: if ALLOWED_ORIGINS not configured yet, allow all (temporary)
@@ -398,6 +400,8 @@ async function handleCalendarMonth(request: Request, env: Env): Promise<Response
 			neptu: insight.targetWeton.totalNeptu,
 			// Dino Was overrides Pancasuda in the planner hierarchy (Primbon Betaljemur Adammakna)
 			is_dino_was: isDinoWas,
+			is_wuku_rawan: insight.daily.isWukuRawan,
+			is_mangsa_rawan: insight.daily.isMangsaRawan,
 			pancasuda: {
 				sisa_bagi: sisaBagiVal,
 				fase: insight.daily.fase,

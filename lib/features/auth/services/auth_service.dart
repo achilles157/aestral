@@ -48,6 +48,27 @@ class AuthNotifier extends Notifier<UserSession?> {
   Future<void> _loadSession() async {
     try {
       if (isFirebaseAvailable) {
+        if (kIsWeb) {
+          try {
+            final UserCredential userCredential = await FirebaseAuth.instance.getRedirectResult();
+            final user = userCredential.user;
+            if (user != null) {
+              state = UserSession(
+                uid: user.uid,
+                displayName: user.displayName ?? 'User',
+                email: user.email ?? '',
+                photoUrl: user.photoURL,
+                isMock: false,
+              );
+              ref.read(authInitializingProvider.notifier).complete();
+              ref.notifyListeners();
+              return;
+            }
+          } catch (e) {
+            debugPrint("Error loading redirect session: $e");
+          }
+        }
+
         final currentUser = FirebaseAuth.instance.currentUser;
         if (currentUser != null) {
           state = UserSession(
@@ -89,17 +110,23 @@ class AuthNotifier extends Notifier<UserSession?> {
     try {
       if (kIsWeb) {
         final GoogleAuthProvider googleProvider = GoogleAuthProvider();
-        final UserCredential userCredential = await FirebaseAuth.instance.signInWithPopup(googleProvider);
-        final user = userCredential.user;
-        if (user != null) {
-          state = UserSession(
-            uid: user.uid,
-            displayName: user.displayName ?? 'User',
-            email: user.email ?? '',
-            photoUrl: user.photoURL,
-            isMock: false,
-          );
-          return true;
+        try {
+          final UserCredential userCredential = await FirebaseAuth.instance.signInWithPopup(googleProvider);
+          final user = userCredential.user;
+          if (user != null) {
+            state = UserSession(
+              uid: user.uid,
+              displayName: user.displayName ?? 'User',
+              email: user.email ?? '',
+              photoUrl: user.photoURL,
+              isMock: false,
+            );
+            return true;
+          }
+        } catch (popupError) {
+          debugPrint("Popup sign in failed, trying redirect fallback: $popupError");
+          await FirebaseAuth.instance.signInWithRedirect(googleProvider);
+          return true; // Page redirects
         }
         return false;
       }

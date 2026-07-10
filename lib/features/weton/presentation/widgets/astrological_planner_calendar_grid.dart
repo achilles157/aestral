@@ -97,15 +97,17 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
               final dayData = days[index - prefixBlankCells] as Map<String, dynamic>;
               final date = DateTime.parse(dayData['date'] as String);
               final wetonStr = dayData['weton_hari_ini'] as String;
-              final pasaran = wetonStr.split(' ').last;
+               final pasaran = wetonStr.split(' ').last;
               
               final pancasuda = dayData['pancasuda'] as Map<String, dynamic>;
               final vibe = pancasuda['vibe_warna'] as String;
-              final statusColor = _getPancasudaColor(vibe);
+              final isMangsaRawan = dayData['is_mangsa_rawan'] as bool? ?? false;
+              final statusColor = isMangsaRawan ? AppTheme.accentGold : _getPancasudaColor(vibe);
 
               final isToday = DateUtils.isSameDay(date, DateTime.now());
               // Dino Was: personal naas day — shown as red indicator dot
               final bool isDinoWas = dayData['is_dino_was'] as bool? ?? false;
+              final bool isWukuRawan = dayData['is_wuku_rawan'] as bool? ?? false;
 
               return InkWell(
                 onTap: () => onDayTapped(dayData),
@@ -114,11 +116,15 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
                   borderRadius: 12,
                   borderColor: isToday
                       ? AppTheme.accentPurple.withValues(alpha: 0.6)
-                      : Colors.white.withValues(alpha: 0.08),
-                  borderWidth: isToday ? 1.5 : 0.8,
+                      : isMangsaRawan
+                          ? AppTheme.accentGold.withValues(alpha: 0.55)
+                          : Colors.white.withValues(alpha: 0.08),
+                  borderWidth: isToday ? 1.5 : (isMangsaRawan ? 1.2 : 0.8),
                   color: isToday
                       ? AppTheme.accentPurple.withValues(alpha: 0.12)
-                      : Colors.white.withValues(alpha: 0.03),
+                      : isMangsaRawan
+                          ? AppTheme.accentGold.withValues(alpha: 0.09)
+                          : Colors.white.withValues(alpha: 0.03),
                   child: Stack(
                     children: [
                       Positioned.fill(
@@ -142,7 +148,7 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
                               style: GoogleFonts.outfit(
                                 fontSize: dateFontSize,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: isMangsaRawan ? AppTheme.accentGold : Colors.white,
                               ),
                             ),
                           ),
@@ -154,7 +160,9 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: GoogleFonts.outfit(
                                 fontSize: pasaranFontSize,
-                                color: AppTheme.textLight.withValues(alpha: 0.6),
+                                color: isMangsaRawan
+                                    ? AppTheme.accentGold.withValues(alpha: 0.8)
+                                    : AppTheme.textLight.withValues(alpha: 0.6),
                               ),
                             ),
                           ),
@@ -170,11 +178,57 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
                             backgroundColor: const Color(0xFFF87171),
                           ),
                         ),
+                      // Wuku Rawan indicator — small amber dot at bottom center
+                      if (isWukuRawan)
+                        Positioned(
+                          bottom: 4,
+                          left: 0,
+                          right: 0,
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              width: dotRadius * 1.5,
+                              height: dotRadius * 1.5,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFFFB923C), // Amber/Orange
+                              ),
+                            ),
+                          ),
+                        ),
                     ],
                   ),
                 ),
               );
             },
+          ),
+          const SizedBox(height: 16),
+          const Divider(color: Colors.white10, height: 1),
+          const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Wrap(
+              spacing: 16,
+              runSpacing: 8,
+              alignment: WrapAlignment.center,
+              children: [
+                _buildLegendItem(
+                  color: const Color(0xFFF87171),
+                  label: 'Hari Naas (Dino Was)',
+                  isDot: true,
+                ),
+                _buildLegendItem(
+                  color: const Color(0xFFFB923C),
+                  label: 'Pekan Rawan (Wuku)',
+                  isDot: true,
+                ),
+                _buildLegendItem(
+                  color: const Color(0xFFD4AF37),
+                  label: 'Musim Rawan (Mangsa)',
+                  isDot: false,
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -182,6 +236,35 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildLegendItem({
+    required Color color,
+    required String label,
+    required bool isDot,
+  }) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 8,
+          height: 8,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isDot ? color : color.withValues(alpha: 0.15),
+            border: isDot ? null : Border.all(color: color.withValues(alpha: 0.5), width: 1.5),
+          ),
+        ),
+        const SizedBox(width: 6),
+        Text(
+          label,
+          style: GoogleFonts.outfit(
+            fontSize: 11,
+            color: Colors.white60,
+          ),
+        ),
+      ],
     );
   }
 }

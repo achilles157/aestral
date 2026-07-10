@@ -81,11 +81,13 @@ class WetonDetailCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    Text(
-                      title,
-                      style: textTheme.titleLarge?.copyWith(
-                        color: accentColor,
-                        fontSize: 18,
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: textTheme.titleLarge?.copyWith(
+                          color: accentColor,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ],

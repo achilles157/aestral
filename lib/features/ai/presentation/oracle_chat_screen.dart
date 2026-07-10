@@ -249,7 +249,9 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                 ),
                 if (_showSesepuhHint && widget.oracleType != 'synthesis')
                   _buildSesepuhHint(),
-                if (isGuest)
+                if (isGuest && state.guestMessageCount == 0 && state.messages.isNotEmpty)
+                  _buildGuestQuotaHint(),
+                if (isGuest && state.guestMessageCount >= 1)
                   _buildSoftGatePanel(bottomInset, bottomPadding)
                 else ...[
                   _buildSuggestionPills(state),
@@ -510,6 +512,34 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
     );
   }
 
+  // ── Guest Quota Hint ────────────────────────────────────────────────────────
+
+  Widget _buildGuestQuotaHint() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+              color: _accentColor.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: _accentColor.withValues(alpha: 0.30)),
+            ),
+            child: Text(
+              '✦ 1 pertanyaan gratis tersisa',
+              style: GoogleFonts.outfit(
+                fontSize: 11,
+                color: _accentColor,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   // ── Input Row ───────────────────────────────────────────────────────────────
 
   Widget _buildInputRow(
@@ -591,13 +621,28 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                                 color: Colors.white, size: 18),
                           ),
                         ),
-                        ),
+                      ),
                 ),
               ],
             ),
           ),
         ),
+      ),
     );
+  }
+
+  String _oracleContinuationTeaser() {
+    const teasers = {
+      'weton':
+          '"Masih ada yang ingin aku sampaikan — tentang energi yang sedang berputar di sekelilingmu, dan apa yang sebaiknya kamu jaga hari ini..."',
+      'bazi':
+          '"Elemen dalam dirimu masih menyimpan pola yang belum sempat kubacakan — sebuah ketidakseimbangan yang mungkin kamu rasakan tapi belum bisa kamu namakan..."',
+      'tarot':
+          '"Kartu-kartumu masih berbisik sesuatu yang belum sempat kusampaikan — sebuah pesan dari alam bawah sadarmu yang perlu kamu dengar..."',
+      'synthesis':
+          '"Tiga sistem ini memiliki benang merah yang jarang terlihat — sebuah pola yang menghubungkan masa lalumu, kondisimu saat ini, dan arah yang sedang kamu tuju..."',
+    };
+    return teasers[widget.oracleType] ?? teasers['weton']!;
   }
 
   Widget _buildSoftGatePanel(double bottomInset, double bottomPadding) {
@@ -619,6 +664,44 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Curiosity gap — teks oracle selanjutnya diblur untuk memancing rasa penasaran
+                SizedBox(
+                  height: 58,
+                  child: ClipRect(
+                    child: Stack(
+                      children: [
+                        ImageFiltered(
+                          imageFilter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
+                          child: Text(
+                            _oracleContinuationTeaser(),
+                            style: GoogleFonts.outfit(
+                              fontSize: 13,
+                              color: Colors.white.withValues(alpha: 0.75),
+                              fontStyle: FontStyle.italic,
+                              height: 1.5,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0, left: 0, right: 0,
+                          child: Container(
+                            height: 28,
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [Colors.transparent, Color(0xFF0F0B26)],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Divider(color: Colors.white12, height: 1),
+                const SizedBox(height: 12),
                 Row(
                   children: [
                     Icon(Icons.lock_outline, color: AppTheme.accentGold, size: 20),
@@ -672,7 +755,7 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                     ),
                     child: Center(
                       child: Text(
-                        'Masuk / Daftar',
+                        'Simpan & Lanjutkan Dialog',
                         style: GoogleFonts.outfit(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
