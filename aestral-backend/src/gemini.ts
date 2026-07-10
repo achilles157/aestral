@@ -56,8 +56,9 @@ export async function callGemini(
 	systemInstruction: string,
 	userPrompt: string,
 	apiKey: string,
+	model = GEMINI_MODEL,
 ): Promise<string> {
-	const url = `${GEMINI_BASE_URL}/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+	const url = `${GEMINI_BASE_URL}/${model}:generateContent?key=${apiKey}`;
 
 	const body: GeminiRequestBody = {
 		system_instruction: {
@@ -84,14 +85,18 @@ export async function callGemini(
 
 	if (!response.ok) {
 		const errorText = await response.text();
-		throw new Error(`Gemini API error ${response.status}: ${errorText}`);
+		console.error(`[Gemini] HTTP ${response.status}:`, errorText); // internal log
+		throw new Error(response.status === 429
+			? 'Layanan AI sedang sibuk. Coba lagi dalam beberapa menit.'
+			: 'Layanan AI sedang tidak tersedia. Coba lagi nanti.');
 	}
 
 	const data = (await response.json()) as GeminiResponse;
 
-	// Check for API-level error
+	// Check for API-level error (don't leak to client)
 	if (data.error) {
-		throw new Error(`Gemini API error: ${data.error.message}`);
+		console.error('[Gemini] API error:', data.error.message, data.error.code);
+		throw new Error('Layanan AI mengalami kesalahan. Coba lagi nanti.');
 	}
 
 	// Extract text from response
@@ -129,9 +134,12 @@ export async function callGeminiStructured(
 		responseSchema?: object;
 		maxOutputTokens?: number;
 		temperature?: number;
+		/** Override Gemini model for this call. Defaults to GEMINI_MODEL. */
+		model?: string;
 	},
 ): Promise<{ message: string; card?: { type: string; data: Record<string, unknown> } | null }> {
-	const url = `${GEMINI_BASE_URL}/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+	const modelToUse = options?.model ?? GEMINI_MODEL;
+	const url = `${GEMINI_BASE_URL}/${modelToUse}:generateContent?key=${apiKey}`;
 
 	const generationConfig: Record<string, unknown> = {
 		maxOutputTokens: options?.maxOutputTokens ?? 800,

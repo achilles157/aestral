@@ -41,7 +41,9 @@
 		"ENVIRONMENT": "production",
 		// Comma-separated list of allowed CORS origins.
 		// Update with your production Flutter web domain(s).
-		"ALLOWED_ORIGINS": "https://aestral.web.app,https://aestral.firebaseapp.com"
+		"ALLOWED_ORIGINS": "https://aestral.web.app,https://aestral.firebaseapp.com",
+		// Gemini model ID — override to switch models without code change
+		"GEMINI_MODEL": "gemini-3.1-flash-lite"
 	},
 	/**
 	 * KV Namespaces

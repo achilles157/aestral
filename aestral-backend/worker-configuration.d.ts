@@ -8,6 +8,8 @@ interface __BaseEnv_Env {
 	FIREBASE_PROJECT_ID: string;
 	/** 'production' | 'test' — controls fake-jwt-token bypass gate. */
 	ENVIRONMENT: string;
+	/** Gemini model ID — override via vars to switch models. */
+	GEMINI_MODEL: string;
 	/** Comma-separated allowed CORS origins, e.g. "https://aestral.web.app". */
 	ALLOWED_ORIGINS: string;
 }

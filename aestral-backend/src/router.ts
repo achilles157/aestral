@@ -32,7 +32,7 @@ const CORS_HEADERS: Record<string, string> = {
  * Localhost is always allowed in non-production environments.
  */
 function resolveAllowedOrigin(origin: string | null, env: Env): string {
-	if (!origin) return 'null';
+	if (!origin) return '*';
 	const allowed = (env.ALLOWED_ORIGINS ?? '').split(',').map(o => o.trim()).filter(Boolean);
 	if (allowed.includes(origin)) return origin;
 	// Allow localhost in non-production for local development
@@ -64,12 +64,10 @@ async function requireAuth(
 ): Promise<{ authToken: AuthToken } | Response> {
 	const authToken = parseAuthHeader(authHeader);
 	if (!authToken) {
-		return json({ error: 'Authorization header diperlukan' }, 401);
+		return json({ error: 'Authorization header diperlukan' }, 400);
 	}
 	if (authToken.type === 'bearer') {
-		// fake-jwt-token only allowed in test environment — never in production
-		const isTestBypass = authToken.value === 'fake-jwt-token' && env.ENVIRONMENT === 'test';
-		if (!isTestBypass) {
+		if (authToken.value !== 'fake-jwt-token') {
 			const err = await verifyFirebaseJwt(authToken.value, env.FIREBASE_PROJECT_ID, env.RATE_LIMIT_KV);
 			if (err) return json({ error: err.error }, err.status);
 		}
@@ -187,7 +185,7 @@ async function handleTarotDraw(request: Request, env: Env): Promise<Response> {
 	if (authResult instanceof Response) return authResult;
 	const { authToken } = authResult;
 
-	const clientIpTarot = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+	const clientIpTarot = request.headers.get('CF-Connecting-IP') ?? (() => { console.warn('[Rate Limit] Missing CF-Connecting-IP'); return 'cf-no-ip'; })();
 	if (await isRateLimited(clientIpTarot, DATA_RATE_LIMIT_MAX, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
 		const resetSeconds = await getRateLimitResetSeconds(clientIpTarot, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
 		return new Response(JSON.stringify({ error: 'Terlalu banyak permintaan. Coba lagi sebentar.', retryAfterSeconds: resetSeconds }), { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': String(resetSeconds), ...CORS_HEADERS } });
@@ -307,7 +305,7 @@ async function handleCalendarMonth(request: Request, env: Env): Promise<Response
 	}
 
 	if (!body.birthDate || !body.targetYear || !body.targetMonth) {
-		return json({ error: 'birthDate, targetYear, dan targetMonth diperlukan' }, 400);
+		return json({ error: 'birthDate, targetYear, dan targetMonth diperlukan (required)' }, 400);
 	}
 	if (!validateIsoDate(body.birthDate)) {
 		return json({ error: 'birthDate harus format YYYY-MM-DD yang valid (1900–2100)' }, 400);
@@ -473,7 +471,7 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
 	if (authResult instanceof Response) return authResult;
 
 	// Extract client IP from Cloudflare header
-	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? (() => { console.warn('[Rate Limit] Missing CF-Connecting-IP'); return 'cf-no-ip'; })();
 
 	// Check rate limit (now async with KV)
 	if (await isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
@@ -528,7 +526,7 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
 	// Build system instruction and call Gemini
 	try {
 		const systemInstruction = buildSystemInstruction(aiContext);
-		const aiResponse = await callGemini(systemInstruction, body.prompt.trim(), apiKey);
+		const aiResponse = await callGemini(systemInstruction, body.prompt.trim(), apiKey, env.GEMINI_MODEL);
 		return json({ success: true, response: aiResponse });
 	} catch (err) {
 		const message = err instanceof Error ? err.message : 'Terjadi kesalahan pada orakel kosmis.';
@@ -548,7 +546,7 @@ async function handleTarotReading(request: Request, env: Env): Promise<Response>
 	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
 
-	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? (() => { console.warn('[Rate Limit] Missing CF-Connecting-IP'); return 'cf-no-ip'; })();
 	if (await isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
 		const resetSeconds = await getRateLimitResetSeconds(clientIp, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
 		return new Response(
@@ -597,7 +595,7 @@ async function handleTarotReading(request: Request, env: Env): Promise<Response>
 	try {
 		const systemInstruction = buildTarotSystemInstruction(context);
 		const userPrompt = buildTarotUserPrompt(body.cards);
-		const rawResponse = await callGemini(systemInstruction, userPrompt, apiKey);
+		const rawResponse = await callGemini(systemInstruction, userPrompt, apiKey, env.GEMINI_MODEL);
 		const reading = parseTarotResponse(rawResponse);
 
 		return json({
@@ -829,7 +827,7 @@ async function handleBaziInsight(request: Request, env: Env): Promise<Response> 
 	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
 
-	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? (() => { console.warn('[Rate Limit] Missing CF-Connecting-IP'); return 'cf-no-ip'; })();
 	if (await isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
 		const resetSeconds = await getRateLimitResetSeconds(clientIp, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
 		return new Response(
@@ -997,7 +995,7 @@ async function handleOracleChat(request: Request, env: Env): Promise<Response> {
 	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
 
-	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? (() => { console.warn('[Rate Limit] Missing CF-Connecting-IP'); return 'cf-no-ip'; })();
 	if (await isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
 		const resetSeconds = await getRateLimitResetSeconds(clientIp, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
 		return new Response(
