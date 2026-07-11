@@ -30,12 +30,30 @@ class DashboardScreen extends ConsumerStatefulWidget {
 
 class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   List<CityPreset> _allCities = [];
+  // Cached wuku urgency — computed once in initState, not on every build.
+  String? _todayWuku;
+  int _wukuDaysLeft = 7;
 
   @override
   void initState() {
     super.initState();
     _loadCitiesFromCsv();
+    _computeWukuUrgency();
     WidgetsBinding.instance.addPostFrameCallback((_) => _checkProfileAndPrompt());
+  }
+
+  void _computeWukuUrgency() {
+    final today = DateTime.now();
+    final wuku = WetonUtils.calculateWeton(today).wuku;
+    int days = 7;
+    for (int i = 1; i <= 7; i++) {
+      if (WetonUtils.calculateWeton(today.add(Duration(days: i))).wuku != wuku) {
+        days = i;
+        break;
+      }
+    }
+    _todayWuku = wuku;
+    _wukuDaysLeft = days;
   }
 
   void _checkProfileAndPrompt() async {
@@ -504,16 +522,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 
   Widget _buildWukuUrgencyBanner() {
-    final today = DateTime.now();
-    final todayWuku = WetonUtils.calculateWeton(today).wuku;
-    int daysLeft = 7;
-    for (int i = 1; i <= 7; i++) {
-      if (WetonUtils.calculateWeton(today.add(Duration(days: i))).wuku != todayWuku) {
-        daysLeft = i;
-        break;
-      }
-    }
-    if (daysLeft > 3) return const SizedBox.shrink();
+    if (_todayWuku == null || _wukuDaysLeft > 3) return const SizedBox.shrink();
     return Container(
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -530,7 +539,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Energi Wuku $todayWuku berakhir dalam $daysLeft hari — simpan profilmu sebelum periode ini berlalu.',
+              'Energi Wuku $_todayWuku berakhir dalam $_wukuDaysLeft hari — simpan profilmu sebelum periode ini berlalu.',
               style: GoogleFonts.outfit(
                 fontSize: 12,
                 color: const Color(0xFFD4AF37).withValues(alpha: 0.85),
