@@ -35,10 +35,8 @@ function resolveAllowedOrigin(origin: string | null, env: Env): string {
 	if (!origin) return '*';
 	const allowed = (env.ALLOWED_ORIGINS ?? '').split(',').map(o => o.trim()).filter(Boolean);
 	if (allowed.includes(origin)) return origin;
-	// Allow localhost and 127.0.0.1 always for local development/testing
-	if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) return origin;
-	// Allow localhost in non-production for local development
-	if (env.ENVIRONMENT !== 'production' && origin.startsWith('http://localhost:')) return origin;
+	// Allow localhost only in non-production environments
+	if (env.ENVIRONMENT !== 'production' && (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:'))) return origin;
 	// Fallback: if ALLOWED_ORIGINS not configured yet, allow all (temporary)
 	if (allowed.length === 0) return origin;
 	return 'null';
@@ -917,6 +915,14 @@ async function handleBaziChart(request: Request, env: Env): Promise<Response> {
 		return json({ error: 'birthHour must be between 0 and 23' }, 400);
 	}
 
+	// Validate optional coordinates
+	if (body.latitude !== undefined && (!isFinite(body.latitude) || body.latitude < -90 || body.latitude > 90)) {
+		return json({ error: 'latitude harus antara -90 dan 90' }, 400);
+	}
+	if (body.longitude !== undefined && (!isFinite(body.longitude) || body.longitude < -180 || body.longitude > 180)) {
+		return json({ error: 'longitude harus antara -180 dan 180' }, 400);
+	}
+
 	try {
 		const result: BaziChartResult = calculateBaziChart(
 			body.birthDate,
@@ -975,6 +981,14 @@ async function handleBaziLuckPillars(request: Request, env: Env): Promise<Respon
 
 	if (body.isMale === undefined || body.isMale === null) {
 		return json({ error: 'isMale is required for Da Yun calculation' }, 400);
+	}
+
+	// Validate optional coordinates
+	if (body.latitude !== undefined && (!isFinite(body.latitude) || body.latitude < -90 || body.latitude > 90)) {
+		return json({ error: 'latitude harus antara -90 dan 90' }, 400);
+	}
+	if (body.longitude !== undefined && (!isFinite(body.longitude) || body.longitude < -180 || body.longitude > 180)) {
+		return json({ error: 'longitude harus antara -180 dan 180' }, 400);
 	}
 
 	try {

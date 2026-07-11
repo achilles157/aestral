@@ -175,13 +175,17 @@ export async function callGeminiStructured(
 
 	if (!response.ok) {
 		const errorText = await response.text();
-		throw new Error(`Gemini API error ${response.status}: ${errorText}`);
+		console.error(`[Gemini] HTTP ${response.status}:`, errorText);
+		throw new Error(response.status === 429
+			? 'Layanan AI sedang sibuk. Coba lagi dalam beberapa menit.'
+			: 'Layanan AI sedang tidak tersedia. Coba lagi nanti.');
 	}
 
 	const data = (await response.json()) as GeminiResponse;
 
 	if (data.error) {
-		throw new Error(`Gemini API error: ${data.error.message}`);
+		console.error('[Gemini] API error:', data.error.message, data.error.code);
+		throw new Error('Layanan AI mengalami kesalahan. Coba lagi nanti.');
 	}
 
 	const candidate = data.candidates?.[0];

@@ -172,9 +172,11 @@ export async function verifyFirebaseJwt(
 	try {
 		keys = await getFirebaseJwks(kv);
 	} catch {
-		// JWKS endpoint unreachable — fail open, claims layer still provides
-		// meaningful protection against expired / wrong-project tokens.
-		return null;
+		// JWKS endpoint unreachable AND KV cache empty — fail closed.
+		// Failing open here would let forged tokens pass signature check
+		// during a Google outage. Legitimate users can retry momentarily.
+		console.warn('[Auth] JWKS tidak tersedia — menolak token untuk mencegah bypass');
+		return { error: 'Layanan autentikasi sementara tidak tersedia. Coba lagi.', status: 503 };
 	}
 
 	const jwk = keys.find((k) => (k as unknown as { kid?: string }).kid === header.kid);
