@@ -83,6 +83,9 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
 
     final bool isWukuRawan = dayData['is_wuku_rawan'] as bool? ?? false;
     final bool isMangsaRawan = dayData['is_mangsa_rawan'] as bool? ?? false;
+    final bool isBaziClash = dayData['is_bazi_clash'] as bool? ?? false;
+    final bool isBaziHarmony = dayData['is_bazi_harmony'] as bool? ?? false;
+    final bool isBaziYongShen = dayData['is_bazi_yong_shen'] as bool? ?? false;
 
     final List<dynamic> jamBaik = timetable?['jam_baik'] as List<dynamic>? ?? [];
     final List<dynamic> jamNaas = timetable?['jam_naas'] as List<dynamic>? ?? [];
@@ -260,6 +263,153 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
           ),
           const SizedBox(height: 16),
         ],
+        // Ba Zi Clash warning banner
+        if (isBaziClash) ...[
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF87171).withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: const Color(0xFFF87171).withValues(alpha: 0.5),
+                width: 1.2,
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.flash_on_outlined, color: Color(0xFFF87171), size: 20),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'HARI CLASH (CIONG) — Oposisi Ba Zi',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFFF87171),
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Pilar hari berjalan bergesekan langsung (clash) dengan pilar kelahiranmu. Fluktuasi energi cenderung tinggi. Disarankan menunda keputusan emosional penting dan tidak memaksakan diri secara fisik.',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          color: Colors.white60,
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+
+        // Ba Zi Harmony banner
+        if (isBaziHarmony) ...[
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: const Color(0xFF34D399).withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: const Color(0xFF34D399).withValues(alpha: 0.5),
+                width: 1.2,
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.handshake_outlined, color: Color(0xFF34D399), size: 20),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'HARI HARMONI (HE) — Keselarasan Ba Zi',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFF34D399),
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Pilar hari berjalan bersinkronisasi harmonis dengan pilar hari lahirmu. Hubungan sosial, negosiasi, dan kolaborasi akan terasa lebih lancar. Momen yang baik untuk membangun koneksi baru.',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          color: Colors.white60,
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+
+        // Ba Zi Yong Shen banner
+        if (isBaziYongShen) ...[
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: AppTheme.accentGold.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: AppTheme.accentGold.withValues(alpha: 0.5),
+                width: 1.2,
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.wb_sunny_outlined, color: AppTheme.accentGold, size: 20),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'HARI ENERGI PENYEIMBANG (YONG SHEN)',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.accentGold,
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Hari ini didominasi oleh elemen penyeimbang lahirmu. Pikiran lebih jernih, vitalitas meningkat, dan daya fokus Anda berada di titik prima. Sangat cocok untuk riset, belajar, dan merencanakan masa depan.',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          color: Colors.white60,
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+
         GlassCard(
           borderColor: vibeColor.withValues(alpha: 0.35),
           borderWidth: 1.5,

@@ -29,7 +29,7 @@ const STEM_NAMES_ID: readonly string[] = [
 	'Tanah Yin', 'Logam Yang', 'Logam Yin', 'Air Yang', 'Air Yin',
 ];
 
-const STEM_ELEMENTS: readonly string[] = [
+export const STEM_ELEMENTS: readonly string[] = [
 	'kayu', 'kayu', 'api', 'api', 'tanah', 'tanah', 'logam', 'logam', 'air', 'air',
 ];
 
@@ -48,7 +48,7 @@ const BRANCH_ZODIACS_ID: readonly string[] = [
 	'Kuda', 'Kambing', 'Monyet', 'Ayam', 'Anjing', 'Babi',
 ];
 
-const BRANCH_ELEMENTS: readonly string[] = [
+export const BRANCH_ELEMENTS: readonly string[] = [
 	'air', 'tanah', 'kayu', 'kayu', 'tanah', 'api',
 	'api', 'tanah', 'logam', 'logam', 'tanah', 'air',
 ];
@@ -580,7 +580,7 @@ function getMonthPillar(month: number, day: number, yearStemIndex: number, year:
  * Day Pillar.
  * Reference: JDN 2451545 (1 Jan 2000) = Geng (stem 6) Chen (branch 4).
  */
-function getDayPillar(year: number, month: number, day: number): BaziPillar {
+export function getDayPillar(year: number, month: number, day: number): BaziPillar {
 	const jdn         = dateToJdn(year, month, day);
 	const stemIndex   = ((jdn - 2451545 + 6)  % 10 + 10) % 10;
 	const branchIndex = ((jdn - 2451545 + 4)  % 12 + 12) % 12;

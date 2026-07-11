@@ -1,7 +1,7 @@
 import { parseAuthHeader, verifyFirebaseJwt, type AuthToken } from './auth';
 import { getDeterministicThreeCards, getMangsaDeterministicThreeCards, getWeeklyDeterministicThreeCards } from './tarot';
 import { getWetonInsight, getPranataMangsaId, getJamInsight, checkIsDinoWas, dateToJdn, calculateTotalNeptu } from './weton';
-import { calculateBaziChart, calculateLuckPillars, type BaziChartResult } from './bazi';
+import { calculateBaziChart, calculateLuckPillars, getDayPillar, STEM_ELEMENTS, BRANCH_ELEMENTS, type BaziChartResult } from './bazi';
 import { callGemini, callGeminiStructured } from './gemini';
 import { ORACLE_PERSONAS, buildOracleGreeting, type OracleType } from './oracle_prompts';
 import { buildSystemInstruction, type AiContext } from './system_prompt';
@@ -315,6 +315,12 @@ async function handleCalendarMonth(request: Request, env: Env): Promise<Response
 
 	const { birthDate, targetYear, targetMonth } = body;
 
+	// Calculate user's birth Ba Zi chart
+	const birthBazi = calculateBaziChart(birthDate);
+	const birthDayBranch = birthBazi.dayPillar.branchIndex;
+	const birthYearBranch = birthBazi.yearPillar.branchIndex;
+	const yongShen = birthBazi.dmStrength.yongShen;
+
 	// Calculate active Pranata Mangsa of the selected month (using 15th as midpoint representation)
 	const midPranataId = getPranataMangsaId(targetYear, targetMonth, 15);
 	// Source of truth: src/data/mangsa-themes.json (array index = id - 1)
@@ -330,6 +336,20 @@ async function handleCalendarMonth(request: Request, env: Env): Promise<Response
 
 		const insight   = getWetonInsight(birthDate, dateStr);
 		const isDinoWas = checkIsDinoWas(birthDate, dateStr);
+
+		// Calculate daily Ba Zi pillar and interactions
+		const dayPillar = getDayPillar(targetYear, targetMonth, d);
+		const dayBranch = dayPillar.branchIndex;
+		const dayStem = dayPillar.stemIndex;
+
+		const isBaziClash = Math.abs(dayBranch - birthDayBranch) === 6 || Math.abs(dayBranch - birthYearBranch) === 6;
+
+		const harmonyPairs = [[0, 1], [2, 11], [3, 10], [4, 9], [5, 8], [6, 7]];
+		const isBaziHarmony = harmonyPairs.some(([a, b]) =>
+			(dayBranch === a && birthDayBranch === b) || (dayBranch === b && birthDayBranch === a)
+		);
+
+		const isBaziYongShen = yongShen.includes(STEM_ELEMENTS[dayStem]) || yongShen.includes(BRANCH_ELEMENTS[dayBranch]);
 
 		const sisaBagiVal = insight.daily.sisaBagi;
 		let vibeWarna = 'blue';
@@ -402,6 +422,9 @@ async function handleCalendarMonth(request: Request, env: Env): Promise<Response
 			is_dino_was: isDinoWas,
 			is_wuku_rawan: insight.daily.isWukuRawan,
 			is_mangsa_rawan: insight.daily.isMangsaRawan,
+			is_bazi_clash: isBaziClash,
+			is_bazi_harmony: isBaziHarmony,
+			is_bazi_yong_shen: isBaziYongShen,
 			pancasuda: {
 				sisa_bagi: sisaBagiVal,
 				fase: insight.daily.fase,

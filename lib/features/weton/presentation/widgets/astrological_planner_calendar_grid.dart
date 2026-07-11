@@ -108,6 +108,8 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
               // Dino Was: personal naas day — shown as red indicator dot
               final bool isDinoWas = dayData['is_dino_was'] as bool? ?? false;
               final bool isWukuRawan = dayData['is_wuku_rawan'] as bool? ?? false;
+              final bool isBaziClash = dayData['is_bazi_clash'] as bool? ?? false;
+              final bool isBaziHarmony = dayData['is_bazi_harmony'] as bool? ?? false;
 
               return InkWell(
                 onTap: () => onDayTapped(dayData),
@@ -178,22 +180,47 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
                             backgroundColor: const Color(0xFFF87171),
                           ),
                         ),
-                      // Wuku Rawan indicator — small amber dot at bottom center
-                      if (isWukuRawan)
+                      // Row of dots for multiple indicators
+                      if (isWukuRawan || isBaziClash || isBaziHarmony)
                         Positioned(
                           bottom: 4,
                           left: 0,
                           right: 0,
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              width: dotRadius * 1.5,
-                              height: dotRadius * 1.5,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xFFFB923C), // Amber/Orange
-                              ),
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (isWukuRawan)
+                                Container(
+                                  width: dotRadius * 1.5,
+                                  height: dotRadius * 1.5,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color(0xFFFB923C), // Amber for Wuku
+                                  ),
+                                ),
+                              if (isBaziClash) ...[
+                                if (isWukuRawan) const SizedBox(width: 4),
+                                Container(
+                                  width: dotRadius * 1.5,
+                                  height: dotRadius * 1.5,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color(0xFFF87171), // Red for Ba Zi Clash
+                                  ),
+                                ),
+                              ],
+                              if (isBaziHarmony) ...[
+                                if (isWukuRawan || isBaziClash) const SizedBox(width: 4),
+                                Container(
+                                  width: dotRadius * 1.5,
+                                  height: dotRadius * 1.5,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color(0xFF34D399), // Emerald Green for Ba Zi Harmony
+                                  ),
+                                ),
+                              ],
+                            ],
                           ),
                         ),
                     ],
@@ -226,6 +253,16 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
                   color: const Color(0xFFD4AF37),
                   label: 'Musim Rawan (Mangsa)',
                   isDot: false,
+                ),
+                _buildLegendItem(
+                  color: const Color(0xFFF87171),
+                  label: 'Hari Clash (Ba Zi)',
+                  isDot: true,
+                ),
+                _buildLegendItem(
+                  color: const Color(0xFF34D399),
+                  label: 'Hari Harmoni (Ba Zi)',
+                  isDot: true,
                 ),
               ],
             ),
