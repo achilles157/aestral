@@ -50,8 +50,12 @@ class _BaziCalculatorScreenState
 
   /// Loads all cities from CSV via shared [CityService].
   void _loadCitiesFromCsv() async {
-    final cities = await CityService.loadCitiesFromCsv();
-    if (mounted) setState(() => _allCities = cities);
+    try {
+      final cities = await CityService.loadCitiesFromCsv();
+      if (mounted) setState(() => _allCities = cities);
+    } catch (e) {
+      debugPrint('_loadCitiesFromCsv error: $e');
+    }
   }
 
   /// Pre-fills tanggal lahir, jam lahir, gender, & kota dari profil tersimpan.
