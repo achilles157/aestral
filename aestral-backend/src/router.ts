@@ -1,7 +1,7 @@
 import { parseAuthHeader, verifyFirebaseJwt, type AuthToken } from './auth';
 import { getDeterministicThreeCards, getMangsaDeterministicThreeCards, getWeeklyDeterministicThreeCards } from './tarot';
 import { getWetonInsight, getPranataMangsaId, getJamInsight, checkIsDinoWas, dateToJdn, calculateTotalNeptu } from './weton';
-import { calculateBaziChart, calculateLuckPillars, getDayPillar, STEM_ELEMENTS, BRANCH_ELEMENTS, type BaziChartResult } from './bazi';
+import { calculateBaziChart, calculateLuckPillars, getDayPillar, STEM_ELEMENTS, BRANCH_ELEMENTS, calculateBaziCompatibility, type BaziChartResult } from './bazi';
 import { callGemini, callGeminiStructured } from './gemini';
 import { ORACLE_PERSONAS, buildOracleGreeting, type OracleType } from './oracle_prompts';
 import { buildSystemInstruction, type AiContext } from './system_prompt';
@@ -295,6 +295,42 @@ interface CalendarMonthBody {
 	targetMonth?: number;
 }
 
+const ZODIACS_ID = [
+	'Tikus', 'Kerbau', 'Harimau', 'Kelinci', 'Naga', 'Ular',
+	'Kuda', 'Kambing', 'Monyet', 'Ayam', 'Anjing', 'Babi'
+];
+
+function getShiChenBranchIndex(hour: number): number {
+	if (hour >= 23 || hour < 1) return 0;
+	if (hour >= 1 && hour < 3) return 1;
+	if (hour >= 3 && hour < 5) return 2;
+	if (hour >= 5 && hour < 7) return 3;
+	if (hour >= 7 && hour < 9) return 4;
+	if (hour >= 9 && hour < 11) return 5;
+	if (hour >= 11 && hour < 13) return 6;
+	if (hour >= 13 && hour < 15) return 7;
+	if (hour >= 15 && hour < 17) return 8;
+	if (hour >= 17 && hour < 19) return 9;
+	if (hour >= 19 && hour < 21) return 10;
+	return 11;
+}
+
+function getMidpointHour(range: string): number {
+	const parts = range.split('-');
+	if (parts.length !== 2) return 12;
+	const [h1, m1] = parts[0].trim().split(':').map(Number);
+	const [h2, m2] = parts[1].trim().split(':').map(Number);
+	
+	const t1 = h1 * 60 + m1;
+	let t2 = h2 * 60 + m2;
+	if (t2 < t1) {
+		t2 += 24 * 60;
+	}
+	const midMinutes = (t1 + t2) / 2;
+	const midHour = Math.floor(midMinutes / 60) % 24;
+	return midHour;
+}
+
 async function handleCalendarMonth(request: Request, env: Env): Promise<Response> {
 	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
@@ -385,6 +421,44 @@ async function handleCalendarMonth(request: Request, env: Env): Promise<Response
 		}
 
 		// Map timetable from jamBaik & jamNaas
+		const mapPituToBazi = (item: { range: string, label: string, rekomendasi: string }, isBaik: boolean) => {
+			const midHour = getMidpointHour(item.range);
+			const hBranch = getShiChenBranchIndex(midHour);
+			const hElement = BRANCH_ELEMENTS[hBranch];
+			const hZodiac = ZODIACS_ID[hBranch];
+
+			const isHourClash = Math.abs(hBranch - birthDayBranch) === 6 || Math.abs(hBranch - birthYearBranch) === 6;
+			const isHourHarmony = [[0, 1], [2, 11], [3, 10], [4, 9], [5, 8], [6, 7]].some(
+				([a, b]) => (hBranch === a && birthDayBranch === b) || (hBranch === b && birthDayBranch === a)
+			);
+			const isHourYongShen = yongShen.includes(hElement);
+
+			let baziScore = 0;
+			let baziLabel = 'Netral';
+			if (isHourClash) {
+				baziScore = -1;
+				baziLabel = 'Clash';
+			} else if (isHourHarmony || isHourYongShen) {
+				baziScore = 1;
+				baziLabel = isHourYongShen ? 'Yong Shen' : 'Harmoni';
+			}
+
+			const totalAmplitude = isBaik ? (1 + baziScore * 0.5) : (-1 + baziScore * 0.5);
+
+			return {
+				...item,
+				bazi_shi_chen: {
+					zodiac: hZodiac,
+					element: hElement,
+					condition: baziLabel,
+					is_clash: isHourClash,
+					is_harmony: isHourHarmony,
+					is_yong_shen: isHourYongShen,
+					amplitude: totalAmplitude,
+				}
+			};
+		};
+
 		const jamBaikParsed = insight.daily.jamBaik.map(item => {
 			const match = item.match(/^([\d: -]+)\s*\(([^)]+)\)$/);
 			const range = match ? match[1].trim() : '06:00 - 08:24';
@@ -396,7 +470,7 @@ async function handleCalendarMonth(request: Request, env: Env): Promise<Response
 			} else if (label.includes('Gedhong')) {
 				rekomendasi = 'Saatnya menata aset. Sangat cocok untuk investasi, tanda tangan kontrak, atau merapikan workspace.';
 			}
-			return { range, label, rekomendasi };
+			return mapPituToBazi({ range, label, rekomendasi }, true);
 		});
 
 		const jamNaasParsed = insight.daily.jamNaas.map(item => {
@@ -410,7 +484,7 @@ async function handleCalendarMonth(request: Request, env: Env): Promise<Response
 			} else if (label.includes('Pati')) {
 				rekomendasi = 'Fase pelepasan ego. Tunda peluncuran penting atau keputusan krusial. Fokus evaluasi mandiri atau istirahat total.';
 			}
-			return { range, label, rekomendasi };
+			return mapPituToBazi({ range, label, rekomendasi }, false);
 		});
 
 		daysList.push({
@@ -702,9 +776,15 @@ async function handleWetonCompatibility(request: Request, env: Env): Promise<Res
 			return json({ error: 'Data kompatibilitas tidak ditemukan untuk sisa bagi ini.' }, 500);
 		}
 
+		// Calculate Ba Zi birth charts and compatibility
+		const baziChart1 = calculateBaziChart(body.birthDate1);
+		const baziChart2 = calculateBaziChart(body.birthDate2);
+		const baziCompatibility = calculateBaziCompatibility(baziChart1, baziChart2);
+
 		return json({
 			success: true,
 			data: {
+				// Old flat keys for backward compatibility
 				neptu1,
 				neptu2,
 				sisa_bagi: sisaBagi,
@@ -714,6 +794,20 @@ async function handleWetonCompatibility(request: Request, env: Env): Promise<Res
 				potensi_gesekan: entry.potensi_gesekan,
 				saran_komunikasi: entry.saran_komunikasi,
 				ai_hook: entry.ai_hook,
+
+				// New nested structures
+				weton: {
+					neptu1,
+					neptu2,
+					sisa_bagi: sisaBagi,
+					nama_fase: entry.nama_tradisional,
+					arketipe_relasi: entry.arketipe_relasi,
+					dinamika_psikologis: entry.dinamika_psikologis,
+					potensi_gesekan: entry.potensi_gesekan,
+					saran_komunikasi: entry.saran_komunikasi,
+					ai_hook: entry.ai_hook,
+				},
+				bazi: baziCompatibility,
 			},
 		});
 	} catch (err) {

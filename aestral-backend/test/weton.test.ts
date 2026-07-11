@@ -171,4 +171,52 @@ describe('Weton daily insight API (Integration Tests)', () => {
 		const body = await res.json<{ error: string }>();
 		expect(body.error).toContain('birthDate');
 	});
+
+	describe('Weton & Ba Zi Compatibility Endpoint', () => {
+		it('POST /api/weton/compatibility with Bearer auth returns 200 and both weton and bazi compatibility', async () => {
+			const res = await SELF.fetch('http://localhost/api/weton/compatibility', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer fake-jwt-token',
+				},
+				body: JSON.stringify({
+					birthDate1: '2002-07-15', // Orang 1
+					birthDate2: '2000-05-10', // Orang 2
+				}),
+			});
+			expect(res.status).toBe(200);
+			const body = await res.json<{
+				success: boolean;
+				data: {
+					neptu1: number;
+					neptu2: number;
+					weton: any;
+					bazi: any;
+				};
+			}>();
+			expect(body.success).toBe(true);
+			expect(body.data.neptu1).toBeDefined();
+			expect(body.data.weton.nama_fase).toBeDefined();
+			expect(body.data.bazi.dayMasterMatch).toBeDefined();
+			expect(body.data.bazi.compatibilityScore).toBeGreaterThanOrEqual(40);
+		});
+
+		it('POST /api/weton/compatibility with Guest auth returns 403', async () => {
+			const res = await SELF.fetch('http://localhost/api/weton/compatibility', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Guest anon-123',
+				},
+				body: JSON.stringify({
+					birthDate1: '2002-07-15',
+					birthDate2: '2000-05-10',
+				}),
+			});
+			expect(res.status).toBe(403);
+			const body = await res.json<{ error: string }>();
+			expect(body.error).toContain('terdaftar');
+		});
+	});
 });

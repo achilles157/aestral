@@ -163,3 +163,72 @@ class WetonCompatibility {
     );
   }
 }
+
+// ─── Ba Zi Compatibility Models ──────────────────────────────────────────────
+
+class BaziCompatibilityDetail {
+  final String type;
+  final String label;
+  final String description;
+
+  const BaziCompatibilityDetail({
+    required this.type,
+    required this.label,
+    required this.description,
+  });
+
+  factory BaziCompatibilityDetail.fromJson(Map<String, dynamic> json) {
+    return BaziCompatibilityDetail(
+      type: json['type'] as String? ?? 'neutral',
+      label: json['label'] as String? ?? '',
+      description: json['description'] as String? ?? '',
+    );
+  }
+}
+
+class BaziCompatibility {
+  final BaziCompatibilityDetail dayMasterMatch;
+  final BaziCompatibilityDetail spousePalaceMatch;
+  final BaziCompatibilityDetail zodiacMatch;
+  final BaziCompatibilityDetail elementCompatibility;
+  final int compatibilityScore;
+
+  const BaziCompatibility({
+    required this.dayMasterMatch,
+    required this.spousePalaceMatch,
+    required this.zodiacMatch,
+    required this.elementCompatibility,
+    required this.compatibilityScore,
+  });
+
+  factory BaziCompatibility.fromJson(Map<String, dynamic> json) {
+    return BaziCompatibility(
+      dayMasterMatch: BaziCompatibilityDetail.fromJson(
+          json['dayMasterMatch'] as Map<String, dynamic>),
+      spousePalaceMatch: BaziCompatibilityDetail.fromJson(
+          json['spousePalaceMatch'] as Map<String, dynamic>),
+      zodiacMatch: BaziCompatibilityDetail.fromJson(
+          json['zodiacMatch'] as Map<String, dynamic>),
+      elementCompatibility: BaziCompatibilityDetail.fromJson(
+          json['elementCompatibility'] as Map<String, dynamic>),
+      compatibilityScore: json['compatibilityScore'] as int? ?? 70,
+    );
+  }
+}
+
+class SynthesisCompatibility {
+  final WetonCompatibility weton;
+  final BaziCompatibility bazi;
+
+  const SynthesisCompatibility({
+    required this.weton,
+    required this.bazi,
+  });
+
+  factory SynthesisCompatibility.fromJson(Map<String, dynamic> json) {
+    return SynthesisCompatibility(
+      weton: WetonCompatibility.fromJson(json['weton'] as Map<String, dynamic>),
+      bazi: BaziCompatibility.fromJson(json['bazi'] as Map<String, dynamic>),
+    );
+  }
+}

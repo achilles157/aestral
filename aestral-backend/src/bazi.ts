@@ -802,3 +802,157 @@ export function calculateBaziChart(
 		adjustedHour,
 	};
 }
+
+// ─── Ba Zi Compatibility Analysis ──────────────────────────────────────────
+
+export interface BaziCompatibilityResult {
+	dayMasterMatch: {
+		type: 'combination' | 'clash' | 'neutral';
+		label: string;
+		description: string;
+	};
+	spousePalaceMatch: {
+		type: 'harmony' | 'clash' | 'neutral';
+		label: string;
+		description: string;
+	};
+	zodiacMatch: {
+		type: 'harmony' | 'clash' | 'neutral';
+		label: string;
+		description: string;
+	};
+	elementCompatibility: {
+		type: 'complementary' | 'non-complementary';
+		label: string;
+		description: string;
+	};
+	compatibilityScore: number;
+}
+
+export function calculateBaziCompatibility(
+	chart1: BaziChartResult,
+	chart2: BaziChartResult,
+): BaziCompatibilityResult {
+	const stem1 = chart1.dayPillar.stemIndex;
+	const stem2 = chart2.dayPillar.stemIndex;
+	const branch1 = chart1.dayPillar.branchIndex;
+	const branch2 = chart2.dayPillar.branchIndex;
+	const yBranch1 = chart1.yearPillar.branchIndex;
+	const yBranch2 = chart2.yearPillar.branchIndex;
+
+	const yongShen1 = chart1.dmStrength.yongShen;
+	const yongShen2 = chart2.dmStrength.yongShen;
+
+	// 1. Day Master Match
+	let dmType: 'combination' | 'clash' | 'neutral' = 'neutral';
+	let dmLabel = 'Interaksi Netral (Saling Mendukung)';
+	let dmDesc = 'Karakter utama kalian tidak berbenturan langsung, melahirkan hubungan yang stabil dan minim drama.';
+
+	const dmCombos = [[0, 5], [1, 6], [2, 7], [3, 8], [4, 9]];
+	const isDmCombo = dmCombos.some(([a, b]) => (stem1 === a && stem2 === b) || (stem1 === b && stem2 === a));
+	const dmClashes = [[0, 6], [1, 7], [2, 8], [3, 9]];
+	const isDmClash = dmClashes.some(([a, b]) => (stem1 === a && stem2 === b) || (stem1 === b && stem2 === a));
+
+	if (isDmCombo) {
+		dmType = 'combination';
+		dmLabel = 'Ketertarikan Alami (Saling Menggenapi)';
+		dmDesc = 'Day Master kalian berdua membentuk kombinasi harmonis. Chemistry alami ini melahirkan daya tarik kuat sejak pandangan pertama.';
+	} else if (isDmClash) {
+		dmType = 'clash';
+		dmLabel = 'Dinamika Cermin (Tantangan Pertumbuhan)';
+		dmDesc = 'Terjadi benturan kutub energi Day Master. Hubungan kalian penuh dengan cerminan diri yang memicu pertumbuhan spiritual, meski kadang menimbulkan percikan argumen.';
+	}
+
+	// 2. Spouse Palace Match
+	let spType: 'harmony' | 'clash' | 'neutral' = 'neutral';
+	let spLabel = 'Dinamika Harian Stabil';
+	let spDesc = 'Komunikasi dan ekspektasi harian dalam rumah tangga berjalan dalam ritme wajar tanpa gesekan konstan.';
+
+	const branchCombos = [[0, 1], [2, 11], [3, 10], [4, 9], [5, 8], [6, 7]];
+	const isSpCombo = branchCombos.some(([a, b]) => (branch1 === a && branch2 === b) || (branch1 === b && branch2 === a));
+	const isSpClash = Math.abs(branch1 - branch2) === 6;
+
+	if (isSpCombo) {
+		spType = 'harmony';
+		spLabel = 'Chemistry Domestik Sangat Kuat';
+		spDesc = 'Istana Pasangan kalian bersinkronisasi secara intim. Kalian mudah memahami bahasa kasih masing-masing dan nyaman berbagi ruang hidup bersama.';
+	} else if (isSpClash) {
+		spType = 'clash';
+		spLabel = 'Fase Penyelarasan (Tantangan Komunikasi)';
+		spDesc = 'Istana Pasangan saling bertolak belakang. Fluktuasi emosi harian dalam rumah tangga memerlukan ruang privasi ekstra dan latihan mendengarkan tanpa menghakimi.';
+	}
+
+	// 3. Zodiac Match
+	let zType: 'harmony' | 'clash' | 'neutral' = 'neutral';
+	let zLabel = 'Koneksi Sosial Selaras';
+	let zDesc = 'Cara kalian berdua berinteraksi dengan keluarga besar dan lingkaran sosial luar terjalin wajar dan bersahabat.';
+
+	const isZCombo = branchCombos.some(([a, b]) => (yBranch1 === a && yBranch2 === b) || (yBranch1 === b && yBranch2 === a));
+	const triads = [[8, 0, 4], [11, 3, 7], [2, 6, 10], [5, 9, 1]];
+	const isZTriad = triads.some(
+		(triad) => triad.includes(yBranch1) && triad.includes(yBranch2) && yBranch1 !== yBranch2
+	);
+	const isZClash = Math.abs(yBranch1 - yBranch2) === 6;
+
+	if (isZCombo || isZTriad) {
+		zType = 'harmony';
+		zLabel = 'Harmoni Zodiak Lahir';
+		zDesc = 'Zodiak tahun lahir kalian bersahabat erat. Hubungan ini mendapat dukungan sosial yang baik dari keluarga besar dan lingkungan pertemanan.';
+	} else if (isZClash) {
+		zType = 'clash';
+		zLabel = 'Oposisi Sudut Pandang';
+		zDesc = 'Zodiak kalian berhadapan langsung. Perbedaan latar belakang atau cara pandang sosial sering memicu debat, yang memerlukan toleransi atas perbedaan.';
+	}
+
+	// 4. Wu Xing Complementarity
+	const getDominant = (chart: BaziChartResult) => {
+		let maxVal = -1;
+		let maxElem = 'kayu';
+		for (const [elem, pct] of Object.entries(chart.wuXingBalance)) {
+			if (pct > maxVal) {
+				maxVal = pct;
+				maxElem = elem;
+			}
+		}
+		return maxElem;
+	};
+
+	const dominant1 = getDominant(chart1);
+	const dominant2 = getDominant(chart2);
+
+	const p1HelpsP2 = yongShen2.includes(dominant1);
+	const p2HelpsP1 = yongShen1.includes(dominant2);
+	const isComplementary = p1HelpsP2 || p2HelpsP1;
+
+	let compLabel = 'Keseimbangan Energi Menengah';
+	let compDesc = 'Distribusi elemen kalian cukup seimbang. Hubungan ini berjalan mandiri tanpa saling ketergantungan energi yang berlebih.';
+
+	if (p1HelpsP2 && p2HelpsP1) {
+		compLabel = 'Sinergi Yin-Yang Sempurna';
+		compDesc = 'Luar biasa! Energi dominan masing-masing dari kalian adalah elemen penyeimbang (Yong Shen) bagi pasangannya. Kehadiran kalian saling menyembuhkan dan menyetabilkan emosi.';
+	} else if (isComplementary) {
+		compLabel = 'Saling Melengkapi (Komplementer)';
+		compDesc = 'Salah satu pilar energi dari kalian mampu menyuplai elemen penting yang dibutuhkan pasangannya, memberikan rasa aman dan kenyamanan mental.';
+	}
+
+	// 5. Score Calculation
+	let score = 70; // Base score
+	if (dmType === 'combination') score += 10;
+	if (dmType === 'clash') score -= 8;
+	if (spType === 'harmony') score += 15;
+	if (spType === 'clash') score -= 12;
+	if (zType === 'harmony') score += 8;
+	if (zType === 'clash') score -= 6;
+	if (p1HelpsP2 && p2HelpsP1) score += 12;
+	else if (isComplementary) score += 6;
+
+	score = Math.max(40, Math.min(98, score));
+
+	return {
+		dayMasterMatch: { type: dmType, label: dmLabel, description: dmDesc },
+		spousePalaceMatch: { type: spType, label: spLabel, description: spDesc },
+		zodiacMatch: { type: zType, label: zLabel, description: zDesc },
+		elementCompatibility: { type: isComplementary ? 'complementary' : 'non-complementary', label: compLabel, description: compDesc },
+		compatibilityScore: Math.round(score),
+	};
+}
