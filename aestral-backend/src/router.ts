@@ -51,6 +51,13 @@ function json(data: unknown, status = 200): Response {
 	});
 }
 
+/** Strips control characters and caps length to prevent prompt injection via client-supplied context strings. */
+function sanitizeCtx(value: string | undefined | null, maxLen = 200): string | undefined {
+	if (value == null) return undefined;
+	const cleaned = value.replace(/[\r\n\0\t]/g, ' ').trim().slice(0, maxLen);
+	return cleaned || undefined;
+}
+
 /**
  * Parses and validates the Authorization header.
  *
@@ -69,7 +76,9 @@ async function requireAuth(
 		return json({ error: 'Authorization header diperlukan' }, 400);
 	}
 	if (authToken.type === 'bearer') {
-		if (authToken.value !== 'fake-jwt-token') {
+		// fake-jwt-token bypass only permitted in non-production environments
+		const isFakeToken = authToken.value === 'fake-jwt-token' && env.ENVIRONMENT !== 'production';
+		if (!isFakeToken) {
 			const err = await verifyFirebaseJwt(authToken.value, env.FIREBASE_PROJECT_ID, env.RATE_LIMIT_KV);
 			if (err) return json({ error: err.error }, err.status);
 		}
@@ -255,6 +264,12 @@ async function handleWetonDaily(request: Request, env: Env): Promise<Response> {
 	if (authResult instanceof Response) return authResult;
 	const { authToken } = authResult;
 
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? (() => { console.warn('[Rate Limit] Missing CF-Connecting-IP'); return 'cf-no-ip'; })();
+	if (await isRateLimited(clientIp, DATA_RATE_LIMIT_MAX, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
+		const resetSeconds = await getRateLimitResetSeconds(clientIp, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
+		return new Response(JSON.stringify({ error: 'Terlalu banyak permintaan. Coba lagi sebentar.', retryAfterSeconds: resetSeconds }), { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': String(resetSeconds), ...CORS_HEADERS } });
+	}
+
 	let body: WetonDailyBody;
 	try {
 		body = (await request.json()) as WetonDailyBody;
@@ -334,6 +349,12 @@ function getMidpointHour(range: string): number {
 async function handleCalendarMonth(request: Request, env: Env): Promise<Response> {
 	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
+
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? (() => { console.warn('[Rate Limit] Missing CF-Connecting-IP'); return 'cf-no-ip'; })();
+	if (await isRateLimited(clientIp, CALENDAR_RATE_LIMIT_MAX, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
+		const resetSeconds = await getRateLimitResetSeconds(clientIp, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
+		return new Response(JSON.stringify({ error: 'Terlalu banyak permintaan. Coba lagi sebentar.', retryAfterSeconds: resetSeconds }), { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': String(resetSeconds), ...CORS_HEADERS } });
+	}
 
 	let body: CalendarMonthBody;
 	try {
@@ -583,6 +604,9 @@ const CHAT_RATE_LIMIT_WINDOW_MS = 60_000;
 const DATA_RATE_LIMIT_MAX = 30;
 const DATA_RATE_LIMIT_WINDOW_MS = 60_000;
 
+// Rate limit: 10 requests per minute per IP (calendar/month — CPU-bound 31-iteration loop)
+const CALENDAR_RATE_LIMIT_MAX = 10;
+
 async function handleChat(request: Request, env: Env): Promise<Response> {
 	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
@@ -631,13 +655,28 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
 		return json({ error: 'AI service belum dikonfigurasi' }, 503);
 	}
 
-	// Build AI context from request body
+	// Build AI context from request body — sanitize string fields to prevent prompt injection
 	const aiContext: AiContext = {
-		wetonLahir: body.wetonLahir,
-		wukuBerjalan: body.wukuBerjalan,
-		pranataMangsa: body.pranataMangsa,
+		wetonLahir: body.wetonLahir ? {
+			nama:      sanitizeCtx(body.wetonLahir.nama) ?? '',
+			neptu:     body.wetonLahir.neptu,
+			elemen:    sanitizeCtx(body.wetonLahir.elemen) ?? '',
+			karakter:  sanitizeCtx(body.wetonLahir.karakter),
+		} : undefined,
+		wukuBerjalan: body.wukuBerjalan ? {
+			nama:           sanitizeCtx(body.wukuBerjalan.nama) ?? '',
+			elemen:         sanitizeCtx(body.wukuBerjalan.elemen) ?? '',
+			dewaPenaung:    sanitizeCtx(body.wukuBerjalan.dewaPenaung),
+			pesanKesadaran: sanitizeCtx(body.wukuBerjalan.pesanKesadaran),
+		} : undefined,
+		pranataMangsa: body.pranataMangsa ? {
+			nama:           sanitizeCtx(body.pranataMangsa.nama) ?? '',
+			arketipe:       sanitizeCtx(body.pranataMangsa.arketipe) ?? '',
+			karakterEnergi: sanitizeCtx(body.pranataMangsa.karakterEnergi),
+			pesanKesadaran: sanitizeCtx(body.pranataMangsa.pesanKesadaran),
+		} : undefined,
 		tarotCards: body.tarotCards,
-		pangarasan: body.pangarasan,
+		pangarasan: sanitizeCtx(body.pangarasan),
 	};
 
 	// Build system instruction and call Gemini
@@ -757,6 +796,12 @@ async function handleWetonCompatibility(request: Request, env: Env): Promise<Res
 		return json({ error: 'Fitur kompatibilitas pasangan memerlukan akun terdaftar.' }, 403);
 	}
 
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? (() => { console.warn('[Rate Limit] Missing CF-Connecting-IP'); return 'cf-no-ip'; })();
+	if (await isRateLimited(clientIp, DATA_RATE_LIMIT_MAX, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
+		const resetSeconds = await getRateLimitResetSeconds(clientIp, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
+		return new Response(JSON.stringify({ error: 'Terlalu banyak permintaan. Coba lagi sebentar.', retryAfterSeconds: resetSeconds }), { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': String(resetSeconds), ...CORS_HEADERS } });
+	}
+
 	let body: WetonCompatibilityBody;
 	try {
 		body = (await request.json()) as WetonCompatibilityBody;
@@ -768,9 +813,8 @@ async function handleWetonCompatibility(request: Request, env: Env): Promise<Res
 		return json({ error: 'birthDate1 dan birthDate2 diperlukan (format: YYYY-MM-DD)' }, 400);
 	}
 
-	const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-	if (!dateRegex.test(body.birthDate1) || !dateRegex.test(body.birthDate2)) {
-		return json({ error: 'Format tanggal harus YYYY-MM-DD' }, 400);
+	if (!validateIsoDate(body.birthDate1) || !validateIsoDate(body.birthDate2)) {
+		return json({ error: 'birthDate harus format YYYY-MM-DD yang valid (1900–2100)' }, 400);
 	}
 
 	try {
@@ -846,6 +890,12 @@ async function handleBaziChart(request: Request, env: Env): Promise<Response> {
 	if (authResult instanceof Response) return authResult;
 	const { authToken } = authResult;
 
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? (() => { console.warn('[Rate Limit] Missing CF-Connecting-IP'); return 'cf-no-ip'; })();
+	if (await isRateLimited(clientIp, DATA_RATE_LIMIT_MAX, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
+		const resetSeconds = await getRateLimitResetSeconds(clientIp, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
+		return new Response(JSON.stringify({ error: 'Terlalu banyak permintaan. Coba lagi sebentar.', retryAfterSeconds: resetSeconds }), { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': String(resetSeconds), ...CORS_HEADERS } });
+	}
+
 	let body: BaziChartBody;
 	try {
 		body = (await request.json()) as BaziChartBody;
@@ -857,9 +907,9 @@ async function handleBaziChart(request: Request, env: Env): Promise<Response> {
 		return json({ error: 'birthDate is required (format: YYYY-MM-DD)' }, 400);
 	}
 
-	// Validate date format
-	if (!/^\d{4}-\d{2}-\d{2}$/.test(body.birthDate)) {
-		return json({ error: 'birthDate must be in YYYY-MM-DD format' }, 400);
+	// Validate date format and calendar bounds
+	if (!validateIsoDate(body.birthDate)) {
+		return json({ error: 'birthDate harus format YYYY-MM-DD yang valid (1900–2100)' }, 400);
 	}
 
 	// Validate optional hour
@@ -902,6 +952,12 @@ async function handleBaziLuckPillars(request: Request, env: Env): Promise<Respon
 		return json({ error: 'Da Yun membutuhkan akun terdaftar' }, 403);
 	}
 
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? (() => { console.warn('[Rate Limit] Missing CF-Connecting-IP'); return 'cf-no-ip'; })();
+	if (await isRateLimited(clientIp, DATA_RATE_LIMIT_MAX, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
+		const resetSeconds = await getRateLimitResetSeconds(clientIp, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
+		return new Response(JSON.stringify({ error: 'Terlalu banyak permintaan. Coba lagi sebentar.', retryAfterSeconds: resetSeconds }), { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': String(resetSeconds), ...CORS_HEADERS } });
+	}
+
 	let body: BaziLuckPillarsBody;
 	try {
 		body = (await request.json()) as BaziLuckPillarsBody;
@@ -913,8 +969,8 @@ async function handleBaziLuckPillars(request: Request, env: Env): Promise<Respon
 		return json({ error: 'birthDate is required (format: YYYY-MM-DD)' }, 400);
 	}
 
-	if (!/^\d{4}-\d{2}-\d{2}$/.test(body.birthDate)) {
-		return json({ error: 'birthDate must be in YYYY-MM-DD format' }, 400);
+	if (!validateIsoDate(body.birthDate)) {
+		return json({ error: 'birthDate harus format YYYY-MM-DD yang valid (1900–2100)' }, 400);
 	}
 
 	if (body.isMale === undefined || body.isMale === null) {
@@ -1180,13 +1236,41 @@ async function handleOracleChat(request: Request, env: Env): Promise<Response> {
 	// Inject astrological context if provided
 	if (body.context) {
 		const ctx = body.context;
+		const s = (v: string | undefined | null, max = 200) => sanitizeCtx(v, max);
 		const aiCtx: AiContext = {
-			wetonLahir: ctx.wetonLahir,
-			wukuBerjalan: ctx.wukuBerjalan,
-			pranataMangsa: ctx.pranataMangsa,
+			wetonLahir: ctx.wetonLahir ? {
+				nama:      s(ctx.wetonLahir.nama) ?? '',
+				neptu:     ctx.wetonLahir.neptu,
+				elemen:    s(ctx.wetonLahir.elemen) ?? '',
+				karakter:  s(ctx.wetonLahir.karakter),
+				pancasuda: s((ctx.wetonLahir as AiContext['wetonLahir'] & { pancasuda?: string })?.pancasuda),
+			} : undefined,
+			wukuBerjalan: ctx.wukuBerjalan ? {
+				nama:           s(ctx.wukuBerjalan.nama) ?? '',
+				elemen:         s(ctx.wukuBerjalan.elemen) ?? '',
+				dewaPenaung:    s(ctx.wukuBerjalan.dewaPenaung),
+				pesanKesadaran: s(ctx.wukuBerjalan.pesanKesadaran),
+			} : undefined,
+			pranataMangsa: ctx.pranataMangsa ? {
+				nama:           s(ctx.pranataMangsa.nama) ?? '',
+				arketipe:       s(ctx.pranataMangsa.arketipe) ?? '',
+				karakterEnergi: s(ctx.pranataMangsa.karakterEnergi),
+				pesanKesadaran: s(ctx.pranataMangsa.pesanKesadaran),
+			} : undefined,
 			tarotCards: ctx.tarotCards,
-			pangarasan: ctx.pangarasan,
-			baziChart: ctx.baziChart,
+			pangarasan: s(ctx.pangarasan),
+			baziChart: ctx.baziChart ? {
+				yearPillar:     s(ctx.baziChart.yearPillar) ?? '',
+				monthPillar:    s(ctx.baziChart.monthPillar) ?? '',
+				dayPillar:      s(ctx.baziChart.dayPillar) ?? '',
+				hourPillar:     s(ctx.baziChart.hourPillar) ?? null,
+				dayMasterId:    s(ctx.baziChart.dayMasterId) ?? '',
+				dayMasterLabel: s(ctx.baziChart.dayMasterLabel) ?? '',
+				wuXingBalance:  s(ctx.baziChart.wuXingBalance) ?? '',
+				tenGods:        s(ctx.baziChart.tenGods),
+				dmStrength:     s(ctx.baziChart.dmStrength),
+				daYunAktif:     s(ctx.baziChart.daYunAktif),
+			} : undefined,
 		};
 			// Use existing buildSystemInstruction for context formatting,
 			// strip the base persona section (already in contextSections[0]).
@@ -1207,12 +1291,12 @@ async function handleOracleChat(request: Request, env: Env): Promise<Response> {
 			const c = body.context.compatibility;
 			const lines = [
 				'Konteks Kecocokan Pasangan:',
-				c.namaFase ? `- Fase: ${c.namaFase}` : '',
-				c.arketipeRelasi ? `- Arketipe Relasi: ${c.arketipeRelasi}` : '',
+				c.namaFase ? `- Fase: ${sanitizeCtx(c.namaFase)}` : '',
+				c.arketipeRelasi ? `- Arketipe Relasi: ${sanitizeCtx(c.arketipeRelasi)}` : '',
 				c.neptu1 !== undefined && c.neptu2 !== undefined ? `- Neptu: ${c.neptu1} + ${c.neptu2}` : '',
-				c.dinamikaPsikologis ? `- Dinamika: ${c.dinamikaPsikologis}` : '',
-				c.potensiGesekan ? `- Potensi Gesekan: ${c.potensiGesekan}` : '',
-				c.saranKomunikasi ? `- Saran Komunikasi: ${c.saranKomunikasi}` : '',
+				c.dinamikaPsikologis ? `- Dinamika: ${sanitizeCtx(c.dinamikaPsikologis)}` : '',
+				c.potensiGesekan ? `- Potensi Gesekan: ${sanitizeCtx(c.potensiGesekan)}` : '',
+				c.saranKomunikasi ? `- Saran Komunikasi: ${sanitizeCtx(c.saranKomunikasi)}` : '',
 			].filter(Boolean).join('\n');
 			if (lines.trim()) contextSections.push(lines);
 		}
@@ -1220,7 +1304,7 @@ async function handleOracleChat(request: Request, env: Env): Promise<Response> {
 		// Inject planner hour context (from astrological planner timeline)
 		if (body.context?.plannerHour) {
 			const ph = body.context.plannerHour;
-			const text = `Konteks Waktu Planner: ${ph.label ?? ''} (${ph.range ?? ''})`.trim();
+			const text = `Konteks Waktu Planner: ${sanitizeCtx(ph.label) ?? ''} (${sanitizeCtx(ph.range) ?? ''})`.trim();
 			if (text) contextSections.push(text);
 		}
 	}
@@ -1230,7 +1314,7 @@ async function handleOracleChat(request: Request, env: Env): Promise<Response> {
 		oracleType,
 		body.isFirstOpen ?? true,
 		body.daysSinceLastOpen ?? 0,
-		body.lastTopic,
+		sanitizeCtx(body.lastTopic, 100),
 	);
 	contextSections.push(greetingInstruction);
 
