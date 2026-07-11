@@ -553,7 +553,7 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
             );
           },
           loading: () => const Center(child: CircularProgressIndicator(color: AppTheme.accentPurple)),
-          error: (err, _) => Center(child: Text('Gagal memuat detail wuku: $err')),
+          error: (err, _) => Center(child: Text('Gagal memuat detail. Coba lagi.')),
         ),
         const SizedBox(height: 28),
 

@@ -61,7 +61,6 @@ class AuthNotifier extends Notifier<UserSession?> {
                 isMock: false,
               );
               ref.read(authInitializingProvider.notifier).complete();
-              ref.notifyListeners();
               return;
             }
           } catch (e) {
@@ -79,7 +78,6 @@ class AuthNotifier extends Notifier<UserSession?> {
             isMock: false,
           );
           ref.read(authInitializingProvider.notifier).complete();
-          ref.notifyListeners();
           return;
         }
       }
@@ -99,7 +97,6 @@ class AuthNotifier extends Notifier<UserSession?> {
       debugPrint("Error loading session: $e");
     } finally {
       ref.read(authInitializingProvider.notifier).complete();
-      ref.notifyListeners();
     }
   }
 

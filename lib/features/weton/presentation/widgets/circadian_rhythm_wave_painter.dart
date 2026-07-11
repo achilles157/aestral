@@ -58,6 +58,6 @@ class CircadianRhythmWavePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CircadianRhythmWavePainter oldDelegate) {
-    return oldDelegate.amplitudes != amplitudes;
+    return !listEquals(oldDelegate.amplitudes, amplitudes);
   }
 }
