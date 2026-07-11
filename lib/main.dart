@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/weton_utils.dart';
@@ -40,17 +41,15 @@ void main() async {
 
   // Catch Flutter framework errors (widget build crashes, rendering errors, etc.)
   FlutterError.onError = (FlutterErrorDetails details) {
-    FlutterError.presentError(details); // default: logs to console in debug
-    // TODO(Phase4): forward to Firebase Crashlytics when added
-    // FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+    FlutterError.presentError(details);
+    if (!kIsWeb) FirebaseCrashlytics.instance.recordFlutterFatalError(details);
   };
 
   // Catch uncaught async errors thrown outside of Flutter's zone
   PlatformDispatcher.instance.onError = (error, stack) {
     debugPrint('Uncaught async error: $error\n$stack');
-    // TODO(Phase4): forward to Firebase Crashlytics when added
-    // FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true; // return true = error handled, don't propagate
+    if (!kIsWeb) FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
   };
 
   // ── Error widget override ──────────────────────────────────────────────────
@@ -71,6 +70,11 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     debugPrint("Firebase successfully initialized");
+    // Enable Crashlytics in release mode only, disabled in debug to avoid noise
+    if (!kIsWeb) {
+      await FirebaseCrashlytics.instance
+          .setCrashlyticsCollectionEnabled(!kDebugMode);
+    }
   } catch (e) {
     debugPrint("Firebase initialization failed (Running in Local Fallback mode): $e");
   }
