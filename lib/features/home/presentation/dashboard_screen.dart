@@ -14,6 +14,11 @@ import 'widgets/dashboard_sesepuh_card.dart';
 import 'widgets/dashboard_guest_upsell_card.dart';
 import 'widgets/dashboard_footer.dart';
 import 'widgets/edit_profile_dialog.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/services/api_service.dart';
+import '../../../core/providers/shell_providers.dart';
+import '../../../core/widgets/glass_card.dart';
 import '../../../core/utils/weton_utils.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
@@ -38,7 +43,276 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     if (!mounted) return;
     if (profile.dobDate == null) {
       showEditProfileDialog(context, ref, _allCities);
+    } else {
+      _checkMorningForecast(profile.dobDate!);
     }
+  }
+
+  Future<void> _checkMorningForecast(DateTime dob) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final todayStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      final prefKey = 'morning_forecast_shown_$todayStr';
+
+      if (prefs.getBool(prefKey) == true) return;
+
+      final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
+      final now = DateTime.now();
+      final dobStr = DateFormat('yyyy-MM-dd').format(dob);
+
+      final response = await ApiService.getCalendarMonth(
+        birthDate: dobStr,
+        targetYear: now.year,
+        targetMonth: now.month,
+        authHeader: authHeader,
+      );
+
+      if (!mounted) return;
+
+      final days = response['days'] as List<dynamic>?;
+      if (days == null || days.isEmpty) return;
+
+      final todayData = days.firstWhere(
+        (d) => d['date'] == todayStr,
+        orElse: () => null,
+      );
+
+      if (todayData == null) return;
+
+      // Mark as shown today
+      await prefs.setBool(prefKey, true);
+
+      // Show custom dialog
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (ctx) => _buildMorningForecastDialog(ctx, todayData),
+      );
+    } catch (e) {
+      debugPrint('DashboardScreen: Error checking morning forecast — $e');
+    }
+  }
+
+  Widget _buildMorningForecastDialog(BuildContext context, Map<String, dynamic> data) {
+    final wetonStr = data['weton_hari_ini'] as String? ?? '';
+    final wukuName = data['wuku'] as String? ?? '';
+    final neptu = data['neptu'] as int? ?? 10;
+
+    final bool isDinoWas = data['is_dino_was'] as bool? ?? false;
+    final bool isWukuRawan = data['is_wuku_rawan'] as bool? ?? false;
+    final bool isMangsaRawan = data['is_mangsa_rawan'] as bool? ?? false;
+    final bool isBaziClash = data['is_bazi_clash'] as bool? ?? false;
+    final bool isBaziHarmony = data['is_bazi_harmony'] as bool? ?? false;
+    final bool isBaziYongShen = data['is_bazi_yong_shen'] as bool? ?? false;
+
+    String energyTitle = 'Energi Stabil';
+    String energyDesc = 'Hari berjalan dengan harmoni wajar. Lakukan aktivitas harian Anda dengan ketenangan dan fokus penuh.';
+    Color energyColor = Colors.white70;
+    IconData energyIcon = Icons.wb_cloudy_outlined;
+
+    if (isDinoWas) {
+      energyTitle = 'Hari Naas Personal (Dino Was)';
+      energyDesc = 'Hari ini memiliki ketidakselarasan energi tertinggi bagi Anda. Tunda keputusan bisnis besar, hindari perdebatan, dan prioritaskan menjaga kedamaian batin.';
+      energyColor = const Color(0xFFF87171);
+      energyIcon = Icons.warning_amber_rounded;
+    } else if (isBaziClash) {
+      energyTitle = 'Hari Clash (Ciong) Ba Zi';
+      energyDesc = 'Pilar zodiak hari ini bertentangan dengan pilar lahir Anda. Energi berfluktuasi tinggi; disarankan bertindak sabar dan kurangi aktivitas berisiko.';
+      energyColor = const Color(0xFFF87171);
+      energyIcon = Icons.flash_on_rounded;
+    } else if (isBaziHarmony) {
+      energyTitle = 'Hari Harmoni (He) Ba Zi';
+      energyDesc = 'Energi zodiak harian bersinergi sangat manis dengan Anda. Komunikasi, negosiasi, dan pertemuan sosial diprediksi berjalan sangat lancar.';
+      energyColor = const Color(0xFF34D399);
+      energyIcon = Icons.handshake_outlined;
+    } else if (isBaziYongShen) {
+      energyTitle = 'Hari Energi Penyeimbang (Yong Shen)';
+      energyDesc = 'Hari ini memancarkan elemen penyeimbang lahir Anda. Vitalitas tubuh meningkat, pikiran lebih tajam, dan daya kreativitas berada di puncaknya!';
+      energyColor = AppTheme.accentGold;
+      energyIcon = Icons.wb_sunny_outlined;
+    }
+
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+      child: GlassCard(
+        borderColor: AppTheme.accentGold.withValues(alpha: 0.35),
+        borderWidth: 1.2,
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.wb_sunny_rounded, color: AppTheme.accentGold, size: 20),
+                const SizedBox(width: 8),
+                Text(
+                  'PRAKIRAAN PAGI KOSMIS',
+                  style: GoogleFonts.cinzel(
+                    color: AppTheme.accentGold,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 18),
+            Text(
+              wetonStr,
+              style: GoogleFonts.playfairDisplay(
+                color: Colors.white,
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              'Neptu $neptu • Wuku $wukuName',
+              style: GoogleFonts.lato(
+                color: Colors.white38,
+                fontSize: 12,
+                letterSpacing: 0.5,
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Divider(color: Colors.white10, height: 1),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: energyColor.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: energyColor.withValues(alpha: 0.3),
+                  width: 1.0,
+                ),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(energyIcon, color: energyColor, size: 22),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          energyTitle,
+                          style: GoogleFonts.outfit(
+                            color: energyColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          energyDesc,
+                          style: GoogleFonts.lato(
+                            color: Colors.white.withValues(alpha: 0.75),
+                            fontSize: 12.5,
+                            height: 1.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (isWukuRawan || isMangsaRawan) ...[
+              const SizedBox(height: 12),
+              Column(
+                children: [
+                  if (isWukuRawan)
+                    _buildWarningMicroRow(
+                      icon: Icons.shield_outlined,
+                      color: const Color(0xFFFB923C),
+                      text: 'Pekan Rawan Wuku: Hindari spekulasi bisnis penting.',
+                    ),
+                  if (isWukuRawan && isMangsaRawan) const SizedBox(height: 6),
+                  if (isMangsaRawan)
+                    _buildWarningMicroRow(
+                      icon: Icons.thermostat_outlined,
+                      color: const Color(0xFFFB923C),
+                      text: 'Musim Rawan Mangsa: Jaga vitalitas & imunitas tubuh.',
+                    ),
+                ],
+              ),
+            ],
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    child: Text(
+                      'Tutup',
+                      style: GoogleFonts.cinzel(
+                        color: Colors.white54,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      ref.read(activeTabProvider.notifier).setTab(3);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.accentGold,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      elevation: 0,
+                    ),
+                    child: Text(
+                      'Buka Planner',
+                      style: GoogleFonts.cinzel(
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWarningMicroRow({
+    required IconData icon,
+    required Color color,
+    required String text,
+  }) {
+    return Row(
+      children: [
+        Icon(icon, color: color, size: 14),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            text,
+            style: GoogleFonts.lato(
+              color: Colors.white54,
+              fontSize: 11,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   /// Loads all cities from CSV via shared [CityService].

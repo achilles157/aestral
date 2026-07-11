@@ -4,7 +4,7 @@
     "hanzi": "正財",
     "nama_pendek": "Pembangun",
     "nama_tradisional": "Direct Wealth (正財)",
-    "nama_modern": "Sang Pembangun",
+    "nama_modern": "Sang Pembangun (The Builder)",
     "fokus_utama": "Stabilitas & Keamanan Finansial",
     "interpretasi_psikologis": "Direct Wealth adalah energi yang mendambakan kepastian—kamu bekerja keras untuk membangun fondasi yang kokoh. Setiap langkah dihitung, setiap risiko dipertimbangkan matang-matang. Kamu adalah penjaga perapian yang memastikan tidak ada yang kelaparan.",
     "superpower_karier": [
@@ -19,7 +19,7 @@
     "hanzi": "偏財",
     "nama_pendek": "Jaring",
     "nama_tradisional": "Indirect Wealth (偏財)",
-    "nama_modern": "Sang Jaring",
+    "nama_modern": "Sang Jaring (The Entrepreneur)",
     "fokus_utama": "Kebebasan & Peluang",
     "interpretasi_psikologis": "Indirect Wealth adalah jiwa petualang finansial—kamu melihat peluang di mana orang lain melihat risiko. Tidak terikat pada satu sumber, kamu membangun jaring koneksi dan membuka pintu bagi keberuntungan yang tak terduga.",
     "superpower_karier": [
@@ -34,7 +34,7 @@
     "hanzi": "正官",
     "nama_pendek": "Penjaga",
     "nama_tradisional": "Direct Officer (正官)",
-    "nama_modern": "Sang Penjaga Aturan",
+    "nama_modern": "Sang Penjaga Stabilitas (The Guardian)",
     "fokus_utama": "Keteraturan & Tanggung Jawab",
     "interpretasi_psikologis": "Direct Officer adalah energi yang menghormati struktur—kamu percaya bahwa aturan ada untuk melindungi dan memberdayakan. Seperti 'coach' yang tegas namun adil, kamu membawa ketertiban ke mana pun kamu pergi. Kamu adalah 'orang yang bertanggung jawab' dalam setiap tim.",
     "superpower_karier": [
@@ -49,9 +49,9 @@
     "hanzi": "七殺",
     "nama_pendek": "Pendobrak",
     "nama_tradisional": "Seven Killings (七殺)",
-    "nama_modern": "Sang Pendobrak",
+    "nama_modern": "Sang Pendobrak Batas (The Rebel)",
     "fokus_utama": "Kemenangan & Transformasi",
-    "interpretasi_psikologis": "Seven Killings adalah energi yang tidak takut pada tekanan—justru di situlah kamu hidup. Kamu adalah 'A-type personality' yang didorong oleh kompetisi dan tantangan. Bukan sekadar menang, kamu ingin mengubah permainan itu sendiri.",
+    "interpretasi_psikologis": "Seven Killings adalah energi yang tidak takut pada tekanan—justru di situlah kamu hidup. Kamu adalah 'A-type personality' yang didorong oleh kompetisi and tantangan. Bukan sekadar menang, kamu ingin mengubah permainan itu sendiri.",
     "superpower_karier": [
       "Ketahanan mental di bawah tekanan ekstrem",
       "Keberanian mengambil keputusan sulit",
@@ -64,7 +64,7 @@
     "hanzi": "正印",
     "nama_pendek": "Pustaka",
     "nama_tradisional": "Direct Resource (正印)",
-    "nama_modern": "Sang Pustaka",
+    "nama_modern": "Sang Pustaka (The Scholar)",
     "fokus_utama": "Pengetahuan & Kebijaksanaan",
     "interpretasi_psikologis": "Direct Resource adalah energi yang haus akan pemahaman—kamu belajar bukan untuk pamer, tapi untuk menjadi versi terbaik dirimu. Seperti 'scholar', kamu mencari makna di balik setiap informasi.",
     "superpower_karier": [
@@ -77,9 +77,9 @@
   {
     "id": "indirect_resource",
     "hanzi": "偏印",
-    "nama_pendek": "Perenung",
+    "nama_pendek": "Filsuf",
     "nama_tradisional": "Indirect Resource (偏印)",
-    "nama_modern": "Sang Perenung",
+    "nama_modern": "Sang Pemikir Alternatif (The Intuitive)",
     "fokus_utama": "Kedalaman & Orisinalitas",
     "interpretasi_psikologis": "Indirect Resource adalah energi yang mencintai kesendirian—bukan karena anti-sosial, tapi karena di sanalah ide-ide terbaik lahir. Kamu adalah 'pemikir lateral' yang melihat koneksi yang tidak terlihat oleh orang lain.",
     "superpower_karier": [
@@ -94,7 +94,7 @@
     "hanzi": "食神",
     "nama_pendek": "Pencipta",
     "nama_tradisional": "Eating God (食神)",
-    "nama_modern": "Sang Pencipta",
+    "nama_modern": "Sang Pencipta (The Artist)",
     "fokus_utama": "Ekspresi & Kenikmatan",
     "interpretasi_psikologis": "Eating God adalah energi kreatif yang lembut—kamu mengekspresikan diri dengan cara yang mengundang, bukan memaksa. Seperti 'seniman', kamu menikmati proses dan membawa keindahan ke dunia.",
     "superpower_karier": [
@@ -107,9 +107,9 @@
   {
     "id": "hurting_officer",
     "hanzi": "傷官",
-    "nama_pendek": "Pembangkang",
+    "nama_pendek": "Visioner",
     "nama_tradisional": "Hurting Officer (傷官)",
-    "nama_modern": "Sang Pembangkang",
+    "nama_modern": "Sang Pembuat Terobosan (The Visionary)",
     "fokus_utama": "Kebebasan & Inovasi Radikal",
     "interpretasi_psikologis": "Hurting Officer adalah energi yang menolak status quo—kamu lahir untuk mempertanyakan, menantang, dan menciptakan cara baru. Kecerdasanmu kadang terasa 'terlalu tajam' bagi yang tidak siap.",
     "superpower_karier": [
@@ -124,7 +124,7 @@
     "hanzi": "比肩",
     "nama_pendek": "Sahabat",
     "nama_tradisional": "Friend (比肩)",
-    "nama_modern": "Sang Sahabat",
+    "nama_modern": "Sang Sahabat (The Independent)",
     "fokus_utama": "Identitas & Kemandirian",
     "interpretasi_psikologis": "Friend adalah energi yang menjaga 'aku' tetap utuh—kamu tahu siapa dirimu dan tidak mudah terpengaruh. Seperti 'individu yang sadar diri', kamu membangun dari kekuatan internal, bukan validasi eksternal.",
     "superpower_karier": [
@@ -137,9 +137,9 @@
   {
     "id": "rob_wealth",
     "hanzi": "劫財",
-    "nama_pendek": "Kolaborator",
+    "nama_pendek": "Penantang",
     "nama_tradisional": "Rob Wealth (劫財)",
-    "nama_modern": "Sang Kolaborator Kompetitif",
+    "nama_modern": "Sang Penantang Sehat (The Challenger)",
     "fokus_utama": "Ekspansi & Pengaruh",
     "interpretasi_psikologis": "Rob Wealth adalah energi yang bergerak cepat dan percaya diri—kamu tidak takut 'masuk' ke ruang orang lain karena kamu percaya ada cukup untuk semua. Bukan pencuri, tapi 'pemburu peluang' yang kolaboratif.",
     "superpower_karier": [

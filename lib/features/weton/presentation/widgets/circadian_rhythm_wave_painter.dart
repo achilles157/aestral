@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
 
 class CircadianRhythmWavePainter extends CustomPainter {
-  final List<String> slots;
+  final List<double> amplitudes;
 
-  CircadianRhythmWavePainter({required this.slots});
+  CircadianRhythmWavePainter({required this.amplitudes});
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (slots.isEmpty) return;
+    if (amplitudes.isEmpty) return;
 
     final double width = size.width;
     final double height = size.height;
     final double centerX = width / 2;
-    final double slotHeight = height / slots.length;
+    final double slotHeight = height / amplitudes.length;
 
     final Path wavePath = Path();
     wavePath.moveTo(centerX, 0);
@@ -21,9 +21,9 @@ class CircadianRhythmWavePainter extends CustomPainter {
     double prevX = centerX;
     double prevY = 0;
 
-    for (int i = 0; i < slots.length; i++) {
-      final isBaik = slots[i] == 'baik';
-      final double targetX = centerX + (isBaik ? 8.0 : -8.0);
+    for (int i = 0; i < amplitudes.length; i++) {
+      // Calculate horizontal offset based on amplitude value (range: -1.5 to 1.5)
+      final double targetX = centerX + (amplitudes[i] * 10.0);
       final double targetY = (i + 0.5) * slotHeight;
 
       final double cp1x = prevX;
@@ -58,6 +58,6 @@ class CircadianRhythmWavePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CircadianRhythmWavePainter oldDelegate) {
-    return oldDelegate.slots != slots;
+    return oldDelegate.amplitudes != amplitudes;
   }
 }

@@ -22,7 +22,8 @@ class _WetonCompatibilityScreenState
   DateTime? _birthDate1;
   DateTime? _birthDate2;
   bool _isLoading = false;
-  WetonCompatibility? _result;
+  SynthesisCompatibility? _result;
+  int _activeTab = 0;
   String? _errorMessage;
 
   final DateFormat _fmt = DateFormat('d MMM yyyy');
@@ -87,7 +88,7 @@ class _WetonCompatibilityScreenState
 
       if (response['success'] == true && response['data'] != null) {
         setState(() {
-          _result = WetonCompatibility.fromJson(
+          _result = SynthesisCompatibility.fromJson(
             response['data'] as Map<String, dynamic>,
           );
         });
@@ -108,28 +109,33 @@ class _WetonCompatibilityScreenState
 
   // ── AI Oracle ────────────────────────────────────────────────────────────────
 
-  Future<void> _openAiOracle(WetonCompatibility result) async {
+  Future<void> _openAiOracle(SynthesisCompatibility result) async {
     final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
 
     if (!mounted) return;
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => OracleChatScreen(
-          oracleType: 'weton',
+          oracleType: 'synthesis',
           authHeader: authHeader,
           aiContext: {
             'wetonLahir': {
-              'neptu': result.neptu1,
+              'neptu': result.weton.neptu1,
               'karakter': '',
             },
             'compatibility': {
-              'neptu1': result.neptu1,
-              'neptu2': result.neptu2,
-              'namaFase': result.namaFase,
-              'arketipeRelasi': result.arketipeRelasi,
-              'dinamikaPsikologis': result.dinamikaPsikologis,
-              'potensiGesekan': result.potensiGesekan,
-              'saranKomunikasi': result.saranKomunikasi,
+              'neptu1': result.weton.neptu1,
+              'neptu2': result.weton.neptu2,
+              'namaFase': result.weton.namaFase,
+              'arketipeRelasi': result.weton.arketipeRelasi,
+              'dinamikaPsikologis': result.weton.dinamikaPsikologis,
+              'potensiGesekan': result.weton.potensiGesekan,
+              'saranKomunikasi': result.weton.saranKomunikasi,
+              'baziScore': result.bazi.compatibilityScore,
+              'baziDm': result.bazi.dayMasterMatch.label,
+              'baziSpouse': result.bazi.spousePalaceMatch.label,
+              'baziZodiac': result.bazi.zodiacMatch.label,
+              'baziElement': result.bazi.elementCompatibility.label,
             }
           },
         ),
@@ -351,34 +357,86 @@ class _WetonCompatibilityScreenState
     );
   }
 
-  Widget _buildResultSection(WetonCompatibility result) {
+  Widget _buildResultSection(SynthesisCompatibility result) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _buildNeptuRow(result),
-        const SizedBox(height: 16),
-        _buildFaseHeader(result),
-        const SizedBox(height: 16),
-        _buildInfoCard(
-          icon: Icons.psychology_outlined,
-          title: 'Dinamika Psikologis',
-          body: result.dinamikaPsikologis,
-        ),
-        const SizedBox(height: 12),
-        _buildInfoCard(
-          icon: Icons.bolt_rounded,
-          title: 'Potensi Gesekan',
-          body: result.potensiGesekan,
-          iconColor: const Color(0xFFFF8C42),
-        ),
-        const SizedBox(height: 12),
-        _buildInfoCard(
-          icon: Icons.chat_bubble_outline_rounded,
-          title: 'Saran Komunikasi',
-          body: result.saranKomunikasi,
-          iconColor: const Color(0xFF4CAF95),
+        Row(
+          children: [
+            Expanded(
+              child: _buildTabButton(
+                title: 'Weton Jawa',
+                isActive: _activeTab == 0,
+                onTap: () => setState(() => _activeTab = 0),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildTabButton(
+                title: 'Ba Zi Tionghoa',
+                isActive: _activeTab == 1,
+                onTap: () => setState(() => _activeTab = 1),
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 20),
+        if (_activeTab == 0) ...[
+          _buildNeptuRow(result.weton),
+          const SizedBox(height: 16),
+          _buildFaseHeader(result.weton),
+          const SizedBox(height: 16),
+          _buildInfoCard(
+            icon: Icons.psychology_outlined,
+            title: 'Dinamika Psikologis',
+            body: result.weton.dinamikaPsikologis,
+          ),
+          const SizedBox(height: 12),
+          _buildInfoCard(
+            icon: Icons.bolt_rounded,
+            title: 'Potensi Gesekan',
+            body: result.weton.potensiGesekan,
+            iconColor: const Color(0xFFFF8C42),
+          ),
+          const SizedBox(height: 12),
+          _buildInfoCard(
+            icon: Icons.chat_bubble_outline_rounded,
+            title: 'Saran Komunikasi',
+            body: result.weton.saranKomunikasi,
+            iconColor: const Color(0xFF4CAF95),
+          ),
+        ] else ...[
+          _buildBaziScoreHeader(result.bazi),
+          const SizedBox(height: 16),
+          _buildBaziMatchCard(
+            title: 'Karakter Utama (Day Master)',
+            detail: result.bazi.dayMasterMatch,
+            icon: Icons.portrait_rounded,
+            iconColor: const Color(0xFF3B82F6),
+          ),
+          const SizedBox(height: 12),
+          _buildBaziMatchCard(
+            title: 'Istana Pasangan (Rumah Tangga)',
+            detail: result.bazi.spousePalaceMatch,
+            icon: Icons.home_rounded,
+            iconColor: const Color(0xFFFB923C),
+          ),
+          const SizedBox(height: 12),
+          _buildBaziMatchCard(
+            title: 'Zodiak Lahir (Sosial & Keluarga)',
+            detail: result.bazi.zodiacMatch,
+            icon: Icons.people_outline_rounded,
+            iconColor: const Color(0xFF10B981),
+          ),
+          const SizedBox(height: 12),
+          _buildBaziMatchCard(
+            title: 'Komplementer Elemen (Wu Xing)',
+            detail: result.bazi.elementCompatibility,
+            icon: Icons.grain_rounded,
+            iconColor: AppTheme.accentGold,
+          ),
+        ],
+        const SizedBox(height: 24),
         _buildAiOracleButton(result),
       ],
     );
@@ -529,7 +587,7 @@ class _WetonCompatibilityScreenState
     );
   }
 
-  Widget _buildAiOracleButton(WetonCompatibility result) {
+  Widget _buildAiOracleButton(SynthesisCompatibility result) {
     return OutlinedButton.icon(
       onPressed: () => _openAiOracle(result),
       style: OutlinedButton.styleFrom(
@@ -546,6 +604,149 @@ class _WetonCompatibilityScreenState
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
         ),
+      ),
+    );
+  }
+
+  Widget _buildTabButton({
+    required String title,
+    required bool isActive,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: GlassCard(
+        borderRadius: 12,
+        borderColor: isActive ? AppTheme.accentGold : Colors.white10,
+        borderWidth: isActive ? 1.2 : 0.8,
+        color: isActive
+            ? AppTheme.accentGold.withValues(alpha: 0.1)
+            : Colors.white.withValues(alpha: 0.02),
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Center(
+          child: Text(
+            title,
+            style: GoogleFonts.cinzel(
+              color: isActive ? AppTheme.accentGold : Colors.white60,
+              fontSize: 13,
+              fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBaziScoreHeader(BaziCompatibility bazi) {
+    return GlassCard(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Colors.purple.withValues(alpha: 0.12),
+          AppTheme.accentGold.withValues(alpha: 0.08),
+        ],
+      ),
+      borderColor: AppTheme.accentGold.withValues(alpha: 0.35),
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+      child: Column(
+        children: [
+          Text(
+            '${bazi.compatibilityScore}%',
+            style: GoogleFonts.playfairDisplay(
+              color: AppTheme.accentGold,
+              fontSize: 48,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Kecocokan Energi Ba Zi',
+            style: GoogleFonts.cinzel(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.5,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Berdasarkan interaksi Cabang Bumi, Batang Langit, dan keseimbangan elemen Wu Xing.',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.lato(
+              color: Colors.white54,
+              fontSize: 11,
+              height: 1.4,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBaziMatchCard({
+    required String title,
+    required BaziCompatibilityDetail detail,
+    required IconData icon,
+    required Color iconColor,
+  }) {
+    Color typeColor = Colors.white54;
+    IconData statusIcon = Icons.info_outline_rounded;
+    
+    if (detail.type == 'combination' || detail.type == 'harmony') {
+      typeColor = const Color(0xFF34D399); // Green
+      statusIcon = Icons.check_circle_outline_rounded;
+    } else if (detail.type == 'clash') {
+      typeColor = const Color(0xFFF87171); // Red
+      statusIcon = Icons.warning_amber_rounded;
+    }
+
+    return GlassCard(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(icon, color: iconColor, size: 18),
+                  const SizedBox(width: 8),
+                  Text(
+                    title,
+                    style: GoogleFonts.cinzel(
+                      color: Colors.white70,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
+              ),
+              Icon(statusIcon, color: typeColor, size: 16),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            detail.label,
+            style: GoogleFonts.lato(
+              color: typeColor,
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            detail.description,
+            style: GoogleFonts.lato(
+              color: Colors.white.withValues(alpha: 0.75),
+              fontSize: 13,
+              height: 1.5,
+            ),
+          ),
+        ],
       ),
     );
   }

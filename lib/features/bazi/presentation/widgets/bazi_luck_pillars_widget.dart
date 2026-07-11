@@ -36,6 +36,9 @@ class BaziLuckPillarsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final int age = _currentAge();
+    final int nextTransitionAge = pillars
+        .map((p) => p.startAge)
+        .firstWhere((ageVal) => ageVal > age, orElse: () => pillars.last.startAge);
 
     return GlassCard(
       padding: const EdgeInsets.all(16),
@@ -65,7 +68,7 @@ class BaziLuckPillarsWidget extends StatelessWidget {
           ]),
           const SizedBox(height: 4),
           Text(
-            'Mulai usia ${pillars.first.startAge} · Siklus 10 tahun · Usia sekarang $age',
+            'Siklus 10 Tahun (Da Yun) • Mulai usia ${pillars.first.startAge} • Transisi berikutnya: Usia $nextTransitionAge tahun',
             style: GoogleFonts.outfit(fontSize: 11, color: Colors.white38),
           ),
           const SizedBox(height: 14),

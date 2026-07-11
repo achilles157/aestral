@@ -110,6 +110,7 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
               final bool isWukuRawan = dayData['is_wuku_rawan'] as bool? ?? false;
               final bool isBaziClash = dayData['is_bazi_clash'] as bool? ?? false;
               final bool isBaziHarmony = dayData['is_bazi_harmony'] as bool? ?? false;
+              final bool isBaziYongShen = dayData['is_bazi_yong_shen'] as bool? ?? false;
 
               return InkWell(
                 onTap: () => onDayTapped(dayData),
@@ -181,7 +182,7 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
                           ),
                         ),
                       // Row of dots for multiple indicators
-                      if (isWukuRawan || isBaziClash || isBaziHarmony)
+                      if (isWukuRawan || isBaziClash || isBaziHarmony || isBaziYongShen)
                         Positioned(
                           bottom: 4,
                           left: 0,
@@ -217,6 +218,17 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
                                   decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Color(0xFF34D399), // Emerald Green for Ba Zi Harmony
+                                  ),
+                                ),
+                              ],
+                              if (isBaziYongShen) ...[
+                                if (isWukuRawan || isBaziClash || isBaziHarmony) const SizedBox(width: 4),
+                                Container(
+                                  width: dotRadius * 1.5,
+                                  height: dotRadius * 1.5,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color(0xFFFFD700), // Gold for Ba Zi Yong Shen
                                   ),
                                 ),
                               ],
@@ -262,6 +274,11 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
                 _buildLegendItem(
                   color: const Color(0xFF34D399),
                   label: 'Hari Harmoni (Ba Zi)',
+                  isDot: true,
+                ),
+                _buildLegendItem(
+                  color: const Color(0xFFFFD700),
+                  label: 'Hari Yong Shen (Ba Zi)',
                   isDot: true,
                 ),
               ],

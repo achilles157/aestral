@@ -576,7 +576,10 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                     child: IgnorePointer(
                       child: CustomPaint(
                         painter: CircadianRhythmWavePainter(
-                          slots: slots.map((s) => s['type'] as String).toList(),
+                          amplitudes: slots.map((s) {
+                            final bazi = s['data']['bazi_shi_chen'] as Map<String, dynamic>?;
+                            return (bazi?['amplitude'] as num?)?.toDouble() ?? (s['type'] == 'baik' ? 1.0 : -1.0);
+                          }).toList(),
                         ),
                       ),
                     ),
@@ -591,6 +594,11 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                       final range = data['range'] as String;
                       final label = data['label'] as String;
                       final rec = data['rekomendasi'] as String;
+
+                      final baziShiChen = data['bazi_shi_chen'] as Map<String, dynamic>?;
+                      final String? scZodiac = baziShiChen?['zodiac'] as String?;
+                      final String? scElement = baziShiChen?['element'] as String?;
+                      final String? scCondition = baziShiChen?['condition'] as String?;
 
                       final taskKey = 'planner_task_${dateStr}_${slot['type']}_${slot['index']}';
                       final isChecked = _checklists[taskKey] ?? false;
@@ -704,6 +712,53 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                                               color: Colors.white70,
                                             ),
                                           ),
+                                          if (baziShiChen != null) ...[
+                                            const SizedBox(height: 8),
+                                            Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.alarm_on_outlined,
+                                                  color: Colors.white30,
+                                                  size: 13,
+                                                ),
+                                                const SizedBox(width: 4),
+                                                Text(
+                                                  'Jam $scZodiac ($scElement)',
+                                                  style: GoogleFonts.outfit(
+                                                    fontSize: 11,
+                                                    color: Colors.white54,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 8),
+                                                Container(
+                                                  padding: const EdgeInsets.symmetric(
+                                                    horizontal: 6,
+                                                    vertical: 2,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    color: scCondition == 'Clash'
+                                                        ? Colors.redAccent.withValues(alpha: 0.15)
+                                                        : (scCondition == 'Netral'
+                                                            ? Colors.white12
+                                                            : AppTheme.accentGold.withValues(alpha: 0.15)),
+                                                    borderRadius: BorderRadius.circular(6),
+                                                  ),
+                                                  child: Text(
+                                                    scCondition ?? 'Netral',
+                                                    style: GoogleFonts.outfit(
+                                                      fontSize: 9,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: scCondition == 'Clash'
+                                                          ? Colors.redAccent
+                                                          : (scCondition == 'Netral'
+                                                              ? Colors.white60
+                                                              : AppTheme.accentGold),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ],
                                       ),
                                     ),

@@ -445,8 +445,24 @@ async function handleCalendarMonth(request: Request, env: Env): Promise<Response
 
 			const totalAmplitude = isBaik ? (1 + baziScore * 0.5) : (-1 + baziScore * 0.5);
 
+			let baziRecom = '';
+			if (isBaik) {
+				if (isHourClash) {
+					baziRecom = ' Peluang luar terbuka lebar, namun hindari kecerobohan fisik dan keputusan emosional.';
+				} else if (isHourHarmony || isHourYongShen) {
+					baziRecom = ' Sinergi energi kosmis sempurna! Rencana eksternal dan vitalitas internal Anda berada pada puncaknya.';
+				}
+			} else {
+				if (isHourClash) {
+					baziRecom = ' Kerawanan ganda. Prioritaskan keselamatan fisik dan batasi komunikasi sensitif hari ini.';
+				} else if (isHourHarmony || isHourYongShen) {
+					baziRecom = ' Meskipun energi sosial meredup, fokus dan daya analisa internal Anda sedang tajam untuk riset mandiri.';
+				}
+			}
+
 			return {
 				...item,
+				rekomendasi: item.rekomendasi + baziRecom,
 				bazi_shi_chen: {
 					zodiac: hZodiac,
 					element: hElement,

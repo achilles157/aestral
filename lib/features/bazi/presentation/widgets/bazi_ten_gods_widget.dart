@@ -9,14 +9,14 @@ import 'bazi_pillar_column.dart' show kBaziElementColors;
 /// Chinese name + short modern name for each Ten God.
 const Map<String, (String, String)> _kTenGodNames = {
   'friend':            ('比肩', 'Sahabat'),
-  'rob_wealth':        ('劫財', 'Kolaborator'),
+  'rob_wealth':        ('劫財', 'Penantang'),
   'eating_god':        ('食神', 'Pencipta'),
-  'hurting_officer':   ('傷官', 'Pembangkang'),
+  'hurting_officer':   ('傷官', 'Visioner'),
   'indirect_wealth':   ('偏財', 'Jaring'),
   'direct_wealth':     ('正財', 'Pembangun'),
   'seven_killings':    ('七殺', 'Pendobrak'),
   'direct_officer':    ('正官', 'Penjaga'),
-  'indirect_resource': ('偏印', 'Perenung'),
+  'indirect_resource': ('偏印', 'Filsuf'),
   'direct_resource':   ('正印', 'Pustaka'),
 };
 
