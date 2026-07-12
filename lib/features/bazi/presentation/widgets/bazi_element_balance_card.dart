@@ -6,6 +6,22 @@ import '../../domain/bazi_chart.dart';
 import 'bazi_pillar_column.dart';
 import 'bazi_wu_xing_radar.dart';
 
+const _kDominantDesc = {
+  'kayu':  'Kayu dominan: tendensi kuat untuk terus tumbuh dan berinovasi.',
+  'api':   'Api dominan: semangat dan kepemimpinan ekspresif yang menonjol.',
+  'tanah': 'Tanah dominan: stabilitas dan kemampuan memelihara yang kuat.',
+  'logam': 'Logam dominan: ketegasan dan presisi dalam mengambil keputusan.',
+  'air':   'Air dominan: intuisi yang dalam dan kemampuan beradaptasi tinggi.',
+};
+
+const _kDeficientDesc = {
+  'kayu':  'Fleksibilitas dan kreativitas adalah area untuk lebih diaktivasi.',
+  'api':   'Antusiasme dan semangat bisa lebih dikembangkan secara sadar.',
+  'tanah': 'Koneksi dengan hal-hal praktis dan fondasi perlu lebih diperhatikan.',
+  'logam': 'Disiplin dan struktur adalah area untuk terus ditingkatkan.',
+  'air':   'Kemampuan beradaptasi dan intuisi perlu lebih diasah.',
+};
+
 /// Wu Xing (五行) element balance — pentagon radar chart with dominant/deficient badges.
 class BaziElementBalanceCard extends StatelessWidget {
   final WuXingBalance balance;
@@ -69,6 +85,16 @@ class BaziElementBalanceCard extends StatelessWidget {
                   .withValues(alpha: 0.55),
             ),
           ]),
+          const SizedBox(height: 10),
+          Text(
+            '${_kDominantDesc[balance.dominant] ?? ''} ${_kDeficientDesc[balance.deficient] ?? ''}',
+            style: GoogleFonts.outfit(
+              fontSize: 11,
+              color: Colors.white38,
+              fontStyle: FontStyle.italic,
+              height: 1.4,
+            ),
+          ),
         ],
       ),
     );

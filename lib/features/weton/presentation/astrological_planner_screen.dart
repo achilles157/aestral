@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/providers/birth_profile_provider.dart';
+import '../../../core/utils/weton_utils.dart';
 import '../../auth/services/auth_service.dart';
 import '../../../core/services/api_service.dart';
 import 'widgets/seasonal_banner.dart';
@@ -69,7 +70,7 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
     } catch (e) {
       if (mounted) {
         setState(() {
-          _errorMessage = 'Gagal memuat profil atau kalender: $e';
+          _errorMessage = 'Gagal memuat profil. Pastikan profilmu sudah dilengkapi dan internet tersambung.';
           _isLoadingCalendar = false;
         });
       }
@@ -464,6 +465,12 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
                         calendarData: _calendarData!,
                         currentMonth: _currentMonth,
                         onDayTapped: _showDayDetailSheet,
+                        birthWetonStr: _birthDate != null
+                            ? () {
+                                final w = WetonUtils.calculateWeton(_birthDate!);
+                                return '${w.saptawara} ${w.pancawara}';
+                              }()
+                            : null,
                       ),
                       const SizedBox(height: 24),
                     ],

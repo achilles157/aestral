@@ -132,7 +132,7 @@ class BaziStrengthCard extends StatelessWidget {
 
           // ── Yong Shen 用神 ───────────────────────────────────────────────
           _sectionLabel('用神 · Elemen Menguntungkan', Colors.greenAccent.shade400),
-          const SizedBox(height: 8),
+          _helpText('Elemen yang memperkuat dan menyeimbangkan Day Master-mu. Aktivasi melalui warna, profesi, atau lingkungan membantu membawa chart ke keseimbangan optimal.'),
           Wrap(
             spacing: 6, runSpacing: 6,
             children: yongShen.map((el) => _elChip(el, favorable: true)).toList(),
@@ -141,7 +141,7 @@ class BaziStrengthCard extends StatelessWidget {
 
           // ── Ji Shen 忌神 ────────────────────────────────────────────────
           _sectionLabel('忌神 · Elemen Kurang Menguntungkan', Colors.redAccent.shade200),
-          const SizedBox(height: 8),
+          _helpText('Elemen yang memperberat ketidakseimbangan dalam chartmu. Bukan harus dihindari total — tapi perlu dikelola dengan lebih sadar.'),
           Wrap(
             spacing: 6, runSpacing: 6,
             children: jiShen.map((el) => _elChip(el, favorable: false)).toList(),
@@ -150,7 +150,7 @@ class BaziStrengthCard extends StatelessWidget {
 
           // ── Nobleman 貴人 ────────────────────────────────────────────────
           _sectionLabel('天乙貴人 · Nobleman Star', AppTheme.accentGold),
-          const SizedBox(height: 8),
+          _helpText('Bintang Penolong Kosmis — zodiak yang menandakan tipe figur pelindung, mentor, atau koneksi tak terduga yang hadir di saat-saat kritis hidupmu. Jika muncul di chart natal, pengaruhnya kuat sepanjang hidup.'),
           Row(
             children: noblemen.map((branchIdx) {
               final inChart = presentBranches.contains(branchIdx);
@@ -223,6 +223,19 @@ class BaziStrengthCard extends StatelessWidget {
           color: color,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.8,
+        ),
+      );
+
+  Widget _helpText(String text) => Padding(
+        padding: const EdgeInsets.only(top: 4, bottom: 8),
+        child: Text(
+          text,
+          style: GoogleFonts.outfit(
+            fontSize: 11,
+            color: AppTheme.textMuted.withValues(alpha: 0.75),
+            fontStyle: FontStyle.italic,
+            height: 1.4,
+          ),
         ),
       );
 

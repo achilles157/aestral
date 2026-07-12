@@ -9,11 +9,16 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
   final DateTime currentMonth;
   final ValueChanged<Map<String, dynamic>> onDayTapped;
 
+  /// Format "Saptawara Pancawara" (e.g. "Senin Pon") — untuk highlight Hari Weton.
+  /// Null jika birth date tidak tersedia.
+  final String? birthWetonStr;
+
   const AstrologicalPlannerCalendarGrid({
     super.key,
     required this.calendarData,
     required this.currentMonth,
     required this.onDayTapped,
+    this.birthWetonStr,
   });
 
   Color _getPancasudaColor(String vibe) {
@@ -98,6 +103,7 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
               final date = DateTime.parse(dayData['date'] as String);
               final wetonStr = dayData['weton_hari_ini'] as String;
                final pasaran = wetonStr.split(' ').last;
+              final bool isHariWeton = birthWetonStr != null && wetonStr == birthWetonStr;
               
               final pancasuda = dayData['pancasuda'] as Map<String, dynamic>;
               final vibe = pancasuda['vibe_warna'] as String;
@@ -117,17 +123,21 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 child: GlassCard(
                   borderRadius: 12,
-                  borderColor: isToday
-                      ? AppTheme.accentPurple.withValues(alpha: 0.6)
-                      : isMangsaRawan
-                          ? AppTheme.accentGold.withValues(alpha: 0.55)
-                          : Colors.white.withValues(alpha: 0.08),
-                  borderWidth: isToday ? 1.5 : (isMangsaRawan ? 1.2 : 0.8),
-                  color: isToday
-                      ? AppTheme.accentPurple.withValues(alpha: 0.12)
-                      : isMangsaRawan
-                          ? AppTheme.accentGold.withValues(alpha: 0.09)
-                          : Colors.white.withValues(alpha: 0.03),
+                  borderColor: isHariWeton
+                      ? AppTheme.accentGold.withValues(alpha: 0.80)
+                      : isToday
+                          ? AppTheme.accentPurple.withValues(alpha: 0.6)
+                          : isMangsaRawan
+                              ? AppTheme.accentGold.withValues(alpha: 0.55)
+                              : Colors.white.withValues(alpha: 0.08),
+                  borderWidth: isHariWeton ? 1.8 : isToday ? 1.5 : (isMangsaRawan ? 1.2 : 0.8),
+                  color: isHariWeton
+                      ? AppTheme.accentGold.withValues(alpha: 0.13)
+                      : isToday
+                          ? AppTheme.accentPurple.withValues(alpha: 0.12)
+                          : isMangsaRawan
+                              ? AppTheme.accentGold.withValues(alpha: 0.09)
+                              : Colors.white.withValues(alpha: 0.03),
                   child: Stack(
                     children: [
                       Positioned.fill(
@@ -179,6 +189,16 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
                           child: CircleAvatar(
                             radius: dotRadius,
                             backgroundColor: const Color(0xFFF87171),
+                          ),
+                        ),
+                      // Hari Weton indicator — gold sparkle dot in top-left corner
+                      if (isHariWeton)
+                        Positioned(
+                          top: 4,
+                          left: 4,
+                          child: CircleAvatar(
+                            radius: dotRadius,
+                            backgroundColor: AppTheme.accentGold,
                           ),
                         ),
                       // Row of dots for multiple indicators

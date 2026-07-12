@@ -69,6 +69,16 @@ class BaziTenGodsWidget extends StatelessWidget {
                   style: GoogleFonts.outfit(
                       fontSize: 10, color: Colors.white24)),
           ]),
+          const SizedBox(height: 6),
+          Text(
+            'Posisi menentukan ekspresi — Ten God yang sama berarti berbeda di Tahun (sosial & leluhur), Bulan (karier & ambisi), atau Jam (pikiran batin & warisan).',
+            style: GoogleFonts.outfit(
+              fontSize: 10,
+              color: Colors.white38,
+              fontStyle: FontStyle.italic,
+              height: 1.4,
+            ),
+          ),
           const SizedBox(height: 12),
           Row(
             children: columns.map((col) {

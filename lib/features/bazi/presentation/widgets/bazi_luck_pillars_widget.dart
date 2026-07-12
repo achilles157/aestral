@@ -71,6 +71,28 @@ class BaziLuckPillarsWidget extends StatelessWidget {
             'Siklus 10 Tahun (Da Yun) • Mulai usia ${pillars.first.startAge} • Transisi berikutnya: Usia $nextTransitionAge tahun',
             style: GoogleFonts.outfit(fontSize: 11, color: Colors.white38),
           ),
+          const SizedBox(height: 4),
+          Text(
+            isForward
+                ? '顺运 — Da Yun berjalan maju sesuai kalender. Energi terbuka secara progresif dari dekade ke dekade.'
+                : '逆运 — Da Yun berjalan mundur melawan kalender. Perkembangan cenderung tidak konvensional; sering lebih kuat di paruh kedua tiap dekade.',
+            style: GoogleFonts.outfit(
+              fontSize: 11,
+              color: elementColor.withValues(alpha: 0.7),
+              fontStyle: FontStyle.italic,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            '5 tahun pertama tiap Da Yun dipengaruhi Heavenly Stem (ambisi & sosial) · 5 tahun terakhir dipengaruhi Earthly Branch (fondasi & kondisi internal).',
+            style: GoogleFonts.outfit(
+              fontSize: 10,
+              color: Colors.white38,
+              fontStyle: FontStyle.italic,
+              height: 1.4,
+            ),
+          ),
           const SizedBox(height: 14),
 
           // ── Pillar cards ────────────────────────────────────────────────

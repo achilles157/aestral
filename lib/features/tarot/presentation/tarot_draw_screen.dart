@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../services/tarot_data.dart';
 import '../models/tarot_card.dart';
@@ -23,6 +24,9 @@ import 'widgets/tarot_oracle_panel.dart';
 import 'widgets/tarot_draw_type_toggle.dart';
 import 'widgets/tarot_carousel_section.dart';
 import '../../ai/presentation/oracle_chat_screen.dart';
+import '../../history/models/reading_entry.dart';
+import '../../history/services/reading_history_service.dart';
+import '../../../core/services/analytics_service.dart';
 
 class TarotDrawScreen extends ConsumerStatefulWidget {
   const TarotDrawScreen({super.key});
@@ -152,6 +156,29 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
       }).toList();
 
       ref.read(drawnCardProvider.notifier).setCards(drawnCardsList);
+      // Save to reading history (fire-and-forget)
+      ReadingHistoryService.save(ReadingEntry(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        type: 'tarot',
+        title: drawnCardsList.map((c) => c.card.nameId).join(' · '),
+        subtitle: session.isMock || _selectedDrawType == 'birth'
+            ? 'Tarot Lahir'
+            : 'Tarot Kosmis',
+        timestamp: DateTime.now(),
+        accentColor: 0xFFBA68C8,
+      )).catchError((_) {});
+      AnalyticsService.logTarotDrawn(
+        session.isMock || _selectedDrawType == 'birth' ? 'birth' : 'mangsa',
+      ).catchError((_) {});
+      // Save to Firestore for logged-in users (cross-device history)
+      if (!session.isMock) {
+        _saveToFirestore(
+          uid: session.uid,
+          drawnCards: drawnCardsList,
+          drawType: _selectedDrawType,
+          birthDate: birthDateStr,
+        ).catchError((_) {});
+      }
       setState(() => _isLoading = false);
     } catch (e) {
       debugPrint('Error calling backend, falling back to local draw: $e');
@@ -325,6 +352,34 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen> with TickerPr
         ],
     );
   }
+  /// Simpan draw tarot ke Firestore subcollection tarot_history.
+  /// Fire-and-forget — non-fatal jika Firestore tidak tersedia.
+  Future<void> _saveToFirestore({
+    required String uid,
+    required List<DrawnCardInfo> drawnCards,
+    required String drawType,
+    required String birthDate,
+  }) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('tarot_history')
+        .add({
+      'cards': drawnCards
+          .map((c) => {
+                'nameId': c.card.nameId,
+                'isReversed': c.isReversed,
+                'label': c.label,
+                'archetypeId': c.card.archetypeId,
+                'elementalId': c.card.elementalId,
+              })
+          .toList(),
+      'drawType': drawType,
+      'drawnAt': FieldValue.serverTimestamp(),
+      'birthDate': birthDate,
+    });
+  }
+
   Widget _buildOracleSection(List<DrawnCardInfo> drawnCards) {
     if (_oracleReading != null) {
       return Column(

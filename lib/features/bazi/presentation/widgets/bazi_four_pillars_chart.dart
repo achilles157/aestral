@@ -61,6 +61,7 @@ class BaziFourPillarsChart extends StatelessWidget {
                 child: BaziPillarColumn(
                   label: 'TAHUN',
                   pillar: chart.yearPillar,
+                  dayMasterStemIndex: chart.dayPillar.stemIndex,
                 ),
               ),
               const SizedBox(width: 8),
@@ -68,6 +69,7 @@ class BaziFourPillarsChart extends StatelessWidget {
                 child: BaziPillarColumn(
                   label: 'BULAN',
                   pillar: chart.monthPillar,
+                  dayMasterStemIndex: chart.dayPillar.stemIndex,
                 ),
               ),
               const SizedBox(width: 8),
@@ -76,6 +78,7 @@ class BaziFourPillarsChart extends StatelessWidget {
                   label: 'HARI',
                   pillar: chart.dayPillar,
                   isHighlighted: true,
+                  dayMasterStemIndex: chart.dayPillar.stemIndex,
                 ),
               ),
               const SizedBox(width: 8),
@@ -83,9 +86,36 @@ class BaziFourPillarsChart extends StatelessWidget {
                 child: BaziPillarColumn(
                   label: 'JAM',
                   pillar: chart.hourPillar,
+                  dayMasterStemIndex: chart.dayPillar.stemIndex,
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 8),
+
+          // Domain labels per pillar
+          Row(
+            children: [
+              _domainLabel('Sosial\n& Leluhur'),
+              const SizedBox(width: 8),
+              _domainLabel('Karier\n& Ambisi'),
+              const SizedBox(width: 8),
+              _domainLabel('Diri\n& Pasangan'),
+              const SizedBox(width: 8),
+              _domainLabel('Warisan\n& Bawah Sadar'),
+            ],
+          ),
+          const SizedBox(height: 10),
+
+          // Cang Gan note
+          Text(
+            '藏干 (Hidden Stems) — elemen tersembunyi di dalam setiap zodiak, mewakili motivasi dan karakter laten yang beroperasi di bawah permukaan.',
+            style: GoogleFonts.outfit(
+              fontSize: 10,
+              color: Colors.white38,
+              fontStyle: FontStyle.italic,
+              height: 1.4,
+            ),
           ),
 
           // TST note
@@ -123,4 +153,16 @@ class BaziFourPillarsChart extends StatelessWidget {
       ),
     );
   }
+
+  Widget _domainLabel(String text) => Expanded(
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.outfit(
+            fontSize: 9,
+            color: Colors.white30,
+            height: 1.4,
+          ),
+        ),
+      );
 }

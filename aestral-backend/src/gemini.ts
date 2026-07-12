@@ -87,7 +87,7 @@ export async function callGemini(
 		const errorText = await response.text();
 		console.error(`[Gemini] HTTP ${response.status}:`, errorText); // internal log
 		throw new Error(response.status === 429
-			? 'Layanan AI sedang sibuk. Coba lagi dalam beberapa menit.'
+			? 'GEMINI_QUOTA:Bintang-bintang sedang beristirahat. Oracle akan kembali besok.'
 			: 'Layanan AI sedang tidak tersedia. Coba lagi nanti.');
 	}
 
@@ -177,7 +177,7 @@ export async function callGeminiStructured(
 		const errorText = await response.text();
 		console.error(`[Gemini] HTTP ${response.status}:`, errorText);
 		throw new Error(response.status === 429
-			? 'Layanan AI sedang sibuk. Coba lagi dalam beberapa menit.'
+			? 'GEMINI_QUOTA:Bintang-bintang sedang beristirahat. Oracle akan kembali besok.'
 			: 'Layanan AI sedang tidak tersedia. Coba lagi nanti.');
 	}
 
@@ -204,4 +204,47 @@ export async function callGeminiStructured(
 		// Fallback: wrap raw text if JSON parse fails
 		return { message: text, card: null };
 	}
+}
+
+const GEMMA_SUMMARY_MODEL = 'gemma-4-12b-it';
+
+/**
+ * Menggunakan Gemma (quota terpisah dari Gemini) untuk generate
+ * ringkasan 2-3 kalimat dari riwayat percakapan oracle.
+ * Non-fatal — caller harus handle error secara graceful.
+ */
+export async function callGemmaForSummary(
+	messages: Array<{ role: string; text: string }>,
+	oracleName: string,
+	apiKey: string,
+): Promise<string> {
+	const conversation = messages
+		.map((m) => `${m.role === 'user' ? 'User' : oracleName}: ${m.text}`)
+		.join('\n\n');
+
+	const prompt =
+		`Berikut adalah percakapan antara user dan oracle spiritual bernama ${oracleName}.\n\n` +
+		`Ringkas percakapan ini dalam 2-3 kalimat bahasa Indonesia yang mencakup:\n` +
+		`1. Topik atau keresahan utama yang dibahas\n` +
+		`2. Kondisi emosional user yang terdeteksi\n` +
+		`3. Pesan atau saran terpenting dari oracle\n\n` +
+		`Percakapan:\n${conversation}\n\nRingkasan (2-3 kalimat):`;
+
+	const url = `${GEMINI_BASE_URL}/${GEMMA_SUMMARY_MODEL}:generateContent?key=${apiKey}`;
+
+	const response = await fetch(url, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			contents: [{ role: 'user', parts: [{ text: prompt }] }],
+			generationConfig: { maxOutputTokens: 200, temperature: 0.3 },
+		}),
+	});
+
+	if (!response.ok) {
+		throw new Error(`Gemma API ${response.status}`);
+	}
+
+	const data = (await response.json()) as GeminiResponse;
+	return data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ?? '';
 }

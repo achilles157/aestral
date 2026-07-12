@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/chat_message.dart';
 import '../../../core/services/api_service.dart';
+import '../../../core/services/analytics_service.dart';
 
 // ── Konfigurasi per Oracle Type ─────────────────────────────────────────────
 
@@ -101,6 +102,7 @@ class OracleChatState {
   final bool isFirstOpen;
   final int daysSinceLastOpen;
   final String? lastTopic;
+  final String? lastSessionSummary;
   /// Jumlah exchange non-silent yang sudah selesai. Gate tamu muncul saat >= 1.
   final int guestMessageCount;
 
@@ -114,6 +116,7 @@ class OracleChatState {
     this.isFirstOpen = true,
     this.daysSinceLastOpen = 0,
     this.lastTopic,
+    this.lastSessionSummary,
     this.guestMessageCount = 0,
   });
 
@@ -128,6 +131,7 @@ class OracleChatState {
     bool? isFirstOpen,
     int? daysSinceLastOpen,
     String? lastTopic,
+    String? lastSessionSummary,
     int? guestMessageCount,
   }) {
     return OracleChatState(
@@ -140,6 +144,7 @@ class OracleChatState {
       isFirstOpen: isFirstOpen ?? this.isFirstOpen,
       daysSinceLastOpen: daysSinceLastOpen ?? this.daysSinceLastOpen,
       lastTopic: lastTopic ?? this.lastTopic,
+      lastSessionSummary: lastSessionSummary ?? this.lastSessionSummary,
       guestMessageCount: guestMessageCount ?? this.guestMessageCount,
     );
   }
@@ -167,6 +172,7 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
   String get _tsKey => 'oracle_${oracleType}_lastOpenTimestamp';
   String get _topicKey => 'oracle_${oracleType}_lastTopic';
   String get _pillsKey => 'oracle_${oracleType}_usedPills';
+  String get _summaryKey => 'oracle_${oracleType}_session_summary';
 
   /// Pill 1 selalu kontekstual berdasarkan data oracle yang tersedia (logic lokal, tanpa LLM).
   String? _buildContextualPill(Map<String, dynamic>? aiContext) {
@@ -245,11 +251,16 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
 
     // Update last open timestamp
     await prefs.setInt(_tsKey, now.millisecondsSinceEpoch);
+    AnalyticsService.logOracleSessionStarted(oracleType).catchError((_) {});
+
+    // Load session summary dari sesi sebelumnya
+    final lastSummary = prefs.getString(_summaryKey);
 
     state = state.copyWith(
       isFirstOpen: isFirstOpen,
       daysSinceLastOpen: daysSince,
       lastTopic: lastTopic,
+      lastSessionSummary: lastSummary,
       availablePills: pills,
     );
   }
@@ -293,6 +304,7 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
         isFirstOpen: state.isFirstOpen,
         daysSinceLastOpen: state.daysSinceLastOpen,
         lastTopic: state.lastTopic,
+        lastSessionSummary: state.lastSessionSummary,
         context: context,
       );
 
@@ -328,6 +340,7 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
         // Increment hanya untuk exchange non-silent (bukan greeting otomatis)
         guestMessageCount: isSilent ? state.guestMessageCount : state.guestMessageCount + 1,
       );
+      if (!isSilent) AnalyticsService.logOracleMessageSent(oracleType).catchError((_) {});
     } catch (e) {
       final errStr = e.toString();
       String userMsg2;
@@ -338,6 +351,8 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
         isRateLimit = true;
         rateLimitSec = int.tryParse(errStr.split('RATE_LIMIT:').last) ?? 60;
         userMsg2 = 'Oracle sedang bermeditasi. Coba lagi dalam $rateLimitSec detik.';
+      } else if (errStr.contains('GEMINI_QUOTA:')) {
+        userMsg2 = 'Bintang-bintang sudah terlalu banyak berbicara hari ini. Oracle akan kembali besok.';
       } else {
         userMsg2 = 'Koneksi ke dunia kosmis terputus. Oracle akan kembali segera.';
       }
@@ -388,6 +403,32 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
   Future<void> _saveLastTopic(String topic) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_topicKey, topic);
+  }
+
+  /// Generate dan simpan ringkasan sesi oracle menggunakan Gemma.
+  /// Dipanggil saat user keluar dari layar oracle — fire-and-forget.
+  Future<void> summarizeSession(String authHeader) async {
+    final msgs = state.messages
+        .where((m) => m.role == 'user' || m.role == 'model')
+        .toList();
+    if (msgs.length < 4) return; // Terlalu pendek untuk disimpan
+
+    try {
+      final messages = msgs
+          .map((m) => {'role': m.role, 'text': m.text})
+          .toList();
+      final summary = await ApiService.summarizeOracleSession(
+        oracleType: oracleType,
+        messages: messages,
+        authHeader: authHeader,
+      );
+      if (summary.isNotEmpty) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString(_summaryKey, summary);
+      }
+    } catch (e) {
+      debugPrint('OracleChatNotifier: summarizeSession error (non-fatal): $e');
+    }
   }
 
   void clearError() => state = state.copyWith(clearError: true);

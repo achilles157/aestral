@@ -187,6 +187,7 @@ class ApiService {
     bool isFirstOpen = false,
     int daysSinceLastOpen = 0,
     String? lastTopic,
+    String? lastSessionSummary,
     Map<String, dynamic>? context,
   }) async {
     final url = Uri.parse('$baseUrl/api/oracle/chat');
@@ -206,6 +207,8 @@ class ApiService {
               'isFirstOpen': isFirstOpen,
               'daysSinceLastOpen': daysSinceLastOpen,
               if (lastTopic != null) 'lastTopic': lastTopic,
+              if (lastSessionSummary != null && lastSessionSummary.isNotEmpty)
+                'lastSessionSummary': lastSessionSummary,
               if (context != null) 'context': context,
             }),
           )
@@ -214,6 +217,13 @@ class ApiService {
       if (response.statusCode == 429) {
         final data = json.decode(response.body);
         throw Exception('RATE_LIMIT:${data['retryAfterSeconds'] ?? 60}');
+      }
+      if (response.statusCode == 503) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+        if (data['code'] == 'gemini_quota') {
+          throw Exception('GEMINI_QUOTA:${data['error'] ?? ''}');
+        }
+        throw Exception(data['error'] ?? 'Layanan tidak tersedia saat ini.');
       }
       if (response.statusCode != 200) {
         throw Exception('Status ${response.statusCode}: ${response.body}');
@@ -224,6 +234,27 @@ class ApiService {
     } catch (e) {
       debugPrint('ApiService.sendOracleChat error: $e');
       rethrow;
+    }
+  }
+
+  /// Generate ringkasan sesi oracle menggunakan Gemma (quota terpisah).
+  /// Selalu return String — kosong jika gagal, tidak pernah throw.
+  static Future<String> summarizeOracleSession({
+    required String oracleType,
+    required List<Map<String, dynamic>> messages,
+    required String authHeader,
+  }) async {
+    try {
+      final result = await _post(
+        'api/oracle/summarize',
+        {'oracleType': oracleType, 'messages': messages},
+        authHeader: authHeader,
+        timeoutSeconds: 20,
+      );
+      return result['summary'] as String? ?? '';
+    } catch (e) {
+      debugPrint('ApiService.summarizeOracleSession error (non-fatal): $e');
+      return '';
     }
   }
 

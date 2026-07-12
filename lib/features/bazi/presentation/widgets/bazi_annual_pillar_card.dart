@@ -201,6 +201,11 @@ class BaziAnnualPillarCard extends StatelessWidget {
                 ),
               );
             }),
+            const SizedBox(height: 6),
+            _guidanceText(
+              'Tahun clash bukan tahun buruk — ini tahun bertekanan tinggi yang mendorong perubahan. Hindari keputusan besar yang terburu-buru, tapi jangan terlalu pasif.',
+              const Color(0xFFF87171),
+            ),
           ],
 
           // ── Harmonies with natal ────────────────────────────────────────
@@ -227,6 +232,11 @@ class BaziAnnualPillarCard extends StatelessWidget {
                 ),
               );
             }),
+            const SizedBox(height: 6),
+            _guidanceText(
+              'Tahun harmoni membawa arus yang mengalir lancar — waktu yang baik untuk membangun, berkolaborasi, dan memperluas.',
+              AppTheme.accentGold,
+            ),
           ],
 
           // ── No interaction ──────────────────────────────────────────────
@@ -246,6 +256,19 @@ class BaziAnnualPillarCard extends StatelessWidget {
       ),
     );
   }
+
+  Widget _guidanceText(String text, Color color) => Padding(
+        padding: const EdgeInsets.only(top: 2),
+        child: Text(
+          text,
+          style: GoogleFonts.outfit(
+            fontSize: 11,
+            color: color.withValues(alpha: 0.65),
+            fontStyle: FontStyle.italic,
+            height: 1.4,
+          ),
+        ),
+      );
 
   Widget _sectionLabel(String text, Color color) => Text(
         text,

@@ -17,6 +17,11 @@ import 'widgets/weton_oracle_button.dart';
 import 'widgets/weton_daily_section.dart';
 import 'weton_compatibility_screen.dart';
 import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
+import '../../history/models/reading_entry.dart';
+import '../../history/services/reading_history_service.dart';
+import '../../../core/services/analytics_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:share_plus/share_plus.dart';
 
 class WetonCalculatorScreen extends ConsumerStatefulWidget {
   const WetonCalculatorScreen({super.key});
@@ -108,6 +113,34 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
       _result = WetonUtils.calculateWeton(dob);
       _isLoadingDaily = true;
     });
+    // Save to reading history (fire-and-forget)
+    ReadingHistoryService.save(ReadingEntry(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      type: 'weton',
+      title: '${_result!.saptawara} ${_result!.pancawara}',
+      subtitle: 'Neptu ${_result!.totalNeptu} · Wuku ${_result!.wuku}',
+      timestamp: DateTime.now(),
+      accentColor: 0xFFD4AF37,
+    )).catchError((_) {});
+    AnalyticsService.logWetonCalculated(
+      '${_result!.saptawara} ${_result!.pancawara}',
+      _result!.totalNeptu,
+    ).catchError((_) {});
+    // Save to Firestore for logged-in users (cross-device history)
+    final wetonSession = ref.read(authProvider);
+    if (wetonSession != null && !wetonSession.isMock) {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(wetonSession.uid)
+          .collection('weton_history')
+          .add({
+        'wetonName': '${_result!.saptawara} ${_result!.pancawara}',
+        'neptu': _result!.totalNeptu,
+        'wuku': _result!.wuku,
+        'dobDate': '${dob.year}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}',
+        'calculatedAt': FieldValue.serverTimestamp(),
+      }).catchError((_) {});
+    }
 
     final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
 
@@ -241,6 +274,16 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
     }
   }
 
+  void _shareWetonResult() {
+    if (_result == null) return;
+    final wetonName = '${_result!.saptawara} ${_result!.pancawara}';
+    Share.share(
+      '\u2726 Weton kosmis saya: $wetonName\n'
+      'Neptu: ${_result!.totalNeptu} | Wuku: ${_result!.wuku}\n\n'
+      'Temukan wetonmu di Aestral:\naestral.web.app',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -324,7 +367,25 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                       ),
                                       const SizedBox(height: 20),
                                       WetonTechnicalCard(result: _result!),
-                                      const SizedBox(height: 28),
+                                      const SizedBox(height: 12),
+                                      Center(
+                                        child: TextButton.icon(
+                                          onPressed: _shareWetonResult,
+                                          icon: const Icon(
+                                              Icons.share_rounded,
+                                              size: 16,
+                                              color: AppTheme.accentGold),
+                                          label: Text(
+                                            'Bagikan Hasil Weton',
+                                            style: GoogleFonts.cinzel(
+                                              color: AppTheme.accentGold,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 16),
                                       if (entry != null) ...[
                                         WetonInsightSection(entry: entry),
                                         const SizedBox(height: 16),

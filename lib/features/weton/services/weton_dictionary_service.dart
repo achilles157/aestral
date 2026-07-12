@@ -189,6 +189,7 @@ class BaziCompatibilityDetail {
 class BaziCompatibility {
   final BaziCompatibilityDetail dayMasterMatch;
   final BaziCompatibilityDetail spousePalaceMatch;
+  final BaziCompatibilityDetail monthPillarMatch;
   final BaziCompatibilityDetail zodiacMatch;
   final BaziCompatibilityDetail elementCompatibility;
   final int compatibilityScore;
@@ -196,6 +197,7 @@ class BaziCompatibility {
   const BaziCompatibility({
     required this.dayMasterMatch,
     required this.spousePalaceMatch,
+    required this.monthPillarMatch,
     required this.zodiacMatch,
     required this.elementCompatibility,
     required this.compatibilityScore,
@@ -207,11 +209,19 @@ class BaziCompatibility {
           json['dayMasterMatch'] as Map<String, dynamic>),
       spousePalaceMatch: BaziCompatibilityDetail.fromJson(
           json['spousePalaceMatch'] as Map<String, dynamic>),
+      monthPillarMatch: json['monthPillarMatch'] != null
+          ? BaziCompatibilityDetail.fromJson(
+              json['monthPillarMatch'] as Map<String, dynamic>)
+          : const BaziCompatibilityDetail(
+              type: 'neutral',
+              label: 'Arah Hidup Mandiri',
+              description: 'Ambisi dan ritme karir berjalan di jalur masing-masing.',
+            ),
       zodiacMatch: BaziCompatibilityDetail.fromJson(
           json['zodiacMatch'] as Map<String, dynamic>),
       elementCompatibility: BaziCompatibilityDetail.fromJson(
           json['elementCompatibility'] as Map<String, dynamic>),
-      compatibilityScore: json['compatibilityScore'] as int? ?? 70,
+      compatibilityScore: json['compatibilityScore'] as int? ?? 60,
     );
   }
 }

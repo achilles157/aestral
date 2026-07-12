@@ -807,11 +807,16 @@ export function calculateBaziChart(
 
 export interface BaziCompatibilityResult {
 	dayMasterMatch: {
-		type: 'combination' | 'clash' | 'neutral';
+		type: 'combination' | 'clash' | 'neutral' | 'same_element';
 		label: string;
 		description: string;
 	};
 	spousePalaceMatch: {
+		type: 'harmony' | 'clash' | 'neutral';
+		label: string;
+		description: string;
+	};
+	monthPillarMatch: {
 		type: 'harmony' | 'clash' | 'neutral';
 		label: string;
 		description: string;
@@ -839,12 +844,14 @@ export function calculateBaziCompatibility(
 	const branch2 = chart2.dayPillar.branchIndex;
 	const yBranch1 = chart1.yearPillar.branchIndex;
 	const yBranch2 = chart2.yearPillar.branchIndex;
+	const mBranch1 = chart1.monthPillar.branchIndex;
+	const mBranch2 = chart2.monthPillar.branchIndex;
 
 	const yongShen1 = chart1.dmStrength.yongShen;
 	const yongShen2 = chart2.dmStrength.yongShen;
 
 	// 1. Day Master Match
-	let dmType: 'combination' | 'clash' | 'neutral' = 'neutral';
+	let dmType: 'combination' | 'clash' | 'neutral' | 'same_element' = 'neutral';
 	let dmLabel = 'Interaksi Netral (Saling Mendukung)';
 	let dmDesc = 'Karakter utama kalian tidak berbenturan langsung, melahirkan hubungan yang stabil dan minim drama.';
 
@@ -852,6 +859,7 @@ export function calculateBaziCompatibility(
 	const isDmCombo = dmCombos.some(([a, b]) => (stem1 === a && stem2 === b) || (stem1 === b && stem2 === a));
 	const dmClashes = [[0, 6], [1, 7], [2, 8], [3, 9]];
 	const isDmClash = dmClashes.some(([a, b]) => (stem1 === a && stem2 === b) || (stem1 === b && stem2 === a));
+	const isSameElement = !isDmCombo && !isDmClash && Math.floor(stem1 / 2) === Math.floor(stem2 / 2);
 
 	if (isDmCombo) {
 		dmType = 'combination';
@@ -861,6 +869,10 @@ export function calculateBaziCompatibility(
 		dmType = 'clash';
 		dmLabel = 'Dinamika Cermin (Tantangan Pertumbuhan)';
 		dmDesc = 'Terjadi benturan kutub energi Day Master. Hubungan kalian penuh dengan cerminan diri yang memicu pertumbuhan spiritual, meski kadang menimbulkan percikan argumen.';
+	} else if (isSameElement) {
+		dmType = 'same_element';
+		dmLabel = 'Cermin Energi (Sesama Elemen)';
+		dmDesc = 'Day Master kalian berdua berasal dari elemen yang sama. Hubungan ini penuh empati dan saling pengertian mendalam, namun rentan terhadap persaingan ego bawah sadar — karena kalian memandang dunia dengan cara yang terlalu mirip.';
 	}
 
 	// 2. Spouse Palace Match
@@ -904,7 +916,28 @@ export function calculateBaziCompatibility(
 		zDesc = 'Zodiak kalian berhadapan langsung. Perbedaan latar belakang atau cara pandang sosial sering memicu debat, yang memerlukan toleransi atas perbedaan.';
 	}
 
-	// 4. Wu Xing Complementarity
+	// 4. Month Pillar Match (Ambisi & Karir)
+	let mpType: 'harmony' | 'clash' | 'neutral' = 'neutral';
+	let mpLabel = 'Arah Hidup Mandiri';
+	let mpDesc = 'Ambisi dan ritme karir kalian berjalan di jalur masing-masing — bukan berarti tidak cocok, tapi lebih kepada dua individu yang mengejar pertumbuhan secara independen.';
+
+	const isMpCombo = branchCombos.some(([a, b]) => (mBranch1 === a && mBranch2 === b) || (mBranch1 === b && mBranch2 === a));
+	const isMpTriad = triads.some(
+		(triad) => triad.includes(mBranch1) && triad.includes(mBranch2) && mBranch1 !== mBranch2,
+	);
+	const isMpClash = Math.abs(mBranch1 - mBranch2) === 6;
+
+	if (isMpCombo || isMpTriad) {
+		mpType = 'harmony';
+		mpLabel = 'Visi Hidup Selaras';
+		mpDesc = 'Pilar Bulan kalian — cerminan ambisi dan arah karir — bersinergi harmonis. Kalian cenderung memiliki tujuan hidup yang saling mendukung dan mudah sepakat dalam keputusan besar bersama.';
+	} else if (isMpClash) {
+		mpType = 'clash';
+		mpLabel = 'Perbedaan Ambisi (Tantangan Arah)';
+		mpDesc = 'Arah karir dan ambisi hidup kalian bergerak di jalur yang berlawanan. Hubungan ini memerlukan negosiasi aktif agar masing-masing bisa tumbuh tanpa mengorbankan impian pasangannya.';
+	}
+
+	// 5. Wu Xing Complementarity
 	const getDominant = (chart: BaziChartResult) => {
 		let maxVal = -1;
 		let maxElem = 'kayu';
@@ -935,12 +968,15 @@ export function calculateBaziCompatibility(
 		compDesc = 'Salah satu pilar energi dari kalian mampu menyuplai elemen penting yang dibutuhkan pasangannya, memberikan rasa aman dan kenyamanan mental.';
 	}
 
-	// 5. Score Calculation
-	let score = 70; // Base score
-	if (dmType === 'combination') score += 10;
+	// 6. Score Calculation
+	let score = 60; // Base lebih konservatif — mencerminkan analisis terbatas (3 dari 8 pilar)
+	if (dmType === 'combination') score += 12;
 	if (dmType === 'clash') score -= 8;
+	if (dmType === 'same_element') score += 2;
 	if (spType === 'harmony') score += 15;
 	if (spType === 'clash') score -= 12;
+	if (mpType === 'harmony') score += 6;
+	if (mpType === 'clash') score -= 5;
 	if (zType === 'harmony') score += 8;
 	if (zType === 'clash') score -= 6;
 	if (p1HelpsP2 && p2HelpsP1) score += 12;
@@ -951,6 +987,7 @@ export function calculateBaziCompatibility(
 	return {
 		dayMasterMatch: { type: dmType, label: dmLabel, description: dmDesc },
 		spousePalaceMatch: { type: spType, label: spLabel, description: spDesc },
+		monthPillarMatch: { type: mpType, label: mpLabel, description: mpDesc },
 		zodiacMatch: { type: zType, label: zLabel, description: zDesc },
 		elementCompatibility: { type: isComplementary ? 'complementary' : 'non-complementary', label: compLabel, description: compDesc },
 		compatibilityScore: Math.round(score),

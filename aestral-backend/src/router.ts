@@ -2,7 +2,7 @@ import { parseAuthHeader, verifyFirebaseJwt, type AuthToken } from './auth';
 import { getDeterministicThreeCards, getMangsaDeterministicThreeCards, getWeeklyDeterministicThreeCards } from './tarot';
 import { getWetonInsight, getPranataMangsaId, getJamInsight, checkIsDinoWas, dateToJdn, calculateTotalNeptu } from './weton';
 import { calculateBaziChart, calculateLuckPillars, getDayPillar, STEM_ELEMENTS, BRANCH_ELEMENTS, calculateBaziCompatibility, type BaziChartResult } from './bazi';
-import { callGemini, callGeminiStructured } from './gemini';
+import { callGemini, callGeminiStructured, callGemmaForSummary } from './gemini';
 import { ORACLE_PERSONAS, buildOracleGreeting, type OracleType } from './oracle_prompts';
 import { buildSystemInstruction, type AiContext } from './system_prompt';
 import { isRateLimited, getRateLimitResetSeconds } from './rate_limiter';
@@ -157,6 +157,10 @@ async function dispatch(request: Request, env: Env): Promise<Response> {
 
 	if (method === 'POST' && pathname === '/api/oracle/chat') {
 		return handleOracleChat(request, env);
+	}
+
+	if (method === 'POST' && pathname === '/api/oracle/summarize') {
+		return handleOracleSummarize(request, env);
 	}
 
 	return json({ error: 'Not Found' }, 404);
@@ -1158,6 +1162,7 @@ interface OracleChatBody {
 	isFirstOpen?: boolean;
 	daysSinceLastOpen?: number;
 	lastTopic?: string;
+	lastSessionSummary?: string;
 	context?: {
 		wetonLahir?: AiContext['wetonLahir'];
 		wukuBerjalan?: AiContext['wukuBerjalan'];
@@ -1240,6 +1245,22 @@ async function handleOracleChat(request: Request, env: Env): Promise<Response> {
 	const apiKey = env.GEMINI_API_KEY;
 	if (!apiKey || apiKey === 'PLACEHOLDER_REPLACE_WITH_WRANGLER_SECRET') {
 		return json({ error: 'AI service belum dikonfigurasi' }, 503);
+	}
+
+	// Proactive daily quota guard — stop at 480/500 RPD to leave buffer
+	try {
+		const today = new Date().toISOString().slice(0, 10);
+		const countKey = `gemini_daily_${today}`;
+		const currentCount = parseInt((await env.RATE_LIMIT_KV.get(countKey)) ?? '0');
+		if (currentCount >= 480) {
+			return json({
+				error: 'Bintang-bintang sudah terlalu banyak berbicara hari ini. Oracle akan kembali besok.',
+				code: 'gemini_quota',
+			}, 503);
+		}
+		await env.RATE_LIMIT_KV.put(countKey, String(currentCount + 1), { expirationTtl: 172800 });
+	} catch (kvErr) {
+		console.warn('[Oracle] KV counter error (non-fatal):', kvErr);
 	}
 
 	const persona = ORACLE_PERSONAS[oracleType];
@@ -1332,6 +1353,13 @@ async function handleOracleChat(request: Request, env: Env): Promise<Response> {
 	);
 	contextSections.push(greetingInstruction);
 
+	// Inject memori sesi sebelumnya jika ada
+	if (body.lastSessionSummary && body.lastSessionSummary.trim()) {
+		contextSections.push(
+			`MEMORI SESI SEBELUMNYA:\n${sanitizeCtx(body.lastSessionSummary, 500) ?? ''}`,
+		);
+	}
+
 	const systemInstruction = contextSections.join('\n\n---\n\n');
 
 		// Build chat history (max 10 turns = 20 messages: 19 history + 1 current)
@@ -1349,6 +1377,51 @@ async function handleOracleChat(request: Request, env: Env): Promise<Response> {
 		return json({ success: true, ...result });
 	} catch (err) {
 		const message = err instanceof Error ? err.message : 'Terjadi kesalahan pada oracle kosmis.';
+		if (message.startsWith('GEMINI_QUOTA:')) {
+			return json({ error: message.replace('GEMINI_QUOTA:', ''), code: 'gemini_quota' }, 503);
+		}
 		return json({ error: message }, 500);
+	}
+}
+
+// --- Oracle Summarize Handler ---
+
+interface OracleSummarizeBody {
+	oracleType?: string;
+	messages?: Array<{ role: string; text: string }>;
+}
+
+async function handleOracleSummarize(request: Request, env: Env): Promise<Response> {
+	const authResult = await requireAuth(request.headers.get('Authorization'), env);
+	if (authResult instanceof Response) return authResult;
+
+	let body: OracleSummarizeBody;
+	try {
+		body = (await request.json()) as OracleSummarizeBody;
+	} catch {
+		return json({ error: 'Invalid JSON body' }, 400);
+	}
+
+	const messages = body.messages ?? [];
+	if (messages.length < 4) {
+		// Percakapan terlalu pendek untuk disimpan sebagai memori
+		return json({ success: true, summary: '' });
+	}
+
+	const oracleType = (body.oracleType as OracleType) ?? 'weton';
+	const persona = ORACLE_PERSONAS[oracleType];
+
+	const apiKey = env.GEMINI_API_KEY;
+	if (!apiKey || apiKey === 'PLACEHOLDER_REPLACE_WITH_WRANGLER_SECRET') {
+		return json({ error: 'AI service belum dikonfigurasi' }, 503);
+	}
+
+	try {
+		const summary = await callGemmaForSummary(messages, persona.name, apiKey);
+		return json({ success: true, summary });
+	} catch (err) {
+		// Non-fatal — kembalikan summary kosong agar client tidak crash
+		console.warn('[Oracle Summarize] Gemma error (non-fatal):', err);
+		return json({ success: true, summary: '' });
 	}
 }

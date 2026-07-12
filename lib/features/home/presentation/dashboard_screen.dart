@@ -20,6 +20,9 @@ import '../../../core/services/api_service.dart';
 import '../../../core/providers/shell_providers.dart';
 import '../../../core/widgets/glass_card.dart';
 import '../../../core/utils/weton_utils.dart';
+import '../../history/presentation/history_screen.dart';
+import '../../hari_baik/presentation/hari_baik_screen.dart';
+import '../../profiles/presentation/saved_profiles_screen.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -33,6 +36,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   // Cached wuku urgency — computed once in initState, not on every build.
   String? _todayWuku;
   int _wukuDaysLeft = 7;
+  bool _isHariWeton = false;
+  String _hariWetonName = '';
 
   @override
   void initState() {
@@ -62,8 +67,20 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     if (profile.dobDate == null) {
       showEditProfileDialog(context, ref, _allCities);
     } else {
+      _checkHariWeton(profile.dobDate!);
       _checkMorningForecast(profile.dobDate!);
     }
+  }
+
+  void _checkHariWeton(DateTime dob) {
+    final birthWeton = WetonUtils.calculateWeton(dob);
+    final todayWeton = WetonUtils.calculateWeton(DateTime.now());
+    if (!mounted) return;
+    setState(() {
+      _isHariWeton = birthWeton.saptawara == todayWeton.saptawara &&
+          birthWeton.pancawara == todayWeton.pancawara;
+      _hariWetonName = '${birthWeton.saptawara} ${birthWeton.pancawara}';
+    });
   }
 
   Future<void> _checkMorningForecast(DateTime dob) async {
@@ -413,6 +430,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           onEditTap: () =>
               showEditProfileDialog(context, ref, _allCities),
         ),
+        if (_isHariWeton) ...[
+          const SizedBox(height: 12),
+          _buildHariWetonBanner(),
+        ],
         if (session == null || session.isMock) ...[
           const SizedBox(height: 12),
           const DashboardGuestUpsellCard(),
@@ -427,6 +448,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         const SizedBox(height: 20),
         const DashboardQuickNavGrid(
             crossAxisCount: 2, childAspectRatio: 1.6),
+        if (hasProfile) ...[
+          const SizedBox(height: 12),
+          _buildHariBaikCard(),
+        ],
+        const SizedBox(height: 12),
+        _buildHistoryButton(),
+        const SizedBox(height: 8),
+        _buildProfilesButton(),
         const SizedBox(height: 16),
         DashboardSesepuhCard(hasProfile: hasProfile),
         const SizedBox(height: 24),
@@ -461,6 +490,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 ],
                 _buildWukuUrgencyBanner(),
               ],
+              if (hasProfile) ...[
+                const SizedBox(height: 12),
+                _buildHariBaikCard(),
+              ],
+              const SizedBox(height: 12),
+              _buildHistoryButton(),
+              const SizedBox(height: 8),
+              _buildProfilesButton(),
               const SizedBox(height: 16),
               DashboardSesepuhCard(hasProfile: hasProfile),
               const SizedBox(height: 24),
@@ -545,6 +582,190 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 color: const Color(0xFFD4AF37).withValues(alpha: 0.85),
                 height: 1.4,
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHariBaikCard() {
+    return GestureDetector(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const HariBaikScreen()),
+      ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              AppTheme.accentGold.withValues(alpha: 0.12),
+              const Color(0xFF9C27B0).withValues(alpha: 0.06),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+              color: AppTheme.accentGold.withValues(alpha: 0.35)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppTheme.accentGold.withValues(alpha: 0.12),
+              ),
+              child: const Icon(Icons.auto_awesome_rounded,
+                  color: AppTheme.accentGold, size: 18),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Hari Baik Finder',
+                    style: GoogleFonts.cinzel(
+                      color: AppTheme.accentGold,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.3,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Temukan hari terbaik untuk rencanamu',
+                    style: GoogleFonts.outfit(
+                      color: Colors.white60,
+                      fontSize: 11,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.chevron_right_rounded,
+                color: AppTheme.accentGold.withValues(alpha: 0.6),
+                size: 18),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfilesButton() {
+    return GestureDetector(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const SavedProfilesScreen()),
+      ),
+      child: Container(
+        padding:
+            const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.04),
+          borderRadius: BorderRadius.circular(12),
+          border:
+              Border.all(color: Colors.white.withValues(alpha: 0.10)),
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.people_outline_rounded,
+                color: Colors.white.withValues(alpha: 0.6), size: 16),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                'Profil Tersimpan',
+                style: GoogleFonts.outfit(
+                  fontSize: 13,
+                  color: Colors.white70,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            const Icon(Icons.chevron_right_rounded,
+                color: Colors.white24, size: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHistoryButton() {
+    return GestureDetector(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const HistoryScreen()),
+      ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.04),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.history_rounded,
+                color: AppTheme.accentGold.withValues(alpha: 0.8), size: 16),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                'Riwayat Kosmis',
+                style: GoogleFonts.outfit(
+                  fontSize: 13,
+                  color: Colors.white70,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            const Icon(Icons.chevron_right_rounded,
+                color: Colors.white24, size: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHariWetonBanner() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            AppTheme.accentGold.withValues(alpha: 0.15),
+            const Color(0xFF9C27B0).withValues(alpha: 0.08),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppTheme.accentGold.withValues(alpha: 0.45)),
+      ),
+      child: Row(
+        children: [
+          const Text('✦',
+              style: TextStyle(color: AppTheme.accentGold, fontSize: 22)),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Rahayu — Hari Wetonmu',
+                  style: GoogleFonts.cinzel(
+                    color: AppTheme.accentGold,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.3,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Weton $_hariWetonName kembali hari ini. Momen sakral untuk refleksi dan syukur.',
+                  style: GoogleFonts.outfit(
+                    color: Colors.white.withValues(alpha: 0.75),
+                    fontSize: 12,
+                    height: 1.5,
+                  ),
+                ),
+              ],
             ),
           ),
         ],

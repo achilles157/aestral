@@ -8,6 +8,8 @@ import '../../../core/widgets/glass_card.dart';
 import '../../../features/ai/presentation/oracle_chat_screen.dart';
 import '../services/weton_dictionary_service.dart';
 import '../../auth/services/auth_service.dart';
+import '../../../core/services/analytics_service.dart';
+import '../../profiles/presentation/saved_profiles_screen.dart';
 
 class WetonCompatibilityScreen extends ConsumerStatefulWidget {
   const WetonCompatibilityScreen({super.key});
@@ -92,6 +94,7 @@ class _WetonCompatibilityScreenState
             response['data'] as Map<String, dynamic>,
           );
         });
+        AnalyticsService.logCompatibilityChecked('weton_bazi').catchError((_) {});
       } else {
         setState(() {
           _errorMessage = 'Gagal menghitung kompatibilitas. Coba lagi.';
@@ -137,6 +140,28 @@ class _WetonCompatibilityScreenState
               'baziZodiac': result.bazi.zodiacMatch.label,
               'baziElement': result.bazi.elementCompatibility.label,
             }
+          },
+        ),
+      ),
+    );
+  }
+
+  // ── Pick from saved profiles ─────────────────────────────────────────────────
+
+  Future<void> _pickFromProfiles({required bool isFirst}) async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => SavedProfilesScreen(
+          onPick: (profile) {
+            setState(() {
+              if (isFirst) {
+                _birthDate1 = profile.birthDate;
+              } else {
+                _birthDate2 = profile.birthDate;
+              }
+              _result = null;
+              _errorMessage = null;
+            });
           },
         ),
       ),
@@ -197,7 +222,23 @@ class _WetonCompatibilityScreenState
                   date: _birthDate1,
                   onTap: () => _pickDate(isFirst: true),
                 ),
-                const SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () => _pickFromProfiles(isFirst: true),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4, vertical: 2),
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: Text('Pilih dari profil tersimpan',
+                        style: GoogleFonts.lato(
+                            color: AppTheme.accentGold.withValues(alpha: 0.7),
+                            fontSize: 11)),
+                  ),
+                ),
+                const SizedBox(height: 4),
                 _buildHeartDivider(),
                 const SizedBox(height: 12),
                 _buildDateInputCard(
@@ -206,7 +247,23 @@ class _WetonCompatibilityScreenState
                   date: _birthDate2,
                   onTap: () => _pickDate(isFirst: false),
                 ),
-                const SizedBox(height: 24),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () => _pickFromProfiles(isFirst: false),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4, vertical: 2),
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: Text('Pilih dari profil tersimpan',
+                        style: GoogleFonts.lato(
+                            color: AppTheme.accentGold.withValues(alpha: 0.7),
+                            fontSize: 11)),
+                  ),
+                ),
+                const SizedBox(height: 16),
                 _buildCalculateButton(),
                 if (_errorMessage != null) ...[
                   const SizedBox(height: 16),
@@ -434,6 +491,24 @@ class _WetonCompatibilityScreenState
             detail: result.bazi.elementCompatibility,
             icon: Icons.grain_rounded,
             iconColor: AppTheme.accentGold,
+          ),
+          const SizedBox(height: 12),
+          _buildBaziMatchCard(
+            title: 'Pilar Bulan (Ambisi & Karir)',
+            detail: result.bazi.monthPillarMatch,
+            icon: Icons.rocket_launch_rounded,
+            iconColor: const Color(0xFF8B5CF6),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            '✦ Analisis Ba Zi ini bersifat indikatif berdasarkan 3 dari 8 pilar. Kompatibilitas sejati mempertimbangkan seluruh interaksi chart kedua pihak.',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.outfit(
+              color: Colors.white30,
+              fontSize: 11,
+              fontStyle: FontStyle.italic,
+              height: 1.5,
+            ),
           ),
         ],
         const SizedBox(height: 24),

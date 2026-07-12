@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/cosmic_loader.dart';
 import '../../data/pranata_mangsa_repository.dart';
 import '../../services/weton_dictionary_service.dart';
 import 'daily_insight_card.dart';
@@ -27,7 +28,7 @@ class WetonDailySection extends ConsumerWidget {
       return const Center(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 24.0),
-          child: CircularProgressIndicator(color: AppTheme.accentGold),
+          child: CosmicLoader(),
         ),
       );
     }
@@ -50,7 +51,7 @@ class WetonDailySection extends ConsumerWidget {
       return const Center(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 32.0),
-          child: CircularProgressIndicator(color: AppTheme.accentPurple),
+          child: CosmicLoader(color: AppTheme.accentPurple),
         ),
       );
     }

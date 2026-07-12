@@ -31,6 +31,25 @@ class GlassCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final defaultColor = Colors.white.withValues(alpha: 0.05);
     final defaultBorderColor = Colors.white.withValues(alpha: 0.12);
+    final shouldBlur = !MediaQuery.of(context).disableAnimations;
+
+    final innerDecoration = BoxDecoration(
+      color: gradient != null
+          ? null
+          : (color ?? Colors.white.withValues(alpha: shouldBlur ? 0.05 : 0.09)),
+      gradient: gradient,
+      borderRadius: BorderRadius.circular(borderRadius),
+      border: Border.all(
+        color: borderColor ?? defaultBorderColor,
+        width: borderWidth,
+      ),
+    );
+
+    final inner = Container(
+      padding: padding,
+      decoration: innerDecoration,
+      child: child,
+    );
 
     return Container(
       margin: margin,
@@ -40,22 +59,12 @@ class GlassCard extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-          child: Container(
-            padding: padding,
-            decoration: BoxDecoration(
-              color: gradient != null ? null : (color ?? defaultColor),
-              gradient: gradient,
-              borderRadius: BorderRadius.circular(borderRadius),
-              border: Border.all(
-                color: borderColor ?? defaultBorderColor,
-                width: borderWidth,
-              ),
-            ),
-            child: child,
-          ),
-        ),
+        child: shouldBlur
+            ? BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+                child: inner,
+              )
+            : inner,
       ),
     );
   }

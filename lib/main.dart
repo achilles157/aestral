@@ -16,6 +16,8 @@ import 'features/home/presentation/main_shell.dart';
 import 'features/home/presentation/onboarding_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'core/providers/birth_profile_provider.dart';
+import 'core/providers/shell_providers.dart';
+import 'core/services/analytics_service.dart';
 
 import 'firebase_options.dart';
 
@@ -94,18 +96,48 @@ class MyApp extends ConsumerWidget {
     final isInitializing = ref.watch(authInitializingProvider);
     final session = ref.watch(authProvider);
     final profileAsync = ref.watch(birthProfileProvider);
+    final reduceEffects = ref.watch(reduceEffectsProvider).value ?? false;
+
+    final home = isInitializing || (session != null && profileAsync.isLoading)
+        ? const _AestralSplashScreen()
+        : session == null
+            ? const LoginScreen()
+            : (!session.isMock &&
+                    profileAsync.value?.dobDate == null &&
+                    !profileAsync.hasError)
+                ? const OnboardingScreen()
+                : const MainShell();
 
     return MaterialApp(
       title: 'Aestral',
       theme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      home: isInitializing || (session != null && profileAsync.isLoading)
-          ? const _AestralSplashScreen()
-          : session == null
-              ? const LoginScreen()
-              : (!session.isMock && profileAsync.value?.dobDate == null && !profileAsync.hasError)
-                  ? const OnboardingScreen()
-                  : const MainShell(),
+      navigatorObservers: [AnalyticsService.observer],
+      home: _EffectsMediaQueryOverride(reduceEffects: reduceEffects, child: home),
+    );
+  }
+}
+
+// ── Effects MediaQuery Override ─────────────────────────────────────────────
+
+/// Overrides [MediaQuery.disableAnimations] app-wide when user enables
+/// "Kurangi Efek Visual". Widgets checking this flag (e.g. [GlassCard])
+/// automatically skip BackdropFilter — zero changes needed per-widget.
+class _EffectsMediaQueryOverride extends StatelessWidget {
+  final bool reduceEffects;
+  final Widget child;
+
+  const _EffectsMediaQueryOverride({
+    required this.reduceEffects,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (!reduceEffects) return child;
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(disableAnimations: true),
+      child: child,
     );
   }
 }

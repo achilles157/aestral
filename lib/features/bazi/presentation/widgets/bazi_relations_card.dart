@@ -45,7 +45,7 @@ class BaziBranchRelationsCard extends StatelessWidget {
           // ── Six Clashes 六冲 ────────────────────────────────────────────
           if (relations.clashes.isNotEmpty) ...[
             _sectionLabel('六冲 · Six Clashes', const Color(0xFFF87171)),
-            const SizedBox(height: 8),
+            _helpText('Oposisi langsung antara dua zodiak. Menciptakan tekanan atau perubahan mendadak di area pilar yang terlibat — bukan kutukan, sering justru pemicu transformasi terbesar.'),
             ...relations.clashes.map((c) => _clashRow(c)),
             const SizedBox(height: 14),
           ],
@@ -53,7 +53,7 @@ class BaziBranchRelationsCard extends StatelessWidget {
           // ── Six Harmonies 六合 ──────────────────────────────────────────
           if (relations.harmonies.isNotEmpty) ...[
             _sectionLabel('六合 · Six Harmonies', AppTheme.accentGold),
-            const SizedBox(height: 8),
+            _helpText('Pasangan alami yang sangat selaras — dua zodiak yang berpasangan mengalirkan energi lancar di area pilar yang diwakilinya.'),
             ...relations.harmonies.map((h) => _harmonyRow(h)),
             const SizedBox(height: 14),
           ],
@@ -61,13 +61,14 @@ class BaziBranchRelationsCard extends StatelessWidget {
           // ── Three Harmonies 三合 ────────────────────────────────────────
           if (relations.triads.isNotEmpty) ...[
             _sectionLabel('三合 · Three Harmonies', const Color(0xFF60A5FA)),
-            const SizedBox(height: 8),
+            _helpText('Koalisi tiga zodiak yang membentuk elemen baru secara kolektif. Semakin lengkap ketiga pilarnya, semakin kuat energi yang terbentuk.'),
             ...relations.triads.map((t) => _triadRow(t)),
             const SizedBox(height: 14),
           ],
 
           // ── Empty Branches 空亡 ─────────────────────────────────────────
           _sectionLabel('空亡 · Empty Branches', AppTheme.textMuted),
+          _helpText('Zona kosong spiritual — area kehidupan di mana ambisi materi perlu dilepaskan. Paradoksnya, melepas di area ini justru membuka jalan kebijaksanaan dan kedamaian batin.'),
           const SizedBox(height: 8),
           _emptyBranchesRow(),
         ],
@@ -247,6 +248,19 @@ class BaziBranchRelationsCard extends StatelessWidget {
           color: color,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.8,
+        ),
+      );
+
+  Widget _helpText(String text) => Padding(
+        padding: const EdgeInsets.only(top: 4, bottom: 8),
+        child: Text(
+          text,
+          style: GoogleFonts.outfit(
+            fontSize: 11,
+            color: AppTheme.textMuted.withValues(alpha: 0.75),
+            fontStyle: FontStyle.italic,
+            height: 1.4,
+          ),
         ),
       );
 }

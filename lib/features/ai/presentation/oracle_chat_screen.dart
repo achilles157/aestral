@@ -82,6 +82,11 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
     _inputCtrl.dispose();
     _scrollCtrl.dispose();
     _glowCtrl.dispose();
+    // Trigger summary sebelum provider di-dispose — fire-and-forget
+    ref
+        .read(oracleChatProvider(widget.oracleType).notifier)
+        .summarizeSession(widget.authHeader)
+        .catchError((_) {});
     super.dispose();
   }
 
@@ -95,6 +100,15 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
         );
       }
     });
+  }
+
+  /// Wraps [child] in [BackdropFilter] only when reduce-effects is off.
+  Widget _maybeBlur({required double sigma, required Widget child}) {
+    if (MediaQuery.of(context).disableAnimations) return child;
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
+      child: child,
+    );
   }
 
   Future<void> _send(String text) async {
@@ -272,8 +286,8 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+        child: _maybeBlur(
+          sigma: 16,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
@@ -549,8 +563,8 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
           16, 8, 16, math.max(bottomInset, bottomPadding) + 12),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(28),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+        child: _maybeBlur(
+          sigma: 20,
           child: Container(
             padding: const EdgeInsets.fromLTRB(16, 6, 6, 6),
             decoration: BoxDecoration(
@@ -651,8 +665,8 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
           16, 8, 16, math.max(bottomInset, bottomPadding) + 12),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(24),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+        child: _maybeBlur(
+          sigma: 20,
           child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/cosmic_loader.dart';
 import '../../domain/bazi_chart.dart';
 import '../../services/bazi_data_service.dart';
 import 'bazi_four_pillars_chart.dart';
@@ -68,11 +69,8 @@ class BaziResultsView extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const CircularProgressIndicator(color: AppTheme.accentGold),
-            const SizedBox(height: 20),
-            Text(
-              'Memetakan langit kelahiranmu...',
-              style: GoogleFonts.outfit(color: Colors.white60, fontSize: 13),
+            CosmicLoader(
+              label: 'Memetakan langit kelahiranmu...',
             ),
           ],
         ),

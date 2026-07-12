@@ -9,7 +9,13 @@ import '../../../core/widgets/city_search_sheet.dart';
 import '../../auth/services/auth_service.dart';
 import '../../../core/providers/birth_profile_provider.dart';
 import '../domain/bazi_chart.dart';
+import '../services/bazi_cache_service.dart';
 import '../services/bazi_data_service.dart';
+import '../../history/models/reading_entry.dart';
+import '../../history/services/reading_history_service.dart';
+import '../../../core/services/analytics_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../features/ai/presentation/oracle_chat_screen.dart';
 import 'widgets/bazi_date_picker_step.dart';
 import 'widgets/bazi_input_step.dart';
@@ -143,16 +149,23 @@ class _BaziCalculatorScreenState
 
     BaziChart? chart;
     try {
-      final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
-      final apiResult = await ApiService.getBaziChart(
-        birthDate: dateStr,
-        birthHour: hour,
-        latitude: lat,
-        longitude: lng,
-        authHeader: authHeader,
-      );
-      final data = apiResult['data'] as Map<String, dynamic>;
-      chart = BaziChart.fromJson(data);
+      final cacheKey = BaziCacheService.cacheKey(dateStr, hour, lat, lng);
+      final cached = await BaziCacheService.get(cacheKey);
+      if (cached != null) {
+        chart = BaziChart.fromJson(cached);
+      } else {
+        final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
+        final apiResult = await ApiService.getBaziChart(
+          birthDate: dateStr,
+          birthHour: hour,
+          latitude: lat,
+          longitude: lng,
+          authHeader: authHeader,
+        );
+        final data = apiResult['data'] as Map<String, dynamic>;
+        await BaziCacheService.save(cacheKey, data);
+        chart = BaziChart.fromJson(data);
+      }
     } catch (e) {
       debugPrint('BaziCalculatorScreen: API failed, fallback offline — $e');
       chart = BaziUtils.calculateBaziChart(
@@ -223,6 +236,34 @@ class _BaziCalculatorScreenState
         noblemen:        BaziUtils.getNobleman(chart.dayPillar.stemIndex),
       );
     });
+    // Save to reading history (fire-and-forget)
+    if (chart != null) {
+      ReadingHistoryService.save(ReadingEntry(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        type: 'bazi',
+        title: '${chart.dayPillar.stemNameId} ${chart.dayPillar.branchZodiacId}',
+        subtitle: '${chart.dayMasterElement} · Ba Zi Chart',
+        timestamp: DateTime.now(),
+        accentColor: 0xFF00BFA5,
+      )).catchError((_) {});
+      AnalyticsService.logBaziCalculated(chart.dayMasterId).catchError((_) {});
+      // Save to Firestore for logged-in users (cross-device history)
+      final baziSession = ref.read(authProvider);
+      if (baziSession != null && !baziSession.isMock) {
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(baziSession.uid)
+            .collection('bazi_history')
+            .add({
+          'dayMasterId': chart.dayMasterId,
+          'dayMasterElement': chart.dayMasterElement,
+          'dayPillar':
+              '${chart.dayPillar.stemNameId} ${chart.dayPillar.branchZodiacId}',
+          'birthDate': dateStr,
+          'calculatedAt': FieldValue.serverTimestamp(),
+        }).catchError((_) {});
+      }
+    }
   }
 
   // ─── AI Oracle ────────────────────────────────────────────────────────
@@ -300,6 +341,17 @@ class _BaziCalculatorScreenState
           },
         ),
       ),
+    );
+  }
+
+  void _shareBaziResult() {
+    if (_result == null) return;
+    final chart = _result!.chart;
+    Share.share(
+      '\u2726 Ba Zi Chart saya dari Aestral\n'
+      'Day Master: ${chart.dayMasterElement} (${chart.dayMasterId})\n'
+      'Pilar Hari: ${chart.dayPillar.stemNameId} ${chart.dayPillar.branchZodiacId}\n\n'
+      'Temukan chart kosmismu di:\naestral.web.app',
     );
   }
 
@@ -392,24 +444,46 @@ class _BaziCalculatorScreenState
           onNext: _nextStep,
         );
       case 2:
-        return BaziResultsView(
-          chart: _result?.chart,
-          birthDate: _birthDate,
-          isLoading: _isLoading,
-          errorMsg: _errorMsg,
-          dmStrength: _result?.dmStrength,
-          yongShen: _result?.yongShen,
-          jiShen: _result?.jiShen,
-          noblemen: _result?.noblemen,
-          emptyBranches: _result?.emptyBranches,
-          branchRelations: _result?.branchRelations,
-          annualPillar: _result?.annualPillar,
-          annualRelations: _result?.annualRelations,
-          luckPillars: _result?.luckPillars,
-          luckForward: _result?.luckForward ?? true,
-          onRetry: _calculate,
-          onConsultOracle: _consultOracle,
-          onRecalculate: _prevStep,
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            BaziResultsView(
+              chart: _result?.chart,
+              birthDate: _birthDate,
+              isLoading: _isLoading,
+              errorMsg: _errorMsg,
+              dmStrength: _result?.dmStrength,
+              yongShen: _result?.yongShen,
+              jiShen: _result?.jiShen,
+              noblemen: _result?.noblemen,
+              emptyBranches: _result?.emptyBranches,
+              branchRelations: _result?.branchRelations,
+              annualPillar: _result?.annualPillar,
+              annualRelations: _result?.annualRelations,
+              luckPillars: _result?.luckPillars,
+              luckForward: _result?.luckForward ?? true,
+              onRetry: _calculate,
+              onConsultOracle: _consultOracle,
+              onRecalculate: _prevStep,
+            ),
+            if (_result != null)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 4, 20, 16),
+                child: TextButton.icon(
+                  onPressed: _shareBaziResult,
+                  icon: const Icon(Icons.share_rounded,
+                      size: 16, color: AppTheme.accentGold),
+                  label: Text(
+                    'Bagikan Chart Ba Zi',
+                    style: GoogleFonts.cinzel(
+                      color: AppTheme.accentGold,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+          ],
         );
       default:
         return const SizedBox.shrink();
