@@ -363,17 +363,13 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                     children: [
                                       Screenshot(
                                         controller: _wetonScreenshotCtrl,
-                                        child: Container(
-                                          color: const Color(0xFF0D0D1A),
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 16, horizontal: 4),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.stretch,
-                                            children: [
-                                              WetonResultHeader(
-                                                wetonName: wetonName,
-                                                warnaHarmoni: entry?.warnaHarmoni,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            WetonResultHeader(
+                                              wetonName: wetonName,
+                                              warnaHarmoni: entry?.warnaHarmoni,
                                                 headline: entry?.headline,
                                               ),
                                               const SizedBox(height: 24),
@@ -383,7 +379,6 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                               ),
                                             ],
                                           ),
-                                        ),
                                       ),
                                       const SizedBox(height: 20),
                                       WetonTechnicalCard(result: _result!),

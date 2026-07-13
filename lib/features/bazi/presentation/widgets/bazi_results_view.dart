@@ -131,14 +131,11 @@ class BaziResultsView extends ConsumerWidget {
         children: [
           // Screenshot target: header + 4 pilar
           Builder(builder: (_) {
-            final content = Container(
-              color: const Color(0xFF0D0D1A),
-              padding: const EdgeInsets.only(bottom: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
+            final content = Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Column(
                       children: [
                         Text(
@@ -161,8 +158,7 @@ class BaziResultsView extends ConsumerWidget {
                   ),
                   BaziFourPillarsChart(chart: chart!),
                 ],
-              ),
-            );
+              );
             return screenshotController != null
                 ? Screenshot(controller: screenshotController!, child: content)
                 : content;
