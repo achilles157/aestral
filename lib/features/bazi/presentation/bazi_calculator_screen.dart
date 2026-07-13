@@ -450,48 +450,26 @@ class _BaziCalculatorScreenState
           onNext: _nextStep,
         );
       case 2:
-        return Column(
-          children: [
-            Expanded(
-              child: BaziResultsView(
-                chart: _result?.chart,
-                birthDate: _birthDate,
-                isLoading: _isLoading,
-                errorMsg: _errorMsg,
-                dmStrength: _result?.dmStrength,
-                yongShen: _result?.yongShen,
-                jiShen: _result?.jiShen,
-                noblemen: _result?.noblemen,
-                emptyBranches: _result?.emptyBranches,
-                branchRelations: _result?.branchRelations,
-                annualPillar: _result?.annualPillar,
-                annualRelations: _result?.annualRelations,
-                luckPillars: _result?.luckPillars,
-                luckForward: _result?.luckForward ?? true,
-              onRetry: _calculate,
-              onConsultOracle: _consultOracle,
-              onRecalculate: _prevStep,
-              screenshotController: _baziScreenshotCtrl,
-              ),
-            ),
-            if (_result != null)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 4, 20, 16),
-                child: TextButton.icon(
-                  onPressed: _shareBaziResult,
-                  icon: const Icon(Icons.share_rounded,
-                      size: 16, color: AppTheme.accentGold),
-                  label: Text(
-                    'Bagikan Chart Ba Zi',
-                    style: GoogleFonts.cinzel(
-                      color: AppTheme.accentGold,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-          ],
+        return BaziResultsView(
+          chart: _result?.chart,
+          birthDate: _birthDate,
+          isLoading: _isLoading,
+          errorMsg: _errorMsg,
+          dmStrength: _result?.dmStrength,
+          yongShen: _result?.yongShen,
+          jiShen: _result?.jiShen,
+          noblemen: _result?.noblemen,
+          emptyBranches: _result?.emptyBranches,
+          branchRelations: _result?.branchRelations,
+          annualPillar: _result?.annualPillar,
+          annualRelations: _result?.annualRelations,
+          luckPillars: _result?.luckPillars,
+          luckForward: _result?.luckForward ?? true,
+          onRetry: _calculate,
+          onConsultOracle: _consultOracle,
+          onRecalculate: _prevStep,
+          screenshotController: _baziScreenshotCtrl,
+          onShare: _result != null ? _shareBaziResult : null,
         );
       default:
         return const SizedBox.shrink();

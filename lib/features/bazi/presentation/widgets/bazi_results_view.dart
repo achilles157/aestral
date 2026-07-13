@@ -41,6 +41,8 @@ class BaziResultsView extends ConsumerWidget {
   final VoidCallback onRecalculate;
   /// Jika disediakan, header + 4 pilar di-wrap dalam Screenshot untuk sharing.
   final ScreenshotController? screenshotController;
+  /// Callback untuk share — jika disediakan, tombol Bagikan muncul di bawah 4 pilar.
+  final VoidCallback? onShare;
 
   const BaziResultsView({
     super.key,
@@ -62,6 +64,7 @@ class BaziResultsView extends ConsumerWidget {
     required this.onConsultOracle,
     required this.onRecalculate,
     this.screenshotController,
+    this.onShare,
   });
 
   @override
@@ -164,6 +167,20 @@ class BaziResultsView extends ConsumerWidget {
                 ? Screenshot(controller: screenshotController!, child: content)
                 : content;
           }),
+          const SizedBox(height: 8),
+          if (onShare != null)
+            Center(
+              child: TextButton.icon(
+                onPressed: onShare,
+                icon: const Icon(Icons.share_rounded,
+                    size: 16, color: AppTheme.accentGold),
+                label: Text('Bagikan Chart Ba Zi',
+                    style: GoogleFonts.cinzel(
+                        color: AppTheme.accentGold,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600)),
+              ),
+            ),
           const SizedBox(height: 8),
 
           BaziTenGodsWidget(
