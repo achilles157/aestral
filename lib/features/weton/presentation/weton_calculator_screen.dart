@@ -20,8 +20,10 @@ import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
 import '../../history/models/reading_entry.dart';
 import '../../history/services/reading_history_service.dart';
 import '../../../core/services/analytics_service.dart';
+import '../../../core/utils/cosmic_share.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:screenshot/screenshot.dart';
 
 class WetonCalculatorScreen extends ConsumerStatefulWidget {
   const WetonCalculatorScreen({super.key});
@@ -32,6 +34,7 @@ class WetonCalculatorScreen extends ConsumerStatefulWidget {
 
 class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
   DateTime? _selectedDate;
+  final ScreenshotController _wetonScreenshotCtrl = ScreenshotController();
   
   WetonInfo? _result;
   bool _isSaving = false;
@@ -277,10 +280,13 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
   void _shareWetonResult() {
     if (_result == null) return;
     final wetonName = '${_result!.saptawara} ${_result!.pancawara}';
-    Share.share(
-      '\u2726 Weton kosmis saya: $wetonName\n'
-      'Neptu: ${_result!.totalNeptu} | Wuku: ${_result!.wuku}\n\n'
-      'Temukan wetonmu di Aestral:\naestral.web.app',
+    shareCosmicImage(
+      context: context,
+      controller: _wetonScreenshotCtrl,
+      shareText: '\u2726 Weton kosmis saya: $wetonName\n'
+          'Neptu: ${_result!.totalNeptu} | Wuku: ${_result!.wuku}\n\n'
+          'Temukan wetonmu di Aestral:\naestral.web.app',
+      fileName: 'weton_${wetonName.replaceAll(' ', '_')}.png',
     );
   }
 
@@ -355,15 +361,29 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                   return Column(
                                     crossAxisAlignment: CrossAxisAlignment.stretch,
                                     children: [
-                                      WetonResultHeader(
-                                        wetonName: wetonName,
-                                        warnaHarmoni: entry?.warnaHarmoni,
-                                        headline: entry?.headline,
-                                      ),
-                                      const SizedBox(height: 24),
-                                      WetonElementMandala(
-                                        saptawara: _result!.saptawara,
-                                        pancawara: _result!.pancawara,
+                                      Screenshot(
+                                        controller: _wetonScreenshotCtrl,
+                                        child: Container(
+                                          color: const Color(0xFF0D0D1A),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 16, horizontal: 4),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: [
+                                              WetonResultHeader(
+                                                wetonName: wetonName,
+                                                warnaHarmoni: entry?.warnaHarmoni,
+                                                headline: entry?.headline,
+                                              ),
+                                              const SizedBox(height: 24),
+                                              WetonElementMandala(
+                                                saptawara: _result!.saptawara,
+                                                pancawara: _result!.pancawara,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                       const SizedBox(height: 20),
                                       WetonTechnicalCard(result: _result!),

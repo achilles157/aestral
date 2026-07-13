@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:screenshot/screenshot.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/cosmic_loader.dart';
 import '../../domain/bazi_chart.dart';
@@ -38,6 +39,8 @@ class BaziResultsView extends ConsumerWidget {
   final VoidCallback onRetry;
   final VoidCallback onConsultOracle;
   final VoidCallback onRecalculate;
+  /// Jika disediakan, header + 4 pilar di-wrap dalam Screenshot untuk sharing.
+  final ScreenshotController? screenshotController;
 
   const BaziResultsView({
     super.key,
@@ -58,6 +61,7 @@ class BaziResultsView extends ConsumerWidget {
     required this.onRetry,
     required this.onConsultOracle,
     required this.onRecalculate,
+    this.screenshotController,
   });
 
   @override
@@ -122,28 +126,44 @@ class BaziResultsView extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Column(
-              children: [
-                Text(
-                  'Peta Langit Kelahiran',
-                  style: GoogleFonts.playfairDisplay(
-                      fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${birthDate!.day} / ${birthDate!.month} / ${birthDate!.year}',
-                  style: GoogleFonts.outfit(fontSize: 13, color: Colors.white54),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-
-          BaziFourPillarsChart(chart: chart!),
+          // Screenshot target: header + 4 pilar
+          Builder(builder: (_) {
+            final content = Container(
+              color: const Color(0xFF0D0D1A),
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Peta Langit Kelahiran',
+                          style: GoogleFonts.playfairDisplay(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '${birthDate!.day} / ${birthDate!.month} / ${birthDate!.year}',
+                          style: GoogleFonts.outfit(
+                              fontSize: 13, color: Colors.white54),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                  BaziFourPillarsChart(chart: chart!),
+                ],
+              ),
+            );
+            return screenshotController != null
+                ? Screenshot(controller: screenshotController!, child: content)
+                : content;
+          }),
           const SizedBox(height: 8),
 
           BaziTenGodsWidget(

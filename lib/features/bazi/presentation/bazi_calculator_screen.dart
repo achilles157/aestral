@@ -14,8 +14,10 @@ import '../services/bazi_data_service.dart';
 import '../../history/models/reading_entry.dart';
 import '../../history/services/reading_history_service.dart';
 import '../../../core/services/analytics_service.dart';
+import '../../../core/utils/cosmic_share.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:screenshot/screenshot.dart';
 import '../../../features/ai/presentation/oracle_chat_screen.dart';
 import 'widgets/bazi_date_picker_step.dart';
 import 'widgets/bazi_input_step.dart';
@@ -33,6 +35,7 @@ class BaziCalculatorScreen extends ConsumerStatefulWidget {
 class _BaziCalculatorScreenState
     extends ConsumerState<BaziCalculatorScreen> {
   int _step = 0;
+  final ScreenshotController _baziScreenshotCtrl = ScreenshotController();
   DateTime? _birthDate;
   int? _birthHour;
   bool _includeHour = false;
@@ -347,11 +350,14 @@ class _BaziCalculatorScreenState
   void _shareBaziResult() {
     if (_result == null) return;
     final chart = _result!.chart;
-    Share.share(
-      '\u2726 Ba Zi Chart saya dari Aestral\n'
-      'Day Master: ${chart.dayMasterElement} (${chart.dayMasterId})\n'
-      'Pilar Hari: ${chart.dayPillar.stemNameId} ${chart.dayPillar.branchZodiacId}\n\n'
-      'Temukan chart kosmismu di:\naestral.web.app',
+    shareCosmicImage(
+      context: context,
+      controller: _baziScreenshotCtrl,
+      shareText: '\u2726 Ba Zi Chart saya dari Aestral\n'
+          'Day Master: ${chart.dayMasterElement} (${chart.dayMasterId})\n'
+          'Pilar Hari: ${chart.dayPillar.stemNameId} ${chart.dayPillar.branchZodiacId}\n\n'
+          'Temukan chart kosmismu di:\naestral.web.app',
+      fileName: 'bazi_${chart.dayMasterId}.png',
     );
   }
 
@@ -462,9 +468,10 @@ class _BaziCalculatorScreenState
                 annualRelations: _result?.annualRelations,
                 luckPillars: _result?.luckPillars,
                 luckForward: _result?.luckForward ?? true,
-                onRetry: _calculate,
-                onConsultOracle: _consultOracle,
-                onRecalculate: _prevStep,
+              onRetry: _calculate,
+              onConsultOracle: _consultOracle,
+              onRecalculate: _prevStep,
+              screenshotController: _baziScreenshotCtrl,
               ),
             ),
             if (_result != null)
