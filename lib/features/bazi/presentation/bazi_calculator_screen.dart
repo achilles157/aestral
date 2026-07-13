@@ -445,26 +445,27 @@ class _BaziCalculatorScreenState
         );
       case 2:
         return Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
-            BaziResultsView(
-              chart: _result?.chart,
-              birthDate: _birthDate,
-              isLoading: _isLoading,
-              errorMsg: _errorMsg,
-              dmStrength: _result?.dmStrength,
-              yongShen: _result?.yongShen,
-              jiShen: _result?.jiShen,
-              noblemen: _result?.noblemen,
-              emptyBranches: _result?.emptyBranches,
-              branchRelations: _result?.branchRelations,
-              annualPillar: _result?.annualPillar,
-              annualRelations: _result?.annualRelations,
-              luckPillars: _result?.luckPillars,
-              luckForward: _result?.luckForward ?? true,
-              onRetry: _calculate,
-              onConsultOracle: _consultOracle,
-              onRecalculate: _prevStep,
+            Expanded(
+              child: BaziResultsView(
+                chart: _result?.chart,
+                birthDate: _birthDate,
+                isLoading: _isLoading,
+                errorMsg: _errorMsg,
+                dmStrength: _result?.dmStrength,
+                yongShen: _result?.yongShen,
+                jiShen: _result?.jiShen,
+                noblemen: _result?.noblemen,
+                emptyBranches: _result?.emptyBranches,
+                branchRelations: _result?.branchRelations,
+                annualPillar: _result?.annualPillar,
+                annualRelations: _result?.annualRelations,
+                luckPillars: _result?.luckPillars,
+                luckForward: _result?.luckForward ?? true,
+                onRetry: _calculate,
+                onConsultOracle: _consultOracle,
+                onRecalculate: _prevStep,
+              ),
             ),
             if (_result != null)
               Padding(

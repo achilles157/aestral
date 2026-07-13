@@ -79,14 +79,17 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
 
   @override
   void dispose() {
+    // Capture notifier ref SEBELUM disposal agar aman di Riverpod
+    final notifier =
+        ref.read(oracleChatProvider(widget.oracleType).notifier);
+    final authHeader = widget.authHeader;
+
     _inputCtrl.dispose();
     _scrollCtrl.dispose();
     _glowCtrl.dispose();
-    // Trigger summary sebelum provider di-dispose — fire-and-forget
-    ref
-        .read(oracleChatProvider(widget.oracleType).notifier)
-        .summarizeSession(widget.authHeader)
-        .catchError((_) {});
+
+    // Fire-and-forget summary setelah controllers di-dispose
+    notifier.summarizeSession(authHeader).catchError((_) {});
     super.dispose();
   }
 

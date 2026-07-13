@@ -29,7 +29,6 @@ class GlassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final defaultColor = Colors.white.withValues(alpha: 0.05);
     final defaultBorderColor = Colors.white.withValues(alpha: 0.12);
     final shouldBlur = !MediaQuery.of(context).disableAnimations;
 

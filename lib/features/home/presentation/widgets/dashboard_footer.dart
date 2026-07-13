@@ -43,7 +43,7 @@ class DashboardFooter extends ConsumerWidget {
                 value: reduceEffects,
                 onChanged: (_) =>
                     ref.read(reduceEffectsProvider.notifier).toggle(),
-                activeColor: AppTheme.accentGold,
+                activeThumbColor: AppTheme.accentGold,
                 inactiveTrackColor: Colors.white10,
               ),
             ),
