@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -189,15 +190,21 @@ void shareCardResult({
           TextButton.icon(
             onPressed: () async {
               try {
-                final tempDir = await getTemporaryDirectory();
-                final fileName =
-                    'aestral-tarot-${DateTime.now().millisecondsSinceEpoch}.png';
-                final file = File('${tempDir.path}/$fileName');
-                await file.writeAsBytes(imageBytes);
-                await Share.shareXFiles(
-                  [XFile(file.path, mimeType: 'image/png')],
-                  text: '✦ Bacaan Tarot Kosmis saya dari Aestral',
-                );
+                if (kIsWeb) {
+                  // Web: share_plus tidak support shareFiles, gunakan text share
+                  await Share.share(
+                      '\u2726 Bacaan Tarot Kosmis saya dari Aestral\naestral.web.app');
+                } else {
+                  final tempDir = await getTemporaryDirectory();
+                  final fileName =
+                      'aestral-tarot-${DateTime.now().millisecondsSinceEpoch}.png';
+                  final file = File('${tempDir.path}/$fileName');
+                  await file.writeAsBytes(imageBytes);
+                  await Share.shareXFiles(
+                    [XFile(file.path, mimeType: 'image/png')],
+                    text: '\u2726 Bacaan Tarot Kosmis saya dari Aestral',
+                  );
+                }
               } catch (e) {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -218,6 +225,18 @@ void shareCardResult({
           // Tombol sekunder: unduh ke galeri
           TextButton.icon(
             onPressed: () async {
+              if (kIsWeb) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content:
+                          Text('Unduh gambar tersedia di aplikasi mobile'),
+                      backgroundColor: AppTheme.accentPurple,
+                    ),
+                  );
+                }
+                return;
+              }
               try {
                 final fileName =
                     'aestral-tarot-${DateTime.now().millisecondsSinceEpoch}.png';
