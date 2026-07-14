@@ -1,0 +1,65 @@
+name: Lint & Format
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  analyze:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.10.3'
+          channel: 'stable'
+          cache: true
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: |
+          echo "Checking Dart code formatting..."
+          dart format --set-exit-if-changed .
+          if [ $? -eq 0 ]; then
+            echo "✅ All files properly formatted"
+          else
+            echo "❌ Some files need formatting. Run: dart format ."
+            exit 1
+          fi
+
+      - name: Run Flutter analyzer
+        run: |
+          echo "Running static analysis..."
+          flutter analyze --no-pub
+          if [ $? -eq 0 ]; then
+            echo "✅ No analysis issues found"
+          else
+            echo "❌ Analysis issues detected"
+            exit 1
+          fi
+
+      - name: Check for outdated dependencies
+        run: |
+          echo "Checking for outdated dependencies..."
+          flutter pub outdated --show-all || true
+          echo "ℹ️  Review outdated dependencies above"

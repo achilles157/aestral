@@ -1,0 +1,101 @@
+name: Build Verification
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build-android:
+    name: Android Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.10.3'
+          channel: 'stable'
+          cache: true
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release --no-shrink
+        timeout-minutes: 15
+
+      - name: Verify APK size
+        run: |
+          APK_SIZE=$(stat -c%s "build/app/outputs/flutter-apk/app-release.apk" | awk '{print $1/1024/1024}')
+          echo "📦 APK Size: ${APK_SIZE} MB"
+          if (( $(echo "$APK_SIZE > 50" | bc -l) )); then
+            echo "⚠️  APK size exceeds 50MB - consider optimization"
+          fi
+
+  build-web:
+    name: Web Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.10.3'
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build Web
+        run: flutter build web --release --no-tree-shake-icons
+        timeout-minutes: 10
+
+      - name: Check bundle size
+        run: |
+          BUNDLE_SIZE=$(du -sh build/web | awk '{print $1}')
+          echo "📦 Web Bundle Size: ${BUNDLE_SIZE}"
+          
+          MAIN_JS=$(find build/web -name "main.dart.js" -exec stat -c%s {} \; | awk '{print $1/1024}')
+          echo "📄 main.dart.js: ${MAIN_JS} KB"
+
+  build-ios:
+    name: iOS Build
+    runs-on: macos-latest
+    timeout-minutes: 25
+    if: false # Disabled - requires Apple Developer credentials
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.10.3'
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build iOS (no codesign)
+        run: flutter build ios --release --no-codesign
+        timeout-minutes: 20
