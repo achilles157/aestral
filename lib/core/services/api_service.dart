@@ -4,8 +4,10 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'cache_service.dart';
 
 class ApiService {
+  static final _cache = CacheService();
   static const String _productionUrl =
       'https://aestral-backend.aestral-backend.workers.dev';
   static const String _localUrl = 'http://localhost:8787';
@@ -73,6 +75,41 @@ class ApiService {
     });
   }
 
+  // ── Cached POST helper ───────────────────────────────────────────────────
+
+  /// POST with caching support. Checks cache first, falls back to API call.
+  /// 
+  /// [cacheKey] - Unique key for this request (use generateKey for consistency)
+  /// [ttl] - How long to cache the response (default: 1 hour)
+  /// [path], [body], [authHeader], [timeoutSeconds] - Same as _post
+  static Future<Map<String, dynamic>> _cachedPost(
+    String path,
+    Map<String, dynamic> body, {
+    required String authHeader,
+    required String cacheKey,
+    Duration ttl = const Duration(hours: 1),
+    int timeoutSeconds = 10,
+  }) async {
+    // Try cache first
+    final cached = await _cache.get(cacheKey);
+    if (cached != null) {
+      return cached;
+    }
+
+    // Cache miss - fetch from API
+    final fresh = await _post(
+      path,
+      body,
+      authHeader: authHeader,
+      timeoutSeconds: timeoutSeconds,
+    );
+
+    // Store in cache
+    await _cache.set(cacheKey, fresh, ttl: ttl);
+
+    return fresh;
+  }
+
   // ── Endpoints ────────────────────────────────────────────────────────────
 
   static Future<Map<String, dynamic>> drawTarot({
@@ -93,23 +130,45 @@ class ApiService {
     required String birthDate,
     String? targetDate,
     required String authHeader,
-  }) =>
-      _post('api/weton/daily', {
+  }) {
+    final cacheKey = CacheService.generateKey(
+      'weton_daily',
+      {'birthDate': birthDate, 'targetDate': targetDate ?? 'today'},
+    );
+    return _cachedPost(
+      'api/weton/daily',
+      {
         'birthDate': birthDate,
         if (targetDate != null) 'targetDate': targetDate,
-      }, authHeader: authHeader);
+      },
+      authHeader: authHeader,
+      cacheKey: cacheKey,
+      ttl: const Duration(hours: 24),
+    );
+  }
 
   static Future<Map<String, dynamic>> getCalendarMonth({
     required String birthDate,
     required int targetYear,
     required int targetMonth,
     required String authHeader,
-  }) =>
-      _post('api/calendar/month', {
+  }) {
+    final cacheKey = CacheService.generateKey(
+      'calendar_month',
+      {'birthDate': birthDate, 'year': targetYear, 'month': targetMonth},
+    );
+    return _cachedPost(
+      'api/calendar/month',
+      {
         'birthDate': birthDate,
         'targetYear': targetYear,
         'targetMonth': targetMonth,
-      }, authHeader: authHeader);
+      },
+      authHeader: authHeader,
+      cacheKey: cacheKey,
+      ttl: const Duration(days: 7),
+    );
+  }
 
   static Future<Map<String, dynamic>> generateAiChat({
     required String prompt,
@@ -147,13 +206,26 @@ class ApiService {
     double? latitude,
     double? longitude,
     required String authHeader,
-  }) =>
-      _post('api/bazi/chart', {
+  }) {
+    final cacheKey = CacheService.generateKey('bazi_chart', {
+      'birthDate': birthDate,
+      'birthHour': birthHour,
+      'latitude': latitude,
+      'longitude': longitude,
+    });
+    return _cachedPost(
+      'api/bazi/chart',
+      {
         'birthDate': birthDate,
         if (birthHour != null) 'birthHour': birthHour,
         if (latitude != null) 'latitude': latitude,
         if (longitude != null) 'longitude': longitude,
-      }, authHeader: authHeader);
+      },
+      authHeader: authHeader,
+      cacheKey: cacheKey,
+      ttl: const Duration(days: 365), // Deterministic - cache 1 year
+    );
+  }
 
   static Future<Map<String, dynamic>> getBaziInsight({
     required String birthDate,
