@@ -11,6 +11,7 @@ jobs:
     name: Android Build
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    if: false # Disabled — Android signing environment not configured yet
 
     steps:
       - name: Checkout code
@@ -57,24 +58,23 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.10.3'
           channel: 'stable'
           cache: true
 
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Verify Flutter version
+        run: flutter --version
+
       - name: Build Web
-        run: flutter build web --release --no-tree-shake-icons
+        run: flutter build web --release
         timeout-minutes: 10
 
       - name: Check bundle size
         run: |
           BUNDLE_SIZE=$(du -sh build/web | awk '{print $1}')
           echo "📦 Web Bundle Size: ${BUNDLE_SIZE}"
-          
-          MAIN_JS=$(find build/web -name "main.dart.js" -exec stat -c%s {} \; | awk '{print $1/1024}')
-          echo "📄 main.dart.js: ${MAIN_JS} KB"
 
   build-ios:
     name: iOS Build
