@@ -1,35 +1,107 @@
 rules_version = '2';
 
+// ════════════════════════════════════════════════════════════════════════════
+// Aestral - Firestore Security Rules
+// ════════════════════════════════════════════════════════════════════════════
+//
+// PRINCIPLE: User data isolation - setiap user hanya bisa akses data mereka
+// sendiri. Guest users tidak bisa akses Firestore (data lokal saja).
+//
+// Last Updated: 2026-07-14
+// Status: PRODUCTION READY
+// ════════════════════════════════════════════════════════════════════════════
+
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // ── User birth profiles ───────────────────────────────────────────────
-    // Each authenticated user may only read and write their own document.
-    // Guest sessions (isMock: true) never reach Firestore — they use
-    // SharedPreferences locally, so no guest UID can match a real auth.uid.
+    
+    // ────────────────────────────────────────────────────────────────────────
+    // HELPER FUNCTIONS
+    // ────────────────────────────────────────────────────────────────────────
+    
+    // Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Check if user owns the resource
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Validate user data structure
+    function isValidUserData() {
+      let data = request.resource.data;
+      
+      // Biometric anchor validation
+      return data.keys().hasAll(['biometric_anchor']) &&
+             data.biometric_anchor is map;
+    }
+    
+    // ────────────────────────────────────────────────────────────────────────
+    // USER PROFILES COLLECTION
+    // ────────────────────────────────────────────────────────────────────────
+    // Path: /users/{userId}
+    // Contains: Birth profile, weton data, Ba Zi chart, preferences
+    //
+    // Structure:
+    // {
+    //   biometric_anchor: {
+    //     dob_utc_ms: number,
+    //     birth_hour: number (optional),
+    //     coordinates: { lat: number, lng: number } (optional),
+    //     city_name: string (optional),
+    //     gender: string (optional)
+    //   },
+    //   architectural_pillars: {
+    //     weton: { ... } (optional)
+    //   }
+    // }
+    
     match /users/{userId} {
-      allow read, write: if request.auth != null
-                         && request.auth.uid == userId;
-
-      // ── User history subcollections ─────────────────────────────────────
-      // tarot_history, weton_history, bazi_history — each user owns their own.
+      // READ: User can only read their own data
+      allow read: if isOwner(userId);
+      
+      // CREATE: User can create their own profile
+      allow create: if isOwner(userId) && isValidUserData();
+      
+      // UPDATE: User can update their own profile with valid data
+      allow update: if isOwner(userId) && isValidUserData();
+      
+      // DELETE: User can delete their own profile
+      allow delete: if isOwner(userId);
+      
+      
+      // ──────────────────────────────────────────────────────────────────────
+      // SUBCOLLECTIONS: History, Sessions, etc.
+      // ──────────────────────────────────────────────────────────────────────
+      
+      // Tarot history: /users/{userId}/tarot_history/{historyId}
       match /tarot_history/{historyId} {
-        allow read, write: if request.auth != null
-                           && request.auth.uid == userId;
+        allow read, write: if isOwner(userId);
       }
-
-      match /weton_history/{historyId} {
-        allow read, write: if request.auth != null
-                           && request.auth.uid == userId;
+      
+      // Oracle chat sessions: /users/{userId}/oracle_sessions/{sessionId}
+      match /oracle_sessions/{sessionId} {
+        allow read, write: if isOwner(userId);
       }
-
-      match /bazi_history/{historyId} {
-        allow read, write: if request.auth != null
-                           && request.auth.uid == userId;
+      
+      // Ba Zi charts cache: /users/{userId}/bazi_cache/{cacheId}
+      match /bazi_cache/{cacheId} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      // User preferences: /users/{userId}/preferences/{prefId}
+      match /preferences/{prefId} {
+        allow read, write: if isOwner(userId);
       }
     }
-
-    // ── Deny everything else by default ──────────────────────────────────
+    
+    
+    // ────────────────────────────────────────────────────────────────────────
+    // BLOCK ALL OTHER ACCESS
+    // ────────────────────────────────────────────────────────────────────────
+    // Deny access to any other collections or documents not explicitly allowed
+    
     match /{document=**} {
       allow read, write: if false;
     }
