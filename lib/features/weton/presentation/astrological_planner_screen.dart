@@ -517,8 +517,8 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 28),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
                   child: Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(

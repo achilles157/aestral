@@ -164,7 +164,7 @@ class _CosmicNavBar extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(32),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+          filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
           child: Container(
             height: 64,
             decoration: BoxDecoration(
