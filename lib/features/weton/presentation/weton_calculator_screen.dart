@@ -22,7 +22,6 @@ import '../../history/services/reading_history_service.dart';
 import '../../../core/services/analytics_service.dart';
 import '../../../core/utils/cosmic_share.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:screenshot/screenshot.dart';
 
 class WetonCalculatorScreen extends ConsumerStatefulWidget {
@@ -146,7 +145,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                 '${dob.year}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}',
             'calculatedAt': FieldValue.serverTimestamp(),
           })
-          .catchError((_) {});
+          .catchError((Object _) {});
     }
 
     final authHeader = await ref.read(authProvider.notifier).getAuthHeader();

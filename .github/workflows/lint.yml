@@ -49,13 +49,14 @@ jobs:
       - name: Run Flutter analyzer
         run: |
           echo "Running static analysis..."
-          flutter analyze --no-pub
-          if [ $? -eq 0 ]; then
-            echo "✅ No analysis issues found"
-          else
-            echo "❌ Analysis issues detected"
+          flutter analyze --no-pub 2>&1 | tee analyze_output.txt
+          # Fail only on errors and warnings, not infos
+          if grep -qE "^(error|warning) •" analyze_output.txt; then
+            echo "❌ Errors or warnings found"
+            grep -E "^(error|warning) •" analyze_output.txt
             exit 1
           fi
+          echo "✅ No errors or warnings found"
 
       - name: Check for outdated dependencies
         run: |

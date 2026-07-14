@@ -16,7 +16,6 @@ import '../../history/services/reading_history_service.dart';
 import '../../../core/services/analytics_service.dart';
 import '../../../core/utils/cosmic_share.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:screenshot/screenshot.dart';
 import '../../../features/ai/presentation/oracle_chat_screen.dart';
 import 'widgets/bazi_date_picker_step.dart';
@@ -299,7 +298,7 @@ class _BaziCalculatorScreenState extends ConsumerState<BaziCalculatorScreen> {
               'birthDate': dateStr,
               'calculatedAt': FieldValue.serverTimestamp(),
             })
-            .catchError((_) {});
+            .catchError((Object _) {});
       }
     }
   }
