@@ -47,12 +47,14 @@ class WetonTechnicalCard extends StatelessWidget {
           _DetailRow(label: 'Wuku', value: result.wuku),
           const SizedBox(height: 12),
           _DetailRow(
-              label: 'Neptu Saptawara',
-              value: '${result.saptawara} (${result.neptuSaptawara})'),
+            label: 'Neptu Saptawara',
+            value: '${result.saptawara} (${result.neptuSaptawara})',
+          ),
           const SizedBox(height: 12),
           _DetailRow(
-              label: 'Neptu Pancawara',
-              value: '${result.pancawara} (${result.neptuPancawara})'),
+            label: 'Neptu Pancawara',
+            value: '${result.pancawara} (${result.neptuPancawara})',
+          ),
           const SizedBox(height: 20),
           Text(
             'TOTAL NEPTU: ${result.totalNeptu} / 18',
@@ -74,16 +76,18 @@ class WetonTechnicalCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _AnalysisBadge(
-                    label: 'Pangarasan',
-                    value: result.pangarasan,
-                    color: AppTheme.accentPurple),
+                  label: 'Pangarasan',
+                  value: result.pangarasan,
+                  color: AppTheme.accentPurple,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: _AnalysisBadge(
-                    label: 'Pancasuda',
-                    value: result.pancasuda,
-                    color: AppTheme.accentPink),
+                  label: 'Pancasuda',
+                  value: result.pancasuda,
+                  color: AppTheme.accentPink,
+                ),
               ),
             ],
           ),
@@ -127,8 +131,11 @@ class _AnalysisBadge extends StatelessWidget {
   final String value;
   final Color color;
 
-  const _AnalysisBadge(
-      {required this.label, required this.value, required this.color});
+  const _AnalysisBadge({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {

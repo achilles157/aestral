@@ -47,8 +47,10 @@ class BaziFourPillarsChart extends StatelessWidget {
             'Day Master: ${chart.dayPillar.stemSymbol} ${chart.dayPillar.stemNameId}',
             style: GoogleFonts.outfit(
               fontSize: 11,
-              color: kBaziElementColors[chart.dayMasterElement]
-                      ?.withValues(alpha: 0.9) ??
+              color:
+                  kBaziElementColors[chart.dayMasterElement]?.withValues(
+                    alpha: 0.9,
+                  ) ??
                   AppTheme.accentGold,
             ),
           ),
@@ -122,18 +124,21 @@ class BaziFourPillarsChart extends StatelessWidget {
           if (chart.trueSolarTimeNote != null) ...[
             const SizedBox(height: 12),
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
                 color: const Color(0xFF60A5FA).withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                    color: const Color(0xFF60A5FA).withValues(alpha: 0.2)),
+                  color: const Color(0xFF60A5FA).withValues(alpha: 0.2),
+                ),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.schedule_rounded,
-                      size: 12, color: Color(0xFF60A5FA)),
+                  const Icon(
+                    Icons.schedule_rounded,
+                    size: 12,
+                    color: Color(0xFF60A5FA),
+                  ),
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
@@ -155,14 +160,14 @@ class BaziFourPillarsChart extends StatelessWidget {
   }
 
   Widget _domainLabel(String text) => Expanded(
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.outfit(
-            fontSize: 9,
-            color: Colors.white30,
-            height: 1.4,
-          ),
-        ),
-      );
+    child: Text(
+      text,
+      textAlign: TextAlign.center,
+      style: GoogleFonts.outfit(
+        fontSize: 9,
+        color: Colors.white30,
+        height: 1.4,
+      ),
+    ),
+  );
 }

@@ -45,8 +45,8 @@ class DailyInsightCard extends ConsumerWidget {
     final List<String> activities = plannerEntry != null
         ? plannerEntry.rekomendasiAktivitas
         : (sisaBagi['saran_aktivitas'] as List<dynamic>? ?? [])
-            .map((e) => e.toString())
-            .toList();
+              .map((e) => e.toString())
+              .toList();
 
     Color energyColor = AppTheme.accentGold;
     if (tingkatEnergi.toLowerCase().contains('waspada')) {
@@ -98,7 +98,11 @@ class DailyInsightCard extends ConsumerWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.wb_sunny_outlined, color: AppTheme.accentGold, size: 24),
+                    const Icon(
+                      Icons.wb_sunny_outlined,
+                      color: AppTheme.accentGold,
+                      size: 24,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       'DAILY INSIGHT & PAWUKON',
@@ -116,7 +120,10 @@ class DailyInsightCard extends ConsumerWidget {
                   const SizedBox(height: 10),
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 10,
+                    ),
                     decoration: BoxDecoration(
                       color: energyColor.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(12),
@@ -149,7 +156,11 @@ class DailyInsightCard extends ConsumerWidget {
                   ),
                 ],
 
-                const Divider(color: Color(0xFF2E2452), height: 30, thickness: 1.5),
+                const Divider(
+                  color: Color(0xFF2E2452),
+                  height: 30,
+                  thickness: 1.5,
+                ),
 
                 // Phase & Energy Row
                 Row(
@@ -163,11 +174,17 @@ class DailyInsightCard extends ConsumerWidget {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: energyColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: energyColor.withValues(alpha: 0.4), width: 1),
+                        border: Border.all(
+                          color: energyColor.withValues(alpha: 0.4),
+                          width: 1,
+                        ),
                       ),
                       child: Text(
                         'Energi: $tingkatEnergi',
@@ -207,7 +224,11 @@ class DailyInsightCard extends ConsumerWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.check_circle_outline, color: AppTheme.accentPink, size: 16),
+                        const Icon(
+                          Icons.check_circle_outline,
+                          color: AppTheme.accentPink,
+                          size: 16,
+                        ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
@@ -223,12 +244,20 @@ class DailyInsightCard extends ConsumerWidget {
                   );
                 }),
 
-                const Divider(color: Color(0xFF2E2452), height: 40, thickness: 1.5),
+                const Divider(
+                  color: Color(0xFF2E2452),
+                  height: 40,
+                  thickness: 1.5,
+                ),
 
                 // Wuku Influence
                 Row(
                   children: [
-                    const Icon(Icons.auto_awesome, color: AppTheme.accentPurple, size: 20),
+                    const Icon(
+                      Icons.auto_awesome,
+                      color: AppTheme.accentPurple,
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       'PENGARUH WUKU MINGGUAN',
@@ -265,12 +294,17 @@ class DailyInsightCard extends ConsumerWidget {
                     height: 1.5,
                   ),
                 ),
-                if (wuku['pantangan_wuku'] != null && wuku['pantangan_wuku'].toString().isNotEmpty) ...[
+                if (wuku['pantangan_wuku'] != null &&
+                    wuku['pantangan_wuku'].toString().isNotEmpty) ...[
                   const SizedBox(height: 12),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.info_outline, color: Color(0xFFF87171), size: 16),
+                      const Icon(
+                        Icons.info_outline,
+                        color: Color(0xFFF87171),
+                        size: 16,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
@@ -294,7 +328,10 @@ class DailyInsightCard extends ConsumerWidget {
                   decoration: BoxDecoration(
                     color: AppTheme.accentPurple.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppTheme.accentPurple.withValues(alpha: 0.3), width: 1),
+                    border: Border.all(
+                      color: AppTheme.accentPurple.withValues(alpha: 0.3),
+                      width: 1,
+                    ),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

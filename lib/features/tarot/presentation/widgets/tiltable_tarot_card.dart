@@ -10,7 +10,8 @@ class PulsingAura extends StatefulWidget {
   State<PulsingAura> createState() => _PulsingAuraState();
 }
 
-class _PulsingAuraState extends State<PulsingAura> with SingleTickerProviderStateMixin {
+class _PulsingAuraState extends State<PulsingAura>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -21,9 +22,10 @@ class _PulsingAuraState extends State<PulsingAura> with SingleTickerProviderStat
       vsync: this,
       duration: const Duration(milliseconds: 2500),
     )..repeat(reverse: true);
-    _animation = Tween<double>(begin: 8.0, end: 28.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 8.0,
+      end: 28.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -72,10 +74,11 @@ class TiltableTarotCard extends StatefulWidget {
   State<TiltableTarotCard> createState() => _TiltableTarotCardState();
 }
 
-class _TiltableTarotCardState extends State<TiltableTarotCard> with SingleTickerProviderStateMixin {
+class _TiltableTarotCardState extends State<TiltableTarotCard>
+    with SingleTickerProviderStateMixin {
   double _rotateX = 0.0;
   double _rotateY = 0.0;
-  
+
   late AnimationController _resetController;
   late Animation<double> _resetXAnimation;
   late Animation<double> _resetYAnimation;
@@ -141,10 +144,16 @@ class _TiltableTarotCardState extends State<TiltableTarotCard> with SingleTicker
         },
         onExit: (_) {
           _resetXAnimation = Tween<double>(begin: _rotateX, end: 0.0).animate(
-            CurvedAnimation(parent: _resetController, curve: Curves.easeOutBack),
+            CurvedAnimation(
+              parent: _resetController,
+              curve: Curves.easeOutBack,
+            ),
           );
           _resetYAnimation = Tween<double>(begin: _rotateY, end: 0.0).animate(
-            CurvedAnimation(parent: _resetController, curve: Curves.easeOutBack),
+            CurvedAnimation(
+              parent: _resetController,
+              curve: Curves.easeOutBack,
+            ),
           );
           _resetController.reset();
           _resetController.forward();

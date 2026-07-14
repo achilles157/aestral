@@ -22,10 +22,12 @@ class AstrologicalPlannerScreen extends ConsumerStatefulWidget {
   const AstrologicalPlannerScreen({super.key});
 
   @override
-  ConsumerState<AstrologicalPlannerScreen> createState() => _AstrologicalPlannerScreenState();
+  ConsumerState<AstrologicalPlannerScreen> createState() =>
+      _AstrologicalPlannerScreenState();
 }
 
-class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerScreen> {
+class _AstrologicalPlannerScreenState
+    extends ConsumerState<AstrologicalPlannerScreen> {
   DateTime _currentMonth = DateTime.now();
   DateTime? _birthDate;
   bool _isLoadingCalendar = false;
@@ -70,7 +72,8 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
     } catch (e) {
       if (mounted) {
         setState(() {
-          _errorMessage = 'Gagal memuat profil. Pastikan profilmu sudah dilengkapi dan internet tersambung.';
+          _errorMessage =
+              'Gagal memuat profil. Pastikan profilmu sudah dilengkapi dan internet tersambung.';
           _isLoadingCalendar = false;
         });
       }
@@ -106,7 +109,8 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
       debugPrint('Planner API gagal: $e');
       if (mounted) {
         setState(() {
-          _errorMessage = 'Koneksi ke backend gagal. Fitur kalender memerlukan koneksi online.';
+          _errorMessage =
+              'Koneksi ke backend gagal. Fitur kalender memerlukan koneksi online.';
           _isLoadingCalendar = false;
         });
       }
@@ -115,7 +119,11 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
 
   void _changeMonth(int offset) {
     setState(() {
-      _currentMonth = DateTime(_currentMonth.year, _currentMonth.month + offset, 1);
+      _currentMonth = DateTime(
+        _currentMonth.year,
+        _currentMonth.month + offset,
+        1,
+      );
       _calendarData = null;
     });
     _fetchCalendarData();
@@ -142,8 +150,6 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
       },
     );
   }
-
-
 
   Widget _buildHeaderSection() {
     return GlassCard(
@@ -192,8 +198,11 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
     );
   }
 
-  Widget _buildPranataHeader(AsyncValue<List<PranataMangsaModel>> pranataListAsync) {
-    final pranataInfo = _calendarData!['pranata_mangsa'] as Map<String, dynamic>?;
+  Widget _buildPranataHeader(
+    AsyncValue<List<PranataMangsaModel>> pranataListAsync,
+  ) {
+    final pranataInfo =
+        _calendarData!['pranata_mangsa'] as Map<String, dynamic>?;
     if (pranataInfo == null) return const SizedBox.shrink();
 
     final mangsaId = pranataInfo['id'] as int? ?? 1;
@@ -206,17 +215,17 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
         );
         return SeasonalBanner(mangsa: activeMangsa);
       },
-      loading: () => const Center(child: CircularProgressIndicator(color: AppTheme.accentPurple)),
+      loading: () => const Center(
+        child: CircularProgressIndicator(color: AppTheme.accentPurple),
+      ),
       error: (e, _) => const SizedBox.shrink(),
     );
   }
 
-
-
   void _showDayDetailSheet(Map<String, dynamic> dayData) {
     final dateStr = dayData['date'] as String;
     final date = DateTime.parse(dateStr);
-    
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -274,7 +283,7 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
                       IconButton(
                         icon: const Icon(Icons.close, color: Colors.white38),
                         onPressed: () => Navigator.pop(context),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -293,8 +302,6 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
       },
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -318,10 +325,13 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
             ? null
             : [
                 IconButton(
-                  icon: const Icon(Icons.cake_outlined, color: AppTheme.accentGold),
+                  icon: const Icon(
+                    Icons.cake_outlined,
+                    color: AppTheme.accentGold,
+                  ),
                   onPressed: _presentDatePicker,
                   tooltip: 'Sesuaikan Tanggal Lahir',
-                )
+                ),
               ],
       ),
       extendBodyBehindAppBar: true,
@@ -347,7 +357,8 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
               child: Image.asset(
                 'assets/images/planner_bg.png',
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
+                errorBuilder: (context, error, stackTrace) =>
+                    const SizedBox.shrink(),
               ),
             ),
           ),
@@ -362,127 +373,161 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
                           child: ConstrainedBox(
                             constraints: const BoxConstraints(maxWidth: 800),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
                               child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                    _buildHeaderSection(),
-                    const SizedBox(height: 16),
-                    if (_isLoadingCalendar) ...[
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 60.0),
-                        child: Center(
-                          child: CircularProgressIndicator(color: AppTheme.accentGold),
-                        ),
-                      ),
-                    ] else if (_errorMessage != null) ...[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40.0),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.cloud_off, size: 64, color: Colors.white24),
-                              const SizedBox(height: 16),
-                              Text(
-                                _errorMessage!,
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.outfit(color: Colors.white70),
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildHeaderSection(),
+                                  const SizedBox(height: 16),
+                                  if (_isLoadingCalendar) ...[
+                                    const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 60.0,
+                                      ),
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: AppTheme.accentGold,
+                                        ),
+                                      ),
+                                    ),
+                                  ] else if (_errorMessage != null) ...[
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 40.0,
+                                      ),
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(
+                                              Icons.cloud_off,
+                                              size: 64,
+                                              color: Colors.white24,
+                                            ),
+                                            const SizedBox(height: 16),
+                                            Text(
+                                              _errorMessage!,
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.outfit(
+                                                color: Colors.white70,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 24),
+                                            GlassButton(
+                                              onPressed: _fetchCalendarData,
+                                              icon: const Icon(
+                                                Icons.refresh,
+                                                color: AppTheme.textLight,
+                                                size: 20,
+                                              ),
+                                              label: const Text('Coba Lagi'),
+                                              glowColor: AppTheme.accentPurple,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ] else if (_calendarData != null) ...[
+                                    // Warn user if birth date is a placeholder, not their real profile
+                                    if (_isUsingFallbackDate)
+                                      Container(
+                                        margin: const EdgeInsets.only(
+                                          bottom: 16,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 14,
+                                          vertical: 10,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.orange.withValues(
+                                            alpha: 0.12,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                          border: Border.all(
+                                            color: Colors.orange.withValues(
+                                              alpha: 0.40,
+                                            ),
+                                            width: 1,
+                                          ),
+                                        ),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Icon(
+                                              Icons.info_outline,
+                                              color: Colors.orange,
+                                              size: 18,
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: Text(
+                                                'Kalender ini menggunakan tanggal lahir contoh. '
+                                                'Isi profil lahir Anda untuk hasil yang akurat.',
+                                                style: GoogleFonts.outfit(
+                                                  fontSize: 13,
+                                                  color: Colors.orange.shade200,
+                                                  height: 1.4,
+                                                ),
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: _presentDatePicker,
+                                              style: TextButton.styleFrom(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 4,
+                                                    ),
+                                                minimumSize: Size.zero,
+                                                tapTargetSize:
+                                                    MaterialTapTargetSize
+                                                        .shrinkWrap,
+                                              ),
+                                              child: Text(
+                                                'Isi Profil',
+                                                style: GoogleFonts.outfit(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.orange,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    _buildPranataHeader(pranataListAsync),
+                                    const SizedBox(height: 16),
+                                    AstrologicalPlannerCalendarGrid(
+                                      calendarData: _calendarData!,
+                                      currentMonth: _currentMonth,
+                                      onDayTapped: _showDayDetailSheet,
+                                      birthWetonStr: _birthDate != null
+                                          ? () {
+                                              final w =
+                                                  WetonUtils.calculateWeton(
+                                                    _birthDate!,
+                                                  );
+                                              return '${w.saptawara} ${w.pancawara}';
+                                            }()
+                                          : null,
+                                    ),
+                                    const SizedBox(height: 24),
+                                  ],
+                                ],
                               ),
-                              const SizedBox(height: 24),
-                              GlassButton(
-                                onPressed: _fetchCalendarData,
-                                icon: const Icon(Icons.refresh, color: AppTheme.textLight, size: 20),
-                                label: const Text('Coba Lagi'),
-                                glowColor: AppTheme.accentPurple,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ] else if (_calendarData != null) ...[
-                      // Warn user if birth date is a placeholder, not their real profile
-                      if (_isUsingFallbackDate)
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 16),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.orange.withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Colors.orange.withValues(alpha: 0.40),
-                              width: 1,
                             ),
                           ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Icon(
-                                Icons.info_outline,
-                                color: Colors.orange,
-                                size: 18,
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Text(
-                                  'Kalender ini menggunakan tanggal lahir contoh. '
-                                  'Isi profil lahir Anda untuk hasil yang akurat.',
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 13,
-                                    color: Colors.orange.shade200,
-                                    height: 1.4,
-                                  ),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: _presentDatePicker,
-                                style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 4,
-                                  ),
-                                  minimumSize: Size.zero,
-                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                ),
-                                child: Text(
-                                  'Isi Profil',
-                                  style: GoogleFonts.outfit(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.orange,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
                         ),
-                      _buildPranataHeader(pranataListAsync),
-                      const SizedBox(height: 16),
-                      AstrologicalPlannerCalendarGrid(
-                        calendarData: _calendarData!,
-                        currentMonth: _currentMonth,
-                        onDayTapped: _showDayDetailSheet,
-                        birthWetonStr: _birthDate != null
-                            ? () {
-                                final w = WetonUtils.calculateWeton(_birthDate!);
-                                return '${w.saptawara} ${w.pancawara}';
-                              }()
-                            : null,
-                      ),
-                      const SizedBox(height: 24),
-                    ],
-                  ],
-                        ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-          ),
+                ),
         ],
       ),
     );
@@ -517,8 +562,8 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 28),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
                   child: Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -552,8 +597,9 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
                         const SizedBox(height: 16),
                         InkWell(
                           onTap: () async {
-                            final success =
-                                await CosmicAuthBottomSheet.show(context);
+                            final success = await CosmicAuthBottomSheet.show(
+                              context,
+                            );
                             if (success == true) _loadProfileAndFetch();
                           },
                           borderRadius: BorderRadius.circular(14),
@@ -567,8 +613,9 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
                               borderRadius: BorderRadius.circular(14),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppTheme.accentGold
-                                      .withValues(alpha: 0.30),
+                                  color: AppTheme.accentGold.withValues(
+                                    alpha: 0.30,
+                                  ),
                                   blurRadius: 10,
                                   offset: const Offset(0, 3),
                                 ),
@@ -632,8 +679,8 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
               final color = (day % 7 == 0 || day % 5 == 0)
                   ? AppTheme.accentGold.withValues(alpha: 0.55)
                   : (day % 3 == 0)
-                      ? Colors.red.withValues(alpha: 0.35)
-                      : Colors.white.withValues(alpha: 0.07);
+                  ? Colors.red.withValues(alpha: 0.35)
+                  : Colors.white.withValues(alpha: 0.07);
               return Container(
                 decoration: BoxDecoration(
                   color: color,
@@ -657,4 +704,3 @@ class _AstrologicalPlannerScreenState extends ConsumerState<AstrologicalPlannerS
     );
   }
 }
-

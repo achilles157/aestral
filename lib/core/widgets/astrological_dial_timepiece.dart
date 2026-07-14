@@ -15,7 +15,8 @@ class AstrologicalDialTimepiece extends StatefulWidget {
   });
 
   @override
-  State<AstrologicalDialTimepiece> createState() => _AstrologicalDialTimepieceState();
+  State<AstrologicalDialTimepiece> createState() =>
+      _AstrologicalDialTimepieceState();
 }
 
 class _AstrologicalDialTimepieceState extends State<AstrologicalDialTimepiece> {
@@ -33,8 +34,18 @@ class _AstrologicalDialTimepieceState extends State<AstrologicalDialTimepiece> {
 
   final years = List<int>.generate(201, (i) => 1900 + i); // 1900 to 2100
   final months = [
-    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember',
   ];
 
   @override
@@ -48,8 +59,12 @@ class _AstrologicalDialTimepieceState extends State<AstrologicalDialTimepiece> {
     selectedMinute = initDate.minute;
 
     dayController = FixedExtentScrollController(initialItem: selectedDay - 1);
-    monthController = FixedExtentScrollController(initialItem: selectedMonth - 1);
-    yearController = FixedExtentScrollController(initialItem: years.indexOf(selectedYear));
+    monthController = FixedExtentScrollController(
+      initialItem: selectedMonth - 1,
+    );
+    yearController = FixedExtentScrollController(
+      initialItem: years.indexOf(selectedYear),
+    );
     hourController = FixedExtentScrollController(initialItem: selectedHour);
     minuteController = FixedExtentScrollController(initialItem: selectedMinute);
   }
@@ -66,7 +81,8 @@ class _AstrologicalDialTimepieceState extends State<AstrologicalDialTimepiece> {
 
   int get maxDaysInMonth {
     if (selectedMonth == 2) {
-      if ((selectedYear % 4 == 0 && selectedYear % 100 != 0) || selectedYear % 400 == 0) {
+      if ((selectedYear % 4 == 0 && selectedYear % 100 != 0) ||
+          selectedYear % 400 == 0) {
         return 29;
       }
       return 28;
@@ -107,10 +123,16 @@ class _AstrologicalDialTimepieceState extends State<AstrologicalDialTimepiece> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.wb_sunny_outlined, color: AppTheme.accentGold, size: 20),
+              const Icon(
+                Icons.wb_sunny_outlined,
+                color: AppTheme.accentGold,
+                size: 20,
+              ),
               const SizedBox(width: 8),
               Text(
-                widget.showTime ? 'PENYELARASAN JAM LAHIR' : 'RITUAL TANGGAL LAHIR',
+                widget.showTime
+                    ? 'PENYELARASAN JAM LAHIR'
+                    : 'RITUAL TANGGAL LAHIR',
                 style: GoogleFonts.playfairDisplay(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -130,7 +152,8 @@ class _AstrologicalDialTimepieceState extends State<AstrologicalDialTimepiece> {
                         child: _buildDialWheel(
                           controller: hourController,
                           itemCount: 24,
-                          labelBuilder: (i) => '${i.toString().padLeft(2, '0')} Jam',
+                          labelBuilder: (i) =>
+                              '${i.toString().padLeft(2, '0')} Jam',
                           onChanged: (i) {
                             setState(() {
                               selectedHour = i;
@@ -139,12 +162,20 @@ class _AstrologicalDialTimepieceState extends State<AstrologicalDialTimepiece> {
                           },
                         ),
                       ),
-                      const Text(':', style: TextStyle(color: AppTheme.accentPurple, fontSize: 24, fontWeight: FontWeight.bold)),
+                      const Text(
+                        ':',
+                        style: TextStyle(
+                          color: AppTheme.accentPurple,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       Expanded(
                         child: _buildDialWheel(
                           controller: minuteController,
                           itemCount: 60,
-                          labelBuilder: (i) => '${i.toString().padLeft(2, '0')} Menit',
+                          labelBuilder: (i) =>
+                              '${i.toString().padLeft(2, '0')} Menit',
                           onChanged: (i) {
                             setState(() {
                               selectedMinute = i;

@@ -101,13 +101,15 @@ class HariBaikScorer {
       final dayDate = DateTime(date.year, date.month, date.day);
       if (dayDate.isBefore(todayDate)) continue;
 
-      results.add(HariBaikResult(
-        date: date,
-        dayData: day,
-        score: s,
-        label: day['pancasuda']?['planner_label'] as String? ?? 'stabil',
-        reasons: _buildReasons(day, tujuan),
-      ));
+      results.add(
+        HariBaikResult(
+          date: date,
+          dayData: day,
+          score: s,
+          label: day['pancasuda']?['planner_label'] as String? ?? 'stabil',
+          reasons: _buildReasons(day, tujuan),
+        ),
+      );
     }
 
     results.sort((a, b) => b.score.compareTo(a.score));
@@ -116,8 +118,7 @@ class HariBaikScorer {
 
   // ── Internal ───────────────────────────────────────────────────────────────
 
-  static List<String> _buildReasons(
-      Map<String, dynamic> day, String tujuan) {
+  static List<String> _buildReasons(Map<String, dynamic> day, String tujuan) {
     final r = <String>[];
     final label = day['pancasuda']?['planner_label'] as String? ?? '';
     final fase = day['pancasuda']?['fase'] as String? ?? '';
@@ -129,7 +130,8 @@ class HariBaikScorer {
     if (day['is_bazi_yong_shen'] as bool? ?? false) {
       r.add('Yong Shen — Energi Penyeimbang');
     }
-    if (label == 'stabil' && r.isEmpty) r.add('Pancasuda $fase — Energi Stabil');
+    if (label == 'stabil' && r.isEmpty)
+      r.add('Pancasuda $fase — Energi Stabil');
     return r;
   }
 }

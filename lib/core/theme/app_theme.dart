@@ -3,48 +3,54 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   // ─── Colors ───────────────────────────────────────────────────────────────
-  static const Color background   = Color(0xFF0F0B21);
-  static const Color cardBg       = Color(0xFF1B1535);
-  static const Color accentPink   = Color(0xFFE87EA1);
+  static const Color background = Color(0xFF0F0B21);
+  static const Color cardBg = Color(0xFF1B1535);
+  static const Color accentPink = Color(0xFFE87EA1);
   static const Color accentPurple = Color(0xFF8B5CF6);
-  static const Color accentGold   = Color(0xFFFBBF24);
-  static const Color textLight    = Color(0xFFF3F4F6);
-  static const Color textMuted    = Color(0xFF9CA3AF);
-  static const Color shadowColor  = Color(0x3F000000);
+  static const Color accentGold = Color(0xFFFBBF24);
+  static const Color textLight = Color(0xFFF3F4F6);
+  static const Color textMuted = Color(0xFF9CA3AF);
+  static const Color shadowColor = Color(0x3F000000);
 
   // Astrological Element Colors
-  static const Color elementWater  = Color(0xFF60A5FA);
-  static const Color elementFire   = Color(0xFFF87171);
-  static const Color elementEarth  = accentGold;
-  static const Color elementMetal  = Color(0xFFE5E7EB);
+  static const Color elementWater = Color(0xFF60A5FA);
+  static const Color elementFire = Color(0xFFF87171);
+  static const Color elementEarth = accentGold;
+  static const Color elementMetal = Color(0xFFE5E7EB);
   static const Color elementCosmic = Color(0xFFC084FC);
 
   // Semantic State Colors — gunakan token ini, hindari hardcode di widget
   static const Color success = Color(0xFF10B981);
-  static const Color error   = Color(0xFFF87171);
+  static const Color error = Color(0xFFF87171);
   static const Color warning = Color(0xFFFB923C);
-  static const Color info    = Color(0xFF60A5FA);
+  static const Color info = Color(0xFF60A5FA);
 
   // ─── Border Radii ────────────────────────────────────────────────────────
-  static const double radiusSmall  = 12.0;
+  static const double radiusSmall = 12.0;
   static const double radiusMedium = 16.0;
-  static const double radiusLarge  = 24.0;
+  static const double radiusLarge = 24.0;
 
   // ─── Type Scale ───────────────────────────────────────────────────────────
   /// Playfair Display — display heading (32)
-  static const double fontDisplay      = 32.0;
+  static const double fontDisplay = 32.0;
+
   /// Playfair Display — section heading (24)
-  static const double fontTitleLarge   = 24.0;
+  static const double fontTitleLarge = 24.0;
+
   /// Outfit — sub-heading (20)
-  static const double fontTitleMedium  = 20.0;
+  static const double fontTitleMedium = 20.0;
+
   /// Outfit — primary body copy (16)
-  static const double fontBodyLarge    = 16.0;
+  static const double fontBodyLarge = 16.0;
+
   /// Outfit — secondary body copy (14)
-  static const double fontBodyMedium   = 14.0;
+  static const double fontBodyMedium = 14.0;
+
   /// Outfit — caption / supporting text (12)
-  static const double fontBodySmall    = 12.0;
+  static const double fontBodySmall = 12.0;
+
   /// Outfit — chip / tag / overline (11)
-  static const double fontLabel        = 11.0;
+  static const double fontLabel = 11.0;
 
   // ─── Gradient Tokens ──────────────────────────────────────────────────────
   /// Deep background gradient — scaffold overlay
@@ -94,10 +100,7 @@ class AppTheme {
         elevation: 8,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(
-            color: Color(0xFF2E2452),
-            width: 1.5,
-          ),
+          side: const BorderSide(color: Color(0xFF2E2452), width: 1.5),
         ),
       ),
       textTheme: TextTheme(
@@ -136,7 +139,7 @@ class AppTheme {
           fontSize: fontBodyLarge,
           fontWeight: FontWeight.normal,
           color: textLight,
-          height: 1.7,  // breathing room for long mystical text
+          height: 1.7, // breathing room for long mystical text
         ),
         // Outfit — secondary body (subtitles, supporting copy)
         bodyMedium: GoogleFonts.outfit(
@@ -186,8 +189,10 @@ class AppTheme {
         fillColor: background.withValues(alpha: 0.5),
         labelStyle: GoogleFonts.outfit(color: textMuted),
         hintStyle: GoogleFonts.outfit(color: textMuted),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide(color: accentPurple.withValues(alpha: 0.3)),

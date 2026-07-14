@@ -3,10 +3,7 @@ class TarotCardNarrative {
   final String label; // 'past' | 'present' | 'future'
   final String narrative;
 
-  const TarotCardNarrative({
-    required this.label,
-    required this.narrative,
-  });
+  const TarotCardNarrative({required this.label, required this.narrative});
 }
 
 class TarotOracleReading {
@@ -30,10 +27,12 @@ class TarotOracleReading {
   factory TarotOracleReading.fromJson(Map<String, dynamic> json) {
     final readings = (json['cardReadings'] as List<dynamic>? ?? [])
         .cast<Map<String, dynamic>>()
-        .map((r) => TarotCardNarrative(
-              label: r['label'] as String,
-              narrative: r['narrative'] as String? ?? '',
-            ))
+        .map(
+          (r) => TarotCardNarrative(
+            label: r['label'] as String,
+            narrative: r['narrative'] as String? ?? '',
+          ),
+        )
         .toList();
     return TarotOracleReading(
       cardNarratives: readings,

@@ -17,57 +17,182 @@ class BaziUtils {
   // ─── Heavenly Stems 天干 ────────────────────────────────────────────────
 
   static const List<String> stemIds = [
-    'jia', 'yi', 'bing', 'ding', 'wu', 'ji', 'geng', 'xin', 'ren', 'gui',
+    'jia',
+    'yi',
+    'bing',
+    'ding',
+    'wu',
+    'ji',
+    'geng',
+    'xin',
+    'ren',
+    'gui',
   ];
 
   static const List<String> stemSymbols = [
-    '甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸',
+    '甲',
+    '乙',
+    '丙',
+    '丁',
+    '戊',
+    '己',
+    '庚',
+    '辛',
+    '壬',
+    '癸',
   ];
 
   static const List<String> stemNamesId = [
-    'Kayu Yang', 'Kayu Yin', 'Api Yang', 'Api Yin', 'Tanah Yang',
-    'Tanah Yin', 'Logam Yang', 'Logam Yin', 'Air Yang', 'Air Yin',
+    'Kayu Yang',
+    'Kayu Yin',
+    'Api Yang',
+    'Api Yin',
+    'Tanah Yang',
+    'Tanah Yin',
+    'Logam Yang',
+    'Logam Yin',
+    'Air Yang',
+    'Air Yin',
   ];
 
   static const List<String> stemElements = [
-    'kayu', 'kayu', 'api', 'api', 'tanah', 'tanah', 'logam', 'logam', 'air', 'air',
+    'kayu',
+    'kayu',
+    'api',
+    'api',
+    'tanah',
+    'tanah',
+    'logam',
+    'logam',
+    'air',
+    'air',
   ];
 
   // ─── Earthly Branches 地支 ──────────────────────────────────────────────
 
   static const List<String> branchIds = [
-    'zi', 'chou', 'yin', 'mao', 'chen', 'si', 'wu', 'wei', 'shen', 'you', 'xu', 'hai',
+    'zi',
+    'chou',
+    'yin',
+    'mao',
+    'chen',
+    'si',
+    'wu',
+    'wei',
+    'shen',
+    'you',
+    'xu',
+    'hai',
   ];
 
   static const List<String> branchSymbols = [
-    '子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥',
+    '子',
+    '丑',
+    '寅',
+    '卯',
+    '辰',
+    '巳',
+    '午',
+    '未',
+    '申',
+    '酉',
+    '戌',
+    '亥',
   ];
 
   static const List<String> branchZodiacsId = [
-    'Tikus', 'Kerbau', 'Harimau', 'Kelinci', 'Naga', 'Ular',
-    'Kuda', 'Kambing', 'Monyet', 'Ayam', 'Anjing', 'Babi',
+    'Tikus',
+    'Kerbau',
+    'Harimau',
+    'Kelinci',
+    'Naga',
+    'Ular',
+    'Kuda',
+    'Kambing',
+    'Monyet',
+    'Ayam',
+    'Anjing',
+    'Babi',
   ];
 
   static const List<String> branchElements = [
-    'air', 'tanah', 'kayu', 'kayu', 'tanah', 'api',
-    'api', 'tanah', 'logam', 'logam', 'tanah', 'air',
+    'air',
+    'tanah',
+    'kayu',
+    'kayu',
+    'tanah',
+    'api',
+    'api',
+    'tanah',
+    'logam',
+    'logam',
+    'tanah',
+    'air',
   ];
 
   // ─── 60-Pillar Sexagenary Cycle 六十甲子 ────────────────────────────────
 
   static const List<String> sexagenarySlugs = [
-    'jia_zi',   'yi_chou',   'bing_yin',  'ding_mao',  'wu_chen',
-    'ji_si',    'geng_wu',   'xin_wei',   'ren_shen',  'gui_you',
-    'jia_xu',   'yi_hai',    'bing_zi',   'ding_chou', 'wu_yin',
-    'ji_mao',   'geng_chen', 'xin_si',    'ren_wu',    'gui_wei',
-    'jia_shen', 'yi_you',    'bing_xu',   'ding_hai',  'wu_zi',
-    'ji_chou',  'geng_yin',  'xin_mao',   'ren_chen',  'gui_si',
-    'jia_wu',   'yi_wei',    'bing_shen', 'ding_you',  'wu_xu',
-    'ji_hai',   'geng_zi',   'xin_chou',  'ren_yin',   'gui_mao',
-    'jia_chen', 'yi_si',     'bing_wu',   'ding_wei',  'wu_shen',
-    'ji_you',   'geng_xu',   'xin_hai',   'ren_zi',    'gui_chou',
-    'jia_yin',  'yi_mao',    'bing_chen', 'ding_si',   'wu_wu',
-    'ji_wei',   'geng_shen', 'xin_you',   'ren_xu',    'gui_hai',
+    'jia_zi',
+    'yi_chou',
+    'bing_yin',
+    'ding_mao',
+    'wu_chen',
+    'ji_si',
+    'geng_wu',
+    'xin_wei',
+    'ren_shen',
+    'gui_you',
+    'jia_xu',
+    'yi_hai',
+    'bing_zi',
+    'ding_chou',
+    'wu_yin',
+    'ji_mao',
+    'geng_chen',
+    'xin_si',
+    'ren_wu',
+    'gui_wei',
+    'jia_shen',
+    'yi_you',
+    'bing_xu',
+    'ding_hai',
+    'wu_zi',
+    'ji_chou',
+    'geng_yin',
+    'xin_mao',
+    'ren_chen',
+    'gui_si',
+    'jia_wu',
+    'yi_wei',
+    'bing_shen',
+    'ding_you',
+    'wu_xu',
+    'ji_hai',
+    'geng_zi',
+    'xin_chou',
+    'ren_yin',
+    'gui_mao',
+    'jia_chen',
+    'yi_si',
+    'bing_wu',
+    'ding_wei',
+    'wu_shen',
+    'ji_you',
+    'geng_xu',
+    'xin_hai',
+    'ren_zi',
+    'gui_chou',
+    'jia_yin',
+    'yi_mao',
+    'bing_chen',
+    'ding_si',
+    'wu_wu',
+    'ji_wei',
+    'geng_shen',
+    'xin_you',
+    'ren_xu',
+    'gui_hai',
   ];
 
   // ─── Solar Term Lookup Table (节 Jié) ───────────────────────────────────
@@ -77,113 +202,2137 @@ class BaziUtils {
   // termIndex: 0=XiaoHan 1=LiChun 2=JingZhe 3=QingMing 4=LiXia  5=MangZhong
   //            6=XiaoShu 7=LiQiu  8=BaiLu   9=HanLu  10=LiDong 11=DaXue
   static const List<int> _jieDays = [
-    6,5,6,5,6,6,7,8,8,8,7,7, 6,4,6,5,6,6,7,8,8,9,8,7, // 1924–1925
-    6,4,6,5,6,6,8,8,8,9,8,8, 6,5,6,6,6,7,8,8,8,9,8,8, // 1926–1927
-    6,5,6,5,6,6,7,8,8,8,7,7, 6,4,6,5,6,6,7,8,8,9,8,7, // 1928–1929
-    6,4,6,5,6,6,8,8,8,9,8,8, 6,5,6,6,6,6,8,8,8,9,8,8, // 1930–1931
-    6,5,6,5,6,6,7,8,8,8,7,7, 6,4,6,5,6,6,7,8,8,9,8,7, // 1932–1933
-    6,4,6,5,6,6,8,8,8,9,8,8, 6,5,6,6,6,6,8,8,8,9,8,8, // 1934–1935
-    6,5,6,5,5,6,7,8,8,8,7,7, 6,4,6,5,6,6,7,8,8,9,8,7, // 1936–1937
-    6,4,6,5,6,6,8,8,8,9,8,8, 6,5,6,5,6,6,8,8,8,9,8,8, // 1938–1939
-    6,5,6,5,5,6,7,7,8,8,7,7, 6,4,6,5,6,6,7,8,8,8,8,7, // 1940–1941
-    6,4,6,5,6,6,8,8,8,9,8,8, 6,4,6,5,6,6,8,8,8,9,8,8, // 1942–1943
-    6,5,5,5,5,6,7,7,8,8,7,7, 5,4,6,5,6,6,7,8,8,8,8,7, // 1944–1945
-    6,4,6,5,6,6,8,8,8,9,8,8, 6,4,6,5,6,6,8,8,8,9,8,8, // 1946–1947
-    6,5,5,5,5,6,7,7,8,8,7,7, 5,4,6,5,6,6,7,8,8,8,8,7, // 1948–1949
-    6,4,6,5,6,6,8,8,8,9,8,7, 6,4,6,5,6,6,8,8,8,9,8,8, // 1950–1951
-    6,5,5,5,5,6,7,7,8,8,7,7, 5,4,6,5,6,6,7,8,8,8,8,7, // 1952–1953
-    6,4,6,5,6,6,7,8,8,9,8,7, 6,4,6,5,6,6,8,8,8,9,8,8, // 1954–1955
-    6,5,5,5,5,6,7,7,7,8,7,7, 5,4,6,5,6,6,7,8,8,8,7,7, // 1956–1957
-    6,4,6,5,6,6,7,8,8,9,8,7, 6,4,6,5,6,6,8,8,8,9,8,8, // 1958–1959
-    6,5,5,5,5,5,7,7,7,8,7,7, 5,4,6,5,6,6,7,8,8,8,7,7, // 1960–1961
-    6,4,6,5,6,6,7,8,8,9,8,7, 6,4,6,5,6,6,8,8,8,9,8,8, // 1962–1963
-    6,5,5,5,5,5,7,7,7,8,7,7, 5,4,6,5,6,6,7,8,8,8,7,7, // 1964–1965
-    6,4,6,5,6,6,7,8,8,9,8,7, 6,4,6,5,6,6,8,8,8,9,8,8, // 1966–1967
-    6,5,5,5,5,5,7,7,7,8,7,7, 5,4,6,5,5,6,7,8,8,8,7,7, // 1968–1969
-    6,4,6,5,6,6,7,8,8,9,8,7, 6,4,6,5,6,6,8,8,8,9,8,8, // 1970–1971
-    6,5,5,4,5,5,7,7,7,8,7,7, 5,4,6,5,5,6,7,7,8,8,7,7, // 1972–1973
-    6,4,6,5,6,6,7,8,8,8,8,7, 6,4,6,5,6,6,8,8,8,9,8,8, // 1974–1975
-    6,4,5,4,5,5,7,7,7,8,7,7, 5,4,5,5,5,6,7,7,8,8,7,7, // 1976–1977
-    5,4,6,5,6,6,7,8,8,8,8,7, 6,4,6,5,6,6,8,8,8,9,8,8, // 1978–1979
-    6,4,5,4,5,5,7,7,7,8,7,7, 5,4,5,5,5,6,7,7,8,8,7,7, // 1980–1981
-    5,4,6,5,6,6,7,8,8,8,8,7, 6,4,6,5,6,6,7,8,8,9,8,7, // 1982–1983
-    6,4,5,4,5,5,7,7,7,8,7,7, 5,4,5,5,5,6,7,7,7,8,7,7, // 1984–1985
-    5,4,6,5,6,6,7,8,8,8,8,7, 6,4,6,5,6,6,7,8,8,9,8,7, // 1986–1987
-    6,4,5,4,5,5,7,7,7,8,7,7, 5,4,5,5,5,5,7,7,7,8,7,7, // 1988–1989
-    5,4,6,5,6,6,7,8,8,8,7,7, 6,4,6,5,6,6,7,8,8,9,8,7, // 1990–1991
-    6,4,5,4,5,5,7,7,7,8,7,7, 5,4,5,5,5,5,7,7,7,8,7,7, // 1992–1993
-    5,4,6,5,6,6,7,8,8,8,7,7, 6,4,6,5,6,6,7,8,8,9,8,7, // 1994–1995
-    6,4,5,4,5,5,7,7,7,8,7,7, 5,4,5,5,5,5,7,7,7,8,7,7, // 1996–1997
-    5,4,6,5,6,6,7,8,8,8,7,7, 6,4,6,5,6,6,7,8,8,9,8,7, // 1998–1999
-    6,4,5,4,5,5,7,7,7,8,7,7, 5,4,5,5,5,5,7,7,7,8,7,7, // 2000–2001
-    5,4,6,5,5,6,7,7,8,8,7,7, 6,4,6,5,6,6,7,8,8,8,8,7, // 2002–2003
-    6,4,5,4,5,5,7,7,7,8,7,7, 5,4,5,4,5,5,7,7,7,8,7,7, // 2004–2005
-    5,4,6,5,5,6,7,7,8,8,7,7, 6,4,6,5,6,6,7,8,8,8,8,7, // 2006–2007
-    6,4,5,4,5,5,7,7,7,8,7,7, 5,3,5,4,5,5,7,7,7,8,7,7, // 2008–2009
-    5,4,5,5,5,6,7,7,8,8,7,7, 5,4,6,5,6,6,7,8,8,8,8,7, // 2010–2011
-    6,4,5,4,5,5,6,7,7,8,7,7, 5,3,5,4,5,5,7,7,7,8,7,7, // 2012–2013
-    5,4,5,5,5,6,7,7,8,8,7,7, 5,4,6,5,6,6,7,8,8,8,8,7, // 2014–2015
-    6,4,5,4,5,5,6,7,7,8,7,6, 5,3,5,4,5,5,7,7,7,8,7,7, // 2016–2017
-    5,4,5,5,5,6,7,7,7,8,7,7, 5,4,6,5,6,6,7,8,8,8,8,7, // 2018–2019
-    6,4,5,4,5,5,6,7,7,8,7,6, 5,3,5,4,5,5,7,7,7,8,7,7, // 2020–2021
-    5,4,5,5,5,5,7,7,7,8,7,7, 5,4,6,5,6,6,7,8,8,8,7,7, // 2022–2023
-    6,4,5,4,5,5,6,7,7,8,7,6, 5,3,5,4,5,5,7,7,7,8,7,7, // 2024–2025
-    5,4,5,5,5,5,7,7,7,8,7,7, 5,4,6,5,6,6,7,8,8,8,7,7, // 2026–2027
-    6,4,5,4,5,5,6,7,7,8,7,6, 5,3,5,4,5,5,7,7,7,8,7,7, // 2028–2029
-    5,4,5,5,5,5,7,7,7,8,7,7, 5,4,6,5,5,6,7,7,8,8,7,7, // 2030–2031
-    6,4,5,4,5,5,6,7,7,8,7,6, 5,3,5,4,5,5,7,7,7,8,7,7, // 2032–2033
-    5,4,5,5,5,5,7,7,7,8,7,7, 5,4,6,5,5,6,7,7,8,8,7,7, // 2034–2035
-    6,4,5,4,5,5,6,7,7,7,7,6, 5,3,5,4,5,5,7,7,7,8,7,7, // 2036–2037
-    5,4,5,4,5,5,7,7,7,8,7,7, 5,4,6,5,5,6,7,7,8,8,7,7, // 2038–2039
-    6,4,5,4,5,5,6,7,7,7,7,6, 5,3,5,4,5,5,6,7,7,8,7,7, // 2040–2041
-    5,4,5,4,5,5,7,7,7,8,7,7, 5,4,5,5,5,6,7,7,8,8,7,7, // 2042–2043
-    6,4,5,4,5,5,6,7,7,7,7,6, 5,3,5,4,5,5,6,7,7,8,7,7, // 2044–2045
-    5,3,5,4,5,5,7,7,7,8,7,7, 5,4,5,5,5,6,7,7,7,8,7,7, // 2046–2047
-    5,4,5,4,5,5,6,7,7,7,7,6, 5,3,5,4,5,5,6,7,7,8,7,6, // 2048–2049
-    5,3,5,4,5,5,7,7,7,8,7,7, 5,4,5,5,5,5,7,7,7,8,7,7, // 2050–2051
-    5,4,5,4,5,5,6,7,7,7,7,6, 5,3,5,4,5,5,6,7,7,8,7,6, // 2052–2053
-    5,3,5,4,5,5,7,7,7,8,7,7, 5,4,5,5,5,5,7,7,7,8,7,7, // 2054–2055
-    5,4,5,4,5,5,6,7,7,7,6,6, 5,3,5,4,5,5,6,7,7,8,7,6, // 2056–2057
-    5,3,5,4,5,5,7,7,7,8,7,7, 5,4,5,5,5,5,7,7,7,8,7,7, // 2058–2059
-    5,4,5,4,5,5,6,6,7,7,6,6, 5,3,5,4,5,5,6,7,7,8,7,6, // 2060–2061
-    5,3,5,4,5,5,7,7,7,8,7,7, 5,4,5,5,5,5,7,7,7,8,7,7, // 2062–2063
-    5,4,5,4,4,5,6,6,7,7,6,6, 5,3,5,4,5,5,6,7,7,8,7,6, // 2064–2065
-    5,3,5,4,5,5,7,7,7,8,7,7, 5,4,5,4,5,5,7,7,7,8,7,7, // 2066–2067
-    5,4,5,4,4,5,6,6,7,7,6,6, 5,3,5,4,5,5,6,7,7,7,7,6, // 2068–2069
-    5,3,5,4,5,5,6,7,7,8,7,7, 5,4,5,4,5,5,7,7,7,8,7,7, // 2070–2071
-    5,4,5,4,4,5,6,6,7,7,6,6, 5,3,5,4,5,5,6,7,7,7,7,6, // 2072–2073
-    5,3,5,4,5,5,6,7,7,8,7,7, 5,4,5,4,5,5,7,7,7,8,7,7, // 2074–2075
-    5,4,5,4,4,5,6,6,7,7,6,6, 5,3,5,4,5,5,6,7,7,7,7,6, // 2076–2077
-    5,3,5,4,5,5,6,7,7,8,7,7, 5,3,5,4,5,5,7,7,7,8,7,7, // 2078–2079
-    5,4,4,4,4,4,6,6,6,7,6,6, 4,3,5,4,5,5,6,7,7,7,7,6, // 2080–2081
-    5,3,5,4,5,5,6,7,7,8,7,6, 5,3,5,4,5,5,7,7,7,8,7,7, // 2082–2083
-    5,4,4,4,4,4,6,6,6,7,6,6, 4,3,5,4,5,5,6,7,7,7,7,6, // 2084–2085
-    5,3,5,4,5,5,6,7,7,8,7,6, 5,3,5,4,5,5,7,7,7,8,7,7, // 2086–2087
-    5,4,4,4,4,4,6,6,6,7,6,6, 4,3,5,4,5,5,6,7,7,7,6,6, // 2088–2089
-    5,3,5,4,5,5,6,7,7,8,7,6, 5,3,5,4,5,5,7,7,7,8,7,7, // 2090–2091
-    5,4,4,4,4,4,6,6,6,7,6,6, 4,3,5,4,4,5,6,6,7,7,6,6, // 2092–2093
-    5,3,5,4,5,5,6,7,7,8,7,6, 5,3,5,4,5,5,7,7,7,8,7,7, // 2094–2095
-    5,4,4,4,4,4,6,6,6,7,6,6, 4,3,5,4,4,5,6,6,7,7,6,6, // 2096–2097
-    5,3,5,4,5,5,6,7,7,8,7,6, 5,3,5,4,5,5,7,7,7,8,7,7, // 2098–2099
-    5,4,5,4,5,5,7,7,7,8,7,7, // 2100
+    6,
+    5,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    7,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    9,
+    8,
+    7, // 1924–1925
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8,
+    6,
+    5,
+    6,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8, // 1926–1927
+    6,
+    5,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    7,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    9,
+    8,
+    7, // 1928–1929
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8,
+    6,
+    5,
+    6,
+    6,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8, // 1930–1931
+    6,
+    5,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    7,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    9,
+    8,
+    7, // 1932–1933
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8,
+    6,
+    5,
+    6,
+    6,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8, // 1934–1935
+    6,
+    5,
+    6,
+    5,
+    5,
+    6,
+    7,
+    8,
+    8,
+    8,
+    7,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    9,
+    8,
+    7, // 1936–1937
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8,
+    6,
+    5,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8, // 1938–1939
+    6,
+    5,
+    6,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    8,
+    7, // 1940–1941
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8, // 1942–1943
+    6,
+    5,
+    5,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    8,
+    7, // 1944–1945
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8, // 1946–1947
+    6,
+    5,
+    5,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    8,
+    7, // 1948–1949
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8, // 1950–1951
+    6,
+    5,
+    5,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    8,
+    7, // 1952–1953
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    9,
+    8,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8, // 1954–1955
+    6,
+    5,
+    5,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    7,
+    7, // 1956–1957
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    9,
+    8,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8, // 1958–1959
+    6,
+    5,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    7,
+    7, // 1960–1961
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    9,
+    8,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8, // 1962–1963
+    6,
+    5,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    7,
+    7, // 1964–1965
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    9,
+    8,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8, // 1966–1967
+    6,
+    5,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    5,
+    6,
+    7,
+    8,
+    8,
+    8,
+    7,
+    7, // 1968–1969
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    9,
+    8,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8, // 1970–1971
+    6,
+    5,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7, // 1972–1973
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    8,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8, // 1974–1975
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7, // 1976–1977
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    8,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    8,
+    8,
+    8,
+    9,
+    8,
+    8, // 1978–1979
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7, // 1980–1981
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    8,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    9,
+    8,
+    7, // 1982–1983
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 1984–1985
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    8,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    9,
+    8,
+    7, // 1986–1987
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 1988–1989
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    7,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    9,
+    8,
+    7, // 1990–1991
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 1992–1993
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    7,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    9,
+    8,
+    7, // 1994–1995
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 1996–1997
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    7,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    9,
+    8,
+    7, // 1998–1999
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2000–2001
+    5,
+    4,
+    6,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    8,
+    7, // 2002–2003
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2004–2005
+    5,
+    4,
+    6,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7,
+    6,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    8,
+    7, // 2006–2007
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2008–2009
+    5,
+    4,
+    5,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    8,
+    7, // 2010–2011
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2012–2013
+    5,
+    4,
+    5,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    8,
+    7, // 2014–2015
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2016–2017
+    5,
+    4,
+    5,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    8,
+    7, // 2018–2019
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2020–2021
+    5,
+    4,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    7,
+    7, // 2022–2023
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2024–2025
+    5,
+    4,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    6,
+    6,
+    7,
+    8,
+    8,
+    8,
+    7,
+    7, // 2026–2027
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2028–2029
+    5,
+    4,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7, // 2030–2031
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2032–2033
+    5,
+    4,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7, // 2034–2035
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2036–2037
+    5,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    6,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7, // 2038–2039
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    7, // 2040–2041
+    5,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    8,
+    7,
+    7, // 2042–2043
+    6,
+    4,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    7, // 2044–2045
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2046–2047
+    5,
+    4,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6, // 2048–2049
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2050–2051
+    5,
+    4,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6, // 2052–2053
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2054–2055
+    5,
+    4,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    6,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6, // 2056–2057
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2058–2059
+    5,
+    4,
+    5,
+    4,
+    5,
+    5,
+    6,
+    6,
+    7,
+    7,
+    6,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6, // 2060–2061
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2062–2063
+    5,
+    4,
+    5,
+    4,
+    4,
+    5,
+    6,
+    6,
+    7,
+    7,
+    6,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6, // 2064–2065
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2066–2067
+    5,
+    4,
+    5,
+    4,
+    4,
+    5,
+    6,
+    6,
+    7,
+    7,
+    6,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    7,
+    6, // 2068–2069
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2070–2071
+    5,
+    4,
+    5,
+    4,
+    4,
+    5,
+    6,
+    6,
+    7,
+    7,
+    6,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    7,
+    6, // 2072–2073
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    4,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2074–2075
+    5,
+    4,
+    5,
+    4,
+    4,
+    5,
+    6,
+    6,
+    7,
+    7,
+    6,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    7,
+    6, // 2076–2077
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    7,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2078–2079
+    5,
+    4,
+    4,
+    4,
+    4,
+    4,
+    6,
+    6,
+    6,
+    7,
+    6,
+    6,
+    4,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    7,
+    6, // 2080–2081
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2082–2083
+    5,
+    4,
+    4,
+    4,
+    4,
+    4,
+    6,
+    6,
+    6,
+    7,
+    6,
+    6,
+    4,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    7,
+    6, // 2084–2085
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2086–2087
+    5,
+    4,
+    4,
+    4,
+    4,
+    4,
+    6,
+    6,
+    6,
+    7,
+    6,
+    6,
+    4,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    7,
+    6,
+    6, // 2088–2089
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2090–2091
+    5,
+    4,
+    4,
+    4,
+    4,
+    4,
+    6,
+    6,
+    6,
+    7,
+    6,
+    6,
+    4,
+    3,
+    5,
+    4,
+    4,
+    5,
+    6,
+    6,
+    7,
+    7,
+    6,
+    6, // 2092–2093
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2094–2095
+    5,
+    4,
+    4,
+    4,
+    4,
+    4,
+    6,
+    6,
+    6,
+    7,
+    6,
+    6,
+    4,
+    3,
+    5,
+    4,
+    4,
+    5,
+    6,
+    6,
+    7,
+    7,
+    6,
+    6, // 2096–2097
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    6,
+    7,
+    7,
+    8,
+    7,
+    6,
+    5,
+    3,
+    5,
+    4,
+    5,
+    5,
+    7,
+    7,
+    7,
+    8,
+    7,
+    7, // 2098–2099
+    5, 4, 5, 4, 5, 5, 7, 7, 7, 8, 7, 7, // 2100
   ];
 
   static const List<int> _jieNominal = [6, 4, 6, 5, 6, 6, 7, 7, 8, 8, 7, 7];
 
   // Cang Gan (藏干) — hidden stem indices per Earthly Branch.
   static const List<List<int>> _branchHiddenStems = [
-    [9],       // zi  (0, Rat)    : gui
+    [9], // zi  (0, Rat)    : gui
     [5, 9, 7], // chou(1, Ox)     : ji, gui, xin
     [0, 2, 4], // yin (2, Tiger)  : jia, bing, wu
-    [1],       // mao (3, Rabbit) : yi
+    [1], // mao (3, Rabbit) : yi
     [4, 1, 9], // chen(4, Dragon) : wu, yi, gui
     [2, 4, 6], // si  (5, Snake)  : bing, wu, geng
-    [3, 5],    // wu  (6, Horse)  : ding, ji
+    [3, 5], // wu  (6, Horse)  : ding, ji
     [5, 3, 1], // wei (7, Goat)   : ji, ding, yi
     [6, 8, 4], // shen(8, Monkey) : geng, ren, wu
-    [7],       // you (9, Rooster): xin
+    [7], // you (9, Rooster): xin
     [4, 7, 3], // xu  (10, Dog)   : wu, xin, ding
-    [8, 0],    // hai (11, Pig)   : ren, jia
+    [8, 0], // hai (11, Pig)   : ren, jia
   ];
 
   /// Returns actual day-of-month for jié term [termIndex] in [year] (WIB).
@@ -261,10 +2410,11 @@ class BaziUtils {
 
   /// Year Pillar — Li Chun (立春) boundary from lookup table, not fixed Feb 4.
   static BaziPillar getYearPillar(int year, int month, int day) {
-    final int liChunDay    = _getJieDay(1, year); // index 1 = Li Chun
-    final int adjustedYear =
-        (month < 2 || (month == 2 && day < liChunDay)) ? year - 1 : year;
-    final int stemIndex   = ((adjustedYear - 4) % 10 + 10) % 10;
+    final int liChunDay = _getJieDay(1, year); // index 1 = Li Chun
+    final int adjustedYear = (month < 2 || (month == 2 && day < liChunDay))
+        ? year - 1
+        : year;
+    final int stemIndex = ((adjustedYear - 4) % 10 + 10) % 10;
     final int branchIndex = ((adjustedYear - 4) % 12 + 12) % 12;
     return _buildPillar(stemIndex, branchIndex);
   }
@@ -273,27 +2423,32 @@ class BaziUtils {
   /// Uses actual solar term day for [year] (not fixed approximation).
   static int _monthBranchIndex(int month, int day, int year) {
     final int md = month * 100 + day;
-    if (md < 100 + _getJieDay(0, year))  return 0;  // < XiaoHan : Rat
-    if (md < 200 + _getJieDay(1, year))  return 1;  // < LiChun  : Ox
-    if (md < 300 + _getJieDay(2, year))  return 2;  // < JingZhe : Tiger
-    if (md < 400 + _getJieDay(3, year))  return 3;  // < QingMing: Rabbit
-    if (md < 500 + _getJieDay(4, year))  return 4;  // < LiXia   : Dragon
-    if (md < 600 + _getJieDay(5, year))  return 5;  // < MangZhong: Snake
-    if (md < 700 + _getJieDay(6, year))  return 6;  // < XiaoShu : Horse
-    if (md < 800 + _getJieDay(7, year))  return 7;  // < LiQiu   : Goat
-    if (md < 900 + _getJieDay(8, year))  return 8;  // < BaiLu   : Monkey
-    if (md < 1000 + _getJieDay(9, year)) return 9;  // < HanLu   : Rooster
+    if (md < 100 + _getJieDay(0, year)) return 0; // < XiaoHan : Rat
+    if (md < 200 + _getJieDay(1, year)) return 1; // < LiChun  : Ox
+    if (md < 300 + _getJieDay(2, year)) return 2; // < JingZhe : Tiger
+    if (md < 400 + _getJieDay(3, year)) return 3; // < QingMing: Rabbit
+    if (md < 500 + _getJieDay(4, year)) return 4; // < LiXia   : Dragon
+    if (md < 600 + _getJieDay(5, year)) return 5; // < MangZhong: Snake
+    if (md < 700 + _getJieDay(6, year)) return 6; // < XiaoShu : Horse
+    if (md < 800 + _getJieDay(7, year)) return 7; // < LiQiu   : Goat
+    if (md < 900 + _getJieDay(8, year)) return 8; // < BaiLu   : Monkey
+    if (md < 1000 + _getJieDay(9, year)) return 9; // < HanLu   : Rooster
     if (md < 1100 + _getJieDay(10, year)) return 10; // < LiDong  : Dog
     if (md < 1200 + _getJieDay(11, year)) return 11; // < DaXue   : Pig
-    return 0;                                         // DaXue+   : Rat
+    return 0; // DaXue+   : Rat
   }
 
   /// Month Pillar — branch from solar term, stem from year stem.
-  static BaziPillar getMonthPillar(int month, int day, int yearStemIndex, int year) {
+  static BaziPillar getMonthPillar(
+    int month,
+    int day,
+    int yearStemIndex,
+    int year,
+  ) {
     final int monthBranchIndex = _monthBranchIndex(month, day, year);
-    final int tigerStemStart   = (yearStemIndex % 5) * 2 + 2;
-    final int monthSequence    = (monthBranchIndex - 2 + 12) % 12;
-    final int monthStemIndex   = (tigerStemStart + monthSequence) % 10;
+    final int tigerStemStart = (yearStemIndex % 5) * 2 + 2;
+    final int monthSequence = (monthBranchIndex - 2 + 12) % 12;
+    final int monthStemIndex = (tigerStemStart + monthSequence) % 10;
     return _buildPillar(monthStemIndex, monthBranchIndex);
   }
 
@@ -322,11 +2477,21 @@ class BaziUtils {
 
     void addElement(String el) {
       switch (el) {
-        case 'kayu':  kayu++;  break;
-        case 'api':   api++;   break;
-        case 'tanah': tanah++; break;
-        case 'logam': logam++; break;
-        case 'air':   air++;   break;
+        case 'kayu':
+          kayu++;
+          break;
+        case 'api':
+          api++;
+          break;
+        case 'tanah':
+          tanah++;
+          break;
+        case 'logam':
+          logam++;
+          break;
+        case 'air':
+          air++;
+          break;
       }
     }
 
@@ -343,7 +2508,11 @@ class BaziUtils {
     }
 
     return WuXingBalance(
-      kayu: kayu, api: api, tanah: tanah, logam: logam, air: air,
+      kayu: kayu,
+      api: api,
+      tanah: tanah,
+      logam: logam,
+      air: air,
     );
   }
 
@@ -359,29 +2528,34 @@ class BaziUtils {
     int? birthHour,
     double? longitude,
   }) {
-    final int year  = birthDate.year;
+    final int year = birthDate.year;
     final int month = birthDate.month;
-    final int day   = birthDate.day;
+    final int day = birthDate.day;
 
-    final BaziPillar yearPillar  = getYearPillar(year, month, day);
-    final BaziPillar monthPillar = getMonthPillar(month, day, yearPillar.stemIndex, year);
-    final BaziPillar dayPillar   = getDayPillar(year, month, day);
+    final BaziPillar yearPillar = getYearPillar(year, month, day);
+    final BaziPillar monthPillar = getMonthPillar(
+      month,
+      day,
+      yearPillar.stemIndex,
+      year,
+    );
+    final BaziPillar dayPillar = getDayPillar(year, month, day);
 
     BaziPillar? hourPillar;
     String? trueSolarTimeNote;
     int? adjustedHour;
 
     if (birthHour != null) {
-      int tstHour   = birthHour;
+      int tstHour = birthHour;
       int tstMinute = 0;
 
       if (longitude != null) {
         final tst = applyTrueSolarTime(birthHour, 0, longitude);
-        tstHour       = tst.hour;
-        tstMinute     = tst.minute;
-        final int offsetMin   = tst.offsetMinutes.round();
-        final String sign     = offsetMin >= 0 ? '+' : '-';
-        final int absMin      = offsetMin.abs();
+        tstHour = tst.hour;
+        tstMinute = tst.minute;
+        final int offsetMin = tst.offsetMinutes.round();
+        final String sign = offsetMin >= 0 ? '+' : '-';
+        final int absMin = offsetMin.abs();
         final int stdMeridian = (longitude / 15).round() * 15;
         trueSolarTimeNote =
             '${birthHour.toString().padLeft(2, '0')}:00 → '
@@ -391,55 +2565,70 @@ class BaziUtils {
             'koreksi $sign$absMin mnt)';
       }
 
-      hourPillar   = getHourPillar(tstHour, dayPillar.stemIndex);
+      hourPillar = getHourPillar(tstHour, dayPillar.stemIndex);
       adjustedHour = tstHour;
     }
 
     final WuXingBalance balance = calculateWuXingBalance([
-      yearPillar, monthPillar, dayPillar, hourPillar,
+      yearPillar,
+      monthPillar,
+      dayPillar,
+      hourPillar,
     ]);
 
     // Ten Gods — relationship of each pillar stem relative to Day Master
     final int dmIdx = dayPillar.stemIndex;
     final TenGods tenGods = TenGods(
-      year:  getTenGodId(dmIdx, yearPillar.stemIndex),
+      year: getTenGodId(dmIdx, yearPillar.stemIndex),
       month: getTenGodId(dmIdx, monthPillar.stemIndex),
-      hour:  hourPillar != null ? getTenGodId(dmIdx, hourPillar.stemIndex) : null,
+      hour: hourPillar != null
+          ? getTenGodId(dmIdx, hourPillar.stemIndex)
+          : null,
     );
 
     // Day Master Strength
     final String strengthLabel = getDayMasterStrength(
-        monthPillar.branchIndex, dayPillar.element);
+      monthPillar.branchIndex,
+      dayPillar.element,
+    );
     final favorable = getFavorableElements(dayPillar.element, strengthLabel);
     final DayMasterStrength dmStrength = DayMasterStrength(
-      label:    strengthLabel,
+      label: strengthLabel,
       yongShen: favorable.yongShen,
-      jiShen:   favorable.jiShen,
+      jiShen: favorable.jiShen,
     );
 
     return BaziChart(
-      yearPillar:        yearPillar,
-      monthPillar:       monthPillar,
-      dayPillar:         dayPillar,
-      hourPillar:        hourPillar,
-      dayMasterId:       dayPillar.stemId,
-      dayMasterElement:  dayPillar.element,
-      wuXingBalance:     balance,
-      tenGods:           tenGods,
-      dmStrength:        dmStrength,
+      yearPillar: yearPillar,
+      monthPillar: monthPillar,
+      dayPillar: dayPillar,
+      hourPillar: hourPillar,
+      dayMasterId: dayPillar.stemId,
+      dayMasterElement: dayPillar.element,
+      wuXingBalance: balance,
+      tenGods: tenGods,
+      dmStrength: dmStrength,
       trueSolarTimeNote: trueSolarTimeNote,
-      adjustedHour:      adjustedHour,
+      adjustedHour: adjustedHour,
     );
   }
 
   // ─── Ten Gods 十神 ──────────────────────────────────────────────────────
 
   static const Map<String, String> _generates = {
-    'kayu': 'api', 'api': 'tanah', 'tanah': 'logam', 'logam': 'air', 'air': 'kayu',
+    'kayu': 'api',
+    'api': 'tanah',
+    'tanah': 'logam',
+    'logam': 'air',
+    'air': 'kayu',
   };
 
   static const Map<String, String> _controls = {
-    'kayu': 'tanah', 'tanah': 'air', 'air': 'api', 'api': 'logam', 'logam': 'kayu',
+    'kayu': 'tanah',
+    'tanah': 'air',
+    'air': 'api',
+    'api': 'logam',
+    'logam': 'kayu',
   };
 
   /// Returns the Ten God id for [targetStemIndex] relative to [dmStemIndex].
@@ -449,13 +2638,17 @@ class BaziUtils {
   static String getTenGodId(int dmStemIndex, int targetStemIndex) {
     final String dmEl = stemElements[dmStemIndex];
     final String tgEl = stemElements[targetStemIndex];
-    final bool same   = (dmStemIndex % 2) == (targetStemIndex % 2);
+    final bool same = (dmStemIndex % 2) == (targetStemIndex % 2);
 
-    if (tgEl == dmEl)             return same ? 'friend'            : 'rob_wealth';
-    if (_generates[dmEl] == tgEl) return same ? 'eating_god'        : 'hurting_officer';
-    if (_controls[dmEl]  == tgEl) return same ? 'indirect_wealth'   : 'direct_wealth';
-    if (_controls[tgEl]  == dmEl) return same ? 'seven_killings'    : 'direct_officer';
-    if (_generates[tgEl] == dmEl) return same ? 'indirect_resource' : 'direct_resource';
+    if (tgEl == dmEl) return same ? 'friend' : 'rob_wealth';
+    if (_generates[dmEl] == tgEl)
+      return same ? 'eating_god' : 'hurting_officer';
+    if (_controls[dmEl] == tgEl)
+      return same ? 'indirect_wealth' : 'direct_wealth';
+    if (_controls[tgEl] == dmEl)
+      return same ? 'seven_killings' : 'direct_officer';
+    if (_generates[tgEl] == dmEl)
+      return same ? 'indirect_resource' : 'direct_resource';
     return 'friend'; // unreachable with valid 0–9 stem indices
   }
 
@@ -479,7 +2672,7 @@ class BaziUtils {
         // termIdx 0 = XiaoHan (Jan), 1 = LiChun (Feb), ..., 11 = DaXue (Dec)
         // Use precise _jieDays instead of approximate fixed dates.
         final int month = termIdx + 1;
-        final int day   = _getJieDay(termIdx, yr);
+        final int day = _getJieDay(termIdx, yr);
         candidates.add(dateToJdn(yr, month, day));
       }
     }
@@ -510,20 +2703,21 @@ class BaziUtils {
     int count = 8,
   }) {
     final bool isYangYear = yearStemIndex % 2 == 0;
-    final bool isForward  = isMale == isYangYear;
+    final bool isForward = isMale == isYangYear;
 
-    final int days     = _daysToNearestSolarTerm(birthDate, isForward);
+    final int days = _daysToNearestSolarTerm(birthDate, isForward);
     final int startAge = (days / 3).round().clamp(1, 99);
 
-    final int monthCycleIdx =
-        _sexagenaryIndex(monthPillar.stemIndex, monthPillar.branchIndex);
+    final int monthCycleIdx = _sexagenaryIndex(
+      monthPillar.stemIndex,
+      monthPillar.branchIndex,
+    );
     final int step = isForward ? 1 : -1;
 
     return List.generate(count, (i) {
-      final int cycleIdx =
-          ((monthCycleIdx + step * (i + 1)) % 60 + 60) % 60;
+      final int cycleIdx = ((monthCycleIdx + step * (i + 1)) % 60 + 60) % 60;
       return LuckPillar(
-        pillar:   _buildPillarFromCycleIndex(cycleIdx),
+        pillar: _buildPillarFromCycleIndex(cycleIdx),
         startAge: startAge + i * 10,
       );
     });
@@ -543,19 +2737,19 @@ class BaziUtils {
   ///   air,tanah,kayu,kayu,tanah,api,api,tanah,logam,logam,tanah,air
   static const Map<String, List<int>> _dmStrengthMatrix = {
     //         Zi  Cou  Yin  Mao  Che  Si   Wu   Wei  She  You  Xu   Hai
-    'kayu':  [ 3,   1,   4,   4,   1,   2,   2,   1,   0,   0,   1,   3],
-    'api':   [ 0,   2,   3,   3,   2,   4,   4,   2,   1,   1,   2,   0],
-    'tanah': [ 1,   4,   0,   0,   4,   3,   3,   4,   2,   2,   4,   1],
-    'logam': [ 2,   3,   1,   1,   3,   0,   0,   3,   4,   4,   3,   2],
-    'air':   [ 4,   0,   2,   2,   0,   1,   1,   0,   3,   3,   0,   4],
+    'kayu': [3, 1, 4, 4, 1, 2, 2, 1, 0, 0, 1, 3],
+    'api': [0, 2, 3, 3, 2, 4, 4, 2, 1, 1, 2, 0],
+    'tanah': [1, 4, 0, 0, 4, 3, 3, 4, 2, 2, 4, 1],
+    'logam': [2, 3, 1, 1, 3, 0, 0, 3, 4, 4, 3, 2],
+    'air': [4, 0, 2, 2, 0, 1, 1, 0, 3, 3, 0, 4],
   };
 
   static const List<String> _dmStrengthLabels = [
     'Sangat Lemah', // 0 — 死
-    'Lemah',        // 1 — 囚
-    'Sedang',       // 2 — 休
-    'Kuat',         // 3 — 相
-    'Sangat Kuat',  // 4 — 旺
+    'Lemah', // 1 — 囚
+    'Sedang', // 2 — 休
+    'Kuat', // 3 — 相
+    'Sangat Kuat', // 4 — 旺
   ];
 
   /// Returns the Day Master strength label based on the month branch season.
@@ -577,24 +2771,29 @@ class BaziUtils {
     String dmElement,
     String strength,
   ) {
-    final String generates    = _generates[dmElement]!;
-    final String generatedBy  = _generates.entries
-        .firstWhere((e) => e.value == dmElement).key;
+    final String generates = _generates[dmElement]!;
+    final String generatedBy = _generates.entries
+        .firstWhere((e) => e.value == dmElement)
+        .key;
     final String controlledBy = _controls.entries
-        .firstWhere((e) => e.value == dmElement).key;
+        .firstWhere((e) => e.value == dmElement)
+        .key;
 
     switch (strength) {
       case 'Sangat Kuat':
       case 'Kuat':
-        return (yongShen: [generates, controlledBy],
-                jiShen:   [generatedBy, dmElement]);
+        return (
+          yongShen: [generates, controlledBy],
+          jiShen: [generatedBy, dmElement],
+        );
       case 'Sangat Lemah':
       case 'Lemah':
-        return (yongShen: [generatedBy, dmElement],
-                jiShen:   [controlledBy, generates]);
+        return (
+          yongShen: [generatedBy, dmElement],
+          jiShen: [controlledBy, generates],
+        );
       default: // Sedang
-        return (yongShen: [generatedBy, dmElement],
-                jiShen:   [controlledBy]);
+        return (yongShen: [generatedBy, dmElement], jiShen: [controlledBy]);
     }
   }
 
@@ -607,9 +2806,9 @@ class BaziUtils {
   ///          empty = [startBranch+10, startBranch+11] (mod 12).
   /// Example: 丙午 (ci=42, group=4) → empty Yin(2), Mao(3) ✓
   static List<int> getEmptyBranches(BaziPillar dayPillar) {
-    final int ci           = _sexagenaryIndex(dayPillar.stemIndex, dayPillar.branchIndex);
-    final int group        = ci ~/ 10;
-    final int startBranch  = ((-2 * group) % 12 + 12) % 12;
+    final int ci = _sexagenaryIndex(dayPillar.stemIndex, dayPillar.branchIndex);
+    final int group = ci ~/ 10;
+    final int startBranch = ((-2 * group) % 12 + 12) % 12;
     return [(startBranch + 10) % 12, (startBranch + 11) % 12];
   }
 
@@ -617,20 +2816,20 @@ class BaziUtils {
 
   /// Six Harmony (六合) pairs keyed as "branchA_branchB" → result element.
   static const Map<String, String> _sixHarmonyResult = {
-    '0_1': 'tanah', '1_0': 'tanah',    // 子丑合 → Tanah
-    '2_11': 'kayu', '11_2': 'kayu',    // 寅亥合 → Kayu
-    '3_10': 'api',  '10_3': 'api',     // 卯戌合 → Api
-    '4_9':  'logam','9_4':  'logam',   // 辰酉合 → Logam
-    '5_8':  'air',  '8_5':  'air',     // 巳申合 → Air
-    '6_7':  'api',  '7_6':  'api',     // 午未合 → Api
+    '0_1': 'tanah', '1_0': 'tanah', // 子丑合 → Tanah
+    '2_11': 'kayu', '11_2': 'kayu', // 寅亥合 → Kayu
+    '3_10': 'api', '10_3': 'api', // 卯戌合 → Api
+    '4_9': 'logam', '9_4': 'logam', // 辰酉合 → Logam
+    '5_8': 'air', '8_5': 'air', // 巳申合 → Air
+    '6_7': 'api', '7_6': 'api', // 午未合 → Api
   };
 
   /// Three Harmony (三合) triads: (branch indices, result element).
   static const List<(List<int>, String)> _threeHarmonyTriads = [
-    ([8, 0, 4],  'air'),    // 申子辰 → Water
-    ([11, 3, 7], 'kayu'),   // 亥卯未 → Wood
-    ([2, 6, 10], 'api'),    // 寅午戌 → Fire
-    ([5, 9, 1],  'logam'),  // 巳酉丑 → Metal
+    ([8, 0, 4], 'air'), // 申子辰 → Water
+    ([11, 3, 7], 'kayu'), // 亥卯未 → Wood
+    ([2, 6, 10], 'api'), // 寅午戌 → Fire
+    ([5, 9, 1], 'logam'), // 巳酉丑 → Metal
   ];
 
   /// Detects Six Clashes (六冲), Six Harmonies (六合), Three Harmonies (三合)
@@ -639,9 +2838,9 @@ class BaziUtils {
   /// Index convention: 0=Tahun, 1=Bulan, 2=Hari, 3=Jam, 4=Annual(流年).
   /// Null entries (unknown hour) are skipped.
   static BaziRelations detectBranchRelations(List<BaziPillar?> pillars) {
-    final clashes   = <BaziClash>[];
+    final clashes = <BaziClash>[];
     final harmonies = <BaziHarmony>[];
-    final triads    = <BaziTriad>[];
+    final triads = <BaziTriad>[];
 
     // Build valid (pillarIndex, branchIndex) list
     final valid = <(int, int)>[];
@@ -663,8 +2862,9 @@ class BaziUtils {
         // Six Harmony
         final String? result = _sixHarmonyResult['${bA}_$bB'];
         if (result != null) {
-          harmonies.add(BaziHarmony(
-            indexA: idxA, indexB: idxB, resultElement: result));
+          harmonies.add(
+            BaziHarmony(indexA: idxA, indexB: idxB, resultElement: result),
+          );
         }
       }
     }
@@ -679,16 +2879,23 @@ class BaziUtils {
         }
       }
       if (matched.length >= 2) {
-        triads.add(BaziTriad(
-          pillarIndices: matched,
-          element:       el,
-          isComplete:    matched.length == 3 &&
-                         trio.every((b) => presentBranches.contains(b)),
-        ));
+        triads.add(
+          BaziTriad(
+            pillarIndices: matched,
+            element: el,
+            isComplete:
+                matched.length == 3 &&
+                trio.every((b) => presentBranches.contains(b)),
+          ),
+        );
       }
     }
 
-    return BaziRelations(clashes: clashes, harmonies: harmonies, triads: triads);
+    return BaziRelations(
+      clashes: clashes,
+      harmonies: harmonies,
+      triads: triads,
+    );
   }
 
   // ─── Annual Pillar 流年 ───────────────────────────────────────────────────
@@ -709,16 +2916,16 @@ class BaziUtils {
   ///   Bing(2)/Ding(3)              → Hai(11), You(9)
   ///   Ren(8)/Gui(9)                → Mao(3),  Si(5)
   static const List<List<int>> _nobelmanTable = [
-    [1, 7],   // 0 Jia  → Chou, Wei
-    [0, 8],   // 1 Yi   → Zi,   Shen
-    [11, 9],  // 2 Bing → Hai,  You
-    [11, 9],  // 3 Ding → Hai,  You
-    [1, 7],   // 4 Wu   → Chou, Wei
-    [0, 8],   // 5 Ji   → Zi,   Shen
-    [1, 7],   // 6 Geng → Chou, Wei
-    [1, 7],   // 7 Xin  → Chou, Wei
-    [3, 5],   // 8 Ren  → Mao,  Si
-    [3, 5],   // 9 Gui  → Mao,  Si
+    [1, 7], // 0 Jia  → Chou, Wei
+    [0, 8], // 1 Yi   → Zi,   Shen
+    [11, 9], // 2 Bing → Hai,  You
+    [11, 9], // 3 Ding → Hai,  You
+    [1, 7], // 4 Wu   → Chou, Wei
+    [0, 8], // 5 Ji   → Zi,   Shen
+    [1, 7], // 6 Geng → Chou, Wei
+    [1, 7], // 7 Xin  → Chou, Wei
+    [3, 5], // 8 Ren  → Mao,  Si
+    [3, 5], // 9 Gui  → Mao,  Si
   ];
 
   static List<int> getNobleman(int dayStemIndex) =>

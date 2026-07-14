@@ -12,7 +12,8 @@ class CosmicAuthBottomSheet extends ConsumerStatefulWidget {
 
   const CosmicAuthBottomSheet({
     super.key,
-    this.message = 'Simpan riwayat obrolan orakel, sinkronisasikan planner harian, dan buka ramalan lengkap.',
+    this.message =
+        'Simpan riwayat obrolan orakel, sinkronisasikan planner harian, dan buka ramalan lengkap.',
   });
 
   /// Helper statis untuk menampilkan bottom sheet ini dari mana saja.
@@ -23,13 +24,16 @@ class CosmicAuthBottomSheet extends ConsumerStatefulWidget {
       backgroundColor: Colors.transparent,
       barrierColor: Colors.black.withValues(alpha: 0.70),
       builder: (context) => CosmicAuthBottomSheet(
-        message: message ?? 'Simpan riwayat obrolan orakel, sinkronisasikan planner harian, dan buka ramalan lengkap.',
+        message:
+            message ??
+            'Simpan riwayat obrolan orakel, sinkronisasikan planner harian, dan buka ramalan lengkap.',
       ),
     );
   }
 
   @override
-  ConsumerState<CosmicAuthBottomSheet> createState() => _CosmicAuthBottomSheetState();
+  ConsumerState<CosmicAuthBottomSheet> createState() =>
+      _CosmicAuthBottomSheetState();
 }
 
 class _CosmicAuthBottomSheetState extends ConsumerState<CosmicAuthBottomSheet>
@@ -65,7 +69,9 @@ class _CosmicAuthBottomSheetState extends ConsumerState<CosmicAuthBottomSheet>
             Navigator.pop(context, true); // Login sukses
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('Selamat datang di Aestral! Sinkronisasi kosmis berhasil.'),
+                content: Text(
+                  'Selamat datang di Aestral! Sinkronisasi kosmis berhasil.',
+                ),
                 backgroundColor: AppTheme.accentPurple,
               ),
             );
@@ -100,7 +106,10 @@ class _CosmicAuthBottomSheetState extends ConsumerState<CosmicAuthBottomSheet>
           borderRadius: BorderRadius.circular(20),
           side: const BorderSide(color: AppTheme.accentGold, width: 1.5),
         ),
-        title: const Text('Firebase Belum Siap', style: TextStyle(color: AppTheme.accentGold)),
+        title: const Text(
+          'Firebase Belum Siap',
+          style: TextStyle(color: AppTheme.accentGold),
+        ),
         content: const Text(
           'Konfigurasi Firebase belum terdeteksi aktif pada perangkat lokal ini.\n\n'
           'Silakan selesaikan setup Firebase terlebih dahulu agar fitur login Google dapat digunakan secara online.',
@@ -109,7 +118,10 @@ class _CosmicAuthBottomSheetState extends ConsumerState<CosmicAuthBottomSheet>
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('OK', style: TextStyle(color: AppTheme.textLight)),
+            child: const Text(
+              'OK',
+              style: TextStyle(color: AppTheme.textLight),
+            ),
           ),
         ],
       ),
@@ -133,7 +145,7 @@ class _CosmicAuthBottomSheetState extends ConsumerState<CosmicAuthBottomSheet>
               color: Colors.black.withValues(alpha: 0.5),
               blurRadius: 30,
               offset: const Offset(0, -10),
-            )
+            ),
           ],
         ),
         child: Column(
@@ -163,13 +175,17 @@ class _CosmicAuthBottomSheetState extends ConsumerState<CosmicAuthBottomSheet>
                     color: AppTheme.accentPurple.withValues(alpha: 0.15),
                     boxShadow: [
                       BoxShadow(
-                        color: AppTheme.accentPurple.withValues(alpha: 0.2 + glow * 0.2),
+                        color: AppTheme.accentPurple.withValues(
+                          alpha: 0.2 + glow * 0.2,
+                        ),
                         blurRadius: 16 + glow * 12,
                         spreadRadius: 2 + glow * 2,
-                      )
+                      ),
                     ],
                     border: Border.all(
-                      color: AppTheme.accentGold.withValues(alpha: 0.3 + glow * 0.4),
+                      color: AppTheme.accentGold.withValues(
+                        alpha: 0.3 + glow * 0.4,
+                      ),
                       width: 1.5,
                     ),
                   ),
@@ -234,14 +250,18 @@ class _CosmicAuthBottomSheetState extends ConsumerState<CosmicAuthBottomSheet>
                           color: AppTheme.accentGold.withValues(alpha: 0.3),
                           blurRadius: 16,
                           offset: const Offset(0, 4),
-                        )
+                        ),
                       ],
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // Simulating a Google icon
-                        const Icon(Icons.g_mobiledata_rounded, color: Colors.black87, size: 28),
+                        const Icon(
+                          Icons.g_mobiledata_rounded,
+                          color: Colors.black87,
+                          size: 28,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           'Masuk dengan Google',
@@ -263,10 +283,7 @@ class _CosmicAuthBottomSheetState extends ConsumerState<CosmicAuthBottomSheet>
               onPressed: () => Navigator.pop(context, false),
               child: Text(
                 'Mungkin Nanti',
-                style: GoogleFonts.outfit(
-                  color: Colors.white38,
-                  fontSize: 14,
-                ),
+                style: GoogleFonts.outfit(color: Colors.white38, fontSize: 14),
               ),
             ),
           ],

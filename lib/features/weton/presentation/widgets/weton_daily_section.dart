@@ -36,14 +36,16 @@ class WetonDailySection extends ConsumerWidget {
     if (dailyInsightData == null) return const SizedBox.shrink();
 
     // ── Tunggu providers JSON ───────────────────────────────────────────
-    final sisaBagiAsync    = ref.watch(sisaBagiProvider);
-    final wukuAsync        = ref.watch(wukuProvider);
+    final sisaBagiAsync = ref.watch(sisaBagiProvider);
+    final wukuAsync = ref.watch(wukuProvider);
     final pranataMangsaAsync = ref.watch(pranataMangsaListProvider);
 
-    final allLoading = sisaBagiAsync.isLoading ||
+    final allLoading =
+        sisaBagiAsync.isLoading ||
         wukuAsync.isLoading ||
         pranataMangsaAsync.isLoading;
-    final anyError = sisaBagiAsync.hasError ||
+    final anyError =
+        sisaBagiAsync.hasError ||
         wukuAsync.hasError ||
         pranataMangsaAsync.hasError;
 
@@ -70,16 +72,17 @@ class WetonDailySection extends ConsumerWidget {
 
     // ── Resolve data ────────────────────────────────────────────────────
     final sisaBagiList = sisaBagiAsync.value!;
-    final wukuList     = wukuAsync.value!;
-    final pranataList  = pranataMangsaAsync.value!;
+    final wukuList = wukuAsync.value!;
+    final pranataList = pranataMangsaAsync.value!;
 
-    final dailyInfo      = dailyInsightData!['daily']       as Map<String, dynamic>;
-    final weeklyInfo     = dailyInsightData!['weekly']      as Map<String, dynamic>;
-    final targetWetonInfo = dailyInsightData!['targetWeton'] as Map<String, dynamic>?;
+    final dailyInfo = dailyInsightData!['daily'] as Map<String, dynamic>;
+    final weeklyInfo = dailyInsightData!['weekly'] as Map<String, dynamic>;
+    final targetWetonInfo =
+        dailyInsightData!['targetWeton'] as Map<String, dynamic>?;
 
     final sisaBagiVal = dailyInfo['sisaBagi'] as int;
-    final wukuIndex   = weeklyInfo['wukuIndex'] as int;
-    final wukuName    = weeklyInfo['wukuName']  as String;
+    final wukuIndex = weeklyInfo['wukuIndex'] as int;
+    final wukuName = weeklyInfo['wukuName'] as String;
 
     final sisaBagiEntry = sisaBagiList.firstWhere(
       (s) => s['sisa_bagi'] == sisaBagiVal,
@@ -93,7 +96,7 @@ class WetonDailySection extends ConsumerWidget {
       orElse: () => wukuList.first,
     );
     final targetPranataId = targetWetonInfo?['pranataMangsaId'] as int? ?? 1;
-    final targetPranata   = pranataList.firstWhere(
+    final targetPranata = pranataList.firstWhere(
       (m) => m.id == targetPranataId,
       orElse: () => pranataList.first,
     );

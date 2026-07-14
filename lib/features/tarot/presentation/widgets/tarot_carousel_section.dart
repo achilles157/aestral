@@ -24,26 +24,28 @@ class TarotCarouselSection extends StatelessWidget {
 
   static Color _suitColor(String suit) {
     final s = suit.toLowerCase();
-    if (s.contains('cup'))      return AppTheme.elementWater;
-    if (s.contains('wand'))     return AppTheme.elementFire;
+    if (s.contains('cup')) return AppTheme.elementWater;
+    if (s.contains('wand')) return AppTheme.elementFire;
     if (s.contains('pentacle')) return AppTheme.elementEarth;
-    if (s.contains('sword'))    return AppTheme.elementMetal;
+    if (s.contains('sword')) return AppTheme.elementMetal;
     return AppTheme.elementCosmic;
   }
 
   static String _elementLabel(String suit, String lang) {
     final s = suit.toLowerCase();
-    if (s.contains('cup'))      return lang == 'id' ? 'ELEMEN AIR'   : 'WATER ELEMENT';
-    if (s.contains('wand'))     return lang == 'id' ? 'ELEMEN API'   : 'FIRE ELEMENT';
-    if (s.contains('pentacle')) return lang == 'id' ? 'ELEMEN TANAH' : 'EARTH ELEMENT';
-    if (s.contains('sword'))    return lang == 'id' ? 'ELEMEN LOGAM' : 'METAL ELEMENT';
+    if (s.contains('cup')) return lang == 'id' ? 'ELEMEN AIR' : 'WATER ELEMENT';
+    if (s.contains('wand')) return lang == 'id' ? 'ELEMEN API' : 'FIRE ELEMENT';
+    if (s.contains('pentacle'))
+      return lang == 'id' ? 'ELEMEN TANAH' : 'EARTH ELEMENT';
+    if (s.contains('sword'))
+      return lang == 'id' ? 'ELEMEN LOGAM' : 'METAL ELEMENT';
     return lang == 'id' ? 'KOSMIS / SPIRIT' : 'COSMIC / SPIRIT';
   }
 
   String _tabLabel(int index) {
-    if (index == 0) return currentLang == 'id' ? 'Masa Lalu'  : 'Past';
-    if (index == 1) return currentLang == 'id' ? 'Masa Kini'  : 'Present';
-    return              currentLang == 'id' ? 'Masa Depan' : 'Future';
+    if (index == 0) return currentLang == 'id' ? 'Masa Lalu' : 'Past';
+    if (index == 1) return currentLang == 'id' ? 'Masa Kini' : 'Present';
+    return currentLang == 'id' ? 'Masa Depan' : 'Future';
   }
 
   @override
@@ -63,8 +65,10 @@ class TarotCarouselSection extends StatelessWidget {
               ),
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 8),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: isActive ? AppTheme.accentPurple : Colors.transparent,
                   borderRadius: BorderRadius.circular(20),
@@ -95,7 +99,7 @@ class TarotCarouselSection extends StatelessWidget {
             onPageChanged: onPageChanged,
             itemBuilder: (context, index) {
               final cardInfo = drawnCards[index];
-              final suit     = cardInfo.card.suit;
+              final suit = cardInfo.card.suit;
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: TarotReadingDetailPanel(

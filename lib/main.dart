@@ -23,7 +23,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize date formatting for Indonesian locale used in Onboarding
   await initializeDateFormatting('id', null);
 
@@ -50,7 +50,8 @@ void main() async {
   // Catch uncaught async errors thrown outside of Flutter's zone
   PlatformDispatcher.instance.onError = (error, stack) {
     debugPrint('Uncaught async error: $error\n$stack');
-    if (!kIsWeb) FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    if (!kIsWeb)
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
 
@@ -74,18 +75,17 @@ void main() async {
     debugPrint("Firebase successfully initialized");
     // Enable Crashlytics in release mode only, disabled in debug to avoid noise
     if (!kIsWeb) {
-      await FirebaseCrashlytics.instance
-          .setCrashlyticsCollectionEnabled(!kDebugMode);
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
+        !kDebugMode,
+      );
     }
   } catch (e) {
-    debugPrint("Firebase initialization failed (Running in Local Fallback mode): $e");
+    debugPrint(
+      "Firebase initialization failed (Running in Local Fallback mode): $e",
+    );
   }
 
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {
@@ -101,19 +101,22 @@ class MyApp extends ConsumerWidget {
     final home = isInitializing || (session != null && profileAsync.isLoading)
         ? const _AestralSplashScreen()
         : session == null
-            ? const LoginScreen()
-            : (!session.isMock &&
-                    profileAsync.value?.dobDate == null &&
-                    !profileAsync.hasError)
-                ? const OnboardingScreen()
-                : const MainShell();
+        ? const LoginScreen()
+        : (!session.isMock &&
+              profileAsync.value?.dobDate == null &&
+              !profileAsync.hasError)
+        ? const OnboardingScreen()
+        : const MainShell();
 
     return MaterialApp(
       title: 'Aestral',
       theme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       navigatorObservers: [AnalyticsService.observer],
-      home: _EffectsMediaQueryOverride(reduceEffects: reduceEffects, child: home),
+      home: _EffectsMediaQueryOverride(
+        reduceEffects: reduceEffects,
+        child: home,
+      ),
     );
   }
 }
@@ -211,11 +214,7 @@ class _AestralSplashScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.auto_awesome,
-              color: AppTheme.accentGold,
-              size: 64,
-            ),
+            Icon(Icons.auto_awesome, color: AppTheme.accentGold, size: 64),
             const SizedBox(height: 24),
             Text(
               'AESTRAL',

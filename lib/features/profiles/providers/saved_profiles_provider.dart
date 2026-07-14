@@ -45,5 +45,5 @@ class SavedProfilesNotifier extends AsyncNotifier<List<SavedProfile>> {
 
 final savedProfilesProvider =
     AsyncNotifierProvider<SavedProfilesNotifier, List<SavedProfile>>(
-  SavedProfilesNotifier.new,
-);
+      SavedProfilesNotifier.new,
+    );

@@ -15,9 +15,10 @@ class BaziStrengthCard extends StatelessWidget {
   final String dmStrength;
   final List<String> yongShen;
   final List<String> jiShen;
-  final List<int> noblemen;           // branch indices
+  final List<int> noblemen; // branch indices
   final List<BaziPillar?> allPillars; // to check nobleman presence
   final Color elementColor;
+
   /// Optional from baziStrengthLevelsProvider — falls back to hardcoded
   /// _strengthLevels / _strengthDesc if null.
   final List<Map<String, dynamic>>? strengthData;
@@ -36,28 +37,35 @@ class BaziStrengthCard extends StatelessWidget {
   });
 
   static const _strengthLevels = [
-    'Sangat Lemah', 'Lemah', 'Sedang', 'Kuat', 'Sangat Kuat',
+    'Sangat Lemah',
+    'Lemah',
+    'Sedang',
+    'Kuat',
+    'Sangat Kuat',
   ];
 
   static const _strengthDesc = {
-    'Sangat Kuat':  'DM sangat dominan — butuh elemen penyeimbang',
-    'Kuat':         'DM kuat — elemen penopang berlimpah',
-    'Sedang':       'DM seimbang — chart relatif harmonis',
-    'Lemah':        'DM lemah — perlu penguatan dari lingkungan',
+    'Sangat Kuat': 'DM sangat dominan — butuh elemen penyeimbang',
+    'Kuat': 'DM kuat — elemen penopang berlimpah',
+    'Sedang': 'DM seimbang — chart relatif harmonis',
+    'Lemah': 'DM lemah — perlu penguatan dari lingkungan',
     'Sangat Lemah': 'DM sangat lemah — butuh banyak dukungan',
   };
 
   @override
   Widget build(BuildContext context) {
     // Use JSON data if provided, fall back to hardcoded constants
-    final levels = strengthData?.map((e) => e['label'] as String).toList()
-        ?? _strengthLevels;
-    final desc = (strengthData?.firstWhere(
+    final levels =
+        strengthData?.map((e) => e['label'] as String).toList() ??
+        _strengthLevels;
+    final desc =
+        (strengthData?.firstWhere(
               (e) => e['id'] == dmStrength,
               orElse: () => <String, dynamic>{},
-            )['deskripsi'] as String?)
-        ?? _strengthDesc[dmStrength]
-        ?? '';
+            )['deskripsi']
+            as String?) ??
+        _strengthDesc[dmStrength] ??
+        '';
     final activeIdx = levels.indexOf(dmStrength);
     final presentBranches = allPillars
         .where((p) => p != null)
@@ -70,18 +78,20 @@ class BaziStrengthCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // ── Header ──────────────────────────────────────────────────────
-          Row(children: [
-            Text('☯', style: TextStyle(fontSize: 16, color: elementColor)),
-            const SizedBox(width: 8),
-            Text(
-              '旺衰 · Kekuatan Hari Master',
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 14,
-                color: AppTheme.accentGold,
-                fontWeight: FontWeight.w600,
+          Row(
+            children: [
+              Text('☯', style: TextStyle(fontSize: 16, color: elementColor)),
+              const SizedBox(width: 8),
+              Text(
+                '旺衰 · Kekuatan Hari Master',
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 14,
+                  color: AppTheme.accentGold,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-          ]),
+            ],
+          ),
           const SizedBox(height: 14),
 
           // ── Strength Gauge ───────────────────────────────────────────────
@@ -131,33 +141,54 @@ class BaziStrengthCard extends StatelessWidget {
           const SizedBox(height: 16),
 
           // ── Yong Shen 用神 ───────────────────────────────────────────────
-          _sectionLabel('用神 · Elemen Menguntungkan', Colors.greenAccent.shade400),
-          _helpText('Elemen yang memperkuat dan menyeimbangkan Day Master-mu. Aktivasi melalui warna, profesi, atau lingkungan membantu membawa chart ke keseimbangan optimal.'),
+          _sectionLabel(
+            '用神 · Elemen Menguntungkan',
+            Colors.greenAccent.shade400,
+          ),
+          _helpText(
+            'Elemen yang memperkuat dan menyeimbangkan Day Master-mu. Aktivasi melalui warna, profesi, atau lingkungan membantu membawa chart ke keseimbangan optimal.',
+          ),
           Wrap(
-            spacing: 6, runSpacing: 6,
-            children: yongShen.map((el) => _elChip(el, favorable: true)).toList(),
+            spacing: 6,
+            runSpacing: 6,
+            children: yongShen
+                .map((el) => _elChip(el, favorable: true))
+                .toList(),
           ),
           const SizedBox(height: 14),
 
           // ── Ji Shen 忌神 ────────────────────────────────────────────────
-          _sectionLabel('忌神 · Elemen Kurang Menguntungkan', Colors.redAccent.shade200),
-          _helpText('Elemen yang memperberat ketidakseimbangan dalam chartmu. Bukan harus dihindari total — tapi perlu dikelola dengan lebih sadar.'),
+          _sectionLabel(
+            '忌神 · Elemen Kurang Menguntungkan',
+            Colors.redAccent.shade200,
+          ),
+          _helpText(
+            'Elemen yang memperberat ketidakseimbangan dalam chartmu. Bukan harus dihindari total — tapi perlu dikelola dengan lebih sadar.',
+          ),
           Wrap(
-            spacing: 6, runSpacing: 6,
-            children: jiShen.map((el) => _elChip(el, favorable: false)).toList(),
+            spacing: 6,
+            runSpacing: 6,
+            children: jiShen
+                .map((el) => _elChip(el, favorable: false))
+                .toList(),
           ),
           const SizedBox(height: 14),
 
           // ── Nobleman 貴人 ────────────────────────────────────────────────
           _sectionLabel('天乙貴人 · Nobleman Star', AppTheme.accentGold),
-          _helpText('Bintang Penolong Kosmis — zodiak yang menandakan tipe figur pelindung, mentor, atau koneksi tak terduga yang hadir di saat-saat kritis hidupmu. Jika muncul di chart natal, pengaruhnya kuat sepanjang hidup.'),
+          _helpText(
+            'Bintang Penolong Kosmis — zodiak yang menandakan tipe figur pelindung, mentor, atau koneksi tak terduga yang hadir di saat-saat kritis hidupmu. Jika muncul di chart natal, pengaruhnya kuat sepanjang hidup.',
+          ),
           Row(
             children: noblemen.map((branchIdx) {
               final inChart = presentBranches.contains(branchIdx);
               return Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
                   decoration: BoxDecoration(
                     color: inChart
                         ? AppTheme.accentGold.withValues(alpha: 0.15)
@@ -217,27 +248,27 @@ class BaziStrengthCard extends StatelessWidget {
   }
 
   Widget _sectionLabel(String text, Color color) => Text(
-        text,
-        style: GoogleFonts.outfit(
-          fontSize: 10,
-          color: color,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.8,
-        ),
-      );
+    text,
+    style: GoogleFonts.outfit(
+      fontSize: 10,
+      color: color,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 0.8,
+    ),
+  );
 
   Widget _helpText(String text) => Padding(
-        padding: const EdgeInsets.only(top: 4, bottom: 8),
-        child: Text(
-          text,
-          style: GoogleFonts.outfit(
-            fontSize: 11,
-            color: AppTheme.textMuted.withValues(alpha: 0.75),
-            fontStyle: FontStyle.italic,
-            height: 1.4,
-          ),
-        ),
-      );
+    padding: const EdgeInsets.only(top: 4, bottom: 8),
+    child: Text(
+      text,
+      style: GoogleFonts.outfit(
+        fontSize: 11,
+        color: AppTheme.textMuted.withValues(alpha: 0.75),
+        fontStyle: FontStyle.italic,
+        height: 1.4,
+      ),
+    ),
+  );
 
   Widget _elChip(String el, {required bool favorable}) {
     final color = kBaziElementColors[el] ?? AppTheme.textMuted;

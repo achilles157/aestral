@@ -48,12 +48,15 @@ void main() {
       expect(weton.pancawara, 'Pon');
     });
 
-    test('totalNeptu selalu antara 7 (min: Senin+Wage=4+4) dan 17 (max: Kamis+Pahing=8+9)', () {
-      // Rabu Pahing: neptu 7+9 = 16
-      final weton = WetonUtils.calculateWeton(DateTime(2026, 6, 24));
-      expect(weton.totalNeptu, greaterThanOrEqualTo(7));
-      expect(weton.totalNeptu, lessThanOrEqualTo(18));
-    });
+    test(
+      'totalNeptu selalu antara 7 (min: Senin+Wage=4+4) dan 17 (max: Kamis+Pahing=8+9)',
+      () {
+        // Rabu Pahing: neptu 7+9 = 16
+        final weton = WetonUtils.calculateWeton(DateTime(2026, 6, 24));
+        expect(weton.totalNeptu, greaterThanOrEqualTo(7));
+        expect(weton.totalNeptu, lessThanOrEqualTo(18));
+      },
+    );
   });
 
   // ── Wuku ───────────────────────────────────────────────────────────────────
@@ -134,9 +137,18 @@ void main() {
 
     test('javaneseMonth selalu salah satu dari 12 bulan Jawa', () {
       const validMonths = [
-        'Sura', 'Sapar', 'Mulud', 'Bakda Mulud',
-        'Jumadilawal', 'Jumadilakir', 'Rejeb', 'Ruwah',
-        'Pasa', 'Sawal', 'Sela', 'Besar',
+        'Sura',
+        'Sapar',
+        'Mulud',
+        'Bakda Mulud',
+        'Jumadilawal',
+        'Jumadilakir',
+        'Rejeb',
+        'Ruwah',
+        'Pasa',
+        'Sawal',
+        'Sela',
+        'Besar',
       ];
       final dates = [
         DateTime(2026, 1, 1),
@@ -151,7 +163,14 @@ void main() {
 
     test('javaneseYearName selalu salah satu dari 8 tahun windu', () {
       const validYearNames = [
-        'Alip', 'Ehe', 'Jimawal', 'Je', 'Dal', 'Be', 'Wawu', 'Jimakir',
+        'Alip',
+        'Ehe',
+        'Jimawal',
+        'Je',
+        'Dal',
+        'Be',
+        'Wawu',
+        'Jimakir',
       ];
       final dates = [
         DateTime(2026, 6, 20),
@@ -169,32 +188,68 @@ void main() {
 
   group('WetonUtils.calculatePranataMangsaId', () {
     test('Kasa (1): June 22 – Aug 1', () {
-      expect(WetonUtils.calculatePranataMangsaId(DateTime(2026, 6, 22)), equals(1));
-      expect(WetonUtils.calculatePranataMangsaId(DateTime(2026, 7, 15)), equals(1));
-      expect(WetonUtils.calculatePranataMangsaId(DateTime(2026, 8, 1)), equals(1));
+      expect(
+        WetonUtils.calculatePranataMangsaId(DateTime(2026, 6, 22)),
+        equals(1),
+      );
+      expect(
+        WetonUtils.calculatePranataMangsaId(DateTime(2026, 7, 15)),
+        equals(1),
+      );
+      expect(
+        WetonUtils.calculatePranataMangsaId(DateTime(2026, 8, 1)),
+        equals(1),
+      );
     });
 
     test('Karo (2): Aug 2 – Aug 24', () {
-      expect(WetonUtils.calculatePranataMangsaId(DateTime(2026, 8, 2)), equals(2));
-      expect(WetonUtils.calculatePranataMangsaId(DateTime(2026, 8, 24)), equals(2));
+      expect(
+        WetonUtils.calculatePranataMangsaId(DateTime(2026, 8, 2)),
+        equals(2),
+      );
+      expect(
+        WetonUtils.calculatePranataMangsaId(DateTime(2026, 8, 24)),
+        equals(2),
+      );
     });
 
     test('Kapitu (7): straddles year boundary — Dec 22 and Jan 1', () {
-      expect(WetonUtils.calculatePranataMangsaId(DateTime(2026, 12, 22)), equals(7));
-      expect(WetonUtils.calculatePranataMangsaId(DateTime(2026, 1, 1)), equals(7));
-      expect(WetonUtils.calculatePranataMangsaId(DateTime(2026, 2, 2)), equals(7));
+      expect(
+        WetonUtils.calculatePranataMangsaId(DateTime(2026, 12, 22)),
+        equals(7),
+      );
+      expect(
+        WetonUtils.calculatePranataMangsaId(DateTime(2026, 1, 1)),
+        equals(7),
+      );
+      expect(
+        WetonUtils.calculatePranataMangsaId(DateTime(2026, 2, 2)),
+        equals(7),
+      );
     });
 
     test('Kawolu (8): leap year ends Feb 29, non-leap ends Feb 28', () {
       // 2024 is a leap year
-      expect(WetonUtils.calculatePranataMangsaId(DateTime(2024, 2, 29)), equals(8));
+      expect(
+        WetonUtils.calculatePranataMangsaId(DateTime(2024, 2, 29)),
+        equals(8),
+      );
       // 2026 is not a leap year
-      expect(WetonUtils.calculatePranataMangsaId(DateTime(2026, 2, 28)), equals(8));
+      expect(
+        WetonUtils.calculatePranataMangsaId(DateTime(2026, 2, 28)),
+        equals(8),
+      );
     });
 
     test('Sada (12): May 12 – June 21', () {
-      expect(WetonUtils.calculatePranataMangsaId(DateTime(2026, 5, 12)), equals(12));
-      expect(WetonUtils.calculatePranataMangsaId(DateTime(2026, 6, 21)), equals(12));
+      expect(
+        WetonUtils.calculatePranataMangsaId(DateTime(2026, 5, 12)),
+        equals(12),
+      );
+      expect(
+        WetonUtils.calculatePranataMangsaId(DateTime(2026, 6, 21)),
+        equals(12),
+      );
     });
 
     test('id selalu antara 1 dan 12', () {

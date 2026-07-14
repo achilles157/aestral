@@ -32,10 +32,12 @@ class ReadingHistoryService {
       final entries = await load();
       // Hindari duplikat dalam 1 menit (misal: hot reload / double trigger)
       final cutoff = DateTime.now().subtract(const Duration(minutes: 1));
-      final isDupe = entries.any((e) =>
-          e.type == entry.type &&
-          e.title == entry.title &&
-          e.timestamp.isAfter(cutoff));
+      final isDupe = entries.any(
+        (e) =>
+            e.type == entry.type &&
+            e.title == entry.title &&
+            e.timestamp.isAfter(cutoff),
+      );
       if (isDupe) return;
 
       entries.insert(0, entry);

@@ -31,10 +31,9 @@ Future<void> shareCosmicImage({
     final dir = await getTemporaryDirectory();
     final file = File('${dir.path}/$fileName');
     await file.writeAsBytes(imageBytes);
-    await Share.shareXFiles(
-      [XFile(file.path, mimeType: 'image/png')],
-      text: shareText,
-    );
+    await Share.shareXFiles([
+      XFile(file.path, mimeType: 'image/png'),
+    ], text: shareText);
   } catch (e) {
     debugPrint('shareCosmicImage error: $e');
     if (context.mounted) {
@@ -44,4 +43,3 @@ Future<void> shareCosmicImage({
     }
   }
 }
-

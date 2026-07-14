@@ -46,39 +46,39 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       parent: _animController,
       curve: const Interval(0.15, 0.50, curve: Curves.easeOut),
     );
-    _logoSlide = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animController,
-      curve: const Interval(0.15, 0.50, curve: Curves.easeOut),
-    ));
+    _logoSlide = Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _animController,
+            curve: const Interval(0.15, 0.50, curve: Curves.easeOut),
+          ),
+        );
 
     // Tagline (30% – 60%)
     _taglineFade = CurvedAnimation(
       parent: _animController,
       curve: const Interval(0.30, 0.60, curve: Curves.easeOut),
     );
-    _taglineSlide = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animController,
-      curve: const Interval(0.30, 0.60, curve: Curves.easeOut),
-    ));
+    _taglineSlide = Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _animController,
+            curve: const Interval(0.30, 0.60, curve: Curves.easeOut),
+          ),
+        );
 
     // Buttons (50% – 80%)
     _buttonsFade = CurvedAnimation(
       parent: _animController,
       curve: const Interval(0.50, 0.80, curve: Curves.easeOut),
     );
-    _buttonsSlide = Tween<Offset>(
-      begin: const Offset(0, 0.4),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animController,
-      curve: const Interval(0.50, 0.80, curve: Curves.easeOut),
-    ));
+    _buttonsSlide = Tween<Offset>(begin: const Offset(0, 0.4), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _animController,
+            curve: const Interval(0.50, 0.80, curve: Curves.easeOut),
+          ),
+        );
 
     // Footer (70% – 100%)
     _footerFade = CurvedAnimation(
@@ -108,7 +108,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
             setState(() => _isLoading = false);
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('Gagal Masuk via Google. Coba lagi atau gunakan Akun Tamu.'),
+                content: Text(
+                  'Gagal Masuk via Google. Coba lagi atau gunakan Akun Tamu.',
+                ),
                 backgroundColor: Colors.redAccent,
               ),
             );
@@ -125,7 +127,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 borderRadius: BorderRadius.circular(20),
                 side: const BorderSide(color: AppTheme.accentGold, width: 1.5),
               ),
-              title: const Text('Firebase Belum Siap', style: TextStyle(color: AppTheme.accentGold)),
+              title: const Text(
+                'Firebase Belum Siap',
+                style: TextStyle(color: AppTheme.accentGold),
+              ),
               content: const Text(
                 'Aplikasi mendeteksi bahwa berkas konfigurasi Firebase Anda belum terpasang. '
                 'Silakan baca berkas "firebase_setup_guide.md" untuk petunjuk setup.\n\n'
@@ -135,7 +140,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('OK', style: TextStyle(color: AppTheme.textLight)),
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(color: AppTheme.textLight),
+                  ),
                 ),
               ],
             ),
@@ -227,7 +235,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                           shape: BoxShape.circle,
                                           boxShadow: [
                                             BoxShadow(
-                                              color: AppTheme.accentGold.withValues(alpha: 0.15),
+                                              color: AppTheme.accentGold
+                                                  .withValues(alpha: 0.15),
                                               blurRadius: 60,
                                               spreadRadius: 20,
                                             ),
@@ -274,7 +283,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                     'Pintu Gerbang Takdir & Misteri Kosmis',
                                     style: textTheme.bodyLarge?.copyWith(
                                       letterSpacing: 1.5,
-                                      color: AppTheme.textLight.withValues(alpha: 0.8),
+                                      color: AppTheme.textLight.withValues(
+                                        alpha: 0.8,
+                                      ),
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
@@ -296,12 +307,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                         ),
                                       )
                                     : Column(
-                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
                                         children: [
                                           // Google Sign-In — glassmorphic
                                           LoginGlassButton(
                                             onTap: _handleGoogleSignIn,
-                                            borderColor: AppTheme.accentGold.withValues(alpha: 0.4),
+                                            borderColor: AppTheme.accentGold
+                                                .withValues(alpha: 0.4),
                                             icon: const LoginGoogleBrandIcon(),
                                             label: 'Masuk Dengan Google',
                                           ),
@@ -311,8 +324,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                           // Guest Login — glassmorphic purple
                                           LoginGlassButton(
                                             onTap: _handleGuestSignIn,
-                                            borderColor: AppTheme.accentPurple.withValues(alpha: 0.5),
-                                            glowColor: AppTheme.accentPurple.withValues(alpha: 0.08),
+                                            borderColor: AppTheme.accentPurple
+                                                .withValues(alpha: 0.5),
+                                            glowColor: AppTheme.accentPurple
+                                                .withValues(alpha: 0.08),
                                             icon: const Icon(
                                               Icons.person_outline,
                                               color: AppTheme.accentPurple,
@@ -335,7 +350,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                                   'Zero-Budget High-Performance Architecture',
                                   style: textTheme.bodyMedium?.copyWith(
                                     fontSize: 12,
-                                    color: AppTheme.textMuted.withValues(alpha: 0.5),
+                                    color: AppTheme.textMuted.withValues(
+                                      alpha: 0.5,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -358,6 +375,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
 // ── Fallback for missing stars_bg.png ─────────────────────────────────
 
-Widget _fallbackStars(BuildContext context, Object exception, StackTrace? stackTrace) {
+Widget _fallbackStars(
+  BuildContext context,
+  Object exception,
+  StackTrace? stackTrace,
+) {
   return Container();
 }

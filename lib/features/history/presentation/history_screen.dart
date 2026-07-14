@@ -30,7 +30,11 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   Future<void> _load() async {
     AnalyticsService.logHistoryViewed().catchError((_) {});
     final entries = await ReadingHistoryService.load();
-    if (mounted) setState(() { _entries = entries; _isLoading = false; });
+    if (mounted)
+      setState(() {
+        _entries = entries;
+        _isLoading = false;
+      });
   }
 
   Future<void> _clearAll() async {
@@ -39,20 +43,28 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
       builder: (ctx) => AlertDialog(
         backgroundColor: const Color(0xFF1A1A2E),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text('Hapus Riwayat',
-            style: GoogleFonts.cinzel(color: Colors.white, fontSize: 16)),
-        content: Text('Semua riwayat kosmis akan dihapus permanen.',
-            style: GoogleFonts.outfit(color: Colors.white70, fontSize: 14)),
+        title: Text(
+          'Hapus Riwayat',
+          style: GoogleFonts.cinzel(color: Colors.white, fontSize: 16),
+        ),
+        content: Text(
+          'Semua riwayat kosmis akan dihapus permanen.',
+          style: GoogleFonts.outfit(color: Colors.white70, fontSize: 14),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text('Batal',
-                style: GoogleFonts.outfit(color: Colors.white54)),
+            child: Text(
+              'Batal',
+              style: GoogleFonts.outfit(color: Colors.white54),
+            ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text('Hapus',
-                style: GoogleFonts.outfit(color: Colors.redAccent)),
+            child: Text(
+              'Hapus',
+              style: GoogleFonts.outfit(color: Colors.redAccent),
+            ),
           ),
         ],
       ),
@@ -79,16 +91,17 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   Map<String, List<ReadingEntry>> _grouped() {
     final now = DateTime.now();
     final today = DateFormat('yyyy-MM-dd').format(now);
-    final yesterday =
-        DateFormat('yyyy-MM-dd').format(now.subtract(const Duration(days: 1)));
+    final yesterday = DateFormat(
+      'yyyy-MM-dd',
+    ).format(now.subtract(const Duration(days: 1)));
     final grouped = <String, List<ReadingEntry>>{};
     for (final e in _entries) {
       final dateKey = DateFormat('yyyy-MM-dd').format(e.timestamp);
       final label = dateKey == today
           ? 'Hari Ini'
           : dateKey == yesterday
-              ? 'Kemarin'
-              : DateFormat('d MMMM yyyy', 'id_ID').format(e.timestamp);
+          ? 'Kemarin'
+          : DateFormat('d MMMM yyyy', 'id_ID').format(e.timestamp);
       grouped.putIfAbsent(label, () => []).add(e);
     }
     return grouped;
@@ -104,8 +117,11 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
         backgroundColor: const Color(0xFF0D0D1A),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded,
-              color: Colors.white70, size: 18),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white70,
+            size: 18,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -120,8 +136,11 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
         actions: [
           if (_entries.isNotEmpty)
             IconButton(
-              icon: const Icon(Icons.delete_outline_rounded,
-                  color: Colors.white38, size: 20),
+              icon: const Icon(
+                Icons.delete_outline_rounded,
+                color: Colors.white38,
+                size: 20,
+              ),
               onPressed: _clearAll,
               tooltip: 'Hapus semua',
             ),
@@ -138,8 +157,8 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
         child: _isLoading
             ? const Center(child: CosmicLoader())
             : _entries.isEmpty
-                ? _buildEmptyState()
-                : _buildList(),
+            ? _buildEmptyState()
+            : _buildList(),
       ),
     );
   }
@@ -149,8 +168,11 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.auto_awesome,
-              color: AppTheme.accentGold.withValues(alpha: 0.3), size: 48),
+          Icon(
+            Icons.auto_awesome,
+            color: AppTheme.accentGold.withValues(alpha: 0.3),
+            size: 48,
+          ),
           const SizedBox(height: 16),
           Text(
             'Belum ada jejak kosmis',
@@ -199,10 +221,12 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                 ),
               ),
             ),
-            ...section.value.map((entry) => _EntryTile(
-                  entry: entry,
-                  onTap: () => _navigateTo(entry.type),
-                )),
+            ...section.value.map(
+              (entry) => _EntryTile(
+                entry: entry,
+                onTap: () => _navigateTo(entry.type),
+              ),
+            ),
           ],
         );
       },
@@ -219,11 +243,11 @@ class _EntryTile extends StatelessWidget {
   const _EntryTile({required this.entry, required this.onTap});
 
   IconData get _icon => switch (entry.type) {
-        'weton' => Icons.brightness_medium_rounded,
-        'bazi' => Icons.grid_4x4_rounded,
-        'tarot' => Icons.auto_awesome,
-        _ => Icons.stars_rounded,
-      };
+    'weton' => Icons.brightness_medium_rounded,
+    'bazi' => Icons.grid_4x4_rounded,
+    'tarot' => Icons.auto_awesome,
+    _ => Icons.stars_rounded,
+  };
 
   String get _timeLabel {
     final now = DateTime.now();
@@ -252,11 +276,17 @@ class _EntryTile extends StatelessWidget {
                 border: Border(
                   left: BorderSide(color: accent, width: 3),
                   top: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.06), width: 1),
+                    color: Colors.white.withValues(alpha: 0.06),
+                    width: 1,
+                  ),
                   right: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.06), width: 1),
+                    color: Colors.white.withValues(alpha: 0.06),
+                    width: 1,
+                  ),
                   bottom: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.06), width: 1),
+                    color: Colors.white.withValues(alpha: 0.06),
+                    width: 1,
+                  ),
                 ),
               ),
               child: Row(
@@ -310,8 +340,11 @@ class _EntryTile extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Icon(Icons.chevron_right_rounded,
-                          color: accent.withValues(alpha: 0.5), size: 16),
+                      Icon(
+                        Icons.chevron_right_rounded,
+                        color: accent.withValues(alpha: 0.5),
+                        size: 16,
+                      ),
                     ],
                   ),
                 ],

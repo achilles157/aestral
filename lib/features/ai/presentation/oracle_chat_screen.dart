@@ -61,13 +61,19 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
 
     // Initialize provider state from local storage
     Future.microtask(() async {
-      await ref.read(oracleChatProvider(widget.oracleType).notifier).initialize(aiContext: widget.aiContext);
-      
+      await ref
+          .read(oracleChatProvider(widget.oracleType).notifier)
+          .initialize(aiContext: widget.aiContext);
+
       // Auto-trigger a silent greeting from the oracle if conversation is empty
       final currentState = ref.read(oracleChatProvider(widget.oracleType));
       if (currentState.messages.isEmpty) {
-        final dynamicAuthHeader = await ref.read(authProvider.notifier).getAuthHeader();
-        ref.read(oracleChatProvider(widget.oracleType).notifier).sendMessage(
+        final dynamicAuthHeader = await ref
+            .read(authProvider.notifier)
+            .getAuthHeader();
+        ref
+            .read(oracleChatProvider(widget.oracleType).notifier)
+            .sendMessage(
               prompt: 'Halo',
               authHeader: dynamicAuthHeader,
               context: widget.aiContext,
@@ -80,8 +86,7 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
   @override
   void dispose() {
     // Capture notifier ref SEBELUM disposal agar aman di Riverpod
-    final notifier =
-        ref.read(oracleChatProvider(widget.oracleType).notifier);
+    final notifier = ref.read(oracleChatProvider(widget.oracleType).notifier);
     final authHeader = widget.authHeader;
 
     _inputCtrl.dispose();
@@ -119,9 +124,13 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
     _inputCtrl.clear();
     FocusScope.of(context).unfocus();
 
-    final dynamicAuthHeader = await ref.read(authProvider.notifier).getAuthHeader();
+    final dynamicAuthHeader = await ref
+        .read(authProvider.notifier)
+        .getAuthHeader();
 
-    await ref.read(oracleChatProvider(widget.oracleType).notifier).sendMessage(
+    await ref
+        .read(oracleChatProvider(widget.oracleType).notifier)
+        .sendMessage(
           prompt: text.trim(),
           authHeader: dynamicAuthHeader,
           context: widget.aiContext,
@@ -140,19 +149,29 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
   /// Deteksi elemen/topik dari teks oracle untuk ambient glow dinamis (PRD section 4).
   Color _detectTopicColor(String text) {
     final t = text.toLowerCase();
-    if (RegExp(r'karier|ambisi|semangat|motivasi|api|berani|tegas|tindakan|keberanian').hasMatch(t)) {
+    if (RegExp(
+      r'karier|ambisi|semangat|motivasi|api|berani|tegas|tindakan|keberanian',
+    ).hasMatch(t)) {
       return const Color(0xFFE64A19); // Api — merah-oranye
     }
-    if (RegExp(r'emosi|asmara|intuisi|mimpi|perasaan|batin|hubungan|cinta|air').hasMatch(t)) {
+    if (RegExp(
+      r'emosi|asmara|intuisi|mimpi|perasaan|batin|hubungan|cinta|air',
+    ).hasMatch(t)) {
       return const Color(0xFF1565C0); // Air — biru
     }
-    if (RegExp(r'pertumbuhan|berkembang|kreatif|kreativitas|inspirasi|kayu|tumbuh').hasMatch(t)) {
+    if (RegExp(
+      r'pertumbuhan|berkembang|kreatif|kreativitas|inspirasi|kayu|tumbuh',
+    ).hasMatch(t)) {
       return const Color(0xFF2E7D32); // Kayu — hijau
     }
-    if (RegExp(r'keluarga|stabilitas|rumah|kesehatan|tanah|rezeki|materi|pondasi').hasMatch(t)) {
+    if (RegExp(
+      r'keluarga|stabilitas|rumah|kesehatan|tanah|rezeki|materi|pondasi',
+    ).hasMatch(t)) {
       return const Color(0xFF6D4C41); // Tanah — coklat
     }
-    if (RegExp(r'keuangan|uang|finansial|logika|disiplin|logam|struktur|fokus').hasMatch(t)) {
+    if (RegExp(
+      r'keuangan|uang|finansial|logika|disiplin|logam|struktur|fokus',
+    ).hasMatch(t)) {
       return const Color(0xFF78909C); // Logam — biru-abu
     }
     return _accentColor; // Default: warna persona oracle
@@ -167,25 +186,25 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
     final isGuest = authState == null || authState.isMock;
 
     // Auto-scroll when new message added + update topic glow from oracle response
-    ref.listen<OracleChatState>(
-      oracleChatProvider(widget.oracleType),
-      (prev, next) {
-        if (prev != null && next.messages.length > prev.messages.length) {
-          _scrollToBottom();
-          // Detect element/topik dari pesan oracle terbaru untuk ambient glow
-          final lastMsg = next.messages.last;
-          if (lastMsg.role == 'model' && lastMsg.text.isNotEmpty) {
-            final detected = _detectTopicColor(lastMsg.text);
-            if (detected != _topicGlowColor) {
-              setState(() {
-                _prevGlowColor = _topicGlowColor;
-                _topicGlowColor = detected;
-              });
-            }
+    ref.listen<OracleChatState>(oracleChatProvider(widget.oracleType), (
+      prev,
+      next,
+    ) {
+      if (prev != null && next.messages.length > prev.messages.length) {
+        _scrollToBottom();
+        // Detect element/topik dari pesan oracle terbaru untuk ambient glow
+        final lastMsg = next.messages.last;
+        if (lastMsg.role == 'model' && lastMsg.text.isNotEmpty) {
+          final detected = _detectTopicColor(lastMsg.text);
+          if (detected != _topicGlowColor) {
+            setState(() {
+              _prevGlowColor = _topicGlowColor;
+              _topicGlowColor = detected;
+            });
           }
         }
-      },
-    );
+      }
+    });
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -196,7 +215,8 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
             child: Image.asset(
               _config.bgAsset,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(color: AppTheme.background),
+              errorBuilder: (_, __, ___) =>
+                  Container(color: AppTheme.background),
             ),
           ),
           Positioned.fill(
@@ -217,9 +237,7 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
           // teks chat jadi susah terbaca tanpa dim ekstra ini
           if (widget.oracleType == 'synthesis')
             Positioned.fill(
-              child: Container(
-                color: Colors.black.withValues(alpha: 0.42),
-              ),
+              child: Container(color: Colors.black.withValues(alpha: 0.42)),
             ),
           // Ambient glow — warna berubah perlahan mengikuti topik percakapan (PRD section 4)
           TweenAnimationBuilder<Color?>(
@@ -266,7 +284,9 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                 ),
                 if (_showSesepuhHint && widget.oracleType != 'synthesis')
                   _buildSesepuhHint(),
-                if (isGuest && state.guestMessageCount == 0 && state.messages.isNotEmpty)
+                if (isGuest &&
+                    state.guestMessageCount == 0 &&
+                    state.messages.isNotEmpty)
                   _buildGuestQuotaHint(),
                 if (isGuest && state.guestMessageCount >= 1)
                   _buildSoftGatePanel(bottomInset, bottomPadding)
@@ -302,8 +322,11 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
               children: [
                 GestureDetector(
                   onTap: () => Navigator.of(context).maybePop(),
-                  child: Icon(Icons.arrow_back_ios_new_rounded,
-                      color: _accentColor, size: 18),
+                  child: Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: _accentColor,
+                    size: 18,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -398,8 +421,7 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                   bottomLeft: Radius.circular(18),
                   bottomRight: Radius.circular(18),
                 ),
-                border: Border.all(
-                    color: _accentColor.withValues(alpha: 0.20)),
+                border: Border.all(color: _accentColor.withValues(alpha: 0.20)),
               ),
               child: OraclePulsingMandala(color: _accentColor),
             ),
@@ -471,19 +493,23 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
           // Tarot cards from global draw state
           if (drawnCards != null && drawnCards.isNotEmpty)
             'tarotCards': drawnCards
-                .map((c) => {
-                      'name': c.card.nameId,
-                      'label': c.label,
-                      'isReversed': c.isReversed,
-                      'archetype': c.card.archetypeId,
-                      'element': c.card.elementalId,
-                      'aiHook': c.card.aiHookId,
-                      'keywords': c.card.keywordsId,
-                    })
+                .map(
+                  (c) => {
+                    'name': c.card.nameId,
+                    'label': c.label,
+                    'isReversed': c.isReversed,
+                    'archetype': c.card.archetypeId,
+                    'element': c.card.elementalId,
+                    'aiHook': c.card.aiHookId,
+                    'keywords': c.card.keywordsId,
+                  },
+                )
                 .toList(),
         };
 
-        ref.read(authProvider.notifier).getAuthHeader().then((dynamicAuthHeader) {
+        ref.read(authProvider.notifier).getAuthHeader().then((
+          dynamicAuthHeader,
+        ) {
           if (mounted) {
             Navigator.of(context).push(
               MaterialPageRoute(
@@ -504,12 +530,12 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
           color: const Color(0xFF5C6BC0).withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-              color: const Color(0xFF5C6BC0).withValues(alpha: 0.35)),
+            color: const Color(0xFF5C6BC0).withValues(alpha: 0.35),
+          ),
         ),
         child: Row(
           children: [
-            const Icon(Icons.auto_awesome,
-                color: Color(0xFF5C6BC0), size: 16),
+            const Icon(Icons.auto_awesome, color: Color(0xFF5C6BC0), size: 16),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -521,8 +547,11 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                 ),
               ),
             ),
-            const Icon(Icons.chevron_right_rounded,
-                color: Color(0xFF5C6BC0), size: 18),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: Color(0xFF5C6BC0),
+              size: 18,
+            ),
           ],
         ),
       ),
@@ -560,10 +589,17 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
   // ── Input Row ───────────────────────────────────────────────────────────────
 
   Widget _buildInputRow(
-      OracleChatState state, double bottomInset, double bottomPadding) {
+    OracleChatState state,
+    double bottomInset,
+    double bottomPadding,
+  ) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
-          16, 8, 16, math.max(bottomInset, bottomPadding) + 12),
+        16,
+        8,
+        16,
+        math.max(bottomInset, bottomPadding) + 12,
+      ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(28),
         child: _maybeBlur(
@@ -619,26 +655,29 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                           label: 'Kirim pesan',
                           button: true,
                           child: GestureDetector(
-                          key: const ValueKey('send'),
-                          onTap: () => _send(_inputCtrl.text),
-                          child: Container(
-                            width: 44,
-                            height: 44,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: _accentColor,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: _accentColor.withValues(alpha: 0.40),
-                                  blurRadius: 12,
-                                )
-                              ],
+                            key: const ValueKey('send'),
+                            onTap: () => _send(_inputCtrl.text),
+                            child: Container(
+                              width: 44,
+                              height: 44,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: _accentColor,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: _accentColor.withValues(alpha: 0.40),
+                                    blurRadius: 12,
+                                  ),
+                                ],
+                              ),
+                              child: const Icon(
+                                Icons.send_rounded,
+                                color: Colors.white,
+                                size: 18,
+                              ),
                             ),
-                            child: const Icon(Icons.send_rounded,
-                                color: Colors.white, size: 18),
                           ),
                         ),
-                      ),
                 ),
               ],
             ),
@@ -665,7 +704,11 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
   Widget _buildSoftGatePanel(double bottomInset, double bottomPadding) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
-          16, 8, 16, math.max(bottomInset, bottomPadding) + 12),
+        16,
+        8,
+        16,
+        math.max(bottomInset, bottomPadding) + 12,
+      ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(24),
         child: _maybeBlur(
@@ -675,7 +718,10 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
             decoration: BoxDecoration(
               color: const Color(0xFF0F0B26).withValues(alpha: 0.60),
               borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: _accentColor.withValues(alpha: 0.35), width: 1.5),
+              border: Border.all(
+                color: _accentColor.withValues(alpha: 0.35),
+                width: 1.5,
+              ),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -688,7 +734,10 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                     child: Stack(
                       children: [
                         ImageFiltered(
-                          imageFilter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
+                          imageFilter: ImageFilter.blur(
+                            sigmaX: 2.5,
+                            sigmaY: 2.5,
+                          ),
                           child: Text(
                             _oracleContinuationTeaser(),
                             style: GoogleFonts.outfit(
@@ -700,7 +749,9 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                           ),
                         ),
                         Positioned(
-                          bottom: 0, left: 0, right: 0,
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
                           child: Container(
                             height: 28,
                             decoration: const BoxDecoration(
@@ -721,7 +772,11 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    Icon(Icons.lock_outline, color: AppTheme.accentGold, size: 20),
+                    Icon(
+                      Icons.lock_outline,
+                      color: AppTheme.accentGold,
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       'Orakel Menanti Jawabanmu',
@@ -767,7 +822,7 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                           color: _accentColor.withValues(alpha: 0.3),
                           blurRadius: 10,
                           offset: const Offset(0, 3),
-                        )
+                        ),
                       ],
                     ),
                     child: Center(

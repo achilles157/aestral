@@ -28,25 +28,34 @@ class BaziPillarDetailCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text('日柱 ',
-                  style: GoogleFonts.playfairDisplay(
-                      fontSize: 16,
-                      color: elementColor,
-                      fontWeight: FontWeight.bold)),
+              Text(
+                '日柱 ',
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 16,
+                  color: elementColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               Text(
                 data['pillar_name'] as String? ?? '',
                 style: GoogleFonts.outfit(
-                    fontSize: 13,
-                    color: Colors.white70,
-                    fontWeight: FontWeight.w600),
+                  fontSize: 13,
+                  color: Colors.white70,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
           const SizedBox(height: 8),
           if (summary.isNotEmpty)
-            Text(summary,
-                style: GoogleFonts.outfit(
-                    fontSize: 12, color: Colors.white60, height: 1.5)),
+            Text(
+              summary,
+              style: GoogleFonts.outfit(
+                fontSize: 12,
+                color: Colors.white60,
+                height: 1.5,
+              ),
+            ),
           if (career.isNotEmpty) ...[
             const SizedBox(height: 10),
             Wrap(
@@ -69,16 +78,19 @@ class BaziPillarDetailCard extends StatelessWidget {
   }
 
   Widget _chip(String label, Color color) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-        decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.12),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: color.withValues(alpha: 0.3)),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.outfit(
-              fontSize: 10, color: color, fontWeight: FontWeight.w500),
-        ),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+    decoration: BoxDecoration(
+      color: color.withValues(alpha: 0.12),
+      borderRadius: BorderRadius.circular(20),
+      border: Border.all(color: color.withValues(alpha: 0.3)),
+    ),
+    child: Text(
+      label,
+      style: GoogleFonts.outfit(
+        fontSize: 10,
+        color: color,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+  );
 }

@@ -18,11 +18,7 @@ class TarotOraclePanel extends StatelessWidget {
     required this.drawnCards,
   });
 
-  static const _positionIcons = {
-    'past': '🕐',
-    'present': '☉',
-    'future': '✦',
-  };
+  static const _positionIcons = {'past': '🕐', 'present': '☉', 'future': '✦'};
 
   static const _positionLabels = {
     'past': 'MASA LALU',
@@ -43,7 +39,11 @@ class TarotOraclePanel extends StatelessWidget {
           // Header
           Row(
             children: [
-              const Icon(Icons.auto_awesome, color: AppTheme.accentGold, size: 20),
+              const Icon(
+                Icons.auto_awesome,
+                color: AppTheme.accentGold,
+                size: 20,
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
@@ -93,7 +93,11 @@ class TarotOraclePanel extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.star, color: AppTheme.accentGold, size: 12),
+                        const Icon(
+                          Icons.star,
+                          color: AppTheme.accentGold,
+                          size: 12,
+                        ),
                         const SizedBox(width: 6),
                         Text(
                           'KONKLUSI — BENANG MERAH',
@@ -105,7 +109,11 @@ class TarotOraclePanel extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 6),
-                        const Icon(Icons.star, color: AppTheme.accentGold, size: 12),
+                        const Icon(
+                          Icons.star,
+                          color: AppTheme.accentGold,
+                          size: 12,
+                        ),
                       ],
                     ),
                   ),

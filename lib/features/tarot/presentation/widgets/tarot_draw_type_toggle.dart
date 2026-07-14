@@ -52,7 +52,11 @@ class _Pill extends StatelessWidget {
   final bool isActive;
   final VoidCallback onTap;
 
-  const _Pill({required this.label, required this.isActive, required this.onTap});
+  const _Pill({
+    required this.label,
+    required this.isActive,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

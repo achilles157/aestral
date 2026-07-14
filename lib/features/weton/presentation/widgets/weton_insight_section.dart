@@ -13,7 +13,8 @@ class WetonInsightSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColor = parseWetonHexColor(entry.warnaHarmoni) ?? AppTheme.accentGold;
+    final themeColor =
+        parseWetonHexColor(entry.warnaHarmoni) ?? AppTheme.accentGold;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

@@ -16,13 +16,13 @@ Future<void> showEditProfileDialog(
   final currentProfile =
       ref.read(birthProfileProvider).value ?? const BirthProfile();
 
-  DateTime? selectedDate   = currentProfile.dobDate;
-  int?      selectedHour   = currentProfile.birthHour;
-  String?   selectedGender = currentProfile.gender;
+  DateTime? selectedDate = currentProfile.dobDate;
+  int? selectedHour = currentProfile.birthHour;
+  String? selectedGender = currentProfile.gender;
 
   CityPreset selectedCity = allCities.firstWhere(
     (c) =>
-        (c.latitude  - (currentProfile.latitude  ?? -6.2088)).abs() < 0.0001 &&
+        (c.latitude - (currentProfile.latitude ?? -6.2088)).abs() < 0.0001 &&
         (c.longitude - (currentProfile.longitude ?? 106.8456)).abs() < 0.0001,
     orElse: () => allCities.isNotEmpty
         ? allCities.firstWhere(
@@ -30,7 +30,10 @@ Future<void> showEditProfileDialog(
             orElse: () => allCities.first,
           )
         : const CityPreset(
-            name: 'Jakarta', latitude: -6.2088, longitude: 106.8456),
+            name: 'Jakarta',
+            latitude: -6.2088,
+            longitude: 106.8456,
+          ),
   );
 
   await showDialog(
@@ -68,9 +71,13 @@ Future<void> showEditProfileDialog(
               const SizedBox(height: 20),
 
               // ── Tanggal Lahir ───────────────────────────────────────────
-              Text('Tanggal Lahir',
-                  style: GoogleFonts.outfit(
-                      color: AppTheme.textMuted, fontSize: 12)),
+              Text(
+                'Tanggal Lahir',
+                style: GoogleFonts.outfit(
+                  color: AppTheme.textMuted,
+                  fontSize: 12,
+                ),
+              ),
               const SizedBox(height: 6),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
@@ -80,11 +87,14 @@ Future<void> showEditProfileDialog(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                     side: BorderSide(
-                        color: AppTheme.accentPurple.withValues(alpha: 0.3)),
+                      color: AppTheme.accentPurple.withValues(alpha: 0.3),
+                    ),
                   ),
                 ),
-                icon: const Icon(Icons.calendar_month,
-                    color: AppTheme.accentGold),
+                icon: const Icon(
+                  Icons.calendar_month,
+                  color: AppTheme.accentGold,
+                ),
                 label: Text(
                   selectedDate == null
                       ? 'Pilih Tanggal'
@@ -117,9 +127,13 @@ Future<void> showEditProfileDialog(
               const SizedBox(height: 16),
 
               // ── Jam Lahir ───────────────────────────────────────────────
-              Text('Jam Lahir',
-                  style: GoogleFonts.outfit(
-                      color: AppTheme.textMuted, fontSize: 12)),
+              Text(
+                'Jam Lahir',
+                style: GoogleFonts.outfit(
+                  color: AppTheme.textMuted,
+                  fontSize: 12,
+                ),
+              ),
               const SizedBox(height: 6),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -127,27 +141,37 @@ Future<void> showEditProfileDialog(
                   color: AppTheme.background,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                      color: AppTheme.accentPurple.withValues(alpha: 0.3)),
+                    color: AppTheme.accentPurple.withValues(alpha: 0.3),
+                  ),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<int?>(
                     dropdownColor: AppTheme.cardBg,
                     value: selectedHour,
-                    hint: const Text('Pilih Jam Lahir (Opsional)',
-                        style: TextStyle(color: AppTheme.textMuted)),
-                    icon: const Icon(Icons.arrow_drop_down,
-                        color: AppTheme.accentGold),
+                    hint: const Text(
+                      'Pilih Jam Lahir (Opsional)',
+                      style: TextStyle(color: AppTheme.textMuted),
+                    ),
+                    icon: const Icon(
+                      Icons.arrow_drop_down,
+                      color: AppTheme.accentGold,
+                    ),
                     style: const TextStyle(
-                        color: AppTheme.textLight,
-                        fontWeight: FontWeight.bold),
+                      color: AppTheme.textLight,
+                      fontWeight: FontWeight.bold,
+                    ),
                     items: [
                       const DropdownMenuItem<int?>(
-                          value: null, child: Text('Tidak Tahu')),
-                      ...List.generate(24, (i) => DropdownMenuItem<int?>(
-                            value: i,
-                            child:
-                                Text('${i.toString().padLeft(2, '0')}:00'),
-                          )),
+                        value: null,
+                        child: Text('Tidak Tahu'),
+                      ),
+                      ...List.generate(
+                        24,
+                        (i) => DropdownMenuItem<int?>(
+                          value: i,
+                          child: Text('${i.toString().padLeft(2, '0')}:00'),
+                        ),
+                      ),
                     ],
                     onChanged: (val) =>
                         setDialogState(() => selectedHour = val),
@@ -157,9 +181,13 @@ Future<void> showEditProfileDialog(
               const SizedBox(height: 16),
 
               // ── Gender ──────────────────────────────────────────────────
-              Text('Jenis Kelamin (Gender)',
-                  style: GoogleFonts.outfit(
-                      color: AppTheme.textMuted, fontSize: 12)),
+              Text(
+                'Jenis Kelamin (Gender)',
+                style: GoogleFonts.outfit(
+                  color: AppTheme.textMuted,
+                  fontSize: 12,
+                ),
+              ),
               const SizedBox(height: 6),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -167,26 +195,38 @@ Future<void> showEditProfileDialog(
                   color: AppTheme.background,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                      color: AppTheme.accentPurple.withValues(alpha: 0.3)),
+                    color: AppTheme.accentPurple.withValues(alpha: 0.3),
+                  ),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String?>(
                     dropdownColor: AppTheme.cardBg,
                     value: selectedGender,
-                    hint: const Text('Pilih Jenis Kelamin (Opsional)',
-                        style: TextStyle(color: AppTheme.textMuted)),
-                    icon: const Icon(Icons.arrow_drop_down,
-                        color: AppTheme.accentGold),
+                    hint: const Text(
+                      'Pilih Jenis Kelamin (Opsional)',
+                      style: TextStyle(color: AppTheme.textMuted),
+                    ),
+                    icon: const Icon(
+                      Icons.arrow_drop_down,
+                      color: AppTheme.accentGold,
+                    ),
                     style: const TextStyle(
-                        color: AppTheme.textLight,
-                        fontWeight: FontWeight.bold),
+                      color: AppTheme.textLight,
+                      fontWeight: FontWeight.bold,
+                    ),
                     items: const [
                       DropdownMenuItem<String?>(
-                          value: null, child: Text('Pilih...')),
+                        value: null,
+                        child: Text('Pilih...'),
+                      ),
                       DropdownMenuItem<String?>(
-                          value: 'male', child: Text('Laki-laki')),
+                        value: 'male',
+                        child: Text('Laki-laki'),
+                      ),
                       DropdownMenuItem<String?>(
-                          value: 'female', child: Text('Perempuan')),
+                        value: 'female',
+                        child: Text('Perempuan'),
+                      ),
                     ],
                     onChanged: (val) =>
                         setDialogState(() => selectedGender = val),
@@ -196,9 +236,13 @@ Future<void> showEditProfileDialog(
               const SizedBox(height: 16),
 
               // ── Kota ────────────────────────────────────────────────────
-              Text('Kota Tempat Lahir',
-                  style: GoogleFonts.outfit(
-                      color: AppTheme.textMuted, fontSize: 12)),
+              Text(
+                'Kota Tempat Lahir',
+                style: GoogleFonts.outfit(
+                  color: AppTheme.textMuted,
+                  fontSize: 12,
+                ),
+              ),
               const SizedBox(height: 6),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
@@ -208,18 +252,17 @@ Future<void> showEditProfileDialog(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                     side: BorderSide(
-                        color: AppTheme.accentPurple.withValues(alpha: 0.3)),
+                      color: AppTheme.accentPurple.withValues(alpha: 0.3),
+                    ),
                   ),
                 ),
-                icon: const Icon(Icons.location_on,
-                    color: AppTheme.accentGold),
+                icon: const Icon(Icons.location_on, color: AppTheme.accentGold),
                 label: Text(
                   selectedCity.name,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 onPressed: () async {
-                  final picked =
-                      await showModalBottomSheet<CityPreset>(
+                  final picked = await showModalBottomSheet<CityPreset>(
                     context: context,
                     backgroundColor: Colors.transparent,
                     isScrollControlled: true,
@@ -230,7 +273,7 @@ Future<void> showEditProfileDialog(
                                 name: 'Jakarta',
                                 latitude: -6.2088,
                                 longitude: 106.8456,
-                              )
+                              ),
                             ]
                           : allCities,
                     ),
@@ -247,8 +290,10 @@ Future<void> showEditProfileDialog(
           if (currentProfile.dobDate != null)
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Batal',
-                  style: TextStyle(color: AppTheme.textMuted)),
+              child: const Text(
+                'Batal',
+                style: TextStyle(color: AppTheme.textMuted),
+              ),
             ),
           TextButton(
             onPressed: selectedDate == null
@@ -269,7 +314,8 @@ Future<void> showEditProfileDialog(
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text(
-                              'Identitas kosmis berhasil diselaraskan!'),
+                            'Identitas kosmis berhasil diselaraskan!',
+                          ),
                           backgroundColor: AppTheme.accentPurple,
                         ),
                       );

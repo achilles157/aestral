@@ -30,8 +30,11 @@ class DashboardGuestUpsellCard extends ConsumerWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.lock_open_rounded,
-              color: AppTheme.accentPurple, size: 20),
+          const Icon(
+            Icons.lock_open_rounded,
+            color: AppTheme.accentPurple,
+            size: 20,
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -60,20 +63,23 @@ class DashboardGuestUpsellCard extends ConsumerWidget {
           const SizedBox(width: 8),
           TextButton(
             onPressed: () {
-                AnalyticsService.logGuestUpsellShown('dashboard').catchError((_) {});
-                ref.read(authProvider.notifier).signInWithGoogle();
-              },
+              AnalyticsService.logGuestUpsellShown(
+                'dashboard',
+              ).catchError((_) {});
+              ref.read(authProvider.notifier).signInWithGoogle();
+            },
             style: TextButton.styleFrom(
               foregroundColor: AppTheme.accentPurple,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             child: Text(
               'Simpan',
               style: GoogleFonts.outfit(
-                  fontWeight: FontWeight.bold, fontSize: 12),
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
             ),
           ),
         ],

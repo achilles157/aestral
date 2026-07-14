@@ -17,7 +17,11 @@ void main() {
     });
 
     test('should match WetonUtils JDN calculation', () {
-      final dates = [[1990, 1, 1], [2000, 6, 15], [2026, 12, 31]];
+      final dates = [
+        [1990, 1, 1],
+        [2000, 6, 15],
+        [2026, 12, 31],
+      ];
       for (final d in dates) {
         final jdn = BaziUtils.dateToJdn(d[0], d[1], d[2]);
         expect(jdn, greaterThan(2400000));
@@ -190,8 +194,12 @@ void main() {
       expect(balance.logam, greaterThanOrEqualTo(0));
       expect(balance.air, greaterThanOrEqualTo(0));
 
-      final total = balance.kayu + balance.api + balance.tanah + 
-                    balance.logam + balance.air;
+      final total =
+          balance.kayu +
+          balance.api +
+          balance.tanah +
+          balance.logam +
+          balance.air;
       expect(total, greaterThan(0));
     });
 
@@ -207,10 +215,7 @@ void main() {
 
     test('should calculate Ten Gods', () {
       final birthDate = DateTime.utc(1990, 6, 15);
-      final chart = BaziUtils.calculateBaziChart(
-        birthDate,
-        birthHour: 10,
-      );
+      final chart = BaziUtils.calculateBaziChart(birthDate, birthHour: 10);
 
       expect(chart.tenGods, isNotNull);
       expect(chart.tenGods.year, isNotEmpty);

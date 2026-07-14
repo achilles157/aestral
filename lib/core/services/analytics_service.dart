@@ -12,11 +12,10 @@ class AnalyticsService {
 
   // ── Feature events ────────────────────────────────────────────────────────
 
-  static Future<void> logWetonCalculated(String wetonName, int neptu) =>
-      _log('weton_calculated', {
-        'weton_name': wetonName,
-        'neptu': neptu.toString(),
-      });
+  static Future<void> logWetonCalculated(String wetonName, int neptu) => _log(
+    'weton_calculated',
+    {'weton_name': wetonName, 'neptu': neptu.toString()},
+  );
 
   static Future<void> logBaziCalculated(String dayMaster) =>
       _log('bazi_calculated', {'day_master': dayMaster});
@@ -40,8 +39,7 @@ class AnalyticsService {
   static Future<void> logGuestUpsellShown(String source) =>
       _log('guest_upsell_shown', {'source': source});
 
-  static Future<void> logSesepuhKosmisOpened() =>
-      _log('sesepuh_kosmis_opened');
+  static Future<void> logSesepuhKosmisOpened() => _log('sesepuh_kosmis_opened');
 
   // ── User properties ───────────────────────────────────────────────────────
 

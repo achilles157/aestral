@@ -27,15 +27,13 @@ class BaziRepository {
   /// Loads the 60 sexagenary cycle (六十甲子) pillar descriptions
   /// from bazi-pillars.json.
   Future<List<Map<String, dynamic>>> getPillars() async {
-    final data =
-        await rootBundle.loadString('assets/bazi/bazi-pillars.json');
+    final data = await rootBundle.loadString('assets/bazi/bazi-pillars.json');
     return (json.decode(data) as List<dynamic>).cast<Map<String, dynamic>>();
   }
 
   /// Loads the 10 Day Master personality profiles from 10day-masters.json.
   Future<List<Map<String, dynamic>>> getDayMasters() async {
-    final data =
-        await rootBundle.loadString('assets/bazi/10day-masters.json');
+    final data = await rootBundle.loadString('assets/bazi/10day-masters.json');
     return (json.decode(data) as List<dynamic>).cast<Map<String, dynamic>>();
   }
 

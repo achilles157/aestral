@@ -37,6 +37,7 @@ class ReduceEffectsNotifier extends AsyncNotifier<bool> {
   }
 }
 
-final reduceEffectsProvider = AsyncNotifierProvider<ReduceEffectsNotifier, bool>(
-  ReduceEffectsNotifier.new,
-);
+final reduceEffectsProvider =
+    AsyncNotifierProvider<ReduceEffectsNotifier, bool>(
+      ReduceEffectsNotifier.new,
+    );

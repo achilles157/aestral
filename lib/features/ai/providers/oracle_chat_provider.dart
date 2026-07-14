@@ -103,6 +103,7 @@ class OracleChatState {
   final int daysSinceLastOpen;
   final String? lastTopic;
   final String? lastSessionSummary;
+
   /// Jumlah exchange non-silent yang sudah selesai. Gate tamu muncul saat >= 1.
   final int guestMessageCount;
 
@@ -152,10 +153,10 @@ class OracleChatState {
 
 // ── Provider Family ──────────────────────────────────────────────────────────
 
-final oracleChatProvider = NotifierProvider.family<
-    OracleChatNotifier, OracleChatState, String>(
-  (String oracleType) => OracleChatNotifier(oracleType),
-);
+final oracleChatProvider =
+    NotifierProvider.family<OracleChatNotifier, OracleChatState, String>(
+      (String oracleType) => OracleChatNotifier(oracleType),
+    );
 
 // ── Notifier ─────────────────────────────────────────────────────────────────
 
@@ -244,10 +245,7 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
     final rotating = available.isNotEmpty
         ? available.take(rotatingSlots).toList()
         : pool.take(rotatingSlots).toList();
-    final pills = [
-      if (contextualPill != null) contextualPill,
-      ...rotating,
-    ];
+    final pills = [if (contextualPill != null) contextualPill, ...rotating];
 
     // Update last open timestamp
     await prefs.setInt(_tsKey, now.millisecondsSinceEpoch);
@@ -292,9 +290,9 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
       final historyForApi = isSilent
           ? state.messages.map((m) => m.toGeminiContent()).toList()
           : state.messages
-              .take(state.messages.length - 1) // exclude msg baru
-              .map((m) => m.toGeminiContent())
-              .toList();
+                .take(state.messages.length - 1) // exclude msg baru
+                .map((m) => m.toGeminiContent())
+                .toList();
 
       final result = await ApiService.sendOracleChat(
         oracleType: oracleType,
@@ -330,7 +328,9 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
       );
 
       // Update last topic dari prompt user (ambil 50 karakter pertama)
-      final topicSnippet = prompt.length > 50 ? '${prompt.substring(0, 50)}...' : prompt;
+      final topicSnippet = prompt.length > 50
+          ? '${prompt.substring(0, 50)}...'
+          : prompt;
       await _saveLastTopic(topicSnippet);
 
       state = state.copyWith(
@@ -338,9 +338,12 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
         isLoading: false,
         isFirstOpen: false,
         // Increment hanya untuk exchange non-silent (bukan greeting otomatis)
-        guestMessageCount: isSilent ? state.guestMessageCount : state.guestMessageCount + 1,
+        guestMessageCount: isSilent
+            ? state.guestMessageCount
+            : state.guestMessageCount + 1,
       );
-      if (!isSilent) AnalyticsService.logOracleMessageSent(oracleType).catchError((_) {});
+      if (!isSilent)
+        AnalyticsService.logOracleMessageSent(oracleType).catchError((_) {});
     } catch (e) {
       final errStr = e.toString();
       String userMsg2;
@@ -350,11 +353,14 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
       if (errStr.contains('RATE_LIMIT:')) {
         isRateLimit = true;
         rateLimitSec = int.tryParse(errStr.split('RATE_LIMIT:').last) ?? 60;
-        userMsg2 = 'Oracle sedang bermeditasi. Coba lagi dalam $rateLimitSec detik.';
+        userMsg2 =
+            'Oracle sedang bermeditasi. Coba lagi dalam $rateLimitSec detik.';
       } else if (errStr.contains('GEMINI_QUOTA:')) {
-        userMsg2 = 'Bintang-bintang sudah terlalu banyak berbicara hari ini. Oracle akan kembali besok.';
+        userMsg2 =
+            'Bintang-bintang sudah terlalu banyak berbicara hari ini. Oracle akan kembali besok.';
       } else {
-        userMsg2 = 'Koneksi ke dunia kosmis terputus. Oracle akan kembali segera.';
+        userMsg2 =
+            'Koneksi ke dunia kosmis terputus. Oracle akan kembali segera.';
       }
 
       final errorModelMsg = ChatMessage(

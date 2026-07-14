@@ -15,11 +15,11 @@ class SavedProfilesScreen extends ConsumerStatefulWidget {
   const SavedProfilesScreen({super.key, this.onPick});
 
   @override
-  ConsumerState<SavedProfilesScreen> createState() => _SavedProfilesScreenState();
+  ConsumerState<SavedProfilesScreen> createState() =>
+      _SavedProfilesScreenState();
 }
 
 class _SavedProfilesScreenState extends ConsumerState<SavedProfilesScreen> {
-
   Future<void> _showAddDialog() async {
     final nameCtrl = TextEditingController();
     DateTime? picked;
@@ -30,9 +30,13 @@ class _SavedProfilesScreenState extends ConsumerState<SavedProfilesScreen> {
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setDlg) => AlertDialog(
           backgroundColor: const Color(0xFF1A1A2E),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: Text('Tambah Profil',
-              style: GoogleFonts.cinzel(color: AppTheme.accentGold, fontSize: 16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Text(
+            'Tambah Profil',
+            style: GoogleFonts.cinzel(color: AppTheme.accentGold, fontSize: 16),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -43,9 +47,11 @@ class _SavedProfilesScreenState extends ConsumerState<SavedProfilesScreen> {
                   labelText: 'Nama',
                   labelStyle: GoogleFonts.outfit(color: Colors.white54),
                   enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white24)),
+                    borderSide: BorderSide(color: Colors.white24),
+                  ),
                   focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: AppTheme.accentGold)),
+                    borderSide: BorderSide(color: AppTheme.accentGold),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -72,22 +78,27 @@ class _SavedProfilesScreenState extends ConsumerState<SavedProfilesScreen> {
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 12),
+                    horizontal: 12,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                        color: picked != null
-                            ? AppTheme.accentGold.withValues(alpha: 0.5)
-                            : Colors.white24),
+                      color: picked != null
+                          ? AppTheme.accentGold.withValues(alpha: 0.5)
+                          : Colors.white24,
+                    ),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.calendar_today_rounded,
-                          size: 16,
-                          color: picked != null
-                              ? AppTheme.accentGold
-                              : Colors.white38),
+                      Icon(
+                        Icons.calendar_today_rounded,
+                        size: 16,
+                        color: picked != null
+                            ? AppTheme.accentGold
+                            : Colors.white38,
+                      ),
                       const SizedBox(width: 10),
                       Text(
                         picked != null
@@ -107,8 +118,10 @@ class _SavedProfilesScreenState extends ConsumerState<SavedProfilesScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: Text('Batal',
-                  style: GoogleFonts.outfit(color: Colors.white54)),
+              child: Text(
+                'Batal',
+                style: GoogleFonts.outfit(color: Colors.white54),
+              ),
             ),
             TextButton(
               onPressed: () async {
@@ -123,9 +136,13 @@ class _SavedProfilesScreenState extends ConsumerState<SavedProfilesScreen> {
                 await ref.read(savedProfilesProvider.notifier).add(profile);
                 if (ctx.mounted) Navigator.pop(ctx);
               },
-              child: Text('Simpan',
-                  style: GoogleFonts.outfit(color: AppTheme.accentGold,
-                      fontWeight: FontWeight.bold)),
+              child: Text(
+                'Simpan',
+                style: GoogleFonts.outfit(
+                  color: AppTheme.accentGold,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ],
         ),
@@ -144,23 +161,30 @@ class _SavedProfilesScreenState extends ConsumerState<SavedProfilesScreen> {
         backgroundColor: const Color(0xFF0D0D1A),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded,
-              color: Colors.white70, size: 18),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white70,
+            size: 18,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           isPicking ? 'Pilih Profil' : 'Profil Tersimpan',
           style: GoogleFonts.cinzel(
-              color: AppTheme.accentGold,
-              fontSize: 17,
-              fontWeight: FontWeight.w600),
+            color: AppTheme.accentGold,
+            fontSize: 17,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         centerTitle: true,
         actions: [
           if (!isPicking)
             IconButton(
-              icon: const Icon(Icons.add_rounded,
-                  color: AppTheme.accentGold, size: 22),
+              icon: const Icon(
+                Icons.add_rounded,
+                color: AppTheme.accentGold,
+                size: 22,
+              ),
               onPressed: _showAddDialog,
               tooltip: 'Tambah profil',
             ),
@@ -183,10 +207,14 @@ class _SavedProfilesScreenState extends ConsumerState<SavedProfilesScreen> {
         ),
         child: profilesAsync.when(
           loading: () => const Center(
-              child: CircularProgressIndicator(color: AppTheme.accentGold)),
+            child: CircularProgressIndicator(color: AppTheme.accentGold),
+          ),
           error: (e, _) => Center(
-              child: Text('Error: $e',
-                  style: const TextStyle(color: Colors.white54))),
+            child: Text(
+              'Error: $e',
+              style: const TextStyle(color: Colors.white54),
+            ),
+          ),
           data: (profiles) => profiles.isEmpty
               ? _buildEmptyState()
               : _buildList(isPicking, profiles),
@@ -200,20 +228,29 @@ class _SavedProfilesScreenState extends ConsumerState<SavedProfilesScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.people_outline_rounded,
-              color: AppTheme.accentGold.withValues(alpha: 0.3), size: 48),
+          Icon(
+            Icons.people_outline_rounded,
+            color: AppTheme.accentGold.withValues(alpha: 0.3),
+            size: 48,
+          ),
           const SizedBox(height: 16),
-          Text('Belum ada profil tersimpan',
-              style: GoogleFonts.playfairDisplay(
-                  color: Colors.white38,
-                  fontSize: 15,
-                  fontStyle: FontStyle.italic)),
+          Text(
+            'Belum ada profil tersimpan',
+            style: GoogleFonts.playfairDisplay(
+              color: Colors.white38,
+              fontSize: 15,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
           const SizedBox(height: 8),
           Text(
             'Simpan profil pasangan atau keluarga\nuntuk kompatibilitas yang lebih cepat.',
             textAlign: TextAlign.center,
             style: GoogleFonts.outfit(
-                color: Colors.white24, fontSize: 13, height: 1.6),
+              color: Colors.white24,
+              fontSize: 13,
+              height: 1.6,
+            ),
           ),
         ],
       ),
@@ -227,10 +264,12 @@ class _SavedProfilesScreenState extends ConsumerState<SavedProfilesScreen> {
       itemBuilder: (ctx, i) {
         final p = profiles[i];
         return GestureDetector(
-          onTap: isPicking ? () {
-            Navigator.of(context).pop();
-            widget.onPick!(p);
-          } : null,
+          onTap: isPicking
+              ? () {
+                  Navigator.of(context).pop();
+                  widget.onPick!(p);
+                }
+              : null,
           child: Container(
             margin: const EdgeInsets.only(bottom: 10),
             child: ClipRRect(
@@ -239,12 +278,15 @@ class _SavedProfilesScreenState extends ConsumerState<SavedProfilesScreen> {
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 14),
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.04),
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(
-                        color: AppTheme.accentGold.withValues(alpha: 0.20)),
+                      color: AppTheme.accentGold.withValues(alpha: 0.20),
+                    ),
                   ),
                   child: Row(
                     children: [
@@ -257,13 +299,12 @@ class _SavedProfilesScreenState extends ConsumerState<SavedProfilesScreen> {
                         ),
                         child: Center(
                           child: Text(
-                            p.name.isNotEmpty
-                                ? p.name[0].toUpperCase()
-                                : '?',
+                            p.name.isNotEmpty ? p.name[0].toUpperCase() : '?',
                             style: GoogleFonts.cinzel(
-                                color: AppTheme.accentGold,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
+                              color: AppTheme.accentGold,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
@@ -272,26 +313,38 @@ class _SavedProfilesScreenState extends ConsumerState<SavedProfilesScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(p.name,
-                                style: GoogleFonts.outfit(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14)),
+                            Text(
+                              p.name,
+                              style: GoogleFonts.outfit(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                              ),
+                            ),
                             const SizedBox(height: 2),
-                            Text(p.formattedBirthDate,
-                                style: GoogleFonts.outfit(
-                                    color: Colors.white54,
-                                    fontSize: 12)),
+                            Text(
+                              p.formattedBirthDate,
+                              style: GoogleFonts.outfit(
+                                color: Colors.white54,
+                                fontSize: 12,
+                              ),
+                            ),
                           ],
                         ),
                       ),
                       if (isPicking)
-                        const Icon(Icons.chevron_right_rounded,
-                            color: AppTheme.accentGold, size: 18)
+                        const Icon(
+                          Icons.chevron_right_rounded,
+                          color: AppTheme.accentGold,
+                          size: 18,
+                        )
                       else
                         IconButton(
-                          icon: const Icon(Icons.delete_outline_rounded,
-                              color: Colors.white30, size: 18),
+                          icon: const Icon(
+                            Icons.delete_outline_rounded,
+                            color: Colors.white30,
+                            size: 18,
+                          ),
                           onPressed: () => ref
                               .read(savedProfilesProvider.notifier)
                               .remove(p.id),

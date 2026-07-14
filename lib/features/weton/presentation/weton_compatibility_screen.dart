@@ -33,7 +33,8 @@ class _WetonCompatibilityScreenState
   // ── Date Picker ──────────────────────────────────────────────────────────────
 
   Future<void> _pickDate({required bool isFirst}) async {
-    final initial = (isFirst ? _birthDate1 : _birthDate2) ?? DateTime(1990, 1, 1);
+    final initial =
+        (isFirst ? _birthDate1 : _birthDate2) ?? DateTime(1990, 1, 1);
     final picked = await showDatePicker(
       context: context,
       initialDate: initial,
@@ -68,7 +69,10 @@ class _WetonCompatibilityScreenState
 
   Future<void> _calculate() async {
     if (_birthDate1 == null || _birthDate2 == null) {
-      setState(() => _errorMessage = 'Masukkan tanggal lahir keduanya terlebih dahulu.');
+      setState(
+        () =>
+            _errorMessage = 'Masukkan tanggal lahir keduanya terlebih dahulu.',
+      );
       return;
     }
 
@@ -94,7 +98,9 @@ class _WetonCompatibilityScreenState
             response['data'] as Map<String, dynamic>,
           );
         });
-        AnalyticsService.logCompatibilityChecked('weton_bazi').catchError((_) {});
+        AnalyticsService.logCompatibilityChecked(
+          'weton_bazi',
+        ).catchError((_) {});
       } else {
         setState(() {
           _errorMessage = 'Gagal menghitung kompatibilitas. Coba lagi.';
@@ -103,7 +109,8 @@ class _WetonCompatibilityScreenState
     } catch (e) {
       debugPrint('WetonCompatibilityScreen: API error — $e');
       setState(() {
-        _errorMessage = 'Koneksi terganggu. Pastikan internet tersambung dan coba lagi.';
+        _errorMessage =
+            'Koneksi terganggu. Pastikan internet tersambung dan coba lagi.';
       });
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -122,10 +129,7 @@ class _WetonCompatibilityScreenState
           oracleType: 'synthesis',
           authHeader: authHeader,
           aiContext: {
-            'wetonLahir': {
-              'neptu': result.weton.neptu1,
-              'karakter': '',
-            },
+            'wetonLahir': {'neptu': result.weton.neptu1, 'karakter': ''},
             'compatibility': {
               'neptu1': result.weton.neptu1,
               'neptu2': result.weton.neptu2,
@@ -139,7 +143,7 @@ class _WetonCompatibilityScreenState
               'baziSpouse': result.bazi.spousePalaceMatch.label,
               'baziZodiac': result.bazi.zodiacMatch.label,
               'baziElement': result.bazi.elementCompatibility.label,
-            }
+            },
           },
         ),
       ),
@@ -178,7 +182,10 @@ class _WetonCompatibilityScreenState
         backgroundColor: const Color(0xFF0D0D1A),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white70),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white70,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -214,66 +221,81 @@ class _WetonCompatibilityScreenState
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                _buildIntroText(),
-                const SizedBox(height: 20),
-                _buildDateInputCard(
-                  label: 'Tanggal Lahir — Orang Pertama',
-                  icon: Icons.person_outline_rounded,
-                  date: _birthDate1,
-                  onTap: () => _pickDate(isFirst: true),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () => _pickFromProfiles(isFirst: true),
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 4, vertical: 2),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: Text('Pilih dari profil tersimpan',
-                        style: GoogleFonts.lato(
-                            color: AppTheme.accentGold.withValues(alpha: 0.7),
-                            fontSize: 11)),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                _buildHeartDivider(),
-                const SizedBox(height: 12),
-                _buildDateInputCard(
-                  label: 'Tanggal Lahir — Orang Kedua',
-                  icon: Icons.person_outline_rounded,
-                  date: _birthDate2,
-                  onTap: () => _pickDate(isFirst: false),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () => _pickFromProfiles(isFirst: false),
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 4, vertical: 2),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: Text('Pilih dari profil tersimpan',
-                        style: GoogleFonts.lato(
-                            color: AppTheme.accentGold.withValues(alpha: 0.7),
-                            fontSize: 11)),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                _buildCalculateButton(),
-                if (_errorMessage != null) ...[
-                  const SizedBox(height: 16),
-                  _buildErrorBanner(_errorMessage!),
-                ],
-                if (_result != null) ...[
-                  const SizedBox(height: 28),
-                  _buildResultSection(_result!),
-                ],
-                const SizedBox(height: 40),
+                          _buildIntroText(),
+                          const SizedBox(height: 20),
+                          _buildDateInputCard(
+                            label: 'Tanggal Lahir — Orang Pertama',
+                            icon: Icons.person_outline_rounded,
+                            date: _birthDate1,
+                            onTap: () => _pickDate(isFirst: true),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () => _pickFromProfiles(isFirst: true),
+                              style: TextButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 4,
+                                  vertical: 2,
+                                ),
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              child: Text(
+                                'Pilih dari profil tersimpan',
+                                style: GoogleFonts.lato(
+                                  color: AppTheme.accentGold.withValues(
+                                    alpha: 0.7,
+                                  ),
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          _buildHeartDivider(),
+                          const SizedBox(height: 12),
+                          _buildDateInputCard(
+                            label: 'Tanggal Lahir — Orang Kedua',
+                            icon: Icons.person_outline_rounded,
+                            date: _birthDate2,
+                            onTap: () => _pickDate(isFirst: false),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () =>
+                                  _pickFromProfiles(isFirst: false),
+                              style: TextButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 4,
+                                  vertical: 2,
+                                ),
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              child: Text(
+                                'Pilih dari profil tersimpan',
+                                style: GoogleFonts.lato(
+                                  color: AppTheme.accentGold.withValues(
+                                    alpha: 0.7,
+                                  ),
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          _buildCalculateButton(),
+                          if (_errorMessage != null) ...[
+                            const SizedBox(height: 16),
+                            _buildErrorBanner(_errorMessage!),
+                          ],
+                          if (_result != null) ...[
+                            const SizedBox(height: 28),
+                            _buildResultSection(_result!),
+                          ],
+                          const SizedBox(height: 40),
                         ],
                       ),
                     ),
@@ -293,11 +315,7 @@ class _WetonCompatibilityScreenState
     return Text(
       'Temukan pola energi relasional dua weton berdasarkan perhitungan neptu Jawa.',
       textAlign: TextAlign.center,
-      style: GoogleFonts.lato(
-        color: Colors.white54,
-        fontSize: 13,
-        height: 1.5,
-      ),
+      style: GoogleFonts.lato(color: Colors.white54, fontSize: 13, height: 1.5),
     );
   }
 
@@ -311,7 +329,11 @@ class _WetonCompatibilityScreenState
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: ListTile(
         contentPadding: EdgeInsets.zero,
-        leading: Icon(icon, color: AppTheme.accentGold.withValues(alpha: 0.8), size: 22),
+        leading: Icon(
+          icon,
+          color: AppTheme.accentGold.withValues(alpha: 0.8),
+          size: 22,
+        ),
         title: Text(
           label,
           style: GoogleFonts.lato(
@@ -341,9 +363,7 @@ class _WetonCompatibilityScreenState
   Widget _buildHeartDivider() {
     return Row(
       children: [
-        Expanded(
-          child: Divider(color: Colors.white12, thickness: 1),
-        ),
+        Expanded(child: Divider(color: Colors.white12, thickness: 1)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Icon(
@@ -352,15 +372,14 @@ class _WetonCompatibilityScreenState
             size: 18,
           ),
         ),
-        Expanded(
-          child: Divider(color: Colors.white12, thickness: 1),
-        ),
+        Expanded(child: Divider(color: Colors.white12, thickness: 1)),
       ],
     );
   }
 
   Widget _buildCalculateButton() {
-    final canCalculate = _birthDate1 != null && _birthDate2 != null && !_isLoading;
+    final canCalculate =
+        _birthDate1 != null && _birthDate2 != null && !_isLoading;
     return SizedBox(
       height: 50,
       child: ElevatedButton(
@@ -401,7 +420,11 @@ class _WetonCompatibilityScreenState
       padding: const EdgeInsets.all(14),
       child: Row(
         children: [
-          const Icon(Icons.error_outline_rounded, color: Colors.redAccent, size: 18),
+          const Icon(
+            Icons.error_outline_rounded,
+            color: Colors.redAccent,
+            size: 18,
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -768,7 +791,7 @@ class _WetonCompatibilityScreenState
   }) {
     Color typeColor = Colors.white54;
     IconData statusIcon = Icons.info_outline_rounded;
-    
+
     if (detail.type == 'combination' || detail.type == 'harmony') {
       typeColor = const Color(0xFF34D399); // Green
       statusIcon = Icons.check_circle_outline_rounded;

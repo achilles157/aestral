@@ -61,7 +61,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Color(0xFF0D0D1A), Color(0xFF1A0D2E), Color(0xFF0A0617)],
+                colors: [
+                  Color(0xFF0D0D1A),
+                  Color(0xFF1A0D2E),
+                  Color(0xFF0A0617),
+                ],
               ),
             ),
           ),
@@ -78,7 +82,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 40,
+                ),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 440),
                   child: Column(
@@ -96,7 +103,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: AppTheme.accentGold.withValues(alpha: 0.20),
+                              color: AppTheme.accentGold.withValues(
+                                alpha: 0.20,
+                              ),
                               blurRadius: 24,
                               spreadRadius: 4,
                             ),
@@ -135,7 +144,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         child: Container(
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 16),
+                            horizontal: 20,
+                            vertical: 16,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.06),
                             borderRadius: BorderRadius.circular(16),
@@ -178,8 +189,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         width: double.infinity,
                         height: 52,
                         child: ElevatedButton(
-                          onPressed:
-                              _selectedDate != null && !_isSaving ? _begin : null,
+                          onPressed: _selectedDate != null && !_isSaving
+                              ? _begin
+                              : null,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.accentGold,
                             disabledBackgroundColor: Colors.white10,

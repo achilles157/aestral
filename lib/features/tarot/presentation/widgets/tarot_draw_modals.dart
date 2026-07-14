@@ -11,7 +11,10 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/file_saver.dart';
 import '../../../../core/providers/birth_profile_provider.dart';
 
-Future<DateTime?> showOnboardingBirthdayModal(BuildContext context, WidgetRef ref) async {
+Future<DateTime?> showOnboardingBirthdayModal(
+  BuildContext context,
+  WidgetRef ref,
+) async {
   DateTime? tempDate;
   return showDialog<DateTime>(
     context: context,
@@ -27,7 +30,11 @@ Future<DateTime?> showOnboardingBirthdayModal(BuildContext context, WidgetRef re
             ),
             title: Column(
               children: [
-                const Icon(Icons.auto_awesome, color: AppTheme.accentGold, size: 36),
+                const Icon(
+                  Icons.auto_awesome,
+                  color: AppTheme.accentGold,
+                  size: 36,
+                ),
                 const SizedBox(height: 12),
                 Text(
                   'Pintu Gerbang Takdir',
@@ -81,8 +88,14 @@ Future<DateTime?> showOnboardingBirthdayModal(BuildContext context, WidgetRef re
                     }
                   },
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: AppTheme.accentPurple, width: 1.2),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    side: const BorderSide(
+                      color: AppTheme.accentPurple,
+                      width: 1.2,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
                   ),
                   icon: const Icon(Icons.cake, color: AppTheme.accentPurple),
                   label: Text(
@@ -100,7 +113,9 @@ Future<DateTime?> showOnboardingBirthdayModal(BuildContext context, WidgetRef re
                 onPressed: () => Navigator.pop(context, null),
                 child: Text(
                   'Batal',
-                  style: TextStyle(color: AppTheme.textLight.withValues(alpha: 0.6)),
+                  style: TextStyle(
+                    color: AppTheme.textLight.withValues(alpha: 0.6),
+                  ),
                 ),
               ),
               ElevatedButton(
@@ -110,7 +125,9 @@ Future<DateTime?> showOnboardingBirthdayModal(BuildContext context, WidgetRef re
                         final dob = tempDate!;
                         bool success = false;
                         try {
-                          await ref.read(birthProfileProvider.notifier).saveDob(dob);
+                          await ref
+                              .read(birthProfileProvider.notifier)
+                              .saveDob(dob);
                           success = true;
                         } catch (e) {
                           debugPrint('tarot_draw_modals: error saving dob: $e');
@@ -121,7 +138,9 @@ Future<DateTime?> showOnboardingBirthdayModal(BuildContext context, WidgetRef re
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Gagal menyimpan profil, coba lagi.'),
+                                content: Text(
+                                  'Gagal menyimpan profil, coba lagi.',
+                                ),
                                 backgroundColor: Colors.redAccent,
                               ),
                             );
@@ -171,11 +190,7 @@ void shareCardResult({
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.memory(
-                imageBytes,
-                height: 300,
-                fit: BoxFit.contain,
-              ),
+              child: Image.memory(imageBytes, height: 300, fit: BoxFit.contain),
             ),
             const SizedBox(height: 16),
             Text(
@@ -193,17 +208,17 @@ void shareCardResult({
                 if (kIsWeb) {
                   // Web: share_plus tidak support shareFiles, gunakan text share
                   await Share.share(
-                      '\u2726 Bacaan Tarot Kosmis saya dari Aestral\naestral.web.app');
+                    '\u2726 Bacaan Tarot Kosmis saya dari Aestral\naestral.web.app',
+                  );
                 } else {
                   final tempDir = await getTemporaryDirectory();
                   final fileName =
                       'aestral-tarot-${DateTime.now().millisecondsSinceEpoch}.png';
                   final file = File('${tempDir.path}/$fileName');
                   await file.writeAsBytes(imageBytes);
-                  await Share.shareXFiles(
-                    [XFile(file.path, mimeType: 'image/png')],
-                    text: '\u2726 Bacaan Tarot Kosmis saya dari Aestral',
-                  );
+                  await Share.shareXFiles([
+                    XFile(file.path, mimeType: 'image/png'),
+                  ], text: '\u2726 Bacaan Tarot Kosmis saya dari Aestral');
                 }
               } catch (e) {
                 if (context.mounted) {
@@ -229,8 +244,7 @@ void shareCardResult({
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content:
-                          Text('Unduh gambar tersedia di aplikasi mobile'),
+                      content: Text('Unduh gambar tersedia di aplikasi mobile'),
                       backgroundColor: AppTheme.accentPurple,
                     ),
                   );
@@ -268,7 +282,10 @@ void shareCardResult({
           ),
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Tutup', style: TextStyle(color: AppTheme.textLight)),
+            child: const Text(
+              'Tutup',
+              style: TextStyle(color: AppTheme.textLight),
+            ),
           ),
         ],
       );

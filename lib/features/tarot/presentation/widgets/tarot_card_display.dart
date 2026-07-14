@@ -8,11 +8,7 @@ class CardBack extends StatelessWidget {
   final double width;
   final double height;
 
-  const CardBack({
-    super.key,
-    this.width = 250,
-    this.height = 400,
-  });
+  const CardBack({super.key, this.width = 250, this.height = 400});
 
   @override
   Widget build(BuildContext context) {
@@ -102,11 +98,15 @@ class CardFront extends ConsumerWidget {
       gradientColors = [const Color(0xFF1E1548), const Color(0xFF3B0764)];
       suitIcon = Icons.auto_awesome;
       suitColor = const Color(0xFFC084FC);
-      elementLabel = currentLang == 'id' ? 'KOSMIS / SPIRIT' : 'COSMIC / SPIRIT';
+      elementLabel = currentLang == 'id'
+          ? 'KOSMIS / SPIRIT'
+          : 'COSMIC / SPIRIT';
     }
 
     final isSmall = width < 150;
-    final themeBorderColor = isReversed ? AppTheme.accentPink : AppTheme.accentGold;
+    final themeBorderColor = isReversed
+        ? AppTheme.accentPink
+        : AppTheme.accentGold;
 
     return Container(
       width: width,
@@ -114,10 +114,7 @@ class CardFront extends ConsumerWidget {
       decoration: BoxDecoration(
         color: AppTheme.cardBg.withValues(alpha: 0.95),
         borderRadius: BorderRadius.circular(isSmall ? 12 : 24),
-        border: Border.all(
-          color: themeBorderColor,
-          width: isSmall ? 1.5 : 3.0,
-        ),
+        border: Border.all(color: themeBorderColor, width: isSmall ? 1.5 : 3.0),
         boxShadow: [
           BoxShadow(
             color: themeBorderColor.withValues(alpha: 0.25),
@@ -127,7 +124,9 @@ class CardFront extends ConsumerWidget {
         ],
       ),
       child: Padding(
-        padding: isSmall ? const EdgeInsets.all(6.0) : const EdgeInsets.all(16.0),
+        padding: isSmall
+            ? const EdgeInsets.all(6.0)
+            : const EdgeInsets.all(16.0),
         child: Column(
           children: [
             if (!isSmall) ...[
@@ -151,13 +150,15 @@ class CardFront extends ConsumerWidget {
                     ],
                   ),
                   Text(
-                    currentLang == 'id' 
-                        ? (isReversed ? 'TERBALIK ↺' : 'TEGAK ☼') 
+                    currentLang == 'id'
+                        ? (isReversed ? 'TERBALIK ↺' : 'TEGAK ☼')
                         : (isReversed ? 'REVERSED ↺' : 'UPRIGHT ☼'),
                     style: TextStyle(
                       fontSize: 9,
                       fontWeight: FontWeight.bold,
-                      color: isReversed ? AppTheme.accentPink : AppTheme.accentGold,
+                      color: isReversed
+                          ? AppTheme.accentPink
+                          : AppTheme.accentGold,
                       letterSpacing: 0.5,
                     ),
                   ),

@@ -29,9 +29,11 @@ class SavedProfilesService {
     try {
       final profiles = await load();
       // Hindari duplikat nama + tanggal yang sama
-      final isDupe = profiles.any((p) =>
-          p.name.toLowerCase() == profile.name.toLowerCase() &&
-          p.birthDate == profile.birthDate);
+      final isDupe = profiles.any(
+        (p) =>
+            p.name.toLowerCase() == profile.name.toLowerCase() &&
+            p.birthDate == profile.birthDate,
+      );
       if (isDupe) return;
 
       profiles.insert(0, profile);

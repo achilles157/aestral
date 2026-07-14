@@ -78,7 +78,7 @@ class ApiService {
   // ── Cached POST helper ───────────────────────────────────────────────────
 
   /// POST with caching support. Checks cache first, falls back to API call.
-  /// 
+  ///
   /// [cacheKey] - Unique key for this request (use generateKey for consistency)
   /// [ttl] - How long to cache the response (default: 1 hour)
   /// [path], [body], [authHeader], [timeoutSeconds] - Same as _post
@@ -118,23 +118,22 @@ class ApiService {
     String? drawType,
     int? mangsaId,
     required String authHeader,
-  }) =>
-      _post('api/tarot/draw', {
-        'birthDate': birthDate,
-        if (pangarasan != null) 'pangarasan': pangarasan,
-        if (drawType != null) 'drawType': drawType,
-        if (mangsaId != null) 'mangsaId': mangsaId,
-      }, authHeader: authHeader);
+  }) => _post('api/tarot/draw', {
+    'birthDate': birthDate,
+    if (pangarasan != null) 'pangarasan': pangarasan,
+    if (drawType != null) 'drawType': drawType,
+    if (mangsaId != null) 'mangsaId': mangsaId,
+  }, authHeader: authHeader);
 
   static Future<Map<String, dynamic>> getWetonDaily({
     required String birthDate,
     String? targetDate,
     required String authHeader,
   }) {
-    final cacheKey = CacheService.generateKey(
-      'weton_daily',
-      {'birthDate': birthDate, 'targetDate': targetDate ?? 'today'},
-    );
+    final cacheKey = CacheService.generateKey('weton_daily', {
+      'birthDate': birthDate,
+      'targetDate': targetDate ?? 'today',
+    });
     return _cachedPost(
       'api/weton/daily',
       {
@@ -153,10 +152,11 @@ class ApiService {
     required int targetMonth,
     required String authHeader,
   }) {
-    final cacheKey = CacheService.generateKey(
-      'calendar_month',
-      {'birthDate': birthDate, 'year': targetYear, 'month': targetMonth},
-    );
+    final cacheKey = CacheService.generateKey('calendar_month', {
+      'birthDate': birthDate,
+      'year': targetYear,
+      'month': targetMonth,
+    });
     return _cachedPost(
       'api/calendar/month',
       {
@@ -174,31 +174,32 @@ class ApiService {
     required String prompt,
     required String authHeader,
     Map<String, dynamic>? aiContext,
-  }) =>
-      _post('api/chat', {
-        'prompt': prompt,
-        if (aiContext != null) ...aiContext,
-      }, authHeader: authHeader, timeoutSeconds: 30);
+  }) => _post(
+    'api/chat',
+    {'prompt': prompt, if (aiContext != null) ...aiContext},
+    authHeader: authHeader,
+    timeoutSeconds: 30,
+  );
 
   static Future<Map<String, dynamic>> generateTarotReading({
     required List<Map<String, dynamic>> cards,
     required String authHeader,
     Map<String, dynamic>? wetonContext,
-  }) =>
-      _post('api/tarot/reading', {
-        'cards': cards,
-        if (wetonContext != null) ...wetonContext,
-      }, authHeader: authHeader, timeoutSeconds: 30);
+  }) => _post(
+    'api/tarot/reading',
+    {'cards': cards, if (wetonContext != null) ...wetonContext},
+    authHeader: authHeader,
+    timeoutSeconds: 30,
+  );
 
   static Future<Map<String, dynamic>> getWetonCompatibility({
     required String birthDate1,
     required String birthDate2,
     required String authHeader,
-  }) =>
-      _post('api/weton/compatibility', {
-        'birthDate1': birthDate1,
-        'birthDate2': birthDate2,
-      }, authHeader: authHeader);
+  }) => _post('api/weton/compatibility', {
+    'birthDate1': birthDate1,
+    'birthDate2': birthDate2,
+  }, authHeader: authHeader);
 
   static Future<Map<String, dynamic>> getBaziChart({
     required String birthDate,
@@ -237,17 +238,21 @@ class ApiService {
     bool? isMale,
     int? currentAge,
     required String authHeader,
-  }) =>
-      _post('api/bazi/insight', {
-        'birthDate': birthDate,
-        if (birthHour != null) 'birthHour': birthHour,
-        if (latitude != null) 'latitude': latitude,
-        if (longitude != null) 'longitude': longitude,
-        if (prompt != null) 'prompt': prompt,
-        if (dayMasterArketipe != null) 'dayMasterArketipe': dayMasterArketipe,
-        if (isMale != null) 'isMale': isMale,
-        if (currentAge != null) 'currentAge': currentAge,
-      }, authHeader: authHeader, timeoutSeconds: 30);
+  }) => _post(
+    'api/bazi/insight',
+    {
+      'birthDate': birthDate,
+      if (birthHour != null) 'birthHour': birthHour,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
+      if (prompt != null) 'prompt': prompt,
+      if (dayMasterArketipe != null) 'dayMasterArketipe': dayMasterArketipe,
+      if (isMale != null) 'isMale': isMale,
+      if (currentAge != null) 'currentAge': currentAge,
+    },
+    authHeader: authHeader,
+    timeoutSeconds: 30,
+  );
 
   /// POST /api/oracle/chat — NO retry intentional: Oracle calls are expensive;
   /// retrying wastes rate limit budget (3x consumption, up to 105s wait).
@@ -337,12 +342,16 @@ class ApiService {
     double? longitude,
     required bool isMale,
     required String authHeader,
-  }) =>
-      _post('api/bazi/luck-pillars', {
-        'birthDate': birthDate,
-        if (birthHour != null) 'birthHour': birthHour,
-        if (latitude != null) 'latitude': latitude,
-        if (longitude != null) 'longitude': longitude,
-        'isMale': isMale,
-      }, authHeader: authHeader, timeoutSeconds: 30);
+  }) => _post(
+    'api/bazi/luck-pillars',
+    {
+      'birthDate': birthDate,
+      if (birthHour != null) 'birthHour': birthHour,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
+      'isMale': isMale,
+    },
+    authHeader: authHeader,
+    timeoutSeconds: 30,
+  );
 }

@@ -37,20 +37,20 @@ class BirthProfile {
   BirthProfile copyWith({
     DateTime? dobDate,
     Object? birthHour = _sentinel,
-    double?  latitude,
-    double?  longitude,
-    Object?  cityName = _sentinel,
-    Object?  gender   = _sentinel,
-    Object?  weton    = _sentinel,
+    double? latitude,
+    double? longitude,
+    Object? cityName = _sentinel,
+    Object? gender = _sentinel,
+    Object? weton = _sentinel,
   }) {
     return BirthProfile(
-      dobDate:   dobDate   ?? this.dobDate,
+      dobDate: dobDate ?? this.dobDate,
       birthHour: birthHour == _sentinel ? this.birthHour : birthHour as int?,
-      latitude:  latitude  ?? this.latitude,
+      latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
-      cityName:  cityName  == _sentinel ? this.cityName  : cityName  as String?,
-      gender:    gender    == _sentinel ? this.gender    : gender    as String?,
-      weton:     weton     == _sentinel ? this.weton     : weton     as WetonInfo?,
+      cityName: cityName == _sentinel ? this.cityName : cityName as String?,
+      gender: gender == _sentinel ? this.gender : gender as String?,
+      weton: weton == _sentinel ? this.weton : weton as WetonInfo?,
     );
   }
 
@@ -76,13 +76,13 @@ class BirthProfile {
     }
 
     return BirthProfile(
-      dobDate:   dob,
+      dobDate: dob,
       birthHour: anchor?['birth_hour'] as int?,
-      latitude:  (coords?['lat'] as num?)?.toDouble(),
+      latitude: (coords?['lat'] as num?)?.toDouble(),
       longitude: (coords?['lng'] as num?)?.toDouble(),
-      cityName:  anchor?['city_name'] as String?,
-      gender:    anchor?['gender']    as String?,
-      weton:     weton,
+      cityName: anchor?['city_name'] as String?,
+      gender: anchor?['gender'] as String?,
+      weton: weton,
     );
   }
 
@@ -92,15 +92,17 @@ class BirthProfile {
     final anchor = <String, dynamic>{};
     if (dobDate != null) {
       anchor['dob_utc_ms'] = DateTime.utc(
-        dobDate!.year, dobDate!.month, dobDate!.day,
+        dobDate!.year,
+        dobDate!.month,
+        dobDate!.day,
       ).millisecondsSinceEpoch;
     }
     if (birthHour != null) anchor['birth_hour'] = birthHour;
-    if (latitude  != null && longitude != null) {
+    if (latitude != null && longitude != null) {
       anchor['coordinates'] = {'lat': latitude, 'lng': longitude};
     }
     if (cityName != null) anchor['city_name'] = cityName;
-    if (gender   != null) anchor['gender']    = gender;
+    if (gender != null) anchor['gender'] = gender;
 
     final doc = <String, dynamic>{};
     if (anchor.isNotEmpty) doc['biometric_anchor'] = anchor;

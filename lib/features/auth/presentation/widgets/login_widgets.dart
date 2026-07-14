@@ -152,4 +152,3 @@ class LoginGoogleBrandIcon extends StatelessWidget {
     );
   }
 }
-

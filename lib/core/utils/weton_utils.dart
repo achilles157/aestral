@@ -1,4 +1,3 @@
-
 class WetonInfo {
   final String saptawara;
   final String pancawara;
@@ -48,7 +47,7 @@ class WetonUtils {
     'Kamis',
     'Jumat',
     'Sabtu',
-    'Minggu'
+    'Minggu',
   ];
 
   static const List<String> pancawaraNames = [
@@ -56,15 +55,40 @@ class WetonUtils {
     'Pahing',
     'Pon',
     'Wage',
-    'Kliwon'
+    'Kliwon',
   ];
 
   static const List<String> wukuNames = [
-    'Sinta', 'Landep', 'Wukir', 'Kurantil', 'Tolu', 'Gumbreg',
-    'Warigalit', 'Warigagung', 'Julungwangi', 'Sungsang', 'Galungan', 'Kuningan',
-    'Langkir', 'Mandasiya', 'Julungpujut', 'Pahang', 'Kuruwelut', 'Marakeh',
-    'Tambir', 'Medangkungan', 'Maktal', 'Wuye', 'Manahil', 'Prangbakat',
-    'Bala', 'Wugu', 'Wayang', 'Kulawu', 'Dukut', 'Watugunung'
+    'Sinta',
+    'Landep',
+    'Wukir',
+    'Kurantil',
+    'Tolu',
+    'Gumbreg',
+    'Warigalit',
+    'Warigagung',
+    'Julungwangi',
+    'Sungsang',
+    'Galungan',
+    'Kuningan',
+    'Langkir',
+    'Mandasiya',
+    'Julungpujut',
+    'Pahang',
+    'Kuruwelut',
+    'Marakeh',
+    'Tambir',
+    'Medangkungan',
+    'Maktal',
+    'Wuye',
+    'Manahil',
+    'Prangbakat',
+    'Bala',
+    'Wugu',
+    'Wayang',
+    'Kulawu',
+    'Dukut',
+    'Watugunung',
   ];
 
   static const Map<String, int> saptawaraNeptu = {
@@ -94,7 +118,11 @@ class WetonUtils {
     }
     int a = y ~/ 100;
     int b = 2 - a + (a ~/ 4);
-    return (365.25 * (y + 4716)).toInt() + (30.6001 * (m + 1)).toInt() + day + b - 1524;
+    return (365.25 * (y + 4716)).toInt() +
+        (30.6001 * (m + 1)).toInt() +
+        day +
+        b -
+        1524;
   }
 
   static WetonInfo calculateWeton(DateTime date) {
@@ -119,8 +147,17 @@ class WetonUtils {
     // Javanese Date based on Asapon Kurup (Epoch JDN 2428252 = 1 Sura 1867 Alip)
     final int daysDiff = jdn - 2428252;
     final yearLengths = [354, 355, 354, 354, 355, 354, 354, 355];
-    final yearNames = ["Alip", "Ehe", "Jimawal", "Je", "Dal", "Be", "Wawu", "Jimakir"];
-    
+    final yearNames = [
+      "Alip",
+      "Ehe",
+      "Jimawal",
+      "Je",
+      "Dal",
+      "Be",
+      "Wawu",
+      "Jimakir",
+    ];
+
     int currentYear = 1867;
     int daysLeft = daysDiff;
 
@@ -142,12 +179,36 @@ class WetonUtils {
     }
 
     int yearIdx = (currentYear - 1867) % 8;
-    bool isLeap = yearIdx == 1 || yearIdx == 4 || yearIdx == 7; // Ehe, Dal, Jimakir
-    
-    final monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, isLeap ? 30 : 29];
+    bool isLeap =
+        yearIdx == 1 || yearIdx == 4 || yearIdx == 7; // Ehe, Dal, Jimakir
+
+    final monthLengths = [
+      30,
+      29,
+      30,
+      29,
+      30,
+      29,
+      30,
+      29,
+      30,
+      29,
+      30,
+      isLeap ? 30 : 29,
+    ];
     final monthNames = [
-      "Sura", "Sapar", "Mulud", "Bakda Mulud", "Jumadilawal", "Jumadilakir",
-      "Rejeb", "Ruwah", "Pasa", "Sawal", "Sela", "Besar"
+      "Sura",
+      "Sapar",
+      "Mulud",
+      "Bakda Mulud",
+      "Jumadilawal",
+      "Jumadilakir",
+      "Rejeb",
+      "Ruwah",
+      "Pasa",
+      "Sawal",
+      "Sela",
+      "Besar",
     ];
 
     int mIdx = 0;
@@ -209,11 +270,12 @@ class WetonUtils {
   /// - Pancasuda ditentukan oleh totalNeptu % 7.
   static Map<String, String> _getCharacterData(String day, int totalNeptu) {
     return {
-      'summary':    'Pribadi yang memiliki watak dinamis dan suka menolong sesama.',
+      'summary':
+          'Pribadi yang memiliki watak dinamis dan suka menolong sesama.',
       'pangarasan': _pangarasanByDay[day] ?? '',
-      'pancasuda':  _pancasudaByIndex.isNotEmpty
-                    ? _pancasudaByIndex[totalNeptu % 7]
-                    : '',
+      'pancasuda': _pancasudaByIndex.isNotEmpty
+          ? _pancasudaByIndex[totalNeptu % 7]
+          : '',
     };
   }
 
@@ -221,9 +283,10 @@ class WetonUtils {
     final int month = date.month;
     final int day = date.day;
     final int year = date.year;
-    
+
     // Gregorian leap year: divisible by 4, except century years unless divisible by 400.
-    final bool isKabisat = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+    final bool isKabisat =
+        year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
     final int md = month * 100 + day;
 
     if (md >= 622 && md <= 801) return 1;
@@ -233,15 +296,15 @@ class WetonUtils {
     if (md >= 1013 && md <= 1108) return 5;
     if (md >= 1109 && md <= 1221) return 6;
     if (md >= 1222 || md <= 202) return 7;
-    
+
     final int kawoluEnd = isKabisat ? 229 : 228;
     if (md >= 203 && md <= kawoluEnd) return 8;
-    
+
     if (md >= 301 && md <= 325) return 9;
     if (md >= 326 && md <= 418) return 10;
     if (md >= 419 && md <= 511) return 11;
     if (md >= 512 && md <= 621) return 12;
-    
+
     return 12;
   }
 
@@ -251,25 +314,37 @@ class WetonUtils {
 
   /// Returns the Dino Was naas day combination for a given birth date.
   static ({String hari, String pasaran}) calculateDinoWas(DateTime birthDate) {
-    final int birthJdn        = dateToJdn(birthDate.year, birthDate.month, birthDate.day);
-    final int birthHariIdx    = birthJdn % 7;
+    final int birthJdn = dateToJdn(
+      birthDate.year,
+      birthDate.month,
+      birthDate.day,
+    );
+    final int birthHariIdx = birthJdn % 7;
     final int birthPasaranIdx = birthJdn % 5;
 
-    final int naasHariIdx    = (birthHariIdx + 2) % 7;
+    final int naasHariIdx = (birthHariIdx + 2) % 7;
     final int naasPasaranIdx = (birthPasaranIdx + 2) % 5;
 
     return (
-      hari:    saptawaraNames[naasHariIdx],
+      hari: saptawaraNames[naasHariIdx],
       pasaran: pancawaraNames[naasPasaranIdx],
     );
   }
 
   /// Returns true if [targetDate] is the Dino Was day for [birthDate].
   static bool checkIsDinoWas(DateTime birthDate, DateTime targetDate) {
-    final int birthJdn  = dateToJdn(birthDate.year, birthDate.month, birthDate.day);
-    final int targetJdn = dateToJdn(targetDate.year, targetDate.month, targetDate.day);
+    final int birthJdn = dateToJdn(
+      birthDate.year,
+      birthDate.month,
+      birthDate.day,
+    );
+    final int targetJdn = dateToJdn(
+      targetDate.year,
+      targetDate.month,
+      targetDate.day,
+    );
 
-    final int naasHariIdx    = (birthJdn % 7 + 2) % 7;
+    final int naasHariIdx = (birthJdn % 7 + 2) % 7;
     final int naasPasaranIdx = (birthJdn % 5 + 2) % 5;
 
     return targetJdn % 7 == naasHariIdx && targetJdn % 5 == naasPasaranIdx;

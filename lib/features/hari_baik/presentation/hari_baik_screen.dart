@@ -74,12 +74,14 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
       );
 
       final responses = await Future.wait(
-        months.map((m) => ApiService.getCalendarMonth(
-              birthDate: birthStr,
-              targetYear: m.year,
-              targetMonth: m.month,
-              authHeader: authHeader,
-            )),
+        months.map(
+          (m) => ApiService.getCalendarMonth(
+            birthDate: birthStr,
+            targetYear: m.year,
+            targetMonth: m.month,
+            authHeader: authHeader,
+          ),
+        ),
       );
 
       final allDays = <Map<String, dynamic>>[];
@@ -139,7 +141,9 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 24, vertical: 8),
+                    horizontal: 24,
+                    vertical: 8,
+                  ),
                   child: Row(
                     children: [
                       Expanded(
@@ -148,8 +152,10 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
                           children: [
                             Text(
                               date != null
-                                  ? DateFormat('EEEE, dd MMMM yyyy', 'id_ID')
-                                      .format(date)
+                                  ? DateFormat(
+                                      'EEEE, dd MMMM yyyy',
+                                      'id_ID',
+                                    ).format(date)
                                   : dateStr,
                               style: GoogleFonts.playfairDisplay(
                                 color: Colors.white,
@@ -168,8 +174,11 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.close,
-                            color: Colors.white54, size: 20),
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.white54,
+                          size: 20,
+                        ),
                         onPressed: () => Navigator.of(ctx).pop(),
                       ),
                     ],
@@ -199,8 +208,11 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
         backgroundColor: const Color(0xFF0D0D1A),
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded,
-              color: Colors.white70, size: 18),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white70,
+            size: 18,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -240,18 +252,25 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.auto_awesome,
-                color: AppTheme.accentGold.withValues(alpha: 0.3), size: 48),
+            Icon(
+              Icons.auto_awesome,
+              color: AppTheme.accentGold.withValues(alpha: 0.3),
+              size: 48,
+            ),
             const SizedBox(height: 16),
-            Text('Profil belum dilengkapi',
-                style: GoogleFonts.cinzel(
-                    color: Colors.white60, fontSize: 15)),
+            Text(
+              'Profil belum dilengkapi',
+              style: GoogleFonts.cinzel(color: Colors.white60, fontSize: 15),
+            ),
             const SizedBox(height: 8),
             Text(
               'Masukkan tanggal lahir terlebih dahulu\nuntuk menemukan hari baikmu.',
               textAlign: TextAlign.center,
               style: GoogleFonts.outfit(
-                  color: Colors.white38, fontSize: 13, height: 1.6),
+                color: Colors.white38,
+                fontSize: 13,
+                height: 1.6,
+              ),
             ),
           ],
         ),
@@ -265,12 +284,15 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Tujuan',
-              style: GoogleFonts.outfit(
-                  color: Colors.white38,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 1.0)),
+          Text(
+            'Tujuan',
+            style: GoogleFonts.outfit(
+              color: Colors.white38,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 1.0,
+            ),
+          ),
           const SizedBox(height: 8),
           SizedBox(
             height: 36,
@@ -288,7 +310,9 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 8),
+                        horizontal: 14,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: isActive
                             ? AppTheme.accentGold.withValues(alpha: 0.15)
@@ -321,12 +345,15 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
           const SizedBox(height: 12),
           Row(
             children: [
-              Text('Rentang',
-                  style: GoogleFonts.outfit(
-                      color: Colors.white38,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 1.0)),
+              Text(
+                'Rentang',
+                style: GoogleFonts.outfit(
+                  color: Colors.white38,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1.0,
+                ),
+              ),
               const SizedBox(width: 12),
               _RentangToggle(
                 current: _rentang,
@@ -345,7 +372,8 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
   Widget _buildContent() {
     if (_isLoading) {
       return const Center(
-          child: CosmicLoader(label: 'Membaca energi kosmis...'));
+        child: CosmicLoader(label: 'Membaca energi kosmis...'),
+      );
     }
     if (_errorMsg != null) {
       return Center(
@@ -354,19 +382,24 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.cloud_off_rounded,
-                  color: Colors.white30, size: 40),
+              const Icon(
+                Icons.cloud_off_rounded,
+                color: Colors.white30,
+                size: 40,
+              ),
               const SizedBox(height: 12),
-              Text(_errorMsg!,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.outfit(
-                      color: Colors.white54, fontSize: 13)),
+              Text(
+                _errorMsg!,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.outfit(color: Colors.white54, fontSize: 13),
+              ),
               const SizedBox(height: 16),
               TextButton(
                 onPressed: _fetch,
-                child: Text('Coba Lagi',
-                    style: GoogleFonts.outfit(
-                        color: AppTheme.accentGold)),
+                child: Text(
+                  'Coba Lagi',
+                  style: GoogleFonts.outfit(color: AppTheme.accentGold),
+                ),
               ),
             ],
           ),
@@ -378,21 +411,29 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.auto_awesome,
-                color: AppTheme.accentGold.withValues(alpha: 0.3),
-                size: 48),
+            Icon(
+              Icons.auto_awesome,
+              color: AppTheme.accentGold.withValues(alpha: 0.3),
+              size: 48,
+            ),
             const SizedBox(height: 16),
-            Text('Tidak ada hari baik yang ditemukan',
-                style: GoogleFonts.playfairDisplay(
-                    color: Colors.white38,
-                    fontSize: 15,
-                    fontStyle: FontStyle.italic)),
+            Text(
+              'Tidak ada hari baik yang ditemukan',
+              style: GoogleFonts.playfairDisplay(
+                color: Colors.white38,
+                fontSize: 15,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
             const SizedBox(height: 8),
             Text(
               'Coba perluas rentang waktu\natau ubah kategori tujuan.',
               textAlign: TextAlign.center,
               style: GoogleFonts.outfit(
-                  color: Colors.white24, fontSize: 12, height: 1.6),
+                color: Colors.white24,
+                fontSize: 12,
+                height: 1.6,
+              ),
             ),
           ],
         ),
@@ -438,24 +479,24 @@ class _RentangToggle extends StatelessWidget {
       onTap: () => onChanged(value),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         decoration: BoxDecoration(
           color: isActive
               ? AppTheme.accentGold.withValues(alpha: 0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
           border: isActive
-              ? Border.all(
-                  color: AppTheme.accentGold.withValues(alpha: 0.5))
+              ? Border.all(color: AppTheme.accentGold.withValues(alpha: 0.5))
               : null,
         ),
-        child: Text(label,
-            style: GoogleFonts.outfit(
-                fontSize: 12,
-                color: isActive ? AppTheme.accentGold : Colors.white54,
-                fontWeight:
-                    isActive ? FontWeight.w600 : FontWeight.normal)),
+        child: Text(
+          label,
+          style: GoogleFonts.outfit(
+            fontSize: 12,
+            color: isActive ? AppTheme.accentGold : Colors.white54,
+            fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
+          ),
+        ),
       ),
     );
   }
@@ -487,14 +528,17 @@ class _HariBaikCard extends StatelessWidget {
                 border: Border(
                   left: BorderSide(color: accent, width: 3),
                   top: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.07),
-                      width: 1),
+                    color: Colors.white.withValues(alpha: 0.07),
+                    width: 1,
+                  ),
                   right: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.07),
-                      width: 1),
+                    color: Colors.white.withValues(alpha: 0.07),
+                    width: 1,
+                  ),
                   bottom: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.07),
-                      width: 1),
+                    color: Colors.white.withValues(alpha: 0.07),
+                    width: 1,
+                  ),
                 ),
               ),
               child: Column(
@@ -506,25 +550,32 @@ class _HariBaikCard extends StatelessWidget {
                         child: Text(
                           result.formattedDate,
                           style: GoogleFonts.playfairDisplay(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600),
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 4),
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: accent.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                              color: accent.withValues(alpha: 0.4)),
+                            color: accent.withValues(alpha: 0.4),
+                          ),
                         ),
-                        child: Text('${result.score}',
-                            style: GoogleFonts.cinzel(
-                                color: accent,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold)),
+                        child: Text(
+                          '${result.score}',
+                          style: GoogleFonts.cinzel(
+                            color: accent,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -532,7 +583,9 @@ class _HariBaikCard extends StatelessWidget {
                   Text(
                     '${result.wetonHariIni} \u00b7 Wuku ${result.wuku} \u00b7 Neptu ${result.neptu}',
                     style: GoogleFonts.outfit(
-                        color: Colors.white54, fontSize: 12),
+                      color: Colors.white54,
+                      fontSize: 12,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   Wrap(
@@ -541,16 +594,21 @@ class _HariBaikCard extends StatelessWidget {
                     children: result.reasons.map((r) {
                       return Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 3),
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
                         decoration: BoxDecoration(
                           color: accent.withValues(alpha: 0.10),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Text(r,
-                            style: GoogleFonts.outfit(
-                                color: accent.withValues(alpha: 0.85),
-                                fontSize: 11,
-                                fontWeight: FontWeight.w500)),
+                        child: Text(
+                          r,
+                          style: GoogleFonts.outfit(
+                            color: accent.withValues(alpha: 0.85),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       );
                     }).toList(),
                   ),
@@ -558,15 +616,20 @@ class _HariBaikCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text('Lihat Detail',
-                          style: GoogleFonts.outfit(
-                              color: accent.withValues(alpha: 0.7),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500)),
-                      const SizedBox(width: 4),
-                      Icon(Icons.chevron_right_rounded,
+                      Text(
+                        'Lihat Detail',
+                        style: GoogleFonts.outfit(
                           color: accent.withValues(alpha: 0.7),
-                          size: 16),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(
+                        Icons.chevron_right_rounded,
+                        color: accent.withValues(alpha: 0.7),
+                        size: 16,
+                      ),
                     ],
                   ),
                 ],

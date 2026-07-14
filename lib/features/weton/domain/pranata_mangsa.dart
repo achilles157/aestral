@@ -39,7 +39,9 @@ class PranataMangsaModel {
       ramalanKarier: json['ramalan_karier'] as String,
       ramalanAsmara: json['ramalan_asmara'] as String,
       pesanKesadaran: json['pesan_kesadaran'] as String,
-      saranAktivitas: (json['saran_aktivitas'] as List<dynamic>).map((e) => e as String).toList(),
+      saranAktivitas: (json['saran_aktivitas'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
       tandaAlam: json['tanda_alam'] as String? ?? '',
     );
   }

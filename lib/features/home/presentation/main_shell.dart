@@ -25,16 +25,16 @@ class MainShell extends ConsumerWidget {
   ];
 
   static const List<_NavItem> _items = [
-    _NavItem(icon: Icons.home_rounded,            label: 'Beranda'),
-    _NavItem(icon: Icons.auto_awesome,            label: 'Tarot'),
+    _NavItem(icon: Icons.home_rounded, label: 'Beranda'),
+    _NavItem(icon: Icons.auto_awesome, label: 'Tarot'),
     _NavItem(icon: Icons.brightness_medium_rounded, label: 'Weton'),
-    _NavItem(icon: Icons.calendar_month_rounded,  label: 'Planner'),
-    _NavItem(icon: Icons.grid_4x4_rounded,        label: 'Ba Zi'),
+    _NavItem(icon: Icons.calendar_month_rounded, label: 'Planner'),
+    _NavItem(icon: Icons.grid_4x4_rounded, label: 'Ba Zi'),
   ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final activeTab   = ref.watch(activeTabProvider);
+    final activeTab = ref.watch(activeTabProvider);
     final bottomInset = MediaQuery.of(context).padding.bottom;
 
     return Scaffold(
@@ -46,10 +46,7 @@ class MainShell extends ConsumerWidget {
             bottom: MediaQuery.of(context).padding.bottom + 88,
           ),
         ),
-        child: _FadingIndexedStack(
-          index: activeTab,
-          children: _screens,
-        ),
+        child: _FadingIndexedStack(index: activeTab, children: _screens),
       ),
       bottomNavigationBar: _CosmicNavBar(
         items: _items,
@@ -67,7 +64,7 @@ class MainShell extends ConsumerWidget {
 
 class _NavItem {
   final IconData icon;
-  final String   label;
+  final String label;
   const _NavItem({required this.icon, required this.label});
 }
 
@@ -76,10 +73,7 @@ class _NavItem {
 // ---------------------------------------------------------------------------
 
 class _FadingIndexedStack extends StatefulWidget {
-  const _FadingIndexedStack({
-    required this.index,
-    required this.children,
-  });
+  const _FadingIndexedStack({required this.index, required this.children});
 
   final int index;
   final List<Widget> children;
@@ -131,10 +125,7 @@ class _FadingIndexedStackState extends State<_FadingIndexedStack> {
         opacity: _opacity,
         duration: const Duration(milliseconds: 150),
         curve: Curves.easeIn,
-        child: IndexedStack(
-          index: _currentIndex,
-          children: widget.children,
-        ),
+        child: IndexedStack(index: _currentIndex, children: widget.children),
       ),
     );
   }
@@ -152,9 +143,9 @@ class _CosmicNavBar extends StatelessWidget {
     required this.onTap,
   });
 
-  final List<_NavItem>   items;
-  final int              activeIndex;
-  final double           bottomInset;
+  final List<_NavItem> items;
+  final int activeIndex;
+  final double bottomInset;
   final ValueChanged<int> onTap;
 
   @override
@@ -187,7 +178,8 @@ class _CosmicNavBar extends StatelessWidget {
               children: [
                 for (int i = 0; i < items.length; i++)
                   Semantics(
-                    label: '${items[i].label}, tab ${i + 1} dari ${items.length}',
+                    label:
+                        '${items[i].label}, tab ${i + 1} dari ${items.length}',
                     selected: i == activeIndex,
                     button: true,
                     excludeSemantics: true,
@@ -213,8 +205,8 @@ class _NavButton extends StatefulWidget {
     required this.onTap,
   });
 
-  final _NavItem     item;
-  final bool         isActive;
+  final _NavItem item;
+  final bool isActive;
   final VoidCallback onTap;
 
   @override

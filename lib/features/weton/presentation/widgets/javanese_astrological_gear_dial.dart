@@ -19,10 +19,13 @@ class JavaneseAstrologicalGearDial extends StatefulWidget {
   });
 
   @override
-  State<JavaneseAstrologicalGearDial> createState() => _JavaneseAstrologicalGearDialState();
+  State<JavaneseAstrologicalGearDial> createState() =>
+      _JavaneseAstrologicalGearDialState();
 }
 
-class _JavaneseAstrologicalGearDialState extends State<JavaneseAstrologicalGearDial> with SingleTickerProviderStateMixin {
+class _JavaneseAstrologicalGearDialState
+    extends State<JavaneseAstrologicalGearDial>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -102,10 +105,36 @@ class _JavaneseAstrologicalGearDialPainter extends CustomPainter {
     final maxRadius = (size.width / 2) * 0.95;
 
     final List<String> wukuList = [
-      'sinta', 'landep', 'wukir', 'kurantil', 'tolu', 'gumbreg', 'warigalit', 'warigagung',
-      'julungwangi', 'sungsang', 'galungan', 'kuningan', 'langkir', 'mandasiya', 'julungpujut',
-      'pahang', 'kuruwelut', 'marakeh', 'tambir', 'medangkungan', 'maktal', 'wuye',
-      'manahil', 'prangbakat', 'bala', 'wugu', 'wayang', 'kulawu', 'dukut', 'watugunung'
+      'sinta',
+      'landep',
+      'wukir',
+      'kurantil',
+      'tolu',
+      'gumbreg',
+      'warigalit',
+      'warigagung',
+      'julungwangi',
+      'sungsang',
+      'galungan',
+      'kuningan',
+      'langkir',
+      'mandasiya',
+      'julungpujut',
+      'pahang',
+      'kuruwelut',
+      'marakeh',
+      'tambir',
+      'medangkungan',
+      'maktal',
+      'wuye',
+      'manahil',
+      'prangbakat',
+      'bala',
+      'wugu',
+      'wayang',
+      'kulawu',
+      'dukut',
+      'watugunung',
     ];
 
     final String s = saptawara.toLowerCase();
@@ -147,14 +176,20 @@ class _JavaneseAstrologicalGearDialPainter extends CustomPainter {
     }
 
     // Target rotation angles to place active segment at top (12 o'clock / -pi/2)
-    final double rot1 = -math.pi / 2 - (sIdx * (2 * math.pi / 7) + (math.pi / 7));
-    final double rot2 = -math.pi / 2 - (pIdx * (2 * math.pi / 5) + (math.pi / 5));
-    final double rot3 = -math.pi / 2 - (wIdx * (2 * math.pi / 30) + (math.pi / 30));
+    final double rot1 =
+        -math.pi / 2 - (sIdx * (2 * math.pi / 7) + (math.pi / 7));
+    final double rot2 =
+        -math.pi / 2 - (pIdx * (2 * math.pi / 5) + (math.pi / 5));
+    final double rot3 =
+        -math.pi / 2 - (wIdx * (2 * math.pi / 30) + (math.pi / 30));
 
     // Dynamic interpolated spin
-    final double currentRot1 = (1.0 - progress) * (4 * math.pi) + (progress * rot1);
-    final double currentRot2 = (1.0 - progress) * (-5 * math.pi) + (progress * rot2);
-    final double currentRot3 = (1.0 - progress) * (6 * math.pi) + (progress * rot3);
+    final double currentRot1 =
+        (1.0 - progress) * (4 * math.pi) + (progress * rot1);
+    final double currentRot2 =
+        (1.0 - progress) * (-5 * math.pi) + (progress * rot2);
+    final double currentRot3 =
+        (1.0 - progress) * (6 * math.pi) + (progress * rot3);
 
     final outerBorderPaint = Paint()
       ..color = AppTheme.accentGold.withValues(alpha: 0.3)
@@ -176,13 +211,24 @@ class _JavaneseAstrologicalGearDialPainter extends CustomPainter {
     canvas.drawCircle(Offset.zero, maxRadius, outerBorderPaint);
     canvas.drawCircle(Offset.zero, maxRadius - 22, outerBorderPaint);
 
-    final List<String> saptawaraDisplay = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    final List<String> saptawaraDisplay = [
+      'Ahad',
+      'Senin',
+      'Selasa',
+      'Rabu',
+      'Kamis',
+      'Jumat',
+      'Sabtu',
+    ];
 
     for (int i = 0; i < 7; i++) {
       final double angle = i * (2 * math.pi / 7);
-      
+
       canvas.drawLine(
-        Offset((maxRadius - 22) * math.cos(angle), (maxRadius - 22) * math.sin(angle)),
+        Offset(
+          (maxRadius - 22) * math.cos(angle),
+          (maxRadius - 22) * math.sin(angle),
+        ),
         Offset(maxRadius * math.cos(angle), maxRadius * math.sin(angle)),
         segmentPaint,
       );
@@ -190,23 +236,28 @@ class _JavaneseAstrologicalGearDialPainter extends CustomPainter {
       final double midAngle = angle + (math.pi / 7);
       canvas.save();
       canvas.rotate(midAngle);
-      
+
       final isCurrent = (i == sIdx);
-      
+
       textPainter.text = TextSpan(
         text: saptawaraDisplay[i],
         style: GoogleFonts.outfit(
           fontSize: 8.5,
           fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
-          color: isCurrent ? AppTheme.accentGold : AppTheme.textMuted.withValues(alpha: 0.75),
+          color: isCurrent
+              ? AppTheme.accentGold
+              : AppTheme.textMuted.withValues(alpha: 0.75),
         ),
       );
       textPainter.layout();
-      
+
       final double textRadius = maxRadius - 11;
       canvas.translate(textRadius, 0);
       canvas.rotate(math.pi / 2);
-      textPainter.paint(canvas, Offset(-textPainter.width / 2, -textPainter.height / 2));
+      textPainter.paint(
+        canvas,
+        Offset(-textPainter.width / 2, -textPainter.height / 2),
+      );
       canvas.restore();
     }
     canvas.restore();
@@ -222,11 +273,17 @@ class _JavaneseAstrologicalGearDialPainter extends CustomPainter {
     canvas.drawCircle(Offset.zero, rMidOuter, outerBorderPaint);
     canvas.drawCircle(Offset.zero, rMidInner, outerBorderPaint);
 
-    final List<String> pancawaraDisplay = ['Legi', 'Pahing', 'Pon', 'Wage', 'Kliwon'];
+    final List<String> pancawaraDisplay = [
+      'Legi',
+      'Pahing',
+      'Pon',
+      'Wage',
+      'Kliwon',
+    ];
 
     for (int i = 0; i < 5; i++) {
       final double angle = i * (2 * math.pi / 5);
-      
+
       canvas.drawLine(
         Offset(rMidInner * math.cos(angle), rMidInner * math.sin(angle)),
         Offset(rMidOuter * math.cos(angle), rMidOuter * math.sin(angle)),
@@ -244,7 +301,9 @@ class _JavaneseAstrologicalGearDialPainter extends CustomPainter {
         style: GoogleFonts.outfit(
           fontSize: 8.5,
           fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
-          color: isCurrent ? AppTheme.accentGold : AppTheme.textMuted.withValues(alpha: 0.75),
+          color: isCurrent
+              ? AppTheme.accentGold
+              : AppTheme.textMuted.withValues(alpha: 0.75),
         ),
       );
       textPainter.layout();
@@ -252,7 +311,10 @@ class _JavaneseAstrologicalGearDialPainter extends CustomPainter {
       final double textRadius = rMidOuter - 10;
       canvas.translate(textRadius, 0);
       canvas.rotate(math.pi / 2);
-      textPainter.paint(canvas, Offset(-textPainter.width / 2, -textPainter.height / 2));
+      textPainter.paint(
+        canvas,
+        Offset(-textPainter.width / 2, -textPainter.height / 2),
+      );
       canvas.restore();
     }
     canvas.restore();
@@ -274,8 +336,22 @@ class _JavaneseAstrologicalGearDialPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.8;
 
-    _drawGearWheel(canvas, Offset.zero, rWukuOuter, rWukuOuter - 3, 30, gearPaint);
-    _drawGearWheel(canvas, Offset.zero, rWukuOuter, rWukuOuter - 3, 30, gearStrokePaint);
+    _drawGearWheel(
+      canvas,
+      Offset.zero,
+      rWukuOuter,
+      rWukuOuter - 3,
+      30,
+      gearPaint,
+    );
+    _drawGearWheel(
+      canvas,
+      Offset.zero,
+      rWukuOuter,
+      rWukuOuter - 3,
+      30,
+      gearStrokePaint,
+    );
     canvas.drawCircle(Offset.zero, rWukuInner, gearStrokePaint);
 
     for (int i = 0; i < 30; i++) {
@@ -283,19 +359,27 @@ class _JavaneseAstrologicalGearDialPainter extends CustomPainter {
       final isCurrent = (i == wIdx);
 
       final tickPaint = Paint()
-        ..color = isCurrent ? AppTheme.accentGold : AppTheme.accentGold.withValues(alpha: 0.15)
+        ..color = isCurrent
+            ? AppTheme.accentGold
+            : AppTheme.accentGold.withValues(alpha: 0.15)
         ..style = PaintingStyle.stroke
         ..strokeWidth = isCurrent ? 1.5 : 0.8;
 
       canvas.drawLine(
         Offset(rWukuInner * math.cos(angle), rWukuInner * math.sin(angle)),
-        Offset((rWukuOuter - 3) * math.cos(angle), (rWukuOuter - 3) * math.sin(angle)),
+        Offset(
+          (rWukuOuter - 3) * math.cos(angle),
+          (rWukuOuter - 3) * math.sin(angle),
+        ),
         tickPaint,
       );
 
       if (isCurrent) {
         canvas.drawCircle(
-          Offset((rWukuOuter - 2) * math.cos(angle), (rWukuOuter - 2) * math.sin(angle)),
+          Offset(
+            (rWukuOuter - 2) * math.cos(angle),
+            (rWukuOuter - 2) * math.sin(angle),
+          ),
           2.0,
           Paint()..color = AppTheme.accentGold,
         );
@@ -305,7 +389,7 @@ class _JavaneseAstrologicalGearDialPainter extends CustomPainter {
 
     // 4. Draw Neptu Center Hub
     final double rHub = rWukuInner - 3;
-    
+
     final hubFillPaint = Paint()
       ..color = const Color(0xFF130E30).withValues(alpha: 0.9)
       ..style = PaintingStyle.fill;
@@ -354,7 +438,10 @@ class _JavaneseAstrologicalGearDialPainter extends CustomPainter {
 
     neptuValPainter.paint(
       canvas,
-      Offset(center.dx - neptuValPainter.width / 2, center.dy - neptuValPainter.height / 2 + 1),
+      Offset(
+        center.dx - neptuValPainter.width / 2,
+        center.dy - neptuValPainter.height / 2 + 1,
+      ),
     );
 
     // 5. Draw Vertical Alignment Pointer over everything
@@ -371,8 +458,16 @@ class _JavaneseAstrologicalGearDialPainter extends CustomPainter {
     final double pStartY = center.dy - maxRadius - 6;
     final double pEndY = center.dy - rHub;
 
-    canvas.drawLine(Offset(center.dx, pStartY), Offset(center.dx, pEndY), pointerGlowPaint);
-    canvas.drawLine(Offset(center.dx, pStartY), Offset(center.dx, pEndY), pointerPaint);
+    canvas.drawLine(
+      Offset(center.dx, pStartY),
+      Offset(center.dx, pEndY),
+      pointerGlowPaint,
+    );
+    canvas.drawLine(
+      Offset(center.dx, pStartY),
+      Offset(center.dx, pEndY),
+      pointerPaint,
+    );
 
     final path = Path()
       ..moveTo(center.dx - 4, pStartY)
@@ -383,7 +478,14 @@ class _JavaneseAstrologicalGearDialPainter extends CustomPainter {
     canvas.drawPath(path, Paint()..color = AppTheme.accentGold);
   }
 
-  void _drawGearWheel(Canvas canvas, Offset center, double outerRadius, double innerRadius, int numTeeth, Paint paint) {
+  void _drawGearWheel(
+    Canvas canvas,
+    Offset center,
+    double outerRadius,
+    double innerRadius,
+    int numTeeth,
+    Paint paint,
+  ) {
     final Path path = Path();
     final double anglePerSegment = 2 * math.pi / numTeeth;
 
@@ -416,7 +518,9 @@ class _JavaneseAstrologicalGearDialPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _JavaneseAstrologicalGearDialPainter oldDelegate) {
+  bool shouldRepaint(
+    covariant _JavaneseAstrologicalGearDialPainter oldDelegate,
+  ) {
     return oldDelegate.saptawara != saptawara ||
         oldDelegate.pancawara != pancawara ||
         oldDelegate.wuku != wuku ||

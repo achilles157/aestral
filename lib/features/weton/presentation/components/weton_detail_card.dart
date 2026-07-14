@@ -74,11 +74,7 @@ class WetonDetailCard extends StatelessWidget {
                         color: accentColor.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(
-                        icon,
-                        color: accentColor,
-                        size: 20,
-                      ),
+                      child: Icon(icon, color: accentColor, size: 20),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
@@ -117,7 +113,8 @@ class WatermarkMandalaPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = color.withValues(alpha: 0.06) // Very subtle Javanese watermark
+      ..color = color
+          .withValues(alpha: 0.06) // Very subtle Javanese watermark
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.8;
 
@@ -147,5 +144,6 @@ class WatermarkMandalaPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant WatermarkMandalaPainter oldDelegate) => oldDelegate.color != color;
+  bool shouldRepaint(covariant WatermarkMandalaPainter oldDelegate) =>
+      oldDelegate.color != color;
 }

@@ -16,9 +16,18 @@ class DashboardIdentityCard extends ConsumerWidget {
   String get _pranataMangsaName {
     final id = WetonUtils.calculatePranataMangsaId(DateTime.now());
     const names = [
-      'Kasa', 'Karo', 'Katiga', 'Kapat', 'Kalima',
-      'Kanem', 'Kapitu', 'Kawolu', 'Kasanga', 'Kadasa',
-      'Desta', 'Saddha',
+      'Kasa',
+      'Karo',
+      'Katiga',
+      'Kapat',
+      'Kalima',
+      'Kanem',
+      'Kapitu',
+      'Kawolu',
+      'Kasanga',
+      'Kadasa',
+      'Desta',
+      'Saddha',
     ];
     if (id < 1 || id > 12) return 'Pergantian Mangsa';
     return names[id - 1];
@@ -27,9 +36,9 @@ class DashboardIdentityCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileAsync = ref.watch(birthProfileProvider);
-    final profile      = profileAsync.value ?? const BirthProfile();
-    final dob          = profile.dobDate;
-    final weton        = profile.weton;
+    final profile = profileAsync.value ?? const BirthProfile();
+    final dob = profile.dobDate;
+    final weton = profile.weton;
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -54,8 +63,11 @@ class DashboardIdentityCard extends ConsumerWidget {
           // ── Title row ────────────────────────────────────────────────────
           Row(
             children: [
-              const Icon(Icons.auto_awesome,
-                  color: AppTheme.accentGold, size: 16),
+              const Icon(
+                Icons.auto_awesome,
+                color: AppTheme.accentGold,
+                size: 16,
+              ),
               const SizedBox(width: 8),
               Text(
                 'Identitas Kosmis',
@@ -68,8 +80,11 @@ class DashboardIdentityCard extends ConsumerWidget {
               const Spacer(),
               if (dob != null)
                 IconButton(
-                  icon: const Icon(Icons.edit,
-                      color: AppTheme.accentGold, size: 16),
+                  icon: const Icon(
+                    Icons.edit,
+                    color: AppTheme.accentGold,
+                    size: 16,
+                  ),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                   onPressed: onEditTap,
@@ -102,9 +117,7 @@ class DashboardIdentityCard extends ConsumerWidget {
             _IdentityRow(
               Icons.brightness_medium_rounded,
               'Weton',
-              weton != null
-                  ? '${weton.saptawara} ${weton.pancawara}'
-                  : '—',
+              weton != null ? '${weton.saptawara} ${weton.pancawara}' : '—',
               badge: weton != null ? 'Neptu ${weton.totalNeptu}' : null,
             ),
             const SizedBox(height: 12),
@@ -166,14 +179,23 @@ class _NoIdentityPrompt extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.star_outline_rounded,
-                color: AppTheme.accentGold.withValues(alpha: 0.35), size: 13),
+            Icon(
+              Icons.star_outline_rounded,
+              color: AppTheme.accentGold.withValues(alpha: 0.35),
+              size: 13,
+            ),
             const SizedBox(width: 6),
-            Icon(Icons.auto_awesome,
-                color: AppTheme.accentGold.withValues(alpha: 0.65), size: 18),
+            Icon(
+              Icons.auto_awesome,
+              color: AppTheme.accentGold.withValues(alpha: 0.65),
+              size: 18,
+            ),
             const SizedBox(width: 6),
-            Icon(Icons.star_outline_rounded,
-                color: AppTheme.accentGold.withValues(alpha: 0.35), size: 13),
+            Icon(
+              Icons.star_outline_rounded,
+              color: AppTheme.accentGold.withValues(alpha: 0.35),
+              size: 13,
+            ),
           ],
         ),
         const SizedBox(height: 12),
@@ -223,8 +245,13 @@ class _IdentityRow extends StatelessWidget {
   final String? badge;
   final String? subtitle;
 
-  const _IdentityRow(this.icon, this.label, this.value,
-      {this.badge, this.subtitle});
+  const _IdentityRow(
+    this.icon,
+    this.label,
+    this.value, {
+    this.badge,
+    this.subtitle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -260,7 +287,9 @@ class _IdentityRow extends StatelessWidget {
                     const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 7, vertical: 2),
+                        horizontal: 7,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: AppTheme.accentGold.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(10),

@@ -33,7 +33,9 @@ class BirthProfileNotifier extends AsyncNotifier<BirthProfile> {
               .doc(session.uid)
               .set(cache, SetOptions(merge: true));
           _guestCache = null;
-          debugPrint('BirthProfileNotifier: guest cache migrated → ${session.uid}');
+          debugPrint(
+            'BirthProfileNotifier: guest cache migrated → ${session.uid}',
+          );
         }
         final doc = await FirebaseFirestore.instance
             .collection('users')
@@ -75,12 +77,14 @@ class BirthProfileNotifier extends AsyncNotifier<BirthProfile> {
   }
 
   Map<String, dynamic> _deepMerge(
-      Map<String, dynamic> base, Map<String, dynamic> overlay) {
+    Map<String, dynamic> base,
+    Map<String, dynamic> overlay,
+  ) {
     final result = Map<String, dynamic>.from(base);
     overlay.forEach((key, value) {
-      if (value is Map<String, dynamic> && result[key] is Map<String, dynamic>) {
-        result[key] = _deepMerge(
-            result[key] as Map<String, dynamic>, value);
+      if (value is Map<String, dynamic> &&
+          result[key] is Map<String, dynamic>) {
+        result[key] = _deepMerge(result[key] as Map<String, dynamic>, value);
       } else {
         result[key] = value;
       }
@@ -97,11 +101,9 @@ class BirthProfileNotifier extends AsyncNotifier<BirthProfile> {
   /// Save date of birth. Recomputes and caches [WetonInfo].
   Future<void> saveDob(DateTime date) async {
     final dobUtc = DateTime.utc(date.year, date.month, date.day);
-    final weton  = WetonUtils.calculateWeton(dobUtc);
+    final weton = WetonUtils.calculateWeton(dobUtc);
     await _merge({
-      'biometric_anchor': {
-        'dob_utc_ms': dobUtc.millisecondsSinceEpoch,
-      },
+      'biometric_anchor': {'dob_utc_ms': dobUtc.millisecondsSinceEpoch},
       'architectural_pillars': {'weton': weton.toJson()},
     });
     final current = state.value ?? const BirthProfile();
@@ -118,22 +120,20 @@ class BirthProfileNotifier extends AsyncNotifier<BirthProfile> {
   }
 
   /// Save location coordinates and optional display label.
-  Future<void> saveLocation(
-    double lat,
-    double lng, {
-    String? cityName,
-  }) async {
+  Future<void> saveLocation(double lat, double lng, {String? cityName}) async {
     final anchor = <String, dynamic>{
       'coordinates': {'lat': lat, 'lng': lng},
     };
     if (cityName != null) anchor['city_name'] = cityName;
     await _merge({'biometric_anchor': anchor});
     final current = state.value ?? const BirthProfile();
-    _updateState(current.copyWith(
-      latitude: lat,
-      longitude: lng,
-      cityName: cityName ?? current.cityName,
-    ));
+    _updateState(
+      current.copyWith(
+        latitude: lat,
+        longitude: lng,
+        cityName: cityName ?? current.cityName,
+      ),
+    );
   }
 
   /// Save gender ('male' | 'female'). Pass null to clear.
@@ -148,22 +148,22 @@ class BirthProfileNotifier extends AsyncNotifier<BirthProfile> {
   /// Convenience: save all fields at once (used by Weton screen and Edit sheet).
   Future<void> saveAll({
     required DateTime dob,
-    int?    birthHour,
+    int? birthHour,
     double? latitude,
     double? longitude,
     String? cityName,
     String? gender,
   }) async {
     final dobUtc = DateTime.utc(dob.year, dob.month, dob.day);
-    final weton  = WetonUtils.calculateWeton(dobUtc);
+    final weton = WetonUtils.calculateWeton(dobUtc);
 
     final anchor = <String, dynamic>{
       'dob_utc_ms': dobUtc.millisecondsSinceEpoch,
       if (birthHour != null) 'birth_hour': birthHour,
-      if (latitude  != null && longitude != null)
+      if (latitude != null && longitude != null)
         'coordinates': {'lat': latitude, 'lng': longitude},
-      if (cityName  != null) 'city_name': cityName,
-      if (gender    != null) 'gender':    gender,
+      if (cityName != null) 'city_name': cityName,
+      if (gender != null) 'gender': gender,
     };
 
     await _merge({
@@ -171,15 +171,17 @@ class BirthProfileNotifier extends AsyncNotifier<BirthProfile> {
       'architectural_pillars': {'weton': weton.toJson()},
     });
 
-    _updateState(BirthProfile(
-      dobDate:   dobUtc,
-      birthHour: birthHour,
-      latitude:  latitude,
-      longitude: longitude,
-      cityName:  cityName,
-      gender:    gender,
-      weton:     weton,
-    ));
+    _updateState(
+      BirthProfile(
+        dobDate: dobUtc,
+        birthHour: birthHour,
+        latitude: latitude,
+        longitude: longitude,
+        cityName: cityName,
+        gender: gender,
+        weton: weton,
+      ),
+    );
   }
 
   // ── Internals ─────────────────────────────────────────────────────────────
@@ -200,10 +202,9 @@ class BirthProfileNotifier extends AsyncNotifier<BirthProfile> {
   void seedGuestCache(Map<String, dynamic> data) {
     _guestCache = _deepMerge(_guestCache ?? {}, data);
   }
-
 }
 
 final birthProfileProvider =
     AsyncNotifierProvider<BirthProfileNotifier, BirthProfile>(
-  BirthProfileNotifier.new,
-);
+      BirthProfileNotifier.new,
+    );

@@ -28,10 +28,9 @@ class BaziAnnualPillarCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    final annualColor = kBaziElementColors[annualPillar.element] ??
-        AppTheme.accentGold;
-    final isSameDmElement =
-        annualPillar.element == natalChart.dayMasterElement;
+    final annualColor =
+        kBaziElementColors[annualPillar.element] ?? AppTheme.accentGold;
+    final isSameDmElement = annualPillar.element == natalChart.dayMasterElement;
 
     // Interactions: clashes and harmonies where one pillar is index 4 (annual)
     final annualClashes = annualRelations.clashes
@@ -47,37 +46,41 @@ class BaziAnnualPillarCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // ── Header ─────────────────────────────────────────────────────
-          Row(children: [
-            Text(
-              '流年',
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 18,
-                color: annualColor,
-                fontWeight: FontWeight.w700,
+          Row(
+            children: [
+              Text(
+                '流年',
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 18,
+                  color: annualColor,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Pilar Tahun Ini · ${now.year}',
-                    style: GoogleFonts.playfairDisplay(
-                      fontSize: 14,
-                      color: AppTheme.accentGold,
-                      fontWeight: FontWeight.w600,
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Pilar Tahun Ini · ${now.year}',
+                      style: GoogleFonts.playfairDisplay(
+                        fontSize: 14,
+                        color: AppTheme.accentGold,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Annual Pillar',
-                    style: GoogleFonts.outfit(
-                        fontSize: 11, color: AppTheme.textMuted),
-                  ),
-                ],
+                    Text(
+                      'Annual Pillar',
+                      style: GoogleFonts.outfit(
+                        fontSize: 11,
+                        color: AppTheme.textMuted,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ]),
+            ],
+          ),
           const SizedBox(height: 16),
 
           // ── Pillar Display ──────────────────────────────────────────────
@@ -86,65 +89,76 @@ class BaziAnnualPillarCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: annualColor.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(12),
-              border:
-                  Border.all(color: annualColor.withValues(alpha: 0.30)),
+              border: Border.all(color: annualColor.withValues(alpha: 0.30)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Stem
-                Column(children: [
-                  Text(
-                    annualPillar.stemSymbol,
-                    style: GoogleFonts.playfairDisplay(
-                      fontSize: 42,
-                      color: annualColor,
-                      fontWeight: FontWeight.w700,
+                Column(
+                  children: [
+                    Text(
+                      annualPillar.stemSymbol,
+                      style: GoogleFonts.playfairDisplay(
+                        fontSize: 42,
+                        color: annualColor,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  Text(
-                    annualPillar.stemNameId,
-                    style: GoogleFonts.outfit(
-                        fontSize: 11, color: annualColor.withValues(alpha: 0.8)),
-                  ),
-                ]),
+                    Text(
+                      annualPillar.stemNameId,
+                      style: GoogleFonts.outfit(
+                        fontSize: 11,
+                        color: annualColor.withValues(alpha: 0.8),
+                      ),
+                    ),
+                  ],
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
-                    width: 1, height: 60,
+                    width: 1,
+                    height: 60,
                     color: annualColor.withValues(alpha: 0.20),
                   ),
                 ),
                 // Branch
-                Column(children: [
-                  Text(
-                    annualPillar.branchSymbol,
-                    style: GoogleFonts.playfairDisplay(
-                      fontSize: 42,
-                      color: annualColor.withValues(alpha: 0.85),
-                      fontWeight: FontWeight.w600,
+                Column(
+                  children: [
+                    Text(
+                      annualPillar.branchSymbol,
+                      style: GoogleFonts.playfairDisplay(
+                        fontSize: 42,
+                        color: annualColor.withValues(alpha: 0.85),
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                  Text(
-                    annualPillar.branchZodiacId,
-                    style: GoogleFonts.outfit(
+                    Text(
+                      annualPillar.branchZodiacId,
+                      style: GoogleFonts.outfit(
                         fontSize: 11,
-                        color: annualColor.withValues(alpha: 0.7)),
-                  ),
-                ]),
+                        color: annualColor.withValues(alpha: 0.7),
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(width: 16),
                 // Element badge
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 10, vertical: 6),
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: annualColor.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                        color: annualColor.withValues(alpha: 0.35)),
+                      color: annualColor.withValues(alpha: 0.35),
+                    ),
                   ),
                   child: Text(
-                    kBaziElementLabel[annualPillar.element] ?? annualPillar.element,
+                    kBaziElementLabel[annualPillar.element] ??
+                        annualPillar.element,
                     style: GoogleFonts.outfit(
                       fontSize: 12,
                       color: annualColor,
@@ -165,8 +179,7 @@ class BaziAnnualPillarCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: annualColor.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(8),
-                border:
-                    Border.all(color: annualColor.withValues(alpha: 0.35)),
+                border: Border.all(color: annualColor.withValues(alpha: 0.35)),
               ),
               child: Text(
                 '✦ Tahun ini berelemen sama dengan Hari Master anda',
@@ -183,7 +196,9 @@ class BaziAnnualPillarCard extends StatelessWidget {
           if (annualClashes.isNotEmpty) ...[
             if (isSameDmElement) const SizedBox(height: 10),
             _sectionLabel(
-                '⚡ Bentrok dengan chart natal', const Color(0xFFF87171)),
+              '⚡ Bentrok dengan chart natal',
+              const Color(0xFFF87171),
+            ),
             const SizedBox(height: 6),
             ...annualClashes.map((c) {
               final natalIdx = c.indexA == 4 ? c.indexB : c.indexA;
@@ -211,8 +226,7 @@ class BaziAnnualPillarCard extends StatelessWidget {
           // ── Harmonies with natal ────────────────────────────────────────
           if (annualHarmonies.isNotEmpty) ...[
             const SizedBox(height: 10),
-            _sectionLabel(
-                '✦ Harmoni dengan chart natal', AppTheme.accentGold),
+            _sectionLabel('✦ Harmoni dengan chart natal', AppTheme.accentGold),
             const SizedBox(height: 6),
             ...annualHarmonies.map((h) {
               final natalIdx = h.indexA == 4 ? h.indexB : h.indexA;
@@ -258,25 +272,25 @@ class BaziAnnualPillarCard extends StatelessWidget {
   }
 
   Widget _guidanceText(String text, Color color) => Padding(
-        padding: const EdgeInsets.only(top: 2),
-        child: Text(
-          text,
-          style: GoogleFonts.outfit(
-            fontSize: 11,
-            color: color.withValues(alpha: 0.65),
-            fontStyle: FontStyle.italic,
-            height: 1.4,
-          ),
-        ),
-      );
+    padding: const EdgeInsets.only(top: 2),
+    child: Text(
+      text,
+      style: GoogleFonts.outfit(
+        fontSize: 11,
+        color: color.withValues(alpha: 0.65),
+        fontStyle: FontStyle.italic,
+        height: 1.4,
+      ),
+    ),
+  );
 
   Widget _sectionLabel(String text, Color color) => Text(
-        text,
-        style: GoogleFonts.outfit(
-          fontSize: 10,
-          color: color,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.6,
-        ),
-      );
+    text,
+    style: GoogleFonts.outfit(
+      fontSize: 10,
+      color: color,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 0.6,
+    ),
+  );
 }

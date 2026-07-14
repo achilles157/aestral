@@ -11,8 +11,8 @@ class DashboardProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name    = session?.displayName ?? 'Penjelajah';
-    final email   = session?.email ?? '';
+    final name = session?.displayName ?? 'Penjelajah';
+    final email = session?.email ?? '';
     final isGuest = session == null || session!.isMock;
     final initial = name.isNotEmpty ? name[0].toUpperCase() : '?';
 
@@ -62,15 +62,17 @@ class DashboardProfileHeader extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   email,
-                  style: GoogleFonts.outfit(color: AppTheme.textMuted, fontSize: 12),
+                  style: GoogleFonts.outfit(
+                    color: AppTheme.textMuted,
+                    fontSize: 12,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
               const SizedBox(height: 4),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
                   color: isGuest
                       ? AppTheme.textMuted.withValues(alpha: 0.15)
@@ -88,9 +90,7 @@ class DashboardProfileHeader extends StatelessWidget {
                   style: GoogleFonts.outfit(
                     fontSize: 10,
                     fontWeight: FontWeight.w600,
-                    color: isGuest
-                        ? AppTheme.textMuted
-                        : AppTheme.accentPurple,
+                    color: isGuest ? AppTheme.textMuted : AppTheme.accentPurple,
                   ),
                 ),
               ),
@@ -102,13 +102,13 @@ class DashboardProfileHeader extends StatelessWidget {
   }
 
   Widget _avatarInitial(String initial) => Center(
-        child: Text(
-          initial,
-          style: GoogleFonts.playfairDisplay(
-            color: AppTheme.accentGold,
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      );
+    child: Text(
+      initial,
+      style: GoogleFonts.playfairDisplay(
+        color: AppTheme.accentGold,
+        fontSize: 26,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  );
 }

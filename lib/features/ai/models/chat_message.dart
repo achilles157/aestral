@@ -28,20 +28,20 @@ class ChatMessage {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'role': role,
-        'text': text,
-        'timestamp': timestamp.millisecondsSinceEpoch,
-        if (card != null) 'card': card!.toJson(),
-      };
+    'id': id,
+    'role': role,
+    'text': text,
+    'timestamp': timestamp.millisecondsSinceEpoch,
+    if (card != null) 'card': card!.toJson(),
+  };
 
   /// Converts this message to Gemini chat history format (role + parts).
   Map<String, dynamic> toGeminiContent() => {
-        'role': role,
-        'parts': [
-          {'text': text}
-        ],
-      };
+    'role': role,
+    'parts': [
+      {'text': text},
+    ],
+  };
 }
 
 /// Kartu UI interaktif opsional yang menyertai pesan oracle.

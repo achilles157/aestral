@@ -38,7 +38,9 @@ class WetonResultHeader extends StatelessWidget {
             children: [
               Text(
                 wetonName,
-                style: textTheme.displayLarge?.copyWith(color: AppTheme.textLight),
+                style: textTheme.displayLarge?.copyWith(
+                  color: AppTheme.textLight,
+                ),
               ),
               if (harmoniColor != null) ...[
                 const SizedBox(width: 12),

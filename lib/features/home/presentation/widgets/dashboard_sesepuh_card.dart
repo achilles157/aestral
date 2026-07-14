@@ -21,9 +21,14 @@ class DashboardSesepuhCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tarotDrawn = ref.read(drawnCardProvider)?.isNotEmpty ?? false;
-    final baziDone   = ref.read(birthProfileProvider).value?.cityName?.isNotEmpty ?? false;
-    final systemsDone = [hasProfile, tarotDrawn, baziDone].where((v) => v).length;
-    final canOpen    = systemsDone >= 2;
+    final baziDone =
+        ref.read(birthProfileProvider).value?.cityName?.isNotEmpty ?? false;
+    final systemsDone = [
+      hasProfile,
+      tarotDrawn,
+      baziDone,
+    ].where((v) => v).length;
+    final canOpen = systemsDone >= 2;
 
     return Container(
       padding: const EdgeInsets.all(18),
@@ -55,8 +60,11 @@ class DashboardSesepuhCard extends ConsumerWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.auto_awesome,
-                  color: hasProfile ? _accent : AppTheme.textMuted, size: 18),
+              Icon(
+                Icons.auto_awesome,
+                color: hasProfile ? _accent : AppTheme.textMuted,
+                size: 18,
+              ),
               const SizedBox(width: 8),
               Text(
                 'Sesepuh Kosmis',
@@ -68,8 +76,7 @@ class DashboardSesepuhCard extends ConsumerWidget {
               ),
               const Spacer(),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
                   color: hasProfile
                       ? _accent.withValues(alpha: 0.25)
@@ -114,24 +121,24 @@ class DashboardSesepuhCard extends ConsumerWidget {
                       if (isGuest) {
                         CosmicAuthBottomSheet.show(
                           context,
-                          message: 'Orakel Sintesis Sesepuh Kosmis mengintegrasikan seluruh sistem nasib Anda. Masuk sekarang untuk membuka Grand Reading.',
+                          message:
+                              'Orakel Sintesis Sesepuh Kosmis mengintegrasikan seluruh sistem nasib Anda. Masuk sekarang untuk membuka Grand Reading.',
                         );
                         return;
                       }
 
-                      final authHeader =
-                          await ref.read(authProvider.notifier).getAuthHeader();
+                      final authHeader = await ref
+                          .read(authProvider.notifier)
+                          .getAuthHeader();
                       if (!context.mounted) return;
 
-                      final weton =
-                          ref.read(birthProfileProvider).value?.weton;
+                      final weton = ref.read(birthProfileProvider).value?.weton;
                       final drawnCards = ref.read(drawnCardProvider);
 
                       final synthesisContext = <String, dynamic>{
                         if (weton != null)
                           'wetonLahir': {
-                            'nama':
-                                '${weton.saptawara} ${weton.pancawara}',
+                            'nama': '${weton.saptawara} ${weton.pancawara}',
                             'neptu': weton.totalNeptu,
                             'elemen': '',
                             'karakter': weton.characterSummary,
@@ -140,20 +147,24 @@ class DashboardSesepuhCard extends ConsumerWidget {
                           'pangarasan': weton.pangarasan,
                         if (drawnCards != null && drawnCards.isNotEmpty)
                           'tarotCards': drawnCards
-                              .map((c) => {
-                                    'name': c.card.nameId,
-                                    'label': c.label,
-                                    'isReversed': c.isReversed,
-                                    'archetype': c.card.archetypeId,
-                                    'element': c.card.elementalId,
-                                    'aiHook': c.card.aiHookId,
-                                    'keywords': c.card.keywordsId,
-                                  })
+                              .map(
+                                (c) => {
+                                  'name': c.card.nameId,
+                                  'label': c.label,
+                                  'isReversed': c.isReversed,
+                                  'archetype': c.card.archetypeId,
+                                  'element': c.card.elementalId,
+                                  'aiHook': c.card.aiHookId,
+                                  'keywords': c.card.keywordsId,
+                                },
+                              )
                               .toList(),
                       };
 
                       if (!context.mounted) return;
-                      AnalyticsService.logSesepuhKosmisOpened().catchError((_) {});
+                      AnalyticsService.logSesepuhKosmisOpened().catchError(
+                        (_) {},
+                      );
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => OracleChatScreen(
@@ -168,8 +179,9 @@ class DashboardSesepuhCard extends ConsumerWidget {
                     }
                   : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    canOpen ? _accent.withValues(alpha: 0.3) : Colors.white10,
+                backgroundColor: canOpen
+                    ? _accent.withValues(alpha: 0.3)
+                    : Colors.white10,
                 foregroundColor: Colors.white,
                 side: BorderSide(
                   color: canOpen ? _accent : Colors.transparent,

@@ -33,7 +33,10 @@ class _BaziWuXingRadarState extends State<BaziWuXingRadar>
       duration: const Duration(milliseconds: 900),
       vsync: this,
     );
-    _progress = CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic);
+    _progress = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutCubic,
+    );
     _controller.forward();
   }
 
@@ -51,11 +54,11 @@ class _BaziWuXingRadarState extends State<BaziWuXingRadar>
         final total = widget.balance.total;
         final values = total > 0
             ? {
-                'kayu':  widget.balance.kayu  / total,
-                'api':   widget.balance.api   / total,
+                'kayu': widget.balance.kayu / total,
+                'api': widget.balance.api / total,
                 'tanah': widget.balance.tanah / total,
                 'logam': widget.balance.logam / total,
-                'air':   widget.balance.air   / total,
+                'air': widget.balance.air / total,
               }
             : {'kayu': 0.0, 'api': 0.0, 'tanah': 0.0, 'logam': 0.0, 'air': 0.0};
 
@@ -107,7 +110,8 @@ class _BaziWuXingRadarState extends State<BaziWuXingRadar>
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 7, height: 7,
+            width: 7,
+            height: 7,
             decoration: BoxDecoration(color: color, shape: BoxShape.circle),
           ),
           const SizedBox(width: 5),
@@ -131,37 +135,41 @@ class _PentagonPainter extends CustomPainter {
   final Map<String, double> values;
   final double progress;
 
-  static const _order   = kBaziElementOrder;
+  static const _order = kBaziElementOrder;
   static const _symbols = kBaziElementSymbol;
-  static const _labels  = kBaziElementName;
+  static const _labels = kBaziElementName;
 
   const _PentagonPainter({required this.values, required this.progress});
 
   @override
   void paint(Canvas canvas, Size size) {
-    final center    = Offset(size.width / 2, size.height / 2);
+    final center = Offset(size.width / 2, size.height / 2);
     final maxRadius = size.width / 2 * 0.70;
 
     // ── Grid pentagons (4 rings) ─────────────────────────────────────────────
     final gridPaint = Paint()
-      ..color      = AppTheme.accentGold.withValues(alpha: 0.16)
-      ..style      = PaintingStyle.stroke
+      ..color = AppTheme.accentGold.withValues(alpha: 0.16)
+      ..style = PaintingStyle.stroke
       ..strokeWidth = 0.8;
     for (int g = 1; g <= 4; g++) {
       canvas.drawPath(
-        _pentagon(center, maxRadius * g / 4 * progress), gridPaint);
+        _pentagon(center, maxRadius * g / 4 * progress),
+        gridPaint,
+      );
     }
 
     // ── Axis lines ───────────────────────────────────────────────────────────
     final axisPaint = Paint()
-      ..color      = AppTheme.accentGold.withValues(alpha: 0.10)
+      ..color = AppTheme.accentGold.withValues(alpha: 0.10)
       ..strokeWidth = 0.8;
     for (int i = 0; i < 5; i++) {
       final a = _angle(i);
       canvas.drawLine(
         center,
-        Offset(center.dx + maxRadius * progress * math.cos(a),
-               center.dy + maxRadius * progress * math.sin(a)),
+        Offset(
+          center.dx + maxRadius * progress * math.cos(a),
+          center.dy + maxRadius * progress * math.sin(a),
+        ),
         axisPaint,
       );
     }
@@ -169,43 +177,64 @@ class _PentagonPainter extends CustomPainter {
     // ── Data polygon ─────────────────────────────────────────────────────────
     final dataPath = Path();
     for (int i = 0; i < 5; i++) {
-      final raw    = values[_order[i]] ?? 0.0;
+      final raw = values[_order[i]] ?? 0.0;
       final mapped = 0.15 + raw * 0.85; // minimum 15% visibility
-      final r      = maxRadius * mapped * progress;
-      final a      = _angle(i);
-      final pt     = Offset(center.dx + r * math.cos(a), center.dy + r * math.sin(a));
+      final r = maxRadius * mapped * progress;
+      final a = _angle(i);
+      final pt = Offset(
+        center.dx + r * math.cos(a),
+        center.dy + r * math.sin(a),
+      );
       i == 0 ? dataPath.moveTo(pt.dx, pt.dy) : dataPath.lineTo(pt.dx, pt.dy);
     }
     dataPath.close();
 
-    canvas.drawPath(dataPath,
-        Paint()
-          ..color = AppTheme.accentPurple.withValues(alpha: 0.20)
-          ..style = PaintingStyle.fill);
-    canvas.drawPath(dataPath,
-        Paint()
-          ..color      = AppTheme.accentGold.withValues(alpha: 0.75)
-          ..style      = PaintingStyle.stroke
-          ..strokeWidth = 1.6);
+    canvas.drawPath(
+      dataPath,
+      Paint()
+        ..color = AppTheme.accentPurple.withValues(alpha: 0.20)
+        ..style = PaintingStyle.fill,
+    );
+    canvas.drawPath(
+      dataPath,
+      Paint()
+        ..color = AppTheme.accentGold.withValues(alpha: 0.75)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.6,
+    );
 
     // ── Labels ───────────────────────────────────────────────────────────────
     for (int i = 0; i < 5; i++) {
-      final a     = _angle(i);
+      final a = _angle(i);
       final color = kBaziElementColors[_order[i]]!;
-      final lp    = Offset(
+      final lp = Offset(
         center.dx + (maxRadius + 22) * math.cos(a),
         center.dy + (maxRadius + 22) * math.sin(a),
       );
-      _paintText(canvas, _symbols[i], lp.translate(0, -9),
-          GoogleFonts.playfairDisplay(
-              fontSize: 14, color: color, fontWeight: FontWeight.w600));
-      _paintText(canvas, _labels[i], lp.translate(0, 5),
-          GoogleFonts.outfit(fontSize: 9, color: color.withValues(alpha: 0.80)));
+      _paintText(
+        canvas,
+        _symbols[i],
+        lp.translate(0, -9),
+        GoogleFonts.playfairDisplay(
+          fontSize: 14,
+          color: color,
+          fontWeight: FontWeight.w600,
+        ),
+      );
+      _paintText(
+        canvas,
+        _labels[i],
+        lp.translate(0, 5),
+        GoogleFonts.outfit(fontSize: 9, color: color.withValues(alpha: 0.80)),
+      );
     }
 
     // ── Center dot ───────────────────────────────────────────────────────────
-    canvas.drawCircle(center, 3 * progress,
-        Paint()..color = AppTheme.accentGold);
+    canvas.drawCircle(
+      center,
+      3 * progress,
+      Paint()..color = AppTheme.accentGold,
+    );
   }
 
   double _angle(int i) => -math.pi / 2 + i * 2 * math.pi / 5;

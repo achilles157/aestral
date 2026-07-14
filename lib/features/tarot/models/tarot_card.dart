@@ -64,14 +64,20 @@ class TarotCard {
 
   // Bilingual Helper Methods
   String getName(String lang) => lang == 'id' ? nameId : nameEn;
-  List<String> getKeywords(String lang) => lang == 'id' ? keywordsId : keywordsEn;
-  String getUprightMeaning(String lang) => lang == 'id' ? uprightMeaningId : uprightMeaningEn;
-  String getReversedMeaning(String lang) => lang == 'id' ? reversedMeaningId : reversedMeaningEn;
-  List<String> getFortuneTelling(String lang) => lang == 'id' ? fortuneTellingId : fortuneTellingEn;
-  List<String> getQuestionsToAsk(String lang) => lang == 'id' ? questionsToAskId : questionsToAskEn;
+  List<String> getKeywords(String lang) =>
+      lang == 'id' ? keywordsId : keywordsEn;
+  String getUprightMeaning(String lang) =>
+      lang == 'id' ? uprightMeaningId : uprightMeaningEn;
+  String getReversedMeaning(String lang) =>
+      lang == 'id' ? reversedMeaningId : reversedMeaningEn;
+  List<String> getFortuneTelling(String lang) =>
+      lang == 'id' ? fortuneTellingId : fortuneTellingEn;
+  List<String> getQuestionsToAsk(String lang) =>
+      lang == 'id' ? questionsToAskId : questionsToAskEn;
   String getElemental(String lang) => lang == 'id' ? elementalId : elementalEn;
   String getArchetype(String lang) => lang == 'id' ? archetypeId : archetypeEn;
-  String getNumerology(String lang) => lang == 'id' ? numerologyId : numerologyEn;
+  String getNumerology(String lang) =>
+      lang == 'id' ? numerologyId : numerologyEn;
   String getMythical(String lang) => lang == 'id' ? mythicalId : mythicalEn;
 
   factory TarotCard.fromJson(Map<String, dynamic> json) {
@@ -83,8 +89,14 @@ class TarotCard {
       img: json['img'] as String? ?? '',
       keywordsId: List<String>.from(json['keywords_id'] ?? []),
       keywordsEn: List<String>.from(json['keywords_en'] ?? []),
-      uprightMeaningId: json['upright_meaning_id'] as String? ?? json['upright_meaning'] as String? ?? '',
-      reversedMeaningId: json['reversed_meaning_id'] as String? ?? json['reversed_meaning'] as String? ?? '',
+      uprightMeaningId:
+          json['upright_meaning_id'] as String? ??
+          json['upright_meaning'] as String? ??
+          '',
+      reversedMeaningId:
+          json['reversed_meaning_id'] as String? ??
+          json['reversed_meaning'] as String? ??
+          '',
       uprightMeaningEn: json['upright_meaning_en'] as String? ?? '',
       reversedMeaningEn: json['reversed_meaning_en'] as String? ?? '',
       fortuneTellingId: List<String>.from(json['fortune_telling_id'] ?? []),
@@ -99,7 +111,10 @@ class TarotCard {
       numerologyEn: json['numerology_en'] as String? ?? '',
       mythicalId: json['mythical_id'] as String? ?? '',
       mythicalEn: json['mythical_en'] as String? ?? '',
-      imagePromptKeywordsId: json['image_prompt_keywords_id'] as String? ?? json['image_prompt_keywords'] as String? ?? '',
+      imagePromptKeywordsId:
+          json['image_prompt_keywords_id'] as String? ??
+          json['image_prompt_keywords'] as String? ??
+          '',
       imagePromptKeywordsEn: json['image_prompt_keywords_en'] as String? ?? '',
       aiHookId: json['ai_hook_id'] as String? ?? '',
     );

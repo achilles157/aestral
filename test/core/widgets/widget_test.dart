@@ -10,11 +10,7 @@ void main() {
     testWidgets('should render child widget', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: GlassCard(
-              child: Text('Hello Aestral'),
-            ),
-          ),
+          home: Scaffold(body: GlassCard(child: Text('Hello Aestral'))),
         ),
       );
 
@@ -25,10 +21,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: GlassCard(
-              padding: EdgeInsets.all(16),
-              child: Text('padded'),
-            ),
+            body: GlassCard(padding: EdgeInsets.all(16), child: Text('padded')),
           ),
         ),
       );
@@ -36,17 +29,15 @@ void main() {
       expect(find.text('padded'), findsOneWidget);
     });
 
-    testWidgets('should skip BackdropFilter when disableAnimations true',
-        (tester) async {
+    testWidgets('should skip BackdropFilter when disableAnimations true', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: MediaQuery(
             data: const MediaQueryData(disableAnimations: true),
             child: Scaffold(
-              body: GlassCard(
-                blur: 20,
-                child: const Text('no blur'),
-              ),
+              body: GlassCard(blur: 20, child: const Text('no blur')),
             ),
           ),
         ),
@@ -57,16 +48,12 @@ void main() {
       expect(find.text('no blur'), findsOneWidget);
     });
 
-    testWidgets('should use BackdropFilter when animations enabled',
-        (tester) async {
+    testWidgets('should use BackdropFilter when animations enabled', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: GlassCard(
-              blur: 10,
-              child: Text('with blur'),
-            ),
-          ),
+          home: Scaffold(body: GlassCard(blur: 10, child: Text('with blur'))),
         ),
       );
 
@@ -78,10 +65,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: GlassCard(
-              borderRadius: 32,
-              child: Text('rounded'),
-            ),
+            body: GlassCard(borderRadius: 32, child: Text('rounded')),
           ),
         ),
       );
@@ -95,10 +79,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: GlassButton(
-              label: const Text('Tap Me'),
-              onPressed: () {},
-            ),
+            body: GlassButton(label: const Text('Tap Me'), onPressed: () {}),
           ),
         ),
       );
@@ -185,11 +166,7 @@ void main() {
   group('CosmicLoader', () {
     testWidgets('should render auto_awesome icon', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: CosmicLoader(),
-          ),
-        ),
+        const MaterialApp(home: Scaffold(body: CosmicLoader())),
       );
 
       expect(find.byIcon(Icons.auto_awesome), findsOneWidget);
@@ -198,9 +175,7 @@ void main() {
     testWidgets('should render label when provided', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: CosmicLoader(label: 'Memuat...'),
-          ),
+          home: Scaffold(body: CosmicLoader(label: 'Memuat...')),
         ),
       );
 
@@ -209,11 +184,7 @@ void main() {
 
     testWidgets('should not render label when not provided', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: CosmicLoader(),
-          ),
-        ),
+        const MaterialApp(home: Scaffold(body: CosmicLoader())),
       );
 
       // No label text should be present
@@ -222,11 +193,7 @@ void main() {
 
     testWidgets('should use custom size', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: CosmicLoader(size: 64),
-          ),
-        ),
+        const MaterialApp(home: Scaffold(body: CosmicLoader(size: 64))),
       );
 
       // Icon size = size * 0.40 (see CosmicLoader implementation)
@@ -234,15 +201,12 @@ void main() {
       expect(icon.size, 64 * 0.40);
     });
 
-    testWidgets('should be static when disableAnimations true',
-        (tester) async {
+    testWidgets('should be static when disableAnimations true', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: MediaQuery(
             data: MediaQueryData(disableAnimations: true),
-            child: Scaffold(
-              body: CosmicLoader(),
-            ),
+            child: Scaffold(body: CosmicLoader()),
           ),
         ),
       );

@@ -18,21 +18,20 @@ class ReadingEntry {
   });
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'type': type,
-        'title': title,
-        'subtitle': subtitle,
-        'timestamp': timestamp.millisecondsSinceEpoch,
-        'accentColor': accentColor,
-      };
+    'id': id,
+    'type': type,
+    'title': title,
+    'subtitle': subtitle,
+    'timestamp': timestamp.millisecondsSinceEpoch,
+    'accentColor': accentColor,
+  };
 
   factory ReadingEntry.fromJson(Map<String, dynamic> j) => ReadingEntry(
-        id: j['id'] as String,
-        type: j['type'] as String,
-        title: j['title'] as String,
-        subtitle: j['subtitle'] as String,
-        timestamp:
-            DateTime.fromMillisecondsSinceEpoch(j['timestamp'] as int),
-        accentColor: j['accentColor'] as int,
-      );
+    id: j['id'] as String,
+    type: j['type'] as String,
+    title: j['title'] as String,
+    subtitle: j['subtitle'] as String,
+    timestamp: DateTime.fromMillisecondsSinceEpoch(j['timestamp'] as int),
+    accentColor: j['accentColor'] as int,
+  );
 }

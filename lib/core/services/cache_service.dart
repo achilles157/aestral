@@ -7,17 +7,14 @@ class CachedResponse {
   final Map<String, dynamic> data;
   final DateTime expiresAt;
 
-  CachedResponse({
-    required this.data,
-    required this.expiresAt,
-  });
+  CachedResponse({required this.data, required this.expiresAt});
 
   bool get isExpired => DateTime.now().isAfter(expiresAt);
 
   Map<String, dynamic> toJson() => {
-        'data': data,
-        'expires_at': expiresAt.toIso8601String(),
-      };
+    'data': data,
+    'expires_at': expiresAt.toIso8601String(),
+  };
 
   factory CachedResponse.fromJson(Map<String, dynamic> json) {
     return CachedResponse(
@@ -28,20 +25,20 @@ class CachedResponse {
 }
 
 /// Cache service untuk API responses dengan TTL support.
-/// 
+///
 /// Usage:
 /// ```dart
 /// final cache = CacheService();
-/// 
+///
 /// // Try cache first
 /// final cached = await cache.get('weton_daily_2024-01-01');
 /// if (cached != null) return cached;
-/// 
+///
 /// // Fetch from API
 /// final fresh = await apiCall();
-/// 
+///
 /// // Cache for 24 hours
-/// await cache.set('weton_daily_2024-01-01', fresh, 
+/// await cache.set('weton_daily_2024-01-01', fresh,
 ///   ttl: Duration(hours: 24));
 /// ```
 class CacheService {
@@ -65,12 +62,12 @@ class CacheService {
     try {
       final prefs = await SharedPreferences.getInstance();
       final jsonStr = prefs.getString('$_keyPrefix$key');
-      
+
       if (jsonStr != null) {
         final entry = CachedResponse.fromJson(
           jsonDecode(jsonStr) as Map<String, dynamic>,
         );
-        
+
         if (!entry.isExpired) {
           // Restore to memory cache
           _memoryCache[key] = entry;
@@ -90,7 +87,7 @@ class CacheService {
   }
 
   /// Cache response with TTL (Time To Live).
-  /// 
+  ///
   /// Default TTL: 1 hour
   /// Recommended TTLs:
   /// - Deterministic data (Ba Zi chart): Duration(days: 365)
@@ -111,10 +108,7 @@ class CacheService {
     // Store in persistent cache
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(
-        '$_keyPrefix$key',
-        jsonEncode(entry.toJson()),
-      );
+      await prefs.setString('$_keyPrefix$key', jsonEncode(entry.toJson()));
       debugPrint('CacheService: Cached $key (TTL: ${ttl.inMinutes}m)');
 
       // Cleanup if cache too large
@@ -156,10 +150,10 @@ class CacheService {
     try {
       final prefs = await SharedPreferences.getInstance();
       final keys = prefs.getKeys().where((k) => k.startsWith(_keyPrefix));
-      
+
       int validCount = 0;
       int expiredCount = 0;
-      
+
       for (final key in keys) {
         final jsonStr = prefs.getString(key);
         if (jsonStr != null) {
@@ -192,11 +186,14 @@ class CacheService {
 
   /// Internal: Cleanup expired entries jika cache terlalu besar.
   Future<void> _cleanupIfNeeded(SharedPreferences prefs) async {
-    final keys = prefs.getKeys().where((k) => k.startsWith(_keyPrefix)).toList();
-    
+    final keys = prefs
+        .getKeys()
+        .where((k) => k.startsWith(_keyPrefix))
+        .toList();
+
     if (keys.length > _maxCacheSize) {
       debugPrint('CacheService: Cleaning up (${keys.length} entries)');
-      
+
       int removed = 0;
       for (final key in keys) {
         final jsonStr = prefs.getString(key);
@@ -216,7 +213,7 @@ class CacheService {
           }
         }
       }
-      
+
       if (removed > 0) {
         debugPrint('CacheService: Removed $removed expired/corrupt entries');
       }
@@ -226,7 +223,7 @@ class CacheService {
   /// Generate cache key untuk API endpoint dengan params.
   static String generateKey(String endpoint, Map<String, dynamic>? params) {
     if (params == null || params.isEmpty) return endpoint;
-    
+
     // Sort keys untuk consistent cache keys
     final sortedKeys = params.keys.toList()..sort();
     final paramStr = sortedKeys.map((k) => '$k=${params[k]}').join('&');

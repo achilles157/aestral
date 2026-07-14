@@ -27,17 +27,12 @@ class BaziDayMasterCard extends StatelessWidget {
         masterData?['arketipe_modern'] as String? ?? 'Day Master';
     final String metafora =
         masterData?['metafora_alam'] as String? ?? dayPillar.stemNameId;
-    final String karakter =
-        masterData?['karakter_dasar'] as String? ?? '';
-    final String karier =
-        masterData?['dinamika_karier'] as String? ?? '';
+    final String karakter = masterData?['karakter_dasar'] as String? ?? '';
+    final String karier = masterData?['dinamika_karier'] as String? ?? '';
     final List<String> industri =
-        (masterData?['industri_cocok'] as List<dynamic>?)
-                ?.cast<String>() ??
-            [];
+        (masterData?['industri_cocok'] as List<dynamic>?)?.cast<String>() ?? [];
     final List<String> tags =
-        (masterData?['tags_karakter'] as List<dynamic>?)?.cast<String>() ??
-            [];
+        (masterData?['tags_karakter'] as List<dynamic>?)?.cast<String>() ?? [];
 
     return GlassCard(
       padding: const EdgeInsets.all(16),
@@ -53,7 +48,9 @@ class BaziDayMasterCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: elementColor.withValues(alpha: 0.12),
-                  border: Border.all(color: elementColor.withValues(alpha: 0.5)),
+                  border: Border.all(
+                    color: elementColor.withValues(alpha: 0.5),
+                  ),
                 ),
                 child: Center(
                   child: Text(
@@ -75,7 +72,9 @@ class BaziDayMasterCard extends StatelessWidget {
                       children: [
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 7, vertical: 2),
+                            horizontal: 7,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
                             color: elementColor.withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(4),
@@ -169,29 +168,29 @@ class BaziDayMasterCard extends StatelessWidget {
   }
 
   Widget _sectionLabel(String text, Color color) => Text(
-        text.toUpperCase(),
-        style: GoogleFonts.outfit(
-          fontSize: 9,
-          color: color.withValues(alpha: 0.7),
-          fontWeight: FontWeight.w700,
-          letterSpacing: 1.2,
-        ),
-      );
+    text.toUpperCase(),
+    style: GoogleFonts.outfit(
+      fontSize: 9,
+      color: color.withValues(alpha: 0.7),
+      fontWeight: FontWeight.w700,
+      letterSpacing: 1.2,
+    ),
+  );
 
   Widget _chip(String label, Color color, {bool filled = false}) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(
-          color: filled ? color.withValues(alpha: 0.15) : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: color.withValues(alpha: 0.4)),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.outfit(
-            fontSize: 10,
-            color: filled ? color : color.withValues(alpha: 0.8),
-            fontWeight: filled ? FontWeight.w600 : FontWeight.w400,
-          ),
-        ),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    decoration: BoxDecoration(
+      color: filled ? color.withValues(alpha: 0.15) : Colors.transparent,
+      borderRadius: BorderRadius.circular(20),
+      border: Border.all(color: color.withValues(alpha: 0.4)),
+    ),
+    child: Text(
+      label,
+      style: GoogleFonts.outfit(
+        fontSize: 10,
+        color: filled ? color : color.withValues(alpha: 0.8),
+        fontWeight: filled ? FontWeight.w600 : FontWeight.w400,
+      ),
+    ),
+  );
 }

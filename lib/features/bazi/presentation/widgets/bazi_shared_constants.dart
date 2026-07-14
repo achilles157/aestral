@@ -6,11 +6,11 @@ library;
 
 /// Element → combined Indonesian + Chinese label (e.g. 'kayu' → 'Kayu 木').
 const kBaziElementLabel = <String, String>{
-  'kayu':  'Kayu 木',
-  'api':   'Api 火',
+  'kayu': 'Kayu 木',
+  'api': 'Api 火',
   'tanah': 'Tanah 土',
   'logam': 'Logam 金',
-  'air':   'Air 水',
+  'air': 'Air 水',
 };
 
 /// Wu Xing generation-cycle order: 木 → 火 → 土 → 金 → 水.
@@ -24,14 +24,34 @@ const kBaziElementName = ['Kayu', 'Api', 'Tanah', 'Logam', 'Air'];
 
 /// Branch Chinese symbols — index 0 = Zi 子, index 11 = Hai 亥.
 const kBaziBranchSymbol = [
-  '子', '丑', '寅', '卯', '辰', '巳',
-  '午', '未', '申', '酉', '戌', '亥',
+  '子',
+  '丑',
+  '寅',
+  '卯',
+  '辰',
+  '巳',
+  '午',
+  '未',
+  '申',
+  '酉',
+  '戌',
+  '亥',
 ];
 
 /// Branch Indonesian zodiac names (parallel to kBaziBranchSymbol).
 const kBaziBranchName = [
-  'Tikus', 'Kerbau', 'Harimau', 'Kelinci', 'Naga',   'Ular',
-  'Kuda',  'Kambing', 'Monyet',  'Ayam',    'Anjing', 'Babi',
+  'Tikus',
+  'Kerbau',
+  'Harimau',
+  'Kelinci',
+  'Naga',
+  'Ular',
+  'Kuda',
+  'Kambing',
+  'Monyet',
+  'Ayam',
+  'Anjing',
+  'Babi',
 ];
 
 /// Pillar position labels — index 0–3 = natal chart, index 4 = annual (流年).

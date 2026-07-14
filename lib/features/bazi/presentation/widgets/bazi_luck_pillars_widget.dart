@@ -38,7 +38,10 @@ class BaziLuckPillarsWidget extends StatelessWidget {
     final int age = _currentAge();
     final int nextTransitionAge = pillars
         .map((p) => p.startAge)
-        .firstWhere((ageVal) => ageVal > age, orElse: () => pillars.last.startAge);
+        .firstWhere(
+          (ageVal) => ageVal > age,
+          orElse: () => pillars.last.startAge,
+        );
 
     return GlassCard(
       padding: const EdgeInsets.all(16),
@@ -46,26 +49,28 @@ class BaziLuckPillarsWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // ── Header ─────────────────────────────────────────────────────
-          Row(children: [
-            Text(
-              '大運 ',
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 16,
-                color: elementColor,
-                fontWeight: FontWeight.bold,
+          Row(
+            children: [
+              Text(
+                '大運 ',
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 16,
+                  color: elementColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text(
-              'Luck Pillars',
-              style: GoogleFonts.outfit(
-                fontSize: 13,
-                color: Colors.white70,
-                fontWeight: FontWeight.w600,
+              Text(
+                'Luck Pillars',
+                style: GoogleFonts.outfit(
+                  fontSize: 13,
+                  color: Colors.white70,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-            const Spacer(),
-            _directionChip(),
-          ]),
+              const Spacer(),
+              _directionChip(),
+            ],
+          ),
           const SizedBox(height: 4),
           Text(
             'Siklus 10 Tahun (Da Yun) • Mulai usia ${pillars.first.startAge} • Transisi berikutnya: Usia $nextTransitionAge tahun',
@@ -101,7 +106,7 @@ class BaziLuckPillarsWidget extends StatelessWidget {
             child: Row(
               children: pillars.map((lp) {
                 final isActive = age >= lp.startAge && age <= lp.endAge;
-                final isPast   = lp.endAge < age;
+                final isPast = lp.endAge < age;
                 return _LuckPillarCard(
                   lp: lp,
                   isActive: isActive,
@@ -117,21 +122,21 @@ class BaziLuckPillarsWidget extends StatelessWidget {
   }
 
   Widget _directionChip() => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-        decoration: BoxDecoration(
-          color: elementColor.withValues(alpha: 0.12),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: elementColor.withValues(alpha: 0.3)),
-        ),
-        child: Text(
-          isForward ? '顺运' : '逆运',
-          style: GoogleFonts.outfit(
-            fontSize: 10,
-            color: elementColor,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+    decoration: BoxDecoration(
+      color: elementColor.withValues(alpha: 0.12),
+      borderRadius: BorderRadius.circular(20),
+      border: Border.all(color: elementColor.withValues(alpha: 0.3)),
+    ),
+    child: Text(
+      isForward ? '顺运' : '逆运',
+      style: GoogleFonts.outfit(
+        fontSize: 10,
+        color: elementColor,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+  );
 }
 
 class _LuckPillarCard extends StatelessWidget {
@@ -179,7 +184,7 @@ class _LuckPillarCard extends StatelessWidget {
                         color: elementColor.withValues(alpha: 0.28),
                         blurRadius: 10,
                         spreadRadius: 1,
-                      )
+                      ),
                     ]
                   : null,
             ),
@@ -236,8 +241,7 @@ class _LuckPillarCard extends StatelessWidget {
               top: -2,
               right: 8,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                 decoration: BoxDecoration(
                   color: elementColor,
                   borderRadius: const BorderRadius.only(

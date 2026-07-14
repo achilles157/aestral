@@ -18,14 +18,34 @@ class DashboardQuickNavGrid extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final items = [
-      _NavItem(Icons.auto_awesome, 'Tarot', 'Soul Card & Kosmis',
-          AppTheme.accentPink, 1),
-      _NavItem(Icons.brightness_medium_rounded, 'Weton', 'Primbon Jawa',
-          AppTheme.accentPurple, 2),
-      _NavItem(Icons.calendar_month_rounded, 'Planner', 'Kalender Kosmis',
-          AppTheme.accentGold, 3),
-      _NavItem(Icons.grid_4x4_rounded, 'Ba Zi', '四柱八字',
-          AppTheme.elementWater, 4),
+      _NavItem(
+        Icons.auto_awesome,
+        'Tarot',
+        'Soul Card & Kosmis',
+        AppTheme.accentPink,
+        1,
+      ),
+      _NavItem(
+        Icons.brightness_medium_rounded,
+        'Weton',
+        'Primbon Jawa',
+        AppTheme.accentPurple,
+        2,
+      ),
+      _NavItem(
+        Icons.calendar_month_rounded,
+        'Planner',
+        'Kalender Kosmis',
+        AppTheme.accentGold,
+        3,
+      ),
+      _NavItem(
+        Icons.grid_4x4_rounded,
+        'Ba Zi',
+        '四柱八字',
+        AppTheme.elementWater,
+        4,
+      ),
     ];
 
     return Column(
@@ -48,12 +68,14 @@ class DashboardQuickNavGrid extends ConsumerWidget {
           mainAxisSpacing: 12,
           childAspectRatio: childAspectRatio,
           children: items
-              .map((item) => _NavTile(
-                    item: item,
-                    onTap: () => ref
-                        .read(activeTabProvider.notifier)
-                        .setTab(item.tabIndex),
-                  ))
+              .map(
+                (item) => _NavTile(
+                  item: item,
+                  onTap: () => ref
+                      .read(activeTabProvider.notifier)
+                      .setTab(item.tabIndex),
+                ),
+              )
               .toList(),
         ),
       ],
@@ -71,7 +93,12 @@ class _NavItem {
   final int tabIndex;
 
   const _NavItem(
-      this.icon, this.label, this.subtitle, this.color, this.tabIndex);
+    this.icon,
+    this.label,
+    this.subtitle,
+    this.color,
+    this.tabIndex,
+  );
 }
 
 // ─── Tile widget ──────────────────────────────────────────────────────────────

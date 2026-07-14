@@ -22,7 +22,6 @@ class UserSession {
 }
 
 class AuthNotifier extends Notifier<UserSession?> {
-
   @override
   UserSession? build() {
     _loadSession();
@@ -50,7 +49,8 @@ class AuthNotifier extends Notifier<UserSession?> {
       if (isFirebaseAvailable) {
         if (kIsWeb) {
           try {
-            final UserCredential userCredential = await FirebaseAuth.instance.getRedirectResult();
+            final UserCredential userCredential = await FirebaseAuth.instance
+                .getRedirectResult();
             if (!ref.mounted) return;
             final user = userCredential.user;
             if (user != null) {
@@ -113,7 +113,8 @@ class AuthNotifier extends Notifier<UserSession?> {
       if (kIsWeb) {
         final GoogleAuthProvider googleProvider = GoogleAuthProvider();
         try {
-          final UserCredential userCredential = await FirebaseAuth.instance.signInWithPopup(googleProvider);
+          final UserCredential userCredential = await FirebaseAuth.instance
+              .signInWithPopup(googleProvider);
           final user = userCredential.user;
           if (user != null) {
             state = UserSession(
@@ -126,7 +127,9 @@ class AuthNotifier extends Notifier<UserSession?> {
             return true;
           }
         } catch (popupError) {
-          debugPrint("Popup sign in failed, trying redirect fallback: $popupError");
+          debugPrint(
+            "Popup sign in failed, trying redirect fallback: $popupError",
+          );
           await FirebaseAuth.instance.signInWithRedirect(googleProvider);
           return true; // Page redirects
         }
@@ -139,7 +142,8 @@ class AuthNotifier extends Notifier<UserSession?> {
         idToken: googleAuth.idToken,
       );
 
-      final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      final UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(credential);
       final user = userCredential.user;
       if (user != null) {
         state = UserSession(
@@ -234,8 +238,9 @@ final authProvider = NotifierProvider<AuthNotifier, UserSession?>(() {
 
 /// Provider untuk splash screen — di-set false oleh AuthNotifier saat inisialisasi selesai.
 /// NotifierProvider<bool> lebih idiomatik daripada membaca getter dari notifier instance.
-final authInitializingProvider =
-    NotifierProvider<_InitializingNotifier, bool>(_InitializingNotifier.new);
+final authInitializingProvider = NotifierProvider<_InitializingNotifier, bool>(
+  _InitializingNotifier.new,
+);
 
 class _InitializingNotifier extends Notifier<bool> {
   @override

@@ -7,10 +7,7 @@ class StarryBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size.infinite,
-      painter: _StarsPainter(),
-    );
+    return CustomPaint(size: Size.infinite, painter: _StarsPainter());
   }
 }
 
@@ -27,7 +24,7 @@ class _StarsPainter extends CustomPainter {
       final double x = random.nextDouble() * size.width;
       final double y = random.nextDouble() * size.height;
       final double radius = random.nextDouble() * 1.8 + 0.5;
-      
+
       // Draw glow for some stars
       if (random.nextDouble() > 0.8) {
         final glowPaint = Paint()
@@ -35,7 +32,7 @@ class _StarsPainter extends CustomPainter {
           ..style = PaintingStyle.fill;
         canvas.drawCircle(Offset(x, y), radius * 3, glowPaint);
       }
-      
+
       canvas.drawCircle(Offset(x, y), radius, paint);
     }
   }
@@ -74,7 +71,8 @@ class MandalaPainter extends CustomPainter {
     for (int i = 0; i < petals; i++) {
       final angle = (i * 2 * pi) / petals;
       final offsetRadius = maxRadius * 0.45;
-      final petalCenter = center + Offset(offsetRadius * cos(angle), offsetRadius * sin(angle));
+      final petalCenter =
+          center + Offset(offsetRadius * cos(angle), offsetRadius * sin(angle));
       canvas.drawCircle(petalCenter, maxRadius * 0.45, paint);
     }
   }

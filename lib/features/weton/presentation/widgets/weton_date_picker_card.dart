@@ -30,7 +30,11 @@ class WetonDatePickerCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.star_outline, color: AppTheme.accentGold, size: 18),
+              const Icon(
+                Icons.star_outline,
+                color: AppTheme.accentGold,
+                size: 18,
+              ),
               const SizedBox(width: 8),
               Text(
                 'TANGGAL LAHIR KOSMIS',
@@ -63,7 +67,11 @@ class WetonDatePickerCard extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.calendar_month, color: AppTheme.accentGold, size: 20),
+                  const Icon(
+                    Icons.calendar_month,
+                    color: AppTheme.accentGold,
+                    size: 20,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
@@ -71,14 +79,21 @@ class WetonDatePickerCard extends StatelessWidget {
                           ? 'Tentukan Tanggal Lahir...'
                           : DateFormat('dd MMMM yyyy').format(selectedDate!),
                       style: GoogleFonts.outfit(
-                        color: selectedDate == null ? Colors.white38 : AppTheme.textLight,
+                        color: selectedDate == null
+                            ? Colors.white38
+                            : AppTheme.textLight,
                         fontSize: 15,
-                        fontWeight:
-                            selectedDate == null ? FontWeight.w400 : FontWeight.w600,
+                        fontWeight: selectedDate == null
+                            ? FontWeight.w400
+                            : FontWeight.w600,
                       ),
                     ),
                   ),
-                  const Icon(Icons.edit, color: AppTheme.accentPurple, size: 16),
+                  const Icon(
+                    Icons.edit,
+                    color: AppTheme.accentPurple,
+                    size: 16,
+                  ),
                 ],
               ),
             ),

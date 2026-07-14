@@ -49,12 +49,14 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
       final responseText =
           result['response'] as String? ?? _getFallbackResponse();
 
-      ChatCacheService.saveMessage(ChatMessage(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        role: 'model',
-        text: responseText,
-        timestamp: DateTime.now(),
-      ));
+      ChatCacheService.saveMessage(
+        ChatMessage(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          role: 'model',
+          text: responseText,
+          timestamp: DateTime.now(),
+        ),
+      );
 
       setState(() {
         _isThinking = false;
@@ -110,8 +112,11 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
               // Header — fixed
               Row(
                 children: [
-                  const Icon(Icons.auto_awesome,
-                      color: AppTheme.accentGold, size: 24),
+                  const Icon(
+                    Icons.auto_awesome,
+                    color: AppTheme.accentGold,
+                    size: 24,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -127,7 +132,7 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
                 ],
               ),
               const Divider(color: Color(0xFF2E2452), height: 24, thickness: 1),
-              
+
               // Scrollable area for prompt + loading/response
               Expanded(
                 child: SingleChildScrollView(
@@ -140,7 +145,9 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.1),
+                          ),
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +159,9 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
                                 style: GoogleFonts.outfit(
                                   fontSize: 13,
                                   fontStyle: FontStyle.italic,
-                                  color: AppTheme.textLight.withValues(alpha: 0.9),
+                                  color: AppTheme.textLight.withValues(
+                                    alpha: 0.9,
+                                  ),
                                 ),
                               ),
                             ),
@@ -164,22 +173,40 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
                       // Thinking State
                       if (_isThinking)
                         Semantics(
-                          label: 'Orakel sedang memproses jawaban, mohon tunggu',
+                          label:
+                              'Orakel sedang memproses jawaban, mohon tunggu',
                           liveRegion: true,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ExcludeSemantics(child: _ShimmerLine(width: double.infinity, height: 14)),
-                                const SizedBox(height: 10),
-                                ExcludeSemantics(child: _ShimmerLine(width: double.infinity, height: 14)),
+                                ExcludeSemantics(
+                                  child: _ShimmerLine(
+                                    width: double.infinity,
+                                    height: 14,
+                                  ),
+                                ),
                                 const SizedBox(height: 10),
                                 ExcludeSemantics(
-                                  child: Builder(builder: (context) {
-                                    final w = MediaQuery.of(context).size.width * 0.55;
-                                    return _ShimmerLine(width: min(w, 240), height: 14);
-                                  }),
+                                  child: _ShimmerLine(
+                                    width: double.infinity,
+                                    height: 14,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                ExcludeSemantics(
+                                  child: Builder(
+                                    builder: (context) {
+                                      final w =
+                                          MediaQuery.of(context).size.width *
+                                          0.55;
+                                      return _ShimmerLine(
+                                        width: min(w, 240),
+                                        height: 14,
+                                      );
+                                    },
+                                  ),
                                 ),
                                 const SizedBox(height: 20),
                                 const Center(
@@ -215,22 +242,35 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
                         if (_isOffline) ...[
                           const SizedBox(height: 12),
                           Semantics(
-                            label: 'Mode offline aktif — respons kosmis terbatas',
+                            label:
+                                'Mode offline aktif — respons kosmis terbatas',
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 6,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.orange.withValues(alpha: 0.12),
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: Colors.orange.withValues(alpha: 0.3)),
+                                border: Border.all(
+                                  color: Colors.orange.withValues(alpha: 0.3),
+                                ),
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Icon(Icons.wifi_off, color: Colors.orange, size: 13),
+                                  const Icon(
+                                    Icons.wifi_off,
+                                    color: Colors.orange,
+                                    size: 13,
+                                  ),
                                   const SizedBox(width: 6),
                                   Text(
                                     'Mode Offline — respons kosmis terbatas',
-                                    style: GoogleFonts.outfit(fontSize: 11, color: Colors.orange),
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 11,
+                                      color: Colors.orange,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -243,7 +283,7 @@ class _AiAstrologerDialogState extends State<AiAstrologerDialog> {
                 ),
               ),
               const SizedBox(height: 20),
-              
+
               // Close button — fixed at bottom
               ElevatedButton(
                 onPressed: () => Navigator.pop(context),

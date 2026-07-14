@@ -6,10 +6,7 @@ import '../../domain/pranata_mangsa.dart';
 class SeasonalBanner extends StatelessWidget {
   final PranataMangsaModel mangsa;
 
-  const SeasonalBanner({
-    super.key,
-    required this.mangsa,
-  });
+  const SeasonalBanner({super.key, required this.mangsa});
 
   LinearGradient _getGradientForMangsa(int id) {
     switch (id) {
@@ -139,16 +136,26 @@ class SeasonalBanner extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 6,
+                        ),
                         decoration: BoxDecoration(
                           color: AppTheme.accentGold.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: AppTheme.accentGold.withValues(alpha: 0.5), width: 1),
+                          border: Border.all(
+                            color: AppTheme.accentGold.withValues(alpha: 0.5),
+                            width: 1,
+                          ),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Icons.park, color: AppTheme.accentGold, size: 14),
+                            const Icon(
+                              Icons.park,
+                              color: AppTheme.accentGold,
+                              size: 14,
+                            ),
                             const SizedBox(width: 6),
                             Text(
                               'PRANATA MANGSA',
@@ -233,7 +240,9 @@ class SeasonalBanner extends StatelessWidget {
                   const SizedBox(height: 16),
                   // Expansion Tile for deeper seasonal horoscopes
                   Theme(
-                    data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                    data: Theme.of(
+                      context,
+                    ).copyWith(dividerColor: Colors.transparent),
                     child: ExpansionTile(
                       title: Text(
                         'Lihat Ramalan Karir, Asmara & Saran Aktivitas',
@@ -272,25 +281,34 @@ class SeasonalBanner extends StatelessWidget {
                         const SizedBox(height: 8),
                         Column(
                           children: mangsa.saranAktivitas
-                              .map((activity) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 6.0),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const Text('• ', style: TextStyle(color: AppTheme.accentGold)),
-                                        Expanded(
-                                          child: Text(
-                                            activity,
-                                            style: GoogleFonts.outfit(
-                                              fontSize: 13,
-                                              height: 1.4,
-                                              color: AppTheme.textLight.withValues(alpha: 0.8),
-                                            ),
+                              .map(
+                                (activity) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 6.0),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        '• ',
+                                        style: TextStyle(
+                                          color: AppTheme.accentGold,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          activity,
+                                          style: GoogleFonts.outfit(
+                                            fontSize: 13,
+                                            height: 1.4,
+                                            color: AppTheme.textLight
+                                                .withValues(alpha: 0.8),
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ))
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
                               .toList(),
                         ),
                         const SizedBox(height: 16),
@@ -302,7 +320,11 @@ class SeasonalBanner extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              const Icon(Icons.lightbulb_outline, color: AppTheme.accentGold, size: 18),
+                              const Icon(
+                                Icons.lightbulb_outline,
+                                color: AppTheme.accentGold,
+                                size: 18,
+                              ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
@@ -310,7 +332,9 @@ class SeasonalBanner extends StatelessWidget {
                                   style: GoogleFonts.outfit(
                                     fontSize: 12,
                                     fontStyle: FontStyle.italic,
-                                    color: AppTheme.textLight.withValues(alpha: 0.9),
+                                    color: AppTheme.textLight.withValues(
+                                      alpha: 0.9,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -329,7 +353,11 @@ class SeasonalBanner extends StatelessWidget {
     );
   }
 
-  Widget _buildSubInsight({required String title, required String content, required IconData icon}) {
+  Widget _buildSubInsight({
+    required String title,
+    required String content,
+    required IconData icon,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

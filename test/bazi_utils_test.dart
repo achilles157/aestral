@@ -12,17 +12,23 @@ void main() {
       expect(chart.yearPillar.branchId, 'wu');
     });
 
-    test('Year Pillar 2000-01-01: ji_mao — sebelum Li Chun pakai tahun 1999', () {
-      // Jan 1 < Feb 4 (Li Chun) → adjusted year = 1999 = Ji Mao
-      final chart = BaziUtils.calculateBaziChart(DateTime(2000, 1, 1));
-      expect(chart.yearPillar.id, 'ji_mao');
-    });
+    test(
+      'Year Pillar 2000-01-01: ji_mao — sebelum Li Chun pakai tahun 1999',
+      () {
+        // Jan 1 < Feb 4 (Li Chun) → adjusted year = 1999 = Ji Mao
+        final chart = BaziUtils.calculateBaziChart(DateTime(2000, 1, 1));
+        expect(chart.yearPillar.id, 'ji_mao');
+      },
+    );
 
-    test('Year Pillar 1984-02-04: jia_zi — tepat di Li Chun (batas tahun Ba Zi)', () {
-      // Feb 4 = Li Chun → adjusted year = 1984 = Jia Zi
-      final chart = BaziUtils.calculateBaziChart(DateTime(1984, 2, 4));
-      expect(chart.yearPillar.id, 'jia_zi');
-    });
+    test(
+      'Year Pillar 1984-02-04: jia_zi — tepat di Li Chun (batas tahun Ba Zi)',
+      () {
+        // Feb 4 = Li Chun → adjusted year = 1984 = Jia Zi
+        final chart = BaziUtils.calculateBaziChart(DateTime(1984, 2, 4));
+        expect(chart.yearPillar.id, 'jia_zi');
+      },
+    );
 
     // ─── Month Pillar ─────────────────────────────────────────────────────
 
@@ -40,13 +46,16 @@ void main() {
       expect(chart.monthPillar.id, 'bing_zi');
     });
 
-    test('Month Pillar 1984-02-04: bing_yin (Li Chun — awal bulan Harimau)', () {
-      // Feb 4 = Li Chun = awal Tiger month; Jia Zi year → Tiger stem Bing
-      final chart = BaziUtils.calculateBaziChart(DateTime(1984, 2, 4));
-      expect(chart.monthPillar.id, 'bing_yin');
-      expect(chart.monthPillar.stemId, 'bing');
-      expect(chart.monthPillar.branchId, 'yin');
-    });
+    test(
+      'Month Pillar 1984-02-04: bing_yin (Li Chun — awal bulan Harimau)',
+      () {
+        // Feb 4 = Li Chun = awal Tiger month; Jia Zi year → Tiger stem Bing
+        final chart = BaziUtils.calculateBaziChart(DateTime(1984, 2, 4));
+        expect(chart.monthPillar.id, 'bing_yin');
+        expect(chart.monthPillar.stemId, 'bing');
+        expect(chart.monthPillar.branchId, 'yin');
+      },
+    );
 
     // ─── Day Pillar ───────────────────────────────────────────────────────
 
@@ -84,11 +93,11 @@ void main() {
       // → kayu=0, api=6, tanah=4, logam=3, air=0, total=13
       final chart = BaziUtils.calculateBaziChart(DateTime(1990, 10, 10));
       expect(chart.hourPillar, isNull);
-      expect(chart.wuXingBalance.kayu,  0);
-      expect(chart.wuXingBalance.api,   6);
+      expect(chart.wuXingBalance.kayu, 0);
+      expect(chart.wuXingBalance.api, 6);
       expect(chart.wuXingBalance.tanah, 4);
       expect(chart.wuXingBalance.logam, 3);
-      expect(chart.wuXingBalance.air,   0);
+      expect(chart.wuXingBalance.air, 0);
       expect(chart.wuXingBalance.total, 13);
     });
 
@@ -97,11 +106,11 @@ void main() {
       // Day  geng(logam)+chen(tanah|wu,yi,gui)
       // → kayu=3, api=1, tanah=3, logam=1, air=3, total=11
       final chart = BaziUtils.calculateBaziChart(DateTime(2000, 1, 1));
-      expect(chart.wuXingBalance.kayu,  3);
-      expect(chart.wuXingBalance.api,   1);
+      expect(chart.wuXingBalance.kayu, 3);
+      expect(chart.wuXingBalance.api, 1);
       expect(chart.wuXingBalance.tanah, 3);
       expect(chart.wuXingBalance.logam, 1);
-      expect(chart.wuXingBalance.air,   3);
+      expect(chart.wuXingBalance.air, 3);
       expect(chart.wuXingBalance.total, 11);
     });
 
@@ -126,7 +135,7 @@ void main() {
         birthHour: 14,
         longitude: 106.84,
       );
-      expect(chart.adjustedHour, 14);  // masih jam 14 (belum berganti blok)
+      expect(chart.adjustedHour, 14); // masih jam 14 (belum berganti blok)
       expect(chart.trueSolarTimeNote, isNotNull);
       expect(chart.trueSolarTimeNote, contains('106.84'));
       expect(chart.trueSolarTimeNote, contains('105'));
@@ -138,44 +147,53 @@ void main() {
       // Li Chun 2021 = Feb 3 (bukan Feb 4 fixed)
       // Dengan lookup table: Feb 3 2021 adalah pada/setelah Li Chun → tahun 2021 = Xin Chou
       final chart = BaziUtils.calculateBaziChart(DateTime(2021, 2, 3));
-      expect(chart.yearPillar.id,       'xin_chou');
-      expect(chart.yearPillar.stemId,   'xin');
+      expect(chart.yearPillar.id, 'xin_chou');
+      expect(chart.yearPillar.stemId, 'xin');
       expect(chart.yearPillar.branchId, 'chou');
     });
 
     test('Year Pillar 2021-02-02: geng_zi — sehari sebelum Li Chun 2021', () {
       // Feb 2, 2021 masih sebelum Li Chun (Feb 3) → adjustedYear = 2020 = Geng Zi
       final chart = BaziUtils.calculateBaziChart(DateTime(2021, 2, 2));
-      expect(chart.yearPillar.id,       'geng_zi');
-      expect(chart.yearPillar.stemId,   'geng');
+      expect(chart.yearPillar.id, 'geng_zi');
+      expect(chart.yearPillar.stemId, 'geng');
       expect(chart.yearPillar.branchId, 'zi');
     });
 
-    test('Month Pillar 2024-04-04: chen (Dragon) — QingMing jatuh Apr 4 di 2024', () {
-      // Qing Ming 2024 = Apr 4, bukan Apr 5 → bulan Dragon (Chen), bukan Rabbit (Mao)
-      final chart = BaziUtils.calculateBaziChart(DateTime(2024, 4, 4));
-      expect(chart.monthPillar.branchId, 'chen');
-    });
+    test(
+      'Month Pillar 2024-04-04: chen (Dragon) — QingMing jatuh Apr 4 di 2024',
+      () {
+        // Qing Ming 2024 = Apr 4, bukan Apr 5 → bulan Dragon (Chen), bukan Rabbit (Mao)
+        final chart = BaziUtils.calculateBaziChart(DateTime(2024, 4, 4));
+        expect(chart.monthPillar.branchId, 'chen');
+      },
+    );
 
-    test('Month Pillar 2024-04-03: mao (Rabbit) — sehari sebelum QingMing 2024', () {
-      // Apr 3, 2024 masih bulan Rabbit (sebelum Qing Ming Apr 4)
-      final chart = BaziUtils.calculateBaziChart(DateTime(2024, 4, 3));
-      expect(chart.monthPillar.branchId, 'mao');
-    });
+    test(
+      'Month Pillar 2024-04-03: mao (Rabbit) — sehari sebelum QingMing 2024',
+      () {
+        // Apr 3, 2024 masih bulan Rabbit (sebelum Qing Ming Apr 4)
+        final chart = BaziUtils.calculateBaziChart(DateTime(2024, 4, 3));
+        expect(chart.monthPillar.branchId, 'mao');
+      },
+    );
 
     // ─── True Solar Time ──────────────────────────────────────────────────
 
     test('applyTrueSolarTime: 14:00 bujur 106.84° → 14:07', () {
       final tst = BaziUtils.applyTrueSolarTime(14, 0, 106.84);
-      expect(tst.hour,   14);
+      expect(tst.hour, 14);
       expect(tst.minute, 7);
     });
 
-    test('applyTrueSolarTime: 14:00 bujur 119.4° Makassar (WITA) → koreksi negatif', () {
-      // stdMeridian = 120°, offset = (119.4 - 120) × 4 = -2.4 mnt → 13:58
-      final tst = BaziUtils.applyTrueSolarTime(14, 0, 119.4);
-      expect(tst.hour,   13);
-      expect(tst.minute, 58); // round(-2.4) = -2, 14:00 - 2 mnt = 13:58
-    });
+    test(
+      'applyTrueSolarTime: 14:00 bujur 119.4° Makassar (WITA) → koreksi negatif',
+      () {
+        // stdMeridian = 120°, offset = (119.4 - 120) × 4 = -2.4 mnt → 13:58
+        final tst = BaziUtils.applyTrueSolarTime(14, 0, 119.4);
+        expect(tst.hour, 13);
+        expect(tst.minute, 58); // round(-2.4) = -2, 14:00 - 2 mnt = 13:58
+      },
+    );
   });
 }

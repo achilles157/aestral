@@ -6,7 +6,11 @@ class CityPreset {
   final double latitude;
   final double longitude;
 
-  const CityPreset({required this.name, required this.latitude, required this.longitude});
+  const CityPreset({
+    required this.name,
+    required this.latitude,
+    required this.longitude,
+  });
 }
 
 class CitySearchSheet extends StatefulWidget {
@@ -61,9 +65,7 @@ class _CitySearchSheetState extends State<CitySearchSheet> {
         top: 20,
       ),
       child: Container(
-        constraints: BoxConstraints(
-          maxHeight: mediaQuery.size.height * 0.6,
-        ),
+        constraints: BoxConstraints(maxHeight: mediaQuery.size.height * 0.6),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -95,10 +97,16 @@ class _CitySearchSheetState extends State<CitySearchSheet> {
               decoration: InputDecoration(
                 hintText: 'Cari Kota atau Kabupaten...',
                 hintStyle: const TextStyle(color: AppTheme.textMuted),
-                prefixIcon: const Icon(Icons.search, color: AppTheme.accentPurple),
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: AppTheme.accentPurple,
+                ),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
-                        icon: const Icon(Icons.clear, color: AppTheme.textMuted),
+                        icon: const Icon(
+                          Icons.clear,
+                          color: AppTheme.textMuted,
+                        ),
                         onPressed: () {
                           _searchController.clear();
                           _onSearchChanged('');
@@ -109,7 +117,9 @@ class _CitySearchSheetState extends State<CitySearchSheet> {
                 fillColor: AppTheme.background.withValues(alpha: 0.5),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide(color: AppTheme.accentPurple.withValues(alpha: 0.5)),
+                  borderSide: BorderSide(
+                    color: AppTheme.accentPurple.withValues(alpha: 0.5),
+                  ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -123,7 +133,9 @@ class _CitySearchSheetState extends State<CitySearchSheet> {
                   ? Center(
                       child: Text(
                         'Kota tidak ditemukan',
-                        style: textTheme.bodyLarge?.copyWith(color: AppTheme.textMuted),
+                        style: textTheme.bodyLarge?.copyWith(
+                          color: AppTheme.textMuted,
+                        ),
                       ),
                     )
                   : ListView.builder(
@@ -133,7 +145,10 @@ class _CitySearchSheetState extends State<CitySearchSheet> {
                         final city = _filteredCities[index];
                         final isCustom = city.name == 'Koordinat Kustom';
                         return ListTile(
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
                           leading: Icon(
                             isCustom ? Icons.my_location : Icons.location_city,
                             color: isCustom
@@ -143,11 +158,16 @@ class _CitySearchSheetState extends State<CitySearchSheet> {
                           title: Text(
                             city.name,
                             style: const TextStyle(
-                                color: AppTheme.textLight, fontWeight: FontWeight.w500),
+                              color: AppTheme.textLight,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                           subtitle: Text(
                             'Lat: ${city.latitude.toStringAsFixed(4)} • Lng: ${city.longitude.toStringAsFixed(4)}',
-                            style: const TextStyle(color: AppTheme.textMuted, fontSize: 11),
+                            style: const TextStyle(
+                              color: AppTheme.textMuted,
+                              fontSize: 11,
+                            ),
                           ),
                           onTap: () => Navigator.pop(context, city),
                         );

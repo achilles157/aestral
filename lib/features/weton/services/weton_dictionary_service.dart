@@ -33,36 +33,52 @@ class WetonDictionaryEntry {
       karirRezeki: json['karir_rezeki'] as String,
       asmaraHubungan: json['asmara_hubungan'] as String,
       sisiGelapPeringatan: json['sisi_gelap_peringatan'] as String,
-      aiHook: json['ai_hook'] as String? ?? 'Bagaimana pengaruh Weton ${json['weton_name']} saya terhadap nasib dan sisi gelap karakter saya?',
+      aiHook:
+          json['ai_hook'] as String? ??
+          'Bagaimana pengaruh Weton ${json['weton_name']} saya terhadap nasib dan sisi gelap karakter saya?',
       warnaHarmoni: json['warna_harmoni'] as String?,
       saranHarian: json['saran_harian'] as String?,
     );
   }
 }
 
-final wetonDictionaryProvider = FutureProvider<List<WetonDictionaryEntry>>((ref) async {
-  final String jsonString = await rootBundle.loadString('assets/weton/kamus-weton.json');
+final wetonDictionaryProvider = FutureProvider<List<WetonDictionaryEntry>>((
+  ref,
+) async {
+  final String jsonString = await rootBundle.loadString(
+    'assets/weton/kamus-weton.json',
+  );
   final List<dynamic> jsonList = json.decode(jsonString);
   return jsonList.map((json) => WetonDictionaryEntry.fromJson(json)).toList();
 });
 
-final sisaBagiProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
-  final String jsonString = await rootBundle.loadString('assets/weton/sisabagi.json');
+final sisaBagiProvider = FutureProvider<List<Map<String, dynamic>>>((
+  ref,
+) async {
+  final String jsonString = await rootBundle.loadString(
+    'assets/weton/sisabagi.json',
+  );
   final List<dynamic> jsonList = json.decode(jsonString);
   return jsonList.cast<Map<String, dynamic>>();
 });
 
 final wukuProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
-  final String jsonString = await rootBundle.loadString('assets/weton/wuku.json');
+  final String jsonString = await rootBundle.loadString(
+    'assets/weton/wuku.json',
+  );
   final List<dynamic> jsonList = json.decode(jsonString);
   return jsonList.cast<Map<String, dynamic>>();
 });
 
-WetonDictionaryEntry? lookupWetonEntry(List<WetonDictionaryEntry> list, String wetonName) {
+WetonDictionaryEntry? lookupWetonEntry(
+  List<WetonDictionaryEntry> list,
+  String wetonName,
+) {
   // Normalize search input
   String target = wetonName.toLowerCase().replaceAll(' ', '');
   if (target == 'seninpon') {
-    target = 'senipon'; // Map 'Senin Pon' to 'Seni Pon' to handle the JSON typo robustly
+    target =
+        'senipon'; // Map 'Senin Pon' to 'Seni Pon' to handle the JSON typo robustly
   }
 
   for (final entry in list) {
@@ -107,9 +123,12 @@ class PlannerLabelEntry {
   }
 }
 
-final plannerLabelProvider = FutureProvider<List<PlannerLabelEntry>>((ref) async {
-  final String jsonString =
-      await rootBundle.loadString('assets/weton/kamus-label-planner.json');
+final plannerLabelProvider = FutureProvider<List<PlannerLabelEntry>>((
+  ref,
+) async {
+  final String jsonString = await rootBundle.loadString(
+    'assets/weton/kamus-label-planner.json',
+  );
   final List<dynamic> jsonList = json.decode(jsonString);
   return jsonList
       .map((j) => PlannerLabelEntry.fromJson(j as Map<String, dynamic>))
@@ -206,21 +225,27 @@ class BaziCompatibility {
   factory BaziCompatibility.fromJson(Map<String, dynamic> json) {
     return BaziCompatibility(
       dayMasterMatch: BaziCompatibilityDetail.fromJson(
-          json['dayMasterMatch'] as Map<String, dynamic>),
+        json['dayMasterMatch'] as Map<String, dynamic>,
+      ),
       spousePalaceMatch: BaziCompatibilityDetail.fromJson(
-          json['spousePalaceMatch'] as Map<String, dynamic>),
+        json['spousePalaceMatch'] as Map<String, dynamic>,
+      ),
       monthPillarMatch: json['monthPillarMatch'] != null
           ? BaziCompatibilityDetail.fromJson(
-              json['monthPillarMatch'] as Map<String, dynamic>)
+              json['monthPillarMatch'] as Map<String, dynamic>,
+            )
           : const BaziCompatibilityDetail(
               type: 'neutral',
               label: 'Arah Hidup Mandiri',
-              description: 'Ambisi dan ritme karir berjalan di jalur masing-masing.',
+              description:
+                  'Ambisi dan ritme karir berjalan di jalur masing-masing.',
             ),
       zodiacMatch: BaziCompatibilityDetail.fromJson(
-          json['zodiacMatch'] as Map<String, dynamic>),
+        json['zodiacMatch'] as Map<String, dynamic>,
+      ),
       elementCompatibility: BaziCompatibilityDetail.fromJson(
-          json['elementCompatibility'] as Map<String, dynamic>),
+        json['elementCompatibility'] as Map<String, dynamic>,
+      ),
       compatibilityScore: json['compatibilityScore'] as int? ?? 60,
     );
   }
@@ -230,10 +255,7 @@ class SynthesisCompatibility {
   final WetonCompatibility weton;
   final BaziCompatibility bazi;
 
-  const SynthesisCompatibility({
-    required this.weton,
-    required this.bazi,
-  });
+  const SynthesisCompatibility({required this.weton, required this.bazi});
 
   factory SynthesisCompatibility.fromJson(Map<String, dynamic> json) {
     return SynthesisCompatibility(

@@ -17,22 +17,19 @@ class SavedProfile {
   String get formattedBirthDate =>
       DateFormat('d MMM yyyy', 'id_ID').format(birthDate);
 
-  String get birthDateIso =>
-      DateFormat('yyyy-MM-dd').format(birthDate);
+  String get birthDateIso => DateFormat('yyyy-MM-dd').format(birthDate);
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'birthDate': birthDate.millisecondsSinceEpoch,
-        'addedAt': addedAt.millisecondsSinceEpoch,
-      };
+    'id': id,
+    'name': name,
+    'birthDate': birthDate.millisecondsSinceEpoch,
+    'addedAt': addedAt.millisecondsSinceEpoch,
+  };
 
   factory SavedProfile.fromJson(Map<String, dynamic> j) => SavedProfile(
-        id: j['id'] as String,
-        name: j['name'] as String,
-        birthDate:
-            DateTime.fromMillisecondsSinceEpoch(j['birthDate'] as int),
-        addedAt:
-            DateTime.fromMillisecondsSinceEpoch(j['addedAt'] as int),
-      );
+    id: j['id'] as String,
+    name: j['name'] as String,
+    birthDate: DateTime.fromMillisecondsSinceEpoch(j['birthDate'] as int),
+    addedAt: DateTime.fromMillisecondsSinceEpoch(j['addedAt'] as int),
+  );
 }

@@ -115,7 +115,8 @@ class _WetonElementMandalaState extends State<WetonElementMandala>
     return Column(
       children: [
         Semantics(
-          label: 'Mandala elemen kosmis weton — radar diagram yang menggambarkan '
+          label:
+              'Mandala elemen kosmis weton — radar diagram yang menggambarkan '
               'keseimbangan empat elemen Jawa: Geni, Banyu, Lemah, dan Angin.',
           excludeSemantics: false,
           child: Center(
@@ -140,10 +141,26 @@ class _WetonElementMandalaState extends State<WetonElementMandala>
           runSpacing: 8,
           alignment: WrapAlignment.center,
           children: [
-            _buildElementChip('Geni (Api)', values['geni']!, AppTheme.elementFire),
-            _buildElementChip('Banyu (Air)', values['banyu']!, AppTheme.elementWater),
-            _buildElementChip('Lemah (Tanah)', values['lemah']!, AppTheme.elementEarth),
-            _buildElementChip('Angin (Udara)', values['angin']!, AppTheme.elementCosmic),
+            _buildElementChip(
+              'Geni (Api)',
+              values['geni']!,
+              AppTheme.elementFire,
+            ),
+            _buildElementChip(
+              'Banyu (Air)',
+              values['banyu']!,
+              AppTheme.elementWater,
+            ),
+            _buildElementChip(
+              'Lemah (Tanah)',
+              values['lemah']!,
+              AppTheme.elementEarth,
+            ),
+            _buildElementChip(
+              'Angin (Udara)',
+              values['angin']!,
+              AppTheme.elementCosmic,
+            ),
           ],
         ),
       ],
@@ -170,9 +187,10 @@ class _WetonElementMandalaState extends State<WetonElementMandala>
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                    color: color.withValues(alpha: 0.6),
-                    blurRadius: 4,
-                    spreadRadius: 1),
+                  color: color.withValues(alpha: 0.6),
+                  blurRadius: 4,
+                  spreadRadius: 1,
+                ),
               ],
             ),
           ),
@@ -238,9 +256,7 @@ class _WetonElementMandalaPainter extends CustomPainter {
     );
 
     // Directional labels — fade in
-    final textPainter = TextPainter(
-      textDirection: ui.TextDirection.ltr,
-    );
+    final textPainter = TextPainter(textDirection: ui.TextDirection.ltr);
 
     void drawLabel(String text, Offset pos, Color color) {
       textPainter.text = TextSpan(
@@ -254,19 +270,31 @@ class _WetonElementMandalaPainter extends CustomPainter {
       );
       textPainter.layout();
       textPainter.paint(
-          canvas,
-          Offset(pos.dx - textPainter.width / 2,
-              pos.dy - textPainter.height / 2));
+        canvas,
+        Offset(pos.dx - textPainter.width / 2, pos.dy - textPainter.height / 2),
+      );
     }
 
-    drawLabel('BANYU\n(North)', Offset(center.dx, center.dy - maxRadius - 16),
-        AppTheme.elementWater);
-    drawLabel('ANGIN\n(East)', Offset(center.dx + maxRadius + 22, center.dy),
-        AppTheme.elementCosmic);
-    drawLabel('GENI\n(South)', Offset(center.dx, center.dy + maxRadius + 16),
-        AppTheme.elementFire);
-    drawLabel('LEMAH\n(West)', Offset(center.dx - maxRadius - 22, center.dy),
-        AppTheme.elementEarth);
+    drawLabel(
+      'BANYU\n(North)',
+      Offset(center.dx, center.dy - maxRadius - 16),
+      AppTheme.elementWater,
+    );
+    drawLabel(
+      'ANGIN\n(East)',
+      Offset(center.dx + maxRadius + 22, center.dy),
+      AppTheme.elementCosmic,
+    );
+    drawLabel(
+      'GENI\n(South)',
+      Offset(center.dx, center.dy + maxRadius + 16),
+      AppTheme.elementFire,
+    );
+    drawLabel(
+      'LEMAH\n(West)',
+      Offset(center.dx - maxRadius - 22, center.dy),
+      AppTheme.elementEarth,
+    );
 
     // Radar diamond — expand from center based on progress
     final nVal = 0.2 + (banyu * 0.8);

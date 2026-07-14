@@ -9,12 +9,10 @@ PageRouteBuilder<T> createCosmicPageRoute<T>(Widget page) {
     transitionDuration: const Duration(milliseconds: 600),
     reverseTransitionDuration: const Duration(milliseconds: 500),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      final fadeTween = Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(
-          parent: animation,
-          curve: Curves.easeInOut,
-        ),
-      );
+      final fadeTween = Tween<double>(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
 
       final scaleTween = Tween<double>(begin: 0.96, end: 1.0).animate(
         CurvedAnimation(
@@ -25,10 +23,7 @@ PageRouteBuilder<T> createCosmicPageRoute<T>(Widget page) {
 
       return FadeTransition(
         opacity: fadeTween,
-        child: ScaleTransition(
-          scale: scaleTween,
-          child: child,
-        ),
+        child: ScaleTransition(scale: scaleTween, child: child),
       );
     },
   );

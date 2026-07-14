@@ -93,7 +93,11 @@ class _ChecklistCardState extends State<_ChecklistCard> {
         children: [
           Row(
             children: [
-              Icon(Icons.checklist_rounded, color: widget.accentColor, size: 18),
+              Icon(
+                Icons.checklist_rounded,
+                color: widget.accentColor,
+                size: 18,
+              ),
               const SizedBox(width: 8),
               Text(
                 title,
@@ -109,10 +113,10 @@ class _ChecklistCardState extends State<_ChecklistCard> {
           const SizedBox(height: 10),
           ...List.generate(items.length, (i) {
             return InkWell(
-                onTap: () {
-                  setState(() => _checked[i] = !_checked[i]);
-                  _saveCheckedState();
-                },
+              onTap: () {
+                setState(() => _checked[i] = !_checked[i]);
+                _saveCheckedState();
+              },
               borderRadius: BorderRadius.circular(8),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
@@ -147,7 +151,8 @@ class _ChecklistCardState extends State<_ChecklistCard> {
                           fontSize: 13,
                           height: 1.4,
                           color: Colors.white.withValues(
-                              alpha: _checked[i] ? 0.4 : 0.85),
+                            alpha: _checked[i] ? 0.4 : 0.85,
+                          ),
                           decoration: _checked[i]
                               ? TextDecoration.lineThrough
                               : TextDecoration.none,
@@ -224,23 +229,25 @@ class _ElementBarCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          ...bars.map((b) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 52,
-                      child: Text(
-                        b.name,
-                        style: GoogleFonts.outfit(
-                          fontSize: 12,
-                          color: Colors.white.withValues(alpha: 0.75),
-                        ),
+          ...bars.map(
+            (b) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 52,
+                    child: Text(
+                      b.name,
+                      style: GoogleFonts.outfit(
+                        fontSize: 12,
+                        color: Colors.white.withValues(alpha: 0.75),
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: LayoutBuilder(builder: (ctx, constraints) {
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: LayoutBuilder(
+                      builder: (ctx, constraints) {
                         final pct = maxVal > 0 ? (b.value / maxVal) : 0.0;
                         return Stack(
                           children: [
@@ -270,20 +277,22 @@ class _ElementBarCard extends StatelessWidget {
                             ),
                           ],
                         );
-                      }),
+                      },
                     ),
-                    const SizedBox(width: 8),
-                    Text(
-                      b.value.toStringAsFixed(0),
-                      style: GoogleFonts.outfit(
-                        fontSize: 11,
-                        color: b.color,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    b.value.toStringAsFixed(0),
+                    style: GoogleFonts.outfit(
+                      fontSize: 11,
+                      color: b.color,
+                      fontWeight: FontWeight.w600,
                     ),
-                  ],
-                ),
-              )),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -318,7 +327,10 @@ class _KeyInsightCard extends StatelessWidget {
           ],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: accentColor.withValues(alpha: 0.45), width: 1.5),
+        border: Border.all(
+          color: accentColor.withValues(alpha: 0.45),
+          width: 1.5,
+        ),
         boxShadow: [
           BoxShadow(
             color: accentColor.withValues(alpha: 0.20),
@@ -481,10 +493,13 @@ class _OraclePulsingMandalaState extends State<OraclePulsingMandala>
   void initState() {
     super.initState();
     _ctrl = AnimationController(
-        vsync: this, duration: const Duration(seconds: 2))
-      ..repeat(reverse: true);
-    _pulse = Tween<double>(begin: 0.85, end: 1.0).animate(
-        CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat(reverse: true);
+    _pulse = Tween<double>(
+      begin: 0.85,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
   }
 
   @override
@@ -506,8 +521,10 @@ class _OraclePulsingMandalaState extends State<OraclePulsingMandala>
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: widget.color.withValues(alpha: 0.10),
-              border:
-                  Border.all(color: widget.color.withValues(alpha: 0.35), width: 1.5),
+              border: Border.all(
+                color: widget.color.withValues(alpha: 0.35),
+                width: 1.5,
+              ),
               boxShadow: [
                 BoxShadow(
                   color: widget.color.withValues(alpha: 0.25 * _pulse.value),
@@ -516,8 +533,11 @@ class _OraclePulsingMandalaState extends State<OraclePulsingMandala>
                 ),
               ],
             ),
-            child: Icon(Icons.auto_awesome,
-                color: widget.color.withValues(alpha: 0.75), size: 32),
+            child: Icon(
+              Icons.auto_awesome,
+              color: widget.color.withValues(alpha: 0.75),
+              size: 32,
+            ),
           ),
         );
       },

@@ -33,7 +33,8 @@ class DashboardCarouselCard extends StatefulWidget {
   State<DashboardCarouselCard> createState() => _DashboardCarouselCardState();
 }
 
-class _DashboardCarouselCardState extends State<DashboardCarouselCard> with SingleTickerProviderStateMixin {
+class _DashboardCarouselCardState extends State<DashboardCarouselCard>
+    with SingleTickerProviderStateMixin {
   late AnimationController _glowController;
   late Animation<double> _glowAnimation;
 
@@ -65,7 +66,9 @@ class _DashboardCarouselCardState extends State<DashboardCarouselCard> with Sing
         final glowRadius = widget.isActive ? _glowAnimation.value : 0.0;
         return GlassCard(
           borderRadius: 24,
-          borderColor: widget.item.accentColor.withValues(alpha: widget.isActive ? 0.35 : 0.15),
+          borderColor: widget.item.accentColor.withValues(
+            alpha: widget.isActive ? 0.35 : 0.15,
+          ),
           borderWidth: widget.isActive ? 1.5 : 1.0,
           boxShadow: [
             if (widget.isActive) ...[
@@ -87,7 +90,10 @@ class _DashboardCarouselCardState extends State<DashboardCarouselCard> with Sing
             splashColor: widget.item.accentColor.withValues(alpha: 0.15),
             highlightColor: widget.item.accentColor.withValues(alpha: 0.05),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 28.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 28.0,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -101,7 +107,9 @@ class _DashboardCarouselCardState extends State<DashboardCarouselCard> with Sing
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: widget.item.accentColor.withValues(alpha: 0.15),
+                          color: widget.item.accentColor.withValues(
+                            alpha: 0.15,
+                          ),
                           blurRadius: 15,
                           spreadRadius: 1,
                         ),
@@ -142,7 +150,10 @@ class _DashboardCarouselCardState extends State<DashboardCarouselCard> with Sing
                   const Spacer(),
                   // Action button style indicator
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     decoration: BoxDecoration(
                       color: widget.item.accentColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),

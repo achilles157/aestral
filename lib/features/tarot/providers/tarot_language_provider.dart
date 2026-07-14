@@ -26,6 +26,8 @@ class TarotLanguageNotifier extends Notifier<String> {
 }
 
 // Stores active language code: 'id' (Indonesian, default) or 'en' (English)
-final tarotLanguageProvider = NotifierProvider<TarotLanguageNotifier, String>(() {
-  return TarotLanguageNotifier();
-});
+final tarotLanguageProvider = NotifierProvider<TarotLanguageNotifier, String>(
+  () {
+    return TarotLanguageNotifier();
+  },
+);

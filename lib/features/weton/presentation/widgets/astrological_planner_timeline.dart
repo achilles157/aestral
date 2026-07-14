@@ -25,10 +25,12 @@ class AstrologicalPlannerTimeline extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<AstrologicalPlannerTimeline> createState() => _AstrologicalPlannerTimelineState();
+  ConsumerState<AstrologicalPlannerTimeline> createState() =>
+      _AstrologicalPlannerTimelineState();
 }
 
-class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlannerTimeline> {
+class _AstrologicalPlannerTimelineState
+    extends ConsumerState<AstrologicalPlannerTimeline> {
   SharedPreferences? _prefs;
   final Map<String, bool> _checklists = {};
   bool _isPrefsLoading = true;
@@ -87,8 +89,10 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
     final bool isBaziHarmony = dayData['is_bazi_harmony'] as bool? ?? false;
     final bool isBaziYongShen = dayData['is_bazi_yong_shen'] as bool? ?? false;
 
-    final List<dynamic> jamBaik = timetable?['jam_baik'] as List<dynamic>? ?? [];
-    final List<dynamic> jamNaas = timetable?['jam_naas'] as List<dynamic>? ?? [];
+    final List<dynamic> jamBaik =
+        timetable?['jam_baik'] as List<dynamic>? ?? [];
+    final List<dynamic> jamNaas =
+        timetable?['jam_naas'] as List<dynamic>? ?? [];
 
     final List<Map<String, dynamic>> slots = [];
     for (var i = 0; i < jamBaik.length; i++) {
@@ -133,7 +137,11 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.warning_amber_rounded, color: Color(0xFFF87171), size: 20),
+                const Icon(
+                  Icons.warning_amber_rounded,
+                  color: Color(0xFFF87171),
+                  size: 20,
+                ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -182,7 +190,11 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.shield_outlined, color: Color(0xFFFB923C), size: 20),
+                const Icon(
+                  Icons.shield_outlined,
+                  color: Color(0xFFFB923C),
+                  size: 20,
+                ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -231,7 +243,11 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.thermostat_outlined, color: Color(0xFFFB923C), size: 20),
+                const Icon(
+                  Icons.thermostat_outlined,
+                  color: Color(0xFFFB923C),
+                  size: 20,
+                ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -279,7 +295,11 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.flash_on_outlined, color: Color(0xFFF87171), size: 20),
+                const Icon(
+                  Icons.flash_on_outlined,
+                  color: Color(0xFFF87171),
+                  size: 20,
+                ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -328,7 +348,11 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.handshake_outlined, color: Color(0xFF34D399), size: 20),
+                const Icon(
+                  Icons.handshake_outlined,
+                  color: Color(0xFF34D399),
+                  size: 20,
+                ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -377,7 +401,11 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.wb_sunny_outlined, color: AppTheme.accentGold, size: 20),
+                Icon(
+                  Icons.wb_sunny_outlined,
+                  color: AppTheme.accentGold,
+                  size: 20,
+                ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -429,7 +457,10 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: vibeColor.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(12),
@@ -462,7 +493,9 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
         wukuListAsync.when(
           data: (list) {
             final wukuEntry = list.firstWhere(
-              (w) => w['nama_wuku'].toString().toLowerCase() == wukuName.toLowerCase(),
+              (w) =>
+                  w['nama_wuku'].toString().toLowerCase() ==
+                  wukuName.toLowerCase(),
               orElse: () => list.first,
             );
             return GlassCard(
@@ -507,18 +540,30 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                           children: [
                             Row(
                               children: [
-                                const Icon(Icons.work_outline, color: AppTheme.accentGold, size: 14),
+                                const Icon(
+                                  Icons.work_outline,
+                                  color: AppTheme.accentGold,
+                                  size: 14,
+                                ),
                                 const SizedBox(width: 6),
                                 Text(
                                   'Karir Wuku',
-                                  style: GoogleFonts.outfit(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ],
                             ),
                             const SizedBox(height: 6),
                             Text(
                               wukuEntry['ramalan_mingguan_karier'] ?? '',
-                              style: GoogleFonts.outfit(fontSize: 12, color: Colors.white60, height: 1.4),
+                              style: GoogleFonts.outfit(
+                                fontSize: 12,
+                                color: Colors.white60,
+                                height: 1.4,
+                              ),
                             ),
                           ],
                         ),
@@ -530,18 +575,30 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                           children: [
                             Row(
                               children: [
-                                const Icon(Icons.favorite_border, color: AppTheme.accentPink, size: 14),
+                                const Icon(
+                                  Icons.favorite_border,
+                                  color: AppTheme.accentPink,
+                                  size: 14,
+                                ),
                                 const SizedBox(width: 6),
                                 Text(
                                   'Asmara Wuku',
-                                  style: GoogleFonts.outfit(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ],
                             ),
                             const SizedBox(height: 6),
                             Text(
                               wukuEntry['ramalan_mingguan_asmara'] ?? '',
-                              style: GoogleFonts.outfit(fontSize: 12, color: Colors.white60, height: 1.4),
+                              style: GoogleFonts.outfit(
+                                fontSize: 12,
+                                color: Colors.white60,
+                                height: 1.4,
+                              ),
                             ),
                           ],
                         ),
@@ -552,8 +609,11 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
               ),
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator(color: AppTheme.accentPurple)),
-          error: (err, _) => Center(child: Text('Gagal memuat detail. Coba lagi.')),
+          loading: () => const Center(
+            child: CircularProgressIndicator(color: AppTheme.accentPurple),
+          ),
+          error: (err, _) =>
+              Center(child: Text('Gagal memuat detail. Coba lagi.')),
         ),
         const SizedBox(height: 28),
 
@@ -568,7 +628,9 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
         const SizedBox(height: 12),
 
         _isPrefsLoading
-            ? const Center(child: CircularProgressIndicator(color: AppTheme.accentPurple))
+            ? const Center(
+                child: CircularProgressIndicator(color: AppTheme.accentPurple),
+              )
             : Stack(
                 children: [
                   // Circadian Rhythm Wave background painter
@@ -577,8 +639,11 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                       child: CustomPaint(
                         painter: CircadianRhythmWavePainter(
                           amplitudes: slots.map((s) {
-                            final bazi = s['data']['bazi_shi_chen'] as Map<String, dynamic>?;
-                            return (bazi?['amplitude'] as num?)?.toDouble() ?? (s['type'] == 'baik' ? 1.0 : -1.0);
+                            final bazi =
+                                s['data']['bazi_shi_chen']
+                                    as Map<String, dynamic>?;
+                            return (bazi?['amplitude'] as num?)?.toDouble() ??
+                                (s['type'] == 'baik' ? 1.0 : -1.0);
                           }).toList(),
                         ),
                       ),
@@ -595,14 +660,21 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                       final label = data['label'] as String;
                       final rec = data['rekomendasi'] as String;
 
-                      final baziShiChen = data['bazi_shi_chen'] as Map<String, dynamic>?;
-                      final String? scZodiac = baziShiChen?['zodiac'] as String?;
-                      final String? scElement = baziShiChen?['element'] as String?;
-                      final String? scCondition = baziShiChen?['condition'] as String?;
+                      final baziShiChen =
+                          data['bazi_shi_chen'] as Map<String, dynamic>?;
+                      final String? scZodiac =
+                          baziShiChen?['zodiac'] as String?;
+                      final String? scElement =
+                          baziShiChen?['element'] as String?;
+                      final String? scCondition =
+                          baziShiChen?['condition'] as String?;
 
-                      final taskKey = 'planner_task_${dateStr}_${slot['type']}_${slot['index']}';
+                      final taskKey =
+                          'planner_task_${dateStr}_${slot['type']}_${slot['index']}';
                       final isChecked = _checklists[taskKey] ?? false;
-                      final cardColor = isBaik ? const Color(0xFF10B981) : AppTheme.accentPink;
+                      final cardColor = isBaik
+                          ? const Color(0xFF10B981)
+                          : AppTheme.accentPink;
 
                       return Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -670,10 +742,12 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                                     const SizedBox(width: 8),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 range,
@@ -684,13 +758,17 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                                                 ),
                                               ),
                                               Container(
-                                                padding: const EdgeInsets.symmetric(
-                                                  horizontal: 10,
-                                                  vertical: 5,
-                                                ),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 5,
+                                                    ),
                                                 decoration: BoxDecoration(
-                                                  color: cardColor.withValues(alpha: 0.15),
-                                                  borderRadius: BorderRadius.circular(10),
+                                                  color: cardColor.withValues(
+                                                    alpha: 0.15,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
                                                 ),
                                                 child: Text(
                                                   label,
@@ -731,28 +809,46 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                                                 ),
                                                 const SizedBox(width: 8),
                                                 Container(
-                                                  padding: const EdgeInsets.symmetric(
-                                                    horizontal: 6,
-                                                    vertical: 2,
-                                                  ),
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 6,
+                                                        vertical: 2,
+                                                      ),
                                                   decoration: BoxDecoration(
-                                                    color: scCondition == 'Clash'
-                                                        ? Colors.redAccent.withValues(alpha: 0.15)
-                                                        : (scCondition == 'Netral'
-                                                            ? Colors.white12
-                                                            : AppTheme.accentGold.withValues(alpha: 0.15)),
-                                                    borderRadius: BorderRadius.circular(6),
+                                                    color:
+                                                        scCondition == 'Clash'
+                                                        ? Colors.redAccent
+                                                              .withValues(
+                                                                alpha: 0.15,
+                                                              )
+                                                        : (scCondition ==
+                                                                  'Netral'
+                                                              ? Colors.white12
+                                                              : AppTheme
+                                                                    .accentGold
+                                                                    .withValues(
+                                                                      alpha:
+                                                                          0.15,
+                                                                    )),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          6,
+                                                        ),
                                                   ),
                                                   child: Text(
                                                     scCondition ?? 'Netral',
                                                     style: GoogleFonts.outfit(
                                                       fontSize: 9,
-                                                      fontWeight: FontWeight.bold,
-                                                      color: scCondition == 'Clash'
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color:
+                                                          scCondition == 'Clash'
                                                           ? Colors.redAccent
-                                                          : (scCondition == 'Netral'
-                                                              ? Colors.white60
-                                                              : AppTheme.accentGold),
+                                                          : (scCondition ==
+                                                                    'Netral'
+                                                                ? Colors.white60
+                                                                : AppTheme
+                                                                      .accentGold),
                                                     ),
                                                   ),
                                                 ),
@@ -791,10 +887,14 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
             final karakterVal = birthWeton?.characterSummary ?? '';
             final pangarasanVal = birthWeton?.pangarasan ?? '';
             const saptawaraElemenMap = {
-              'Ahad': 'Api', 'Minggu': 'Api',
-              'Senin': 'Air', 'Selasa': 'Api',
-              'Rabu': 'Tanah', 'Kamis': 'Kayu',
-              'Jumat': 'Air', 'Sabtu': 'Tanah',
+              'Ahad': 'Api',
+              'Minggu': 'Api',
+              'Senin': 'Air',
+              'Selasa': 'Api',
+              'Rabu': 'Tanah',
+              'Kamis': 'Kayu',
+              'Jumat': 'Air',
+              'Sabtu': 'Tanah',
             };
             final wetonElemen = birthWeton != null
                 ? (saptawaraElemenMap[birthWeton.saptawara] ?? '')
@@ -808,7 +908,8 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
               builder: (dialogCtx) => AlertDialog(
                 backgroundColor: const Color(0xFF1A1A2E),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 title: Text(
                   'Ceritakan rencanamu hari ini',
                   style: GoogleFonts.playfairDisplay(
@@ -824,37 +925,42 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                     Text(
                       'Oracle akan menyesuaikan saran dengan energi kosmis hari ini.',
                       style: GoogleFonts.outfit(
-                          color: Colors.white60, fontSize: 12),
+                        color: Colors.white60,
+                        fontSize: 12,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     TextField(
                       controller: inputCtrl,
                       maxLines: 4,
                       style: GoogleFonts.outfit(
-                          color: Colors.white, fontSize: 14),
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
                       decoration: InputDecoration(
                         hintText:
                             'Contoh: meeting penting jam 10, deadline proyek, atau hari santai...',
                         hintStyle: GoogleFonts.outfit(
-                            color: Colors.white30, fontSize: 12),
+                          color: Colors.white30,
+                          fontSize: 12,
+                        ),
                         filled: true,
                         fillColor: Colors.white.withValues(alpha: 0.06),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                              color: AppTheme.accentGold
-                                  .withValues(alpha: 0.3)),
+                            color: AppTheme.accentGold.withValues(alpha: 0.3),
+                          ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: Colors.white24),
+                          borderSide: const BorderSide(color: Colors.white24),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide(
-                              color: AppTheme.accentGold
-                                  .withValues(alpha: 0.6)),
+                            color: AppTheme.accentGold.withValues(alpha: 0.6),
+                          ),
                         ),
                       ),
                     ),
@@ -863,24 +969,28 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.of(dialogCtx).pop(),
-                    child: Text('Batal',
-                        style:
-                            GoogleFonts.outfit(color: Colors.white38)),
+                    child: Text(
+                      'Batal',
+                      style: GoogleFonts.outfit(color: Colors.white38),
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: () =>
                         Navigator.of(dialogCtx).pop(inputCtrl.text.trim()),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          AppTheme.accentGold.withValues(alpha: 0.2),
+                      backgroundColor: AppTheme.accentGold.withValues(
+                        alpha: 0.2,
+                      ),
                       foregroundColor: AppTheme.accentGold,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                    child: Text('Tanya Oracle',
-                        style: GoogleFonts.outfit(
-                            fontWeight: FontWeight.bold)),
+                    child: Text(
+                      'Tanya Oracle',
+                      style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
@@ -890,15 +1000,16 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
             if (!context.mounted) return;
 
             // Step 2: ambil auth + build prompt
-            final authHeader =
-                await ref.read(authProvider.notifier).getAuthHeader();
+            final authHeader = await ref
+                .read(authProvider.notifier)
+                .getAuthHeader();
             if (!context.mounted) return;
 
-            final tanggal = DateFormat('dd MMMM yyyy')
-                .format(DateTime.parse(dateStr));
+            final tanggal = DateFormat(
+              'dd MMMM yyyy',
+            ).format(DateTime.parse(dateStr));
             final wukuBerjalan = dayData['wuku'] ?? '';
-            final wetonHariIni =
-                dayData['weton_hari_ini'] ?? birthWetonName;
+            final wetonHariIni = dayData['weton_hari_ini'] ?? birthWetonName;
 
             final prompt =
                 'Hari ini $tanggal, weton $wetonHariIni (Neptu $neptuVal), '
@@ -937,11 +1048,11 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
           style: ElevatedButton.styleFrom(
             backgroundColor: AppTheme.accentGold.withValues(alpha: 0.15),
             foregroundColor: AppTheme.accentGold,
-            side: BorderSide(
-                color: AppTheme.accentGold.withValues(alpha: 0.5)),
+            side: BorderSide(color: AppTheme.accentGold.withValues(alpha: 0.5)),
             padding: const EdgeInsets.symmetric(vertical: 16),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             elevation: 0,
           ),
           icon: const Icon(Icons.auto_awesome, size: 18),
@@ -954,8 +1065,12 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
         ElevatedButton.icon(
           onPressed: () {
             final buffer = StringBuffer();
-            buffer.writeln('Astrological Schedule: ${DateFormat('dd MMMM yyyy').format(DateTime.parse(dateStr))}');
-            buffer.writeln('Weton: ${dayData['weton_hari_ini']} (Neptu ${dayData['neptu']})');
+            buffer.writeln(
+              'Astrological Schedule: ${DateFormat('dd MMMM yyyy').format(DateTime.parse(dateStr))}',
+            );
+            buffer.writeln(
+              'Weton: ${dayData['weton_hari_ini']} (Neptu ${dayData['neptu']})',
+            );
             buffer.writeln('----------------------------------------');
             for (final slot in slots) {
               final data = slot['data'];
@@ -965,7 +1080,9 @@ class _AstrologicalPlannerTimelineState extends ConsumerState<AstrologicalPlanne
             }
             Clipboard.setData(ClipboardData(text: buffer.toString()));
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Jadwal harian disalin ke clipboard!')),
+              const SnackBar(
+                content: Text('Jadwal harian disalin ke clipboard!'),
+              ),
             );
           },
           icon: const Icon(Icons.content_copy),

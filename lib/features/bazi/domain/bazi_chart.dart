@@ -45,30 +45,30 @@ class BaziPillar {
   });
 
   factory BaziPillar.fromJson(Map<String, dynamic> json) => BaziPillar(
-        id: json['id'] as String,
-        stemId: json['stemId'] as String,
-        branchId: json['branchId'] as String,
-        stemIndex: json['stemIndex'] as int,
-        branchIndex: json['branchIndex'] as int,
-        stemSymbol: json['stemSymbol'] as String,
-        branchSymbol: json['branchSymbol'] as String,
-        stemNameId: json['stemNameId'] as String,
-        branchZodiacId: json['branchZodiacId'] as String,
-        element: json['element'] as String,
-      );
+    id: json['id'] as String,
+    stemId: json['stemId'] as String,
+    branchId: json['branchId'] as String,
+    stemIndex: json['stemIndex'] as int,
+    branchIndex: json['branchIndex'] as int,
+    stemSymbol: json['stemSymbol'] as String,
+    branchSymbol: json['branchSymbol'] as String,
+    stemNameId: json['stemNameId'] as String,
+    branchZodiacId: json['branchZodiacId'] as String,
+    element: json['element'] as String,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'stemId': stemId,
-        'branchId': branchId,
-        'stemIndex': stemIndex,
-        'branchIndex': branchIndex,
-        'stemSymbol': stemSymbol,
-        'branchSymbol': branchSymbol,
-        'stemNameId': stemNameId,
-        'branchZodiacId': branchZodiacId,
-        'element': element,
-      };
+    'id': id,
+    'stemId': stemId,
+    'branchId': branchId,
+    'stemIndex': stemIndex,
+    'branchIndex': branchIndex,
+    'stemSymbol': stemSymbol,
+    'branchSymbol': branchSymbol,
+    'stemNameId': stemNameId,
+    'branchZodiacId': branchZodiacId,
+    'element': element,
+  };
 }
 
 class WuXingBalance {
@@ -89,12 +89,12 @@ class WuXingBalance {
   int get total => kayu + api + tanah + logam + air;
 
   factory WuXingBalance.fromJson(Map<String, dynamic> json) => WuXingBalance(
-        kayu: (json['kayu'] as num).toInt(),
-        api: (json['api'] as num).toInt(),
-        tanah: (json['tanah'] as num).toInt(),
-        logam: (json['logam'] as num).toInt(),
-        air: (json['air'] as num).toInt(),
-      );
+    kayu: (json['kayu'] as num).toInt(),
+    api: (json['api'] as num).toInt(),
+    tanah: (json['tanah'] as num).toInt(),
+    logam: (json['logam'] as num).toInt(),
+    air: (json['air'] as num).toInt(),
+  );
 
   /// Returns the dominant element (highest count). Ties favour the first in cycle order.
   String get dominant {
@@ -138,17 +138,18 @@ class DayMasterStrength {
     required this.jiShen,
   });
 
-  factory DayMasterStrength.fromJson(Map<String, dynamic> json) => DayMasterStrength(
-        label:    json['label'] as String,
+  factory DayMasterStrength.fromJson(Map<String, dynamic> json) =>
+      DayMasterStrength(
+        label: json['label'] as String,
         yongShen: List<String>.from(json['yongShen'] as List),
-        jiShen:   List<String>.from(json['jiShen'] as List),
+        jiShen: List<String>.from(json['jiShen'] as List),
       );
 
   Map<String, dynamic> toJson() => {
-        'label':    label,
-        'yongShen': yongShen,
-        'jiShen':   jiShen,
-      };
+    'label': label,
+    'yongShen': yongShen,
+    'jiShen': jiShen,
+  };
 }
 
 /// Ten Gods (十神) relationship of each pillar's Heavenly Stem relative to the Day Master.
@@ -160,23 +161,15 @@ class TenGods {
   /// Null when birth hour is unknown
   final String? hour;
 
-  const TenGods({
-    required this.year,
-    required this.month,
-    this.hour,
-  });
+  const TenGods({required this.year, required this.month, this.hour});
 
   factory TenGods.fromJson(Map<String, dynamic> json) => TenGods(
-        year: json['year'] as String,
-        month: json['month'] as String,
-        hour: json['hour'] as String?,
-      );
+    year: json['year'] as String,
+    month: json['month'] as String,
+    hour: json['hour'] as String?,
+  );
 
-  Map<String, dynamic> toJson() => {
-        'year': year,
-        'month': month,
-        'hour': hour,
-      };
+  Map<String, dynamic> toJson() => {'year': year, 'month': month, 'hour': hour};
 }
 
 class BaziChart {
@@ -220,29 +213,33 @@ class BaziChart {
   });
 
   factory BaziChart.fromJson(Map<String, dynamic> json) => BaziChart(
-        yearPillar: BaziPillar.fromJson(json['yearPillar'] as Map<String, dynamic>),
-        monthPillar: BaziPillar.fromJson(json['monthPillar'] as Map<String, dynamic>),
-        dayPillar: BaziPillar.fromJson(json['dayPillar'] as Map<String, dynamic>),
-        hourPillar: json['hourPillar'] != null
-            ? BaziPillar.fromJson(json['hourPillar'] as Map<String, dynamic>)
-            : null,
-        dayMasterId: json['dayMasterId'] as String,
-        dayMasterElement: json['dayMasterElement'] as String,
-        wuXingBalance: WuXingBalance.fromJson(
-            json['wuXingBalance'] as Map<String, dynamic>),
-        tenGods: TenGods.fromJson(json['tenGods'] as Map<String, dynamic>),
-        dmStrength: DayMasterStrength.fromJson(
-            json['dmStrength'] as Map<String, dynamic>),
-        trueSolarTimeNote: json['trueSolarTimeNote'] as String?,
-        adjustedHour: json['adjustedHour'] as int?,
-      );
+    yearPillar: BaziPillar.fromJson(json['yearPillar'] as Map<String, dynamic>),
+    monthPillar: BaziPillar.fromJson(
+      json['monthPillar'] as Map<String, dynamic>,
+    ),
+    dayPillar: BaziPillar.fromJson(json['dayPillar'] as Map<String, dynamic>),
+    hourPillar: json['hourPillar'] != null
+        ? BaziPillar.fromJson(json['hourPillar'] as Map<String, dynamic>)
+        : null,
+    dayMasterId: json['dayMasterId'] as String,
+    dayMasterElement: json['dayMasterElement'] as String,
+    wuXingBalance: WuXingBalance.fromJson(
+      json['wuXingBalance'] as Map<String, dynamic>,
+    ),
+    tenGods: TenGods.fromJson(json['tenGods'] as Map<String, dynamic>),
+    dmStrength: DayMasterStrength.fromJson(
+      json['dmStrength'] as Map<String, dynamic>,
+    ),
+    trueSolarTimeNote: json['trueSolarTimeNote'] as String?,
+    adjustedHour: json['adjustedHour'] as int?,
+  );
 
   List<BaziPillar> get allPillars => [
-        yearPillar,
-        monthPillar,
-        dayPillar,
-        if (hourPillar != null) hourPillar!,
-      ];
+    yearPillar,
+    monthPillar,
+    dayPillar,
+    if (hourPillar != null) hourPillar!,
+  ];
 }
 
 /// One 10-year Luck Pillar cycle (大運) derived from the month pillar sequence.
@@ -258,15 +255,15 @@ class LuckPillar {
   const LuckPillar({required this.pillar, required this.startAge});
 
   factory LuckPillar.fromJson(Map<String, dynamic> json) => LuckPillar(
-        pillar:   BaziPillar.fromJson(json['pillar'] as Map<String, dynamic>),
-        startAge: json['startAge'] as int,
-      );
+    pillar: BaziPillar.fromJson(json['pillar'] as Map<String, dynamic>),
+    startAge: json['startAge'] as int,
+  );
 
   Map<String, dynamic> toJson() => {
-        'pillar':   pillar.toJson(),
-        'startAge': startAge,
-        'endAge':   endAge,
-      };
+    'pillar': pillar.toJson(),
+    'startAge': startAge,
+    'endAge': endAge,
+  };
 }
 
 // ─── Branch Interaction Models ───────────────────────────────────────────────

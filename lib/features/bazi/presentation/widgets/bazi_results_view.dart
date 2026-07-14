@@ -39,8 +39,10 @@ class BaziResultsView extends ConsumerWidget {
   final VoidCallback onRetry;
   final VoidCallback onConsultOracle;
   final VoidCallback onRecalculate;
+
   /// Jika disediakan, header + 4 pilar di-wrap dalam Screenshot untuk sharing.
   final ScreenshotController? screenshotController;
+
   /// Callback untuk share — jika disediakan, tombol Bagikan muncul di bawah 4 pilar.
   final VoidCallback? onShare;
 
@@ -75,11 +77,7 @@ class BaziResultsView extends ConsumerWidget {
         key: const ValueKey('loading'),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
-            CosmicLoader(
-              label: 'Memetakan langit kelahiranmu...',
-            ),
-          ],
+          children: [CosmicLoader(label: 'Memetakan langit kelahiranmu...')],
         ),
       );
     }
@@ -101,8 +99,10 @@ class BaziResultsView extends ConsumerWidget {
             const SizedBox(height: 16),
             TextButton(
               onPressed: onRetry,
-              child: const Text('Coba lagi',
-                  style: TextStyle(color: AppTheme.accentGold)),
+              child: const Text(
+                'Coba lagi',
+                style: TextStyle(color: AppTheme.accentGold),
+              ),
             ),
           ],
         ),
@@ -110,14 +110,14 @@ class BaziResultsView extends ConsumerWidget {
     }
 
     // ── Results ──────────────────────────────────────────────────────────
-    final mastersAsync  = ref.watch(baziDayMastersProvider);
-    final pillarsAsync  = ref.watch(baziPillarsProvider);
-    final godsAsync     = ref.watch(baziGodsProvider);
+    final mastersAsync = ref.watch(baziDayMastersProvider);
+    final pillarsAsync = ref.watch(baziPillarsProvider);
+    final godsAsync = ref.watch(baziGodsProvider);
     final strengthAsync = ref.watch(baziStrengthLevelsProvider);
 
-    final masterData   = mastersAsync.asData?.value.findById(chart!.dayMasterId);
-    final pillarData   = pillarsAsync.asData?.value.findById(chart!.dayPillar.id);
-    final godsData     = godsAsync.asData?.value;
+    final masterData = mastersAsync.asData?.value.findById(chart!.dayMasterId);
+    final pillarData = pillarsAsync.asData?.value.findById(chart!.dayPillar.id);
+    final godsData = godsAsync.asData?.value;
     final strengthData = strengthAsync.asData?.value;
 
     final Color elementColor =
@@ -130,27 +130,31 @@ class BaziResultsView extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Screenshot target: header + 4 pilar
-          Builder(builder: (_) {
-            final content = Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+          Builder(
+            builder: (_) {
+              final content = Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Column(
                       children: [
                         Text(
                           'Peta Langit Kelahiran',
                           style: GoogleFonts.playfairDisplay(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 4),
                         Text(
                           '${birthDate!.day} / ${birthDate!.month} / ${birthDate!.year}',
                           style: GoogleFonts.outfit(
-                              fontSize: 13, color: Colors.white54),
+                            fontSize: 13,
+                            color: Colors.white54,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -159,46 +163,62 @@ class BaziResultsView extends ConsumerWidget {
                   BaziFourPillarsChart(chart: chart!),
                 ],
               );
-            return screenshotController != null
-                ? Screenshot(controller: screenshotController!, child: content)
-                : content;
-          }),
+              return screenshotController != null
+                  ? Screenshot(
+                      controller: screenshotController!,
+                      child: content,
+                    )
+                  : content;
+            },
+          ),
           const SizedBox(height: 8),
           if (onShare != null)
             Center(
               child: TextButton.icon(
                 onPressed: onShare,
-                icon: const Icon(Icons.share_rounded,
-                    size: 16, color: AppTheme.accentGold),
-                label: Text('Bagikan Chart Ba Zi',
-                    style: GoogleFonts.cinzel(
-                        color: AppTheme.accentGold,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600)),
+                icon: const Icon(
+                  Icons.share_rounded,
+                  size: 16,
+                  color: AppTheme.accentGold,
+                ),
+                label: Text(
+                  'Bagikan Chart Ba Zi',
+                  style: GoogleFonts.cinzel(
+                    color: AppTheme.accentGold,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
           const SizedBox(height: 8),
 
           BaziTenGodsWidget(
-              chart: chart!, elementColor: elementColor, godsData: godsData),
+            chart: chart!,
+            elementColor: elementColor,
+            godsData: godsData,
+          ),
           const SizedBox(height: 16),
 
           if (dmStrength != null) ...[
             BaziStrengthCard(
-              dayPillar:    chart!.dayPillar,
-              monthPillar:  chart!.monthPillar,
-              dmStrength:   dmStrength!,
-              yongShen:     yongShen ?? [],
-              jiShen:       jiShen ?? [],
-              noblemen:     noblemen ?? [],
-              allPillars:   chart!.allPillars,
+              dayPillar: chart!.dayPillar,
+              monthPillar: chart!.monthPillar,
+              dmStrength: dmStrength!,
+              yongShen: yongShen ?? [],
+              jiShen: jiShen ?? [],
+              noblemen: noblemen ?? [],
+              allPillars: chart!.allPillars,
               elementColor: elementColor,
               strengthData: strengthData,
             ),
             const SizedBox(height: 16),
           ],
 
-          BaziDayMasterCard(dayPillar: chart!.dayPillar, masterData: masterData),
+          BaziDayMasterCard(
+            dayPillar: chart!.dayPillar,
+            masterData: masterData,
+          ),
           const SizedBox(height: 16),
 
           BaziElementBalanceCard(balance: chart!.wuXingBalance),
@@ -206,17 +226,17 @@ class BaziResultsView extends ConsumerWidget {
 
           if (branchRelations != null && emptyBranches != null) ...[
             BaziBranchRelationsCard(
-              relations:     branchRelations!,
+              relations: branchRelations!,
               emptyBranches: emptyBranches!,
-              pillars:       chart!.allPillars,
+              pillars: chart!.allPillars,
             ),
             const SizedBox(height: 16),
           ],
 
           if (annualPillar != null && annualRelations != null) ...[
             BaziAnnualPillarCard(
-              annualPillar:    annualPillar!,
-              natalChart:      chart!,
+              annualPillar: annualPillar!,
+              natalChart: chart!,
               annualRelations: annualRelations!,
             ),
             const SizedBox(height: 16),
@@ -234,10 +254,11 @@ class BaziResultsView extends ConsumerWidget {
               child: Text(
                 masterData['ai_hook'] as String,
                 style: GoogleFonts.outfit(
-                    fontSize: 12,
-                    color: Colors.white38,
-                    height: 1.6,
-                    fontStyle: FontStyle.italic),
+                  fontSize: 12,
+                  color: Colors.white38,
+                  height: 1.6,
+                  fontStyle: FontStyle.italic,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -251,10 +272,10 @@ class BaziResultsView extends ConsumerWidget {
           const SizedBox(height: 16),
           luckPillars != null
               ? BaziLuckPillarsWidget(
-                  pillars:      luckPillars!,
+                  pillars: luckPillars!,
                   elementColor: elementColor,
-                  isForward:    luckForward,
-                  birthDate:    birthDate!,
+                  isForward: luckForward,
+                  birthDate: birthDate!,
                 )
               : BaziLuckPillarsPlaceholder(elementColor: elementColor),
 
@@ -262,7 +283,11 @@ class BaziResultsView extends ConsumerWidget {
           const SizedBox(height: 24),
           TextButton.icon(
             onPressed: onRecalculate,
-            icon: const Icon(Icons.refresh_rounded, color: Colors.white38, size: 16),
+            icon: const Icon(
+              Icons.refresh_rounded,
+              color: Colors.white38,
+              size: 16,
+            ),
             label: Text(
               'Hitung ulang dengan data berbeda',
               style: GoogleFonts.outfit(fontSize: 12, color: Colors.white38),
@@ -298,11 +323,14 @@ class _BaziPrimaryButton extends StatelessWidget {
               : [],
         ),
         child: Center(
-          child: Text(label,
-              style: GoogleFonts.outfit(
-                  fontSize: 15,
-                  color: onTap != null ? Colors.white : Colors.white30,
-                  fontWeight: FontWeight.w700)),
+          child: Text(
+            label,
+            style: GoogleFonts.outfit(
+              fontSize: 15,
+              color: onTap != null ? Colors.white : Colors.white30,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
         ),
       ),
     );

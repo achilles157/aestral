@@ -39,7 +39,11 @@ class BaziDatePickerStep extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             'Digunakan untuk menghitung 4 Pilar Ba Zi berdasarkan siklus kalender surya.',
-            style: GoogleFonts.outfit(fontSize: 13, color: Colors.white60, height: 1.5),
+            style: GoogleFonts.outfit(
+              fontSize: 13,
+              color: Colors.white60,
+              height: 1.5,
+            ),
           ),
           const SizedBox(height: 32),
           GestureDetector(
@@ -48,8 +52,11 @@ class BaziDatePickerStep extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: Row(
                 children: [
-                  const Icon(Icons.calendar_month_rounded,
-                      color: AppTheme.accentGold, size: 22),
+                  const Icon(
+                    Icons.calendar_month_rounded,
+                    color: AppTheme.accentGold,
+                    size: 22,
+                  ),
                   const SizedBox(width: 14),
                   Expanded(
                     child: Text(
@@ -58,14 +65,21 @@ class BaziDatePickerStep extends StatelessWidget {
                           : '${birthDate!.day} / ${birthDate!.month} / ${birthDate!.year}',
                       style: GoogleFonts.outfit(
                         fontSize: 16,
-                        color: birthDate == null ? Colors.white38 : Colors.white,
-                        fontWeight: birthDate == null ? FontWeight.w400 : FontWeight.w600,
+                        color: birthDate == null
+                            ? Colors.white38
+                            : Colors.white,
+                        fontWeight: birthDate == null
+                            ? FontWeight.w400
+                            : FontWeight.w600,
                       ),
                     ),
                   ),
                   if (birthDate != null)
-                    const Icon(Icons.check_circle_rounded,
-                        color: Color(0xFF4ADE80), size: 18),
+                    const Icon(
+                      Icons.check_circle_rounded,
+                      color: Color(0xFF4ADE80),
+                      size: 18,
+                    ),
                 ],
               ),
             ),
@@ -88,7 +102,7 @@ class _StepIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: List.generate(3, (i) {
-        final done    = i < active;
+        final done = i < active;
         final current = i == active;
         return Expanded(
           child: Container(
@@ -99,8 +113,8 @@ class _StepIndicator extends StatelessWidget {
               color: done
                   ? AppTheme.accentGold
                   : current
-                      ? AppTheme.accentPurple
-                      : Colors.white12,
+                  ? AppTheme.accentPurple
+                  : Colors.white12,
             ),
           ),
         );
@@ -113,7 +127,7 @@ class _BaziPrimaryButton extends StatelessWidget {
   final String label;
   final VoidCallback? onTap;
 
-  const _BaziPrimaryButton({required this.label, this.onTap, });
+  const _BaziPrimaryButton({required this.label, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -125,9 +139,16 @@ class _BaziPrimaryButton extends StatelessWidget {
         height: 52,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(14),
-          color: onTap != null ? btnColor.withValues(alpha: 0.85) : Colors.white12,
+          color: onTap != null
+              ? btnColor.withValues(alpha: 0.85)
+              : Colors.white12,
           boxShadow: onTap != null
-              ? [BoxShadow(color: btnColor.withValues(alpha: 0.35), blurRadius: 16)]
+              ? [
+                  BoxShadow(
+                    color: btnColor.withValues(alpha: 0.35),
+                    blurRadius: 16,
+                  ),
+                ]
               : [],
         ),
         child: Center(

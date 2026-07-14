@@ -79,13 +79,30 @@ void main() {
       expect(weton.javaneseYear, lessThan(2100));
 
       final validYearNames = [
-        'Alip', 'Ehe', 'Jimawal', 'Je', 'Dal', 'Be', 'Wawu', 'Jimakir',
+        'Alip',
+        'Ehe',
+        'Jimawal',
+        'Je',
+        'Dal',
+        'Be',
+        'Wawu',
+        'Jimakir',
       ];
       expect(validYearNames.contains(weton.javaneseYearName), true);
 
       final validMonths = [
-        'Sura', 'Sapar', 'Mulud', 'Bakda Mulud', 'Jumadilawal', 'Jumadilakir',
-        'Rejeb', 'Ruwah', 'Pasa', 'Sawal', 'Sela', 'Besar',
+        'Sura',
+        'Sapar',
+        'Mulud',
+        'Bakda Mulud',
+        'Jumadilawal',
+        'Jumadilakir',
+        'Rejeb',
+        'Ruwah',
+        'Pasa',
+        'Sawal',
+        'Sela',
+        'Besar',
       ];
       expect(validMonths.contains(weton.javaneseMonth), true);
     });
@@ -108,7 +125,10 @@ void main() {
       expect(WetonUtils.calculatePranataMangsaId(DateTime.utc(2026, 7, 15)), 1);
       expect(WetonUtils.calculatePranataMangsaId(DateTime.utc(2026, 8, 2)), 2);
       expect(WetonUtils.calculatePranataMangsaId(DateTime.utc(2026, 8, 25)), 3);
-      expect(WetonUtils.calculatePranataMangsaId(DateTime.utc(2026, 5, 12)), 12);
+      expect(
+        WetonUtils.calculatePranataMangsaId(DateTime.utc(2026, 5, 12)),
+        12,
+      );
     });
 
     test('should handle leap year for Mangsa 8 (Kawolu)', () {

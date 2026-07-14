@@ -44,7 +44,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     super.initState();
     _loadCitiesFromCsv();
     _computeWukuUrgency();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _checkProfileAndPrompt());
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _checkProfileAndPrompt(),
+    );
   }
 
   void _computeWukuUrgency() {
@@ -52,7 +54,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final wuku = WetonUtils.calculateWeton(today).wuku;
     int days = 7;
     for (int i = 1; i <= 7; i++) {
-      if (WetonUtils.calculateWeton(today.add(Duration(days: i))).wuku != wuku) {
+      if (WetonUtils.calculateWeton(today.add(Duration(days: i))).wuku !=
+          wuku) {
         days = i;
         break;
       }
@@ -77,7 +80,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final todayWeton = WetonUtils.calculateWeton(DateTime.now());
     if (!mounted) return;
     setState(() {
-      _isHariWeton = birthWeton.saptawara == todayWeton.saptawara &&
+      _isHariWeton =
+          birthWeton.saptawara == todayWeton.saptawara &&
           birthWeton.pancawara == todayWeton.pancawara;
       _hariWetonName = '${birthWeton.saptawara} ${birthWeton.pancawara}';
     });
@@ -129,7 +133,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     }
   }
 
-  Widget _buildMorningForecastDialog(BuildContext context, Map<String, dynamic> data) {
+  Widget _buildMorningForecastDialog(
+    BuildContext context,
+    Map<String, dynamic> data,
+  ) {
     final wetonStr = data['weton_hari_ini'] as String? ?? '';
     final wukuName = data['wuku'] as String? ?? '';
     final neptu = data['neptu'] as int? ?? 10;
@@ -142,28 +149,33 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final bool isBaziYongShen = data['is_bazi_yong_shen'] as bool? ?? false;
 
     String energyTitle = 'Energi Stabil';
-    String energyDesc = 'Hari berjalan dengan harmoni wajar. Lakukan aktivitas harian Anda dengan ketenangan dan fokus penuh.';
+    String energyDesc =
+        'Hari berjalan dengan harmoni wajar. Lakukan aktivitas harian Anda dengan ketenangan dan fokus penuh.';
     Color energyColor = Colors.white70;
     IconData energyIcon = Icons.wb_cloudy_outlined;
 
     if (isDinoWas) {
       energyTitle = 'Hari Naas Personal (Dino Was)';
-      energyDesc = 'Hari ini memiliki ketidakselarasan energi tertinggi bagi Anda. Tunda keputusan bisnis besar, hindari perdebatan, dan prioritaskan menjaga kedamaian batin.';
+      energyDesc =
+          'Hari ini memiliki ketidakselarasan energi tertinggi bagi Anda. Tunda keputusan bisnis besar, hindari perdebatan, dan prioritaskan menjaga kedamaian batin.';
       energyColor = const Color(0xFFF87171);
       energyIcon = Icons.warning_amber_rounded;
     } else if (isBaziClash) {
       energyTitle = 'Hari Clash (Ciong) Ba Zi';
-      energyDesc = 'Pilar zodiak hari ini bertentangan dengan pilar lahir Anda. Energi berfluktuasi tinggi; disarankan bertindak sabar dan kurangi aktivitas berisiko.';
+      energyDesc =
+          'Pilar zodiak hari ini bertentangan dengan pilar lahir Anda. Energi berfluktuasi tinggi; disarankan bertindak sabar dan kurangi aktivitas berisiko.';
       energyColor = const Color(0xFFF87171);
       energyIcon = Icons.flash_on_rounded;
     } else if (isBaziHarmony) {
       energyTitle = 'Hari Harmoni (He) Ba Zi';
-      energyDesc = 'Energi zodiak harian bersinergi sangat manis dengan Anda. Komunikasi, negosiasi, dan pertemuan sosial diprediksi berjalan sangat lancar.';
+      energyDesc =
+          'Energi zodiak harian bersinergi sangat manis dengan Anda. Komunikasi, negosiasi, dan pertemuan sosial diprediksi berjalan sangat lancar.';
       energyColor = const Color(0xFF34D399);
       energyIcon = Icons.handshake_outlined;
     } else if (isBaziYongShen) {
       energyTitle = 'Hari Energi Penyeimbang (Yong Shen)';
-      energyDesc = 'Hari ini memancarkan elemen penyeimbang lahir Anda. Vitalitas tubuh meningkat, pikiran lebih tajam, dan daya kreativitas berada di puncaknya!';
+      energyDesc =
+          'Hari ini memancarkan elemen penyeimbang lahir Anda. Vitalitas tubuh meningkat, pikiran lebih tajam, dan daya kreativitas berada di puncaknya!';
       energyColor = AppTheme.accentGold;
       energyIcon = Icons.wb_sunny_outlined;
     }
@@ -181,7 +193,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           children: [
             Row(
               children: [
-                Icon(Icons.wb_sunny_rounded, color: AppTheme.accentGold, size: 20),
+                Icon(
+                  Icons.wb_sunny_rounded,
+                  color: AppTheme.accentGold,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'PRAKIRAAN PAGI KOSMIS',
@@ -264,14 +280,16 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     _buildWarningMicroRow(
                       icon: Icons.shield_outlined,
                       color: const Color(0xFFFB923C),
-                      text: 'Pekan Rawan Wuku: Hindari spekulasi bisnis penting.',
+                      text:
+                          'Pekan Rawan Wuku: Hindari spekulasi bisnis penting.',
                     ),
                   if (isWukuRawan && isMangsaRawan) const SizedBox(height: 6),
                   if (isMangsaRawan)
                     _buildWarningMicroRow(
                       icon: Icons.thermostat_outlined,
                       color: const Color(0xFFFB923C),
-                      text: 'Musim Rawan Mangsa: Jaga vitalitas & imunitas tubuh.',
+                      text:
+                          'Musim Rawan Mangsa: Jaga vitalitas & imunitas tubuh.',
                     ),
                 ],
               ),
@@ -340,10 +358,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         Expanded(
           child: Text(
             text,
-            style: GoogleFonts.lato(
-              color: Colors.white54,
-              fontSize: 11,
-            ),
+            style: GoogleFonts.lato(color: Colors.white54, fontSize: 11),
           ),
         ),
       ],
@@ -360,10 +375,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    final session    = ref.watch(authProvider);
+    final session = ref.watch(authProvider);
     final hasProfile = ref.watch(birthProfileProvider).value?.dobDate != null;
 
     return Scaffold(
@@ -420,6 +434,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       ),
     );
   }
+
   Widget _buildMobileLayout(UserSession? session, {required bool hasProfile}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -427,8 +442,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         DashboardProfileHeader(session: session),
         const SizedBox(height: 20),
         DashboardIdentityCard(
-          onEditTap: () =>
-              showEditProfileDialog(context, ref, _allCities),
+          onEditTap: () => showEditProfileDialog(context, ref, _allCities),
         ),
         if (_isHariWeton) ...[
           const SizedBox(height: 12),
@@ -446,12 +460,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           _buildWukuUrgencyBanner(),
         ],
         const SizedBox(height: 20),
-        const DashboardQuickNavGrid(
-            crossAxisCount: 2, childAspectRatio: 1.6),
-        if (hasProfile) ...[
-          const SizedBox(height: 12),
-          _buildHariBaikCard(),
-        ],
+        const DashboardQuickNavGrid(crossAxisCount: 2, childAspectRatio: 1.6),
+        if (hasProfile) ...[const SizedBox(height: 12), _buildHariBaikCard()],
         const SizedBox(height: 12),
         _buildHistoryButton(),
         const SizedBox(height: 8),
@@ -509,7 +519,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         const Expanded(
           flex: 5,
           child: DashboardQuickNavGrid(
-              crossAxisCount: 2, childAspectRatio: 1.5),
+            crossAxisCount: 2,
+            childAspectRatio: 1.5,
+          ),
         ),
       ],
     );
@@ -525,7 +537,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       ),
       child: Row(
         children: [
-          const Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 18),
+          const Icon(
+            Icons.warning_amber_rounded,
+            color: Colors.orange,
+            size: 18,
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -539,8 +555,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           ),
           const SizedBox(width: 8),
           TextButton(
-            onPressed: () =>
-                ref.read(authProvider.notifier).signInWithGoogle(),
+            onPressed: () => ref.read(authProvider.notifier).signInWithGoogle(),
             style: TextButton.styleFrom(
               foregroundColor: Colors.orange,
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -550,7 +565,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             child: Text(
               'Simpan',
               style: GoogleFonts.outfit(
-                  fontWeight: FontWeight.bold, fontSize: 12),
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
             ),
           ),
         ],
@@ -567,12 +584,16 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         color: const Color(0xFFD4AF37).withValues(alpha: 0.10),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-            color: const Color(0xFFD4AF37).withValues(alpha: 0.35)),
+          color: const Color(0xFFD4AF37).withValues(alpha: 0.35),
+        ),
       ),
       child: Row(
         children: [
-          const Icon(Icons.access_time_rounded,
-              color: Color(0xFFD4AF37), size: 16),
+          const Icon(
+            Icons.access_time_rounded,
+            color: Color(0xFFD4AF37),
+            size: 16,
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -591,9 +612,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   Widget _buildHariBaikCard() {
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const HariBaikScreen()),
-      ),
+      onTap: () => Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (_) => const HariBaikScreen())),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
@@ -605,7 +626,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           ),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-              color: AppTheme.accentGold.withValues(alpha: 0.35)),
+            color: AppTheme.accentGold.withValues(alpha: 0.35),
+          ),
         ),
         child: Row(
           children: [
@@ -616,8 +638,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 shape: BoxShape.circle,
                 color: AppTheme.accentGold.withValues(alpha: 0.12),
               ),
-              child: const Icon(Icons.auto_awesome_rounded,
-                  color: AppTheme.accentGold, size: 18),
+              child: const Icon(
+                Icons.auto_awesome_rounded,
+                color: AppTheme.accentGold,
+                size: 18,
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -644,9 +669,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 ],
               ),
             ),
-            Icon(Icons.chevron_right_rounded,
-                color: AppTheme.accentGold.withValues(alpha: 0.6),
-                size: 18),
+            Icon(
+              Icons.chevron_right_rounded,
+              color: AppTheme.accentGold.withValues(alpha: 0.6),
+              size: 18,
+            ),
           ],
         ),
       ),
@@ -655,22 +682,23 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   Widget _buildProfilesButton() {
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const SavedProfilesScreen()),
-      ),
+      onTap: () => Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (_) => const SavedProfilesScreen())),
       child: Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.04),
           borderRadius: BorderRadius.circular(12),
-          border:
-              Border.all(color: Colors.white.withValues(alpha: 0.10)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
         ),
         child: Row(
           children: [
-            Icon(Icons.people_outline_rounded,
-                color: Colors.white.withValues(alpha: 0.6), size: 16),
+            Icon(
+              Icons.people_outline_rounded,
+              color: Colors.white.withValues(alpha: 0.6),
+              size: 16,
+            ),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -682,8 +710,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 ),
               ),
             ),
-            const Icon(Icons.chevron_right_rounded,
-                color: Colors.white24, size: 16),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: Colors.white24,
+              size: 16,
+            ),
           ],
         ),
       ),
@@ -692,9 +723,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   Widget _buildHistoryButton() {
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => const HistoryScreen()),
-      ),
+      onTap: () => Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (_) => const HistoryScreen())),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
@@ -704,8 +735,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         ),
         child: Row(
           children: [
-            Icon(Icons.history_rounded,
-                color: AppTheme.accentGold.withValues(alpha: 0.8), size: 16),
+            Icon(
+              Icons.history_rounded,
+              color: AppTheme.accentGold.withValues(alpha: 0.8),
+              size: 16,
+            ),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -717,8 +751,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 ),
               ),
             ),
-            const Icon(Icons.chevron_right_rounded,
-                color: Colors.white24, size: 16),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: Colors.white24,
+              size: 16,
+            ),
           ],
         ),
       ),
@@ -740,8 +777,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       ),
       child: Row(
         children: [
-          const Text('✦',
-              style: TextStyle(color: AppTheme.accentGold, fontSize: 22)),
+          const Text(
+            '✦',
+            style: TextStyle(color: AppTheme.accentGold, fontSize: 22),
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(

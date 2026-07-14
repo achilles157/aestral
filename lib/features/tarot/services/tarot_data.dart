@@ -5,7 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/tarot_card.dart';
 
 final tarotDeckProvider = FutureProvider<List<TarotCard>>((ref) async {
-  final String jsonString = await rootBundle.loadString('assets/tarot/tarot-merged.json');
+  final String jsonString = await rootBundle.loadString(
+    'assets/tarot/tarot-merged.json',
+  );
   final List<dynamic> jsonList = json.decode(jsonString);
   return jsonList.map((json) => TarotCard.fromJson(json)).toList();
 });
@@ -30,12 +32,12 @@ class DrawnCardNotifier extends Notifier<List<DrawnCardInfo>?> {
 
   void drawCard(List<TarotCard> deck) {
     if (deck.length < 3) return;
-    
+
     // Draw 3 unique random cards from local deck
     final random = Random();
     final List<TarotCard> chosenCards = [];
     final List<bool> chosenReversals = [];
-    
+
     while (chosenCards.length < 3) {
       final card = deck[random.nextInt(deck.length)];
       if (!chosenCards.contains(card)) {
@@ -45,9 +47,21 @@ class DrawnCardNotifier extends Notifier<List<DrawnCardInfo>?> {
     }
 
     state = [
-      DrawnCardInfo(card: chosenCards[0], isReversed: chosenReversals[0], label: 'past'),
-      DrawnCardInfo(card: chosenCards[1], isReversed: chosenReversals[1], label: 'present'),
-      DrawnCardInfo(card: chosenCards[2], isReversed: chosenReversals[2], label: 'future'),
+      DrawnCardInfo(
+        card: chosenCards[0],
+        isReversed: chosenReversals[0],
+        label: 'past',
+      ),
+      DrawnCardInfo(
+        card: chosenCards[1],
+        isReversed: chosenReversals[1],
+        label: 'present',
+      ),
+      DrawnCardInfo(
+        card: chosenCards[2],
+        isReversed: chosenReversals[2],
+        label: 'future',
+      ),
     ];
   }
 
@@ -60,6 +74,7 @@ class DrawnCardNotifier extends Notifier<List<DrawnCardInfo>?> {
   }
 }
 
-final drawnCardProvider = NotifierProvider<DrawnCardNotifier, List<DrawnCardInfo>?>(() {
-  return DrawnCardNotifier();
-});
+final drawnCardProvider =
+    NotifierProvider<DrawnCardNotifier, List<DrawnCardInfo>?>(() {
+      return DrawnCardNotifier();
+    });

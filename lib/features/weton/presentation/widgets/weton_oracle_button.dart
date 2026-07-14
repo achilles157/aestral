@@ -24,42 +24,51 @@ class WetonOracleButton extends ConsumerWidget {
   });
 
   static const _saptawaraElemenMap = {
-    'Ahad': 'Api',  'Minggu': 'Api',
-    'Senin': 'Air', 'Selasa': 'Api',
-    'Rabu': 'Tanah','Kamis': 'Kayu',
-    'Jumat': 'Air', 'Sabtu': 'Tanah',
+    'Ahad': 'Api',
+    'Minggu': 'Api',
+    'Senin': 'Air',
+    'Selasa': 'Api',
+    'Rabu': 'Tanah',
+    'Kamis': 'Kayu',
+    'Jumat': 'Air',
+    'Sabtu': 'Tanah',
   };
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final borderColor = parseWetonHexColor(warnaHarmoni) ?? AppTheme.accentPurple;
-    final iconColor  = parseWetonHexColor(warnaHarmoni) ?? AppTheme.accentGold;
-    final wukuAsync    = ref.watch(wukuProvider);
+    final borderColor =
+        parseWetonHexColor(warnaHarmoni) ?? AppTheme.accentPurple;
+    final iconColor = parseWetonHexColor(warnaHarmoni) ?? AppTheme.accentGold;
+    final wukuAsync = ref.watch(wukuProvider);
     final pranataAsync = ref.watch(pranataMangsaListProvider);
 
     return ElevatedButton.icon(
       onPressed: () async {
-        final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
+        final authHeader = await ref
+            .read(authProvider.notifier)
+            .getAuthHeader();
         if (!context.mounted) return;
 
         // ── Wuku berjalan ─────────────────────────────────────────────────
         Map<String, dynamic>? wukuContext;
         if (dailyInsightData != null && wukuAsync.hasValue) {
           try {
-            final weeklyInfo = dailyInsightData!['weekly'] as Map<String, dynamic>?;
-            final wukuIndex  = weeklyInfo?['wukuIndex'] as int?   ?? -1;
-            final wukuName   = weeklyInfo?['wukuName']  as String? ?? '';
-            final wukuList   = wukuAsync.value!;
-            final wukuEntry  = wukuList.firstWhere(
+            final weeklyInfo =
+                dailyInsightData!['weekly'] as Map<String, dynamic>?;
+            final wukuIndex = weeklyInfo?['wukuIndex'] as int? ?? -1;
+            final wukuName = weeklyInfo?['wukuName'] as String? ?? '';
+            final wukuList = wukuAsync.value!;
+            final wukuEntry = wukuList.firstWhere(
               (w) =>
                   w['id'] == wukuIndex ||
                   w['id'] == wukuIndex + 1 ||
-                  w['nama_wuku'].toString().toLowerCase() == wukuName.toLowerCase(),
+                  w['nama_wuku'].toString().toLowerCase() ==
+                      wukuName.toLowerCase(),
               orElse: () => wukuList.first,
             );
             wukuContext = {
-              'nama':   wukuEntry['nama_wuku'] ?? wukuName,
-              'elemen': wukuEntry['elemen']    ?? '',
+              'nama': wukuEntry['nama_wuku'] ?? wukuName,
+              'elemen': wukuEntry['elemen'] ?? '',
             };
           } catch (e) {
             debugPrint('WetonOracleButton: gagal build wuku context — $e');
@@ -70,18 +79,22 @@ class WetonOracleButton extends ConsumerWidget {
         Map<String, dynamic>? pranataContext;
         if (dailyInsightData != null && pranataAsync.hasValue) {
           try {
-            final targetWetonInfo  = dailyInsightData!['targetWeton'] as Map<String, dynamic>?;
-            final targetPranataId  = targetWetonInfo?['pranataMangsaId'] as int? ?? 1;
-            final pranataList      = pranataAsync.value!;
-            final pranata          = pranataList.firstWhere(
+            final targetWetonInfo =
+                dailyInsightData!['targetWeton'] as Map<String, dynamic>?;
+            final targetPranataId =
+                targetWetonInfo?['pranataMangsaId'] as int? ?? 1;
+            final pranataList = pranataAsync.value!;
+            final pranata = pranataList.firstWhere(
               (m) => m.id == targetPranataId,
               orElse: () => pranataList.first,
             );
             pranataContext = {
-              'nama':     pranata.namaMangsa,
+              'nama': pranata.namaMangsa,
               'arketipe': pranata.arketipeModern,
-              if (pranata.karakterEnergi.isNotEmpty) 'karakterEnergi': pranata.karakterEnergi,
-              if (pranata.pesanKesadaran.isNotEmpty) 'pesanKesadaran': pranata.pesanKesadaran,
+              if (pranata.karakterEnergi.isNotEmpty)
+                'karakterEnergi': pranata.karakterEnergi,
+              if (pranata.pesanKesadaran.isNotEmpty)
+                'pesanKesadaran': pranata.pesanKesadaran,
             };
           } catch (e) {
             debugPrint('WetonOracleButton: gagal build wuku context — $e');
@@ -96,14 +109,14 @@ class WetonOracleButton extends ConsumerWidget {
               authHeader: authHeader,
               aiContext: {
                 'wetonLahir': {
-                  'nama':      '${result.saptawara} ${result.pancawara}',
-                  'neptu':     result.totalNeptu,
-                  'elemen':    _saptawaraElemenMap[result.saptawara] ?? '',
-                  'karakter':  result.characterSummary,
+                  'nama': '${result.saptawara} ${result.pancawara}',
+                  'neptu': result.totalNeptu,
+                  'elemen': _saptawaraElemenMap[result.saptawara] ?? '',
+                  'karakter': result.characterSummary,
                   'pancasuda': result.pancasuda,
                 },
                 'pangarasan': result.pangarasan,
-                if (wukuContext   != null) 'wukuBerjalan':  wukuContext,
+                if (wukuContext != null) 'wukuBerjalan': wukuContext,
                 if (pranataContext != null) 'pranataMangsa': pranataContext,
               },
             ),
