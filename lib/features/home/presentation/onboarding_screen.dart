@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/providers/birth_profile_provider.dart';
+import '../../../core/services/analytics_service.dart';
 
 /// Layar selamat datang untuk pengguna baru — mengumpulkan tanggal lahir
 /// sebelum masuk ke MainShell. Routing otomatis beralih ke MainShell
@@ -45,6 +46,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     if (_selectedDate == null || _isSaving) return;
     setState(() => _isSaving = true);
     await ref.read(birthProfileProvider.notifier).saveDob(_selectedDate!);
+    AnalyticsService.setHasProfile(true).catchError((_) {});
     // Routing beralih otomatis via reactive watch di main.dart
   }
 

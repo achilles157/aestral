@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/providers/birth_profile_provider.dart';
+import '../../../../core/services/analytics_service.dart';
 import '../../../ai/presentation/oracle_chat_screen.dart';
 import '../../../auth/services/auth_service.dart';
 import '../../../tarot/services/tarot_data.dart';
@@ -152,6 +153,7 @@ class DashboardSesepuhCard extends ConsumerWidget {
                       };
 
                       if (!context.mounted) return;
+                      AnalyticsService.logSesepuhKosmisOpened().catchError((_) {});
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => OracleChatScreen(

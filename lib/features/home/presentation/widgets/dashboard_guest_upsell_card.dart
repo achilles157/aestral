@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/services/analytics_service.dart';
 import '../../../auth/services/auth_service.dart';
 
 /// Banner upsell untuk user tamu — ajak login dengan Google.
@@ -58,8 +59,10 @@ class DashboardGuestUpsellCard extends ConsumerWidget {
           ),
           const SizedBox(width: 8),
           TextButton(
-            onPressed: () =>
-                ref.read(authProvider.notifier).signInWithGoogle(),
+            onPressed: () {
+                AnalyticsService.logGuestUpsellShown('dashboard').catchError((_) {});
+                ref.read(authProvider.notifier).signInWithGoogle();
+              },
             style: TextButton.styleFrom(
               foregroundColor: AppTheme.accentPurple,
               padding:
