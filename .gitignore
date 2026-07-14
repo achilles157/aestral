@@ -87,7 +87,10 @@ credentials.json
 *service-account*.json
 *serviceAccount*.json
 **/google-services.json
-**/firebase_options.dart
+# firebase_options.dart — intentionally tracked.
+# Firebase API keys are public identifiers by design; security is enforced
+# by Firebase Security Rules and platform restrictions, not by hiding the key.
+# **/firebase_options.dart
 
 # Personal & Local-only folders (for notes, drafts, backups)
 private/
