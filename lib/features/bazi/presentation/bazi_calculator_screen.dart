@@ -270,36 +270,34 @@ class _BaziCalculatorScreenState extends ConsumerState<BaziCalculatorScreen> {
       );
     });
     // Save to reading history (fire-and-forget)
-    if (chart != null) {
-      ReadingHistoryService.save(
-        ReadingEntry(
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
-          type: 'bazi',
-          title:
-              '${chart.dayPillar.stemNameId} ${chart.dayPillar.branchZodiacId}',
-          subtitle: '${chart.dayMasterElement} · Ba Zi Chart',
-          timestamp: DateTime.now(),
-          accentColor: 0xFF00BFA5,
-        ),
-      ).catchError((_) {});
-      AnalyticsService.logBaziCalculated(chart.dayMasterId).catchError((_) {});
-      // Save to Firestore for logged-in users (cross-device history)
-      final baziSession = ref.read(authProvider);
-      if (baziSession != null && !baziSession.isMock) {
-        FirebaseFirestore.instance
-            .collection('users')
-            .doc(baziSession.uid)
-            .collection('bazi_history')
-            .add({
-              'dayMasterId': chart.dayMasterId,
-              'dayMasterElement': chart.dayMasterElement,
-              'dayPillar':
-                  '${chart.dayPillar.stemNameId} ${chart.dayPillar.branchZodiacId}',
-              'birthDate': dateStr,
-              'calculatedAt': FieldValue.serverTimestamp(),
-            })
-            .catchError((Object _) {});
-      }
+    ReadingHistoryService.save(
+      ReadingEntry(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        type: 'bazi',
+        title:
+            '${chart.dayPillar.stemNameId} ${chart.dayPillar.branchZodiacId}',
+        subtitle: '${chart.dayMasterElement} · Ba Zi Chart',
+        timestamp: DateTime.now(),
+        accentColor: 0xFF00BFA5,
+      ),
+    ).then((_) {}, onError: (Object _) {});
+    AnalyticsService.logBaziCalculated(chart.dayMasterId).catchError((_) {});
+    // Save to Firestore for logged-in users (cross-device history)
+    final baziSession = ref.read(authProvider);
+    if (baziSession != null && !baziSession.isMock) {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(baziSession.uid)
+          .collection('bazi_history')
+          .add({
+            'dayMasterId': chart.dayMasterId,
+            'dayMasterElement': chart.dayMasterElement,
+            'dayPillar':
+                '${chart.dayPillar.stemNameId} ${chart.dayPillar.branchZodiacId}',
+            'birthDate': dateStr,
+            'calculatedAt': FieldValue.serverTimestamp(),
+          })
+          .then((_) {}, onError: (Object _) {});
     }
   }
 

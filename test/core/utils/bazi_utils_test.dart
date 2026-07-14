@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:aestral/core/utils/bazi_utils.dart';
-import 'package:aestral/features/bazi/domain/bazi_chart.dart';
 
 void main() {
   group('BaziUtils.dateToJdn', () {

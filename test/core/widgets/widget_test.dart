@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:aestral/core/widgets/glass_card.dart';
 import 'package:aestral/core/widgets/glass_button.dart';
 import 'package:aestral/core/widgets/cosmic_loader.dart';
-import 'package:aestral/core/theme/app_theme.dart';
 
 void main() {
   group('GlassCard', () {
