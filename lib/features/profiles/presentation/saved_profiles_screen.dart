@@ -1,41 +1,24 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../../core/theme/app_theme.dart';
 import '../models/saved_profile.dart';
-import '../services/saved_profiles_service.dart';
+import '../providers/saved_profiles_provider.dart';
 
 /// Layar manajemen profil tersimpan.
-class SavedProfilesScreen extends StatefulWidget {
+class SavedProfilesScreen extends ConsumerStatefulWidget {
   /// Jika non-null, mode "pilih profil" — tap profil mengembalikan ke caller.
   final void Function(SavedProfile)? onPick;
 
   const SavedProfilesScreen({super.key, this.onPick});
 
   @override
-  State<SavedProfilesScreen> createState() => _SavedProfilesScreenState();
+  ConsumerState<SavedProfilesScreen> createState() => _SavedProfilesScreenState();
 }
 
-class _SavedProfilesScreenState extends State<SavedProfilesScreen> {
-  List<SavedProfile> _profiles = [];
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _load();
-  }
-
-  Future<void> _load() async {
-    final profiles = await SavedProfilesService.load();
-    if (mounted) setState(() { _profiles = profiles; _isLoading = false; });
-  }
-
-  Future<void> _delete(SavedProfile profile) async {
-    await SavedProfilesService.delete(profile.id);
-    setState(() => _profiles.removeWhere((p) => p.id == profile.id));
-  }
+class _SavedProfilesScreenState extends ConsumerState<SavedProfilesScreen> {
 
   Future<void> _showAddDialog() async {
     final nameCtrl = TextEditingController();
@@ -137,9 +120,8 @@ class _SavedProfilesScreenState extends State<SavedProfilesScreen> {
                   birthDate: picked!,
                   addedAt: DateTime.now(),
                 );
-                await SavedProfilesService.save(profile);
+                await ref.read(savedProfilesProvider.notifier).add(profile);
                 if (ctx.mounted) Navigator.pop(ctx);
-                await _load();
               },
               child: Text('Simpan',
                   style: GoogleFonts.outfit(color: AppTheme.accentGold,
@@ -154,6 +136,7 @@ class _SavedProfilesScreenState extends State<SavedProfilesScreen> {
   @override
   Widget build(BuildContext context) {
     final isPicking = widget.onPick != null;
+    final profilesAsync = ref.watch(savedProfilesProvider);
 
     return Scaffold(
       backgroundColor: const Color(0xFF0D0D1A),
@@ -198,12 +181,16 @@ class _SavedProfilesScreenState extends State<SavedProfilesScreen> {
             colors: [Color(0xFF0D0D1A), Color(0xFF1A0D2E)],
           ),
         ),
-        child: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator(color: AppTheme.accentGold))
-            : _profiles.isEmpty
-                ? _buildEmptyState()
-                : _buildList(isPicking),
+        child: profilesAsync.when(
+          loading: () => const Center(
+              child: CircularProgressIndicator(color: AppTheme.accentGold)),
+          error: (e, _) => Center(
+              child: Text('Error: $e',
+                  style: const TextStyle(color: Colors.white54))),
+          data: (profiles) => profiles.isEmpty
+              ? _buildEmptyState()
+              : _buildList(isPicking, profiles),
+        ),
       ),
     );
   }
@@ -233,12 +220,12 @@ class _SavedProfilesScreenState extends State<SavedProfilesScreen> {
     );
   }
 
-  Widget _buildList(bool isPicking) {
+  Widget _buildList(bool isPicking, List<SavedProfile> profiles) {
     return ListView.builder(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
-      itemCount: _profiles.length,
+      itemCount: profiles.length,
       itemBuilder: (ctx, i) {
-        final p = _profiles[i];
+        final p = profiles[i];
         return GestureDetector(
           onTap: isPicking ? () {
             Navigator.of(context).pop();
@@ -305,7 +292,9 @@ class _SavedProfilesScreenState extends State<SavedProfilesScreen> {
                         IconButton(
                           icon: const Icon(Icons.delete_outline_rounded,
                               color: Colors.white30, size: 18),
-                          onPressed: () => _delete(p),
+                          onPressed: () => ref
+                              .read(savedProfilesProvider.notifier)
+                              .remove(p.id),
                         ),
                     ],
                   ),
