@@ -51,6 +51,7 @@ class AuthNotifier extends Notifier<UserSession?> {
         if (kIsWeb) {
           try {
             final UserCredential userCredential = await FirebaseAuth.instance.getRedirectResult();
+            if (!ref.mounted) return;
             final user = userCredential.user;
             if (user != null) {
               state = UserSession(
@@ -70,6 +71,7 @@ class AuthNotifier extends Notifier<UserSession?> {
 
         final currentUser = FirebaseAuth.instance.currentUser;
         if (currentUser != null) {
+          if (!ref.mounted) return;
           state = UserSession(
             uid: currentUser.uid,
             displayName: currentUser.displayName ?? 'User',
@@ -84,6 +86,7 @@ class AuthNotifier extends Notifier<UserSession?> {
 
       // Fallback: check shared preferences for mock user
       final prefs = await SharedPreferences.getInstance();
+      if (!ref.mounted) return;
       final mockUid = prefs.getString('mock_user_uid');
       if (mockUid != null) {
         state = UserSession(
@@ -96,7 +99,9 @@ class AuthNotifier extends Notifier<UserSession?> {
     } catch (e) {
       debugPrint("Error loading session: $e");
     } finally {
-      ref.read(authInitializingProvider.notifier).complete();
+      if (ref.mounted) {
+        ref.read(authInitializingProvider.notifier).complete();
+      }
     }
   }
 

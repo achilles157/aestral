@@ -7,7 +7,7 @@ void main() {
     test('should calculate correct JDN for reference dates', () {
       expect(BaziUtils.dateToJdn(2000, 1, 1), 2451545);
       expect(BaziUtils.dateToJdn(1990, 1, 1), 2447893);
-      expect(BaziUtils.dateToJdn(2026, 7, 14), 2460869);
+      expect(BaziUtils.dateToJdn(2026, 7, 14), 2461236); // Python verified
     });
 
     test('should handle leap years correctly', () {
@@ -116,8 +116,11 @@ void main() {
     });
 
     test('should handle hour rollover', () {
+      // Longitude 115° is WEST of WITA (120°): offset = -20 min
+      // 23:30 - 20 min = 23:10 (no rollover)
       final tst = BaziUtils.applyTrueSolarTime(23, 30, 115.0);
-      expect(tst.hour, 0);
+      expect(tst.offsetMinutes, closeTo(-20.0, 0.1));
+      expect(tst.hour, 23);
       expect(tst.minute, closeTo(10, 1));
     });
 
