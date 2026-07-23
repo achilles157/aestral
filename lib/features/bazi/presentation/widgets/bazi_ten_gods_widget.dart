@@ -133,7 +133,7 @@ class BaziTenGodsWidget extends StatelessWidget {
                     elementColor: elementColor,
                     hasTap: canTap,
                     hanziOverride: godEntry?['hanzi'] as String?,
-                    namePendekOverride: godEntry?['nama_pendek'] as String?,
+                    namePendekOverride: (godEntry?['nama_modern'] ?? godEntry?['nama_pendek']) as String?,
                   ),
                 ),
               );

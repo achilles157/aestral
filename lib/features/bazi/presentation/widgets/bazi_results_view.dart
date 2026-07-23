@@ -193,6 +193,13 @@ class BaziResultsView extends ConsumerWidget {
             ),
           const SizedBox(height: 8),
 
+          // Day Master card di atas — first personal insight (Barnum-effective)
+          BaziDayMasterCard(
+            dayPillar: chart!.dayPillar,
+            masterData: masterData,
+          ),
+          const SizedBox(height: 16),
+
           BaziTenGodsWidget(
             chart: chart!,
             elementColor: elementColor,
@@ -214,12 +221,6 @@ class BaziResultsView extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
           ],
-
-          BaziDayMasterCard(
-            dayPillar: chart!.dayPillar,
-            masterData: masterData,
-          ),
-          const SizedBox(height: 16),
 
           BaziElementBalanceCard(balance: chart!.wuXingBalance),
           const SizedBox(height: 16),

@@ -33,6 +33,8 @@ class BaziDayMasterCard extends StatelessWidget {
         (masterData?['industri_cocok'] as List<dynamic>?)?.cast<String>() ?? [];
     final List<String> tags =
         (masterData?['tags_karakter'] as List<dynamic>?)?.cast<String>() ?? [];
+    final String pesanKesadaran =
+        masterData?['pesan_kesadaran'] as String? ?? '';
 
     return GlassCard(
       padding: const EdgeInsets.all(16),
@@ -160,6 +162,54 @@ class BaziDayMasterCard extends StatelessWidget {
               children: tags
                   .map((t) => _chip(t, elementColor.withValues(alpha: 0.6)))
                   .toList(),
+            ),
+          ],
+
+          if (pesanKesadaran.isNotEmpty) ...[
+            const SizedBox(height: 14),
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: AppTheme.accentGold.withValues(alpha: 0.06),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                    color: AppTheme.accentGold.withValues(alpha: 0.25)),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('\u2726',
+                      style: TextStyle(
+                          color: AppTheme.accentGold, fontSize: 14)),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'PESAN KESADARAN',
+                          style: GoogleFonts.outfit(
+                            fontSize: 8,
+                            color: AppTheme.accentGold.withValues(alpha: 0.8),
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.2,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          pesanKesadaran,
+                          style: GoogleFonts.outfit(
+                            fontSize: 12,
+                            color: Colors.white70,
+                            height: 1.55,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ],
