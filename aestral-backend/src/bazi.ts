@@ -13,6 +13,9 @@
  */
 
 import { dateToJdn } from './weton';
+// Canonical source: assets/bazi/bazi-dm-strength-matrix.json
+// Synced to src/data/ via scripts/sync-shared-data.js before each deploy.
+import DM_STRENGTH_DATA from './data/bazi-dm-strength-matrix.json';
 
 // ─── Heavenly Stems 天干 ──────────────────────────────────────────────────
 
@@ -70,14 +73,8 @@ const CONTROLS: Record<string, string> = {
 // Scores indexed by Month Branch (0=Zi … 11=Hai) per DM element.
 // 0=Sangat Lemah(死) 1=Lemah(囚) 2=Sedang(休) 3=Kuat(相) 4=Sangat Kuat(旺)
 
-const DM_STRENGTH_MATRIX: Record<string, readonly number[]> = {
-	//         Zi  Cou  Yin  Mao  Che  Si   Wu   Wei  She  You  Xu   Hai
-	kayu:   [  3,   1,   4,   4,   1,   2,   2,   1,   0,   0,   1,   3],
-	api:    [  0,   2,   3,   3,   2,   4,   4,   2,   1,   1,   2,   0],
-	tanah:  [  1,   4,   0,   0,   4,   3,   3,   4,   2,   2,   4,   1],
-	logam:  [  2,   3,   1,   1,   3,   0,   0,   3,   4,   4,   3,   2],
-	air:    [  4,   0,   2,   2,   0,   1,   1,   0,   3,   3,   0,   4],
-};
+// Source: assets/bazi/bazi-dm-strength-matrix.json (synced via scripts/sync-shared-data.js)
+const DM_STRENGTH_MATRIX = DM_STRENGTH_DATA.matrix as Record<string, readonly number[]>;
 
 const DM_STRENGTH_LABELS = [
 	'Sangat Lemah', 'Lemah', 'Sedang', 'Kuat', 'Sangat Kuat',

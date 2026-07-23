@@ -2746,6 +2746,11 @@ class BaziUtils {
   ///
   /// Branch surface elements (Zi→Hai):
   ///   air,tanah,kayu,kayu,tanah,api,api,tanah,logam,logam,tanah,air
+  /// Canonical source of truth: assets/bazi/bazi-dm-strength-matrix.json
+  /// TypeScript equivalent: DM_STRENGTH_MATRIX in aestral-backend/src/bazi.ts
+  /// (synced from canonical JSON via scripts/sync-shared-data.js)
+  ///
+  /// To detect drift in debug builds, call BaziUtils.debugValidateDmMatrix().
   static const Map<String, List<int>> _dmStrengthMatrix = {
     //         Zi  Cou  Yin  Mao  Che  Si   Wu   Wei  She  You  Xu   Hai
     'kayu': [3, 1, 4, 4, 1, 2, 2, 1, 0, 0, 1, 3],

@@ -1,0 +1,10 @@
+{
+  "_comment": "Day Master Strength Matrix (月令旺衰表) — canonical source of truth. DO NOT edit the copy in aestral-backend/src/data/; edit this file and run sync-shared-data.js. Rows keyed by element. Cols: 12 branches [zi,chou,yin,mao,chen,si,wu,wei,shen,you,xu,hai]. Values: 0=SangatLemah, 1=Lemah, 2=Sedang, 3=Kuat, 4=SangatKuat",
+  "matrix": {
+    "kayu":  [3, 1, 4, 4, 1, 2, 2, 1, 0, 0, 1, 3],
+    "api":   [0, 2, 3, 3, 2, 4, 4, 2, 1, 1, 2, 0],
+    "tanah": [1, 4, 0, 0, 4, 3, 3, 4, 2, 2, 4, 1],
+    "logam": [2, 3, 1, 1, 3, 0, 0, 3, 4, 4, 3, 2],
+    "air":   [4, 0, 2, 2, 0, 1, 1, 0, 3, 3, 0, 4]
+  }
+}
