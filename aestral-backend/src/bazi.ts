@@ -618,15 +618,24 @@ function getHourPillar(hour: number, dayStemIndex: number): BaziPillar {
 function calculateWuXingBalance(pillars: Array<BaziPillar | null>): WuXingBalance {
 	const balance: WuXingBalance = { kayu: 0, api: 0, tanah: 0, logam: 0, air: 0 };
 
+	// Cang Gan weight: main qi=3, middle qi=2, residual qi=1
+	const cangGanWeight = (position: number, total: number): number => {
+		if (total === 1) return 3;
+		if (total === 2) return position === 0 ? 3 : 1;
+		return 3 - position; // 3, 2, 1
+	};
+
 	for (const pillar of pillars) {
 		if (!pillar) continue;
 		// Heavenly Stem element
 		balance[STEM_ELEMENTS[pillar.stemIndex] as keyof WuXingBalance]++;
 		// Earthly Branch surface element
 		balance[BRANCH_ELEMENTS[pillar.branchIndex] as keyof WuXingBalance]++;
-		// Cang Gan — hidden stems inside the branch
-		for (const hiddenStemIdx of BRANCH_HIDDEN_STEMS[pillar.branchIndex]) {
-			balance[STEM_ELEMENTS[hiddenStemIdx] as keyof WuXingBalance]++;
+		// Cang Gan — weighted: main qi +3, middle qi +2, residual qi +1
+		const hiddenList = BRANCH_HIDDEN_STEMS[pillar.branchIndex];
+		for (let i = 0; i < hiddenList.length; i++) {
+			const elem = STEM_ELEMENTS[hiddenList[i]] as keyof WuXingBalance;
+			balance[elem] += cangGanWeight(i, hiddenList.length);
 		}
 	}
 

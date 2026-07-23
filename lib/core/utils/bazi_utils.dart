@@ -2475,24 +2475,31 @@ class BaziUtils {
   static WuXingBalance calculateWuXingBalance(List<BaziPillar?> pillars) {
     int kayu = 0, api = 0, tanah = 0, logam = 0, air = 0;
 
-    void addElement(String el) {
+    void addElement(String el, {int weight = 1}) {
       switch (el) {
         case 'kayu':
-          kayu++;
+          kayu += weight;
           break;
         case 'api':
-          api++;
+          api += weight;
           break;
         case 'tanah':
-          tanah++;
+          tanah += weight;
           break;
         case 'logam':
-          logam++;
+          logam += weight;
           break;
         case 'air':
-          air++;
+          air += weight;
           break;
       }
+    }
+
+    // Cang Gan weight: main qi=3, middle qi=2, residual qi=1
+    int _cangGanWeight(int position, int total) {
+      if (total == 1) return 3;
+      if (total == 2) return position == 0 ? 3 : 1;
+      return 3 - position; // 3, 2, 1
     }
 
     for (final pillar in pillars) {
@@ -2501,9 +2508,13 @@ class BaziUtils {
       addElement(stemElements[pillar.stemIndex]);
       // Earthly Branch surface element
       addElement(branchElements[pillar.branchIndex]);
-      // Cang Gan — hidden stems inside the branch
-      for (final hiddenIdx in _branchHiddenStems[pillar.branchIndex]) {
-        addElement(stemElements[hiddenIdx]);
+      // Cang Gan — weighted: main qi +3, middle qi +2, residual qi +1
+      final hiddenList = _branchHiddenStems[pillar.branchIndex];
+      for (int i = 0; i < hiddenList.length; i++) {
+        addElement(
+          stemElements[hiddenList[i]],
+          weight: _cangGanWeight(i, hiddenList.length),
+        );
       }
     }
 
