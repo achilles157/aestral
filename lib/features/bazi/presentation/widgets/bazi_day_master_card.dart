@@ -29,6 +29,7 @@ class BaziDayMasterCard extends StatelessWidget {
         masterData?['metafora_alam'] as String? ?? dayPillar.stemNameId;
     final String karakter = masterData?['karakter_dasar'] as String? ?? '';
     final String karier = masterData?['dinamika_karier'] as String? ?? '';
+    final String asmara = masterData?['dinamika_asmara'] as String? ?? '';
     final List<String> industri =
         (masterData?['industri_cocok'] as List<dynamic>?)?.cast<String>() ?? [];
     final List<String> tags =
@@ -133,6 +134,20 @@ class BaziDayMasterCard extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               karier,
+              style: GoogleFonts.outfit(
+                fontSize: 11,
+                color: Colors.white60,
+                height: 1.5,
+              ),
+            ),
+          ],
+
+          if (asmara.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            _sectionLabel('Dinamika Asmara', elementColor),
+            const SizedBox(height: 4),
+            Text(
+              asmara,
               style: GoogleFonts.outfit(
                 fontSize: 11,
                 color: Colors.white60,
