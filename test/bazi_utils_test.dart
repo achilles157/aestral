@@ -87,31 +87,34 @@ void main() {
 
     // ─── Wu Xing Balance ──────────────────────────────────────────────────
 
-    test('Wu Xing Balance 1990-10-10 tanpa jam — dengan Cang Gan', () {
-      // Year geng(logam)+wu(api|ding,ji), Month bing(api)+xu(tanah|wu,xin,ding),
-      // Day  geng(logam)+wu(api|ding,ji)
-      // → kayu=0, api=6, tanah=4, logam=3, air=0, total=13
+    test('Wu Xing Balance 1990-10-10 tanpa jam — Cang Gan berbobot 3:2:1', () {
+      // Bobot: stem +1, cabang permukaan +1, Cang Gan (2 hidden → 3,1 · 3 hidden → 3,2,1).
+      // Year geng_wu: logam+1, api+1(wu), api+3(ding), tanah+1(ji)
+      // Month bing_xu: api+1, tanah+1(xu), tanah+3(wu), logam+2(xin), api+1(ding)
+      // Day  geng_wu: logam+1, api+1(wu), api+3(ding), tanah+1(ji)
+      // → kayu=0, api=10, tanah=6, logam=4, air=0, total=20
       final chart = BaziUtils.calculateBaziChart(DateTime(1990, 10, 10));
       expect(chart.hourPillar, isNull);
       expect(chart.wuXingBalance.kayu, 0);
-      expect(chart.wuXingBalance.api, 6);
-      expect(chart.wuXingBalance.tanah, 4);
-      expect(chart.wuXingBalance.logam, 3);
+      expect(chart.wuXingBalance.api, 10);
+      expect(chart.wuXingBalance.tanah, 6);
+      expect(chart.wuXingBalance.logam, 4);
       expect(chart.wuXingBalance.air, 0);
-      expect(chart.wuXingBalance.total, 13);
+      expect(chart.wuXingBalance.total, 20);
     });
 
-    test('Wu Xing Balance 2000-01-01 tanpa jam — dengan Cang Gan', () {
-      // Year ji(tanah)+mao(kayu|yi), Month bing(api)+zi(air|gui),
-      // Day  geng(logam)+chen(tanah|wu,yi,gui)
-      // → kayu=3, api=1, tanah=3, logam=1, air=3, total=11
+    test('Wu Xing Balance 2000-01-01 tanpa jam — Cang Gan berbobot 3:2:1', () {
+      // Year ji_mao: tanah+1, kayu+1(mao), kayu+3(yi)
+      // Month bing_zi: api+1, air+1(zi), air+3(gui)
+      // Day  geng_chen: logam+1, tanah+1(chen), tanah+3(wu), kayu+2(yi), air+1(gui)
+      // → kayu=6, api=1, tanah=5, logam=1, air=5, total=18
       final chart = BaziUtils.calculateBaziChart(DateTime(2000, 1, 1));
-      expect(chart.wuXingBalance.kayu, 3);
+      expect(chart.wuXingBalance.kayu, 6);
       expect(chart.wuXingBalance.api, 1);
-      expect(chart.wuXingBalance.tanah, 3);
+      expect(chart.wuXingBalance.tanah, 5);
       expect(chart.wuXingBalance.logam, 1);
-      expect(chart.wuXingBalance.air, 3);
-      expect(chart.wuXingBalance.total, 11);
+      expect(chart.wuXingBalance.air, 5);
+      expect(chart.wuXingBalance.total, 18);
     });
 
     // ─── Hour Pillar ──────────────────────────────────────────────────────
@@ -124,8 +127,8 @@ void main() {
       expect(chart.hourPillar, isNotNull);
       expect(chart.adjustedHour, 14);
       expect(chart.trueSolarTimeNote, isNull); // tanpa longitude
-      // 13 (3 pilar) + 5 (gui_wei + hidden ji,ding,yi) = 18
-      expect(chart.wuXingBalance.total, 18);
+      // 20 (3 pilar) + 8 (gui_wei: air+1, tanah+1+3(ji), api+2(ding), kayu+1(yi)) = 28
+      expect(chart.wuXingBalance.total, 28);
     });
 
     test('Hour Pillar 14:00 bujur 106.84° Jakarta: TST = 14:07', () {
