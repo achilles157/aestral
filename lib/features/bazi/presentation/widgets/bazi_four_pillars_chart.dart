@@ -209,11 +209,22 @@ class BaziFourPillarsChart extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFF1E1638),
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppTheme.accentPurple.withValues(alpha: 0.5)),
+          border: Border.all(
+            color: AppTheme.accentPurple.withValues(alpha: 0.5),
+          ),
         ),
-        textStyle: GoogleFonts.outfit(fontSize: 11, color: Colors.white, height: 1.4),
+        textStyle: GoogleFonts.outfit(
+          fontSize: 11,
+          color: Colors.white,
+          height: 1.4,
+        ),
         child: InkWell(
-          onTap: () => _showPillarDetailSheet(context, pillarName, title.replaceAll('\n', ' '), explanation),
+          onTap: () => _showPillarDetailSheet(
+            context,
+            pillarName,
+            title.replaceAll('\n', ' '),
+            explanation,
+          ),
           borderRadius: BorderRadius.circular(6),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
@@ -247,7 +258,11 @@ class BaziFourPillarsChart extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Icon(Icons.auto_awesome, color: AppTheme.accentGold, size: 20),
+                const Icon(
+                  Icons.auto_awesome,
+                  color: AppTheme.accentGold,
+                  size: 20,
+                ),
                 const SizedBox(width: 10),
                 Text(
                   'Panduan Membaca Empat Pilar',
@@ -358,4 +373,3 @@ class BaziFourPillarsChart extends StatelessWidget {
     );
   }
 }
-

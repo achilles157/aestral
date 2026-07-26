@@ -34,7 +34,8 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
     final now = DateTime.now();
     int age = now.year - widget.birthDate.year;
     if (now.month < widget.birthDate.month ||
-        (now.month == widget.birthDate.month && now.day < widget.birthDate.day)) {
+        (now.month == widget.birthDate.month &&
+            now.day < widget.birthDate.day)) {
       age--;
     }
     return age;
@@ -71,7 +72,8 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
   @override
   Widget build(BuildContext context) {
     final int age = _currentAge();
-    final bool isChildhood = widget.pillars.isNotEmpty && age < widget.pillars.first.startAge;
+    final bool isChildhood =
+        widget.pillars.isNotEmpty && age < widget.pillars.first.startAge;
     final int nextTransitionAge = widget.pillars
         .map((p) => p.startAge)
         .firstWhere(
@@ -151,7 +153,8 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
                   isActive: isActive,
                   isPast: isPast,
                   elementColor: widget.elementColor,
-                  onTap: () => _showLuckPillarDetail(context, lp, isActive, isPast),
+                  onTap: () =>
+                      _showLuckPillarDetail(context, lp, isActive, isPast),
                 );
               }).toList(),
             ),
@@ -162,21 +165,21 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
   }
 
   Widget _directionChip() => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-        decoration: BoxDecoration(
-          color: widget.elementColor.withValues(alpha: 0.12),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: widget.elementColor.withValues(alpha: 0.3)),
-        ),
-        child: Text(
-          widget.isForward ? '顺运 Maju' : '逆运 Mundur',
-          style: GoogleFonts.outfit(
-            fontSize: 10,
-            color: widget.elementColor,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+    decoration: BoxDecoration(
+      color: widget.elementColor.withValues(alpha: 0.12),
+      borderRadius: BorderRadius.circular(20),
+      border: Border.all(color: widget.elementColor.withValues(alpha: 0.3)),
+    ),
+    child: Text(
+      widget.isForward ? '顺运 Maju' : '逆运 Mundur',
+      style: GoogleFonts.outfit(
+        fontSize: 10,
+        color: widget.elementColor,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+  );
 
   void _showLuckPillarDetail(
     BuildContext context,
@@ -202,7 +205,10 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: elemColor.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(6),
@@ -220,7 +226,10 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
                 const Spacer(),
                 if (isActive)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: widget.elementColor,
                       borderRadius: BorderRadius.circular(20),
@@ -393,7 +402,10 @@ class _LuckPillarCard extends StatelessWidget {
                 top: -2,
                 right: 8,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 5,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     color: elementColor,
                     borderRadius: const BorderRadius.only(
@@ -420,4 +432,3 @@ class _LuckPillarCard extends StatelessWidget {
     );
   }
 }
-

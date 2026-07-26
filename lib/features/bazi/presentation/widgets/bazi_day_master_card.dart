@@ -188,14 +188,16 @@ class BaziDayMasterCard extends StatelessWidget {
                 color: AppTheme.accentGold.withValues(alpha: 0.06),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                    color: AppTheme.accentGold.withValues(alpha: 0.25)),
+                  color: AppTheme.accentGold.withValues(alpha: 0.25),
+                ),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('\u2726',
-                      style: TextStyle(
-                          color: AppTheme.accentGold, fontSize: 14)),
+                  const Text(
+                    '\u2726',
+                    style: TextStyle(color: AppTheme.accentGold, fontSize: 14),
+                  ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Column(

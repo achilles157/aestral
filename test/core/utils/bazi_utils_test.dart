@@ -257,7 +257,12 @@ void main() {
 
     test('born day before Li Chun is still Chou (Ox) month branch', () {
       // Feb 3 = still in 12th month (Chou/Ox)
-      final pBefore = BaziUtils.getMonthPillar(2, 3, 5, 2000); // yearStem=5 (Ji, previous)
+      final pBefore = BaziUtils.getMonthPillar(
+        2,
+        3,
+        5,
+        2000,
+      ); // yearStem=5 (Ji, previous)
       expect(pBefore.branchIndex, 1); // Chou (Ox)
       expect(pBefore.branchId, 'chou');
     });
@@ -324,50 +329,66 @@ void main() {
         isMale: true,
       );
       for (final p in lp) {
-        expect(BaziUtils.sexagenarySlugs.contains(p.pillar.id), true,
-            reason: 'Invalid sexagenary: ${p.pillar.id}');
+        expect(
+          BaziUtils.sexagenarySlugs.contains(p.pillar.id),
+          true,
+          reason: 'Invalid sexagenary: ${p.pillar.id}',
+        );
       }
     });
 
     test('Male + Yang year produces DIFFERENT sequence from Male + Yin year', () {
       // Same birth date, same gender — only year polarity differs
       final pYang = _firstPillar(DateTime.utc(2000, 6, 15), true); // Yang year
-      final pYin  = _firstPillar(DateTime.utc(1999, 6, 15), true); // Yin year
+      final pYin = _firstPillar(DateTime.utc(1999, 6, 15), true); // Yin year
       // Forward vs backward → first pillar must differ
-      expect(pYang.pillar.stemIndex == pYin.pillar.stemIndex &&
-             pYang.pillar.branchIndex == pYin.pillar.branchIndex, false,
-          reason: 'Forward and backward sequences should yield different first pillars');
+      expect(
+        pYang.pillar.stemIndex == pYin.pillar.stemIndex &&
+            pYang.pillar.branchIndex == pYin.pillar.branchIndex,
+        false,
+        reason:
+            'Forward and backward sequences should yield different first pillars',
+      );
     });
 
     test('Male and Female produce DIFFERENT sequences for same chart', () {
       // 2000 Yang year: male=forward, female=backward
-      final pMale   = _firstPillar(DateTime.utc(2000, 6, 15), true);
+      final pMale = _firstPillar(DateTime.utc(2000, 6, 15), true);
       final pFemale = _firstPillar(DateTime.utc(2000, 6, 15), false);
-      expect(pMale.pillar.stemIndex == pFemale.pillar.stemIndex &&
-             pMale.pillar.branchIndex == pFemale.pillar.branchIndex, false,
-          reason: 'Male (forward) and Female (backward) must produce different sequences');
+      expect(
+        pMale.pillar.stemIndex == pFemale.pillar.stemIndex &&
+            pMale.pillar.branchIndex == pFemale.pillar.branchIndex,
+        false,
+        reason:
+            'Male (forward) and Female (backward) must produce different sequences',
+      );
     });
 
-    test('Female + Yang year produces SAME direction as Male + Yin year (both backward)', () {
-      // Both backward → should match month offset direction
-      final femaleYang = BaziUtils.calculateBaziChart(DateTime.utc(2000, 6, 15));
-      final maleYin    = BaziUtils.calculateBaziChart(DateTime.utc(1999, 6, 15));
+    test(
+      'Female + Yang year produces SAME direction as Male + Yin year (both backward)',
+      () {
+        // Both backward → should match month offset direction
+        final femaleYang = BaziUtils.calculateBaziChart(
+          DateTime.utc(2000, 6, 15),
+        );
+        final maleYin = BaziUtils.calculateBaziChart(DateTime.utc(1999, 6, 15));
 
-      final lpFemaleYang = BaziUtils.calculateLuckPillars(
-        birthDate: DateTime.utc(2000, 6, 15),
-        monthPillar: femaleYang.monthPillar,
-        yearStemIndex: femaleYang.yearPillar.stemIndex,
-        isMale: false, // female + yang = backward
-      );
-      final lpMaleYin = BaziUtils.calculateLuckPillars(
-        birthDate: DateTime.utc(1999, 6, 15),
-        monthPillar: maleYin.monthPillar,
-        yearStemIndex: maleYin.yearPillar.stemIndex,
-        isMale: true, // male + yin = backward
-      );
-      // Both are backward — start ages in range
-      expect(lpFemaleYang.first.startAge, inInclusiveRange(1, 99));
-      expect(lpMaleYin.first.startAge, inInclusiveRange(1, 99));
-    });
+        final lpFemaleYang = BaziUtils.calculateLuckPillars(
+          birthDate: DateTime.utc(2000, 6, 15),
+          monthPillar: femaleYang.monthPillar,
+          yearStemIndex: femaleYang.yearPillar.stemIndex,
+          isMale: false, // female + yang = backward
+        );
+        final lpMaleYin = BaziUtils.calculateLuckPillars(
+          birthDate: DateTime.utc(1999, 6, 15),
+          monthPillar: maleYin.monthPillar,
+          yearStemIndex: maleYin.yearPillar.stemIndex,
+          isMale: true, // male + yin = backward
+        );
+        // Both are backward — start ages in range
+        expect(lpFemaleYang.first.startAge, inInclusiveRange(1, 99));
+        expect(lpMaleYin.first.startAge, inInclusiveRange(1, 99));
+      },
+    );
   });
 }

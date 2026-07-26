@@ -65,11 +65,16 @@ class BaziLuckPillarsPlaceholder extends StatelessWidget {
               onTap: onSelectGender,
               borderRadius: BorderRadius.circular(20),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: AppTheme.accentGold.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppTheme.accentGold.withValues(alpha: 0.4)),
+                  border: Border.all(
+                    color: AppTheme.accentGold.withValues(alpha: 0.4),
+                  ),
                 ),
                 child: Text(
                   'Pilih',
@@ -87,4 +92,3 @@ class BaziLuckPillarsPlaceholder extends StatelessWidget {
     );
   }
 }
-
