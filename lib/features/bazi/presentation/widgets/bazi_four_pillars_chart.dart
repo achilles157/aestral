@@ -40,6 +40,18 @@ class BaziFourPillarsChart extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
+              const SizedBox(width: 4),
+              GestureDetector(
+                onTap: () => _showChartGuideSheet(context),
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Icon(
+                    Icons.info_outline_rounded,
+                    size: 15,
+                    color: AppTheme.accentGold.withValues(alpha: 0.8),
+                  ),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 4),
@@ -98,13 +110,37 @@ class BaziFourPillarsChart extends StatelessWidget {
           // Domain labels per pillar
           Row(
             children: [
-              _domainLabel('Sosial\n& Leluhur'),
+              _domainLabel(
+                context,
+                title: 'Sosial\n& Leluhur',
+                pillarName: 'Pilar Tahun',
+                explanation:
+                    'Melambangkan citra publik, hubungan sosial luar, lingkungan tumbuh kembang awal, serta energi keluarga besar & leluhur.',
+              ),
               const SizedBox(width: 8),
-              _domainLabel('Karier\n& Ambisi'),
+              _domainLabel(
+                context,
+                title: 'Karier\n& Ambisi',
+                pillarName: 'Pilar Bulan',
+                explanation:
+                    'Melambangkan fokus utama karier, lingkungan kerja, ambisi pencapaian diri, serta dinamika usia muda (15–30 tahun) dan orang tua.',
+              ),
               const SizedBox(width: 8),
-              _domainLabel('Diri\n& Pasangan'),
+              _domainLabel(
+                context,
+                title: 'Diri\n& Pasangan',
+                pillarName: 'Pilar Hari (Day Master)',
+                explanation:
+                    'Melambangkan inti kepribadianmu (Day Master), jiwa terdalam, pola pikir dasar, serta hubungan asmara & pasangan hidup.',
+              ),
               const SizedBox(width: 8),
-              _domainLabel('Warisan\n& Bawah Sadar'),
+              _domainLabel(
+                context,
+                title: 'Warisan\n& Bawah Sadar',
+                pillarName: 'Pilar Jam',
+                explanation:
+                    'Melambangkan dorongan bawah sadar, cita-cita masa tua (46+ tahun), karya/legacy yang kamu ciptakan, serta hubungan dengan anak atau junior.',
+              ),
             ],
           ),
           const SizedBox(height: 10),
@@ -159,15 +195,167 @@ class BaziFourPillarsChart extends StatelessWidget {
     );
   }
 
-  Widget _domainLabel(String text) => Expanded(
-    child: Text(
-      text,
-      textAlign: TextAlign.center,
-      style: GoogleFonts.outfit(
-        fontSize: 9,
-        color: Colors.white30,
-        height: 1.4,
+  Widget _domainLabel(
+    BuildContext context, {
+    required String title,
+    required String pillarName,
+    required String explanation,
+  }) {
+    return Expanded(
+      child: Tooltip(
+        message: '$pillarName:\n$explanation',
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1E1638),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: AppTheme.accentPurple.withValues(alpha: 0.5)),
+        ),
+        textStyle: GoogleFonts.outfit(fontSize: 11, color: Colors.white, height: 1.4),
+        child: InkWell(
+          onTap: () => _showPillarDetailSheet(context, pillarName, title.replaceAll('\n', ' '), explanation),
+          borderRadius: BorderRadius.circular(6),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.outfit(
+                fontSize: 9,
+                color: Colors.white60,
+                height: 1.3,
+              ),
+            ),
+          ),
+        ),
       ),
-    ),
-  );
+    );
+  }
+
+  void _showChartGuideSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: AppTheme.cardBg,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.auto_awesome, color: AppTheme.accentGold, size: 20),
+                const SizedBox(width: 10),
+                Text(
+                  'Panduan Membaca Empat Pilar',
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.accentGold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Peta Ba Zi kamu terdiri dari 4 pilar waktu kelahiran (Tahun, Bulan, Hari, dan Jam). '
+              'Setiap pilar memiliki Batang Langit (elemen utama) dan Cabang Bumi (zodiak hewan).\n\n'
+              '• Pilar Hari (Day Master): Inti kepribadian dan energi jiwa utama kamu.\n'
+              '• Pilar Bulan: Potensi karier, ambisi, dan lingkungan profesional.\n'
+              '• Pilar Tahun: Relasi sosial luar dan citra diri di mata publik.\n'
+              '• Pilar Jam: Cita-Cita bawah sadar, karya, dan masa depan.',
+              style: GoogleFonts.outfit(
+                fontSize: 13,
+                color: Colors.white70,
+                height: 1.6,
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(ctx),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.accentPurple,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text('Mengerti'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showPillarDetailSheet(
+    BuildContext context,
+    String pillarName,
+    String domainTitle,
+    String explanation,
+  ) {
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: AppTheme.cardBg,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              pillarName,
+              style: GoogleFonts.outfit(
+                fontSize: 12,
+                color: AppTheme.accentGold,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 1.0,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              domainTitle,
+              style: GoogleFonts.playfairDisplay(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 14),
+            Text(
+              explanation,
+              style: GoogleFonts.outfit(
+                fontSize: 13,
+                color: Colors.white70,
+                height: 1.6,
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(ctx),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.accentPurple,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text('Tutup'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
+
