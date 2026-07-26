@@ -155,11 +155,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     IconData energyIcon = Icons.wb_cloudy_outlined;
 
     if (isDinoWas) {
-      energyTitle = 'Hari Naas Personal (Dino Was)';
+      energyTitle = 'Hari Refleksi Batin (Dino Was)';
       energyDesc =
-          'Hari ini memiliki ketidakselarasan energi tertinggi bagi Anda. Tunda keputusan bisnis besar, hindari perdebatan, dan prioritaskan menjaga kedamaian batin.';
+          'Hari ini memancarkan energi yang mengajak Anda melambat dan berefleksi. Tunda keputusan bisnis yang tergesa-gesa, hindari perdebatan, dan prioritaskan menjaga kedamaian batin.';
       energyColor = const Color(0xFFF87171);
-      energyIcon = Icons.warning_amber_rounded;
+      energyIcon = Icons.spa_outlined;
     } else if (isBaziClash) {
       energyTitle = 'Hari Clash (Ciong) Ba Zi';
       energyDesc =
