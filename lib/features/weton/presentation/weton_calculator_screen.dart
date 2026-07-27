@@ -38,6 +38,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
 
   WetonInfo? _result;
   bool _isSaving = false;
+  bool _profileSaved = false; // true setelah auto-save berhasil
   Map<String, dynamic>? _dailyInsightData;
   bool _isLoadingDaily = false;
 
@@ -85,6 +86,7 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
     if (picked != null) {
       setState(() {
         _selectedDate = picked;
+        _profileSaved = false; // reset saat tanggal diganti
       });
     }
   }
@@ -216,6 +218,9 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
           cityName: current.cityName ?? '',
           gender: current.gender,
         )
+        .then((_) {
+          if (mounted) setState(() => _profileSaved = true);
+        })
         .catchError((e) {
           debugPrint(
             'WetonCalculatorScreen: auto-save birth profile error: $e',
@@ -449,6 +454,27 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                           ? const Center(
                                               child: CircularProgressIndicator(
                                                 color: AppTheme.accentPurple,
+                                              ),
+                                            )
+                                          : _profileSaved
+                                          ? ElevatedButton.icon(
+                                              onPressed: _handleSaveProfile,
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors
+                                                    .green
+                                                    .shade700
+                                                    .withValues(alpha: 0.85),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      vertical: 16,
+                                                    ),
+                                              ),
+                                              icon: const Icon(
+                                                Icons
+                                                    .check_circle_outline_rounded,
+                                              ),
+                                              label: const Text(
+                                                'Profil Tersimpan',
                                               ),
                                             )
                                           : ElevatedButton.icon(
