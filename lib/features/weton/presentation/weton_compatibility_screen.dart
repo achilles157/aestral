@@ -445,7 +445,7 @@ class _WetonCompatibilityScreenState
           children: [
             Expanded(
               child: _buildTabButton(
-                title: 'Weton Jawa',
+                title: 'Pola Relasional',
                 isActive: _activeTab == 0,
                 onTap: () => setState(() => _activeTab = 0),
               ),
@@ -453,7 +453,7 @@ class _WetonCompatibilityScreenState
             const SizedBox(width: 12),
             Expanded(
               child: _buildTabButton(
-                title: 'Ba Zi Tionghoa',
+                title: 'Sinergi Ba Zi',
                 isActive: _activeTab == 1,
                 onTap: () => setState(() => _activeTab = 1),
               ),
@@ -616,24 +616,35 @@ class _WetonCompatibilityScreenState
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          Text(
-            result.namaFase,
-            style: GoogleFonts.cinzel(
-              color: AppTheme.accentGold,
-              fontSize: 28,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 2,
-            ),
-          ),
-          const SizedBox(height: 6),
+          // Arketipe relasi sebagai headline utama — empathetic & actionable
           Text(
             result.arketipeRelasi,
             textAlign: TextAlign.center,
-            style: GoogleFonts.lato(
-              color: Colors.white70,
-              fontSize: 14,
-              fontStyle: FontStyle.italic,
-              letterSpacing: 0.3,
+            style: GoogleFonts.playfairDisplay(
+              color: AppTheme.accentGold,
+              fontSize: 22,
+              fontWeight: FontWeight.w700,
+              height: 1.3,
+            ),
+          ),
+          const SizedBox(height: 10),
+          // Nama tradisional sebagai pill badge — secondary, tidak menakutkan
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.06),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: AppTheme.accentGold.withValues(alpha: 0.25),
+              ),
+            ),
+            child: Text(
+              'Pola Weton: ${result.namaFase}',
+              style: GoogleFonts.outfit(
+                color: Colors.white.withValues(alpha: 0.55),
+                fontSize: 11,
+                letterSpacing: 0.5,
+              ),
             ),
           ),
         ],
