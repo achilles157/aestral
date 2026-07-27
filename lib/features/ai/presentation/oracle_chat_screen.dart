@@ -690,13 +690,13 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
   String _oracleContinuationTeaser() {
     const teasers = {
       'weton':
-          '"Masih ada yang ingin aku sampaikan — tentang energi yang sedang berputar di sekelilingmu, dan apa yang sebaiknya kamu jaga hari ini..."',
+          'Energi yang sedang berputar di sekelilingmu · Apa yang perlu kamu jaga hari ini · Pola siklus yang memengaruhi keputusanmu saat ini',
       'bazi':
-          '"Elemen dalam dirimu masih menyimpan pola yang belum sempat kubacakan — sebuah ketidakseimbangan yang mungkin kamu rasakan tapi belum bisa kamu namakan..."',
+          'Ketidakseimbangan elemen yang mungkin kamu rasakan · Pilar Da Yun dan dampaknya pada fase hidupmu saat ini · Pola tersembunyi dalam chart kelahiranmu',
       'tarot':
-          '"Kartu-kartumu masih berbisik sesuatu yang belum sempat kusampaikan — sebuah pesan dari alam bawah sadarmu yang perlu kamu dengar..."',
+          'Makna tersembunyi di balik posisi kartu · Pesan dari alam bawah sadar yang perlu kamu dengar · Hubungan antara kartu dan kondisi hidupmu kini',
       'synthesis':
-          '"Tiga sistem ini memiliki benang merah yang jarang terlihat — sebuah pola yang menghubungkan masa lalumu, kondisimu saat ini, dan arah yang sedang kamu tuju..."',
+          'Benang merah antara Weton, Ba Zi, dan Tarotmu · Pola yang menghubungkan masa lalu dan arahmu ke depan · Sinergi tiga sistem yang membentuk karaktermu',
     };
     return teasers[widget.oracleType] ?? teasers['weton']!;
   }
@@ -727,7 +727,7 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Curiosity gap — teks oracle selanjutnya diblur untuk memancing rasa penasaran
+                // Topik lanjutan — blurred sebagai preview jujur (bukan fake oracle response)
                 SizedBox(
                   height: 58,
                   child: ClipRect(
@@ -738,14 +738,27 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                             sigmaX: 2.5,
                             sigmaY: 2.5,
                           ),
-                          child: Text(
-                            _oracleContinuationTeaser(),
-                            style: GoogleFonts.outfit(
-                              fontSize: 13,
-                              color: Colors.white.withValues(alpha: 0.75),
-                              fontStyle: FontStyle.italic,
-                              height: 1.5,
-                            ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Topik yang bisa kamu eksplorasi:',
+                                style: GoogleFonts.outfit(
+                                  fontSize: 11,
+                                  color: Colors.white.withValues(alpha: 0.5),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                _oracleContinuationTeaser(),
+                                style: GoogleFonts.outfit(
+                                  fontSize: 12,
+                                  color: Colors.white.withValues(alpha: 0.75),
+                                  height: 1.5,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Positioned(
