@@ -130,6 +130,43 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       );
     } catch (e) {
       debugPrint('DashboardScreen: Error checking morning forecast — $e');
+      // Offline fallback: compute locally with WetonUtils so dialog still shows
+      if (!mounted) return;
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        final todayStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        final prefKey = 'morning_forecast_shown_$todayStr';
+        if (prefs.getBool(prefKey) == true) return;
+
+        final birthWeton = WetonUtils.calculateWeton(dob);
+        final todayWeton = WetonUtils.calculateWeton(DateTime.now());
+        final isDinoWas = WetonUtils.checkIsDinoWas(dob, DateTime.now());
+        final sisaBagi = (birthWeton.totalNeptu + todayWeton.totalNeptu) % 5;
+        final pranataId = WetonUtils.calculatePranataMangsaId(DateTime.now());
+
+        final offlineData = <String, dynamic>{
+          'weton_hari_ini': '${todayWeton.saptawara} ${todayWeton.pancawara}',
+          'wuku': todayWeton.wuku,
+          'neptu': todayWeton.totalNeptu,
+          'is_dino_was': isDinoWas,
+          'is_wuku_rawan': false,
+          'is_mangsa_rawan': pranataId == 4 || pranataId == 9,
+          'is_bazi_clash': false,
+          'is_bazi_harmony': false,
+          'is_bazi_yong_shen': false,
+          'sisa_bagi': sisaBagi,
+        };
+
+        await prefs.setBool(prefKey, true);
+        if (!mounted) return;
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (ctx) => _buildMorningForecastDialog(ctx, offlineData),
+        );
+      } catch (_) {
+        // Silently skip — forecast is a nice-to-have, not critical
+      }
     }
   }
 
