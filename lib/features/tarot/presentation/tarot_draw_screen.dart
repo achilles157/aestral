@@ -807,6 +807,29 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
                                         ),
                                 ),
                               ),
+                              // Tap hint — only visible when cards drawn but not all flipped yet
+                              if (drawnCards != null && !allFlipped)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 12),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(
+                                        Icons.touch_app_rounded,
+                                        size: 14,
+                                        color: Colors.white38,
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        'Ketuk kartu untuk menyingkap',
+                                        style: GoogleFonts.outfit(
+                                          fontSize: 12,
+                                          color: Colors.white38,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               const SizedBox(height: 32),
                               GlassButton(
                                 onPressed: () => _handleDraw(deck),

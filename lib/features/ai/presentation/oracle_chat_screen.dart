@@ -573,7 +573,7 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
               border: Border.all(color: _accentColor.withValues(alpha: 0.30)),
             ),
             child: Text(
-              '✦ 1 pertanyaan gratis tersisa',
+              '✦ Kamu punya 1 pertanyaan gratis',
               style: GoogleFonts.outfit(
                 fontSize: 11,
                 color: _accentColor,

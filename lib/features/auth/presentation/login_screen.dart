@@ -67,16 +67,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           ),
         );
 
-    // Buttons (50% – 80%)
+    // Buttons (35% – 70%) — moved earlier so button is tappable by ~700ms
     _buttonsFade = CurvedAnimation(
       parent: _animController,
-      curve: const Interval(0.50, 0.80, curve: Curves.easeOut),
+      curve: const Interval(0.35, 0.70, curve: Curves.easeOut),
     );
     _buttonsSlide = Tween<Offset>(begin: const Offset(0, 0.4), end: Offset.zero)
         .animate(
           CurvedAnimation(
             parent: _animController,
-            curve: const Interval(0.50, 0.80, curve: Curves.easeOut),
+            curve: const Interval(0.35, 0.70, curve: Curves.easeOut),
           ),
         );
 
@@ -132,9 +132,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 style: TextStyle(color: AppTheme.accentGold),
               ),
               content: const Text(
-                'Aplikasi mendeteksi bahwa berkas konfigurasi Firebase Anda belum terpasang. '
-                'Silakan baca berkas "firebase_setup_guide.md" untuk petunjuk setup.\n\n'
-                'Untuk sekarang, Anda dapat memilih "Masuk Sebagai Tamu" untuk menguji aplikasi secara offline.',
+                'Layanan tidak tersedia saat ini. '
+                'Coba lagi nanti, atau lanjutkan sebagai tamu untuk menggunakan fitur offline.',
                 style: TextStyle(color: AppTheme.textLight),
               ),
               actions: [
@@ -162,7 +161,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       await ref.read(authProvider.notifier).signInAsGuest();
     } catch (e) {
       debugPrint('LoginScreen._handleGuestSignIn error: $e');
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Gagal masuk sebagai tamu. Coba lagi.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -342,21 +349,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
                             SizedBox(height: constraints.maxHeight * 0.08),
 
-                            // Zero budget note
-                            FadeTransition(
-                              opacity: _footerFade,
-                              child: Center(
-                                child: Text(
-                                  'Zero-Budget High-Performance Architecture',
-                                  style: textTheme.bodyMedium?.copyWith(
-                                    fontSize: 12,
-                                    color: AppTheme.textMuted.withValues(
-                                      alpha: 0.5,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Version note removed — internal label
                             const SizedBox(height: 12),
                           ],
                         ),

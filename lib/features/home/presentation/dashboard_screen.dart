@@ -558,9 +558,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             onPressed: () => ref.read(authProvider.notifier).signInWithGoogle(),
             style: TextButton.styleFrom(
               foregroundColor: Colors.orange,
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              minimumSize: Size.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             ),
             child: Text(
               'Simpan',

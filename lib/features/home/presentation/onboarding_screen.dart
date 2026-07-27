@@ -45,9 +45,22 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Future<void> _begin() async {
     if (_selectedDate == null || _isSaving) return;
     setState(() => _isSaving = true);
-    await ref.read(birthProfileProvider.notifier).saveDob(_selectedDate!);
-    AnalyticsService.setHasProfile(true).catchError((_) {});
-    // Routing beralih otomatis via reactive watch di main.dart
+    try {
+      await ref.read(birthProfileProvider.notifier).saveDob(_selectedDate!);
+      AnalyticsService.setHasProfile(true).catchError((_) {});
+      // Routing beralih otomatis via reactive watch di main.dart
+    } catch (e) {
+      debugPrint('OnboardingScreen._begin error: $e');
+      if (mounted) {
+        setState(() => _isSaving = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Gagal menyimpan profil. Coba lagi.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   @override
