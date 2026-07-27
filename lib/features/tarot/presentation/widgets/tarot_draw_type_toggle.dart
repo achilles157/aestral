@@ -8,12 +8,14 @@ class TarotDrawTypeToggle extends StatelessWidget {
   final String selectedDrawType;
   final String currentLang;
   final void Function(String drawType) onTypeChanged;
+  final bool isLocked;
 
   const TarotDrawTypeToggle({
     super.key,
     required this.selectedDrawType,
     required this.currentLang,
     required this.onTypeChanged,
+    this.isLocked = false,
   });
 
   @override
@@ -34,11 +36,13 @@ class TarotDrawTypeToggle extends StatelessWidget {
           _Pill(
             label: currentLang == 'id' ? 'Tarot Kosmis' : 'Cosmic Tarot',
             isActive: selectedDrawType == 'mangsa',
+            isLocked: isLocked,
             onTap: () => onTypeChanged('mangsa'),
           ),
           _Pill(
             label: currentLang == 'id' ? 'Tarot Lahir' : 'Birth Tarot',
             isActive: selectedDrawType == 'birth',
+            isLocked: false,
             onTap: () => onTypeChanged('birth'),
           ),
         ],
@@ -50,11 +54,13 @@ class TarotDrawTypeToggle extends StatelessWidget {
 class _Pill extends StatelessWidget {
   final String label;
   final bool isActive;
+  final bool isLocked;
   final VoidCallback onTap;
 
   const _Pill({
     required this.label,
     required this.isActive,
+    required this.isLocked,
     required this.onTap,
   });
 
@@ -68,15 +74,31 @@ class _Pill extends StatelessWidget {
           color: isActive ? AppTheme.accentPurple : Colors.transparent,
           borderRadius: BorderRadius.circular(30),
         ),
-        child: Text(
-          label,
-          style: GoogleFonts.outfit(
-            fontWeight: FontWeight.bold,
-            fontSize: 12,
-            color: isActive
-                ? AppTheme.textLight
-                : AppTheme.textLight.withValues(alpha: 0.6),
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (isLocked)
+              const Padding(
+                padding: EdgeInsets.only(right: 4),
+                child: Icon(
+                  Icons.lock_rounded,
+                  size: 10,
+                  color: Colors.white38,
+                ),
+              ),
+            Text(
+              label,
+              style: GoogleFonts.outfit(
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+                color: isActive
+                    ? AppTheme.textLight
+                    : AppTheme.textLight.withValues(
+                        alpha: isLocked ? 0.35 : 0.6,
+                      ),
+              ),
+            ),
+          ],
         ),
       ),
     );

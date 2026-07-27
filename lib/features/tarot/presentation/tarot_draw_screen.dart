@@ -23,6 +23,7 @@ import '../models/tarot_oracle_reading.dart';
 import 'widgets/tarot_oracle_panel.dart';
 import 'widgets/tarot_draw_type_toggle.dart';
 import 'widgets/tarot_carousel_section.dart';
+import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
 import '../../ai/presentation/oracle_chat_screen.dart';
 import '../../history/models/reading_entry.dart';
 import '../../history/services/reading_history_service.dart';
@@ -631,15 +632,41 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              if (session != null &&
-                                  !session.isMock &&
-                                  drawnCards == null) ...[
+                              // Show toggle for all users — guests see it
+                              // but are prompted to login if they tap Cosmic
+                              if (drawnCards == null) ...[
                                 TarotDrawTypeToggle(
-                                  selectedDrawType: _selectedDrawType,
+                                  selectedDrawType:
+                                      session == null || session.isMock
+                                      ? 'birth'
+                                      : _selectedDrawType,
                                   currentLang: currentLang,
-                                  onTypeChanged: (t) =>
-                                      setState(() => _selectedDrawType = t),
+                                  isLocked: session == null || session.isMock,
+                                  onTypeChanged: (t) {
+                                    if (session == null || session.isMock) {
+                                      // Guest tapping Cosmic → prompt login
+                                      if (t == 'mangsa') {
+                                        CosmicAuthBottomSheet.show(context);
+                                      }
+                                      return;
+                                    }
+                                    setState(() => _selectedDrawType = t);
+                                  },
                                 ),
+                                if (session == null || session.isMock)
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      bottom: 12,
+                                      top: 0,
+                                    ),
+                                    child: Text(
+                                      '🔒 Tarot Kosmis tersedia setelah masuk',
+                                      style: GoogleFonts.outfit(
+                                        fontSize: 11,
+                                        color: AppTheme.textMuted,
+                                      ),
+                                    ),
+                                  ),
                               ],
                               Text(
                                 session == null ||
