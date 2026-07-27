@@ -17,6 +17,7 @@ import '../../../core/widgets/glass_card.dart';
 import '../../../core/widgets/astrological_dial_timepiece.dart';
 import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
 import '../../../core/widgets/glass_button.dart';
+import 'widgets/jam_emas_banner.dart';
 
 class AstrologicalPlannerScreen extends ConsumerStatefulWidget {
   const AstrologicalPlannerScreen({super.key});
@@ -502,6 +503,15 @@ class _AstrologicalPlannerScreenState
                                         ),
                                       ),
                                     _buildPranataHeader(pranataListAsync),
+                                    const SizedBox(height: 16),
+                                    // ── Jam Emas Banner ───────────────────
+                                    JamEmasBanner(
+                                      calendarDays:
+                                          (_calendarData!['days']
+                                                  as List<dynamic>)
+                                              .cast<Map<String, dynamic>>(),
+                                      today: DateTime.now(),
+                                    ),
                                     const SizedBox(height: 16),
                                     AstrologicalPlannerCalendarGrid(
                                       calendarData: _calendarData!,
