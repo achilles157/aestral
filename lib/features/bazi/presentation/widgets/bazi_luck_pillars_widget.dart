@@ -143,6 +143,20 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
           'Fokus pada pencapaian sosial dan pengembangan karir.',
         );
 
+    // Branch Ten God — via ruling hidden stem (Cang Gan 主氣)
+    // First hidden stem is the most influential in the 5-year branch sub-phase
+    final branchGodId = BaziUtils.getBranchMainTenGodId(
+      dmIdx,
+      lp.pillar.branchIndex,
+    );
+    final branchGodInfo =
+        _kTenGodInfo[branchGodId] ??
+        (
+          '地支',
+          'Fondasi Batin & Stabilitas',
+          'Fokus pada fondasi internal, kondisi emosional, dan stabilitas fisik.',
+        );
+
     // Yong Shen / Ji Shen
     final stemElem = lp.pillar.element;
     final branchElem = BaziUtils.branchElements[lp.pillar.branchIndex];
@@ -222,6 +236,10 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
       'isStemYongShen': isStemYongShen,
       'isStemJiShen': isStemJiShen,
       'branchElem': branchElem,
+      'branchGodId': branchGodId,
+      'branchGodHanzi': branchGodInfo.$1,
+      'branchGodName': branchGodInfo.$2,
+      'branchGodDesc': branchGodInfo.$3,
       'isBranchYongShen': isBranchYongShen,
       'isBranchJiShen': isBranchJiShen,
       'natalNotes': natalNotes,
@@ -519,10 +537,9 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
                         '5 Tahun Kedua (Usia ${lp.startAge + 5}–${lp.endAge})',
                     subtitle:
                         'Cabang Bumi: ${lp.pillar.branchSymbol} ${lp.pillar.branchZodiacId} (${(insight['branchElem'] as String).toUpperCase()})',
-                    godHanzi: '地支',
-                    godName: 'Fondasi Batin & Stabilitas',
-                    description:
-                        'Fokus pada mengunci fondasi internal, kondisi emosional, stabilitas fisik, dan ketahanan dalam situasi riil.',
+                    godHanzi: insight['branchGodHanzi'] as String,
+                    godName: insight['branchGodName'] as String,
+                    description: insight['branchGodDesc'] as String,
                     isYongShen: insight['isBranchYongShen'] as bool,
                     isJiShen: insight['isBranchJiShen'] as bool,
                     natalNotes: insight['natalNotes'] as List<String>,

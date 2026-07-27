@@ -2663,6 +2663,21 @@ class BaziUtils {
     return 'friend'; // unreachable with valid 0–9 stem indices
   }
 
+  /// Returns the Ten God id of the **ruling hidden stem (主氣)** inside
+  /// [branchIndex] relative to [dmStemIndex].
+  ///
+  /// Each Earthly Branch contains 1–3 Cang Gan (藏干 hidden stems).
+  /// The first entry is the ruling stem — most influential during the
+  /// 5-year branch sub-phase of a Da Yun pillar.
+  ///
+  /// Example: You 酉 (index 9) → ruling hidden stem Xin (7)
+  ///   Day Master Jia Kayu Yang (index 0) → Xin controls Jia
+  ///   → direct_officer (正官)
+  static String getBranchMainTenGodId(int dmStemIndex, int branchIndex) {
+    final int rulingHiddenStem = _branchHiddenStems[branchIndex].first;
+    return getTenGodId(dmStemIndex, rulingHiddenStem);
+  }
+
   // ─── Luck Pillars 大運 ──────────────────────────────────────────────────
 
   // _kSolarTermDates removed — _daysToNearestSolarTerm now uses _jieDays directly.
