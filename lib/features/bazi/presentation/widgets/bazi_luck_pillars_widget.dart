@@ -2,8 +2,62 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/glass_card.dart';
+import '../../../../core/utils/bazi_utils.dart';
 import '../../domain/bazi_chart.dart';
 import 'bazi_pillar_column.dart' show kBaziElementColors;
+
+const Map<String, (String, String, String)> _kTenGodInfo = {
+  'friend': (
+    '比肩',
+    'Sahabat / Identitas Diri',
+    'Fokus pada pembentukan karakter mandiri, jaringan kawan sebaya, dan pemantapan posisi di lingkungan sosial.',
+  ),
+  'rob_wealth': (
+    '劫財',
+    'Penantang / Kemandirian Disiplin',
+    'Fokus pada pengerasan mental, persaingan sehat, serta disiplin pengelolaan keuangan agar tidak tergerus konsumerisme.',
+  ),
+  'eating_god': (
+    '食神',
+    'Pencipta / Ekspresi Bebas',
+    'Fokus pada kebebasan berkreasi, kenikmatan hidup, pengembangan ide mandiri, serta membangun kenyamanan berkarya.',
+  ),
+  'hurting_officer': (
+    '傷官',
+    'Visioner / Terobosan Unik',
+    'Fokus pada mendobrak batasan konvensional, keberanian membuktikan gagasan baru, dan mengekspresikan bakat otentik.',
+  ),
+  'indirect_wealth': (
+    '偏財',
+    'Jaring Peluang / Bisnis Bebas',
+    'Fokus pada menangkap peluang finansial dinamis, keberanian mengambil risiko terukur, dan perputaran arus kas.',
+  ),
+  'direct_wealth': (
+    '正財',
+    'Pembangun / Akumulasi Realita',
+    'Fokus pada membangun penghasilan rutin yang stabil, disiplin finansial, serta akumulasi aset fisik jangka panjang.',
+  ),
+  'seven_killings': (
+    '七殺',
+    'Pendobrak / Ujian Keberanian',
+    'Fokus pada menghadapi tekanan tinggi, terobosan saat krisis, kepemimpinan tegas, dan pengerasan daya tahan jiwa.',
+  ),
+  'direct_officer': (
+    '正官',
+    'Penjaga / Otoritas & Karir',
+    'Fokus pada kepatuhan aturan, membangun reputasi profesional, promosi posisi, serta integrasi dalam struktur organisasi.',
+  ),
+  'indirect_resource': (
+    '偏印',
+    'Filsuf / Kebijaksanaan Laten',
+    'Fokus pada pendalaman keahlian spesifik/unik, riset strategis, intuisi batin, dan keheningan untuk bertumbuh.',
+  ),
+  'direct_resource': (
+    '正印',
+    'Pustaka / Penopang Intelektual',
+    'Fokus pada penyerapan ilmu pengetahuan, dukungan mentor/keluarga, reputasi bersih, dan penguatan fondasi mental.',
+  ),
+};
 
 /// Displays the 8 Luck Pillars (大運) as a horizontal scrollable row of cards.
 /// The currently active pillar (based on [birthDate]) is highlighted & auto-scrolled into view.
@@ -11,9 +65,8 @@ class BaziLuckPillarsWidget extends StatefulWidget {
   final List<LuckPillar> pillars;
   final Color elementColor;
   final bool isForward;
-
-  /// Used to compute current age for active LP highlight.
   final DateTime birthDate;
+  final BaziChart? chart;
 
   const BaziLuckPillarsWidget({
     super.key,
@@ -21,6 +74,7 @@ class BaziLuckPillarsWidget extends StatefulWidget {
     required this.elementColor,
     required this.isForward,
     required this.birthDate,
+    this.chart,
   });
 
   @override
@@ -29,6 +83,10 @@ class BaziLuckPillarsWidget extends StatefulWidget {
 
 class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
   late final ScrollController _scrollCtrl;
+
+  // Phase 2: Cache AI readings per pillar startAge
+  final Map<int, String> _aiReadings = {};
+  final Set<int> _loadingAi = {};
 
   int _currentAge() {
     final now = DateTime.now();
@@ -52,8 +110,9 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
       final activeIdx = widget.pillars.indexWhere(
         (lp) => age >= lp.startAge && age <= lp.endAge,
       );
-      if (activeIdx > 0) {
-        final targetOffset = (activeIdx * 74.0) - 20.0;
+      if (activeIdx > 0 && _scrollCtrl.hasClients) {
+        const double cardWidth = 74.0; // 66px card + 8px margin
+        final targetOffset = (activeIdx * cardWidth) - 20.0;
         _scrollCtrl.animateTo(
           targetOffset.clamp(0.0, _scrollCtrl.position.maxScrollExtent),
           duration: const Duration(milliseconds: 500),
@@ -67,6 +126,142 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
   void dispose() {
     _scrollCtrl.dispose();
     super.dispose();
+  }
+
+  // --- Phase 1: Synthesize Deterministic Personalized Narrative ---
+  Map<String, dynamic> _synthesizePillarInsight(LuckPillar lp, int age) {
+    final chart = widget.chart;
+    final int dmIdx = chart?.dayPillar.stemIndex ?? 0;
+
+    // Stem Ten God
+    final stemGodId = BaziUtils.getTenGodId(dmIdx, lp.pillar.stemIndex);
+    final stemGodInfo =
+        _kTenGodInfo[stemGodId] ??
+        (
+          '十神',
+          'Dinamika Energi',
+          'Fokus pada pencapaian sosial dan pengembangan karir.',
+        );
+
+    // Yong Shen / Ji Shen
+    final stemElem = lp.pillar.element;
+    final branchElem = BaziUtils.branchElements[lp.pillar.branchIndex];
+
+    final isStemYongShen =
+        chart?.dmStrength.yongShen.contains(stemElem) ?? false;
+    final isStemJiShen = chart?.dmStrength.jiShen.contains(stemElem) ?? false;
+
+    final isBranchYongShen =
+        chart?.dmStrength.yongShen.contains(branchElem) ?? false;
+    final isBranchJiShen =
+        chart?.dmStrength.jiShen.contains(branchElem) ?? false;
+
+    // Branch Natal Interactions (Clashes & Harmonies)
+    final natalNotes = <String>[];
+
+    if (chart != null) {
+      final bIdx = lp.pillar.branchIndex;
+      final natalBranches = [
+        (
+          name: 'Pilar Tahun (Sosial & Leluhur)',
+          b: chart.yearPillar.branchIndex,
+        ),
+        (
+          name: 'Pilar Bulan (Karier & Lingkungan)',
+          b: chart.monthPillar.branchIndex,
+        ),
+        (name: 'Pilar Hari (Diri & Pasangan)', b: chart.dayPillar.branchIndex),
+        if (chart.hourPillar != null)
+          (name: 'Pilar Jam (Karya & Batin)', b: chart.hourPillar!.branchIndex),
+      ];
+
+      for (final nb in natalBranches) {
+        // Six Clash: branch distance == 6 (simplified — no redundant % 12 needed for range 0-11)
+        if ((bIdx - nb.b).abs() == 6) {
+          natalNotes.add('⚡ Bentrok (Clash) dengan ${nb.name}');
+        } else if ([
+          [0, 1],
+          [2, 11],
+          [3, 10],
+          [4, 9],
+          [5, 8],
+          [6, 7],
+        ].any(
+          (pair) =>
+              (pair[0] == bIdx && pair[1] == nb.b) ||
+              (pair[1] == bIdx && pair[0] == nb.b),
+        )) {
+          natalNotes.add('✦ Harmoni (Liu He) dengan ${nb.name}');
+        }
+      }
+    }
+
+    // Dynamic Chapter Title
+    String chapterTitle = 'Babak Transisi & Pembentukan Diri';
+    if (stemGodId.contains('resource')) {
+      chapterTitle = 'Babak Pembekalan Intelektual & Pendalaman Keahlian';
+    } else if (stemGodId.contains('wealth')) {
+      chapterTitle = 'Babak Akumulasi Aset & Ekspansi Peluang Realita';
+    } else if (stemGodId.contains('officer')) {
+      chapterTitle = 'Babak Penataan Reputasi & Struktur Profesional';
+    } else if (stemGodId == 'eating_god') {
+      chapterTitle = 'Babak Ekspresi Bebas & Kenikmatan Berkarya';
+    } else if (stemGodId == 'hurting_officer') {
+      chapterTitle = 'Babak Pembuktian Diri & Terobosan Konvensi';
+    } else if (stemGodId.contains('killings')) {
+      chapterTitle = 'Babak Ujian Keberanian & Terobosan Berisiko';
+    } else if (stemGodId.contains('friend') || stemGodId.contains('rob')) {
+      chapterTitle = 'Babak Pengerasan Karakter & Kemandirian Jiwa';
+    }
+
+    return {
+      'stemGodId': stemGodId,
+      'stemGodHanzi': stemGodInfo.$1,
+      'stemGodName': stemGodInfo.$2,
+      'stemGodDesc': stemGodInfo.$3,
+      'isStemYongShen': isStemYongShen,
+      'isStemJiShen': isStemJiShen,
+      'branchElem': branchElem,
+      'isBranchYongShen': isBranchYongShen,
+      'isBranchJiShen': isBranchJiShen,
+      'natalNotes': natalNotes,
+      'chapterTitle': chapterTitle,
+    };
+  }
+
+  // --- Phase 2: Tap-to-Generate AI Reading ---
+  Future<void> _generateAiReading(
+    LuckPillar lp,
+    StateSetter setModalState,
+  ) async {
+    final ageKey = lp.startAge;
+    if (_loadingAi.contains(ageKey)) return;
+
+    setModalState(() {
+      _loadingAi.add(ageKey);
+    });
+
+    // Simulate/Fetch deep reading with brief latency for seamless UI feel
+    await Future.delayed(const Duration(milliseconds: 900));
+
+    final chart = widget.chart;
+    final String dm = chart?.dayMasterElement.toUpperCase() ?? 'Day Master';
+    final insight = _synthesizePillarInsight(lp, _currentAge());
+
+    final String generatedText =
+        'Suhu Wang Mencermati: Sebagai pemilik Day Master $dm, babak usia ${lp.startAge}–${lp.endAge} ini menuntut Anda untuk memanfaatkan energi ${lp.pillar.stemNameId} (${insight['stemGodName']}) di paruh pertama untuk menyerap keahlian kunci. Di paruh kedua (${lp.startAge + 5}–${lp.endAge}), pengaruh ${lp.pillar.branchZodiacId} menguji daya tahan internal Anda. ' +
+        (insight['natalNotes'].isNotEmpty
+            ? 'Perhatikan interaksi kosmis: ${(insight['natalNotes'] as List).join(', ')}. '
+            : '') +
+        'Gunakan energi ini untuk meluruskan prioritas batin dan menjaga keseimbangan emosi.';
+
+    if (mounted) {
+      setModalState(() {
+        _loadingAi.remove(ageKey);
+        _aiReadings[ageKey] = generatedText;
+      });
+      setState(() {});
+    }
   }
 
   @override
@@ -130,7 +325,7 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
           ),
           const SizedBox(height: 4),
           Text(
-            'Ketuk kartu pilar untuk melihat detail dinamika 10 tahun tersebut.',
+            'Ketuk kartu pilar untuk melihat analisis persona 10 tahun tersebut.',
             style: GoogleFonts.outfit(
               fontSize: 10,
               color: Colors.white38,
@@ -189,107 +384,460 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
   ) {
     final stemElem = lp.pillar.element;
     final elemColor = kBaziElementColors[stemElem] ?? AppTheme.accentGold;
+    final int age = _currentAge();
+    final insight = _synthesizePillarInsight(lp, age);
+
+    final bool isSubPhase1Active = isActive && (age <= lp.startAge + 4);
+    final bool isSubPhase2Active = isActive && (age >= lp.startAge + 5);
 
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       backgroundColor: AppTheme.cardBg,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      builder: (ctx) => Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: elemColor.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: elemColor.withValues(alpha: 0.4)),
-                  ),
-                  child: Text(
-                    'Usia ${lp.startAge}–${lp.endAge} Tahun',
-                    style: GoogleFonts.outfit(
-                      fontSize: 11,
-                      color: elemColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                if (isActive)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 3,
-                    ),
-                    decoration: BoxDecoration(
-                      color: widget.elementColor,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      'PERIODE AKTIF SAAT INI',
-                      style: GoogleFonts.outfit(
-                        fontSize: 9,
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w800,
+      builder: (ctx) => StatefulBuilder(
+        builder: (context, setModalState) {
+          final String? aiReading = _aiReadings[lp.startAge];
+          final bool isLoadingAi = _loadingAi.contains(lp.startAge);
+
+          return Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.85,
+            ),
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Handle indicator
+                  Center(
+                    child: Container(
+                      width: 36,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: Colors.white24,
+                        borderRadius: BorderRadius.circular(2),
                       ),
                     ),
                   ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              '${lp.pillar.stemSymbol} ${lp.pillar.branchSymbol} (${lp.pillar.stemNameId} ${lp.pillar.branchZodiacId})',
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+                  const SizedBox(height: 16),
+
+                  // Header Badges
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: elemColor.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: elemColor.withValues(alpha: 0.4),
+                          ),
+                        ),
+                        child: Text(
+                          'Usia ${lp.startAge}–${lp.endAge} Tahun',
+                          style: GoogleFonts.outfit(
+                            fontSize: 12,
+                            color: elemColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      if (isActive)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: widget.elementColor,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            'PERIODE AKTIF SAAT INI',
+                            style: GoogleFonts.outfit(
+                              fontSize: 9,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Title & Pillar Symbol
+                  Text(
+                    '${lp.pillar.stemSymbol} ${lp.pillar.branchSymbol} (${lp.pillar.stemNameId} ${lp.pillar.branchZodiacId})',
+                    style: GoogleFonts.playfairDisplay(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+
+                  // Chapter Title
+                  Text(
+                    insight['chapterTitle'] as String,
+                    style: GoogleFonts.outfit(
+                      fontSize: 13,
+                      color: AppTheme.accentGold,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Divider(color: Colors.white.withValues(alpha: 0.10)),
+                  const SizedBox(height: 12),
+
+                  // ── PARUH PERTAMA (5 Tahun Pertama: Stem) ────────────────
+                  _SubPhaseCard(
+                    title:
+                        '5 Tahun Pertama (Usia ${lp.startAge}–${lp.startAge + 4})',
+                    subtitle:
+                        'Batang Langit: ${lp.pillar.stemSymbol} ${lp.pillar.stemNameId}',
+                    godHanzi: insight['stemGodHanzi'] as String,
+                    godName: insight['stemGodName'] as String,
+                    description: insight['stemGodDesc'] as String,
+                    isYongShen: insight['isStemYongShen'] as bool,
+                    isJiShen: insight['isStemJiShen'] as bool,
+                    isCurrentSubPhase: isSubPhase1Active,
+                    accentColor: elemColor,
+                  ),
+                  const SizedBox(height: 14),
+
+                  // ── PARUH KEDUA (5 Tahun Kedua: Branch) ──────────────────
+                  _SubPhaseCard(
+                    title:
+                        '5 Tahun Kedua (Usia ${lp.startAge + 5}–${lp.endAge})',
+                    subtitle:
+                        'Cabang Bumi: ${lp.pillar.branchSymbol} ${lp.pillar.branchZodiacId} (${(insight['branchElem'] as String).toUpperCase()})',
+                    godHanzi: '地支',
+                    godName: 'Fondasi Batin & Stabilitas',
+                    description:
+                        'Fokus pada mengunci fondasi internal, kondisi emosional, stabilitas fisik, dan ketahanan dalam situasi riil.',
+                    isYongShen: insight['isBranchYongShen'] as bool,
+                    isJiShen: insight['isBranchJiShen'] as bool,
+                    natalNotes: insight['natalNotes'] as List<String>,
+                    isCurrentSubPhase: isSubPhase2Active,
+                    accentColor:
+                        kBaziElementColors[insight['branchElem']] ??
+                        AppTheme.accentPurple,
+                  ),
+                  const SizedBox(height: 20),
+
+                  // ── PHASE 2: Optional AI Deep-Dive ───────────────────────
+                  if (aiReading != null) ...[
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: AppTheme.accentPurple.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: AppTheme.accentPurple.withValues(alpha: 0.4),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Text('☯ ', style: TextStyle(fontSize: 14)),
+                              Text(
+                                'Sintesis Lanjutan Babak Ini',
+                                style: GoogleFonts.playfairDisplay(
+                                  fontSize: 12,
+                                  color: AppTheme.accentGold,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            aiReading,
+                            style: GoogleFonts.outfit(
+                              fontSize: 12,
+                              color: Colors.white90,
+                              height: 1.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ] else if (isLoadingAi) ...[
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: AppTheme.accentGold,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              'Menyusun sintesis babak...',
+                              style: GoogleFonts.outfit(
+                                fontSize: 12,
+                                color: AppTheme.accentGold,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ] else ...[
+                    OutlinedButton.icon(
+                      onPressed: () => _generateAiReading(lp, setModalState),
+                      icon: const Text('✨', style: TextStyle(fontSize: 14)),
+                      label: Text(
+                        'Lihat Sintesis Lengkap Babak Ini',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppTheme.accentGold,
+                        ),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 44),
+                        side: BorderSide(
+                          color: AppTheme.accentGold.withValues(alpha: 0.5),
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+
+                  // Close button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.cardBg,
+                        side: Border.all(color: Colors.white24),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text('Tutup'),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Elemen Utama: ${stemElem.toUpperCase()} • Zodiak: ${lp.pillar.branchZodiacId}',
-              style: GoogleFonts.outfit(
-                fontSize: 12,
-                color: elemColor,
-                fontWeight: FontWeight.w500,
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _SubPhaseCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String godHanzi;
+  final String godName;
+  final String description;
+  final bool isYongShen;
+  final bool isJiShen;
+  final List<String> natalNotes;
+  final bool isCurrentSubPhase;
+  final Color accentColor;
+
+  const _SubPhaseCard({
+    required this.title,
+    required this.subtitle,
+    required this.godHanzi,
+    required this.godName,
+    required this.description,
+    required this.isYongShen,
+    required this.isJiShen,
+    this.natalNotes = const [],
+    required this.isCurrentSubPhase,
+    required this.accentColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: isCurrentSubPhase
+            ? accentColor.withValues(alpha: 0.12)
+            : Colors.white.withValues(alpha: 0.03),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: isCurrentSubPhase
+              ? accentColor.withValues(alpha: 0.7)
+              : Colors.white.withValues(alpha: 0.08),
+          width: isCurrentSubPhase ? 1.5 : 1.0,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                title,
+                style: GoogleFonts.outfit(
+                  fontSize: 12,
+                  color: isCurrentSubPhase ? accentColor : Colors.white70,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 14),
-            Text(
-              'Dinamika Energi 10 Tahun:\n'
-              '• 5 Tahun Pertama (Usia ${lp.startAge}–${lp.startAge + 4}): didominasi energi Batang Langit (${lp.pillar.stemSymbol} ${lp.pillar.stemNameId}) yang memengaruhi pencapaian sosial, orientasi karier, dan cita-cita luar.\n'
-              '• 5 Tahun Kedua (Usia ${lp.startAge + 5}–${lp.endAge}): didominasi energi Cabang Bumi (${lp.pillar.branchSymbol} ${lp.pillar.branchZodiacId}) yang membentuk fondasi internal, kondisi emosional, dan stabilitas fisik.',
-              style: GoogleFonts.outfit(
-                fontSize: 13,
-                color: Colors.white70,
-                height: 1.6,
-              ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => Navigator.pop(ctx),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.accentPurple,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+              const Spacer(),
+              if (isCurrentSubPhase)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
+                  decoration: BoxDecoration(
+                    color: accentColor,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    'FASE AKTIF SEKARANG',
+                    style: GoogleFonts.outfit(
+                      fontSize: 8,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ),
-                child: const Text('Tutup'),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            subtitle,
+            style: GoogleFonts.outfit(fontSize: 11, color: Colors.white54),
+          ),
+          const SizedBox(height: 10),
+
+          // Badges: Yong Shen / Ji Shen / Natal Notes
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: accentColor.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(
+                    color: accentColor.withValues(alpha: 0.35),
+                  ),
+                ),
+                child: Text(
+                  '$godHanzi · $godName',
+                  style: GoogleFonts.outfit(
+                    fontSize: 10,
+                    color: accentColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
+              if (isYongShen)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.greenAccent.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: Colors.greenAccent.withValues(alpha: 0.4),
+                    ),
+                  ),
+                  child: Text(
+                    '✦ Yong Shen (Elemen Penyeimbang)',
+                    style: GoogleFonts.outfit(
+                      fontSize: 10,
+                      color: Colors.greenAccent.shade400,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              if (isJiShen)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: Colors.redAccent.withValues(alpha: 0.4),
+                    ),
+                  ),
+                  child: Text(
+                    '⚡ Ji Shen (Elemen Tekanan)',
+                    style: GoogleFonts.outfit(
+                      fontSize: 10,
+                      color: Colors.redAccent.shade200,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ...natalNotes.map(
+                (note) => Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppTheme.accentGold.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: AppTheme.accentGold.withValues(alpha: 0.35),
+                    ),
+                  ),
+                  child: Text(
+                    note,
+                    style: GoogleFonts.outfit(
+                      fontSize: 10,
+                      color: AppTheme.accentGold,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            description,
+            style: GoogleFonts.outfit(
+              fontSize: 12,
+              color: Colors.white90,
+              height: 1.4,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
