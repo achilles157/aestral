@@ -25,7 +25,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   late final Animation<Offset> _taglineSlide;
   late final Animation<double> _buttonsFade;
   late final Animation<Offset> _buttonsSlide;
-  late final Animation<double> _footerFade;
 
   @override
   void initState() {
@@ -79,12 +78,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
             curve: const Interval(0.35, 0.70, curve: Curves.easeOut),
           ),
         );
-
-    // Footer (70% – 100%)
-    _footerFade = CurvedAnimation(
-      parent: _animController,
-      curve: const Interval(0.70, 1.0, curve: Curves.easeOut),
-    );
 
     _animController.forward();
   }
