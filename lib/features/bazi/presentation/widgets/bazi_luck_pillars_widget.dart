@@ -583,7 +583,7 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
                             aiReading,
                             style: GoogleFonts.outfit(
                               fontSize: 12,
-                              color: Colors.white90,
+                              color: Colors.white.withValues(alpha: 0.9),
                               height: 1.5,
                             ),
                           ),
@@ -652,7 +652,7 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
                       onPressed: () => Navigator.pop(ctx),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.cardBg,
-                        side: Border.all(color: Colors.white24),
+                        side: const BorderSide(color: Colors.white24),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -850,7 +850,7 @@ class _SubPhaseCard extends StatelessWidget {
             description,
             style: GoogleFonts.outfit(
               fontSize: 12,
-              color: Colors.white90,
+              color: Colors.white.withValues(alpha: 0.9),
               height: 1.4,
             ),
           ),
