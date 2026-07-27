@@ -21,6 +21,9 @@ class HariBaikScorer {
     'karir_bisnis': {'is_bazi_yong_shen': 10},
     'pernikahan': {'is_bazi_harmony': 10},
     'kesehatan': {'is_wuku_rawan': -10, 'is_mangsa_rawan': -10},
+    'kontrak': {'is_bazi_harmony': 15, 'is_bazi_clash': -15},
+    'peluncuran': {'is_bazi_yong_shen': 15},
+    'negosiasi': {'is_bazi_harmony': 20, 'is_bazi_clash': -25},
     'umum': <String, int>{},
   };
 
@@ -132,6 +135,17 @@ class HariBaikScorer {
     }
     if (label == 'stabil' && r.isEmpty)
       r.add('Pancasuda $fase — Energi Stabil');
+    // Task-specific reasons
+    if (tujuan == 'kontrak' && (day['is_bazi_harmony'] as bool? ?? false)) {
+      r.add('Ideal untuk penandatanganan & komitmen');
+    }
+    if (tujuan == 'peluncuran' &&
+        (day['is_bazi_yong_shen'] as bool? ?? false)) {
+      r.add('Energi penyeimbang mendukung momentum baru');
+    }
+    if (tujuan == 'negosiasi' && (day['is_bazi_harmony'] as bool? ?? false)) {
+      r.add('Komunikasi & kesepakatan mengalir lancar');
+    }
     return r;
   }
 }

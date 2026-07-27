@@ -40,6 +40,9 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
     _TujuanOption('karir_bisnis', '\u{1F4BC}', 'Karir & Bisnis'),
     _TujuanOption('pernikahan', '\u2764', 'Pernikahan'),
     _TujuanOption('kesehatan', '\u{1F331}', 'Kesehatan'),
+    _TujuanOption('kontrak', '\u{1F4DD}', 'Kontrak / Deal'),
+    _TujuanOption('peluncuran', '\u{1F680}', 'Peluncuran'),
+    _TujuanOption('negosiasi', '\u{1F4AC}', 'Negosiasi'),
   ];
 
   @override
@@ -216,7 +219,7 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Hari Baik Finder',
+          'Pencari Hari & Waktu',
           style: GoogleFonts.cinzel(
             color: AppTheme.accentGold,
             fontSize: 17,
@@ -611,6 +614,62 @@ class _HariBaikCard extends StatelessWidget {
                         ),
                       );
                     }).toList(),
+                  ),
+                  const SizedBox(height: 12),
+                  // ── Jam Terbaik ───────────────────────────────────────
+                  Builder(
+                    builder: (_) {
+                      final timetable =
+                          result.dayData['timetable'] as Map<String, dynamic>?;
+                      final jamBaik =
+                          timetable?['jam_baik'] as List<dynamic>? ?? [];
+                      final best = jamBaik
+                          .cast<Map<String, dynamic>>()
+                          .where(
+                            (s) =>
+                                s['label'] == 'Saat Rezeki' ||
+                                s['label'] == 'Saat Gedhong',
+                          )
+                          .toList();
+                      if (best.isEmpty) return const SizedBox.shrink();
+                      final slot = best.first;
+                      final range = slot['range'] as String? ?? '';
+                      final label = slot['label'] as String? ?? '';
+                      final bazi =
+                          slot['bazi_shi_chen'] as Map<String, dynamic>?;
+                      final condition = bazi?['condition'] as String?;
+                      final isRezeki = label == 'Saat Rezeki';
+                      return Row(
+                        children: [
+                          Icon(
+                            Icons.schedule_rounded,
+                            size: 13,
+                            color: isRezeki
+                                ? AppTheme.accentGold
+                                : Colors.amber.shade300,
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            range,
+                            style: GoogleFonts.outfit(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            '· $label${condition != null && condition != 'Netral' ? ' · $condition' : ''}',
+                            style: GoogleFonts.outfit(
+                              fontSize: 11,
+                              color: isRezeki
+                                  ? AppTheme.accentGold.withValues(alpha: 0.85)
+                                  : Colors.white54,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                   const SizedBox(height: 12),
                   Row(
