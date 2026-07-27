@@ -5,6 +5,10 @@ import '../../../../core/widgets/glass_card.dart';
 import '../../../../core/utils/bazi_utils.dart';
 import '../../domain/bazi_chart.dart';
 import 'bazi_pillar_column.dart' show kBaziElementColors;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/services/api_service.dart';
+import '../../../../features/auth/services/auth_service.dart';
+import '../../../../core/providers/birth_profile_provider.dart';
 
 const Map<String, (String, String, String)> _kTenGodInfo = {
   'friend': (
@@ -61,7 +65,7 @@ const Map<String, (String, String, String)> _kTenGodInfo = {
 
 /// Displays the 8 Luck Pillars (大運) as a horizontal scrollable row of cards.
 /// The currently active pillar (based on [birthDate]) is highlighted & auto-scrolled into view.
-class BaziLuckPillarsWidget extends StatefulWidget {
+class BaziLuckPillarsWidget extends ConsumerStatefulWidget {
   final List<LuckPillar> pillars;
   final Color elementColor;
   final bool isForward;
@@ -78,10 +82,11 @@ class BaziLuckPillarsWidget extends StatefulWidget {
   });
 
   @override
-  State<BaziLuckPillarsWidget> createState() => _BaziLuckPillarsWidgetState();
+  ConsumerState<BaziLuckPillarsWidget> createState() =>
+      _BaziLuckPillarsWidgetState();
 }
 
-class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
+class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
   late final ScrollController _scrollCtrl;
 
   // Phase 2: Cache AI readings per pillar startAge
@@ -247,7 +252,7 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
     };
   }
 
-  // --- Phase 2: Tap-to-Generate AI Reading ---
+  // --- Phase 2: Real Gemini API via /api/bazi/insight ---
   Future<void> _generateAiReading(
     LuckPillar lp,
     StateSetter setModalState,
@@ -255,30 +260,68 @@ class _BaziLuckPillarsWidgetState extends State<BaziLuckPillarsWidget> {
     final ageKey = lp.startAge;
     if (_loadingAi.contains(ageKey)) return;
 
-    setModalState(() {
-      _loadingAi.add(ageKey);
-    });
+    setModalState(() => _loadingAi.add(ageKey));
 
-    // Simulate/Fetch deep reading with brief latency for seamless UI feel
-    await Future.delayed(const Duration(milliseconds: 900));
+    try {
+      final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
+      final profile = ref.read(birthProfileProvider).value;
+      final chart = widget.chart;
+      final age = _currentAge();
 
-    final chart = widget.chart;
-    final String dm = chart?.dayMasterElement.toUpperCase() ?? 'Day Master';
-    final insight = _synthesizePillarInsight(lp, _currentAge());
+      // Build focused prompt for this specific Da Yun pillar
+      final insight = _synthesizePillarInsight(lp, age);
+      final natalList = insight['natalNotes'] as List<String>;
+      final interaksi = natalList.isNotEmpty
+          ? 'Interaksi natal: ${natalList.join(', ')}. '
+          : '';
 
-    final String generatedText =
-        'Suhu Wang Mencermati: Sebagai pemilik Day Master $dm, babak usia ${lp.startAge}–${lp.endAge} ini menuntut Anda untuk memanfaatkan energi ${lp.pillar.stemNameId} (${insight['stemGodName']}) di paruh pertama untuk menyerap keahlian kunci. Di paruh kedua (${lp.startAge + 5}–${lp.endAge}), pengaruh ${lp.pillar.branchZodiacId} menguji daya tahan internal Anda. ' +
-        (insight['natalNotes'].isNotEmpty
-            ? 'Perhatikan interaksi kosmis: ${(insight['natalNotes'] as List).join(', ')}. '
-            : '') +
-        'Gunakan energi ini untuk meluruskan prioritas batin dan menjaga keseimbangan emosi.';
+      final prompt =
+          'Bacakan babak Da Yun usia ${lp.startAge}–${lp.endAge} saya secara mendalam. '
+          'Pilar Da Yun: ${lp.pillar.stemNameId} ${lp.pillar.branchZodiacId} '
+          '(${lp.pillar.stemSymbol}${lp.pillar.branchSymbol}). '
+          '${interaksi}'
+          'Paruh pertama (${lp.startAge}–${lp.startAge + 4}): energi ${insight['stemGodName']}. '
+          'Paruh kedua (${lp.startAge + 5}–${lp.endAge}): energi ${insight['branchGodName']}. '
+          'Apa yang harus saya sadari, waspadai, dan manfaatkan di babak ini? '
+          'Berikan narasi personal, empatik, dan actionable dalam 3 paragraf.';
 
-    if (mounted) {
-      setModalState(() {
-        _loadingAi.remove(ageKey);
-        _aiReadings[ageKey] = generatedText;
-      });
-      setState(() {});
+      final dateStr =
+          '${widget.birthDate.year}-'
+          '${widget.birthDate.month.toString().padLeft(2, '0')}-'
+          '${widget.birthDate.day.toString().padLeft(2, '0')}';
+
+      final result = await ApiService.getBaziInsight(
+        birthDate: dateStr,
+        birthHour: chart?.adjustedHour,
+        latitude: profile?.latitude,
+        longitude: profile?.longitude,
+        isMale: profile?.gender == 'male',
+        currentAge: age,
+        prompt: prompt,
+        authHeader: authHeader,
+      );
+
+      final text = result['response'] as String? ?? '';
+      if (mounted) {
+        setModalState(() {
+          _loadingAi.remove(ageKey);
+          _aiReadings[ageKey] = text.isNotEmpty
+              ? text
+              : 'Sintesis tidak tersedia saat ini.';
+        });
+        setState(() {});
+      }
+    } catch (e) {
+      debugPrint('BaziLuckPillarsWidget._generateAiReading error: $e');
+      final errMsg = e.toString().contains('RATE_LIMIT')
+          ? 'Oracle sedang istirahat. Coba lagi sebentar.'
+          : 'Gagal memuat sintesis. Coba lagi.';
+      if (mounted) {
+        setModalState(() {
+          _loadingAi.remove(ageKey);
+          _aiReadings[ageKey] = errMsg;
+        });
+      }
     }
   }
 
