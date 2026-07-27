@@ -518,11 +518,21 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                   ),
                                 ),
                                 error: (err, stack) => Center(
-                                  child: Text(
-                                    'Gagal memuat kamus weton: $err',
-                                    style: const TextStyle(
-                                      color: AppTheme.error,
-                                    ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(
+                                        Icons.cloud_off_rounded,
+                                        color: AppTheme.error,
+                                        size: 32,
+                                      ),
+                                      const SizedBox(height: 8),
+                                      const Text(
+                                        'Gagal memuat data weton.\nCoba restart aplikasi.',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: AppTheme.error),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),

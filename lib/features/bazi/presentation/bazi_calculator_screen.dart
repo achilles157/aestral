@@ -54,12 +54,18 @@ class _BaziCalculatorScreenState extends ConsumerState<BaziCalculatorScreen> {
   @override
   void initState() {
     super.initState();
-    _loadCitiesFromCsv();
-    _loadSavedProfile();
+    _loadCitiesAndProfile(); // Sequential: cities first, then profile match
+  }
+
+  /// Loads cities then profile sequentially to avoid race condition where
+  /// _loadSavedProfile matches city before _allCities is populated.
+  Future<void> _loadCitiesAndProfile() async {
+    await _loadCitiesFromCsv();
+    await _loadSavedProfile();
   }
 
   /// Loads all cities from CSV via shared [CityService].
-  void _loadCitiesFromCsv() async {
+  Future<void> _loadCitiesFromCsv() async {
     try {
       final cities = await CityService.loadCitiesFromCsv();
       if (mounted) setState(() => _allCities = cities);

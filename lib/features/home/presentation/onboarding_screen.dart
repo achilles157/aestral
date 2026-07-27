@@ -152,48 +152,56 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                         ),
                       ),
                       const SizedBox(height: 40),
-                      GestureDetector(
-                        onTap: _pickDate,
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 16,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.06),
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                              color: _selectedDate != null
-                                  ? AppTheme.accentGold.withValues(alpha: 0.50)
-                                  : Colors.white.withValues(alpha: 0.15),
+                      Semantics(
+                        button: true,
+                        label: _selectedDate == null
+                            ? 'Pilih tanggal lahir'
+                            : 'Tanggal lahir: ${_fmt.format(_selectedDate!)}',
+                        child: GestureDetector(
+                          onTap: _pickDate,
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 16,
                             ),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.calendar_today_rounded,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.06),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
                                 color: _selectedDate != null
-                                    ? AppTheme.accentGold
-                                    : Colors.white38,
-                                size: 20,
+                                    ? AppTheme.accentGold.withValues(
+                                        alpha: 0.50,
+                                      )
+                                    : Colors.white.withValues(alpha: 0.15),
                               ),
-                              const SizedBox(width: 14),
-                              Text(
-                                _selectedDate != null
-                                    ? _fmt.format(_selectedDate!)
-                                    : 'Pilih tanggal lahirmu...',
-                                style: GoogleFonts.outfit(
-                                  fontSize: 15,
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.calendar_today_rounded,
                                   color: _selectedDate != null
-                                      ? Colors.white
+                                      ? AppTheme.accentGold
                                       : Colors.white38,
-                                  fontWeight: _selectedDate != null
-                                      ? FontWeight.w600
-                                      : FontWeight.normal,
+                                  size: 20,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 14),
+                                Text(
+                                  _selectedDate != null
+                                      ? _fmt.format(_selectedDate!)
+                                      : 'Pilih tanggal lahirmu...',
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 15,
+                                    color: _selectedDate != null
+                                        ? Colors.white
+                                        : Colors.white38,
+                                    fontWeight: _selectedDate != null
+                                        ? FontWeight.w600
+                                        : FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
