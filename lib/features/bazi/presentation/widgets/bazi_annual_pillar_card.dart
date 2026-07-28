@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/glass_card.dart';
+import '../../../../core/services/api_service.dart';
+import '../../../../features/auth/services/auth_service.dart';
 import '../../domain/bazi_chart.dart';
 import 'bazi_pillar_column.dart' show kBaziElementColors;
 import 'bazi_seasonal_roadmap.dart';
@@ -272,6 +276,15 @@ class BaziAnnualPillarCard extends StatelessWidget {
           const Divider(color: Colors.white10, height: 1),
           const SizedBox(height: 14),
           BaziSeasonalRoadmap(natalChart: natalChart, year: now.year),
+          // ── AI Annual Insight ──────────────────────────────────────────
+          const SizedBox(height: 14),
+          const Divider(color: Colors.white10, height: 1),
+          const SizedBox(height: 14),
+          _AnnualAiInsightSection(
+            chart: natalChart,
+            annualPillar: annualPillar,
+            year: now.year,
+          ),
         ],
       ),
     );
@@ -299,4 +312,184 @@ class BaziAnnualPillarCard extends StatelessWidget {
       letterSpacing: 0.6,
     ),
   );
+}
+
+// ─── Annual AI Insight Section ─────────────────────────────────────────────
+
+class _AnnualAiInsightSection extends ConsumerStatefulWidget {
+  final BaziChart chart;
+  final BaziPillar annualPillar;
+  final int year;
+
+  const _AnnualAiInsightSection({
+    required this.chart,
+    required this.annualPillar,
+    required this.year,
+  });
+
+  @override
+  ConsumerState<_AnnualAiInsightSection> createState() =>
+      _AnnualAiInsightSectionState();
+}
+
+class _AnnualAiInsightSectionState
+    extends ConsumerState<_AnnualAiInsightSection> {
+  String? _insight;
+  bool _loading = false;
+
+  static String _cacheKey(int year, String dmId) =>
+      'annual_ai_insight_${year}_$dmId';
+
+  Future<void> _generate() async {
+    if (_loading) return;
+    setState(() => _loading = true);
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final key = _cacheKey(widget.year, widget.chart.dayMasterId);
+
+      // Check cache first (valid 1 year — annual pillar doesn't change)
+      final cached = prefs.getString(key);
+      if (cached != null) {
+        if (mounted)
+          setState(() {
+            _insight = cached;
+            _loading = false;
+          });
+        return;
+      }
+
+      final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
+
+      final prompt =
+          'Tulis 3–4 kalimat tentang arti tahun ${widget.year} '
+          '(${widget.annualPillar.stemNameId} ${widget.annualPillar.branchZodiacId}) '
+          'untuk pengguna dengan Day Master ${widget.chart.dayMasterElement} '
+          '(${widget.chart.dmStrength.label}). '
+          'Yong Shen: ${widget.chart.dmStrength.yongShen.join(", ")}. '
+          'Fokus: 1 peluang utama, 1 hal yang perlu diwaspadai, dan 1 rekomendasi aksi konkret. '
+          'Nada empatik, psikologi modern, bukan ramalan buta.';
+
+      final result = await ApiService.generateAiChat(
+        prompt: prompt,
+        authHeader: authHeader,
+      );
+      final text = result['response'] as String? ?? '';
+      if (text.isNotEmpty) {
+        await prefs.setString(key, text);
+        if (mounted) setState(() => _insight = text);
+      }
+    } catch (e) {
+      debugPrint('_AnnualAiInsightSection error: $e');
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_insight != null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                '☯ Makna Tahun Ini untukmu',
+                style: GoogleFonts.cinzel(
+                  fontSize: 11,
+                  color: AppTheme.accentGold,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.8,
+                ),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.remove(
+                    _cacheKey(widget.year, widget.chart.dayMasterId),
+                  );
+                  if (mounted) setState(() => _insight = null);
+                },
+                child: Text(
+                  '↻',
+                  style: GoogleFonts.outfit(
+                    fontSize: 12,
+                    color: Colors.white24,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _insight!,
+            style: GoogleFonts.outfit(
+              fontSize: 12,
+              color: Colors.white.withValues(alpha: 0.85),
+              height: 1.55,
+            ),
+          ),
+        ],
+      );
+    }
+
+    return Center(
+      child: _loading
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  width: 14,
+                  height: 14,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1.5,
+                    color: AppTheme.accentGold,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Menyusun makna tahun ini...',
+                  style: GoogleFonts.outfit(
+                    fontSize: 11,
+                    color: AppTheme.accentGold,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
+            )
+          : GestureDetector(
+              onTap: _generate,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: AppTheme.accentGold.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: AppTheme.accentGold.withValues(alpha: 0.35),
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text('✨', style: TextStyle(fontSize: 13)),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Apa arti tahun ${widget.year} untukku?',
+                      style: GoogleFonts.outfit(
+                        fontSize: 12,
+                        color: AppTheme.accentGold,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+    );
+  }
 }
