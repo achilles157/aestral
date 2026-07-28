@@ -271,14 +271,15 @@ class BaziSeasonalRoadmap extends StatelessWidget {
   }
 
   bool _isSeasonPast(_Season season, DateTime now) {
-    if (!season.months.contains(now.month)) {
-      // Season is past if all its months are < current month
-      // (handle year wrap for Air season)
-      return season.months.every(
-        (m) => m < now.month && !(season.element == 'air' && m <= 2),
-      );
+    final month = now.month;
+    // Air season (Nov–Feb) crosses year boundary — special handling
+    if (season.element == 'air') {
+      // Past if current month is Mar–Oct (Air season already ended)
+      return month >= 3 && month <= 10;
     }
-    return false;
+    // Other seasons: all months must be before current month
+    if (season.months.contains(month)) return false;
+    return season.months.every((m) => m < month);
   }
 }
 

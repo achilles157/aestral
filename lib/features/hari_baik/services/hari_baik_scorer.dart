@@ -65,6 +65,9 @@ class HariBaikScorer {
     if (mod['is_bazi_harmony'] != null && isBaziHarmony) {
       s += mod['is_bazi_harmony']!;
     }
+    if (mod['is_bazi_clash'] != null && isBaziClash) {
+      s += mod['is_bazi_clash']!;
+    }
     if (mod['is_wuku_rawan'] != null && isWukuRawan) {
       s += mod['is_wuku_rawan']!;
     }
