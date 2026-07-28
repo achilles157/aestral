@@ -92,6 +92,8 @@ class BaziTenGodsWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
+          _ArchetypeCard(chart: chart, elementColor: elementColor),
+          const SizedBox(height: 12),
           Row(
             children: columns.map((col) {
               // Self (day pillar) or unknown hour — no tap
@@ -463,6 +465,178 @@ class _GodDetailSheet extends StatelessWidget {
                   .toList(),
             ),
           ],
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Archetype Card ───────────────────────────────────────────────────────────
+
+/// Maps Ten God id → archetype group id.
+const Map<String, String> _kGodToGroup = {
+  'direct_wealth': 'wealth',
+  'indirect_wealth': 'wealth',
+  'direct_officer': 'authority',
+  'seven_killings': 'authority',
+  'direct_resource': 'resource',
+  'indirect_resource': 'resource',
+  'eating_god': 'expression',
+  'hurting_officer': 'expression',
+  'friend': 'companion',
+  'rob_wealth': 'companion',
+};
+
+const Map<String, (String, String, String)> _kArchetypes = {
+  'wealth': (
+    '👑 Pembangun Terstruktur',
+    'Membangun kekayaan & stabilitas secara metodis, disiplin, dan konsisten.',
+    'direct_wealth',
+  ),
+  'authority': (
+    '⚡ Pemimpin Berwibawa',
+    'Disiplin, reputasi, dan pengaruh dalam struktur — lahir untuk memimpin.',
+    'direct_officer',
+  ),
+  'resource': (
+    '📚 Pemikir Strategis',
+    'Keahlian mendalam, intuisi tajam, dan fondasi intelektual yang kuat.',
+    'direct_resource',
+  ),
+  'expression': (
+    '🎨 Kreator Bebas',
+    'Ekspresi otentik, terobosan kreatif, dan kebebasan berkarya tanpa batas.',
+    'eating_god',
+  ),
+  'companion': (
+    '🔥 Pendobrak Mandiri',
+    'Kemandirian jiwa, daya kompetitif tinggi, dan karakter yang tidak mudah goyah.',
+    'friend',
+  ),
+};
+
+/// Computes dominant archetype from [chart]'s Ten God distribution.
+/// Returns (groupId, godIds used for display).
+({String groupId, List<String> dominantGods}) _computeArchetype(
+  BaziChart chart,
+) {
+  final dmIdx = chart.dayPillar.stemIndex;
+  final pillars = [
+    chart.yearPillar,
+    chart.monthPillar,
+    if (chart.hourPillar != null) chart.hourPillar!,
+  ];
+
+  // Count per group
+  final counts = <String, int>{};
+  final godsByGroup = <String, List<String>>{};
+
+  for (final p in pillars) {
+    final godId = BaziUtils.getTenGodId(dmIdx, p.stemIndex);
+    final group = _kGodToGroup[godId] ?? 'companion';
+    counts[group] = (counts[group] ?? 0) + 1;
+    godsByGroup.putIfAbsent(group, () => []);
+    if (!godsByGroup[group]!.contains(godId)) {
+      godsByGroup[group]!.add(godId);
+    }
+  }
+
+  // Find dominant group
+  String topGroup = 'resource';
+  int topCount = 0;
+  counts.forEach((g, c) {
+    if (c > topCount) {
+      topCount = c;
+      topGroup = g;
+    }
+  });
+
+  return (groupId: topGroup, dominantGods: godsByGroup[topGroup] ?? []);
+}
+
+class _ArchetypeCard extends StatelessWidget {
+  final BaziChart chart;
+  final Color elementColor;
+
+  const _ArchetypeCard({required this.chart, required this.elementColor});
+
+  @override
+  Widget build(BuildContext context) {
+    final result = _computeArchetype(chart);
+    final archetype = _kArchetypes[result.groupId];
+    if (archetype == null) return const SizedBox.shrink();
+
+    final label = archetype.$1;
+    final desc = archetype.$2;
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: elementColor.withValues(alpha: 0.07),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: elementColor.withValues(alpha: 0.25)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                'Arketipe Utama',
+                style: GoogleFonts.outfit(
+                  fontSize: 10,
+                  color: Colors.white38,
+                  letterSpacing: 0.5,
+                ),
+              ),
+              const Spacer(),
+              // Dominant god pills
+              ...result.dominantGods.take(2).map((gId) {
+                final names = _kTenGodNames[gId];
+                if (names == null) return const SizedBox.shrink();
+                return Container(
+                  margin: const EdgeInsets.only(left: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 7,
+                    vertical: 2,
+                  ),
+                  decoration: BoxDecoration(
+                    color: elementColor.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: elementColor.withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Text(
+                    '${names.$1} ${names.$2}',
+                    style: GoogleFonts.outfit(
+                      fontSize: 9,
+                      color: elementColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                );
+              }),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            style: GoogleFonts.playfairDisplay(
+              fontSize: 15,
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            desc,
+            style: GoogleFonts.outfit(
+              fontSize: 11,
+              color: Colors.white54,
+              height: 1.4,
+            ),
+          ),
         ],
       ),
     );
