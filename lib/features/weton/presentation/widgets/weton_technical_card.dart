@@ -77,7 +77,7 @@ class WetonTechnicalCard extends StatelessWidget {
           ),
           const SizedBox(height: 4),
 
-          // ── Detail teknis tersembunyi ───────────────────────────────────
+          // ── Detail teknis tersembunyi — hanya Kalender Asapon ──────────
           Theme(
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
             child: ExpansionTile(
@@ -100,19 +100,22 @@ class WetonTechnicalCard extends StatelessWidget {
                       '${result.javaneseDay} ${result.javaneseMonth} ${result.javaneseYear} (${result.javaneseYearName})',
                 ),
                 const SizedBox(height: 12),
-                _DetailRow(
-                  label: 'Neptu Saptawara',
-                  value: '${result.saptawara} (${result.neptuSaptawara})',
-                ),
-                const SizedBox(height: 12),
-                _DetailRow(
-                  label: 'Neptu Pancawara',
-                  value: '${result.pancawara} (${result.neptuPancawara})',
-                ),
-                const SizedBox(height: 12),
               ],
             ),
           ),
+          const SizedBox(height: 8),
+
+          // ── Neptu selalu terlihat ───────────────────────────────────────
+          _DetailRow(
+            label: 'Neptu Saptawara',
+            value: '${result.saptawara} (${result.neptuSaptawara})',
+          ),
+          const SizedBox(height: 12),
+          _DetailRow(
+            label: 'Neptu Pancawara',
+            value: '${result.pancawara} (${result.neptuPancawara})',
+          ),
+          const SizedBox(height: 12),
 
           const Divider(color: Color(0xFF2E2452), height: 32, thickness: 1.5),
 
