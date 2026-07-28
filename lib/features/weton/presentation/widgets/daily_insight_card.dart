@@ -37,7 +37,7 @@ class DailyInsightCard extends ConsumerWidget {
           ? lookupPlannerLabel(list, plannerLabelId)
           : null,
       loading: () => null,
-      error: (_, __) => null,
+      error: (_, _) => null,
     );
 
     // Activities: use planner rekomendasi (5-6 items) if available,
@@ -250,108 +250,107 @@ class DailyInsightCard extends ConsumerWidget {
                   thickness: 1.5,
                 ),
 
-                // Wuku Influence
-                Row(
-                  children: [
-                    const Icon(
+                // Wuku Influence — collapsed by default
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    dividerColor: Colors.transparent,
+                  ),
+                  child: ExpansionTile(
+                    tilePadding: EdgeInsets.zero,
+                    childrenPadding: EdgeInsets.zero,
+                    leading: const Icon(
                       Icons.auto_awesome,
                       color: AppTheme.accentPurple,
-                      size: 20,
+                      size: 18,
                     ),
-                    const SizedBox(width: 8),
-                    Text(
-                      'PENGARUH WUKU MINGGUAN',
+                    title: Text(
+                      '✦ Pengaruh Wuku $namaWuku — $arketipe',
                       style: textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        letterSpacing: 1.2,
                         color: AppTheme.accentPurple,
                         fontSize: 12,
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  'Wuku $namaWuku — $arketipe',
-                  style: textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.textLight,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Dinaungi oleh $dewa',
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontStyle: FontStyle.italic,
-                    color: AppTheme.textMuted,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  karakter,
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.textLight.withValues(alpha: 0.85),
-                    height: 1.5,
-                  ),
-                ),
-                if (wuku['pantangan_wuku'] != null &&
-                    wuku['pantangan_wuku'].toString().isNotEmpty) ...[
-                  const SizedBox(height: 12),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    iconColor: AppTheme.accentPurple.withValues(alpha: 0.6),
+                    collapsedIconColor:
+                        AppTheme.accentPurple.withValues(alpha: 0.4),
                     children: [
-                      const Icon(
-                        Icons.info_outline,
-                        color: Color(0xFFF87171),
-                        size: 16,
+                      const SizedBox(height: 8),
+                      Text(
+                        'Dinaungi oleh $dewa',
+                        style: textTheme.bodyMedium?.copyWith(
+                          fontStyle: FontStyle.italic,
+                          color: AppTheme.textMuted,
+                        ),
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          'Pantangan: ${wuku['pantangan_wuku']}',
-                          style: textTheme.bodyMedium?.copyWith(
-                            color: const Color(0xFFF87171),
-                            fontWeight: FontWeight.bold,
-                            height: 1.4,
+                      const SizedBox(height: 8),
+                      Text(
+                        karakter,
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: AppTheme.textLight.withValues(alpha: 0.85),
+                          height: 1.5,
+                        ),
+                      ),
+                      if (wuku['pantangan_wuku'] != null &&
+                          wuku['pantangan_wuku'].toString().isNotEmpty) ...[
+                        const SizedBox(height: 12),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(
+                              Icons.info_outline,
+                              color: Color(0xFFF87171),
+                              size: 16,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                'Pantangan: ${wuku['pantangan_wuku']}',
+                                style: textTheme.bodyMedium?.copyWith(
+                                  color: const Color(0xFFF87171),
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.4,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                      const SizedBox(height: 16),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppTheme.accentPurple.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: AppTheme.accentPurple.withValues(alpha: 0.3),
+                            width: 1,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-                const SizedBox(height: 16),
-
-                // Pesan Kesadaran Box
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: AppTheme.accentPurple.withValues(alpha: 0.08),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: AppTheme.accentPurple.withValues(alpha: 0.3),
-                      width: 1,
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Pesan Kesadaran:',
-                        style: textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.accentPurple,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Pesan Kesadaran:',
+                              style: textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.accentPurple,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              pesan,
+                              style: textTheme.bodyMedium?.copyWith(
+                                color: AppTheme.textLight.withValues(alpha: 0.9),
+                                fontStyle: FontStyle.italic,
+                                height: 1.4,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        pesan,
-                        style: textTheme.bodyMedium?.copyWith(
-                          color: AppTheme.textLight.withValues(alpha: 0.9),
-                          fontStyle: FontStyle.italic,
-                          height: 1.4,
-                        ),
-                      ),
+                      const SizedBox(height: 8),
                     ],
                   ),
                 ),

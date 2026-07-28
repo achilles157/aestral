@@ -3,6 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 
+const _kElementNarrative = {
+  'geni':
+      'Geni (Api) yang dominan dalam wetonmu menandakan jiwa yang penuh semangat dan daya dorong besar. '
+      'Kamu cenderung bergerak lebih dulu dari orang lain — inisiatif adalah bahasa alaminya. '
+      'Yang perlu dijaga: api yang terlalu besar bisa membakar diri sendiri. Ritme dan istirahat adalah kekuatan tersembunyi yang sering kamu abaikan.',
+  'banyu':
+      'Banyu (Air) yang dominan menandakan kedalaman perasaan dan kemampuan adaptasi yang luar biasa. '
+      'Kamu bisa masuk ke hampir semua situasi dan menemukan caramu sendiri untuk mengalir. '
+      'Yang perlu dijaga: air yang mengalir tanpa arah bisa kehilangan kekuatannya. Keberanian untuk membuat keputusan tegas adalah yang paling perlu diasah.',
+  'lemah':
+      'Lemah (Tanah) yang dominan menandakan fondasi yang kuat dan keandalan yang orang lain rasakan bahkan sebelum kamu berbicara. '
+      'Kamu adalah tempat orang berlabuh — stabil, sabar, dan tahan banting. '
+      'Yang perlu dijaga: tanah yang terlalu padat bisa menyulitkan pertumbuhan baru. Sesekali izinkan dirimu bereksperimen keluar dari jalur yang sudah terbukti.',
+  'angin':
+      'Angin (Udara) yang dominan menandakan pikiran yang lincah dan kemampuan menghubungkan hal-hal yang tampak tidak berkaitan. '
+      'Kamu bergerak dalam ide dan koneksi sosial dengan sangat natural — inspirasi mengalir deras. '
+      'Yang perlu dijaga: angin yang bergerak terlalu cepat kadang melewatkan kedalaman. Melatih konsistensi jangka panjang akan melipatgandakan dampak dari semua ide besarmu.',
+};
+
 class WetonElementMandala extends StatefulWidget {
   final String saptawara;
   final String pancawara;
@@ -162,6 +181,53 @@ class _WetonElementMandalaState extends State<WetonElementMandala>
               AppTheme.elementCosmic,
             ),
           ],
+        ),
+        const SizedBox(height: 4),
+        // ── "So what" narrative per elemen dominan ────────────────────────
+        Builder(
+          builder: (ctx) {
+            final dominant = values.entries
+                .reduce((a, b) => a.value > b.value ? a : b)
+                .key;
+            final narrative = _kElementNarrative[dominant];
+            if (narrative == null) return const SizedBox.shrink();
+            final color = switch (dominant) {
+              'geni' => AppTheme.elementFire,
+              'banyu' => AppTheme.elementWater,
+              'lemah' => AppTheme.elementEarth,
+              _ => AppTheme.elementCosmic,
+            };
+            return Theme(
+              data: Theme.of(ctx).copyWith(dividerColor: Colors.transparent),
+              child: ExpansionTile(
+                tilePadding: EdgeInsets.zero,
+                childrenPadding: EdgeInsets.zero,
+                title: Text(
+                  '✦ Apa artinya elemen dominanmu?',
+                  style: GoogleFonts.outfit(
+                    fontSize: 11,
+                    color: color.withValues(alpha: 0.85),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                iconColor: color.withValues(alpha: 0.6),
+                collapsedIconColor: color.withValues(alpha: 0.4),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4, bottom: 8),
+                    child: Text(
+                      narrative,
+                      style: GoogleFonts.outfit(
+                        fontSize: 12,
+                        color: Colors.white.withValues(alpha: 0.80),
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ],
     );

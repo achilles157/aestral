@@ -399,6 +399,7 @@ class _FourPillarsAiSection extends ConsumerStatefulWidget {
 class _FourPillarsAiSectionState extends ConsumerState<_FourPillarsAiSection> {
   String? _insight;
   bool _loading = false;
+  String? _error;
 
   static String _cacheKey(BaziChart c) {
     final h = c.hourPillar;
@@ -412,28 +413,25 @@ class _FourPillarsAiSectionState extends ConsumerState<_FourPillarsAiSection> {
   String _buildPrompt() {
     final c = widget.chart;
     final h = c.hourPillar;
-    final pillars = [
-      'Pilar Tahun (Sosial & Leluhur): ${c.yearPillar.stemNameId} ${c.yearPillar.branchZodiacId}',
-      'Pilar Bulan (Karier & Ambisi): ${c.monthPillar.stemNameId} ${c.monthPillar.branchZodiacId}',
-      'Pilar Hari/Day Master (Diri & Pasangan): ${c.dayPillar.stemNameId} ${c.dayPillar.branchZodiacId}',
-      if (h != null)
-        'Pilar Jam (Pikiran Batin & Warisan): ${h.stemNameId} ${h.branchZodiacId}',
-    ].join('; ');
+    final p = [
+      'Tahun: ${c.yearPillar.stemNameId} ${c.yearPillar.branchZodiacId}',
+      'Bulan: ${c.monthPillar.stemNameId} ${c.monthPillar.branchZodiacId}',
+      'Hari: ${c.dayPillar.stemNameId} ${c.dayPillar.branchZodiacId}',
+      if (h != null) 'Jam: ${h.stemNameId} ${h.branchZodiacId}',
+    ].join(', ');
 
-    return 'Chart Ba Zi: $pillars. '
+    return 'Ba Zi 4 Pilar: $p. '
         'Day Master: ${c.dayMasterElement} (${c.dmStrength.label}). '
         'Yong Shen: ${c.dmStrength.yongShen.join(", ")}. '
-        'Tulis 4–5 kalimat narasi "grand story" yang menghubungkan keempat pilar '
-        'menjadi satu blueprint kosmis yang utuh — bagaimana interaksi antar pilar '
-        'membentuk pola hidup, kekuatan tersembunyi, dan tantangan utama orang ini. '
-        'Jangan merangkum per pilar — temukan tema besar yang hanya terlihat '
-        'saat keempatnya dilihat bersama. '
-        'Nada: empatik, psikologi modern, terasa seperti cermin yang sangat jujur.';
+        'Tulis 4 kalimat grand story: temukan tema besar yang '
+        'menghubungkan keempat pilar — pola hidup, kekuatan tersembunyi, '
+        'tantangan utama. Jangan rangkum per pilar. '
+        'Nada empatik, psikologi modern.';
   }
 
   Future<void> _generate() async {
     if (_loading) return;
-    setState(() => _loading = true);
+    setState(() { _loading = true; _error = null; });
     try {
       final prefs = await SharedPreferences.getInstance();
       final key = _cacheKey(widget.chart);
@@ -452,9 +450,12 @@ class _FourPillarsAiSectionState extends ConsumerState<_FourPillarsAiSection> {
       if (text.isNotEmpty) {
         await prefs.setString(key, text);
         if (mounted) setState(() => _insight = text);
+      } else {
+        if (mounted) setState(() => _error = 'Tidak ada respons. Coba lagi.');
       }
     } catch (e) {
       debugPrint('_FourPillarsAiSection error: $e');
+      if (mounted) setState(() => _error = 'Gagal memuat — coba lagi.');
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -527,6 +528,28 @@ class _FourPillarsAiSectionState extends ConsumerState<_FourPillarsAiSection> {
                   ),
                 ),
               ],
+            )
+          : _error != null
+          ? GestureDetector(
+              onTap: _generate,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.refresh_rounded,
+                    size: 14,
+                    color: Color(0xFFF87171),
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    _error!,
+                    style: GoogleFonts.outfit(
+                      fontSize: 12,
+                      color: const Color(0xFFF87171),
+                    ),
+                  ),
+                ],
+              ),
             )
           : GestureDetector(
               onTap: _generate,
