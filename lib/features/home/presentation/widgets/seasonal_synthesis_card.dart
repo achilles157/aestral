@@ -110,11 +110,18 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
     final isKosmis = await DailySynthesisService.isLastDrawKosmis();
     if (mounted) setState(() => _isKosmisMode = isKosmis);
 
+    // Compute wetonId from birth profile (personalises cache per user)
+    final birthWeton =
+        profile!.weton ?? WetonUtils.calculateWeton(profile.dobDate!);
+    final wetonId =
+        '${birthWeton.saptawara.toLowerCase()}_${birthWeton.pancawara.toLowerCase()}';
+
     // Try cache
     final cached = await DailySynthesisService.getToday(
       mangsaId,
       now.year,
       withTarot: isKosmis,
+      wetonId: wetonId,
     );
     if (cached != null && mounted) {
       setState(() => _synthesis = cached);
@@ -124,7 +131,7 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
     // Generate fresh
     if (mounted) setState(() => _loading = true);
     try {
-      await _generate(profile!, mangsaId, isKosmis);
+      await _generate(profile, mangsaId, isKosmis, wetonId);
     } catch (e) {
       debugPrint('SeasonalSynthesisCard._load error: $e');
       if (mounted) setState(() => _error = true);
@@ -137,6 +144,7 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
     BirthProfile profile,
     int mangsaId,
     bool isKosmis,
+    String wetonId,
   ) async {
     final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
     final baziChart = ref.read(baziChartProvider).value;
@@ -205,6 +213,16 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
                   : 'Netral'}.'
         : '';
 
+    // Weton lahir + wuku berjalan (personalises synthesis per user)
+    final birthWeton =
+        profile.weton ?? WetonUtils.calculateWeton(profile.dobDate!);
+    final todayWeton = WetonUtils.calculateWeton(now);
+    final wetonLine =
+        'Weton lahir: ${birthWeton.saptawara} ${birthWeton.pancawara} '
+        '(neptu ${birthWeton.totalNeptu}). '
+        'Wuku berjalan: ${todayWeton.wuku}. '
+        'Karakter weton lahir: ${birthWeton.characterSummary.isNotEmpty ? birthWeton.characterSummary : 'unik dan personal'}.';
+
     final prompt =
         'Tulis sintesis kosmis musiman dalam 4–5 kalimat Bahasa Indonesia.\n\n'
         '## Babak Besar: $seasonLabel\n'
@@ -215,12 +233,17 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
         'Candra: ${mangsa.candraMangsa}\n'
         'Arketipe: ${mangsa.arketipeModern}\n'
         'Karakter Energi: ${mangsa.karakterEnergi}\n\n'
+        '## Weton Kelahiran User\n'
+        '$wetonLine\n'
+        'Bagaimana kondisi Pranata Mangsa ${mangsa.namaMangsa} berinteraksi '
+        'secara spesifik dengan seseorang yang lahir pada '
+        '${birthWeton.saptawara} ${birthWeton.pancawara}?\n\n'
         '${tarotLine.isNotEmpty ? '## Tarot Kosmis\n$tarotLine\n\n' : ''}'
-        'Tenun ketiga sistem (Ba Zi musim + Pranata Mangsa'
+        'Tenun keempat sistem (Ba Zi musim + Pranata Mangsa + Weton lahir'
         '${tarotLine.isNotEmpty ? ' + Tarot Kosmis' : ''}) '
-        'menjadi 1 narasi kohesif yang personal, konkret, dan memberdayakan. '
-        'Berikan gambaran kondisi makro musim ini dan apa yang perlu '
-        'difokuskan user. Bukan ramalan buta — gaya psikologi modern.';
+        'menjadi 1 narasi yang genuinely personal — sebut weton dan pranata '
+        'secara eksplisit, konkret, memberdayakan. '
+        'Bukan ramalan buta — gaya psikologi modern.';
 
     final result = await ApiService.generateAiChat(
       prompt: prompt,
@@ -234,6 +257,7 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
       now.year,
       text,
       withTarot: isKosmis,
+      wetonId: wetonId,
     );
     if (mounted) setState(() => _synthesis = text);
   }
@@ -241,7 +265,18 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
   Future<void> _refresh() async {
     final now = DateTime.now();
     final mangsaId = WetonUtils.calculatePranataMangsaId(now);
-    await DailySynthesisService.invalidate(mangsaId, now.year);
+    final profile = ref.read(birthProfileProvider).value;
+    final birthWeton = profile?.dobDate != null
+        ? (profile!.weton ?? WetonUtils.calculateWeton(profile.dobDate!))
+        : null;
+    final wetonId = birthWeton != null
+        ? '${birthWeton.saptawara.toLowerCase()}_${birthWeton.pancawara.toLowerCase()}'
+        : 'unknown';
+    await DailySynthesisService.invalidate(
+      mangsaId,
+      now.year,
+      wetonId: wetonId,
+    );
     if (mounted) {
       setState(() {
         _synthesis = null;
