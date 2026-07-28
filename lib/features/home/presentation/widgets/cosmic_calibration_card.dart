@@ -13,8 +13,8 @@ String _predictToday(DateTime birthDate) {
   final birthWeton = WetonUtils.calculateWeton(birthDate);
   final todayWeton = WetonUtils.calculateWeton(today);
   final sisaBagi = (birthWeton.totalNeptu + todayWeton.totalNeptu) % 5;
-  if (sisaBagi == 3 || sisaBagi == 2) return 'yong';
-  if (sisaBagi == 4 || sisaBagi == 0) return 'ji';
+  if (sisaBagi == 3) return 'yong'; // Gedhong — hari ekspansi
+  if (sisaBagi == 4 || sisaBagi == 0) return 'ji'; // Loro + Pati — hari berat
   return 'netral';
 }
 

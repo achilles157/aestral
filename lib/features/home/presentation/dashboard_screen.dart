@@ -533,6 +533,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 onEditTap: () =>
                     showEditProfileDialog(context, ref, _allCities),
               ),
+              if (hasProfile) ...[
+                const SizedBox(height: 12),
+                CosmicCalibrationCard(
+                  birthDate: ref.watch(birthProfileProvider).value!.dobDate!,
+                ),
+              ],
               if (session == null || session.isMock) ...[
                 const SizedBox(height: 12),
                 const DashboardGuestUpsellCard(),
