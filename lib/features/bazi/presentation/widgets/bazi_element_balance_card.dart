@@ -172,7 +172,7 @@ class BaziElementBalanceCard extends StatelessWidget {
           // ── Wu Xing Narrative ExpansionTile ─────────────────────────────
           const SizedBox(height: 8),
           Builder(
-            builder: (_) {
+            builder: (ctx) {
               final narrative = _wuXingNarrative(
                 balance.dominant,
                 balance.deficient,
@@ -181,7 +181,7 @@ class BaziElementBalanceCard extends StatelessWidget {
               final color =
                   kBaziElementColors[balance.dominant] ?? AppTheme.accentGold;
               return Theme(
-                data: Theme.of(_).copyWith(dividerColor: Colors.transparent),
+                data: Theme.of(ctx).copyWith(dividerColor: Colors.transparent),
                 child: ExpansionTile(
                   tilePadding: EdgeInsets.zero,
                   childrenPadding: EdgeInsets.zero,

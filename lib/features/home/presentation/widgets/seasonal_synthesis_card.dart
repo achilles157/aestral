@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/weton_utils.dart';
 import '../../../../core/utils/bazi_utils.dart';
@@ -16,7 +15,6 @@ import '../../../bazi/providers/bazi_chart_provider.dart';
 import '../../../bazi/domain/bazi_chart.dart';
 import '../../../tarot/services/tarot_data.dart';
 import '../../../weton/data/pranata_mangsa_repository.dart';
-import '../../../weton/domain/pranata_mangsa.dart';
 
 class SeasonalSynthesisCard extends ConsumerStatefulWidget {
   const SeasonalSynthesisCard({super.key});
