@@ -184,6 +184,8 @@ class _WetonElementMandalaState extends State<WetonElementMandala>
         ),
         const SizedBox(height: 4),
         // ── "So what" narrative per elemen dominan ────────────────────────
+        // Rendered inline (bukan ExpansionTile) karena widget ini hidup
+        // di dalam Screenshot — animated height widget menyebabkan layout conflict.
         Builder(
           builder: (ctx) {
             final dominant = values.entries
@@ -197,34 +199,32 @@ class _WetonElementMandalaState extends State<WetonElementMandala>
               'lemah' => AppTheme.elementEarth,
               _ => AppTheme.elementCosmic,
             };
-            return Theme(
-              data: Theme.of(ctx).copyWith(dividerColor: Colors.transparent),
-              child: ExpansionTile(
-                tilePadding: EdgeInsets.zero,
-                childrenPadding: EdgeInsets.zero,
-                title: Text(
-                  '✦ Apa artinya elemen dominanmu?',
-                  style: GoogleFonts.outfit(
-                    fontSize: 11,
-                    color: color.withValues(alpha: 0.85),
-                    fontWeight: FontWeight.w600,
-                  ),
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Container(
+                margin: const EdgeInsets.only(top: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.07),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: color.withValues(alpha: 0.22)),
                 ),
-                iconColor: color.withValues(alpha: 0.6),
-                collapsedIconColor: color.withValues(alpha: 0.4),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4, bottom: 8),
-                    child: Text(
-                      narrative,
-                      style: GoogleFonts.outfit(
-                        fontSize: 12,
-                        color: Colors.white.withValues(alpha: 0.80),
-                        height: 1.5,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('✦ ', style: GoogleFonts.outfit(fontSize: 11, color: color)),
+                    Expanded(
+                      child: Text(
+                        narrative,
+                        style: GoogleFonts.outfit(
+                          fontSize: 11,
+                          color: Colors.white.withValues(alpha: 0.78),
+                          height: 1.5,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },
