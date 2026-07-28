@@ -9,6 +9,7 @@ import '../../../../core/widgets/glass_card.dart';
 import '../../../../core/services/api_service.dart';
 import '../../../../core/services/daily_synthesis_service.dart';
 import '../../../../core/providers/birth_profile_provider.dart';
+import '../../../../core/models/birth_profile.dart';
 import '../../../../core/providers/shell_providers.dart';
 import '../../../auth/services/auth_service.dart';
 import '../../../bazi/providers/bazi_chart_provider.dart';
@@ -134,7 +135,11 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
     }
   }
 
-  Future<void> _generate(dynamic profile, int mangsaId, bool isKosmis) async {
+  Future<void> _generate(
+    BirthProfile profile,
+    int mangsaId,
+    bool isKosmis,
+  ) async {
     final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
     final baziChart = ref.read(baziChartProvider).value;
     final drawnCards = ref.read(drawnCardProvider);
@@ -239,11 +244,12 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
     final now = DateTime.now();
     final mangsaId = WetonUtils.calculatePranataMangsaId(now);
     await DailySynthesisService.invalidate(mangsaId, now.year);
-    if (mounted)
+    if (mounted) {
       setState(() {
         _synthesis = null;
         _error = false;
       });
+    }
     await _load();
   }
 
