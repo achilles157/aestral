@@ -880,6 +880,7 @@ class _CompatibilitySynthesisSectionState
     extends ConsumerState<_CompatibilitySynthesisSection> {
   String? _synthesis;
   bool _loading = false;
+  bool _hasError = false;
 
   static String _cacheKey(int n1, int n2) => 'weton_compat_synthesis_${n1}_$n2';
 
@@ -905,17 +906,20 @@ class _CompatibilitySynthesisSectionState
 
   Future<void> _generate() async {
     if (_loading) return;
-    if (mounted) setState(() => _loading = true);
+    if (mounted)
+      setState(() {
+        _loading = true;
+        _hasError = false;
+      });
 
     try {
       final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
       final w = widget.result.weton;
-      final b = widget.result.bazi;
+      final b = widget.result.bazi; // non-nullable
 
-      final baziLine = b != null
-          ? 'Skor kecocokan Ba Zi: ${b.compatibilityScore}%. '
-                '${b.dayMasterMatch.label} — ${b.spousePalaceMatch.label}.'
-          : '';
+      final baziLine =
+          'Skor kecocokan Ba Zi: ${b.compatibilityScore}%. '
+          '${b.dayMasterMatch.label} — ${b.spousePalaceMatch.label}.';
 
       final prompt =
           'Tulis narasi pembacaan pasangan dalam 3–4 kalimat Bahasa Indonesia.\n'
@@ -941,6 +945,7 @@ class _CompatibilitySynthesisSectionState
       if (mounted) setState(() => _synthesis = text);
     } catch (e) {
       debugPrint('_CompatibilitySynthesisSection error: $e');
+      if (mounted) setState(() => _hasError = true);
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -976,7 +981,38 @@ class _CompatibilitySynthesisSectionState
       );
     }
 
-    if (_synthesis == null) return const SizedBox.shrink();
+    if (_synthesis == null) {
+      if (_hasError) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Row(
+            children: [
+              Text(
+                'Gagal merajut pembacaan.',
+                style: GoogleFonts.outfit(
+                  fontSize: 11,
+                  color: Colors.white38,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+              const SizedBox(width: 8),
+              GestureDetector(
+                onTap: _generate,
+                child: Text(
+                  'Coba lagi',
+                  style: GoogleFonts.outfit(
+                    fontSize: 11,
+                    color: AppTheme.accentGold.withValues(alpha: 0.8),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+      return const SizedBox.shrink();
+    }
 
     return GlassCard(
       borderColor: AppTheme.accentGold.withValues(alpha: 0.25),

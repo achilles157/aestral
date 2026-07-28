@@ -63,23 +63,18 @@ class ApiService {
             .timeout(Duration(seconds: timeoutSeconds));
 
         if (response.statusCode == 503) {
+          String? code503, msg503;
           try {
-            final body503 = json.decode(response.body) as Map<String, dynamic>;
-            // Daily Gemini quota exceeded — reuse GEMINI_QUOTA exception
-            // so oracle_chat_provider's existing handler shows friendly UI
-            if (body503['code'] == 'gemini_daily_quota' ||
-                body503['code'] == 'gemini_quota') {
-              throw Exception(
-                'GEMINI_QUOTA:${body503['error'] ?? 'Kapasitas kosmis hari ini sudah penuh.'}',
-              );
-            }
+            final b = json.decode(response.body) as Map<String, dynamic>;
+            code503 = b['code'] as String?;
+            msg503 = b['error'] as String?;
+          } catch (_) {}
+          if (code503 == 'gemini_daily_quota' || code503 == 'gemini_quota') {
             throw Exception(
-              body503['error'] ?? 'Layanan tidak tersedia saat ini.',
+              'GEMINI_QUOTA:${msg503 ?? 'Kapasitas kosmis hari ini sudah penuh.'}',
             );
-          } catch (e) {
-            if (e.toString().contains('GEMINI_QUOTA:')) rethrow;
-            throw Exception('Status 503: Layanan tidak tersedia saat ini.');
           }
+          throw Exception(msg503 ?? 'Layanan tidak tersedia saat ini.');
         }
         if (response.statusCode != 200) {
           throw Exception('Status ${response.statusCode}: ${response.body}');
