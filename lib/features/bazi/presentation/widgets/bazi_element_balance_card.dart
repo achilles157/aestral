@@ -23,6 +23,75 @@ const _kDeficientDesc = {
   'air': 'Kemampuan beradaptasi dan intuisi perlu lebih diasah.',
 };
 
+/// Narasi psikologis mendalam per kombinasi dominan+defisien (offline, no API).
+const Map<String, String> _kWuXingNarrative = {
+  'kayu_api':
+      'Ide-idemu besar dan visioner, namun momentum eksekusi sering terasa berat. '
+      'Energi tumbuhmu (Kayu) mengalir deras tapi sulit meledak menjadi aksi nyata tanpa api semangat yang stabil. '
+      'Kelilingi diri dengan orang yang bersemangat — mereka menyalakan api yang sesungguhnya sudah ada dalam dirimu.',
+  'kayu_tanah':
+      'Kamu hebat dalam memulai tapi bisa kesulitan memelihara konsistensi jangka panjang. '
+      'Kemampuan tumbuh cepatmu (Kayu) kadang mengabaikan fondasi praktis yang perlu dirawat. '
+      'Investasi rutin dalam kebiasaan sederhana akan mengubah potensi besarmu menjadi hasil nyata.',
+  'kayu_logam':
+      'Ekspansimu yang terus-menerus tanpa filter ketegasan bisa menyebar terlalu luas. '
+      'Belajar berkata tidak dan memilih pertempuran dengan bijak adalah kekuatan terbesar yang bisa kamu kembangkan.',
+  'kayu_air':
+      'Pertumbuhanmu yang agresif tanpa kedalaman refleksi bisa membawa kelelahan tak terduga. '
+      'Sisihkan waktu sunyi untuk merenung — di situlah strategi terbaikmu lahir.',
+  'api_kayu':
+      'Semangatmu besar (Api) tapi sumber energi baru perlu terus diisi. '
+      'Tanpa pertumbuhan konsisten, api bisa redup. Belajar hal baru secara rutin adalah bahan bakar terbaikmu.',
+  'api_tanah':
+      'Ekspresif dan bersemangat, namun fondasi praktis kadang terabaikan. '
+      'Keuangan, kesehatan, dan rutinitas harian perlu perhatian ekstra — bukan hambatan, tapi landasan pacu untuk semangatmu.',
+  'api_logam':
+      'Banyak proyek setengah jadi bisa menjadi pola yang berulang tanpa disiplin eksekusi. '
+      'Sistem dan struktur kerja yang ketat adalah investasi terbaik untuk energi besar yang kamu miliki.',
+  'api_air':
+      'Antusiasme yang kuat kadang mendahului kehati-hatian dan intuisi mendalam. '
+      'Melatih kemampuan membaca situasi sebelum bertindak akan melipatgandakan hasil dari semangatmu.',
+  'tanah_kayu':
+      'Stabilitas dan keandalanmu sudah kuat, tapi inovasi dan pertumbuhan baru perlu lebih didorong. '
+      'Zona nyaman bisa menjadi jebakan halus — satu langkah kecil ke wilayah baru setiap minggu sudah mengubah segalanya.',
+  'tanah_api':
+      'Kamu orang yang bisa diandalkan, tapi semangat dan antusiasme perlu lebih diaktifkan. '
+      'Jangan takut tampil dan berbicara — dunia perlu melihat stabilitas yang kamu miliki.',
+  'tanah_logam':
+      'Pemeliharaan hubungan sudah baik, tapi pengambilan keputusan tegas kadang terasa berat. '
+      'Latih diri untuk lebih cepat memutus hal yang tidak produktif — itu bentuk cinta tertinggi untuk dirimu sendiri.',
+  'tanah_air':
+      'Kestabilan praktismu sudah kuat, tapi kedalaman emosi dan intuisi perlu lebih dieksplorasi. '
+      'Journaling atau meditasi singkat setiap hari membuka dimensi dirimu yang belum tergali.',
+  'logam_kayu':
+      'Ketegasan dan presisimu adalah kekuatan, tapi fleksibilitas dan kreativitas perlu dilatih. '
+      'Sesekali tinggalkan rencana dan biarkan diri berimprovisasi — di situlah terobosan tak terduga muncul.',
+  'logam_api':
+      'Analisis dan strukturmu kuat, tapi koneksi emosional dan antusiasme perlu lebih dihangatkan. '
+      'Ekspresi spontan — berbagi cerita, merayakan hal kecil — mengisi energi yang sering kamu abaikan.',
+  'logam_tanah':
+      'Disiplin tinggi tapi kadang terlalu kritis pada diri sendiri. '
+      'Merawat diri bukan pemborosan waktu — itu pengisian bahan bakar untuk standar tinggi yang kamu jaga.',
+  'logam_air':
+      'Keputusanmu akurat secara logika — tambahkan momen diam sebelum memutuskan hal besar untuk membiarkan nurani bicara. '
+      'Ketegasan dan intuisi yang seimbang adalah kombinasi yang sangat langka.',
+  'air_kayu':
+      'Intuisimu tajam dan dalam, tapi tindakan nyata perlu lebih didorong. '
+      'Idemu luar biasa — yang perlu dilatih adalah keberanian memulai meski belum sempurna.',
+  'air_api':
+      'Kedalaman reflektifmu luar biasa, tapi semangat dan visibilitas eksternal perlu diaktifkan. '
+      'Berbagi ide dan pemikiranmu — dunia perlu mendengar kedalaman yang kamu miliki.',
+  'air_tanah':
+      'Fleksibilitas tinggi tapi fondasi dan konsistensi adalah area yang perlu dibangun. '
+      'Rutinitas sederhana yang dijaga setiap hari mengubah potensi besarmu menjadi pencapaian nyata.',
+  'air_logam':
+      'Intuisi dan adaptabilitasmu kuat, tapi ketegasan dan keberanian memotong yang tidak perlu perlu ditingkatkan. '
+      'Batas yang sehat bukan penolakan — itu perlindungan untuk energi berhargamu.',
+};
+
+String? _wuXingNarrative(String dominant, String deficient) =>
+    _kWuXingNarrative['${dominant}_$deficient'];
+
 /// Wu Xing (五行) element balance — pentagon radar chart with dominant/deficient badges.
 class BaziElementBalanceCard extends StatelessWidget {
   final WuXingBalance balance;
@@ -99,6 +168,49 @@ class BaziElementBalanceCard extends StatelessWidget {
               fontStyle: FontStyle.italic,
               height: 1.4,
             ),
+          ),
+          // ── Wu Xing Narrative ExpansionTile ─────────────────────────────
+          const SizedBox(height: 8),
+          Builder(
+            builder: (_) {
+              final narrative = _wuXingNarrative(
+                balance.dominant,
+                balance.deficient,
+              );
+              if (narrative == null) return const SizedBox.shrink();
+              final color =
+                  kBaziElementColors[balance.dominant] ?? AppTheme.accentGold;
+              return Theme(
+                data: Theme.of(_).copyWith(dividerColor: Colors.transparent),
+                child: ExpansionTile(
+                  tilePadding: EdgeInsets.zero,
+                  childrenPadding: EdgeInsets.zero,
+                  title: Text(
+                    '✦ Apa Artinya Untukmu?',
+                    style: GoogleFonts.outfit(
+                      fontSize: 11,
+                      color: color.withValues(alpha: 0.8),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  iconColor: color.withValues(alpha: 0.6),
+                  collapsedIconColor: color.withValues(alpha: 0.4),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8, top: 4),
+                      child: Text(
+                        narrative,
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          color: Colors.white.withValues(alpha: 0.80),
+                          height: 1.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ],
       ),
