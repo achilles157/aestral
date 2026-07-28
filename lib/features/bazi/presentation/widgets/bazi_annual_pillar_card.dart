@@ -5,6 +5,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/glass_card.dart';
 import '../../domain/bazi_chart.dart';
 import 'bazi_pillar_column.dart' show kBaziElementColors;
+import 'bazi_seasonal_roadmap.dart';
 import 'bazi_shared_constants.dart';
 
 /// Displays the current year's Annual Pillar (流年) and its interaction
@@ -266,6 +267,11 @@ class BaziAnnualPillarCard extends StatelessWidget {
               ),
             ),
           ],
+          // ── Seasonal Roadmap ─────────────────────────────────────────────
+          const SizedBox(height: 14),
+          const Divider(color: Colors.white10, height: 1),
+          const SizedBox(height: 14),
+          BaziSeasonalRoadmap(natalChart: natalChart, year: now.year),
         ],
       ),
     );
