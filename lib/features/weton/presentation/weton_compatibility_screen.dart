@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/widgets/glass_card.dart';
@@ -534,6 +535,8 @@ class _WetonCompatibilityScreenState
             ),
           ),
         ],
+        const SizedBox(height: 16),
+        _CompatibilitySynthesisSection(result: result),
         const SizedBox(height: 24),
         _buildAiOracleButton(result),
       ],
@@ -853,6 +856,171 @@ class _WetonCompatibilityScreenState
               color: Colors.white.withValues(alpha: 0.75),
               fontSize: 13,
               height: 1.5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Compatibility Synthesis Section ─────────────────────────────────────────
+
+class _CompatibilitySynthesisSection extends ConsumerStatefulWidget {
+  final SynthesisCompatibility result;
+
+  const _CompatibilitySynthesisSection({required this.result});
+
+  @override
+  ConsumerState<_CompatibilitySynthesisSection> createState() =>
+      _CompatibilitySynthesisSectionState();
+}
+
+class _CompatibilitySynthesisSectionState
+    extends ConsumerState<_CompatibilitySynthesisSection> {
+  String? _synthesis;
+  bool _loading = false;
+
+  static String _cacheKey(int n1, int n2) => 'weton_compat_synthesis_${n1}_$n2';
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _load());
+  }
+
+  Future<void> _load() async {
+    final key = _cacheKey(
+      widget.result.weton.neptu1,
+      widget.result.weton.neptu2,
+    );
+    final prefs = await SharedPreferences.getInstance();
+    final cached = prefs.getString(key);
+    if (cached != null && mounted) {
+      setState(() => _synthesis = cached);
+      return;
+    }
+    await _generate();
+  }
+
+  Future<void> _generate() async {
+    if (_loading) return;
+    if (mounted) setState(() => _loading = true);
+
+    try {
+      final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
+      final w = widget.result.weton;
+      final b = widget.result.bazi;
+
+      final baziLine = b != null
+          ? 'Skor kecocokan Ba Zi: ${b.compatibilityScore}%. '
+                '${b.dayMasterMatch.label} — ${b.spousePalaceMatch.label}.'
+          : '';
+
+      final prompt =
+          'Tulis narasi pembacaan pasangan dalam 3–4 kalimat Bahasa Indonesia.\n'
+          'Pola Weton: ${w.namaFase} (${w.arketipeRelasi}). '
+          'Neptu: ${w.neptu1} + ${w.neptu2} = ${w.neptu1 + w.neptu2}. '
+          'Dinamika: ${w.dinamikaPsikologis.split('.').first}. '
+          '$baziLine\n'
+          'Rajut menjadi 1 pembacaan pasangan yang kohesif — empatik, '
+          'psikologi modern, tidak menakutkan, konkret dan actionable. '
+          'Gunakan Barnum effect dengan menyebut pola relasional yang spesifik.';
+
+      final result = await ApiService.generateAiChat(
+        prompt: prompt,
+        authHeader: authHeader,
+      );
+      final text = result['response'] as String? ?? '';
+      if (text.isEmpty) throw Exception('Empty response');
+
+      final key = _cacheKey(w.neptu1, w.neptu2);
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(key, text);
+
+      if (mounted) setState(() => _synthesis = text);
+    } catch (e) {
+      debugPrint('_CompatibilitySynthesisSection error: $e');
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_loading) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(
+              width: 14,
+              height: 14,
+              child: CircularProgressIndicator(
+                strokeWidth: 1.5,
+                color: AppTheme.accentGold,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              'Merajut pembacaan pasangan...',
+              style: GoogleFonts.outfit(
+                fontSize: 11,
+                color: AppTheme.accentGold,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (_synthesis == null) return const SizedBox.shrink();
+
+    return GlassCard(
+      borderColor: AppTheme.accentGold.withValues(alpha: 0.25),
+      padding: const EdgeInsets.all(14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                '☯ Pembacaan Pasangan',
+                style: GoogleFonts.cinzel(
+                  fontSize: 11,
+                  color: AppTheme.accentGold,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.8,
+                ),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: () async {
+                  final w = widget.result.weton;
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.remove(_cacheKey(w.neptu1, w.neptu2));
+                  if (mounted) setState(() => _synthesis = null);
+                  await _generate();
+                },
+                child: Text(
+                  '↻',
+                  style: GoogleFonts.outfit(
+                    fontSize: 12,
+                    color: Colors.white24,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _synthesis!,
+            style: GoogleFonts.outfit(
+              fontSize: 12,
+              color: Colors.white.withValues(alpha: 0.85),
+              height: 1.55,
             ),
           ),
         ],
