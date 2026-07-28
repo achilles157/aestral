@@ -41,7 +41,7 @@ class DashboardGuestUpsellCard extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Simpan perjalanan kosmis Anda',
+                  'Profil kosmismu sudah siap — simpan agar tidak hilang',
                   style: GoogleFonts.outfit(
                     color: AppTheme.textLight,
                     fontSize: 13,
@@ -50,7 +50,7 @@ class DashboardGuestUpsellCard extends ConsumerWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Simpan untuk sinkronisasi data & history bacaan lintas perangkat.',
+                  'Profil ini hilang saat sesi berakhir. Simpan sekarang, bawa ke semua perangkatmu.',
                   style: GoogleFonts.outfit(
                     color: AppTheme.textMuted,
                     fontSize: 11,

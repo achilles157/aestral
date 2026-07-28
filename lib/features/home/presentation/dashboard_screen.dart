@@ -598,7 +598,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Data kosmismu belum tersimpan permanen — tutup app, data hilang.',
+              'Profil ini hanya tersimpan sementara. Simpan agar tetap ada besok.',
               style: GoogleFonts.outfit(
                 fontSize: 12,
                 color: Colors.orange.shade200,
