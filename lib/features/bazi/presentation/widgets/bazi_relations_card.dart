@@ -7,6 +7,67 @@ import '../../domain/bazi_chart.dart';
 import 'bazi_pillar_column.dart' show kBaziElementColors;
 import 'bazi_shared_constants.dart';
 
+// ─── Psychological narratives per pillar-pair ──────────────────────────────
+
+/// Narasi psikologis untuk Six Clash (六冲) per kombinasi indeks pilar.
+/// Key: 'A_B' atau 'B_A' (sorted smaller first).
+const Map<String, String> _kClashNarrative = {
+  '0_1':
+      'Visi sosial & leluhur (Pilar Tahun) berbenturan dengan tuntutan karier & ambisi (Pilar Bulan). Tekanan untuk "mewarisi" vs. kebebasan mendefinisikan diri sendiri.',
+  '0_2':
+      'Identitas sosial lama (Pilar Tahun) bertabrakan dengan inti diri & cara berhubungan (Pilar Hari). Transformasi besar-besaran pada cara Anda memandang diri sendiri.',
+  '0_3':
+      'Warisan keluarga (Pilar Tahun) bertabrakan dengan suara batin terdalam (Pilar Jam). Konflik antara nilai yang ditanamkan sejak lahir vs. aspirasi murni Anda.',
+  '1_2':
+      'Tuntutan karier & lingkungan (Pilar Bulan) berbenturan dengan identitas inti & hubungan intim (Pilar Hari). Ketegangan klasik antara peran profesional dan jati diri sejati.',
+  '1_3':
+      'Ambisi karier (Pilar Bulan) berbenturan dengan pikiran batin & kreativitas (Pilar Jam). Tekanan antara "harus" di dunia luar vs. apa yang sungguh ingin Anda ciptakan.',
+  '2_3':
+      'Identitas diri & hubungan (Pilar Hari) berbenturan dengan aspirasi batin terdalam (Pilar Jam). Konflik antara siapa Anda di mata dunia vs. siapa Anda di keheningan.',
+  '0_4':
+      'Energi tahun ini (流年) bertabrakan dengan pola sosial & warisan Anda. Tahun penuh tekanan transformatif — lebih baik melepas daripada bertahan.',
+  '1_4':
+      'Energi tahun ini (流年) berbenturan dengan jalur karier Anda. Hindari keputusan besar soal pekerjaan, fokus pada evaluasi & penyesuaian.',
+  '2_4':
+      'Energi tahun ini (流年) bertabrakan dengan inti diri Anda. Tahun yang menantang untuk hubungan intim — prioritaskan komunikasi jujur.',
+  '3_4':
+      'Energi tahun ini (流年) berbenturan dengan suara batin Anda. Jaga kesehatan mental, kurangi komitmen baru.',
+};
+
+/// Narasi psikologis untuk Six Harmony (六合) per kombinasi indeks pilar.
+const Map<String, String> _kHarmonyNarrative = {
+  '0_1':
+      'Warisan sosial & karier Anda mengalir harmonis. Keluarga mendukung ambisi profesional — energi ini memperkuat reputasi jangka panjang.',
+  '0_2':
+      'Latar belakang & identitas inti selaras sempurna. Siapa Anda "di luar" konsisten dengan siapa Anda "di dalam" — fondasi kepercayaan diri yang kuat.',
+  '0_3':
+      'Nilai keluarga & suara batin Anda berjalan seirama. Intuisi dan naluri selaras dengan warisan leluhur — bakat alami mengalir bebas.',
+  '1_2':
+      'Karier & identitas diri bersinergi. Pekerjaan Anda adalah ekspresi otentik diri — langka dan berharga. Lingkungan kerja mendukung pertumbuhan pribadi.',
+  '1_3':
+      'Ambisi karier & kreativitas batin bergandengan tangan. Ide-ide terbaik Anda justru datang saat bekerja — inovasi dan produktivitas terhubung erat.',
+  '2_3':
+      'Hubungan intim & kehidupan batin selaras dalam. Pasangan atau orang terdekat memahami sisi paling murni Anda — koneksi emosional sangat dalam.',
+  '0_4':
+      'Energi tahun ini (流年) bersinergi dengan pola sosial Anda. Tahun yang baik untuk mempererat hubungan keluarga dan memperluas jaringan.',
+  '1_4':
+      'Energi tahun ini (流年) mendukung karier Anda. Peluang profesional mengalir lancar — waktu yang tepat untuk negosiasi dan kolaborasi.',
+  '2_4':
+      'Energi tahun ini (流年) harmonis dengan inti diri Anda. Hubungan intim berkembang positif — komunikasi dan kedekatan emosional meningkat.',
+  '3_4':
+      'Energi tahun ini (流年) selaras dengan batin Anda. Kreativitas dan intuisi berada di puncak — waktu terbaik untuk proyek personal.',
+};
+
+String? _clashNarrative(int a, int b) {
+  final key = a < b ? '${a}_$b' : '${b}_$a';
+  return _kClashNarrative[key];
+}
+
+String? _harmonyNarrative(int a, int b) {
+  final key = a < b ? '${a}_$b' : '${b}_$a';
+  return _kHarmonyNarrative[key];
+}
+
 /// Displays Six Clashes (六冲), Six Harmonies (六合), Three Harmonies (三合),
 /// and Empty Branches (空亡) detected within the chart.
 class BaziBranchRelationsCard extends StatelessWidget {
@@ -87,30 +148,48 @@ class BaziBranchRelationsCard extends StatelessWidget {
   Widget _clashRow(BaziClash c) {
     final pA = _pillarAt(c.indexA);
     final pB = _pillarAt(c.indexB);
+    final narrative = _clashNarrative(c.indexA, c.indexB);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
-      child: Row(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _pillarBadge(c.indexA, pA),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              '⚡',
-              style: TextStyle(
-                fontSize: 14,
-                color: const Color(0xFFF87171).withValues(alpha: 0.9),
+          Row(
+            children: [
+              _pillarBadge(c.indexA, pA),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  '⚡',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: const Color(0xFFF87171).withValues(alpha: 0.9),
+                  ),
+                ),
+              ),
+              _pillarBadge(c.indexB, pB),
+              const SizedBox(width: 8),
+              Text(
+                'Bentrok',
+                style: GoogleFonts.outfit(
+                  fontSize: 11,
+                  color: const Color(0xFFF87171).withValues(alpha: 0.8),
+                ),
+              ),
+            ],
+          ),
+          if (narrative != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 5, left: 2),
+              child: Text(
+                narrative,
+                style: GoogleFonts.outfit(
+                  fontSize: 11,
+                  color: Colors.white.withValues(alpha: 0.65),
+                  height: 1.45,
+                ),
               ),
             ),
-          ),
-          _pillarBadge(c.indexB, pB),
-          const SizedBox(width: 8),
-          Text(
-            'Bentrok',
-            style: GoogleFonts.outfit(
-              fontSize: 11,
-              color: const Color(0xFFF87171).withValues(alpha: 0.8),
-            ),
-          ),
         ],
       ),
     );
@@ -119,36 +198,56 @@ class BaziBranchRelationsCard extends StatelessWidget {
   Widget _harmonyRow(BaziHarmony h) {
     final resultColor =
         kBaziElementColors[h.resultElement] ?? AppTheme.accentGold;
+    final narrative = _harmonyNarrative(h.indexA, h.indexB);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
-      child: Row(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _pillarBadge(h.indexA, _pillarAt(h.indexA)),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              '✦',
-              style: TextStyle(fontSize: 14, color: Color(0xFFFBBF24)),
-            ),
+          Row(
+            children: [
+              _pillarBadge(h.indexA, _pillarAt(h.indexA)),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  '✦',
+                  style: TextStyle(fontSize: 14, color: Color(0xFFFBBF24)),
+                ),
+              ),
+              _pillarBadge(h.indexB, _pillarAt(h.indexB)),
+              const SizedBox(width: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: resultColor.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: resultColor.withValues(alpha: 0.35),
+                  ),
+                ),
+                child: Text(
+                  '→ ${kBaziElementLabel[h.resultElement] ?? h.resultElement}',
+                  style: GoogleFonts.outfit(
+                    fontSize: 11,
+                    color: resultColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
           ),
-          _pillarBadge(h.indexB, _pillarAt(h.indexB)),
-          const SizedBox(width: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-            decoration: BoxDecoration(
-              color: resultColor.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: resultColor.withValues(alpha: 0.35)),
-            ),
-            child: Text(
-              '→ ${kBaziElementLabel[h.resultElement] ?? h.resultElement}',
-              style: GoogleFonts.outfit(
-                fontSize: 11,
-                color: resultColor,
-                fontWeight: FontWeight.w500,
+          if (narrative != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 5, left: 2),
+              child: Text(
+                narrative,
+                style: GoogleFonts.outfit(
+                  fontSize: 11,
+                  color: Colors.white.withValues(alpha: 0.65),
+                  height: 1.45,
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
