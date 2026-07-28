@@ -7,7 +7,7 @@ rules_version = '2';
 // PRINCIPLE: User data isolation - setiap user hanya bisa akses data mereka
 // sendiri. Guest users tidak bisa akses Firestore (data lokal saja).
 //
-// Last Updated: 2026-07-14
+// Last Updated: 2026-07-28
 // Status: PRODUCTION READY
 // ════════════════════════════════════════════════════════════════════════════
 
@@ -92,6 +92,16 @@ service cloud.firestore {
       
       // User preferences: /users/{userId}/preferences/{prefId}
       match /preferences/{prefId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Weton calculation history: /users/{userId}/weton_history/{historyId}
+      match /weton_history/{historyId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Ba Zi calculation history: /users/{userId}/bazi_history/{historyId}
+      match /bazi_history/{historyId} {
         allow read, write: if isOwner(userId);
       }
     }
