@@ -9,6 +9,7 @@ import '../services/tarot_data.dart';
 import '../models/tarot_card.dart';
 import '../providers/tarot_language_provider.dart';
 import '../../../core/theme/app_theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/tarot_card_display.dart';
 import 'widgets/tiltable_tarot_card.dart';
 import 'widgets/tarot_draw_modals.dart';
@@ -164,6 +165,13 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
       }).toList();
 
       ref.read(drawnCardProvider.notifier).setCards(drawnCardsList);
+
+      // Persist draw type so SeasonalSynthesisCard knows if Tarot Kosmis is available
+      final effectiveDrawType = session.isMock ? 'birth' : _selectedDrawType;
+      SharedPreferences.getInstance().then(
+        (prefs) => prefs.setString('last_tarot_draw_type', effectiveDrawType),
+      );
+
       // Save to reading history (fire-and-forget)
       ReadingHistoryService.save(
         ReadingEntry(

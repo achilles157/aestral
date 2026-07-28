@@ -1,63 +1,89 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Cache service for Daily Synthesis Card — one entry per calendar day.
+/// Cache service for Seasonal Synthesis Card.
 ///
-/// Key pattern: `daily_synthesis_YYYY-MM-DD_<wukuName>`
-/// Valid for the same calendar day. Wuku in key ensures fresh generation
-/// if wuku somehow drifts (edge case: app used across midnight).
+/// Granularitas: Pranata Mangsa (~30 hari, 12x per tahun).
+/// Cache key: `seasonal_synthesis_pranata_<id>_<year>`
+/// Valid selama Pranata Mangsa yang sama + tahun yang sama.
+///
+/// State A (tanpa Tarot Kosmis): cache key includes '_no_tarot'
+/// State B (dengan Tarot Kosmis): cache key includes '_with_tarot'
+/// Saat user draw Tarot Kosmis, State A cache tetap valid —
+/// State B di-generate ulang dan cache-nya terpisah.
 class DailySynthesisService {
-  static const String _prefix = 'daily_synthesis_';
+  static const String _prefix = 'seasonal_synthesis_pranata_';
 
-  static String _key(String wukuName) {
-    final now = DateTime.now();
-    final dateStr =
-        '${now.year}-'
-        '${now.month.toString().padLeft(2, '0')}-'
-        '${now.day.toString().padLeft(2, '0')}';
-    return '$_prefix${dateStr}_${wukuName.replaceAll(' ', '_')}';
+  static String _key(int mangsaId, int year, {required bool withTarot}) {
+    final tarotSuffix = withTarot ? 'with_tarot' : 'no_tarot';
+    return '$_prefix${mangsaId}_${year}_$tarotSuffix';
   }
 
-  /// Returns today's cached synthesis, or null if not yet generated.
-  static Future<String?> getToday(String wukuName) async {
+  /// Returns cached synthesis for current Pranata Mangsa, or null if not cached.
+  static Future<String?> getToday(
+    int mangsaId,
+    int year, {
+    required bool withTarot,
+  }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final raw = prefs.getString(_key(wukuName));
+      final raw = prefs.getString(_key(mangsaId, year, withTarot: withTarot));
       if (raw == null) return null;
-      final map = jsonDecode(raw) as Map<String, dynamic>;
-      return map['synthesis'] as String?;
+      return raw;
     } catch (e) {
-      debugPrint('DailySynthesisService.getToday error: $e');
+      debugPrint('DailySynthesisService.get error: $e');
       return null;
     }
   }
 
-  /// Persists today's synthesis for the given wuku name.
-  static Future<void> save(String wukuName, String synthesis) async {
+  /// Saves synthesis for current Pranata Mangsa.
+  static Future<void> save(
+    int mangsaId,
+    int year,
+    String synthesis, {
+    required bool withTarot,
+  }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(
-        _key(wukuName),
-        jsonEncode({
-          'synthesis': synthesis,
-          'savedAt': DateTime.now().toIso8601String(),
-        }),
+        _key(mangsaId, year, withTarot: withTarot),
+        synthesis,
       );
-      debugPrint('DailySynthesisService: cached for wuku $wukuName');
+      debugPrint(
+        'DailySynthesisService: cached pranata $mangsaId/$year '
+        '(withTarot=$withTarot)',
+      );
     } catch (e) {
       debugPrint('DailySynthesisService.save error: $e');
     }
   }
 
-  /// Remove today's cache (force refresh on next open).
-  static Future<void> invalidateToday(String wukuName) async {
+  /// Force re-generate on next open.
+  static Future<void> invalidate(
+    int mangsaId,
+    int year, {
+    bool? withTarot,
+  }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.remove(_key(wukuName));
+      if (withTarot == null) {
+        await prefs.remove(_key(mangsaId, year, withTarot: true));
+        await prefs.remove(_key(mangsaId, year, withTarot: false));
+      } else {
+        await prefs.remove(_key(mangsaId, year, withTarot: withTarot));
+      }
     } catch (e) {
       debugPrint('DailySynthesisService.invalidate error: $e');
+    }
+  }
+
+  /// Returns true if user's last Tarot draw was Kosmis (mangsa) mode.
+  static Future<bool> isLastDrawKosmis() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString('last_tarot_draw_type') == 'mangsa';
+    } catch (_) {
+      return false;
     }
   }
 }
