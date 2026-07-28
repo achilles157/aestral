@@ -24,6 +24,7 @@ import '../../history/presentation/history_screen.dart';
 import '../../hari_baik/presentation/hari_baik_screen.dart';
 import '../../profiles/presentation/saved_profiles_screen.dart';
 import 'widgets/cosmic_calibration_card.dart';
+import 'widgets/daily_synthesis_card.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -491,6 +492,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           CosmicCalibrationCard(
             birthDate: ref.watch(birthProfileProvider).value!.dobDate!,
           ),
+          const SizedBox(height: 12),
+          const DailySynthesisCard(),
         ],
         if (session == null || session.isMock) ...[
           const SizedBox(height: 12),
