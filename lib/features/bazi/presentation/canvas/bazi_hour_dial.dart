@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/bazi_utils.dart';
 import '../../domain/bazi_chart.dart';
@@ -24,22 +25,31 @@ class HourDialWidget extends StatefulWidget {
   State<HourDialWidget> createState() => _HourDialWidgetState();
 }
 
-class _HourDialWidgetState extends State<HourDialWidget> {
+class _HourDialWidgetState extends State<HourDialWidget>
+    with SingleTickerProviderStateMixin {
   double _cumulativeRotation = 0.0;
   double _lastPanAngle = 0.0;
+  bool _isPanning = false;
+
+  late final AnimationController _snapCtrl;
 
   @override
   void initState() {
     super.initState();
     final initialBranchIdx = ((widget.selectedHour + 1) % 24) ~/ 2;
     _cumulativeRotation = -initialBranchIdx * (2 * pi / 12);
+
+    _snapCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 150),
+    );
   }
 
   @override
   void didUpdateWidget(HourDialWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Sync rotation if parent programmatically changes selectedHour
-    if (oldWidget.selectedHour != widget.selectedHour) {
+    // Sync rotation only when parent changes hour programmatically (not during drag)
+    if (oldWidget.selectedHour != widget.selectedHour && !_isPanning) {
       final newBranchIdx = ((widget.selectedHour + 1) % 24) ~/ 2;
       setState(() {
         _cumulativeRotation = -newBranchIdx * (2 * pi / 12);
@@ -47,32 +57,77 @@ class _HourDialWidgetState extends State<HourDialWidget> {
     }
   }
 
+  @override
+  void dispose() {
+    _snapCtrl.dispose();
+    super.dispose();
+  }
+
+  /// Returns the branch index currently pointed at by top pointer.
+  int get _currentBranchIdx {
+    final norm = (_cumulativeRotation % (2 * pi) + (2 * pi)) % (2 * pi);
+    return (12 - ((norm / (pi / 6)).floor() % 12)) % 12;
+  }
+
   void _onPanStart(DragStartDetails details, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
     final offset = details.localPosition - center;
+    // Dead zone: touches within 15 % of dial radius are ignored.
+    // This prevents the atan2 singularity near the origin that causes
+    // hypersensitive jumps when the finger is close to the center.
+    if (offset.distance < size.width * 0.15) return;
+    _snapCtrl.stop();
+    _isPanning = true;
     _lastPanAngle = atan2(offset.dy, offset.dx);
   }
 
   void _onPanUpdate(DragUpdateDetails details, Size size) {
+    if (!_isPanning) return;
     final center = Offset(size.width / 2, size.height / 2);
     final offset = details.localPosition - center;
+    if (offset.distance < size.width * 0.15) return;
+
     final currentPanAngle = atan2(offset.dy, offset.dx);
-    final delta = currentPanAngle - _lastPanAngle;
+    var delta = currentPanAngle - _lastPanAngle;
+    // Normalise delta to [-pi, pi] to handle the +pi/-pi wrap-around
+    if (delta > pi) delta -= 2 * pi;
+    if (delta < -pi) delta += 2 * pi;
 
     setState(() {
       _cumulativeRotation += delta;
       _lastPanAngle = currentPanAngle;
     });
 
-    final normalisedAngle =
-        (_cumulativeRotation % (2 * pi) + (2 * pi)) % (2 * pi);
-
-    final branchIndex = (12 - ((normalisedAngle / (pi / 6)).floor() % 12)) % 12;
-
-    final calculatedHour = (branchIndex * 2 + 23) % 24;
+    final calculatedHour = (_currentBranchIdx * 2 + 23) % 24;
     if (calculatedHour != widget.selectedHour) {
+      HapticFeedback.selectionClick();
       widget.onHourChanged(calculatedHour);
     }
+  }
+
+  void _onPanEnd(DragEndDetails details, Size size) {
+    if (!_isPanning) return;
+    _isPanning = false;
+
+    // Snap to the nearest branch segment boundary
+    const sliceAngle = 2 * pi / 12;
+    final targetRotation =
+        ((_cumulativeRotation / sliceAngle).round()) * sliceAngle;
+
+    final snapAnim = Tween<double>(
+      begin: _cumulativeRotation,
+      end: targetRotation,
+    ).animate(CurvedAnimation(parent: _snapCtrl, curve: Curves.easeOut));
+
+    void listener() {
+      if (mounted) setState(() => _cumulativeRotation = snapAnim.value);
+    }
+
+    snapAnim.addListener(listener);
+    _snapCtrl.forward(from: 0).then((_) {
+      snapAnim.removeListener(listener);
+      if (mounted) setState(() => _cumulativeRotation = targetRotation);
+    });
   }
 
   @override
@@ -85,6 +140,7 @@ class _HourDialWidgetState extends State<HourDialWidget> {
         return GestureDetector(
           onPanStart: (d) => _onPanStart(d, size),
           onPanUpdate: (d) => _onPanUpdate(d, size),
+          onPanEnd: (d) => _onPanEnd(d, size),
           child: RepaintBoundary(
             child: CustomPaint(
               size: size,
@@ -150,7 +206,6 @@ class HourDialPainter extends CustomPainter {
           ..style = PaintingStyle.stroke
           ..strokeWidth = 46.0
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12);
-
         canvas.drawArc(
           Rect.fromCircle(center: center, radius: outerRadius),
           startAngle,
@@ -180,21 +235,44 @@ class HourDialPainter extends CustomPainter {
   }
 
   void _drawCenterDisplay(Canvas canvas, Offset center, double radius) {
+    final hubRadius = radius * 0.62;
+    final hourBranchIdx = ((selectedHour + 1) % 24) ~/ 2;
+    final element = BaziUtils.branchElements[hourBranchIdx];
+    final elementColor = kBaziElementColors[element] ?? Colors.white;
+
+    // Radial gradient fill — element color bleeds from center outward
+    final gradientPaint = Paint()
+      ..shader = RadialGradient(
+        colors: [
+          elementColor.withValues(alpha: 0.20),
+          AppTheme.cardBg.withValues(alpha: 0.92),
+        ],
+        stops: const [0.0, 1.0],
+      ).createShader(
+        Rect.fromCircle(center: center, radius: hubRadius),
+      );
+    canvas.drawCircle(center, hubRadius, gradientPaint);
+
+    // Outer gold ring
     canvas.drawCircle(
       center,
-      radius * 0.62,
-      Paint()..color = AppTheme.cardBg.withValues(alpha: 0.85),
-    );
-    canvas.drawCircle(
-      center,
-      radius * 0.62,
+      hubRadius,
       Paint()
-        ..color = AppTheme.accentGold.withValues(alpha: 0.3)
+        ..color = AppTheme.accentGold.withValues(alpha: 0.30)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.5,
     );
 
-    final hourBranchIdx = ((selectedHour + 1) % 24) ~/ 2;
+    // Inner element-colored ring
+    canvas.drawCircle(
+      center,
+      hubRadius - 7,
+      Paint()
+        ..color = elementColor.withValues(alpha: 0.30)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.0,
+    );
+
     final branchSymbol = kBaziBranchSymbol[hourBranchIdx];
     final branchName = kBaziBranchName[hourBranchIdx];
 
@@ -206,7 +284,6 @@ class HourDialPainter extends CustomPainter {
       18,
       fontWeight: FontWeight.bold,
     );
-
     _drawText(
       canvas,
       'Jam $branchName ($branchSymbol)',
@@ -215,30 +292,22 @@ class HourDialPainter extends CustomPainter {
       11,
       fontWeight: FontWeight.w600,
     );
-
-    final element = BaziUtils.branchElements[hourBranchIdx];
-    final color = kBaziElementColors[element] ?? Colors.white;
     _drawText(
       canvas,
       'Elemen ${element.toUpperCase()}',
       center.translate(0, 20),
-      color,
+      elementColor,
       10,
     );
   }
 
   void _drawTopPointer(Canvas canvas, Offset center, double radius) {
-    final pointerPaint = Paint()
-      ..color = AppTheme.accentGold
-      ..style = PaintingStyle.fill;
-
     final path = Path()
       ..moveTo(center.dx, center.dy - radius - 16)
       ..lineTo(center.dx - 7, center.dy - radius - 28)
       ..lineTo(center.dx + 7, center.dy - radius - 28)
       ..close();
-
-    canvas.drawPath(path, pointerPaint);
+    canvas.drawPath(path, Paint()..color = AppTheme.accentGold);
   }
 
   void _drawText(
@@ -259,8 +328,7 @@ class HourDialPainter extends CustomPainter {
         ),
       ),
       textDirection: TextDirection.ltr,
-    );
-    textPainter.layout();
+    )..layout();
     textPainter.paint(
       canvas,
       Offset(
@@ -271,8 +339,7 @@ class HourDialPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant HourDialPainter oldDelegate) {
-    return oldDelegate.selectedHour != selectedHour ||
-        oldDelegate.rotation != rotation;
-  }
+  bool shouldRepaint(covariant HourDialPainter oldDelegate) =>
+      oldDelegate.selectedHour != selectedHour ||
+      oldDelegate.rotation != rotation;
 }

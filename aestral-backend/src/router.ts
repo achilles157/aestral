@@ -9,6 +9,34 @@ import { isRateLimited, getRateLimitResetSeconds } from './rate_limiter';
 import { buildTarotSystemInstruction, buildTarotUserPrompt, parseTarotResponse, type TarotCardInput, type TarotReadingContext } from './tarot_reading_prompt';
 import MANGSA_THEMES from './data/mangsa-themes.json';
 import COMPATIBILITY_DATA from './data/kamus-kompatibilitas-pasangan.json';
+// ─── Gemini Daily Quota Guard ─────────────────────────────────────────────────
+const GEMINI_DAILY_LIMIT = 480; // buffer dari 500 RPD
+
+function secondsUntilMidnight(): number {
+  const now = new Date();
+  const midnight = new Date(now);
+  midnight.setUTCHours(24, 0, 0, 0);
+  return Math.floor((midnight.getTime() - now.getTime()) / 1000);
+}
+
+async function checkGeminiQuota(kv: KVNamespace): Promise<boolean> {
+  const today = new Date().toISOString().split('T')[0];
+  const key = `gemini_daily_${today}`;
+  const current = await kv.get(key);
+  const count = parseInt(current ?? '0');
+  if (count >= GEMINI_DAILY_LIMIT) return false;
+  await kv.put(key, String(count + 1), { expirationTtl: 90000 });
+  return true;
+}
+
+function geminiQuotaExceeded(): Response {
+  return json({
+    error: 'Oracle sedang beristirahat — kapasitas kosmis hari ini sudah penuh. Kembali besok.',
+    retryAfterSeconds: secondsUntilMidnight(),
+    code: 'gemini_daily_quota',
+  }, 503);
+}
+
 
 // Maps Pancasuda sisa_bagi result to planner label category (see assets/weton/kamus-label-planner.json)
 const PLANNER_LABEL_MAP: Record<number, string> = {
@@ -684,6 +712,7 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
 	// Build system instruction and call Gemini
 	try {
 		const systemInstruction = buildSystemInstruction(aiContext);
+		if (!(await checkGeminiQuota(env.RATE_LIMIT_KV))) return geminiQuotaExceeded();
 		const aiResponse = await callGemini(systemInstruction, body.prompt.trim(), apiKey, env.GEMINI_MODEL);
 		return json({ success: true, response: aiResponse });
 	} catch (err) {
@@ -753,6 +782,7 @@ async function handleTarotReading(request: Request, env: Env): Promise<Response>
 	try {
 		const systemInstruction = buildTarotSystemInstruction(context);
 		const userPrompt = buildTarotUserPrompt(body.cards);
+		if (!(await checkGeminiQuota(env.RATE_LIMIT_KV))) return geminiQuotaExceeded();
 		const rawResponse = await callGemini(systemInstruction, userPrompt, apiKey, env.GEMINI_MODEL);
 		const reading = parseTarotResponse(rawResponse);
 
@@ -1139,6 +1169,7 @@ async function handleBaziInsight(request: Request, env: Env): Promise<Response> 
 			`Bacakan peta kosmis Ba Zi saya. Fokus pada Day Master saya dan apa yang perlu saya sadari tentang diri sendiri.`;
 
 		const systemInstruction = buildSystemInstruction(aiContext);
+		if (!(await checkGeminiQuota(env.RATE_LIMIT_KV))) return geminiQuotaExceeded();
 		const aiResponse = await callGemini(systemInstruction, userPrompt, apiKey);
 
 		return json({
@@ -1369,6 +1400,7 @@ async function handleOracleChat(request: Request, env: Env): Promise<Response> {
 		const fullHistory = [...trimmedHistory, currentMessage];
 
 	try {
+		if (!(await checkGeminiQuota(env.RATE_LIMIT_KV))) return geminiQuotaExceeded();
 		const result = await callGeminiStructured(systemInstruction, fullHistory, apiKey, {
 			responseSchema: ORACLE_RESPONSE_SCHEMA,
 			maxOutputTokens: 800,

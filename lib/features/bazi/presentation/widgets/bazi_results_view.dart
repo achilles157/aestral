@@ -277,6 +277,7 @@ class BaziResultsView extends ConsumerWidget {
                   elementColor: elementColor,
                   isForward: luckForward,
                   birthDate: birthDate!,
+                  chart: chart,
                 )
               : BaziLuckPillarsPlaceholder(elementColor: elementColor),
 
