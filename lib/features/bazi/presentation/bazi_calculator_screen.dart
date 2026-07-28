@@ -21,6 +21,7 @@ import '../../../features/ai/presentation/oracle_chat_screen.dart';
 import 'widgets/bazi_date_picker_step.dart';
 import 'widgets/bazi_input_step.dart';
 import 'widgets/bazi_results_view.dart';
+import 'canvas/bazi_canvas_screen.dart';
 import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
 
 class BaziCalculatorScreen extends ConsumerStatefulWidget {
@@ -454,6 +455,28 @@ class _BaziCalculatorScreenState extends ConsumerState<BaziCalculatorScreen> {
           ],
         ),
         centerTitle: true,
+        actions: [
+          if (_step == 2 && _result != null)
+            IconButton(
+              icon: const Icon(
+                Icons.blur_circular_rounded,
+                color: AppTheme.accentGold,
+              ),
+              tooltip: 'Roda Kosmis Canvas',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => BaziCanvasScreen(
+                      chart: _result!.chart,
+                      luckPillars: _result!.luckPillars ?? [],
+                      birthDate: _birthDate!,
+                    ),
+                  ),
+                );
+              },
+            ),
+        ],
       ),
       body: Stack(
         children: [
