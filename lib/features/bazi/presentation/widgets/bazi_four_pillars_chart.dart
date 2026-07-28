@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/services/api_service.dart';
 import '../../../../core/widgets/glass_card.dart';
+import '../../../../features/auth/services/auth_service.dart';
 import '../../domain/bazi_chart.dart';
 import 'bazi_pillar_column.dart';
 
@@ -190,6 +194,12 @@ class BaziFourPillarsChart extends StatelessWidget {
               ),
             ),
           ],
+
+          // ── AI Grand Synthesis ──────────────────────────────────────────
+          const SizedBox(height: 14),
+          const Divider(color: Colors.white10, height: 1),
+          const SizedBox(height: 14),
+          _FourPillarsAiSection(chart: chart),
         ],
       ),
     );
@@ -370,6 +380,185 @@ class BaziFourPillarsChart extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+// ─── Four Pillars AI Grand Synthesis ──────────────────────────────────────────
+
+class _FourPillarsAiSection extends ConsumerStatefulWidget {
+  const _FourPillarsAiSection({required this.chart});
+
+  final BaziChart chart;
+
+  @override
+  ConsumerState<_FourPillarsAiSection> createState() =>
+      _FourPillarsAiSectionState();
+}
+
+class _FourPillarsAiSectionState extends ConsumerState<_FourPillarsAiSection> {
+  String? _insight;
+  bool _loading = false;
+
+  static String _cacheKey(BaziChart c) {
+    final h = c.hourPillar;
+    return 'bazi_pillars_ai_'
+        '${c.yearPillar.stemIndex}${c.yearPillar.branchIndex}_'
+        '${c.monthPillar.stemIndex}${c.monthPillar.branchIndex}_'
+        '${c.dayPillar.stemIndex}${c.dayPillar.branchIndex}_'
+        '${h != null ? "${h.stemIndex}${h.branchIndex}" : "xx"}';
+  }
+
+  String _buildPrompt() {
+    final c = widget.chart;
+    final h = c.hourPillar;
+    final pillars = [
+      'Pilar Tahun (Sosial & Leluhur): ${c.yearPillar.stemNameId} ${c.yearPillar.branchZodiacId}',
+      'Pilar Bulan (Karier & Ambisi): ${c.monthPillar.stemNameId} ${c.monthPillar.branchZodiacId}',
+      'Pilar Hari/Day Master (Diri & Pasangan): ${c.dayPillar.stemNameId} ${c.dayPillar.branchZodiacId}',
+      if (h != null)
+        'Pilar Jam (Pikiran Batin & Warisan): ${h.stemNameId} ${h.branchZodiacId}',
+    ].join('; ');
+
+    return 'Chart Ba Zi: $pillars. '
+        'Day Master: ${c.dayMasterElement} (${c.dmStrength.label}). '
+        'Yong Shen: ${c.dmStrength.yongShen.join(", ")}. '
+        'Tulis 4–5 kalimat narasi "grand story" yang menghubungkan keempat pilar '
+        'menjadi satu blueprint kosmis yang utuh — bagaimana interaksi antar pilar '
+        'membentuk pola hidup, kekuatan tersembunyi, dan tantangan utama orang ini. '
+        'Jangan merangkum per pilar — temukan tema besar yang hanya terlihat '
+        'saat keempatnya dilihat bersama. '
+        'Nada: empatik, psikologi modern, terasa seperti cermin yang sangat jujur.';
+  }
+
+  Future<void> _generate() async {
+    if (_loading) return;
+    setState(() => _loading = true);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final key = _cacheKey(widget.chart);
+      final cached = prefs.getString(key);
+      if (cached != null) {
+        if (mounted) setState(() { _insight = cached; _loading = false; });
+        return;
+      }
+
+      final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
+      final result = await ApiService.generateAiChat(
+        prompt: _buildPrompt(),
+        authHeader: authHeader,
+      );
+      final text = result['response'] as String? ?? '';
+      if (text.isNotEmpty) {
+        await prefs.setString(key, text);
+        if (mounted) setState(() => _insight = text);
+      }
+    } catch (e) {
+      debugPrint('_FourPillarsAiSection error: $e');
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_insight != null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                '☯ Blueprint Kosmis Chart-mu',
+                style: GoogleFonts.cinzel(
+                  fontSize: 11,
+                  color: AppTheme.accentGold,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.8,
+                ),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.remove(_cacheKey(widget.chart));
+                  if (mounted) setState(() => _insight = null);
+                },
+                child: Text(
+                  '↻',
+                  style: GoogleFonts.outfit(fontSize: 12, color: Colors.white24),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _insight!,
+            style: GoogleFonts.outfit(
+              fontSize: 12,
+              color: Colors.white.withValues(alpha: 0.85),
+              height: 1.55,
+            ),
+          ),
+        ],
+      );
+    }
+
+    return Center(
+      child: _loading
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  width: 14,
+                  height: 14,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1.5,
+                    color: AppTheme.accentGold,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Membaca blueprint kosmis chart-mu...',
+                  style: GoogleFonts.outfit(
+                    fontSize: 11,
+                    color: AppTheme.accentGold,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
+            )
+          : GestureDetector(
+              onTap: _generate,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: AppTheme.accentGold.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: AppTheme.accentGold.withValues(alpha: 0.35),
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text('✨', style: TextStyle(fontSize: 13)),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Baca narasi lengkap chart-mu',
+                      style: GoogleFonts.outfit(
+                        fontSize: 12,
+                        color: AppTheme.accentGold,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }

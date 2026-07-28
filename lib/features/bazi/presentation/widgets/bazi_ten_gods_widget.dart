@@ -95,7 +95,9 @@ class BaziTenGodsWidget extends StatelessWidget {
           _ArchetypeCard(chart: chart, elementColor: elementColor),
           const SizedBox(height: 12),
           Row(
-            children: columns.map((col) {
+            children: columns.asMap().entries.map((entry) {
+              final i = entry.key;
+              final col = entry.value;
               // Self (day pillar) or unknown hour — no tap
               if (col.isSelf || col.pillar == null) {
                 return Expanded(
@@ -127,6 +129,7 @@ class BaziTenGodsWidget extends StatelessWidget {
                           godEntry,
                           col.pillar!,
                           elementColor,
+                          i,
                         )
                       : null,
                   child: _GodChip(
@@ -154,6 +157,7 @@ class BaziTenGodsWidget extends StatelessWidget {
     Map<String, dynamic> data,
     BaziPillar pillar,
     Color elementColor,
+    int pillarIndex,
   ) {
     final String hanzi =
         data['hanzi'] as String? ?? _kTenGodNames[godId]?.$1 ?? '?';
@@ -180,6 +184,7 @@ class BaziTenGodsWidget extends StatelessWidget {
         interpretasi: interp,
         superpowers: superpowers,
         color: color,
+        pillarIndex: pillarIndex,
       ),
     );
   }
@@ -297,6 +302,67 @@ class _GodChip extends StatelessWidget {
 
 // ─── Detail Bottom Sheet ──────────────────────────────────────────────────────
 
+/// Pillar position label + domain.
+const Map<int, (String, String)> _kPillarPositionLabel = {
+  0: ('Pilar Tahun', 'Sosial & Warisan Leluhur'),
+  1: ('Pilar Bulan', 'Karier & Ambisi'),
+  3: ('Pilar Jam', 'Pikiran Batin & Warisan Karya'),
+};
+
+/// Positional interpretation per Ten God × pillar index.
+const Map<String, Map<int, String>> _kGodPositionalContext = {
+  'direct_officer': {
+    0: 'Di Pilar Tahun, Penjaga membentuk standar moral dari warisan leluhur — reputasi adalah harga dirimu.',
+    1: 'Di Pilar Bulan, Penjaga mewarnai karier dengan kebutuhan akan struktur dan pengakuan formal. Kamu bekerja paling baik dalam sistem yang jelas.',
+    3: 'Di Pilar Jam, Penjaga beroperasi sebagai hakim batin — standar yang kamu terapkan pada dirimu sendiri jauh lebih tinggi dari yang tampak di luar.',
+  },
+  'seven_killings': {
+    0: 'Di Pilar Tahun, Pendobrak terbentuk dari tekanan sosial masa kecil yang mengasah ketangguhan. Tekanan itu yang membentukmu.',
+    1: 'Di Pilar Bulan, Pendobrak menjadikan lingkungan kerja arena pembuktian diri. Tantangan justru mengaktifkan potensimu.',
+    3: 'Di Pilar Jam, Pendobrak tak pernah tidur — ada dorongan batin yang terus mendorongmu melampaui batas, bahkan saat dunia sudah istirahat.',
+  },
+  'direct_wealth': {
+    0: 'Di Pilar Tahun, Pembangun meletakkan fondasi nilai kerja keras dari keluarga. Kamu tahu harga sesuatu karena diajarkan sejak awal.',
+    1: 'Di Pilar Bulan, Pembangun mewarnai karier dengan orientasi hasil yang terukur. Produktivitas dan konsistensi adalah bahasamu.',
+    3: 'Di Pilar Jam, Pembangun beroperasi dalam aspirasi batin — impian tentang stabilitas dan kebebasan finansial mengisi pikiranmu yang paling dalam.',
+  },
+  'indirect_wealth': {
+    0: 'Di Pilar Tahun, Jaring muncul sebagai kemampuan membaca peluang dari lingkungan sosial yang luas. Koneksi tak terduga jadi sumber rezekimu.',
+    1: 'Di Pilar Bulan, Jaring mewarnai karier dengan intuisi bisnis dan kemampuan menemukan celah yang orang lain lewatkan.',
+    3: 'Di Pilar Jam, Jaring bekerja di bawah sadar — ide tak konvensional tentang peluang datang di saat yang paling tidak terduga.',
+  },
+  'eating_god': {
+    0: 'Di Pilar Tahun, Pencipta mewarisi bakat ekspresi dari keluarga yang menghargai kreativitas atau kelezatan hidup.',
+    1: 'Di Pilar Bulan, Pencipta menjadikan karier medium ekspresi diri. Kamu bekerja paling produktif saat diberi kebebasan berkreasi.',
+    3: 'Di Pilar Jam, Pencipta adalah sumber ide tak habisnya — imajinasi dan kebutuhan untuk menghasilkan sesuatu memenuhi seluruh ruang batinmu.',
+  },
+  'hurting_officer': {
+    0: 'Di Pilar Tahun, Visioner membawa warisan pemberontak dari keluarga atau terlahir untuk mengubah norma yang ada di lingkungannya.',
+    1: 'Di Pilar Bulan, Visioner mewarnai karier dengan semangat inovasi yang sering bertabrakan dengan sistem. Ini sumber terobosanmu.',
+    3: 'Di Pilar Jam, Visioner beroperasi sebagai kritikus batin yang tak pernah puas — kamu selalu melihat jarak antara apa yang ada dan apa yang seharusnya.',
+  },
+  'direct_resource': {
+    0: 'Di Pilar Tahun, Pustaka mewarisi tradisi belajar yang kuat dari keluarga. Fondasi intelektualmu dibangun sejak dini.',
+    1: 'Di Pilar Bulan, Pustaka mewarnai karier dengan kebutuhan untuk terus belajar dan mengasah keahlian. Mentor adalah figur penting dalam perjalananmu.',
+    3: 'Di Pilar Jam, Pustaka beroperasi sebagai pencari makna batin — pikiranmu selalu mengolah, merefleksikan, dan mencari pemahaman yang lebih dalam.',
+  },
+  'indirect_resource': {
+    0: 'Di Pilar Tahun, Filsuf mewarisi intuisi dan kepekaan spiritual dari leluhur. Ada kebijaksanaan yang mengalir dalam darahmu.',
+    1: 'Di Pilar Bulan, Filsuf mewarnai karier dengan pendekatan tidak konvensional. Kamu memproses masalah dengan cara yang orang lain tidak pikirkan.',
+    3: 'Di Pilar Jam, Filsuf beroperasi sebagai penerima sinyal batin — mimpi, firasat, dan momen hening adalah sumber wawasanmu yang paling jujur.',
+  },
+  'friend': {
+    0: 'Di Pilar Tahun, Sahabat muncul sebagai jaringan sosial yang luas dan kemampuan membangun solidaritas. Identitasmu terhubung kuat dengan komunitas.',
+    1: 'Di Pilar Bulan, Sahabat mewarnai karier dengan kolaborasi dan kerja tim. Kamu tumbuh paling pesat dalam lingkungan yang saling mendukung.',
+    3: 'Di Pilar Jam, Sahabat beroperasi sebagai kebutuhan batin untuk dimengerti — di dalam, kamu mendambakan koneksi autentik yang melampaui permukaan.',
+  },
+  'rob_wealth': {
+    0: 'Di Pilar Tahun, Penantang membawa warisan kompetisi dari keluarga yang menuntut kemandirian sejak dini.',
+    1: 'Di Pilar Bulan, Penantang mewarnai karier dengan energi kompetitif yang tinggi. Kamu bekerja paling tajam saat ada sesuatu yang dipertaruhkan.',
+    3: 'Di Pilar Jam, Penantang beroperasi sebagai suara batin yang mendorong otonomi total — ada bagian darimu yang selalu ingin berdiri sendiri.',
+  },
+};
+
 class _GodDetailSheet extends StatelessWidget {
   final String hanzi;
   final String nameId;
@@ -305,6 +371,7 @@ class _GodDetailSheet extends StatelessWidget {
   final String interpretasi;
   final List<String> superpowers;
   final Color color;
+  final int pillarIndex;
 
   const _GodDetailSheet({
     required this.hanzi,
@@ -314,6 +381,7 @@ class _GodDetailSheet extends StatelessWidget {
     required this.interpretasi,
     required this.superpowers,
     required this.color,
+    required this.pillarIndex,
   });
 
   @override
@@ -463,6 +531,82 @@ class _GodDetailSheet extends StatelessWidget {
                     ),
                   )
                   .toList(),
+            ),
+          ],
+
+          // ── Positional Context ──────────────────────────────────────────
+          if (_kPillarPositionLabel.containsKey(pillarIndex)) ...[
+            const SizedBox(height: 16),
+            Text(
+              'Makna di Posisi Ini',
+              style: GoogleFonts.outfit(
+                fontSize: 10,
+                color: AppTheme.textMuted,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.8,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.07),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: color.withValues(alpha: 0.22)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: color.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          _kPillarPositionLabel[pillarIndex]!.$1,
+                          style: GoogleFonts.outfit(
+                            fontSize: 10,
+                            color: color,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        _kPillarPositionLabel[pillarIndex]!.$2,
+                        style: GoogleFonts.outfit(
+                          fontSize: 10,
+                          color: Colors.white38,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    _kGodPositionalContext[nameId.toLowerCase().replaceAll(' ', '_')]?[pillarIndex] ??
+                        _kGodPositionalContext.entries
+                            .firstWhere(
+                              (e) => e.key.contains(
+                                nameId.toLowerCase().split(' ').first,
+                              ),
+                              orElse: () => const MapEntry('', {}),
+                            )
+                            .value[pillarIndex] ??
+                        '',
+                    style: GoogleFonts.outfit(
+                      fontSize: 12,
+                      color: Colors.white.withValues(alpha: 0.80),
+                      height: 1.5,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ],

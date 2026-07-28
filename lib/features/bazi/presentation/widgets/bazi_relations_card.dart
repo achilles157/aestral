@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/services/api_service.dart';
 import '../../../../core/widgets/glass_card.dart';
+import '../../../../features/auth/services/auth_service.dart';
 import '../../domain/bazi_chart.dart';
 import 'bazi_pillar_column.dart' show kBaziElementColors;
 import 'bazi_shared_constants.dart';
@@ -71,12 +75,14 @@ String? _harmonyNarrative(int a, int b) {
 /// Displays Six Clashes (六冲), Six Harmonies (六合), Three Harmonies (三合),
 /// and Empty Branches (空亡) detected within the chart.
 class BaziBranchRelationsCard extends StatelessWidget {
+  final BaziChart chart;
   final BaziRelations relations;
   final List<int> emptyBranches;
   final List<BaziPillar?> pillars; // 0=Tahun,1=Bulan,2=Hari,3=Jam
 
   const BaziBranchRelationsCard({
     super.key,
+    required this.chart,
     required this.relations,
     required this.emptyBranches,
     required this.pillars,
@@ -140,6 +146,16 @@ class BaziBranchRelationsCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           _emptyBranchesRow(),
+
+          // ── AI Synthesis ────────────────────────────────────────────────
+          const SizedBox(height: 14),
+          const Divider(color: Colors.white10, height: 1),
+          const SizedBox(height: 14),
+          _BranchRelationsAiSection(
+            chart: chart,
+            relations: relations,
+            emptyBranches: emptyBranches,
+          ),
         ],
       ),
     );
@@ -413,4 +429,211 @@ class BaziBranchRelationsCard extends StatelessWidget {
       ),
     ),
   );
+}
+
+// ─── Branch Relations AI Synthesis ────────────────────────────────────────────
+
+class _BranchRelationsAiSection extends ConsumerStatefulWidget {
+  const _BranchRelationsAiSection({
+    required this.chart,
+    required this.relations,
+    required this.emptyBranches,
+  });
+
+  final BaziChart chart;
+  final BaziRelations relations;
+  final List<int> emptyBranches;
+
+  @override
+  ConsumerState<_BranchRelationsAiSection> createState() =>
+      _BranchRelationsAiSectionState();
+}
+
+class _BranchRelationsAiSectionState
+    extends ConsumerState<_BranchRelationsAiSection> {
+  String? _insight;
+  bool _loading = false;
+
+  /// Deterministik: sorted clash pairs digabung — sama untuk chart yang sama.
+  static String _cacheKey(String dmId, BaziRelations relations) {
+    final clashSig = (relations.clashes.map((c) {
+      final a = c.indexA < c.indexB ? c.indexA : c.indexB;
+      final b = c.indexA < c.indexB ? c.indexB : c.indexA;
+      return '${a}_$b';
+    }).toList()..sort()).join(',');
+    return 'bazi_relations_ai_${dmId}_$clashSig';
+  }
+
+  String _buildPrompt() {
+    final parts = <String>[];
+
+    if (widget.relations.clashes.isNotEmpty) {
+      final desc = widget.relations.clashes.map((c) {
+        final ia = c.indexA.clamp(0, 3);
+        final ib = c.indexB.clamp(0, 3);
+        final key = ia < ib ? '${ia}_$ib' : '${ib}_$ia';
+        final narrative = _kClashNarrative[key] ?? '';
+        return 'Clash ${kBaziPillarLabels[ia]}-${kBaziPillarLabels[ib]}: $narrative';
+      }).join(' | ');
+      parts.add(desc);
+    }
+
+    if (widget.relations.harmonies.isNotEmpty) {
+      final desc = widget.relations.harmonies.map((h) {
+        final ia = h.indexA.clamp(0, 3);
+        final ib = h.indexB.clamp(0, 3);
+        return 'Harmony ${kBaziPillarLabels[ia]}-${kBaziPillarLabels[ib]} → ${h.resultElement}';
+      }).join(' | ');
+      parts.add(desc);
+    }
+
+    if (widget.emptyBranches.isNotEmpty) {
+      final desc = widget.emptyBranches
+          .map((b) => kBaziBranchName[b])
+          .join(', ');
+      parts.add('Empty Branches: $desc');
+    }
+
+    return 'Day Master: ${widget.chart.dayMasterElement} '
+        '(${widget.chart.dmStrength.label}). '
+        'Interaksi pilar: ${parts.join(". ")}. '
+        'Tulis 3–4 kalimat yang mensintesis SEMUA interaksi ini menjadi satu '
+        'tema psikologis dominan yang terasa dalam kehidupan sehari-hari. '
+        'Jangan merangkum per pasangan — temukan benang merah yang '
+        'menghubungkan semuanya. '
+        'Nada empatik, psikologi modern, bukan ramalan buta.';
+  }
+
+  Future<void> _generate() async {
+    if (_loading) return;
+    setState(() => _loading = true);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final key = _cacheKey(widget.chart.dayMasterId, widget.relations);
+      final cached = prefs.getString(key);
+      if (cached != null) {
+        if (mounted) setState(() { _insight = cached; _loading = false; });
+        return;
+      }
+
+      final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
+      final result = await ApiService.generateAiChat(
+        prompt: _buildPrompt(),
+        authHeader: authHeader,
+      );
+      final text = result['response'] as String? ?? '';
+      if (text.isNotEmpty) {
+        await prefs.setString(key, text);
+        if (mounted) setState(() => _insight = text);
+      }
+    } catch (e) {
+      debugPrint('_BranchRelationsAiSection error: $e');
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_insight != null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                '☯ Sintesis Pola Interaksimu',
+                style: GoogleFonts.cinzel(
+                  fontSize: 11,
+                  color: AppTheme.accentGold,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.8,
+                ),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.remove(
+                    _cacheKey(widget.chart.dayMasterId, widget.relations),
+                  );
+                  if (mounted) setState(() => _insight = null);
+                },
+                child: Text(
+                  '↻',
+                  style: GoogleFonts.outfit(fontSize: 12, color: Colors.white24),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _insight!,
+            style: GoogleFonts.outfit(
+              fontSize: 12,
+              color: Colors.white.withValues(alpha: 0.85),
+              height: 1.55,
+            ),
+          ),
+        ],
+      );
+    }
+
+    return Center(
+      child: _loading
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  width: 14,
+                  height: 14,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1.5,
+                    color: AppTheme.accentGold,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Menyusun sintesis pola interaksi...',
+                  style: GoogleFonts.outfit(
+                    fontSize: 11,
+                    color: AppTheme.accentGold,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ],
+            )
+          : GestureDetector(
+              onTap: _generate,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: AppTheme.accentGold.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: AppTheme.accentGold.withValues(alpha: 0.35),
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text('✨', style: TextStyle(fontSize: 13)),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Baca sintesis pola interaksimu',
+                      style: GoogleFonts.outfit(
+                        fontSize: 12,
+                        color: AppTheme.accentGold,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+    );
+  }
 }

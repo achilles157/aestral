@@ -222,11 +222,12 @@ class BaziResultsView extends ConsumerWidget {
             const SizedBox(height: 16),
           ],
 
-          BaziElementBalanceCard(balance: chart!.wuXingBalance),
+          BaziElementBalanceCard(balance: chart!.wuXingBalance, chart: chart!),
           const SizedBox(height: 16),
 
           if (branchRelations != null && emptyBranches != null) ...[
             BaziBranchRelationsCard(
+              chart: chart!,
               relations: branchRelations!,
               emptyBranches: emptyBranches!,
               pillars: chart!.allPillars,
