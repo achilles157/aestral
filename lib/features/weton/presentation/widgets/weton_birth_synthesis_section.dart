@@ -9,102 +9,43 @@ import '../../../../core/utils/weton_utils.dart';
 import '../../../../features/auth/services/auth_service.dart';
 import '../../services/weton_dictionary_service.dart';
 
-/// Computes dominant Javanese element(s) from saptawara + pancawara.
-/// Returns single name (e.g. 'Geni') or dual sorted (e.g. 'Banyu & Geni').
-String _dominantElement(String saptawara, String pancawara) {
-  double geni = 1, banyu = 1, lemah = 1, angin = 1;
-
-  final s = saptawara.toLowerCase();
-  if (s.contains('ahad') || s.contains('minggu')) {
-    geni += 2; angin += 1;
-  } else if (s.contains('senin')) {
-    banyu += 3;
-  } else if (s.contains('selasa')) {
-    geni += 3;
-  } else if (s.contains('rabu')) {
-    banyu += 2; lemah += 1;
-  } else if (s.contains('kamis')) {
-    angin += 3;
-  } else if (s.contains('jumat')) {
-    lemah += 2; banyu += 1;
-  } else if (s.contains('sabtu')) {
-    lemah += 3; geni += 1;
-  }
-
-  final p = pancawara.toLowerCase();
-  if (p.contains('legi')) {
-    angin += 3; lemah += 1;
-  } else if (p.contains('pahing')) {
-    geni += 3; angin += 1;
-  } else if (p.contains('pon')) {
-    banyu += 3; geni += 1;
-  } else if (p.contains('wage')) {
-    lemah += 3; banyu += 1;
-  } else if (p.contains('kliwon')) {
-    geni += 1; banyu += 1; lemah += 1; angin += 1;
-  }
-
-  final values = {'Geni': geni, 'Banyu': banyu, 'Lemah': lemah, 'Angin': angin};
-  final maxVal = values.values.reduce((a, b) => a > b ? a : b);
-  final tied = values.entries
-      .where((e) => (e.value - maxVal).abs() < 0.001)
-      .map((e) => e.key)
-      .toList()
-    ..sort();
-
-  if (tied.length >= 3) return 'Seimbang';
-  if (tied.length == 2) return '${tied[0]} & ${tied[1]}';
-  return tied.first;
-}
-
-/// On-demand AI synthesis yang menghubungkan weton lahir, energi wuku berjalan,
-/// elemen dominan, dan Pancasuda menjadi satu narasi personal.
-class WetonAiSynthesisSection extends ConsumerStatefulWidget {
-  const WetonAiSynthesisSection({
+/// Sintesis seumur hidup berbasis data weton lahir saja.
+/// Cache permanen — tidak berubah sepanjang hidup, tidak terikat siklus wuku/mangsa.
+class WetonBirthSynthesisSection extends ConsumerStatefulWidget {
+  const WetonBirthSynthesisSection({
     super.key,
     required this.result,
     required this.entry,
-    this.dailyInsightData,
   });
 
   final WetonInfo result;
   final WetonDictionaryEntry entry;
-  final Map<String, dynamic>? dailyInsightData;
 
   @override
-  ConsumerState<WetonAiSynthesisSection> createState() =>
-      _WetonAiSynthesisSectionState();
+  ConsumerState<WetonBirthSynthesisSection> createState() =>
+      _WetonBirthSynthesisSectionState();
 }
 
-class _WetonAiSynthesisSectionState
-    extends ConsumerState<WetonAiSynthesisSection> {
+class _WetonBirthSynthesisSectionState
+    extends ConsumerState<WetonBirthSynthesisSection> {
   String? _insight;
   bool _loading = false;
   String? _error;
 
-  static String _cacheKey(String saptawara, String pancawara, String wuku) =>
-      'weton_ai_synthesis_${saptawara}_${pancawara}_$wuku';
+  /// Cache key permanen — tidak pernah expired karena data lahir tidak berubah.
+  static String _cacheKey(String saptawara, String pancawara) =>
+      'weton_birth_synthesis_${saptawara.toLowerCase()}_${pancawara.toLowerCase()}';
 
   String _buildPrompt() {
     final r = widget.result;
-    final dominant = _dominantElement(r.saptawara, r.pancawara);
-
-    final wukuMap = widget.dailyInsightData?['wuku'] as Map<String, dynamic>?;
-    final wukuNama = wukuMap?['nama_wuku'] as String? ?? r.wuku;
-    final wukuArketipe = wukuMap?['arketipe_modern'] as String? ?? '';
-
-    final wukuCtx = wukuArketipe.isNotEmpty
-        ? '$wukuNama ($wukuArketipe)'
-        : wukuNama;
-
+    final e = widget.entry;
     return 'Weton ${r.saptawara} ${r.pancawara}, neptu ${r.totalNeptu}. '
-        'Elemen dominan: $dominant. '
         'Pancasuda: ${r.pancasuda}. Pangarasan: ${r.pangarasan}. '
-        'Wuku berjalan: $wukuCtx. '
-        'Tulis 3–4 kalimat sintesis yang menghubungkan weton lahir '
-        'dengan energi wuku sekarang — apa yang sedang aktif dalam diri '
-        'orang ini dan apa yang perlu disadari minggu ini. '
-        'Nada empatik, psikologi modern, bukan ramalan buta.';
+        'Karakter: ${e.headline}. '
+        'Tulis 4 kalimat blueprint jiwa seumur hidup: '
+        'apa yang tetap konstan — kekuatan terdalam, tantangan abadi, '
+        'dan potensi terbesar orang ini. '
+        'Ini bukan ramalan harian. Nada empatik, psikologi modern.';
   }
 
   Future<void> _generate() async {
@@ -112,12 +53,7 @@ class _WetonAiSynthesisSectionState
     setState(() { _loading = true; _error = null; });
 
     try {
-      final r = widget.result;
-      final wukuMap =
-          widget.dailyInsightData?['wuku'] as Map<String, dynamic>?;
-      final wukuNama = wukuMap?['nama_wuku'] as String? ?? r.wuku;
-      final key = _cacheKey(r.saptawara, r.pancawara, wukuNama);
-
+      final key = _cacheKey(widget.result.saptawara, widget.result.pancawara);
       final prefs = await SharedPreferences.getInstance();
       final cached = prefs.getString(key);
       if (cached != null) {
@@ -138,7 +74,7 @@ class _WetonAiSynthesisSectionState
         if (mounted) setState(() => _error = 'Tidak ada respons. Coba lagi.');
       }
     } catch (e) {
-      debugPrint('WetonAiSynthesisSection error: $e');
+      debugPrint('WetonBirthSynthesisSection error: $e');
       if (mounted) setState(() => _error = 'Gagal memuat — coba lagi.');
     } finally {
       if (mounted) setState(() => _loading = false);
@@ -151,10 +87,10 @@ class _WetonAiSynthesisSectionState
       return Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppTheme.accentGold.withValues(alpha: 0.06),
+          color: AppTheme.accentPurple.withValues(alpha: 0.07),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: AppTheme.accentGold.withValues(alpha: 0.25),
+            color: AppTheme.accentPurple.withValues(alpha: 0.28),
           ),
         ),
         child: Column(
@@ -163,25 +99,32 @@ class _WetonAiSynthesisSectionState
             Row(
               children: [
                 Text(
-                  '☯ Sintesis Kosmis Wetonmu',
+                  '✦ Blueprint Jiwa Wetonmu',
                   style: GoogleFonts.cinzel(
                     fontSize: 11,
-                    color: AppTheme.accentGold,
+                    color: AppTheme.accentPurple,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 0.8,
                   ),
                 ),
                 const Spacer(),
+                Text(
+                  'Seumur Hidup',
+                  style: GoogleFonts.outfit(
+                    fontSize: 9,
+                    color: AppTheme.accentPurple.withValues(alpha: 0.55),
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                const SizedBox(width: 8),
                 GestureDetector(
                   onTap: () async {
-                    final r = widget.result;
-                    final wukuMap = widget.dailyInsightData?['wuku']
-                        as Map<String, dynamic>?;
-                    final wukuNama =
-                        wukuMap?['nama_wuku'] as String? ?? r.wuku;
                     final prefs = await SharedPreferences.getInstance();
                     await prefs.remove(
-                      _cacheKey(r.saptawara, r.pancawara, wukuNama),
+                      _cacheKey(
+                        widget.result.saptawara,
+                        widget.result.pancawara,
+                      ),
                     );
                     if (mounted) setState(() => _insight = null);
                   },
@@ -219,15 +162,15 @@ class _WetonAiSynthesisSectionState
               height: 14,
               child: CircularProgressIndicator(
                 strokeWidth: 1.5,
-                color: AppTheme.accentGold,
+                color: AppTheme.accentPurple,
               ),
             ),
             const SizedBox(width: 8),
             Text(
-              'Menyusun sintesis kosmismu...',
+              'Membaca blueprint jiwa wetonmu...',
               style: GoogleFonts.outfit(
                 fontSize: 11,
-                color: AppTheme.accentGold,
+                color: AppTheme.accentPurple,
                 fontStyle: FontStyle.italic,
               ),
             ),
@@ -265,22 +208,22 @@ class _WetonAiSynthesisSectionState
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
-            color: AppTheme.accentGold.withValues(alpha: 0.08),
+            color: AppTheme.accentPurple.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: AppTheme.accentGold.withValues(alpha: 0.35),
+              color: AppTheme.accentPurple.withValues(alpha: 0.35),
             ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('✨', style: TextStyle(fontSize: 13)),
+              const Text('✦', style: TextStyle(fontSize: 13)),
               const SizedBox(width: 6),
               Text(
-                'Baca sintesis kosmis wetonmu minggu ini',
+                'Baca blueprint jiwa wetonmu',
                 style: GoogleFonts.outfit(
                   fontSize: 12,
-                  color: AppTheme.accentGold,
+                  color: AppTheme.accentPurple,
                   fontWeight: FontWeight.w600,
                 ),
               ),

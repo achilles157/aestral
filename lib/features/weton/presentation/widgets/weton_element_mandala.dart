@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 
 const _kElementNarrative = {
+  // ── Single dominant ────────────────────────────────────────────────────────
   'geni':
       'Geni (Api) yang dominan dalam wetonmu menandakan jiwa yang penuh semangat dan daya dorong besar. '
       'Kamu cenderung bergerak lebih dulu dari orang lain — inisiatif adalah bahasa alaminya. '
@@ -20,6 +21,40 @@ const _kElementNarrative = {
       'Angin (Udara) yang dominan menandakan pikiran yang lincah dan kemampuan menghubungkan hal-hal yang tampak tidak berkaitan. '
       'Kamu bergerak dalam ide dan koneksi sosial dengan sangat natural — inspirasi mengalir deras. '
       'Yang perlu dijaga: angin yang bergerak terlalu cepat kadang melewatkan kedalaman. Melatih konsistensi jangka panjang akan melipatgandakan dampak dari semua ide besarmu.',
+
+  // ── Dual dominant (sorted alphabetically) ─────────────────────────────────
+  'banyu_geni':
+      'Wetonmu memiliki dua kekuatan yang sama kuatnya: Api yang mendorong dan Air yang merasakan — kombinasi yang sangat jarang. '
+      'Kamu bisa bergerak cepat sekaligus merasakan segalanya dengan dalam, memimpin sekaligus berempati. '
+      'Tantangannya: keduanya bisa saling meredam. Api ingin bertindak, Air ingin merenung. '
+      'Kuncinya adalah tahu kapan harus membakar dan kapan harus mengalir.',
+  'geni_lemah':
+      'Api yang bersemangat bertemu fondasi Tanah yang kokoh — kamu punya daya dorong besar sekaligus kemampuan untuk konsisten. '
+      'Kombinasi yang langka: ambisius tapi tidak terburu-buru, stabil tapi tidak diam. '
+      'Yang perlu dijaga: jangan biarkan stabilitas menjadi keengganan untuk berubah ketika perubahan itu memang dibutuhkan.',
+  'angin_geni':
+      'Api dan Angin dalam dirimu saling memperkuat — inspirasi mengalir deras dan semangat untuk mewujudkannya juga besar. '
+      'Kamu adalah tipe yang bisa menggerakkan orang lain dengan energi dan ide. '
+      'Yang perlu dijaga: keduanya sama-sama volatile. Tanpa akar yang kuat, api yang ditiup angin bisa menjadi kebakaran.',
+  'banyu_lemah':
+      'Air yang dalam dan Tanah yang stabil — dua elemen paling nurturing dalam sistem ini hadir bersamaan dalam dirimu. '
+      'Kamu adalah tempat orang berlabuh sekaligus merasakan; empati dan kestabilan berjalan berdampingan. '
+      'Yang perlu dijaga: kamu bisa terlalu fokus merawat orang lain hingga lupa mengisi kembali dirimu sendiri.',
+  'angin_banyu':
+      'Air yang mengalir dan Angin yang bergerak membentuk kombinasi yang sangat adaptif dan intuitif. '
+      'Kamu membaca situasi dengan cepat dan bergerak sesuai arus tanpa terasa dipaksakan. '
+      'Yang perlu dijaga: terlalu mengalir bisa membuat orang lain — dan dirimu sendiri — sulit memprediksi ke mana kamu akan pergi.',
+  'angin_lemah':
+      'Fondasi Tanah yang kuat diperkaya oleh kreativitas dan fleksibilitas Angin. '
+      'Kamu bisa membangun sesuatu yang besar sekaligus beradaptasi saat diperlukan — pembangun yang juga bisa berpikir out-of-the-box. '
+      'Yang perlu dijaga: dua kekuatan ini terkadang saling tarik. Kenali kapan kamu butuh konsistensi dan kapan butuh improvisasi.',
+
+  // ── Seimbang (semua elemen setara — Kliwon tanpa offset besar) ────────────
+  'balanced':
+      'Keempat elemen dalam wetonmu hadir dalam keseimbangan yang sangat langka. '
+      'Ini berarti kamu memiliki fleksibilitas luar biasa untuk beradaptasi ke hampir semua situasi dan peran. '
+      'Yang perlu dijaga: terlalu seimbang bisa membuat sulit mengidentifikasi kekuatan terkuat yang perlu difokuskan. '
+      'Pilih satu arena, kerahkan semua elemen — di situlah potensimu meledak.',
 };
 
 class WetonElementMandala extends StatefulWidget {
@@ -182,23 +217,43 @@ class _WetonElementMandalaState extends State<WetonElementMandala>
             ),
           ],
         ),
-        const SizedBox(height: 4),
         // ── "So what" narrative per elemen dominan ────────────────────────
         // Rendered inline (bukan ExpansionTile) karena widget ini hidup
         // di dalam Screenshot — animated height widget menyebabkan layout conflict.
         Builder(
           builder: (ctx) {
-            final dominant = values.entries
-                .reduce((a, b) => a.value > b.value ? a : b)
-                .key;
-            final narrative = _kElementNarrative[dominant];
+            final maxVal = values.values.reduce((a, b) => a > b ? a : b);
+            // Kumpulkan semua elemen yang tie (selisih < 0.001 untuk float safety)
+            final tied = values.entries
+                .where((e) => (e.value - maxVal).abs() < 0.001)
+                .map((e) => e.key)
+                .toList()
+              ..sort(); // sort alfabetis → key deterministik
+
+            final String narrativeKey;
+            final Color color;
+            if (tied.length >= 3) {
+              // 3 atau 4 elemen seri → balanced
+              narrativeKey = 'balanced';
+              color = AppTheme.accentGold;
+            } else if (tied.length == 2) {
+              // Dual dominant — key: 'elemen1_elemen2' (sorted)
+              narrativeKey = '${tied[0]}_${tied[1]}';
+              color = AppTheme.accentGold;
+            } else {
+              // Single dominant
+              narrativeKey = tied.first;
+              color = switch (narrativeKey) {
+                'geni' => AppTheme.elementFire,
+                'banyu' => AppTheme.elementWater,
+                'lemah' => AppTheme.elementEarth,
+                _ => AppTheme.elementCosmic,
+              };
+            }
+
+            final narrative = _kElementNarrative[narrativeKey];
             if (narrative == null) return const SizedBox.shrink();
-            final color = switch (dominant) {
-              'geni' => AppTheme.elementFire,
-              'banyu' => AppTheme.elementWater,
-              'lemah' => AppTheme.elementEarth,
-              _ => AppTheme.elementCosmic,
-            };
+
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Container(

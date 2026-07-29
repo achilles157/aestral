@@ -13,6 +13,7 @@ import 'widgets/weton_date_picker_card.dart';
 import 'widgets/weton_result_header.dart';
 import 'widgets/weton_technical_card.dart';
 import 'widgets/weton_ai_synthesis_section.dart';
+import 'widgets/weton_birth_synthesis_section.dart';
 import 'widgets/weton_insight_section.dart';
 import 'widgets/weton_oracle_button.dart';
 import 'widgets/weton_daily_section.dart';
@@ -437,6 +438,11 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                                       const SizedBox(height: 16),
                                       if (entry != null) ...[
                                         WetonInsightSection(entry: entry),
+                                        const SizedBox(height: 16),
+                                        WetonBirthSynthesisSection(
+                                          result: _result!,
+                                          entry: entry,
+                                        ),
                                         const SizedBox(height: 16),
                                         WetonAiSynthesisSection(
                                           result: _result!,
