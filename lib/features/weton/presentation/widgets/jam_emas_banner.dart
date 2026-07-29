@@ -71,12 +71,13 @@ class JamEmasBanner extends StatelessWidget {
     if (!isToday) return false;
 
     final parts = range.split(' - ');
-    if (parts.length < 2) return false;
+    if (parts.length < 2) return true; // W23: unparseable range → treat as past
     final endParts = parts[1].trim().split(':');
-    if (endParts.length < 2) return false;
+    if (endParts.length < 2) return true; // W23: treat as past, not visible
 
-    final endHour = int.tryParse(endParts[0]) ?? 23;
-    final endMin = int.tryParse(endParts[1]) ?? 59;
+    final endHour = int.tryParse(endParts[0]);
+    final endMin = int.tryParse(endParts[1]);
+    if (endHour == null || endMin == null) return true; // W23: parse failure → past
 
     // Detect midnight-crossing slot (end hour < start hour)
     final startParts = parts[0].trim().split(':');

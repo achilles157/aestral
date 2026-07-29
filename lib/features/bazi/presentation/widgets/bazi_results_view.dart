@@ -150,7 +150,10 @@ class BaziResultsView extends ConsumerWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '${birthDate!.day} / ${birthDate!.month} / ${birthDate!.year}',
+                          // W9: birthDate is a separate nullable param — guard it
+                          birthDate != null
+                              ? '${birthDate!.day} / ${birthDate!.month} / ${birthDate!.year}'
+                              : '',
                           style: GoogleFonts.outfit(
                             fontSize: 13,
                             color: Colors.white54,
