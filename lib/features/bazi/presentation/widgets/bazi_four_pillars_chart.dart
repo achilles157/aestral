@@ -404,10 +404,10 @@ class _FourPillarsAiSectionState extends ConsumerState<_FourPillarsAiSection> {
   static String _cacheKey(BaziChart c) {
     final h = c.hourPillar;
     return 'bazi_pillars_ai_'
-        '${c.yearPillar.stemIndex}${c.yearPillar.branchIndex}_'
-        '${c.monthPillar.stemIndex}${c.monthPillar.branchIndex}_'
-        '${c.dayPillar.stemIndex}${c.dayPillar.branchIndex}_'
-        '${h != null ? "${h.stemIndex}${h.branchIndex}" : "xx"}';
+        '${c.yearPillar.stemIndex}-${c.yearPillar.branchIndex}_'
+        '${c.monthPillar.stemIndex}-${c.monthPillar.branchIndex}_'
+        '${c.dayPillar.stemIndex}-${c.dayPillar.branchIndex}_'
+        '${h != null ? "${h.stemIndex}-${h.branchIndex}" : "xx"}';
   }
 
   String _buildPrompt() {

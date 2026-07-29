@@ -179,6 +179,7 @@ class BaziTenGodsWidget extends StatelessWidget {
       builder: (_) => _GodDetailSheet(
         hanzi: hanzi,
         nameId: nameId,
+        godId: godId,
         nameTradisional: data['nama_tradisional'] as String? ?? '',
         fokus: fokus,
         interpretasi: interp,
@@ -366,6 +367,7 @@ const Map<String, Map<int, String>> _kGodPositionalContext = {
 class _GodDetailSheet extends StatelessWidget {
   final String hanzi;
   final String nameId;
+  final String godId;
   final String nameTradisional;
   final String fokus;
   final String interpretasi;
@@ -376,6 +378,7 @@ class _GodDetailSheet extends StatelessWidget {
   const _GodDetailSheet({
     required this.hanzi,
     required this.nameId,
+    required this.godId,
     required this.nameTradisional,
     required this.fokus,
     required this.interpretasi,
@@ -589,16 +592,7 @@ class _GodDetailSheet extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    _kGodPositionalContext[nameId.toLowerCase().replaceAll(' ', '_')]?[pillarIndex] ??
-                        _kGodPositionalContext.entries
-                            .firstWhere(
-                              (e) => e.key.contains(
-                                nameId.toLowerCase().split(' ').first,
-                              ),
-                              orElse: () => const MapEntry('', {}),
-                            )
-                            .value[pillarIndex] ??
-                        '',
+                    _kGodPositionalContext[godId]?[pillarIndex] ?? '',
                     style: GoogleFonts.outfit(
                       fontSize: 12,
                       color: Colors.white.withValues(alpha: 0.80),

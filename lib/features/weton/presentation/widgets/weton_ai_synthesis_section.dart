@@ -83,7 +83,7 @@ class _WetonAiSynthesisSectionState
   String? _error;
 
   static String _cacheKey(String saptawara, String pancawara, String wuku) =>
-      'weton_ai_synthesis_${saptawara}_${pancawara}_$wuku';
+      'weton_ai_synthesis_${saptawara.toLowerCase()}_${pancawara.toLowerCase()}_${wuku.toLowerCase()}';
 
   String _buildPrompt() {
     final r = widget.result;

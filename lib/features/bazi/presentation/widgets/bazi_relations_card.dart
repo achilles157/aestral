@@ -453,6 +453,7 @@ class _BranchRelationsAiSectionState
     extends ConsumerState<_BranchRelationsAiSection> {
   String? _insight;
   bool _loading = false;
+  String? _error;
 
   /// Deterministik: sorted clash pairs digabung — sama untuk chart yang sama.
   static String _cacheKey(String dmId, BaziRelations relations) {
@@ -465,48 +466,40 @@ class _BranchRelationsAiSectionState
   }
 
   String _buildPrompt() {
-    final parts = <String>[];
+    // Compact format — labels only, no full narratives, stays under 600 char
+    final clashDesc = widget.relations.clashes.map((c) {
+      final ia = c.indexA.clamp(0, 4); // clamp 0-4: include index 4 = 流年
+      final ib = c.indexB.clamp(0, 4);
+      return '${kBaziPillarLabels[ia]}↔${kBaziPillarLabels[ib]}';
+    }).join(', ');
 
-    if (widget.relations.clashes.isNotEmpty) {
-      final desc = widget.relations.clashes.map((c) {
-        final ia = c.indexA.clamp(0, 3);
-        final ib = c.indexB.clamp(0, 3);
-        final key = ia < ib ? '${ia}_$ib' : '${ib}_$ia';
-        final narrative = _kClashNarrative[key] ?? '';
-        return 'Clash ${kBaziPillarLabels[ia]}-${kBaziPillarLabels[ib]}: $narrative';
-      }).join(' | ');
-      parts.add(desc);
-    }
+    final harmonyDesc = widget.relations.harmonies.map((h) {
+      final ia = h.indexA.clamp(0, 4);
+      final ib = h.indexB.clamp(0, 4);
+      return '${kBaziPillarLabels[ia]}↔${kBaziPillarLabels[ib]}→${h.resultElement}';
+    }).join(', ');
 
-    if (widget.relations.harmonies.isNotEmpty) {
-      final desc = widget.relations.harmonies.map((h) {
-        final ia = h.indexA.clamp(0, 3);
-        final ib = h.indexB.clamp(0, 3);
-        return 'Harmony ${kBaziPillarLabels[ia]}-${kBaziPillarLabels[ib]} → ${h.resultElement}';
-      }).join(' | ');
-      parts.add(desc);
-    }
+    final emptyDesc = widget.emptyBranches
+        .map((b) => kBaziBranchName[b])
+        .join(', ');
 
-    if (widget.emptyBranches.isNotEmpty) {
-      final desc = widget.emptyBranches
-          .map((b) => kBaziBranchName[b])
-          .join(', ');
-      parts.add('Empty Branches: $desc');
-    }
+    final parts = <String>[
+      if (clashDesc.isNotEmpty) 'Clash: $clashDesc',
+      if (harmonyDesc.isNotEmpty) 'Harmony: $harmonyDesc',
+      if (emptyDesc.isNotEmpty) 'Kong Wang: $emptyDesc',
+    ];
 
     return 'Day Master: ${widget.chart.dayMasterElement} '
         '(${widget.chart.dmStrength.label}). '
-        'Interaksi pilar: ${parts.join(". ")}. '
-        'Tulis 3–4 kalimat yang mensintesis SEMUA interaksi ini menjadi satu '
-        'tema psikologis dominan yang terasa dalam kehidupan sehari-hari. '
-        'Jangan merangkum per pasangan — temukan benang merah yang '
-        'menghubungkan semuanya. '
-        'Nada empatik, psikologi modern, bukan ramalan buta.';
+        '${parts.join('. ')}. '
+        'Tulis 3 kalimat sintesis: satu tema psikologis dominan '
+        'dari semua interaksi ini. Jangan rangkum per pasangan. '
+        'Nada empatik, psikologi modern.';
   }
 
   Future<void> _generate() async {
     if (_loading) return;
-    setState(() => _loading = true);
+    setState(() { _loading = true; _error = null; });
     try {
       final prefs = await SharedPreferences.getInstance();
       final key = _cacheKey(widget.chart.dayMasterId, widget.relations);
@@ -525,9 +518,12 @@ class _BranchRelationsAiSectionState
       if (text.isNotEmpty) {
         await prefs.setString(key, text);
         if (mounted) setState(() => _insight = text);
+      } else {
+        if (mounted) setState(() => _error = 'Tidak ada respons. Coba lagi.');
       }
     } catch (e) {
       debugPrint('_BranchRelationsAiSection error: $e');
+      if (mounted) setState(() => _error = 'Gagal memuat — coba lagi.');
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -602,6 +598,25 @@ class _BranchRelationsAiSectionState
                   ),
                 ),
               ],
+            )
+          : _error != null
+          ? GestureDetector(
+              onTap: _generate,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.refresh_rounded,
+                      size: 14, color: Color(0xFFF87171)),
+                  const SizedBox(width: 6),
+                  Text(
+                    _error!,
+                    style: GoogleFonts.outfit(
+                      fontSize: 12,
+                      color: const Color(0xFFF87171),
+                    ),
+                  ),
+                ],
+              ),
             )
           : GestureDetector(
               onTap: _generate,
