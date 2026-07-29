@@ -116,6 +116,8 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
         (lp) => age >= lp.startAge && age <= lp.endAge,
       );
       if (activeIdx > 0 && _scrollCtrl.hasClients) {
+        // W10: guard hasContentDimensions before accessing maxScrollExtent
+        if (!_scrollCtrl.position.hasContentDimensions) return;
         const double cardWidth = 74.0; // 66px card + 8px margin
         final targetOffset = (activeIdx * cardWidth) - 20.0;
         _scrollCtrl.animateTo(
@@ -313,8 +315,12 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
       }
     } catch (e) {
       debugPrint('BaziLuckPillarsWidget._generateAiReading error: $e');
-      final errMsg = e.toString().contains('RATE_LIMIT')
+      // W12: check error type/code instead of fragile string contains
+      final msg = e.toString();
+      final errMsg = (msg.contains('gemini_quota') || msg.contains('RATE_LIMIT') || msg.contains('503'))
           ? 'Oracle sedang istirahat. Coba lagi sebentar.'
+          : msg.contains('TimeoutException') || msg.contains('timeout')
+          ? 'Koneksi timeout. Coba lagi.'
           : 'Gagal memuat sintesis. Coba lagi.';
       if (mounted) {
         setModalState(() {
@@ -330,11 +336,12 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
     final int age = _currentAge();
     final bool isChildhood =
         widget.pillars.isNotEmpty && age < widget.pillars.first.startAge;
+    // W13: -1 sentinel means user has passed all pillars — avoid showing past age
     final int nextTransitionAge = widget.pillars
         .map((p) => p.startAge)
         .firstWhere(
           (ageVal) => ageVal > age,
-          orElse: () => widget.pillars.last.startAge,
+          orElse: () => -1,
         );
 
     return GlassCard(
@@ -369,6 +376,8 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
           Text(
             isChildhood
                 ? 'Siklus 10 Tahun (Da Yun) • Mulai usia ${widget.pillars.first.startAge} tahun • Saat ini di periode 童限 (Childhood Fortune)'
+                : nextTransitionAge == -1
+                ? 'Siklus 10 Tahun (Da Yun) • Mulai usia ${widget.pillars.first.startAge} • Semua siklus telah dilalui'
                 : 'Siklus 10 Tahun (Da Yun) • Mulai usia ${widget.pillars.first.startAge} • Transisi berikutnya: Usia $nextTransitionAge tahun',
             style: GoogleFonts.outfit(fontSize: 11, color: Colors.white38),
           ),
@@ -579,7 +588,7 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
                     title:
                         '5 Tahun Kedua (Usia ${lp.startAge + 5}–${lp.endAge})',
                     subtitle:
-                        'Cabang Bumi: ${lp.pillar.branchSymbol} ${lp.pillar.branchZodiacId} (${(insight['branchElem'] as String).toUpperCase()})',
+                        'Cabang Bumi: ${lp.pillar.branchSymbol} ${lp.pillar.branchZodiacId} (${(insight['branchElem']?.toString() ?? '').toUpperCase()})', // W11
                     godHanzi: insight['branchGodHanzi'] as String,
                     godName: insight['branchGodName'] as String,
                     description: insight['branchGodDesc'] as String,

@@ -149,7 +149,9 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                 '${dob.year}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}',
             'calculatedAt': FieldValue.serverTimestamp(),
           })
-          .then((_) {}, onError: (Object _) {});
+          .then((_) {}, onError: (Object e) {
+            debugPrint('WetonScreen: Firestore history write failed — $e'); // W2
+          });
     }
 
     final authHeader = await ref.read(authProvider.notifier).getAuthHeader();

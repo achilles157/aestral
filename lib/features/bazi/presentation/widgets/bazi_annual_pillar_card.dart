@@ -366,7 +366,7 @@ class _AnnualAiInsightSectionState
           '(${widget.annualPillar.stemNameId} ${widget.annualPillar.branchZodiacId}) '
           'untuk pengguna dengan Day Master ${widget.chart.dayMasterElement} '
           '(${widget.chart.dmStrength.label}). '
-          'Yong Shen: ${widget.chart.dmStrength.yongShen.join(", ")}. '
+          'Yong Shen: ${widget.chart.dmStrength.yongShen.isNotEmpty ? widget.chart.dmStrength.yongShen.join(", ") : "tidak tersedia"}. ' // W14
           'Fokus: 1 peluang utama, 1 hal yang perlu diwaspadai, dan 1 rekomendasi aksi konkret. '
           'Nada empatik, psikologi modern, bukan ramalan buta.';
 

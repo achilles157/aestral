@@ -266,6 +266,7 @@ class _WuXingAiSection extends ConsumerStatefulWidget {
 class _WuXingAiSectionState extends ConsumerState<_WuXingAiSection> {
   String? _insight;
   bool _loading = false;
+  String? _error; // W16: track error state for user-visible feedback
 
   static String _cacheKey(String dmId, String dominant, String deficient) =>
       'bazi_wuxing_ai_${dmId}_${dominant}_$deficient';
@@ -313,10 +314,12 @@ class _WuXingAiSectionState extends ConsumerState<_WuXingAiSection> {
       final text = result['response'] as String? ?? '';
       if (text.isNotEmpty) {
         await prefs.setString(key, text);
-        if (mounted) setState(() => _insight = text);
+        if (mounted) setState(() { _insight = text; _error = null; });
       }
     } catch (e) {
       debugPrint('_WuXingAiSection error: $e');
+      // W16: surface error to user with retry — consistent with other AI sections
+      if (mounted) setState(() => _error = 'Gagal memuat narasi. Coba lagi.');
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -396,6 +399,20 @@ class _WuXingAiSectionState extends ConsumerState<_WuXingAiSection> {
                   ),
                 ),
               ],
+            )
+          : _error != null
+          // W16: show error with retry instead of silently reverting to CTA
+          ? GestureDetector(
+              onTap: _generate,
+              child: Text(
+                '$_error Ketuk untuk coba lagi.',
+                style: GoogleFonts.outfit(
+                  fontSize: 11,
+                  color: Colors.red.shade300,
+                  fontStyle: FontStyle.italic,
+                ),
+                textAlign: TextAlign.center,
+              ),
             )
           : GestureDetector(
               onTap: _generate,

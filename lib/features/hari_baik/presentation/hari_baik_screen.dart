@@ -53,14 +53,20 @@ class _HariBaikScreenState extends ConsumerState<HariBaikScreen> {
   }
 
   Future<void> _loadAndFetch() async {
-    final profile = await ref.read(birthProfileProvider.future);
-    if (!mounted) return;
-    setState(() => _birthDate = profile.dobDate);
-    if (_birthDate != null) await _fetch();
+    try { // W18: wrap entire load in try-catch
+      final profile = await ref.read(birthProfileProvider.future);
+      if (!mounted) return;
+      setState(() => _birthDate = profile.dobDate);
+      if (_birthDate != null) await _fetch();
+    } catch (e) {
+      debugPrint('HariBaikScreen._loadAndFetch error: $e');
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   Future<void> _fetch() async {
     if (_birthDate == null) return;
+    if (_isLoading) return; // W19: concurrency guard — prevent overlapping fetches
     setState(() {
       _isLoading = true;
       _errorMsg = null;

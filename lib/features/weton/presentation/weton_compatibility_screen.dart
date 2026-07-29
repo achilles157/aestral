@@ -121,7 +121,18 @@ class _WetonCompatibilityScreenState
   // ── AI Oracle ────────────────────────────────────────────────────────────────
 
   Future<void> _openAiOracle(SynthesisCompatibility result) async {
-    final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
+    // W3: wrap getAuthHeader in try-catch — auth failure should not crash navigation
+    String authHeader;
+    try {
+      authHeader = await ref.read(authProvider.notifier).getAuthHeader();
+    } catch (e) {
+      debugPrint('WetonCompatibilityScreen: getAuthHeader failed — $e');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Gagal terhubung ke oracle. Coba lagi.')),
+      );
+      return;
+    }
 
     if (!mounted) return;
     Navigator.of(context).push(
@@ -130,7 +141,7 @@ class _WetonCompatibilityScreenState
           oracleType: 'synthesis',
           authHeader: authHeader,
           aiContext: {
-            'wetonLahir': {'neptu': result.weton.neptu1, 'karakter': ''},
+            'wetonLahir': {'neptu': result.weton.neptu1}, // W4: removed empty 'karakter' field
             'compatibility': {
               'neptu1': result.weton.neptu1,
               'neptu2': result.weton.neptu2,

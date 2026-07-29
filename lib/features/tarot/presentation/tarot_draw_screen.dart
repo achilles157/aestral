@@ -90,6 +90,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
     if (drawnCards != null) {
       // Reset card first
       Future.wait(_flipControllers.map((c) => c.reverse())).then((_) {
+        if (!mounted) return; // W25: guard against unmounted widget after async
         ref.read(drawnCardProvider.notifier).reset();
         setState(() {
           _cardRevealedStates = [false, false, false];
@@ -172,7 +173,9 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
       final effectiveDrawType = session.isMock ? 'birth' : _selectedDrawType;
       SharedPreferences.getInstance().then(
         (prefs) => prefs.setString('last_tarot_draw_type', effectiveDrawType),
-      );
+      ).catchError((e) { // W24: add missing catchError
+        debugPrint('TarotScreen: failed to persist draw type — $e');
+      });
 
       // Save to reading history (fire-and-forget)
       ReadingHistoryService.save(

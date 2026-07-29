@@ -183,7 +183,10 @@ class _WetonAiSynthesisSectionState
                     await prefs.remove(
                       _cacheKey(r.saptawara, r.pancawara, wukuNama),
                     );
-                    if (mounted) setState(() => _insight = null);
+                    if (mounted) {
+                      setState(() => _insight = null);
+                      _generate(); // W8: regenerate immediately instead of dropping to CTA
+                    }
                   },
                   child: Text(
                     '↻',
