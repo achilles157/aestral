@@ -152,11 +152,13 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
         authHeader: authHeader,
       );
 
-      final List<dynamic> cardsJson = response['cards'] as List<dynamic>;
+      final List<dynamic> cardsJson =
+          (response['cards'] as List<dynamic>?) ?? [];
+      if (cardsJson.isEmpty) throw Exception('Backend returned empty card list');
       final List<DrawnCardInfo> drawnCardsList = cardsJson.map((cJson) {
-        final cardIndex = cJson['cardIndex'] as int;
+        final cardIndex = (cJson['cardIndex'] as int?) ?? 0;
         final isReversed = cJson['isReversed'] as bool? ?? false;
-        final label = cJson['label'] as String;
+        final label = (cJson['label'] as String?) ?? '';
         final card = deck.firstWhere(
           (c) => c.id == cardIndex,
           orElse: () => deck.first,
@@ -704,6 +706,10 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: List.generate(3, (index) {
+                                            // C4: guard against backend returning < 3 cards
+                                            if (index >= drawnCards.length) {
+                                              return const SizedBox.shrink();
+                                            }
                                             final cardInfo = drawnCards[index];
                                             final labelText = index == 0
                                                 ? (currentLang == 'id'

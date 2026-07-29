@@ -224,8 +224,11 @@ class _AstrologicalPlannerScreenState
   }
 
   void _showDayDetailSheet(Map<String, dynamic> dayData) {
-    final dateStr = dayData['date'] as String;
-    final date = DateTime.parse(dateStr);
+    // C5: safe cast — 'date' key may be absent or non-string
+    final dateStr = (dayData['date'] as String?) ?? '';
+    // C6: tryParse instead of parse — malformed string won't crash
+    final date = DateTime.tryParse(dateStr);
+    if (date == null) return; // silently bail if date is unusable
 
     showModalBottomSheet(
       context: context,

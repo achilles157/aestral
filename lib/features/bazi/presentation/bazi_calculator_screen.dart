@@ -160,6 +160,7 @@ class _BaziCalculatorScreenState extends ConsumerState<BaziCalculatorScreen> {
 
   Future<void> _calculate() async {
     if (_birthDate == null) return;
+    if (_isLoading) return; // C2: prevent duplicate call if already calculating
     setState(() {
       _isLoading = true;
       _errorMsg = null;
@@ -198,14 +199,25 @@ class _BaziCalculatorScreenState extends ConsumerState<BaziCalculatorScreen> {
         chart = BaziChart.fromJson(data);
       }
     } catch (e) {
-      debugPrint('BaziCalculatorScreen: API failed, fallback offline — $e');
-      chart = BaziUtils.calculateBaziChart(
-        _birthDate!,
-        birthHour: hour,
-        longitude: lng,
-      );
-    } finally {
-      setState(() => _isLoading = false);
+      debugPrint('BaziCalculatorScreen: API failed, trying offline — $e');
+      try {
+        chart = BaziUtils.calculateBaziChart(
+          _birthDate!,
+          birthHour: hour,
+          longitude: lng,
+        );
+      } catch (offlineErr) {
+        debugPrint('BaziCalculatorScreen: offline calc also failed — $offlineErr');
+      }
+    }
+
+    // C1: if chart is still null (both API and offline failed), abort cleanly
+    if (chart == null) {
+      setState(() {
+        _isLoading = false;
+        _errorMsg = 'Gagal menghitung chart. Coba lagi.';
+      });
+      return;
     }
 
     // Persist birth data (fire-and-forget)
@@ -259,6 +271,7 @@ class _BaziCalculatorScreenState extends ConsumerState<BaziCalculatorScreen> {
     // Compute all derived state and consolidate into _BaziResultData
     final annual = BaziUtils.getCurrentAnnualPillar();
     setState(() {
+      _isLoading = false; // C1: set false atomically with result — no error flash
       _result = _BaziResultData(
         chart: chart!,
         luckPillars: luckPillars,

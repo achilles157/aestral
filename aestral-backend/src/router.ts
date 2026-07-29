@@ -25,7 +25,12 @@ async function checkGeminiQuota(kv: KVNamespace): Promise<boolean> {
   const current = await kv.get(key);
   const count = parseInt(current ?? '0');
   if (count >= GEMINI_DAILY_LIMIT) return false;
-  await kv.put(key, String(count + 1), { expirationTtl: 90000 });
+  
+  // Note: TOCTOU race exists here - concurrent requests can read same count before writes complete,
+  // allowing overshoot. KV doesn't support atomic increment. Accept small overshoot as tolerable.
+  // Use midnight-aligned TTL so counter resets consistently at UTC 00:00.
+  const ttl = secondsUntilMidnight();
+  await kv.put(key, String(count + 1), { expirationTtl: ttl });
   return true;
 }
 
@@ -1276,22 +1281,6 @@ async function handleOracleChat(request: Request, env: Env): Promise<Response> {
 	const apiKey = env.GEMINI_API_KEY;
 	if (!apiKey || apiKey === 'PLACEHOLDER_REPLACE_WITH_WRANGLER_SECRET') {
 		return json({ error: 'AI service belum dikonfigurasi' }, 503);
-	}
-
-	// Proactive daily quota guard — stop at 480/500 RPD to leave buffer
-	try {
-		const today = new Date().toISOString().slice(0, 10);
-		const countKey = `gemini_daily_${today}`;
-		const currentCount = parseInt((await env.RATE_LIMIT_KV.get(countKey)) ?? '0');
-		if (currentCount >= 480) {
-			return json({
-				error: 'Bintang-bintang sudah terlalu banyak berbicara hari ini. Oracle akan kembali besok.',
-				code: 'gemini_quota',
-			}, 503);
-		}
-		await env.RATE_LIMIT_KV.put(countKey, String(currentCount + 1), { expirationTtl: 172800 });
-	} catch (kvErr) {
-		console.warn('[Oracle] KV counter error (non-fatal):', kvErr);
 	}
 
 	const persona = ORACLE_PERSONAS[oracleType];
