@@ -51,15 +51,12 @@ class CosmicJournalService {
       '${date.day.toString().padLeft(2, '0')}';
 
   /// Save or overwrite today's entry.
+  /// Throws on failure so callers can surface the error to the user (W29).
   static Future<void> save(CosmicJournalEntry entry) async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final key = _keyForDate(entry.date);
-      await prefs.setString(key, jsonEncode(entry.toJson()));
-      debugPrint('CosmicJournalService: saved $key → ${entry.rating}');
-    } catch (e) {
-      debugPrint('CosmicJournalService.save error: $e');
-    }
+    final prefs = await SharedPreferences.getInstance();
+    final key = _keyForDate(entry.date);
+    await prefs.setString(key, jsonEncode(entry.toJson()));
+    debugPrint('CosmicJournalService: saved $key → ${entry.rating}');
   }
 
   /// Returns today's entry, or null if not yet logged.
@@ -91,11 +88,16 @@ class CosmicJournalService {
         final key = _keyForDate(date);
         final raw = prefs.getString(key);
         if (raw != null) {
-          entries.add(
-            CosmicJournalEntry.fromJson(
-              jsonDecode(raw) as Map<String, dynamic>,
-            ),
-          );
+          try {
+            // W30: isolate per-entry parse so one bad entry doesn't abort the list
+            entries.add(
+              CosmicJournalEntry.fromJson(
+                jsonDecode(raw) as Map<String, dynamic>,
+              ),
+            );
+          } catch (entryErr) {
+            debugPrint('CosmicJournalService: skipping malformed entry $key — $entryErr');
+          }
         }
       }
     } catch (e) {

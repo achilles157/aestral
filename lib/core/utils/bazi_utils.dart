@@ -2401,7 +2401,7 @@ class BaziUtils {
     final double normalised = ((totalMinutes % 1440) + 1440) % 1440;
     return (
       hour: normalised ~/ 60,
-      minute: normalised.remainder(60).round(),
+      minute: normalised.remainder(60).floor(), // W32: .round() could produce 60 on x.5 values
       offsetMinutes: offsetMinutes,
     );
   }
@@ -2804,10 +2804,10 @@ class BaziUtils {
   ) {
     final String generates = _generates[dmElement]!;
     final String generatedBy = _generates.entries
-        .firstWhere((e) => e.value == dmElement)
+        .firstWhere((e) => e.value == dmElement, orElse: () => _generates.entries.first) // W31
         .key;
     final String controlledBy = _controls.entries
-        .firstWhere((e) => e.value == dmElement)
+        .firstWhere((e) => e.value == dmElement, orElse: () => _controls.entries.first) // W31
         .key;
 
     switch (strength) {

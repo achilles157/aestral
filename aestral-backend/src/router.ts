@@ -1095,7 +1095,8 @@ async function handleBaziInsight(request: Request, env: Env): Promise<Response> 
 		return json({ error: 'Invalid JSON body' }, 400);
 	}
 
-	if (!body.birthDate) {
+	// W34: validate birthDate format — other handlers use validateIsoDate, this one was missing it
+	if (!body.birthDate || !validateIsoDate(body.birthDate)) {
 		return json({ error: 'birthDate is required (format: YYYY-MM-DD)' }, 400);
 	}
 
@@ -1415,6 +1416,13 @@ interface OracleSummarizeBody {
 async function handleOracleSummarize(request: Request, env: Env): Promise<Response> {
 	const authResult = await requireAuth(request.headers.get('Authorization'), env);
 	if (authResult instanceof Response) return authResult;
+
+	// W35: add rate limiting — was missing while all other AI endpoints have it
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'cf-no-ip';
+	if (await isRateLimited(clientIp, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
+		const resetSeconds = await getRateLimitResetSeconds(clientIp, CHAT_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
+		return json({ error: 'Terlalu banyak permintaan. Coba lagi nanti.', retryAfterSeconds: resetSeconds }, 429);
+	}
 
 	let body: OracleSummarizeBody;
 	try {

@@ -197,9 +197,9 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                   ? 'Loro'
                   : 'Pati',
             },
-            'weekly': {
+            'wuku': {
               'wukuIndex': targetWukuIndex + 1,
-              'wukuName': todayWeton.wuku,
+              'nama_wuku': todayWeton.wuku, // W7: match key expected by weton_ai_synthesis_section
             },
           };
           _isLoadingDaily = false;

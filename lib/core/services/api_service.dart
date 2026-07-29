@@ -32,6 +32,10 @@ class ApiService {
       } on HttpException catch (e) {
         if (attempt == maxAttempts) rethrow;
         debugPrint('ApiService: HttpException ($attempt/$maxAttempts): $e');
+      } on Exception catch (e) {
+        // W28: catch ClientException and other transient network failures
+        if (attempt == maxAttempts) rethrow;
+        debugPrint('ApiService: transient error ($attempt/$maxAttempts): $e');
       }
       await Future<void>.delayed(baseDelay * (1 << (attempt - 1)));
     }
