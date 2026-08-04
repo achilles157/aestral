@@ -175,6 +175,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
         (prefs) => prefs.setString('last_tarot_draw_type', effectiveDrawType),
       ).catchError((e) { // W24: add missing catchError
         debugPrint('TarotScreen: failed to persist draw type — $e');
+        return false;
       });
 
       // Save to reading history (fire-and-forget)
