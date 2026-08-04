@@ -113,10 +113,9 @@ class _WetonAiSynthesisSectionState
 
     try {
       final r = widget.result;
-      final wukuMap =
-          widget.dailyInsightData?['wuku'] as Map<String, dynamic>?;
-      final wukuNama = wukuMap?['nama_wuku'] as String? ?? r.wuku;
-      final key = _cacheKey(r.saptawara, r.pancawara, wukuNama);
+      // Anchor cache key ke r.wuku (nilai lahir stabil), bukan API-returned nama_wuku
+      // Mencegah dual cache entries jika nama_wuku dari API berbeda casing
+      final key = _cacheKey(r.saptawara, r.pancawara, r.wuku);
 
       final prefs = await SharedPreferences.getInstance();
       final cached = prefs.getString(key);
@@ -175,17 +174,13 @@ class _WetonAiSynthesisSectionState
                 GestureDetector(
                   onTap: () async {
                     final r = widget.result;
-                    final wukuMap = widget.dailyInsightData?['wuku']
-                        as Map<String, dynamic>?;
-                    final wukuNama =
-                        wukuMap?['nama_wuku'] as String? ?? r.wuku;
                     final prefs = await SharedPreferences.getInstance();
                     await prefs.remove(
-                      _cacheKey(r.saptawara, r.pancawara, wukuNama),
+                      _cacheKey(r.saptawara, r.pancawara, r.wuku),
                     );
                     if (mounted) {
                       setState(() => _insight = null);
-                      _generate(); // W8: regenerate immediately instead of dropping to CTA
+                      _generate();
                     }
                   },
                   child: Text(

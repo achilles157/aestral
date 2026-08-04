@@ -456,13 +456,19 @@ class _BranchRelationsAiSectionState
   String? _error;
 
   /// Deterministik: sorted clash pairs digabung — sama untuk chart yang sama.
-  static String _cacheKey(String dmId, BaziRelations relations) {
+  static String _cacheKey(String dmId, BaziRelations relations, List<int> emptyBranches) {
     final clashSig = (relations.clashes.map((c) {
       final a = c.indexA < c.indexB ? c.indexA : c.indexB;
       final b = c.indexA < c.indexB ? c.indexB : c.indexA;
       return '${a}_$b';
     }).toList()..sort()).join(',');
-    return 'bazi_relations_ai_${dmId}_$clashSig';
+    final harmonySig = (relations.harmonies.map((h) {
+      final a = h.indexA < h.indexB ? h.indexA : h.indexB;
+      final b = h.indexA < h.indexB ? h.indexB : h.indexA;
+      return '${a}_$b';
+    }).toList()..sort()).join(',');
+    final emptySig = (emptyBranches.toList()..sort()).join(',');
+    return 'bazi_relations_ai_${dmId}_c${clashSig}_h${harmonySig}_e$emptySig';
   }
 
   String _buildPrompt() {
@@ -502,7 +508,7 @@ class _BranchRelationsAiSectionState
     setState(() { _loading = true; _error = null; });
     try {
       final prefs = await SharedPreferences.getInstance();
-      final key = _cacheKey(widget.chart.dayMasterId, widget.relations);
+      final key = _cacheKey(widget.chart.dayMasterId, widget.relations, widget.emptyBranches);
       final cached = prefs.getString(key);
       if (cached != null) {
         if (mounted) setState(() { _insight = cached; _loading = false; });
@@ -551,7 +557,7 @@ class _BranchRelationsAiSectionState
                 onTap: () async {
                   final prefs = await SharedPreferences.getInstance();
                   await prefs.remove(
-                    _cacheKey(widget.chart.dayMasterId, widget.relations),
+                    _cacheKey(widget.chart.dayMasterId, widget.relations, widget.emptyBranches),
                   );
                   if (mounted) setState(() => _insight = null);
                 },

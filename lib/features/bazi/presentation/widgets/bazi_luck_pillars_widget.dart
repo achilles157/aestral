@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/glass_card.dart';
 import '../../../../core/utils/bazi_utils.dart';
@@ -92,6 +93,10 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
   // Phase 2: Cache AI readings per pillar startAge
   final Map<int, String> _aiReadings = {};
   final Set<int> _loadingAi = {};
+  final Set<int> _aiErrors = {}; // error state terpisah dari readings
+
+  static String _aiCacheKey(String dmId, int startAge) =>
+      'bazi_dayun_ai_${dmId}_$startAge';
 
   int _currentAge() {
     final now = DateTime.now();
@@ -262,15 +267,28 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
     final ageKey = lp.startAge;
     if (_loadingAi.contains(ageKey)) return;
 
-    setModalState(() => _loadingAi.add(ageKey));
+    // Check SharedPreferences cache first
+    final chart = widget.chart;
+    final dmId = chart?.dayMasterId ?? 'unknown';
+    final cacheKey = _aiCacheKey(dmId, ageKey);
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final cached = prefs.getString(cacheKey);
+      if (cached != null) {
+        try { setModalState(() { _aiReadings[ageKey] = cached; }); } catch (_) {}
+        if (mounted) setState(() {});
+        return;
+      }
+    } catch (_) {}
+
+    try { setModalState(() => _loadingAi.add(ageKey)); } catch (_) { return; }
 
     try {
       final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
       final profile = ref.read(birthProfileProvider).value;
-      final chart = widget.chart;
       final age = _currentAge();
 
-      // Build focused prompt for this specific Da Yun pillar
       final insight = _synthesizePillarInsight(lp, age);
       final natalList = insight['natalNotes'] as List<String>;
       final interaksi = natalList.isNotEmpty
@@ -281,7 +299,7 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
           'Bacakan babak Da Yun usia ${lp.startAge}–${lp.endAge} saya secara mendalam. '
           'Pilar Da Yun: ${lp.pillar.stemNameId} ${lp.pillar.branchZodiacId} '
           '(${lp.pillar.stemSymbol}${lp.pillar.branchSymbol}). '
-          '${interaksi}'
+          '$interaksi'
           'Paruh pertama (${lp.startAge}–${lp.startAge + 4}): energi ${insight['stemGodName']}. '
           'Paruh kedua (${lp.startAge + 5}–${lp.endAge}): energi ${insight['branchGodName']}. '
           'Apa yang harus saya sadari, waspadai, dan manfaatkan di babak ini? '
@@ -305,17 +323,25 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
 
       final text = result['response'] as String? ?? '';
       if (mounted) {
-        setModalState(() {
-          _loadingAi.remove(ageKey);
-          _aiReadings[ageKey] = text.isNotEmpty
-              ? text
-              : 'Sintesis tidak tersedia saat ini.';
-        });
-        setState(() {});
+        // Persist to SharedPreferences
+        try {
+          final prefs = await SharedPreferences.getInstance();
+          if (text.isNotEmpty) await prefs.setString(cacheKey, text);
+        } catch (_) {}
+
+        try {
+          setModalState(() {
+            _loadingAi.remove(ageKey);
+            _aiErrors.remove(ageKey);
+            _aiReadings[ageKey] = text.isNotEmpty
+                ? text
+                : 'Sintesis tidak tersedia saat ini.';
+          });
+        } catch (_) {}
+        if (mounted) setState(() {});
       }
     } catch (e) {
       debugPrint('BaziLuckPillarsWidget._generateAiReading error: $e');
-      // W12: check error type/code instead of fragile string contains
       final msg = e.toString();
       final errMsg = (msg.contains('gemini_quota') || msg.contains('RATE_LIMIT') || msg.contains('503'))
           ? 'Oracle sedang istirahat. Coba lagi sebentar.'
@@ -323,10 +349,15 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
           ? 'Koneksi timeout. Coba lagi.'
           : 'Gagal memuat sintesis. Coba lagi.';
       if (mounted) {
-        setModalState(() {
-          _loadingAi.remove(ageKey);
-          _aiReadings[ageKey] = errMsg;
-        });
+        try {
+          setModalState(() {
+            _loadingAi.remove(ageKey);
+            _aiErrors.add(ageKey);
+            // Jangan simpan error ke _aiReadings — biarkan null agar retry button tetap muncul
+            debugPrint('BaziLuckPillarsWidget error stored: $errMsg');
+          });
+        } catch (_) {}
+        if (mounted) setState(() {});
       }
     }
   }
@@ -471,6 +502,7 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
         builder: (context, setModalState) {
           final String? aiReading = _aiReadings[lp.startAge];
           final bool isLoadingAi = _loadingAi.contains(lp.startAge);
+          final bool isAiError = _aiErrors.contains(lp.startAge);
 
           return Container(
             constraints: BoxConstraints(
@@ -672,6 +704,32 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
                       ),
                     ),
                     const SizedBox(height: 16),
+                  ] else if (isAiError) ...[
+                    // Error state dengan retry button
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: OutlinedButton.icon(
+                        onPressed: () => _generateAiReading(lp, setModalState),
+                        icon: const Icon(Icons.refresh_rounded,
+                            size: 16, color: Color(0xFFF87171)),
+                        label: Text(
+                          'Gagal memuat — coba lagi',
+                          style: GoogleFonts.outfit(
+                            fontSize: 12,
+                            color: const Color(0xFFF87171),
+                          ),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 44),
+                          side: const BorderSide(
+                            color: Color(0xFFF87171),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                    ),
                   ] else ...[
                     OutlinedButton.icon(
                       onPressed: () => _generateAiReading(lp, setModalState),

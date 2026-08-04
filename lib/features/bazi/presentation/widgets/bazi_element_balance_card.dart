@@ -292,7 +292,7 @@ class _WuXingAiSectionState extends ConsumerState<_WuXingAiSection> {
 
   Future<void> _generate() async {
     if (_loading) return;
-    setState(() => _loading = true);
+    setState(() { _loading = true; _error = null; });
     try {
       final prefs = await SharedPreferences.getInstance();
       final key = _cacheKey(
@@ -354,7 +354,7 @@ class _WuXingAiSectionState extends ConsumerState<_WuXingAiSection> {
                     widget.balance.dominant,
                     widget.balance.deficient,
                   ));
-                  if (mounted) setState(() => _insight = null);
+                  if (mounted) setState(() { _insight = null; _generate(); });
                 },
                 child: Text(
                   '↻',
