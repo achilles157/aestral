@@ -158,10 +158,10 @@ class WetonTechnicalCard extends StatelessWidget {
         future: rootBundle
             .loadString('assets/weton/pangarasan-pancasuda.json')
             .then((raw) {
-          final data = json.decode(raw) as Map<String, dynamic>;
-          final map = data['pangarasan'] as Map<String, dynamic>;
-          return map[result.saptawara] as String? ?? result.pangarasan;
-        }),
+              final data = json.decode(raw) as Map<String, dynamic>;
+              final map = data['pangarasan'] as Map<String, dynamic>;
+              return map[result.saptawara] as String? ?? result.pangarasan;
+            }),
         description:
             'Pangarasan adalah karakter dasar energi hari lahirmu berdasarkan hari Jawa (Saptawara). '
             'Ia menggambarkan cara kamu bergerak dan berinteraksi dengan dunia di sekitarmu.',
@@ -180,11 +180,11 @@ class WetonTechnicalCard extends StatelessWidget {
         future: rootBundle
             .loadString('assets/weton/pangarasan-pancasuda.json')
             .then((raw) {
-          final data = json.decode(raw) as Map<String, dynamic>;
-          final list = data['pancasuda'] as List<dynamic>;
-          final idx = result.totalNeptu % 7;
-          return list[idx] as String? ?? result.pancasuda;
-        }),
+              final data = json.decode(raw) as Map<String, dynamic>;
+              final list = data['pancasuda'] as List<dynamic>;
+              final idx = result.totalNeptu % 7;
+              return list[idx] as String? ?? result.pancasuda;
+            }),
         description:
             'Pancasuda adalah kualitas energi jiwa berdasarkan total Neptu kelahiranmu. '
             'Ia menggambarkan sifat dasar dan pola hidup yang mengalir dalam dirimu.',

@@ -54,8 +54,10 @@ class _DaYunStripWidgetState extends State<DaYunStripWidget> {
     // All cards before selectedIdx have width _cardW + _spacing
     final offset = _hPad + widget.selectedIdx * (_cardW + _spacing);
     final viewportWidth = _scrollCtrl.position.viewportDimension;
-    final target = (offset - viewportWidth / 2 + _activeCardW / 2)
-        .clamp(0.0, _scrollCtrl.position.maxScrollExtent);
+    final target = (offset - viewportWidth / 2 + _activeCardW / 2).clamp(
+      0.0,
+      _scrollCtrl.position.maxScrollExtent,
+    );
     _scrollCtrl.animateTo(
       target,
       duration: const Duration(milliseconds: 350),

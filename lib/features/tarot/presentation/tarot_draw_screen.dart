@@ -156,7 +156,8 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
 
       final List<dynamic> cardsJson =
           (response['cards'] as List<dynamic>?) ?? [];
-      if (cardsJson.isEmpty) throw Exception('Backend returned empty card list');
+      if (cardsJson.isEmpty)
+        throw Exception('Backend returned empty card list');
       final List<DrawnCardInfo> drawnCardsList = cardsJson.map((cJson) {
         final cardIndex = (cJson['cardIndex'] as int?) ?? 0;
         final isReversed = cJson['isReversed'] as bool? ?? false;
@@ -172,12 +173,16 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
 
       // Persist draw type so SeasonalSynthesisCard knows if Tarot Kosmis is available
       final effectiveDrawType = session.isMock ? 'birth' : _selectedDrawType;
-      SharedPreferences.getInstance().then(
-        (prefs) => prefs.setString('last_tarot_draw_type', effectiveDrawType),
-      ).catchError((e) { // W24: add missing catchError
-        debugPrint('TarotScreen: failed to persist draw type — $e');
-        return false;
-      });
+      SharedPreferences.getInstance()
+          .then(
+            (prefs) =>
+                prefs.setString('last_tarot_draw_type', effectiveDrawType),
+          )
+          .catchError((e) {
+            // W24: add missing catchError
+            debugPrint('TarotScreen: failed to persist draw type — $e');
+            return false;
+          });
 
       // Save to reading history (fire-and-forget)
       ReadingHistoryService.save(

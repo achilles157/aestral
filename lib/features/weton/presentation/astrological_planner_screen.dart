@@ -82,7 +82,8 @@ class _AstrologicalPlannerScreenState
 
   Future<void> _fetchCalendarData() async {
     if (_birthDate == null) return;
-    if (_isLoadingCalendar) return; // W21: prevent concurrent fetches on rapid month nav
+    if (_isLoadingCalendar)
+      return; // W21: prevent concurrent fetches on rapid month nav
 
     setState(() {
       _isLoadingCalendar = true;
@@ -511,7 +512,8 @@ class _AstrologicalPlannerScreenState
                                     JamEmasBanner(
                                       calendarDays:
                                           ((_calendarData!['days'] // W22: safe cast with fallback
-                                                  as List<dynamic>?) ?? [])
+                                                      as List<dynamic>?) ??
+                                                  [])
                                               .cast<Map<String, dynamic>>(),
                                       today: DateTime.now(),
                                     ),

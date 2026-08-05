@@ -224,11 +224,12 @@ class _WetonElementMandalaState extends State<WetonElementMandala>
           builder: (ctx) {
             final maxVal = values.values.reduce((a, b) => a > b ? a : b);
             // Kumpulkan semua elemen yang tie (selisih < 0.001 untuk float safety)
-            final tied = values.entries
-                .where((e) => (e.value - maxVal).abs() < 0.001)
-                .map((e) => e.key)
-                .toList()
-              ..sort(); // sort alfabetis → key deterministik
+            final tied =
+                values.entries
+                    .where((e) => (e.value - maxVal).abs() < 0.001)
+                    .map((e) => e.key)
+                    .toList()
+                  ..sort(); // sort alfabetis → key deterministik
 
             final String narrativeKey;
             final Color color;
@@ -258,7 +259,10 @@ class _WetonElementMandalaState extends State<WetonElementMandala>
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Container(
                 margin: const EdgeInsets.only(top: 8),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.07),
                   borderRadius: BorderRadius.circular(12),
@@ -267,7 +271,10 @@ class _WetonElementMandalaState extends State<WetonElementMandala>
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('✦ ', style: GoogleFonts.outfit(fontSize: 11, color: color)),
+                    Text(
+                      '✦ ',
+                      style: GoogleFonts.outfit(fontSize: 11, color: color),
+                    ),
                     Expanded(
                       child: Text(
                         narrative,

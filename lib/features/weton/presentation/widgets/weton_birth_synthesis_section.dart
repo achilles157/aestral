@@ -51,14 +51,21 @@ class _WetonBirthSynthesisSectionState
 
   Future<void> _generate() async {
     if (_loading) return;
-    setState(() { _loading = true; _error = null; });
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
 
     try {
       final key = _cacheKey(widget.result.saptawara, widget.result.pancawara);
       final prefs = await SharedPreferences.getInstance();
       final cached = prefs.getString(key);
       if (cached != null) {
-        if (mounted) setState(() { _insight = cached; _loading = false; });
+        if (mounted)
+          setState(() {
+            _insight = cached;
+            _loading = false;
+          });
         return;
       }
 
@@ -187,8 +194,11 @@ class _WetonBirthSynthesisSectionState
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.refresh_rounded,
-                  size: 14, color: Color(0xFFF87171)),
+              const Icon(
+                Icons.refresh_rounded,
+                size: 14,
+                color: Color(0xFFF87171),
+              ),
               const SizedBox(width: 6),
               Text(
                 _error!,

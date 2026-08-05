@@ -431,13 +431,20 @@ class _FourPillarsAiSectionState extends ConsumerState<_FourPillarsAiSection> {
 
   Future<void> _generate() async {
     if (_loading) return;
-    setState(() { _loading = true; _error = null; });
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
     try {
       final prefs = await SharedPreferences.getInstance();
       final key = _cacheKey(widget.chart);
       final cached = prefs.getString(key);
       if (cached != null) {
-        if (mounted) setState(() { _insight = cached; _loading = false; });
+        if (mounted)
+          setState(() {
+            _insight = cached;
+            _loading = false;
+          });
         return;
       }
 
@@ -487,7 +494,10 @@ class _FourPillarsAiSectionState extends ConsumerState<_FourPillarsAiSection> {
                 },
                 child: Text(
                   '↻',
-                  style: GoogleFonts.outfit(fontSize: 12, color: Colors.white24),
+                  style: GoogleFonts.outfit(
+                    fontSize: 12,
+                    color: Colors.white24,
+                  ),
                 ),
               ),
             ],

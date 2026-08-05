@@ -129,8 +129,7 @@ class _BaziCanvasScreenState extends State<BaziCanvasScreen>
               return AnimatedBuilder(
                 animation: _glowCtrl,
                 builder: (_, _) {
-                  final pulse =
-                      Curves.easeInOut.transform(_glowCtrl.value);
+                  final pulse = Curves.easeInOut.transform(_glowCtrl.value);
                   final c = animColor ?? _glowColor;
                   return Positioned(
                     top: -100,

@@ -252,9 +252,9 @@ class DailyInsightCard extends ConsumerWidget {
 
                 // Wuku Influence — collapsed by default
                 Theme(
-                  data: Theme.of(context).copyWith(
-                    dividerColor: Colors.transparent,
-                  ),
+                  data: Theme.of(
+                    context,
+                  ).copyWith(dividerColor: Colors.transparent),
                   child: ExpansionTile(
                     tilePadding: EdgeInsets.zero,
                     childrenPadding: EdgeInsets.zero,
@@ -272,8 +272,9 @@ class DailyInsightCard extends ConsumerWidget {
                       ),
                     ),
                     iconColor: AppTheme.accentPurple.withValues(alpha: 0.6),
-                    collapsedIconColor:
-                        AppTheme.accentPurple.withValues(alpha: 0.4),
+                    collapsedIconColor: AppTheme.accentPurple.withValues(
+                      alpha: 0.4,
+                    ),
                     children: [
                       const SizedBox(height: 8),
                       Text(
@@ -342,7 +343,9 @@ class DailyInsightCard extends ConsumerWidget {
                             Text(
                               pesan,
                               style: textTheme.bodyMedium?.copyWith(
-                                color: AppTheme.textLight.withValues(alpha: 0.9),
+                                color: AppTheme.textLight.withValues(
+                                  alpha: 0.9,
+                                ),
                                 fontStyle: FontStyle.italic,
                                 height: 1.4,
                               ),

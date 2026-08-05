@@ -292,7 +292,10 @@ class _WuXingAiSectionState extends ConsumerState<_WuXingAiSection> {
 
   Future<void> _generate() async {
     if (_loading) return;
-    setState(() { _loading = true; _error = null; });
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
     try {
       final prefs = await SharedPreferences.getInstance();
       final key = _cacheKey(
@@ -302,7 +305,11 @@ class _WuXingAiSectionState extends ConsumerState<_WuXingAiSection> {
       );
       final cached = prefs.getString(key);
       if (cached != null) {
-        if (mounted) setState(() { _insight = cached; _loading = false; });
+        if (mounted)
+          setState(() {
+            _insight = cached;
+            _loading = false;
+          });
         return;
       }
 
@@ -314,7 +321,11 @@ class _WuXingAiSectionState extends ConsumerState<_WuXingAiSection> {
       final text = result['response'] as String? ?? '';
       if (text.isNotEmpty) {
         await prefs.setString(key, text);
-        if (mounted) setState(() { _insight = text; _error = null; });
+        if (mounted)
+          setState(() {
+            _insight = text;
+            _error = null;
+          });
       }
     } catch (e) {
       debugPrint('_WuXingAiSection error: $e');
@@ -349,16 +360,25 @@ class _WuXingAiSectionState extends ConsumerState<_WuXingAiSection> {
               GestureDetector(
                 onTap: () async {
                   final prefs = await SharedPreferences.getInstance();
-                  await prefs.remove(_cacheKey(
-                    widget.chart.dayMasterId,
-                    widget.balance.dominant,
-                    widget.balance.deficient,
-                  ));
-                  if (mounted) setState(() { _insight = null; _generate(); });
+                  await prefs.remove(
+                    _cacheKey(
+                      widget.chart.dayMasterId,
+                      widget.balance.dominant,
+                      widget.balance.deficient,
+                    ),
+                  );
+                  if (mounted)
+                    setState(() {
+                      _insight = null;
+                      _generate();
+                    });
                 },
                 child: Text(
                   '↻',
-                  style: GoogleFonts.outfit(fontSize: 12, color: Colors.white24),
+                  style: GoogleFonts.outfit(
+                    fontSize: 12,
+                    color: Colors.white24,
+                  ),
                 ),
               ),
             ],

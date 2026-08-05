@@ -226,8 +226,13 @@ class BaziCompatibility {
     BaziCompatibilityDetail detail(String key) {
       final v = json[key];
       if (v is Map<String, dynamic>) return BaziCompatibilityDetail.fromJson(v);
-      return const BaziCompatibilityDetail(type: 'neutral', label: '-', description: '');
+      return const BaziCompatibilityDetail(
+        type: 'neutral',
+        label: '-',
+        description: '',
+      );
     }
+
     return BaziCompatibility(
       dayMasterMatch: detail('dayMasterMatch'),
       spousePalaceMatch: detail('spousePalaceMatch'),

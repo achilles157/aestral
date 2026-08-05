@@ -16,41 +16,53 @@ String _dominantElement(String saptawara, String pancawara) {
 
   final s = saptawara.toLowerCase();
   if (s.contains('ahad') || s.contains('minggu')) {
-    geni += 2; angin += 1;
+    geni += 2;
+    angin += 1;
   } else if (s.contains('senin')) {
     banyu += 3;
   } else if (s.contains('selasa')) {
     geni += 3;
   } else if (s.contains('rabu')) {
-    banyu += 2; lemah += 1;
+    banyu += 2;
+    lemah += 1;
   } else if (s.contains('kamis')) {
     angin += 3;
   } else if (s.contains('jumat')) {
-    lemah += 2; banyu += 1;
+    lemah += 2;
+    banyu += 1;
   } else if (s.contains('sabtu')) {
-    lemah += 3; geni += 1;
+    lemah += 3;
+    geni += 1;
   }
 
   final p = pancawara.toLowerCase();
   if (p.contains('legi')) {
-    angin += 3; lemah += 1;
+    angin += 3;
+    lemah += 1;
   } else if (p.contains('pahing')) {
-    geni += 3; angin += 1;
+    geni += 3;
+    angin += 1;
   } else if (p.contains('pon')) {
-    banyu += 3; geni += 1;
+    banyu += 3;
+    geni += 1;
   } else if (p.contains('wage')) {
-    lemah += 3; banyu += 1;
+    lemah += 3;
+    banyu += 1;
   } else if (p.contains('kliwon')) {
-    geni += 1; banyu += 1; lemah += 1; angin += 1;
+    geni += 1;
+    banyu += 1;
+    lemah += 1;
+    angin += 1;
   }
 
   final values = {'Geni': geni, 'Banyu': banyu, 'Lemah': lemah, 'Angin': angin};
   final maxVal = values.values.reduce((a, b) => a > b ? a : b);
-  final tied = values.entries
-      .where((e) => (e.value - maxVal).abs() < 0.001)
-      .map((e) => e.key)
-      .toList()
-    ..sort();
+  final tied =
+      values.entries
+          .where((e) => (e.value - maxVal).abs() < 0.001)
+          .map((e) => e.key)
+          .toList()
+        ..sort();
 
   if (tied.length >= 3) return 'Seimbang';
   if (tied.length == 2) return '${tied[0]} & ${tied[1]}';
@@ -109,7 +121,10 @@ class _WetonAiSynthesisSectionState
 
   Future<void> _generate() async {
     if (_loading) return;
-    setState(() { _loading = true; _error = null; });
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
 
     try {
       final r = widget.result;
@@ -120,7 +135,11 @@ class _WetonAiSynthesisSectionState
       final prefs = await SharedPreferences.getInstance();
       final cached = prefs.getString(key);
       if (cached != null) {
-        if (mounted) setState(() { _insight = cached; _loading = false; });
+        if (mounted)
+          setState(() {
+            _insight = cached;
+            _loading = false;
+          });
         return;
       }
 
@@ -241,8 +260,11 @@ class _WetonAiSynthesisSectionState
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.refresh_rounded,
-                  size: 14, color: Color(0xFFF87171)),
+              const Icon(
+                Icons.refresh_rounded,
+                size: 14,
+                color: Color(0xFFF87171),
+              ),
               const SizedBox(width: 6),
               Text(
                 _error!,

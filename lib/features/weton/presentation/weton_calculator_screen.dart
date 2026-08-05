@@ -149,9 +149,14 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
                 '${dob.year}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}',
             'calculatedAt': FieldValue.serverTimestamp(),
           })
-          .then((_) {}, onError: (Object e) {
-            debugPrint('WetonScreen: Firestore history write failed — $e'); // W2
-          });
+          .then(
+            (_) {},
+            onError: (Object e) {
+              debugPrint(
+                'WetonScreen: Firestore history write failed — $e',
+              ); // W2
+            },
+          );
     }
 
     final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
@@ -201,7 +206,8 @@ class _WetonCalculatorScreenState extends ConsumerState<WetonCalculatorScreen> {
             },
             'wuku': {
               'wukuIndex': targetWukuIndex + 1,
-              'nama_wuku': todayWeton.wuku, // W7: match key expected by weton_ai_synthesis_section
+              'nama_wuku': todayWeton
+                  .wuku, // W7: match key expected by weton_ai_synthesis_section
             },
           };
           _isLoadingDaily = false;

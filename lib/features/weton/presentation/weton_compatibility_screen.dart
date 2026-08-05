@@ -141,7 +141,9 @@ class _WetonCompatibilityScreenState
           oracleType: 'synthesis',
           authHeader: authHeader,
           aiContext: {
-            'wetonLahir': {'neptu': result.weton.neptu1}, // W4: removed empty 'karakter' field
+            'wetonLahir': {
+              'neptu': result.weton.neptu1,
+            }, // W4: removed empty 'karakter' field
             'compatibility': {
               'neptu1': result.weton.neptu1,
               'neptu2': result.weton.neptu2,
@@ -906,7 +908,10 @@ class _CompatibilitySynthesisSectionState
     super.didUpdateWidget(old);
     if (old.result.weton.neptu1 != widget.result.weton.neptu1 ||
         old.result.weton.neptu2 != widget.result.weton.neptu2) {
-      setState(() { _synthesis = null; _hasError = false; });
+      setState(() {
+        _synthesis = null;
+        _hasError = false;
+      });
       WidgetsBinding.instance.addPostFrameCallback((_) => _load());
     }
   }

@@ -207,7 +207,9 @@ class _BaziCalculatorScreenState extends ConsumerState<BaziCalculatorScreen> {
           longitude: lng,
         );
       } catch (offlineErr) {
-        debugPrint('BaziCalculatorScreen: offline calc also failed — $offlineErr');
+        debugPrint(
+          'BaziCalculatorScreen: offline calc also failed — $offlineErr',
+        );
       }
     }
 
@@ -271,7 +273,8 @@ class _BaziCalculatorScreenState extends ConsumerState<BaziCalculatorScreen> {
     // Compute all derived state and consolidate into _BaziResultData
     final annual = BaziUtils.getCurrentAnnualPillar();
     setState(() {
-      _isLoading = false; // C1: set false atomically with result — no error flash
+      _isLoading =
+          false; // C1: set false atomically with result — no error flash
       _result = _BaziResultData(
         chart: chart!,
         luckPillars: luckPillars,

@@ -456,7 +456,11 @@ class _BranchRelationsAiSectionState
   String? _error;
 
   /// Deterministik: sorted clash pairs digabung — sama untuk chart yang sama.
-  static String _cacheKey(String dmId, BaziRelations relations, List<int> emptyBranches) {
+  static String _cacheKey(
+    String dmId,
+    BaziRelations relations,
+    List<int> emptyBranches,
+  ) {
     final clashSig = (relations.clashes.map((c) {
       final a = c.indexA < c.indexB ? c.indexA : c.indexB;
       final b = c.indexA < c.indexB ? c.indexB : c.indexA;
@@ -473,17 +477,21 @@ class _BranchRelationsAiSectionState
 
   String _buildPrompt() {
     // Compact format — labels only, no full narratives, stays under 600 char
-    final clashDesc = widget.relations.clashes.map((c) {
-      final ia = c.indexA.clamp(0, 4); // clamp 0-4: include index 4 = 流年
-      final ib = c.indexB.clamp(0, 4);
-      return '${kBaziPillarLabels[ia]}↔${kBaziPillarLabels[ib]}';
-    }).join(', ');
+    final clashDesc = widget.relations.clashes
+        .map((c) {
+          final ia = c.indexA.clamp(0, 4); // clamp 0-4: include index 4 = 流年
+          final ib = c.indexB.clamp(0, 4);
+          return '${kBaziPillarLabels[ia]}↔${kBaziPillarLabels[ib]}';
+        })
+        .join(', ');
 
-    final harmonyDesc = widget.relations.harmonies.map((h) {
-      final ia = h.indexA.clamp(0, 4);
-      final ib = h.indexB.clamp(0, 4);
-      return '${kBaziPillarLabels[ia]}↔${kBaziPillarLabels[ib]}→${h.resultElement}';
-    }).join(', ');
+    final harmonyDesc = widget.relations.harmonies
+        .map((h) {
+          final ia = h.indexA.clamp(0, 4);
+          final ib = h.indexB.clamp(0, 4);
+          return '${kBaziPillarLabels[ia]}↔${kBaziPillarLabels[ib]}→${h.resultElement}';
+        })
+        .join(', ');
 
     final emptyDesc = widget.emptyBranches
         .map((b) => kBaziBranchName[b])
@@ -505,13 +513,24 @@ class _BranchRelationsAiSectionState
 
   Future<void> _generate() async {
     if (_loading) return;
-    setState(() { _loading = true; _error = null; });
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
     try {
       final prefs = await SharedPreferences.getInstance();
-      final key = _cacheKey(widget.chart.dayMasterId, widget.relations, widget.emptyBranches);
+      final key = _cacheKey(
+        widget.chart.dayMasterId,
+        widget.relations,
+        widget.emptyBranches,
+      );
       final cached = prefs.getString(key);
       if (cached != null) {
-        if (mounted) setState(() { _insight = cached; _loading = false; });
+        if (mounted)
+          setState(() {
+            _insight = cached;
+            _loading = false;
+          });
         return;
       }
 
@@ -557,13 +576,20 @@ class _BranchRelationsAiSectionState
                 onTap: () async {
                   final prefs = await SharedPreferences.getInstance();
                   await prefs.remove(
-                    _cacheKey(widget.chart.dayMasterId, widget.relations, widget.emptyBranches),
+                    _cacheKey(
+                      widget.chart.dayMasterId,
+                      widget.relations,
+                      widget.emptyBranches,
+                    ),
                   );
                   if (mounted) setState(() => _insight = null);
                 },
                 child: Text(
                   '↻',
-                  style: GoogleFonts.outfit(fontSize: 12, color: Colors.white24),
+                  style: GoogleFonts.outfit(
+                    fontSize: 12,
+                    color: Colors.white24,
+                  ),
                 ),
               ),
             ],
@@ -611,8 +637,11 @@ class _BranchRelationsAiSectionState
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.refresh_rounded,
-                      size: 14, color: Color(0xFFF87171)),
+                  const Icon(
+                    Icons.refresh_rounded,
+                    size: 14,
+                    color: Color(0xFFF87171),
+                  ),
                   const SizedBox(width: 6),
                   Text(
                     _error!,

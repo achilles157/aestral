@@ -248,9 +248,7 @@ class HourDialPainter extends CustomPainter {
           AppTheme.cardBg.withValues(alpha: 0.92),
         ],
         stops: const [0.0, 1.0],
-      ).createShader(
-        Rect.fromCircle(center: center, radius: hubRadius),
-      );
+      ).createShader(Rect.fromCircle(center: center, radius: hubRadius));
     canvas.drawCircle(center, hubRadius, gradientPaint);
 
     // Outer gold ring

@@ -96,7 +96,9 @@ class CosmicJournalService {
               ),
             );
           } catch (entryErr) {
-            debugPrint('CosmicJournalService: skipping malformed entry $key — $entryErr');
+            debugPrint(
+              'CosmicJournalService: skipping malformed entry $key — $entryErr',
+            );
           }
         }
       }

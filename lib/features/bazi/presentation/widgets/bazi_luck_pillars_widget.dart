@@ -289,13 +289,21 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
       final prefs = await SharedPreferences.getInstance();
       final cached = prefs.getString(cacheKey);
       if (cached != null) {
-        try { setModalState(() { _aiReadings[ageKey] = cached; }); } catch (_) {}
+        try {
+          setModalState(() {
+            _aiReadings[ageKey] = cached;
+          });
+        } catch (_) {}
         if (mounted) setState(() {});
         return;
       }
     } catch (_) {}
 
-    try { setModalState(() => _loadingAi.add(ageKey)); } catch (_) { return; }
+    try {
+      setModalState(() => _loadingAi.add(ageKey));
+    } catch (_) {
+      return;
+    }
 
     try {
       final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
@@ -356,7 +364,10 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
     } catch (e) {
       debugPrint('BaziLuckPillarsWidget._generateAiReading error: $e');
       final msg = e.toString();
-      final errMsg = (msg.contains('gemini_quota') || msg.contains('RATE_LIMIT') || msg.contains('503'))
+      final errMsg =
+          (msg.contains('gemini_quota') ||
+              msg.contains('RATE_LIMIT') ||
+              msg.contains('503'))
           ? 'Oracle sedang istirahat. Coba lagi sebentar.'
           : msg.contains('TimeoutException') || msg.contains('timeout')
           ? 'Koneksi timeout. Coba lagi.'
@@ -383,10 +394,7 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
     // W13: -1 sentinel means user has passed all pillars — avoid showing past age
     final int nextTransitionAge = widget.pillars
         .map((p) => p.startAge)
-        .firstWhere(
-          (ageVal) => ageVal > age,
-          orElse: () => -1,
-        );
+        .firstWhere((ageVal) => ageVal > age, orElse: () => -1);
 
     return GlassCard(
       padding: const EdgeInsets.all(16),
@@ -723,8 +731,11 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
                       padding: const EdgeInsets.only(bottom: 16),
                       child: OutlinedButton.icon(
                         onPressed: () => _generateAiReading(lp, setModalState),
-                        icon: const Icon(Icons.refresh_rounded,
-                            size: 16, color: Color(0xFFF87171)),
+                        icon: const Icon(
+                          Icons.refresh_rounded,
+                          size: 16,
+                          color: Color(0xFFF87171),
+                        ),
                         label: Text(
                           'Gagal memuat — coba lagi',
                           style: GoogleFonts.outfit(
@@ -734,9 +745,7 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
                         ),
                         style: OutlinedButton.styleFrom(
                           minimumSize: const Size(double.infinity, 44),
-                          side: const BorderSide(
-                            color: Color(0xFFF87171),
-                          ),
+                          side: const BorderSide(color: Color(0xFFF87171)),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
