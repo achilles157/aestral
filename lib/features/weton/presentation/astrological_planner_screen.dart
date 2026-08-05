@@ -54,7 +54,6 @@ class _AstrologicalPlannerScreenState
     }
 
     setState(() {
-      _isLoadingCalendar = true;
       _errorMessage = null;
     });
 

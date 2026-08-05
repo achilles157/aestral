@@ -178,7 +178,7 @@ class WetonCompatibility {
       dinamikaPsikologis: json['dinamika_psikologis'] as String,
       potensiGesekan: json['potensi_gesekan'] as String,
       saranKomunikasi: json['saran_komunikasi'] as String,
-      aiHook: json['ai_hook'] as String,
+      aiHook: json['ai_hook'] as String? ?? '',
     );
   }
 }
@@ -223,29 +223,17 @@ class BaziCompatibility {
   });
 
   factory BaziCompatibility.fromJson(Map<String, dynamic> json) {
+    BaziCompatibilityDetail detail(String key) {
+      final v = json[key];
+      if (v is Map<String, dynamic>) return BaziCompatibilityDetail.fromJson(v);
+      return const BaziCompatibilityDetail(type: 'neutral', label: '-', description: '');
+    }
     return BaziCompatibility(
-      dayMasterMatch: BaziCompatibilityDetail.fromJson(
-        json['dayMasterMatch'] as Map<String, dynamic>,
-      ),
-      spousePalaceMatch: BaziCompatibilityDetail.fromJson(
-        json['spousePalaceMatch'] as Map<String, dynamic>,
-      ),
-      monthPillarMatch: json['monthPillarMatch'] != null
-          ? BaziCompatibilityDetail.fromJson(
-              json['monthPillarMatch'] as Map<String, dynamic>,
-            )
-          : const BaziCompatibilityDetail(
-              type: 'neutral',
-              label: 'Arah Hidup Mandiri',
-              description:
-                  'Ambisi dan ritme karir berjalan di jalur masing-masing.',
-            ),
-      zodiacMatch: BaziCompatibilityDetail.fromJson(
-        json['zodiacMatch'] as Map<String, dynamic>,
-      ),
-      elementCompatibility: BaziCompatibilityDetail.fromJson(
-        json['elementCompatibility'] as Map<String, dynamic>,
-      ),
+      dayMasterMatch: detail('dayMasterMatch'),
+      spousePalaceMatch: detail('spousePalaceMatch'),
+      monthPillarMatch: detail('monthPillarMatch'),
+      zodiacMatch: detail('zodiacMatch'),
+      elementCompatibility: detail('elementCompatibility'),
       compatibilityScore: json['compatibilityScore'] as int? ?? 60,
     );
   }

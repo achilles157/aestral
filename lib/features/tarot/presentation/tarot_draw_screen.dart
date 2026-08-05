@@ -128,13 +128,14 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
           return;
         }
         profile = await ref.read(birthProfileProvider.future);
-        selectedDate = profile.dobDate;
+        // Gunakan pickedDob langsung — tidak perlu re-read provider
+        // untuk guest karena _guestCache mungkin belum ter-reflect
+        selectedDate = pickedDob;
       }
 
-      if (selectedDate == null) {
-        setState(() => _isLoading = false);
-        return;
-      }
+      // selectedDate selalu non-null di titik ini:
+      // - jika profile.dobDate ada → sudah di-set di atas
+      // - jika modal ditampilkan → pickedDob sudah di-null-check, return early jika null
 
       final birthDateTime = selectedDate;
       final birthDateStr =
