@@ -98,13 +98,13 @@ class _WetonAiSynthesisSectionState
         : wukuNama;
 
     return 'Weton ${r.saptawara} ${r.pancawara}, neptu ${r.totalNeptu}. '
-        'Elemen dominan: $dominant. '
-        'Pancasuda: ${r.pancasuda}. Pangarasan: ${r.pangarasan}. '
-        'Wuku berjalan: $wukuCtx. '
-        'Tulis 3–4 kalimat sintesis yang menghubungkan weton lahir '
-        'dengan energi wuku sekarang — apa yang sedang aktif dalam diri '
-        'orang ini dan apa yang perlu disadari minggu ini. '
-        'Nada empatik, psikologi modern, bukan ramalan buta.';
+        'Elemen dominan: $dominant. Wuku berjalan: $wukuCtx. '
+        'Pancasuda: ${r.pancasuda}. '
+        'Tulis 3 kalimat tentang energi minggu ini: '
+        'apa yang sedang menguat dalam diri orang ini, '
+        'bagaimana ini muncul di situasi nyata seperti kerja atau hubungan, '
+        'dan satu hal konkret yang sebaiknya dilakukan atau dihindari minggu ini. '
+        'Bahasa kasual, mudah dipahami, boleh sedikit filosofis.';
   }
 
   Future<void> _generate() async {

@@ -42,10 +42,11 @@ class _WetonBirthSynthesisSectionState
     return 'Weton ${r.saptawara} ${r.pancawara}, neptu ${r.totalNeptu}. '
         'Pancasuda: ${r.pancasuda}. Pangarasan: ${r.pangarasan}. '
         'Karakter: ${e.headline}. '
-        'Tulis 4 kalimat blueprint jiwa seumur hidup: '
-        'apa yang tetap konstan — kekuatan terdalam, tantangan abadi, '
-        'dan potensi terbesar orang ini. '
-        'Ini bukan ramalan harian. Nada empatik, psikologi modern.';
+        'Tulis 3–4 kalimat yang menggambarkan pola hidup orang ini secara konkret: '
+        'bagaimana cara mereka bekerja dan mengambil keputusan, '
+        'pola yang sering muncul dalam hubungan mereka, '
+        'dan satu hal yang kalau disadari bisa mengubah banyak hal. '
+        'Bahasa sehari-hari, mudah dipahami, boleh sedikit filosofis.';
   }
 
   Future<void> _generate() async {
