@@ -98,6 +98,19 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
   static String _aiCacheKey(String dmId, int startAge) =>
       'bazi_dayun_ai_${dmId}_$startAge';
 
+  @override
+  void didUpdateWidget(BaziLuckPillarsWidget old) {
+    super.didUpdateWidget(old);
+    if (old.birthDate != widget.birthDate) {
+      // Clear in-memory cache saat birthDate berubah
+      // SharedPreferences cache tetap valid karena keyed by dmId
+      setState(() {
+        _aiReadings.clear();
+        _aiErrors.clear();
+      });
+    }
+  }
+
   int _currentAge() {
     final now = DateTime.now();
     int age = now.year - widget.birthDate.year;

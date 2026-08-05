@@ -106,15 +106,22 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
                       final dayData =
                           days[index - prefixBlankCells]
                               as Map<String, dynamic>;
-                      final date = DateTime.parse(dayData['date'] as String);
-                      final wetonStr = dayData['weton_hari_ini'] as String;
+                      final date = DateTime.tryParse(
+                        dayData['date'] as String? ?? '',
+                      );
+                      if (date == null) return const SizedBox.shrink();
+                      final wetonStr =
+                          dayData['weton_hari_ini'] as String? ?? '';
                       final pasaran = wetonStr.split(' ').last;
                       final bool isHariWeton =
                           birthWetonStr != null && wetonStr == birthWetonStr;
 
-                      final pancasuda =
-                          dayData['pancasuda'] as Map<String, dynamic>;
-                      final vibe = pancasuda['vibe_warna'] as String;
+                      final pancasudaRaw = dayData['pancasuda'];
+                      final pancasuda = pancasudaRaw is Map<String, dynamic>
+                          ? pancasudaRaw
+                          : <String, dynamic>{};
+                      final vibe =
+                          pancasuda['vibe_warna'] as String? ?? 'putih';
                       final isMangsaRawan =
                           dayData['is_mangsa_rawan'] as bool? ?? false;
                       final statusColor = isMangsaRawan

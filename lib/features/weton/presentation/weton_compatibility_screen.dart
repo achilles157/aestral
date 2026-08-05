@@ -901,6 +901,16 @@ class _CompatibilitySynthesisSectionState
     WidgetsBinding.instance.addPostFrameCallback((_) => _load());
   }
 
+  @override
+  void didUpdateWidget(_CompatibilitySynthesisSection old) {
+    super.didUpdateWidget(old);
+    if (old.result.weton.neptu1 != widget.result.weton.neptu1 ||
+        old.result.weton.neptu2 != widget.result.weton.neptu2) {
+      setState(() { _synthesis = null; _hasError = false; });
+      WidgetsBinding.instance.addPostFrameCallback((_) => _load());
+    }
+  }
+
   Future<void> _load() async {
     final key = _cacheKey(
       widget.result.weton.neptu1,
