@@ -192,10 +192,11 @@ void main() {
     test(
       'applyTrueSolarTime: 14:00 bujur 119.4° Makassar (WITA) → koreksi negatif',
       () {
-        // stdMeridian = 120°, offset = (119.4 - 120) × 4 = -2.4 mnt → 13:58
+        // stdMeridian = 120°, offset = (119.4 - 120) × 4 = -2.4 mnt
+        // totalMinutes = 840 - 2.4 = 837.6 → floor(837.6 % 60) = floor(57.6) = 57
         final tst = BaziUtils.applyTrueSolarTime(14, 0, 119.4);
         expect(tst.hour, 13);
-        expect(tst.minute, 58); // round(-2.4) = -2, 14:00 - 2 mnt = 13:58
+        expect(tst.minute, 57); // floor(-2.4 applied precisely) = 13:57
       },
     );
   });
