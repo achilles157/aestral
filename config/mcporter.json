@@ -1,4 +1,9 @@
 {
-  "mcpServers": {},
+  "mcpServers": {
+    "autoclaw-productivity": {
+      "enabled": true,
+      "baseUrl": "http://127.0.0.1:19681/mcp"
+    }
+  },
   "imports": []
 }
