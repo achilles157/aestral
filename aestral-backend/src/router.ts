@@ -908,8 +908,8 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
 		return json({ error: 'prompt is required' }, 400);
 	}
 
-	if (body.prompt.trim().length > 500) {
-		return json({ error: 'prompt terlalu panjang (maksimal 500 karakter)' }, 400);
+	if (body.prompt.trim().length > 4000) {
+		return json({ error: 'prompt terlalu panjang (maksimal 4000 karakter)' }, 400);
 	}
 
 	// Check Gemini API key is configured
