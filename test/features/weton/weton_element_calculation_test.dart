@@ -70,13 +70,16 @@ void main() {
   // ─── Accuracy: 15 Juli 2002 = Senin Pahing ───────────────────────────────
 
   group('Element calculation accuracy', () {
-    test('15 Juli 2002 (Senin Pahing): Api 36.4%, Air 36.4%, Tanah 9.1%, Angin 18.2%', () {
-      final values = _elementValues('Senin', 'Pahing');
-      expect((values['geni']! * 100).toStringAsFixed(1), '36.4');
-      expect((values['banyu']! * 100).toStringAsFixed(1), '36.4');
-      expect((values['lemah']! * 100).toStringAsFixed(1), '9.1');
-      expect((values['angin']! * 100).toStringAsFixed(1), '18.2');
-    });
+    test(
+      '15 Juli 2002 (Senin Pahing): Api 36.4%, Air 36.4%, Tanah 9.1%, Angin 18.2%',
+      () {
+        final values = _elementValues('Senin', 'Pahing');
+        expect((values['geni']! * 100).toStringAsFixed(1), '36.4');
+        expect((values['banyu']! * 100).toStringAsFixed(1), '36.4');
+        expect((values['lemah']! * 100).toStringAsFixed(1), '9.1');
+        expect((values['angin']! * 100).toStringAsFixed(1), '18.2');
+      },
+    );
 
     test('Selasa Pon: Api dominan', () {
       final values = _elementValues('Selasa', 'Pon');
@@ -101,15 +104,22 @@ void main() {
 
     test('Semua total = 1.0 (normalisasi benar)', () {
       final combos = [
-        ['Senin', 'Legi'], ['Selasa', 'Pahing'], ['Rabu', 'Pon'],
-        ['Kamis', 'Wage'], ['Jumat', 'Kliwon'], ['Sabtu', 'Legi'],
+        ['Senin', 'Legi'],
+        ['Selasa', 'Pahing'],
+        ['Rabu', 'Pon'],
+        ['Kamis', 'Wage'],
+        ['Jumat', 'Kliwon'],
+        ['Sabtu', 'Legi'],
         ['Minggu', 'Pahing'],
       ];
       for (final c in combos) {
         final v = _elementValues(c[0], c[1]);
         final total = v.values.reduce((a, b) => a + b);
-        expect(total, closeTo(1.0, 0.001),
-            reason: '${c[0]} ${c[1]} total should be 1.0');
+        expect(
+          total,
+          closeTo(1.0, 0.001),
+          reason: '${c[0]} ${c[1]} total should be 1.0',
+        );
       }
     });
   });

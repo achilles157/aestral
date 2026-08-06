@@ -401,7 +401,10 @@ class _AstrologicalPlannerScreenState
                                     ),
                                     const SizedBox(height: 16),
                                     // Timeline skeleton — 3 baris teks
-                                    const CosmicSkeletonText(lines: 3, widths: [0.7, 1.0, 0.5]),
+                                    const CosmicSkeletonText(
+                                      lines: 3,
+                                      widths: [0.7, 1.0, 0.5],
+                                    ),
                                   ] else if (_errorMessage != null) ...[
                                     Padding(
                                       padding: const EdgeInsets.symmetric(

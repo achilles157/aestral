@@ -55,9 +55,11 @@ void main() {
 
     test('semua field null → fallback defaults (tidak crash)', () {
       expect(
-        () => BaziCompatibilityDetail.fromJson(
-          {'type': null, 'label': null, 'description': null},
-        ),
+        () => BaziCompatibilityDetail.fromJson({
+          'type': null,
+          'label': null,
+          'description': null,
+        }),
         returnsNormally,
       );
       final result = BaziCompatibilityDetail.fromJson({

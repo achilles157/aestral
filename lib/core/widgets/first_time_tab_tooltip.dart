@@ -47,12 +47,14 @@ class _FirstTimeTabTooltipState extends ConsumerState<FirstTimeTabTooltip>
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
-    _opacityAnim = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _animCtrl, curve: Curves.easeOut),
-    );
-    _scaleAnim = Tween<double>(begin: 0.92, end: 1).animate(
-      CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutBack),
-    );
+    _opacityAnim = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOut));
+    _scaleAnim = Tween<double>(
+      begin: 0.92,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOutBack));
     _checkFirstTime();
   }
 
@@ -133,7 +135,9 @@ class _FirstTimeTabTooltipState extends ConsumerState<FirstTimeTabTooltip>
               animation: _opacityAnim,
               builder: (context, _) {
                 return Container(
-                  color: Colors.black.withValues(alpha: _opacityAnim.value * 0.6),
+                  color: Colors.black.withValues(
+                    alpha: _opacityAnim.value * 0.6,
+                  ),
                 );
               },
             ),

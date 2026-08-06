@@ -83,9 +83,7 @@ class _CosmicSkeletonCardState extends State<CosmicSkeletonCard>
             child: ShaderMask(
               shaderCallback: (bounds) => gradient.createShader(bounds),
               blendMode: BlendMode.srcATop,
-              child: Container(
-                color: Colors.white.withValues(alpha: 0.03),
-              ),
+              child: Container(color: Colors.white.withValues(alpha: 0.03)),
             ),
           ),
         );
@@ -135,11 +133,7 @@ class CosmicSkeletonGrid extends StatelessWidget {
 
 /// Skeleton untuk baris teks — shimmer placeholder saat konten naratif dimuat.
 class CosmicSkeletonText extends StatelessWidget {
-  const CosmicSkeletonText({
-    super.key,
-    this.lines = 3,
-    this.widths,
-  });
+  const CosmicSkeletonText({super.key, this.lines = 3, this.widths});
 
   final int lines;
   final List<double>? widths;

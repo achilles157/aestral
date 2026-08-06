@@ -98,7 +98,11 @@ class _CosmicMomentCardState extends ConsumerState<CosmicMomentCard> {
       try {
         final chart = await ref.read(baziChartProvider.future);
         if (chart != null) {
-          final dayPillar = BaziUtils.getDayPillar(now.year, now.month, now.day);
+          final dayPillar = BaziUtils.getDayPillar(
+            now.year,
+            now.month,
+            now.day,
+          );
           final todayElem = BaziUtils.branchElements[dayPillar.branchIndex];
           final dmElem = chart.dayMasterElement;
 
@@ -192,7 +196,8 @@ class _CosmicMomentCardState extends ConsumerState<CosmicMomentCard> {
 
       final cardIndex = cardJson['cardIndex'] as int? ?? 0;
       final isReversed = cardJson['isReversed'] as bool? ?? false;
-      final reasoning = (response['reasoning'] as List<dynamic>?)
+      final reasoning =
+          (response['reasoning'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
           [];
@@ -239,10 +244,8 @@ class _CosmicMomentCardState extends ConsumerState<CosmicMomentCard> {
     if (!mounted) return;
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => OracleChatScreen(
-          oracleType: 'synthesis',
-          authHeader: authHeader,
-        ),
+        builder: (_) =>
+            OracleChatScreen(oracleType: 'synthesis', authHeader: authHeader),
       ),
     );
   }
@@ -342,13 +345,8 @@ class _CosmicMomentCardState extends ConsumerState<CosmicMomentCard> {
               )
             : const Icon(Icons.style_rounded, size: 18),
         label: Text(
-          _drawing
-              ? 'Menarik kartu...'
-              : 'Tarik Kartu Momen Kosmis',
-          style: GoogleFonts.outfit(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
+          _drawing ? 'Menarik kartu...' : 'Tarik Kartu Momen Kosmis',
+          style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -363,8 +361,11 @@ class _CosmicMomentCardState extends ConsumerState<CosmicMomentCard> {
       ),
       child: Row(
         children: [
-          const Icon(Icons.check_circle_rounded,
-              color: AppTheme.accentGold, size: 18),
+          const Icon(
+            Icons.check_circle_rounded,
+            color: AppTheme.accentGold,
+            size: 18,
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -419,9 +420,7 @@ class _CosmicMomentCardState extends ConsumerState<CosmicMomentCard> {
               Row(
                 children: [
                   Icon(
-                    _isReversed
-                        ? Icons.flip_rounded
-                        : Icons.wb_sunny_rounded,
+                    _isReversed ? Icons.flip_rounded : Icons.wb_sunny_rounded,
                     color: _isReversed
                         ? AppTheme.accentPink
                         : AppTheme.accentGold,

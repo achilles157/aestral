@@ -18,7 +18,13 @@ import '../../bazi/presentation/bazi_calculator_screen.dart';
 class MainShell extends ConsumerWidget {
   const MainShell({super.key});
 
-  static const List<String> _tabKeys = ['beranda', 'tarot', 'weton', 'planner', 'bazi'];
+  static const List<String> _tabKeys = [
+    'beranda',
+    'tarot',
+    'weton',
+    'planner',
+    'bazi',
+  ];
 
   static const List<Widget> _screens = [
     DashboardScreen(),
@@ -61,7 +67,10 @@ class MainShell extends ConsumerWidget {
             bottom: MediaQuery.of(context).padding.bottom + 88,
           ),
         ),
-        child: _FadingIndexedStack(index: activeTab, children: tooltippedScreens),
+        child: _FadingIndexedStack(
+          index: activeTab,
+          children: tooltippedScreens,
+        ),
       ),
       bottomNavigationBar: _CosmicNavBar(
         items: _items,
@@ -73,11 +82,16 @@ class MainShell extends ConsumerWidget {
   }
 
   static const Map<String, String> _descriptions = {
-    'beranda': 'Dashboard personalmu — lihat energi kosmis hari ini dan akses semua fitur dari sini.',
-    'tarot': 'Tarik tiga kartu untuk melihat masa lalu, masa kini, dan masa depanmu. Kartu dipengaruhi siklus alam.',
-    'weton': 'Weton adalah sistem penanggalan Jawa yang menghitung karakter, nasib, dan kecocokanmu berdasarkan hari lahirmu.',
-    'planner': 'Kalender astrologi untuk melihat hari baik, energi harian, dan panduan waktu berdasarkan wetonmu.',
-    'bazi': 'Ba Zi (Eight Characters) adalah astrologi Tiongkok yang menganalisis empat pilar kelahiranmu — tahun, bulan, hari, jam.',
+    'beranda':
+        'Dashboard personalmu — lihat energi kosmis hari ini dan akses semua fitur dari sini.',
+    'tarot':
+        'Tarik tiga kartu untuk melihat masa lalu, masa kini, dan masa depanmu. Kartu dipengaruhi siklus alam.',
+    'weton':
+        'Weton adalah sistem penanggalan Jawa yang menghitung karakter, nasib, dan kecocokanmu berdasarkan hari lahirmu.',
+    'planner':
+        'Kalender astrologi untuk melihat hari baik, energi harian, dan panduan waktu berdasarkan wetonmu.',
+    'bazi':
+        'Ba Zi (Eight Characters) adalah astrologi Tiongkok yang menganalisis empat pilar kelahiranmu — tahun, bulan, hari, jam.',
   };
 }
 

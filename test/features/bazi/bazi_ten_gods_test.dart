@@ -78,8 +78,11 @@ void main() {
           found.add(BaziUtils.getTenGodId(dm, other));
         }
       }
-      expect(found, equals(_kValidGodIds),
-          reason: 'All 10 Ten Gods must be reachable');
+      expect(
+        found,
+        equals(_kValidGodIds),
+        reason: 'All 10 Ten Gods must be reachable',
+      );
     });
   });
 
@@ -98,8 +101,8 @@ void main() {
     });
 
     test('Zi (0=Rat) = air, Wu (6=Horse) = api — known reference', () {
-      expect(BaziUtils.branchElements[0], 'air');  // Zi = Water
-      expect(BaziUtils.branchElements[6], 'api');  // Wu = Fire
+      expect(BaziUtils.branchElements[0], 'air'); // Zi = Water
+      expect(BaziUtils.branchElements[6], 'api'); // Wu = Fire
     });
   });
 }

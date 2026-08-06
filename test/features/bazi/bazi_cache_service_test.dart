@@ -36,7 +36,12 @@ void main() {
     // Regression: stem=1,branch=10 vs stem=11,branch=0 must not collide
     // (This would be a BaziChart cache key issue, but verifies separator logic)
     test('lat/lng precision: 4 decimal places in key', () {
-      final k = BaziCacheService.cacheKey('2002-07-15', null, -6.12345, 106.87654);
+      final k = BaziCacheService.cacheKey(
+        '2002-07-15',
+        null,
+        -6.12345,
+        106.87654,
+      );
       expect(k, contains('-6.1235')); // toStringAsFixed(4) rounds
       expect(k, contains('106.8765'));
     });
@@ -52,7 +57,10 @@ void main() {
 
     test('save then get returns same data', () async {
       const key = 'test_key';
-      final data = {'dayMasterId': 'jia', 'wuXingBalance': {'kayu': 5}};
+      final data = {
+        'dayMasterId': 'jia',
+        'wuXingBalance': {'kayu': 5},
+      };
       await BaziCacheService.save(key, data);
       final result = await BaziCacheService.get(key);
       expect(result, isNotNull);
@@ -72,7 +80,9 @@ void main() {
 
     test('corrupt cache → returns null (tidak crash)', () async {
       // Inject corrupt JSON
-      SharedPreferences.setMockInitialValues({'corrupt_key': 'not-valid-json{'});
+      SharedPreferences.setMockInitialValues({
+        'corrupt_key': 'not-valid-json{',
+      });
       final result = await BaziCacheService.get('corrupt_key');
       expect(result, isNull);
     });

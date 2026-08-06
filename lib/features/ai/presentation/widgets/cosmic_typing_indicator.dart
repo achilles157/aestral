@@ -7,11 +7,7 @@ import '../../../../core/theme/app_theme.dart';
 ///
 /// Dipakai di [OracleChatScreen] saat `isStreaming` true.
 class CosmicTypingIndicator extends StatefulWidget {
-  const CosmicTypingIndicator({
-    super.key,
-    this.accentColor,
-    this.label,
-  });
+  const CosmicTypingIndicator({super.key, this.accentColor, this.label});
 
   /// Warna aksen titik — default ke AppTheme.accentGold
   final Color? accentColor;
@@ -68,23 +64,11 @@ class _CosmicTypingIndicatorState extends State<CosmicTypingIndicator>
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _Dot(
-                controller: _controller,
-                delay: 0,
-                color: color,
-              ),
+              _Dot(controller: _controller, delay: 0, color: color),
               const SizedBox(width: 5),
-              _Dot(
-                controller: _controller,
-                delay: 200,
-                color: color,
-              ),
+              _Dot(controller: _controller, delay: 200, color: color),
               const SizedBox(width: 5),
-              _Dot(
-                controller: _controller,
-                delay: 400,
-                color: color,
-              ),
+              _Dot(controller: _controller, delay: 400, color: color),
               if (widget.label != null || true) ...[
                 const SizedBox(width: 10),
                 Text(
@@ -123,9 +107,7 @@ class _Dot extends StatelessWidget {
         final t = (controller.value * 1000);
         final phase = ((t + delay) % 1000) / 1000;
         // S-curve opacity: low → peak → low
-        final opacity = phase < 0.5
-            ? phase * 2 * 0.7
-            : (1 - phase) * 2 * 0.7;
+        final opacity = phase < 0.5 ? phase * 2 * 0.7 : (1 - phase) * 2 * 0.7;
         final scale = 0.6 + opacity * 0.6;
         return Transform.scale(
           scale: scale,

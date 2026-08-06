@@ -30,6 +30,7 @@ import '../../history/models/reading_entry.dart';
 import '../../history/services/reading_history_service.dart';
 import '../../../core/services/analytics_service.dart';
 import '../../../features/bazi/providers/bazi_chart_provider.dart';
+
 class TarotDrawScreen extends ConsumerStatefulWidget {
   const TarotDrawScreen({super.key});
 
@@ -426,9 +427,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
                   Icon(
                     area.$3,
                     size: 14,
-                    color: isActive
-                        ? AppTheme.textLight
-                        : AppTheme.textMuted,
+                    color: isActive ? AppTheme.textLight : AppTheme.textMuted,
                   ),
                   const SizedBox(width: 6),
                   Text(
@@ -436,9 +435,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
                     style: GoogleFonts.outfit(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: isActive
-                          ? AppTheme.textLight
-                          : AppTheme.textMuted,
+                      color: isActive ? AppTheme.textLight : AppTheme.textMuted,
                     ),
                   ),
                 ],
@@ -471,15 +468,15 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
         Text(
           isMangsa
               ? (currentLang == 'id'
-                  ? 'Biarkan alam semesta berbicara,\nlalu tarik dua kartu musim ini.'
-                  : 'Let the universe speak,\nthen draw two cards for this season.')
+                    ? 'Biarkan alam semesta berbicara,\nlalu tarik dua kartu musim ini.'
+                    : 'Let the universe speak,\nthen draw two cards for this season.')
               : isThematic
               ? (currentLang == 'id'
-                  ? 'Pilih area hidupmu,\nlalu tarik tiga kartu tematik.'
-                  : 'Choose your life area,\nthen draw three thematic cards.')
+                    ? 'Pilih area hidupmu,\nlalu tarik tiga kartu tematik.'
+                    : 'Choose your life area,\nthen draw three thematic cards.')
               : (currentLang == 'id'
-                  ? 'Tanyakan sesuatu pada semesta,\nlalu tarik tiga kartu.'
-                  : 'Ask the universe something,\nthen draw your three cards.'),
+                    ? 'Tanyakan sesuatu pada semesta,\nlalu tarik tiga kartu.'
+                    : 'Ask the universe something,\nthen draw your three cards.'),
           style: GoogleFonts.playfairDisplay(
             fontSize: 13,
             color: AppTheme.textLight.withValues(alpha: 0.45),
@@ -940,9 +937,14 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
                                       : Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
-                                          children: List.generate(drawnCards.length, (index) {
+                                          children: List.generate(drawnCards.length, (
+                                            index,
+                                          ) {
                                             final cardInfo = drawnCards[index];
-                                            final labelText = _cardLabel(cardInfo.label, currentLang);
+                                            final labelText = _cardLabel(
+                                              cardInfo.label,
+                                              currentLang,
+                                            );
 
                                             final double value =
                                                 _flipAnimations[index].value;
