@@ -7,18 +7,17 @@ human.timezone: "Asia/Bangkok"
 human.focus:
   - "coding"
   - "ops"
-  - "research"
-  - "data"
   - "product"
-  - "design"
-  - "Astrologist"
+  - "data"
+  - "research"
+  - "astrology"
 ---
 
 # USER.md - About Your Human
 
 - **Name:** User
 - **Timezone:** Asia/Bangkok
-- **Focus areas:** coding, ops, research, data, product, design, Astrologist
+- **Focus areas:** coding, ops, product, data, research, astrology
 
 ## Context
 

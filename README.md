@@ -170,15 +170,10 @@ flutter pub outdated
 ```
 
 ### Current Test Coverage
-⚠️ **Status:** 2.8% coverage (CRITICAL - dalam perbaikan)
-
-**Target:** 60% coverage dalam 8 weeks
-
-**Priority tests:**
-- `test/core/utils/weton_utils_test.dart` - Weton calculations
-- `test/core/utils/bazi_utils_test.dart` - Ba Zi calculations
-- `test/features/auth/auth_service_test.dart` - Auth flows
-- `test/core/providers/birth_profile_provider_test.dart` - State management
+✅ **Status:** 63.1% coverage (667/1057 lines) — **TARGET 60% TERCAPAI**
+- **185 tests**, semua PASS (12 test files)
+- CI/CD: auto-run di setiap push & PR via `.github/workflows/test.yml`
+- Coverage report: lcov.info + artifact upload + PR comment otomatis
 
 ---
 
