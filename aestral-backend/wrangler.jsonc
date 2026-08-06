@@ -56,6 +56,10 @@
 		{
 			"binding": "RATE_LIMIT_KV",
 			"id": "fb9178f725eb469da1aea7c2cf5dfe21"
+		},
+		{
+			"binding": "TAROT_KV",
+			"id": "replace-with-generated-namespace-id"
 		}
 	]
 	/**
