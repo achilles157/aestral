@@ -420,6 +420,173 @@ export function getMangsaDeterministicThreeCards(
 	];
 }
 
+// ─── Tarot Momen Kosmis (Phase 3A) ────────────────────────────────────────
+
+/** Event types for Momen Kosmis trigger */
+export type MomentEventType = 'hari_weton' | 'dino_was' | 'bazi_clash' | 'yong_shen';
+
+const REFLECTIVE_CARD_INDICES = [
+	9,   // The Hermit
+	2,   // The High Priestess
+	18,  // The Moon
+	12,  // The Hanged Man
+	13,  // Death
+	20,  // Judgement
+];
+
+/**
+ * Single-card draw for Momen Kosmis — event-driven, 2-4x/month.
+ *
+ * Weighting per event type:
+ *   - hari_weton: Major Arcana +0.5 (hari sakral)
+ *   - dino_was:   Reflective cards +0.6 (Hermit, High Priestess, Moon, etc.)
+ *   - bazi_clash: Elemental opposite +0.4 (kartu yang elemennya mengontrol DM)
+ *   - yong_shen:  Yong Shen element +0.7 (harmoni maksimal)
+ */
+export function getMomentCard(
+	birthDate: string,
+	eventType: MomentEventType,
+	bazi?: BaziWeightingContext,
+): { cardIndex: number; isReversed: boolean; eventType: string; reasoning: string[] } {
+	const weights = new Float64Array(DECK_SIZE).fill(1.0);
+	const reasons: string[] = [];
+
+	switch (eventType) {
+		case 'hari_weton': {
+			// Hari Weton = hari sakral, Major Arcana lebih mungkin muncul
+			for (let i = 0; i <= 21; i++) weights[i] += 0.5;
+			reasons.push('Hari Weton — Major Arcana diperkuat sebagai cerminan sakral');
+			break;
+		}
+		case 'dino_was': {
+			// Dino Was = hari reflektif, kartu kontemplatif lebih mungkin
+			for (const idx of REFLECTIVE_CARD_INDICES) weights[idx] += 0.6;
+			reasons.push('Dino Was — kartu reflektif diperkuat untuk kontemplasi diri');
+			break;
+		}
+		case 'bazi_clash': {
+			// Ba Zi Clash = elemen yang mengontrol Day Master
+			if (bazi?.dayMasterElement && bazi.wuXingDominant) {
+				const dm = bazi.dayMasterElement.toLowerCase();
+				const controller = CONTROLS[dm] ?? CONTROLS[bazi.wuXingDominant.toLowerCase()];
+				if (controller) {
+					const tarotEl = WUXING_TO_TAROT[controller];
+					const [cs, ce] = getElementRange(tarotEl);
+					for (let i = cs; i <= ce; i++) weights[i] += 0.4;
+					reasons.push(`Ba Zi Clash — elemen ${controller} (${tarotEl}) mengontrol Day Master ${dm}`);
+				}
+			}
+			break;
+		}
+		case 'yong_shen': {
+			// Yong Shen Day = elemen harmonis diperkuat
+			if (bazi?.yongShen && bazi.yongShen.length > 0) {
+				for (const ys of bazi.yongShen) {
+					const ysTarot = WUXING_TO_TAROT[ys.toLowerCase()];
+					if (!ysTarot) continue;
+					const [ysStart, ysEnd] = getElementRange(ysTarot);
+					for (let i = ysStart; i <= ysEnd; i++) weights[i] += 0.7;
+				}
+				reasons.push(`Yong Shen [${bazi.yongShen.join(', ')}] — harmoni maksimal, kartu resonan diperkuat`);
+			}
+			break;
+		}
+	}
+
+	// Always apply Ba Zi resonance for additional personalization
+	if (bazi) applyBaziWeights(weights, bazi, reasons);
+
+	const seed = `${birthDate}-moment-${eventType}-${new Date().toISOString().split('T')[0]}`;
+	const cardIndex = drawSingleDeterministicCard(seed, weights);
+	const isReversed = getIsReversedDeterministic(seed + '-rev');
+
+	return { cardIndex, isReversed, eventType, reasoning: reasons };
+}
+
+// ─── Tarot Tematik (Phase 3B) ─────────────────────────────────────────────
+
+/** Life areas for thematic tarot */
+export type ThematicArea = 'karir' | 'asmara' | 'keuangan' | 'spiritual' | 'kesehatan';
+
+/** Area → dominant/support element mapping (from blueprint 3.3) */
+const AREA_ELEMENTS: Record<ThematicArea, { dominant: string; support: string }> = {
+	karir:     { dominant: 'fire',  support: 'air'   }, // Wands + Swords
+	asmara:    { dominant: 'water', support: 'earth' }, // Cups + Pentacles
+	keuangan:  { dominant: 'earth', support: 'air'   }, // Pentacles + Swords
+	spiritual: { dominant: 'major', support: 'water' }, // Major Arcana + Cups
+	kesehatan: { dominant: 'major', support: 'earth' }, // Major Arcana + Pentacles
+};
+
+/** Position labels per area (from blueprint 3.3) */
+const AREA_POSITIONS: Record<ThematicArea, [string, string, string]> = {
+	karir:     ['potensi', 'tantangan', 'arah'],
+	asmara:    ['daya_tarik', 'bayangan', 'langkah'],
+	keuangan:  ['sumber', 'kebocoran', 'strategi'],
+	spiritual: ['panggilan', 'rintangan', 'pesan'],
+	kesehatan: ['vitalitas', 'kelemahan', 'ritme'],
+};
+
+/**
+ * Thematic tarot: 3 kartu dengan bias area hidup spesifik.
+ *
+ * Bobot: Weton + Ba Zi + Area (dominant +0.35, support +0.20).
+ * Seed per slot: birthDate + area + slot + day (deterministic per hari).
+ */
+export function getThematicThreeCards(
+	birthDate: string,
+	area: ThematicArea,
+	pangarasan?: string,
+	bazi?: BaziWeightingContext,
+): DrawnCardInfo[] {
+	const areaCfg = AREA_ELEMENTS[area];
+	const positions = AREA_POSITIONS[area];
+
+	function buildWeights(exclude: number[]): Float64Array {
+		const w = new Float64Array(DECK_SIZE).fill(1.0);
+
+		if (pangarasan) {
+			const userEl = pangarasanToElement(pangarasan);
+			if (userEl) {
+				const [s, e] = getRemedialRange(userEl);
+				for (let i = s; i <= e; i++) w[i] += 0.15;
+			}
+		}
+
+		if (bazi) applyBaziWeights(w, bazi, []);
+
+		// Area bias — dominant +0.35, support +0.20
+		const [dStart, dEnd] = getElementRange(areaCfg.dominant);
+		for (let i = dStart; i <= dEnd; i++) w[i] += 0.35;
+		const [sStart, sEnd] = getElementRange(areaCfg.support);
+		for (let i = sStart; i <= sEnd; i++) w[i] += 0.20;
+
+		for (const idx of exclude) w[idx] = 0;
+		return w;
+	}
+
+	// Deterministic per hari — reseed setiap hari agar user bisa draw ulang besok
+	const day = new Date().toISOString().split('T')[0];
+	const baseSeed = `${birthDate}-${area}-${day}`;
+
+	const w1 = buildWeights([]);
+	const idx1 = drawSingleDeterministicCard(baseSeed + '-1', w1);
+	const rev1 = getIsReversedDeterministic(baseSeed + '-1-rev');
+
+	const w2 = buildWeights([idx1]);
+	const idx2 = drawSingleDeterministicCard(baseSeed + '-2', w2);
+	const rev2 = getIsReversedDeterministic(baseSeed + '-2-rev');
+
+	const w3 = buildWeights([idx1, idx2]);
+	const idx3 = drawSingleDeterministicCard(baseSeed + '-3', w3);
+	const rev3 = getIsReversedDeterministic(baseSeed + '-3-rev');
+
+	return [
+		{ cardIndex: idx1, isReversed: rev1, label: positions[0] },
+		{ cardIndex: idx2, isReversed: rev2, label: positions[1] },
+		{ cardIndex: idx3, isReversed: rev3, label: positions[2] },
+	];
+}
+
 /** Weekly Wuku tarot */
 export function getWeeklyDeterministicThreeCards(
 	birthDate: string,

@@ -49,6 +49,8 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
   int _activeCarouselIndex = 0;
   bool _isLoading = false;
   String _selectedDrawType = 'mangsa';
+  // Phase 3B: area tematik aktif (karir, asmara, keuangan, spiritual, kesehatan)
+  String _selectedArea = 'karir';
   TarotOracleReading? _oracleReading;
   bool _isOracleLoading = false;
   bool _oracleError = false;
@@ -164,7 +166,19 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
       final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
 
       final Map<String, dynamic> response;
-      if (_selectedDrawType == 'mangsa' && !session.isMock) {
+      if (_selectedDrawType == 'thematic' && !session.isMock) {
+        // Tematik: 3 kartu dengan area hidup spesifik
+        response = await ApiService.drawTarotThematic(
+          birthDate: birthDateStr,
+          pangarasan: birthWeton.pangarasan,
+          area: _selectedArea,
+          authHeader: authHeader,
+          dayMasterElement: dmElement,
+          dayMasterPolarity: dmPolarity,
+          yongShen: yongShen,
+          wuXingDominant: wuXingDominant,
+        );
+      } else if (_selectedDrawType == 'mangsa' && !session.isMock) {
         // Mangsa: 2-kartu format Energi + Panduan via endpoint khusus
         response = await ApiService.drawTarotMangsa(
           birthDate: birthDateStr,
@@ -374,14 +388,79 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
 
   // ─── Empty card placeholder row ─────────────────────────────────────────
 
+  /// Area chips selector untuk Tarot Tematik (Phase 3B).
+  Widget _buildAreaSelector(String currentLang) {
+    const areas = [
+      ('karir', 'Karir', Icons.work_rounded),
+      ('asmara', 'Asmara', Icons.favorite_rounded),
+      ('keuangan', 'Keuangan', Icons.account_balance_wallet_rounded),
+      ('spiritual', 'Spiritual', Icons.self_improvement_rounded),
+      ('kesehatan', 'Kesehatan', Icons.monitor_heart_rounded),
+    ];
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        spacing: 8,
+        runSpacing: 8,
+        children: areas.map((area) {
+          final isActive = _selectedArea == area.$1;
+          return GestureDetector(
+            onTap: () => setState(() => _selectedArea = area.$1),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: isActive
+                    ? AppTheme.accentPurple
+                    : Colors.white.withValues(alpha: 0.05),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: isActive
+                      ? AppTheme.accentGold
+                      : AppTheme.textMuted.withValues(alpha: 0.3),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    area.$3,
+                    size: 14,
+                    color: isActive
+                        ? AppTheme.textLight
+                        : AppTheme.textMuted,
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    currentLang == 'id' ? area.$2 : area.$2,
+                    style: GoogleFonts.outfit(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: isActive
+                          ? AppTheme.textLight
+                          : AppTheme.textMuted,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
   Widget _buildEmptyCardRow(String currentLang) {
     final isMangsa = _selectedDrawType == 'mangsa';
+    final isThematic = _selectedDrawType == 'thematic';
     final cardCount = isMangsa ? 2 : 3;
     final labels = isMangsa
         ? [
             currentLang == 'id' ? 'Energi Mangsa' : 'Mangsa Energy',
             currentLang == 'id' ? 'Panduan Pribadi' : 'Personal Guidance',
           ]
+        : isThematic
+        ? _thematicLabels(currentLang)
         : [
             currentLang == 'id' ? 'Masa Lalu' : 'Past',
             currentLang == 'id' ? 'Masa Kini' : 'Present',
@@ -394,6 +473,10 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
               ? (currentLang == 'id'
                   ? 'Biarkan alam semesta berbicara,\nlalu tarik dua kartu musim ini.'
                   : 'Let the universe speak,\nthen draw two cards for this season.')
+              : isThematic
+              ? (currentLang == 'id'
+                  ? 'Pilih area hidupmu,\nlalu tarik tiga kartu tematik.'
+                  : 'Choose your life area,\nthen draw three thematic cards.')
               : (currentLang == 'id'
                   ? 'Tanyakan sesuatu pada semesta,\nlalu tarik tiga kartu.'
                   : 'Ask the universe something,\nthen draw your three cards.'),
@@ -572,6 +655,10 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
   /// Maps backend card labels to human-readable display labels.
   /// Mangsa mode uses energy/guidance; Birth mode uses past/present/future.
   String _cardLabel(String backendLabel, String currentLang) {
+    // Tematik: label posisi sudah dari backend (potensi, tantangan, dll)
+    if (_selectedDrawType == 'thematic') {
+      return _translatePosition(backendLabel, currentLang);
+    }
     switch (backendLabel) {
       case 'energy':
         return currentLang == 'id' ? 'Energi Mangsa' : 'Mangsa Energy';
@@ -586,6 +673,68 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
       default:
         return backendLabel;
     }
+  }
+
+  /// Labels 3 posisi kartu tematik untuk area yang sedang dipilih.
+  List<String> _thematicLabels(String currentLang) {
+    switch (_selectedArea) {
+      case 'karir':
+        return [
+          currentLang == 'id' ? 'Potensi' : 'Potential',
+          currentLang == 'id' ? 'Tantangan' : 'Challenge',
+          currentLang == 'id' ? 'Arah' : 'Direction',
+        ];
+      case 'asmara':
+        return [
+          currentLang == 'id' ? 'Daya Tarik' : 'Attraction',
+          currentLang == 'id' ? 'Bayangan' : 'Shadow',
+          currentLang == 'id' ? 'Langkah' : 'Next Step',
+        ];
+      case 'keuangan':
+        return [
+          currentLang == 'id' ? 'Sumber' : 'Source',
+          currentLang == 'id' ? 'Kebocoran' : 'Leak',
+          currentLang == 'id' ? 'Strategi' : 'Strategy',
+        ];
+      case 'spiritual':
+        return [
+          currentLang == 'id' ? 'Panggilan' : 'Calling',
+          currentLang == 'id' ? 'Rintangan' : 'Obstacle',
+          currentLang == 'id' ? 'Pesan' : 'Message',
+        ];
+      case 'kesehatan':
+        return [
+          currentLang == 'id' ? 'Vitalitas' : 'Vitality',
+          currentLang == 'id' ? 'Kelemahan' : 'Weakness',
+          currentLang == 'id' ? 'Ritme' : 'Rhythm',
+        ];
+      default:
+        return ['1', '2', '3'];
+    }
+  }
+
+  /// Terjemahan label posisi tematik dari backend (snake_case → display).
+  String _translatePosition(String backendLabel, String currentLang) {
+    const map = {
+      'potensi': ('Potensi', 'Potential'),
+      'tantangan': ('Tantangan', 'Challenge'),
+      'arah': ('Arah', 'Direction'),
+      'daya_tarik': ('Daya Tarik', 'Attraction'),
+      'bayangan': ('Bayangan', 'Shadow'),
+      'langkah': ('Langkah', 'Next Step'),
+      'sumber': ('Sumber', 'Source'),
+      'kebocoran': ('Kebocoran', 'Leak'),
+      'strategi': ('Strategi', 'Strategy'),
+      'panggilan': ('Panggilan', 'Calling'),
+      'rintangan': ('Rintangan', 'Obstacle'),
+      'pesan': ('Pesan', 'Message'),
+      'vitalitas': ('Vitalitas', 'Vitality'),
+      'kelemahan': ('Kelemahan', 'Weakness'),
+      'ritme': ('Ritme', 'Rhythm'),
+    };
+    final entry = map[backendLabel];
+    if (entry == null) return backendLabel;
+    return currentLang == 'id' ? entry.$1 : entry.$2;
   }
 
   Widget _buildLangButton(
@@ -754,6 +903,11 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
                                       ),
                                     ),
                                   ),
+                                // Phase 3B: Area selector — hanya untuk Tematik
+                                if (_selectedDrawType == 'thematic' &&
+                                    session != null &&
+                                    !session.isMock)
+                                  _buildAreaSelector(currentLang),
                               ],
                               Text(
                                 session == null ||
@@ -762,6 +916,10 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
                                     ? (currentLang == 'id'
                                           ? 'Tarot Lahir merepresentasikan blueprint jiwa Anda. Kartu ini bersifat statis seumur hidup.'
                                           : 'Birth Tarot represents your soul blueprint. This card is static for lifetime.')
+                                    : _selectedDrawType == 'thematic'
+                                    ? (currentLang == 'id'
+                                          ? 'Tarot Tematik membaca energi area hidup yang Anda pilih — Karir, Asmara, Keuangan, Spiritual, atau Kesehatan.'
+                                          : 'Thematic Tarot reads the energy of the life area you choose — Career, Love, Finance, Spiritual, or Health.')
                                     : (currentLang == 'id'
                                           ? 'Tebaran kartu mangsa mengikuti ritme alam semesta yang berganti setiap beberapa pekan.'
                                           : 'Your mangsa spread shifts with the natural rhythm of the universe every few weeks.'),
