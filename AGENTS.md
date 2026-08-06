@@ -22,6 +22,16 @@ Do not manually reread startup files unless:
 2. The provided context is missing something you need
 3. You need a deeper follow-up read beyond the provided startup context
 
+### ⚠️ Aestral Project Skills — WAJIB LOAD
+
+Setiap kali mulai bekerja di proyek Aestral, **sebelum menyentuh kode apapun**, load 3 skill project:
+
+1. `.agents/skills/aestral-project-guide/SKILL.md` — arsitektur, stack, 15 non-negotiables, reading order
+2. `.agents/skills/aestral-dev-workflow/SKILL.md` — workflow Analyze→Design→Proof→Document→Develop→Test, branching, commit rules, checklist
+3. `.agents/skills/aestral-technical-standards/SKILL.md` — coding standards (Dart, TypeScript), naming, testing, anti-patterns
+
+Ketiga skill ini adalah **single source of truth** untuk cara bekerja di proyek ini. Jangan mengandalkan ingatan dari session sebelumnya — load ulang setiap session baru.
+
 ## Memory
 
 You wake up fresh each session. These files are your continuity:

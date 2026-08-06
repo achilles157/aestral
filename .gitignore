@@ -113,7 +113,8 @@ scripts/*_output.txt
 scripts/*_output.json
 
 # AI Agent & Skills Configuration
-.agents/
+.agents/*
+!.agents/skills/
 .superpowers/
 skills-lock.json
 .claude/
