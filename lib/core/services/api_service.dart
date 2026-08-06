@@ -136,11 +136,81 @@ class ApiService {
     String? drawType,
     int? mangsaId,
     required String authHeader,
+    String? dayMasterElement,
+    String? dayMasterPolarity,
+    List<String>? yongShen,
+    String? wuXingDominant,
   }) => _post('api/tarot/draw', {
     'birthDate': birthDate,
     if (pangarasan != null) 'pangarasan': pangarasan,
     if (drawType != null) 'drawType': drawType,
     if (mangsaId != null) 'mangsaId': mangsaId,
+    if (dayMasterElement != null) 'dayMasterElement': dayMasterElement,
+    if (dayMasterPolarity != null) 'dayMasterPolarity': dayMasterPolarity,
+    if (yongShen != null && yongShen.isNotEmpty) 'yongShen': yongShen,
+    if (wuXingDominant != null) 'wuXingDominant': wuXingDominant,
+  }, authHeader: authHeader);
+
+  /// Tarot Mangsa 2-kartu: Energi Mangsa + Panduan Pribadi.
+  /// Endpoint terpisah dari drawTarot karena format respons berbeda.
+  static Future<Map<String, dynamic>> drawTarotMangsa({
+    required String birthDate,
+    String? pangarasan,
+    required int mangsaId,
+    required String authHeader,
+    String? dayMasterElement,
+    String? dayMasterPolarity,
+    List<String>? yongShen,
+    String? wuXingDominant,
+  }) => _post('api/tarot/mangsa', {
+    'birthDate': birthDate,
+    if (pangarasan != null) 'pangarasan': pangarasan,
+    'mangsaId': mangsaId,
+    if (dayMasterElement != null) 'dayMasterElement': dayMasterElement,
+    if (dayMasterPolarity != null) 'dayMasterPolarity': dayMasterPolarity,
+    if (yongShen != null && yongShen.isNotEmpty) 'yongShen': yongShen,
+    if (wuXingDominant != null) 'wuXingDominant': wuXingDominant,
+  }, authHeader: authHeader);
+
+  /// Tarot Momen Kosmis 1-kartu: event-driven (Hari Weton, Dino Was, dll).
+  static Future<Map<String, dynamic>> drawTarotMoment({
+    required String birthDate,
+    required String eventType,
+    required String authHeader,
+    String? dayMasterElement,
+    String? dayMasterPolarity,
+    List<String>? yongShen,
+    String? wuXingDominant,
+  }) => _post('api/tarot/moment', {
+    'birthDate': birthDate,
+    'eventType': eventType,
+    if (dayMasterElement != null) 'dayMasterElement': dayMasterElement,
+    if (dayMasterPolarity != null) 'dayMasterPolarity': dayMasterPolarity,
+    if (yongShen != null && yongShen.isNotEmpty) 'yongShen': yongShen,
+    if (wuXingDominant != null) 'wuXingDominant': wuXingDominant,
+  }, authHeader: authHeader);
+
+  /// Tarot Tematik 3-kartu: area hidup spesifik (karir, asmara, dll).
+  static Future<Map<String, dynamic>> drawTarotThematic({
+    required String birthDate,
+    String? pangarasan,
+    required String area,
+    String? userQuestion,
+    required String authHeader,
+    String? dayMasterElement,
+    String? dayMasterPolarity,
+    List<String>? yongShen,
+    String? wuXingDominant,
+  }) => _post('api/tarot/thematic', {
+    'birthDate': birthDate,
+    if (pangarasan != null) 'pangarasan': pangarasan,
+    'area': area,
+    if (userQuestion != null && userQuestion.isNotEmpty)
+      'userQuestion': userQuestion,
+    if (dayMasterElement != null) 'dayMasterElement': dayMasterElement,
+    if (dayMasterPolarity != null) 'dayMasterPolarity': dayMasterPolarity,
+    if (yongShen != null && yongShen.isNotEmpty) 'yongShen': yongShen,
+    if (wuXingDominant != null) 'wuXingDominant': wuXingDominant,
   }, authHeader: authHeader);
 
   static Future<Map<String, dynamic>> getWetonDaily({

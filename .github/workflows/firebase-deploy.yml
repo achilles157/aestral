@@ -1,0 +1,37 @@
+name: Deploy Production (main)
+
+# Deploy ke Firebase Hosting live channel HANYA dari branch main.
+# Develop tidak auto-deploy — dia diuji CI dulu, baru di-merge ke main.
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # manual trigger jika diperlukan
+
+jobs:
+  build_and_deploy:
+    name: Build & Deploy Live
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build web
+        run: flutter build web --release
+        timeout-minutes: 15
+
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_AESTRAL_CA7AE }}
+          channelId: live
+          projectId: aestral-ca7ae

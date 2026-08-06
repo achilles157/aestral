@@ -59,12 +59,12 @@ export const BRANCH_ELEMENTS: readonly string[] = [
 // ─── Wu Xing Interaction Cycles ──────────────────────────────────────────────
 
 /** Sheng (生) — producing cycle */
-const GENERATES: Record<string, string> = {
+export const GENERATES: Record<string, string> = {
 	kayu: 'api', api: 'tanah', tanah: 'logam', logam: 'air', air: 'kayu',
 };
 
 /** Ke (克) — controlling cycle */
-const CONTROLS: Record<string, string> = {
+export const CONTROLS: Record<string, string> = {
 	kayu: 'tanah', tanah: 'air', air: 'api', api: 'logam', logam: 'kayu',
 };
 

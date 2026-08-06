@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/providers/shell_providers.dart';
+import '../../../core/widgets/first_time_tab_tooltip.dart';
 import 'dashboard_screen.dart';
 import '../../tarot/presentation/tarot_draw_screen.dart';
 import '../../weton/presentation/weton_calculator_screen.dart';
@@ -16,6 +17,14 @@ import '../../bazi/presentation/bazi_calculator_screen.dart';
 ///   ref.read(activeTabProvider.notifier).state = 2; // jump to Weton
 class MainShell extends ConsumerWidget {
   const MainShell({super.key});
+
+  static const List<String> _tabKeys = [
+    'beranda',
+    'tarot',
+    'weton',
+    'planner',
+    'bazi',
+  ];
 
   static const List<Widget> _screens = [
     DashboardScreen(),
@@ -38,6 +47,17 @@ class MainShell extends ConsumerWidget {
     final activeTab = ref.watch(activeTabProvider);
     final bottomInset = MediaQuery.of(context).padding.bottom;
 
+    // Wrap each screen with first-time tooltip for the active tab
+    final tooltippedScreens = List.generate(_screens.length, (i) {
+      return FirstTimeTabTooltip(
+        tabKey: _tabKeys[i],
+        tabLabel: _items[i].label,
+        icon: _items[i].icon,
+        description: _descriptions[_tabKeys[i]] ?? '',
+        child: _screens[i],
+      );
+    });
+
     return Scaffold(
       extendBody: true,
       body: MediaQuery(
@@ -47,7 +67,10 @@ class MainShell extends ConsumerWidget {
             bottom: MediaQuery.of(context).padding.bottom + 88,
           ),
         ),
-        child: _FadingIndexedStack(index: activeTab, children: _screens),
+        child: _FadingIndexedStack(
+          index: activeTab,
+          children: tooltippedScreens,
+        ),
       ),
       bottomNavigationBar: _CosmicNavBar(
         items: _items,
@@ -57,6 +80,19 @@ class MainShell extends ConsumerWidget {
       ),
     );
   }
+
+  static const Map<String, String> _descriptions = {
+    'beranda':
+        'Dashboard personalmu — lihat energi kosmis hari ini dan akses semua fitur dari sini.',
+    'tarot':
+        'Tarik tiga kartu untuk melihat masa lalu, masa kini, dan masa depanmu. Kartu dipengaruhi siklus alam.',
+    'weton':
+        'Weton adalah sistem penanggalan Jawa yang menghitung karakter, nasib, dan kecocokanmu berdasarkan hari lahirmu.',
+    'planner':
+        'Kalender astrologi untuk melihat hari baik, energi harian, dan panduan waktu berdasarkan wetonmu.',
+    'bazi':
+        'Ba Zi (Eight Characters) adalah astrologi Tiongkok yang menganalisis empat pilar kelahiranmu — tahun, bulan, hari, jam.',
+  };
 }
 
 // ---------------------------------------------------------------------------

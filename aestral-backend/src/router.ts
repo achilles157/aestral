@@ -1,5 +1,5 @@
 import { parseAuthHeader, verifyFirebaseJwt, type AuthToken } from './auth';
-import { getDeterministicThreeCards, getMangsaDeterministicThreeCards, getWeeklyDeterministicThreeCards } from './tarot';
+import { getDeterministicThreeCards, getMangsaDeterministicThreeCards, getWeeklyDeterministicThreeCards, getMangsaTwoCards, getMomentCard, getThematicThreeCards, type BaziWeightingContext, type MomentEventType, type ThematicArea } from './tarot';
 import { getWetonInsight, getPranataMangsaId, getJamInsight, checkIsDinoWas, dateToJdn, calculateTotalNeptu } from './weton';
 import { calculateBaziChart, calculateLuckPillars, getDayPillar, STEM_ELEMENTS, BRANCH_ELEMENTS, calculateBaziCompatibility, type BaziChartResult } from './bazi';
 import { callGemini, callGeminiStructured, callGemmaForSummary } from './gemini';
@@ -7,6 +7,7 @@ import { ORACLE_PERSONAS, buildOracleGreeting, type OracleType } from './oracle_
 import { buildSystemInstruction, type AiContext } from './system_prompt';
 import { isRateLimited, getRateLimitResetSeconds } from './rate_limiter';
 import { buildTarotSystemInstruction, buildTarotUserPrompt, parseTarotResponse, type TarotCardInput, type TarotReadingContext } from './tarot_reading_prompt';
+import { buildTemplateKey, buildSynthesisPrompt, type SynthesisCardInput, type SynthesisCacheEntry } from './tarot-synthesis';
 import MANGSA_THEMES from './data/mangsa-themes.json';
 import COMPATIBILITY_DATA from './data/kamus-kompatibilitas-pasangan.json';
 // ─── Gemini Daily Quota Guard ─────────────────────────────────────────────────
@@ -172,6 +173,18 @@ async function dispatch(request: Request, env: Env): Promise<Response> {
 		return handleTarotReading(request, env);
 	}
 
+	if (method === 'POST' && pathname === '/api/tarot/moment') {
+		return handleTarotMoment(request, env);
+	}
+
+	if (method === 'POST' && pathname === '/api/tarot/thematic') {
+		return handleTarotThematic(request, env);
+	}
+
+	if (method === 'POST' && pathname === '/api/tarot/mangsa') {
+		return handleTarotMangsa(request, env);
+	}
+
 	if (method === 'POST' && pathname === '/api/bazi/chart') {
 		return handleBaziChart(request, env);
 	}
@@ -224,6 +237,10 @@ interface TarotDrawBody {
 	drawType?: 'birth' | 'mangsa' | 'weekly';
 	mangsaId?: number;
 	wukuHariIni?: string;
+	dayMasterElement?: string;
+	dayMasterPolarity?: string;
+	yongShen?: string[];
+	wuXingDominant?: string;
 }
 
 async function handleTarotDraw(request: Request, env: Env): Promise<Response> {
@@ -250,8 +267,19 @@ async function handleTarotDraw(request: Request, env: Env): Promise<Response> {
 
 	const drawType = body.drawType ?? (authToken.type === 'guest' ? 'birth' : 'mangsa');
 
+	// Ba Zi weighting context — only from registered users with Ba Zi data
+	const bazi: BaziWeightingContext | undefined =
+		authToken.type === 'bearer' && body.dayMasterElement
+			? {
+				dayMasterElement: body.dayMasterElement,
+				dayMasterPolarity: body.dayMasterPolarity as 'yin' | 'yang' | undefined,
+				yongShen: body.yongShen,
+				wuXingDominant: body.wuXingDominant,
+			}
+			: undefined;
+
 	if (authToken.type === 'guest' || drawType === 'birth') {
-		const cards = getDeterministicThreeCards(body.birthDate, body.pangarasan);
+		const cards = getDeterministicThreeCards(body.birthDate, body.pangarasan, bazi);
 		return json({
 			success: true,
 			isDynamic: false,
@@ -263,7 +291,7 @@ async function handleTarotDraw(request: Request, env: Env): Promise<Response> {
 
 	if (drawType === 'weekly') {
 		const wuku = body.wukuHariIni || 'Sinta';
-		const cards = getWeeklyDeterministicThreeCards(body.birthDate, wuku, body.pangarasan);
+		const cards = getWeeklyDeterministicThreeCards(body.birthDate, wuku, body.pangarasan, bazi);
 		return json({
 			success: true,
 			isDynamic: true,
@@ -273,18 +301,218 @@ async function handleTarotDraw(request: Request, env: Env): Promise<Response> {
 		});
 	}
 
-	// Cosmic cycle draw — default for registered users
+	// Mangsa cycle draw — default for registered users
 	if (!body.mangsaId || body.mangsaId < 1 || body.mangsaId > 12) {
-			return json({ error: 'mangsaId (1–12) diperlukan untuk tebaran kosmis' }, 400);
+			return json({ error: 'mangsaId (1–12) diperlukan untuk tebaran mangsa' }, 400);
 		}
-		const cards = getMangsaDeterministicThreeCards(body.birthDate, body.mangsaId, body.pangarasan);
+		const cards = getMangsaDeterministicThreeCards(body.birthDate, body.mangsaId, body.pangarasan, bazi);
 		return json({
 			success: true,
 			isDynamic: true,
 			drawType: 'mangsa',
 			cards,
-			message: 'Tebaran 3 Kartu Tarot mengikuti siklus kosmis yang sedang berlangsung.',
+			message: 'Tebaran 3 Kartu Tarot mengikuti siklus mangsa yang sedang berlangsung.',
 		});
+}
+
+// --- Tarot Mangsa 2-Card Handler ---
+
+interface TarotMangsaBody {
+	birthDate?: string;
+	pangarasan?: string;
+	mangsaId?: number;
+	dayMasterElement?: string;
+	dayMasterPolarity?: string;
+	yongShen?: string[];
+	wuXingDominant?: string;
+}
+
+async function handleTarotMangsa(request: Request, env: Env): Promise<Response> {
+	const authResult = await requireAuth(request.headers.get('Authorization'), env);
+	if (authResult instanceof Response) return authResult;
+	const { authToken } = authResult;
+
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'cf-no-ip';
+	if (await isRateLimited(clientIp, DATA_RATE_LIMIT_MAX, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
+		const resetSeconds = await getRateLimitResetSeconds(clientIp, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
+		return new Response(JSON.stringify({ error: 'Terlalu banyak permintaan. Coba lagi sebentar.', retryAfterSeconds: resetSeconds }), { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': String(resetSeconds), ...CORS_HEADERS } });
+	}
+
+	let body: TarotMangsaBody;
+	try {
+		body = (await request.json()) as TarotMangsaBody;
+	} catch {
+		return json({ error: 'Invalid JSON body' }, 400);
+	}
+
+	if (!body.birthDate || !validateIsoDate(body.birthDate)) {
+		return json({ error: 'birthDate harus format YYYY-MM-DD yang valid (1900–2100)' }, 400);
+	}
+
+	if (!body.mangsaId || body.mangsaId < 1 || body.mangsaId > 12) {
+		return json({ error: 'mangsaId (1–12) diperlukan' }, 400);
+	}
+
+	const bazi: BaziWeightingContext | undefined =
+		authToken.type === 'bearer' && body.dayMasterElement
+			? {
+				dayMasterElement: body.dayMasterElement,
+				dayMasterPolarity: body.dayMasterPolarity as 'yin' | 'yang' | undefined,
+				yongShen: body.yongShen,
+				wuXingDominant: body.wuXingDominant,
+			}
+			: undefined;
+
+	const cards = getMangsaTwoCards(body.birthDate, body.mangsaId, body.pangarasan, bazi);
+	return json({
+		success: true,
+		drawType: 'mangsa',
+		format: 'energy_guidance',
+		cards,
+		message: 'Energi Mangsa + Panduan Pribadi berhasil diselaraskan.',
+	});
+}
+
+// --- Tarot Momen Kosmis Handler (Phase 3A) ---
+
+const MOMENT_EVENT_LABELS: Record<string, string> = {
+	hari_weton: 'Hari Weton',
+	dino_was: 'Dino Was',
+	bazi_clash: 'Ba Zi Clash',
+	yong_shen: 'Yong Shen Day',
+};
+
+interface TarotMomentBody {
+	birthDate?: string;
+	eventType?: string;
+	dayMasterElement?: string;
+	dayMasterPolarity?: string;
+	yongShen?: string[];
+	wuXingDominant?: string;
+}
+
+async function handleTarotMoment(request: Request, env: Env): Promise<Response> {
+	const authResult = await requireAuth(request.headers.get('Authorization'), env);
+	if (authResult instanceof Response) return authResult;
+	const { authToken } = authResult;
+
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'cf-no-ip';
+	if (await isRateLimited(clientIp, DATA_RATE_LIMIT_MAX, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
+		const resetSeconds = await getRateLimitResetSeconds(clientIp, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
+		return new Response(JSON.stringify({ error: 'Terlalu banyak permintaan. Coba lagi sebentar.', retryAfterSeconds: resetSeconds }), { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': String(resetSeconds), ...CORS_HEADERS } });
+	}
+
+	let body: TarotMomentBody;
+	try {
+		body = (await request.json()) as TarotMomentBody;
+	} catch {
+		return json({ error: 'Invalid JSON body' }, 400);
+	}
+
+	if (!body.birthDate || !validateIsoDate(body.birthDate)) {
+		return json({ error: 'birthDate harus format YYYY-MM-DD yang valid (1900–2100)' }, 400);
+	}
+
+	if (!body.eventType || !MOMENT_EVENT_LABELS[body.eventType]) {
+		return json({ error: 'eventType harus salah satu: hari_weton, dino_was, bazi_clash, yong_shen' }, 400);
+	}
+
+	const bazi: BaziWeightingContext | undefined =
+		authToken.type === 'bearer' && body.dayMasterElement
+			? {
+				dayMasterElement: body.dayMasterElement,
+				dayMasterPolarity: body.dayMasterPolarity as 'yin' | 'yang' | undefined,
+				yongShen: body.yongShen,
+				wuXingDominant: body.wuXingDominant,
+			}
+			: undefined;
+
+	const moment = getMomentCard(body.birthDate, body.eventType as MomentEventType, bazi);
+	return json({
+		success: true,
+		drawType: 'moment',
+		eventType: body.eventType,
+		eventLabel: MOMENT_EVENT_LABELS[body.eventType],
+		card: {
+			cardIndex: moment.cardIndex,
+			isReversed: moment.isReversed,
+			label: 'moment',
+		},
+		reasoning: moment.reasoning,
+		message: `Kartu Momen Kosmis untuk ${MOMENT_EVENT_LABELS[body.eventType]} berhasil ditarik.`,
+	});
+}
+
+// --- Tarot Tematik Handler (Phase 3B) ---
+
+const AREA_LABELS: Record<string, string> = {
+	karir: 'Karir & Ambisi',
+	asmara: 'Asmara & Relasi',
+	keuangan: 'Keuangan & Stabilitas',
+	spiritual: 'Spiritual & Growth',
+	kesehatan: 'Kesehatan & Vitalitas',
+};
+
+interface TarotThematicBody {
+	birthDate?: string;
+	pangarasan?: string;
+	area?: string;
+	userQuestion?: string;
+	dayMasterElement?: string;
+	dayMasterPolarity?: string;
+	yongShen?: string[];
+	wuXingDominant?: string;
+}
+
+async function handleTarotThematic(request: Request, env: Env): Promise<Response> {
+	const authResult = await requireAuth(request.headers.get('Authorization'), env);
+	if (authResult instanceof Response) return authResult;
+	const { authToken } = authResult;
+
+	const clientIp = request.headers.get('CF-Connecting-IP') ?? 'cf-no-ip';
+	if (await isRateLimited(clientIp, DATA_RATE_LIMIT_MAX, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV)) {
+		const resetSeconds = await getRateLimitResetSeconds(clientIp, DATA_RATE_LIMIT_WINDOW_MS, env.RATE_LIMIT_KV);
+		return new Response(JSON.stringify({ error: 'Terlalu banyak permintaan. Coba lagi sebentar.', retryAfterSeconds: resetSeconds }), { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': String(resetSeconds), ...CORS_HEADERS } });
+	}
+
+	let body: TarotThematicBody;
+	try {
+		body = (await request.json()) as TarotThematicBody;
+	} catch {
+		return json({ error: 'Invalid JSON body' }, 400);
+	}
+
+	if (!body.birthDate || !validateIsoDate(body.birthDate)) {
+		return json({ error: 'birthDate harus format YYYY-MM-DD yang valid (1900–2100)' }, 400);
+	}
+
+	if (!body.area || !AREA_LABELS[body.area]) {
+		return json({ error: 'area harus salah satu: karir, asmara, keuangan, spiritual, kesehatan' }, 400);
+	}
+
+	if (body.userQuestion && body.userQuestion.length > 200) {
+		return json({ error: 'userQuestion maksimal 200 karakter' }, 400);
+	}
+
+	const bazi: BaziWeightingContext | undefined =
+		authToken.type === 'bearer' && body.dayMasterElement
+			? {
+				dayMasterElement: body.dayMasterElement,
+				dayMasterPolarity: body.dayMasterPolarity as 'yin' | 'yang' | undefined,
+				yongShen: body.yongShen,
+				wuXingDominant: body.wuXingDominant,
+			}
+			: undefined;
+
+	const cards = getThematicThreeCards(body.birthDate, body.area as ThematicArea, body.pangarasan, bazi);
+	return json({
+		success: true,
+		drawType: 'thematic',
+		area: body.area,
+		areaLabel: AREA_LABELS[body.area],
+		cards,
+		message: `Tebaran Tematik ${AREA_LABELS[body.area]} berhasil disusun.`,
+	});
 }
 
 // --- Weton Daily Handler ---
@@ -764,8 +992,8 @@ async function handleTarotReading(request: Request, env: Env): Promise<Response>
 		return json({ error: 'Invalid JSON body' }, 400);
 	}
 
-	if (!body.cards || !Array.isArray(body.cards) || body.cards.length !== 3) {
-		return json({ error: 'cards harus berupa array 3 kartu (past, present, future)' }, 400);
+	if (!body.cards || !Array.isArray(body.cards) || (body.cards.length !== 2 && body.cards.length !== 3)) {
+		return json({ error: 'cards harus berupa array 2 atau 3 kartu' }, 400);
 	}
 
 	for (const card of body.cards) {
@@ -779,25 +1007,78 @@ async function handleTarotReading(request: Request, env: Env): Promise<Response>
 		return json({ error: 'AI service belum dikonfigurasi' }, 503);
 	}
 
+	// Phase 2C: Build synthesis inputs from card structure
+	const synthesisCards: SynthesisCardInput[] = body.cards.map((c) => ({
+		cardIndex: (c as any).cardIndex ?? 0,
+		isReversed: c.isReversed,
+		label: c.label,
+	}));
+	const templateKey = buildTemplateKey(synthesisCards);
+
+	// Layer 2: Check KV cache for pre-computed or cached synthesis
+	const cachedRaw = await env.TAROT_KV.get(templateKey, 'text');
+	if (cachedRaw) {
+		try {
+			const cached: SynthesisCacheEntry = JSON.parse(cachedRaw);
+			const ageMs = Date.now() - cached.cachedAt;
+			const MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
+			if (ageMs < MAX_AGE_MS && cached.cardReadings?.length) {
+				return json({
+					success: true,
+					cached: true,
+					cardReadings: cached.cardReadings,
+					synthesis: cached.synthesis,
+				});
+			}
+		} catch {
+			// Corrupt cache entry — fall through to fresh generation
+		}
+	}
+
+	// Layer 3: Gemini assembly with lightweight prompt (~65% fewer tokens)
 	const context: TarotReadingContext = {
 		wetonLahir: body.wetonLahir,
 		wukuBerjalan: body.wukuBerjalan,
 	};
 
 	try {
+		// Build compact prompt — system instruction is the full oracle personality
+		// but the user prompt is just cards + template, saving ~65% vs full prompt
 		const systemInstruction = buildTarotSystemInstruction(context);
 		const userPrompt = buildTarotUserPrompt(body.cards);
 		if (!(await checkGeminiQuota(env.RATE_LIMIT_KV))) return geminiQuotaExceeded();
 		const rawResponse = await callGemini(systemInstruction, userPrompt, apiKey, env.GEMINI_MODEL);
 		const reading = parseTarotResponse(rawResponse);
 
+		// Build card readings dynamically from labels
+		const cardReadings = body.cards.map((c) => {
+			const narratives: Record<string, string> = {
+				past: reading.masa_lalu,
+				present: reading.masa_kini,
+				future: reading.masa_depan,
+				energy: reading.masa_kini || reading.konklusi,
+				guidance: reading.konklusi,
+			};
+			return {
+				label: c.label,
+				narrative: narratives[c.label] ?? reading.konklusi,
+			};
+		});
+
+		// Cache the result in KV for future identical draws
+		const cacheEntry: SynthesisCacheEntry = {
+			cardReadings,
+			synthesis: reading.konklusi,
+			cachedAt: Date.now(),
+		};
+		await env.TAROT_KV.put(templateKey, JSON.stringify(cacheEntry), {
+			expirationTtl: 86400, // 24h TTL
+		});
+
 		return json({
 			success: true,
-			cardReadings: [
-				{ label: 'past', narrative: reading.masa_lalu },
-				{ label: 'present', narrative: reading.masa_kini },
-				{ label: 'future', narrative: reading.masa_depan },
-			],
+			cached: false,
+			cardReadings,
 			synthesis: reading.konklusi,
 		});
 	} catch (err) {

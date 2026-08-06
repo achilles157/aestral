@@ -10,6 +10,7 @@ import '../../tarot/services/tarot_data.dart';
 import 'oracle_card_widgets.dart';
 import '../../auth/services/auth_service.dart';
 import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
+import 'widgets/cosmic_typing_indicator.dart';
 
 /// Layar obrolan kosmis utama — mitra dialog spiritual Aestral Oracle.
 /// Mendukung 4 persona: weton (Ki Sabdo), bazi (Suhu Wang), tarot (Madame Sophia), synthesis (Sesepuh Kosmis).
@@ -407,25 +408,8 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
       itemCount: msgs.length + (state.isLoading ? 1 : 0),
       itemBuilder: (ctx, i) {
         if (i == msgs.length) {
-          // Divination loader — mandala pulsing sesuai PRD
-          return Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 14, right: 48),
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: _accentColor.withValues(alpha: 0.08),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                  topRight: Radius.circular(18),
-                  bottomLeft: Radius.circular(18),
-                  bottomRight: Radius.circular(18),
-                ),
-                border: Border.all(color: _accentColor.withValues(alpha: 0.20)),
-              ),
-              child: OraclePulsingMandala(color: _accentColor),
-            ),
-          );
+          // Cosmic typing indicator — tiga titik berdenyut
+          return CosmicTypingIndicator(accentColor: _accentColor);
         }
         final msg = msgs[i];
         return msg.role == 'user'

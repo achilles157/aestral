@@ -4,6 +4,8 @@
 interface __BaseEnv_Env {
 	GEMINI_API_KEY: "PLACEHOLDER_REPLACE_WITH_WRANGLER_SECRET";
 	RATE_LIMIT_KV: KVNamespace;
+	/** Pre-generated tarot synthesis templates for 3-layer AI caching. */
+	TAROT_KV: KVNamespace;
 	/** Firebase project ID for JWT claim validation (iss/aud). Set in wrangler.jsonc vars. */
 	FIREBASE_PROJECT_ID: string;
 	/** 'production' | 'test' — controls fake-jwt-token bypass gate. */
