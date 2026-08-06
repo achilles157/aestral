@@ -29,7 +29,7 @@ import '../../ai/presentation/oracle_chat_screen.dart';
 import '../../history/models/reading_entry.dart';
 import '../../history/services/reading_history_service.dart';
 import '../../../core/services/analytics_service.dart';
-
+import '../../../features/bazi/providers/bazi_chart_provider.dart';
 class TarotDrawScreen extends ConsumerStatefulWidget {
   const TarotDrawScreen({super.key});
 
@@ -144,15 +144,51 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
       final birthWeton = WetonUtils.calculateWeton(birthDateTime);
       final mangsaId = WetonUtils.calculatePranataMangsaId(DateTime.now());
 
+      // Ba Zi weighting data — fetch from provider if available
+      String? dmElement;
+      String? dmPolarity;
+      List<String>? yongShen;
+      String? wuXingDominant;
+      try {
+        final chart = await ref.read(baziChartProvider.future);
+        if (chart != null) {
+          dmElement = chart.dayMasterElement;
+          dmPolarity = chart.dayPillar.stemIndex % 2 == 0 ? 'yang' : 'yin';
+          yongShen = chart.dmStrength.yongShen;
+          wuXingDominant = chart.wuXingBalance.dominant;
+        }
+      } catch (_) {
+        // Ba Zi data not available — fallback to Weton-only weighting
+      }
+
       final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
 
-      final response = await ApiService.drawTarot(
-        birthDate: birthDateStr,
-        pangarasan: birthWeton.pangarasan,
-        drawType: session.isMock ? 'birth' : _selectedDrawType,
-        mangsaId: _selectedDrawType == 'mangsa' ? mangsaId : null,
-        authHeader: authHeader,
-      );
+      final Map<String, dynamic> response;
+      if (_selectedDrawType == 'mangsa' && !session.isMock) {
+        // Mangsa: 2-kartu format Energi + Panduan via endpoint khusus
+        response = await ApiService.drawTarotMangsa(
+          birthDate: birthDateStr,
+          pangarasan: birthWeton.pangarasan,
+          mangsaId: mangsaId,
+          authHeader: authHeader,
+          dayMasterElement: dmElement,
+          dayMasterPolarity: dmPolarity,
+          yongShen: yongShen,
+          wuXingDominant: wuXingDominant,
+        );
+      } else {
+        response = await ApiService.drawTarot(
+          birthDate: birthDateStr,
+          pangarasan: birthWeton.pangarasan,
+          drawType: session.isMock ? 'birth' : _selectedDrawType,
+          mangsaId: _selectedDrawType == 'mangsa' ? mangsaId : null,
+          authHeader: authHeader,
+          dayMasterElement: dmElement,
+          dayMasterPolarity: dmPolarity,
+          yongShen: yongShen,
+          wuXingDominant: wuXingDominant,
+        );
+      }
 
       final List<dynamic> cardsJson =
           (response['cards'] as List<dynamic>?) ?? [];
@@ -171,7 +207,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
 
       ref.read(drawnCardProvider.notifier).setCards(drawnCardsList);
 
-      // Persist draw type so SeasonalSynthesisCard knows if Tarot Kosmis is available
+      // Persist draw type so SeasonalSynthesisCard knows if Tarot Mangsa is available
       final effectiveDrawType = session.isMock ? 'birth' : _selectedDrawType;
       SharedPreferences.getInstance()
           .then(
@@ -192,7 +228,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
           title: drawnCardsList.map((c) => c.card.nameId).join(' · '),
           subtitle: session.isMock || _selectedDrawType == 'birth'
               ? 'Tarot Lahir'
-              : 'Tarot Kosmis',
+              : 'Tarot Mangsa',
           timestamp: DateTime.now(),
           accentColor: 0xFFBA68C8,
         ),
@@ -339,12 +375,28 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
   // ─── Empty card placeholder row ─────────────────────────────────────────
 
   Widget _buildEmptyCardRow(String currentLang) {
+    final isMangsa = _selectedDrawType == 'mangsa';
+    final cardCount = isMangsa ? 2 : 3;
+    final labels = isMangsa
+        ? [
+            currentLang == 'id' ? 'Energi Mangsa' : 'Mangsa Energy',
+            currentLang == 'id' ? 'Panduan Pribadi' : 'Personal Guidance',
+          ]
+        : [
+            currentLang == 'id' ? 'Masa Lalu' : 'Past',
+            currentLang == 'id' ? 'Masa Kini' : 'Present',
+            currentLang == 'id' ? 'Masa Depan' : 'Future',
+          ];
     return Column(
       children: [
         Text(
-          currentLang == 'id'
-              ? 'Tanyakan sesuatu pada semesta,\nlalu tarik tiga kartu.'
-              : 'Ask the universe something,\nthen draw your three cards.',
+          isMangsa
+              ? (currentLang == 'id'
+                  ? 'Biarkan alam semesta berbicara,\nlalu tarik dua kartu musim ini.'
+                  : 'Let the universe speak,\nthen draw two cards for this season.')
+              : (currentLang == 'id'
+                  ? 'Tanyakan sesuatu pada semesta,\nlalu tarik tiga kartu.'
+                  : 'Ask the universe something,\nthen draw your three cards.'),
           style: GoogleFonts.playfairDisplay(
             fontSize: 13,
             color: AppTheme.textLight.withValues(alpha: 0.45),
@@ -356,12 +408,8 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
         const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: List.generate(3, (index) {
-            final labelText = index == 0
-                ? (currentLang == 'id' ? 'Masa Lalu' : 'Past')
-                : index == 1
-                ? (currentLang == 'id' ? 'Masa Kini' : 'Present')
-                : (currentLang == 'id' ? 'Masa Depan' : 'Future');
+          children: List.generate(cardCount, (index) {
+            final labelText = labels[index];
             const cardWidth = 90.0;
             const cardHeight = 145.0;
             return Column(
@@ -521,6 +569,25 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
     );
   }
 
+  /// Maps backend card labels to human-readable display labels.
+  /// Mangsa mode uses energy/guidance; Birth mode uses past/present/future.
+  String _cardLabel(String backendLabel, String currentLang) {
+    switch (backendLabel) {
+      case 'energy':
+        return currentLang == 'id' ? 'Energi Mangsa' : 'Mangsa Energy';
+      case 'guidance':
+        return currentLang == 'id' ? 'Panduan Pribadi' : 'Personal Guidance';
+      case 'past':
+        return currentLang == 'id' ? 'Masa Lalu' : 'Past';
+      case 'present':
+        return currentLang == 'id' ? 'Masa Kini' : 'Present';
+      case 'future':
+        return currentLang == 'id' ? 'Masa Depan' : 'Future';
+      default:
+        return backendLabel;
+    }
+  }
+
   Widget _buildLangButton(
     BuildContext context,
     WidgetRef ref,
@@ -579,7 +646,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
                     ? (currentLang == 'id'
                           ? 'Tarot Lahir (Soul Card)'
                           : 'Birth Tarot (Soul Card)')
-                    : (currentLang == 'id' ? 'Tarot Kosmis' : 'Cosmic Tarot')),
+                    : (currentLang == 'id' ? 'Tarot Mangsa' : 'Mangsa Tarot')),
           style: GoogleFonts.playfairDisplay(
             fontWeight: FontWeight.bold,
             color: AppTheme.accentGold,
@@ -680,7 +747,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
                                       top: 0,
                                     ),
                                     child: Text(
-                                      '🔒 Tarot Kosmis tersedia setelah masuk',
+                                      '🔒 Tarot Mangsa tersedia setelah masuk',
                                       style: GoogleFonts.outfit(
                                         fontSize: 11,
                                         color: AppTheme.textMuted,
@@ -696,8 +763,8 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
                                           ? 'Tarot Lahir merepresentasikan blueprint jiwa Anda. Kartu ini bersifat statis seumur hidup.'
                                           : 'Birth Tarot represents your soul blueprint. This card is static for lifetime.')
                                     : (currentLang == 'id'
-                                          ? 'Tebaran kartu kosmis mengikuti ritme alam semesta yang berganti setiap beberapa pekan.'
-                                          : 'Your cosmic spread shifts with the natural rhythm of the universe every few weeks.'),
+                                          ? 'Tebaran kartu mangsa mengikuti ritme alam semesta yang berganti setiap beberapa pekan.'
+                                          : 'Your mangsa spread shifts with the natural rhythm of the universe every few weeks.'),
                                 style: textTheme.bodyLarge,
                                 textAlign: TextAlign.center,
                               ),
@@ -715,23 +782,9 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
                                       : Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
-                                          children: List.generate(3, (index) {
-                                            // C4: guard against backend returning < 3 cards
-                                            if (index >= drawnCards.length) {
-                                              return const SizedBox.shrink();
-                                            }
+                                          children: List.generate(drawnCards.length, (index) {
                                             final cardInfo = drawnCards[index];
-                                            final labelText = index == 0
-                                                ? (currentLang == 'id'
-                                                      ? 'Masa Lalu'
-                                                      : 'Past')
-                                                : index == 1
-                                                ? (currentLang == 'id'
-                                                      ? 'Masa Kini'
-                                                      : 'Present')
-                                                : (currentLang == 'id'
-                                                      ? 'Masa Depan'
-                                                      : 'Future');
+                                            final labelText = _cardLabel(cardInfo.label, currentLang);
 
                                             final double value =
                                                 _flipAnimations[index].value;

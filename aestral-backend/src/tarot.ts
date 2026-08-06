@@ -1,82 +1,83 @@
 /**
- * Tarot card drawing logic.
+ * Tarot card drawing logic with Ba Zi Wu Xing weighting.
  *
- * Provides deterministic (soul card) and weighted-random (daily draw)
- * card selection for the Aestral app.
+ * Provides deterministic card selection weighted by:
+ *   - Weton: pangarasan element → remedial element boost
+ *   - Ba Zi: Day Master resonance + Wu Xing compensation + yin/yang polarity
+ *   - Konteks: Mangsa/Wuku seasonal energy
  *
  * Deck layout (78 cards):
- *   0-21  = Major Arcana
- *  22-35  = Cups      (Water)
- *  36-49  = Wands     (Fire)
- *  50-63  = Swords    (Air)
- *  64-77  = Pentacles (Earth)
+ *   0-21  = Major Arcana (Kayu / Spirit)
+ *  22-35  = Cups      (Air / Water)
+ *  36-49  = Wands     (Api / Fire)
+ *  50-63  = Swords    (Logam / Metal)
+ *  64-77  = Pentacles (Tanah / Earth)
  */
+
+import {
+	STEM_ELEMENTS,
+	BRANCH_ELEMENTS,
+	CONTROLS,
+	GENERATES,
+	calculateBaziChart,
+	type BaziChartResult,
+} from './bazi';
 
 const DECK_SIZE = 78;
 
-// --- Deterministic Soul Card ---
-
-/**
- * Returns a deterministic card index (0-77) for a given birthDate string.
- *
- * Uses a simple hash: for each character, `hash = charCode + ((hash << 5) - hash)`.
- * The same birthDate always produces the same card.
- */
-export function getDeterministicCard(birthDate: string, pangarasan?: string): number {
-	const weights = new Float64Array(DECK_SIZE).fill(1.0);
-
-	if (pangarasan) {
-		const userElement = pangarasanToElement(pangarasan);
-		if (userElement) {
-			const [start, end] = getRemedialRange(userElement);
-			for (let i = start; i <= end; i++) {
-				weights[i] += 0.15;
-			}
-		}
-	}
-
-	let totalWeight = 0;
-	for (let i = 0; i < DECK_SIZE; i++) {
-		totalWeight += weights[i];
-	}
-
-	// Deterministic seed based on birthDate
-	let hash = 0;
-	const seedStr = birthDate + '-soulcard';
-	for (let i = 0; i < seedStr.length; i++) {
-		hash = seedStr.charCodeAt(i) + ((hash << 5) - hash);
-	}
-	
-	const randVal = (Math.abs(hash) % 10000) / 10000;
-	let pick = randVal * totalWeight;
-
-	for (let i = 0; i < DECK_SIZE; i++) {
-		pick -= weights[i];
-		if (pick <= 0) return i;
-	}
-	return DECK_SIZE - 1;
-}
-
-/**
- * Returns a deterministic reversal state (true = reversed, false = upright)
- * for a given birthDate string.
- */
-export function getDeterministicReversed(birthDate: string): boolean {
-	let hash = 0;
-	for (let i = 0; i < birthDate.length; i++) {
-		hash = birthDate.charCodeAt(i) + ((hash << 5) - hash) + 13; // offset slightly
-	}
-	return Math.abs(hash) % 2 === 0;
-}
-
-// --- Weighted Random Draw ---
+// ─── Types ─────────────────────────────────────────────────────────────────
 
 type Element = 'fire' | 'water' | 'air' | 'earth';
 
-/**
- * Maps a Pangarasan (Weton element name) to one of the four classical elements.
- * Returns `null` when no mapping is found.
- */
+export interface DrawnCardInfo {
+	cardIndex: number;
+	isReversed: boolean;
+	label: string;
+	/** Why this card was drawn (for AI synthesis / transparency) */
+	reasoning?: string[];
+}
+
+/** Ba Zi context passed from client for weighting */
+export interface BaziWeightingContext {
+	dayMasterElement?: string;
+	dayMasterPolarity?: 'yin' | 'yang';
+	yongShen?: string[];
+	wuXingDominant?: string;
+}
+
+// ─── Element Mapping ──────────────────────────────────────────────────────
+
+/** Tarot suit → Wu Xing element */
+const SUIT_WUXING: Record<string, string> = {
+	water: 'air',   // Cups     → Air (matches existing backend convention)
+	fire:  'api',   // Wands    → Api
+	air:   'logam', // Swords   → Logam
+	earth: 'tanah', // Pentacles→ Tanah
+};
+
+/** Wu Xing → Tarot suit element */
+const WUXING_TO_TAROT: Record<string, string> = {
+	kayu:  'neutral',
+	api:   'fire',
+	tanah: 'earth',
+	logam: 'air',
+	air:   'water',
+};
+
+/** Card index ranges per Tarot element */
+function getElementRange(el: string): [number, number] {
+	switch (el) {
+		case 'water':     return [22, 35]; // Cups
+		case 'fire':      return [36, 49]; // Wands
+		case 'air':       return [50, 63]; // Swords
+		case 'earth':     return [64, 77]; // Pentacles
+		case 'neutral':   return [0,  21]; // Major Arcana
+		default:          return [0,  DECK_SIZE - 1];
+	}
+}
+
+// ─── Pangarasan → Element ────────────────────────────────────────────────
+
 function pangarasanToElement(pangarasan: string): Element | null {
 	const lower = pangarasan.toLowerCase();
 	if (lower.includes('geni') || lower.includes('lintang')) return 'fire';
@@ -86,190 +87,301 @@ function pangarasanToElement(pangarasan: string): Element | null {
 	return null;
 }
 
+/** Opposite element for remedial weighting (homeostasis principle) */
+function getRemedialRange(el: Element): [number, number] {
+	switch (el) {
+		case 'fire':  return [22, 35]; // boost Water
+		case 'water': return [36, 49]; // boost Fire
+		case 'air':   return [64, 77]; // boost Earth
+		case 'earth': return [50, 63]; // boost Air
+	}
+}
+
+// ─── Mangsa → Element ────────────────────────────────────────────────────
+
+function mangsaToTarotElement(id: number): string {
+	switch (id) {
+		case 1:  return 'neutral';
+		case 2:  return 'water';
+		case 3:  return 'air';
+		case 4:  return 'water';
+		case 5:  return 'earth';
+		case 6:  return 'neutral';
+		case 7:  return 'air';
+		case 8:  return 'fire';
+		case 9:  return 'fire';
+		case 10: return 'earth';
+		case 11: return 'water';
+		case 12: return 'neutral';
+		default: return 'neutral';
+	}
+}
+
+function wukuToTarotElement(wuku: string): string {
+	const lower = wuku.toLowerCase().trim();
+	const wukus = [
+		'sinta','landep','wukir','kurantil','tolu','gumbreg',
+		'warigalit','warigagung','julungwangi','sungsang',
+		'galungan','kuningan','langkir','mandasiya','julungpujut',
+		'pahang','kuruwelut','marakeh','tambir','medangkungan',
+		'maktal','wuye','manahil','prangbakat','bala',
+		'wugu','wayang','kulawu','dukut','watugunung',
+	];
+	const idx = wukus.indexOf(lower);
+	if (idx === -1) return 'neutral';
+	const mapping = ['neutral','fire','water','air','earth','neutral'];
+	return mapping[idx % 6] ?? 'neutral';
+}
+
+// ─── Ba Zi Weighting Engine ───────────────────────────────────────────────
+
 /**
- * Homeostasis: returns the suit index-range that should be boosted
- * for a given user element (the *opposite* element).
+ * Applies Wu Xing resonance & compensation to card weights.
  *
- *   Fire  → boost Water  (Cups 22-35)
- *   Water → boost Fire   (Wands 36-49)
- *   Air   → boost Earth  (Pentacles 64-77)
- *   Earth → boost Air    (Swords 50-63)
+ * Resonance (生): Cards whose Tarot element generates or matches the
+ *   Day Master element get +0.5 weight.
+ *
+ * Compensation (克): Cards whose Tarot element controls the dominant
+ *   Wu Xing element get +0.4 weight.
+ *
+ * Yong Shen bonus: Cards matching yongShen elements get +0.6 weight.
  */
-function getRemedialRange(el: Element): [start: number, end: number] {
-	switch (el) {
-		case 'fire':
-			return [22, 35];
-		case 'water':
-			return [36, 49];
-		case 'air':
-			return [64, 77];
-		case 'earth':
-			return [50, 63];
-	}
-}
+function applyBaziWeights(
+	weights: Float64Array,
+	bazi: BaziWeightingContext,
+	reasons: string[],
+): void {
+	if (!bazi.dayMasterElement) return;
 
+	const dm = bazi.dayMasterElement.toLowerCase();
 
-/**
- * Returns the card index range [start, end] for a given element.
- */
-function getElementRange(el: Element): [start: number, end: number] {
-	switch (el) {
-		case 'water':
-			return [22, 35]; // Cups (Water)
-		case 'fire':
-			return [36, 49]; // Wands (Fire)
-		case 'air':
-			return [50, 63]; // Swords (Air/Metal)
-		case 'earth':
-			return [64, 77]; // Pentacles (Earth)
-	}
-}
+	// Resonance: card element === Day Master element or card element
+	// generates Day Master → +0.5
+	const resonanceTarot = WUXING_TO_TAROT[dm];
+	const generatedBy = Object.entries(GENERATES).find(([, v]) => v === dm)?.[0];
 
-
-// --- Unique Three-Card Spread ---
-
-export interface DrawnCardInfo {
-	cardIndex: number;
-	isReversed: boolean;
-	label: 'past' | 'present' | 'future';
-}
-
-function drawSingleDeterministicCard(seedStr: string, weights: Float64Array): number {
-	let totalWeight = 0;
 	for (let i = 0; i < DECK_SIZE; i++) {
-		totalWeight += weights[i];
+		const cardEl = getCardElement(i);
+
+		if (resonanceTarot === cardEl) {
+			weights[i] += 0.5;
+		}
+
+		if (generatedBy && WUXING_TO_TAROT[generatedBy] === cardEl) {
+			weights[i] += 0.3;
+		}
 	}
-	
+	if (resonanceTarot || generatedBy) {
+		reasons.push(
+			`Day Master ${dm} beresonansi dengan kartu beraliran ${resonanceTarot ?? WUXING_TO_TAROT[generatedBy!]}`,
+		);
+	}
+
+	// Compensation: cards that control the dominant element → +0.4
+	if (bazi.wuXingDominant) {
+		const dom = bazi.wuXingDominant.toLowerCase();
+		const controllerTarot = WUXING_TO_TAROT[CONTROLS[dom]] ?? WUXING_TO_TAROT[dom];
+		const [cs, ce] = getElementRange(controllerTarot);
+		for (let i = cs; i <= ce; i++) {
+			weights[i] += 0.4;
+		}
+		reasons.push(`Wu Xing dominan ${dom} dikompensasi kartu ${controllerTarot}`);
+	}
+
+	// Yong Shen bonus: highest priority → +0.6
+	if (bazi.yongShen && bazi.yongShen.length > 0) {
+		for (const ys of bazi.yongShen) {
+			const ysTarot = WUXING_TO_TAROT[ys.toLowerCase()];
+			if (!ysTarot) continue;
+			const [ysStart, ysEnd] = getElementRange(ysTarot);
+			for (let i = ysStart; i <= ysEnd; i++) {
+				weights[i] += 0.6;
+			}
+		}
+		reasons.push(`Yong Shen [${bazi.yongShen.join(', ')}] memperkuat kartu terkait`);
+	}
+}
+
+/** Returns which Tarot element a card index belongs to */
+function getCardElement(cardIndex: number): string {
+	if (cardIndex <= 21) return 'neutral';    // Major Arcana
+	if (cardIndex <= 35) return 'water';      // Cups
+	if (cardIndex <= 49) return 'fire';        // Wands
+	if (cardIndex <= 63) return 'air';         // Swords
+	return 'earth';                            // Pentacles
+}
+
+// ─── Core Drawing Functions ───────────────────────────────────────────────
+
+function hashSeed(seedStr: string): number {
 	let hash = 0;
 	for (let i = 0; i < seedStr.length; i++) {
 		hash = seedStr.charCodeAt(i) + ((hash << 5) - hash);
 	}
-	
-	const randVal = (Math.abs(hash) % 10000) / 10000;
+	return Math.abs(hash);
+}
+
+function drawSingleDeterministicCard(seedStr: string, weights: Float64Array): number {
+	let totalWeight = 0;
+	for (let i = 0; i < DECK_SIZE; i++) totalWeight += weights[i];
+
+	const h = hashSeed(seedStr);
+	const randVal = (h % 10000) / 10000;
 	let pick = randVal * totalWeight;
-	
+
 	for (let i = 0; i < DECK_SIZE; i++) {
 		if (weights[i] > 0) {
 			pick -= weights[i];
-			if (pick <= 0) {
-				weights[i] = 0; // prevent redraw
-				return i;
-			}
+			if (pick <= 0) { weights[i] = 0; return i; }
 		}
 	}
-	// Fallback if weights are somehow all 0
 	for (let i = 0; i < DECK_SIZE; i++) {
-		if (weights[i] > 0) {
-			weights[i] = 0;
-			return i;
-		}
+		if (weights[i] > 0) { weights[i] = 0; return i; }
 	}
 	return DECK_SIZE - 1;
 }
 
 function getIsReversedDeterministic(seedStr: string): boolean {
-	let hash = 0;
-	for (let i = 0; i < seedStr.length; i++) {
-		hash = seedStr.charCodeAt(i) + ((hash << 5) - hash);
-	}
-	return Math.abs(hash) % 2 === 0;
+	return hashSeed(seedStr) % 2 === 0;
 }
 
-/**
- * Returns 3 unique deterministic cards representing Past, Present, and Future for Guest onboarding.
- */
-export function getDeterministicThreeCards(birthDate: string, pangarasan?: string): DrawnCardInfo[] {
+// ─── Public API ───────────────────────────────────────────────────────────
+
+/** Soul blueprint: 1 kartu seumur hidup */
+export function getDeterministicCard(
+	birthDate: string,
+	pangarasan?: string,
+	bazi?: BaziWeightingContext,
+): { cardIndex: number; isReversed: boolean; reasoning: string[] } {
 	const weights = new Float64Array(DECK_SIZE).fill(1.0);
+	const reasons: string[] = [];
 
 	if (pangarasan) {
-		const userElement = pangarasanToElement(pangarasan);
-		if (userElement) {
-			const [start, end] = getRemedialRange(userElement);
-			for (let i = start; i <= end; i++) {
-				weights[i] += 0.15;
-			}
+		const userEl = pangarasanToElement(pangarasan);
+		if (userEl) {
+			const [s, e] = getRemedialRange(userEl);
+			for (let i = s; i <= e; i++) weights[i] += 0.15;
+			reasons.push(`Pangarasan ${pangarasan} → kartu ${userEl} remedial`);
 		}
 	}
 
-	const pastIndex = drawSingleDeterministicCard(birthDate + '-past', weights);
-	const pastReversed = getIsReversedDeterministic(birthDate + '-past-reversed');
+	if (bazi) applyBaziWeights(weights, bazi, reasons);
 
-	const presentIndex = drawSingleDeterministicCard(birthDate + '-present', weights);
-	const presentReversed = getIsReversedDeterministic(birthDate + '-present-reversed');
+	const seed = birthDate + '-soul-' + (bazi?.dayMasterElement ?? '');
+	const cardIndex = drawSingleDeterministicCard(seed, weights);
 
-	const futureIndex = drawSingleDeterministicCard(birthDate + '-future', weights);
-	const futureReversed = getIsReversedDeterministic(birthDate + '-future-reversed');
+	// Yin polarity → reversed more likely (respecting birth chart nature)
+	const reversedSeed = birthDate + '-rev-' + (bazi?.dayMasterPolarity ?? '');
+	const isReversed = bazi?.dayMasterPolarity === 'yin'
+		? getIsReversedDeterministic(reversedSeed)
+		: false;
+
+	return { cardIndex, isReversed, reasoning: reasons };
+}
+
+/** Birth tarot: 3 kartu Past/Present/Future — guest & registered */
+export function getDeterministicThreeCards(
+	birthDate: string,
+	pangarasan?: string,
+	bazi?: BaziWeightingContext,
+): DrawnCardInfo[] {
+	function buildWeights(): Float64Array {
+		const w = new Float64Array(DECK_SIZE).fill(1.0);
+		if (pangarasan) {
+			const userEl = pangarasanToElement(pangarasan);
+			if (userEl) {
+				const [s, e] = getRemedialRange(userEl);
+				for (let i = s; i <= e; i++) w[i] += 0.15;
+			}
+		}
+		if (bazi) applyBaziWeights(w, bazi, []);
+		return w;
+	}
+
+	const w = buildWeights();
+	const pastIdx = drawSingleDeterministicCard(birthDate + '-past', new Float64Array(w));
+	const pastRev = getIsReversedDeterministic(birthDate + '-past-rev');
+
+	const w2 = buildWeights(); w2[pastIdx] = 0;
+	const presIdx = drawSingleDeterministicCard(birthDate + '-present', w2);
+	const presRev = getIsReversedDeterministic(birthDate + '-present-rev');
+
+	const w3 = buildWeights(); w3[pastIdx] = 0; w3[presIdx] = 0;
+	const futIdx = drawSingleDeterministicCard(birthDate + '-future', w3);
+	const futRev = getIsReversedDeterministic(birthDate + '-future-rev');
 
 	return [
-		{ cardIndex: pastIndex, isReversed: pastReversed, label: 'past' },
-		{ cardIndex: presentIndex, isReversed: presentReversed, label: 'present' },
-		{ cardIndex: futureIndex, isReversed: futureReversed, label: 'future' }
+		{ cardIndex: pastIdx,  isReversed: pastRev,  label: 'past' },
+		{ cardIndex: presIdx,  isReversed: presRev,  label: 'present' },
+		{ cardIndex: futIdx,   isReversed: futRev,   label: 'future' },
 	];
 }
 
-// --- Cosmic Cycle Three-Card Spread ---
+/** Mangsa tarot: 2 kartu Energi + Panduan (rebrand dari "Kosmis") */
+export function getMangsaTwoCards(
+	birthDate: string,
+	mangsaId: number,
+	pangarasan?: string,
+	bazi?: BaziWeightingContext,
+): DrawnCardInfo[] {
+	const id = Math.max(1, Math.min(12, Math.round(mangsaId)));
+	const baseSeed = birthDate + '-mangsa-' + id;
 
-type ElementOrNeutral = Element | 'neutral';
-
-/**
- * Maps a seasonal cycle ID (1–12) to a Tarot element archetype.
- * 'neutral' → favours Major Arcana (cosmic / spirit cards).
- */
-function mangsaToElement(id: number): ElementOrNeutral {
-	switch (id) {
-		case 1:  return 'neutral'; // ego-death, cosmic reset
-		case 2:  return 'water';   // vulnerability, emotional depth
-		case 3:  return 'air';     // mentorship, mental discipline
-		case 4:  return 'water';   // emotional healing, transition
-		case 5:  return 'earth';   // abundance, material opportunity
-		case 6:  return 'neutral'; // maturity, spiritual flow
-		case 7:  return 'air';     // boundaries, introspection
-		case 8:  return 'fire';    // passion, creative energy
-		case 9:  return 'fire';    // self-expression, sharing
-		case 10: return 'earth';   // finances, security
-		case 11: return 'water';   // appreciation, gentle slowing
-		case 12: return 'neutral'; // detachment, cosmic reflection
-		default: return 'neutral';
+	function buildWeights(bias: string): Float64Array {
+		const w = new Float64Array(DECK_SIZE).fill(1.0);
+		if (pangarasan) {
+			const userEl = pangarasanToElement(pangarasan);
+			if (userEl) {
+				const [s, e] = getRemedialRange(userEl);
+				for (let i = s; i <= e; i++) w[i] += 0.15;
+			}
+		}
+		if (bazi) applyBaziWeights(w, bazi, []);
+		// Mangsa theme boost
+		const mangsaEl = mangsaToTarotElement(id);
+		if (mangsaEl === 'neutral') {
+			for (let i = 0; i <= 21; i++) w[i] += 0.18;
+		} else {
+			const [ms, me] = getElementRange(mangsaEl);
+			for (let i = ms; i <= me; i++) w[i] += 0.18;
+		}
+		// Extra bias for specific slot
+		if (bias === 'energy') {
+			for (let i = 36; i <= 49; i++) w[i] += 0.10; // Wands for energy
+		} else if (bias === 'guidance') {
+			for (let i = 0; i <= 21; i++) w[i] += 0.10;  // Major Arcana for guidance
+		}
+		return w;
 	}
+
+	const eWeights = buildWeights('energy');
+	const eIdx = drawSingleDeterministicCard(baseSeed + '-energy', eWeights);
+	const eRev = getIsReversedDeterministic(baseSeed + '-energy-rev');
+
+	const gWeights = buildWeights('guidance'); gWeights[eIdx] = 0;
+	const gIdx = drawSingleDeterministicCard(baseSeed + '-guidance', gWeights);
+	const gRev = getIsReversedDeterministic(baseSeed + '-guidance-rev');
+
+	return [
+		{ cardIndex: eIdx, isReversed: eRev, label: 'energy' },
+		{ cardIndex: gIdx, isReversed: gRev, label: 'guidance' },
+	];
 }
 
-/**
- * Applies an element-based weight boost.
- * 'neutral' boosts Major Arcana (0–21); others boost their respective suit range.
- */
-function applyMangsaBoost(weights: Float64Array, el: ElementOrNeutral, boost: number): void {
-	if (el === 'neutral') {
-		for (let i = 0; i <= 21; i++) weights[i] += boost;
-	} else {
-		const [start, end] = getElementRange(el);
-		for (let i = start; i <= end; i++) weights[i] += boost;
-	}
-}
-
-/**
- * Returns 3 unique deterministic cards aligned to the current cosmic seasonal cycle.
- *
- * Each positional card is weighted toward the energy of its temporal cycle phase:
- *   - Past    → previous cycle's element (what was)
- *   - Present → current  cycle's element (what is)
- *   - Future  → next     cycle's element (what approaches)
- *
- * Fully deterministic: same birthDate + same cycleId = same cards.
- * Cards change naturally as the cosmic cycle progresses (~every few weeks).
- */
+/** Original 3-card mangsa spread kept for backward compat */
 export function getMangsaDeterministicThreeCards(
 	birthDate: string,
 	currentCycleId: number,
 	pangarasan?: string,
+	bazi?: BaziWeightingContext,
 ): DrawnCardInfo[] {
 	const id = Math.max(1, Math.min(12, Math.round(currentCycleId)));
 	const prevId = id === 1 ? 12 : id - 1;
 	const nextId = id === 12 ? 1 : id + 1;
 	const baseSeed = birthDate + '-cosmic-' + id;
 
-	function buildWeights(cycleForPosition: number, excludeIndices: number[]): Float64Array {
+	function buildWeights(cId: number, exclude: number[]): Float64Array {
 		const w = new Float64Array(DECK_SIZE).fill(1.0);
-
 		if (pangarasan) {
 			const userEl = pangarasanToElement(pangarasan);
 			if (userEl) {
@@ -277,72 +389,48 @@ export function getMangsaDeterministicThreeCards(
 				for (let i = s; i <= e; i++) w[i] += 0.15;
 			}
 		}
-
-		applyMangsaBoost(w, mangsaToElement(cycleForPosition), 0.18);
-
-		for (const idx of excludeIndices) w[idx] = 0;
+		if (bazi) applyBaziWeights(w, bazi, []);
+		const el = mangsaToTarotElement(cId);
+		if (el === 'neutral') {
+			for (let i = 0; i <= 21; i++) w[i] += 0.18;
+		} else {
+			const [ms, me] = getElementRange(el);
+			for (let i = ms; i <= me; i++) w[i] += 0.18;
+		}
+		for (const idx of exclude) w[idx] = 0;
 		return w;
 	}
 
-	const pastWeights = buildWeights(prevId, []);
-	const pastIndex = drawSingleDeterministicCard(baseSeed + '-past', pastWeights);
-	const pastReversed = getIsReversedDeterministic(baseSeed + '-past-reversed');
+	const pw = buildWeights(prevId, []);
+	const pastIdx = drawSingleDeterministicCard(baseSeed + '-past', pw);
+	const pastRev = getIsReversedDeterministic(baseSeed + '-past-rev');
 
-	const presentWeights = buildWeights(id, [pastIndex]);
-	const presentIndex = drawSingleDeterministicCard(baseSeed + '-present', presentWeights);
-	const presentReversed = getIsReversedDeterministic(baseSeed + '-present-reversed');
+	const cw = buildWeights(id, [pastIdx]);
+	const presIdx = drawSingleDeterministicCard(baseSeed + '-present', cw);
+	const presRev = getIsReversedDeterministic(baseSeed + '-present-rev');
 
-	const futureWeights = buildWeights(nextId, [pastIndex, presentIndex]);
-	const futureIndex = drawSingleDeterministicCard(baseSeed + '-future', futureWeights);
-	const futureReversed = getIsReversedDeterministic(baseSeed + '-future-reversed');
+	const nw = buildWeights(nextId, [pastIdx, presIdx]);
+	const futIdx = drawSingleDeterministicCard(baseSeed + '-future', nw);
+	const futRev = getIsReversedDeterministic(baseSeed + '-future-rev');
 
 	return [
-		{ cardIndex: pastIndex, isReversed: pastReversed, label: 'past' },
-		{ cardIndex: presentIndex, isReversed: presentReversed, label: 'present' },
-		{ cardIndex: futureIndex, isReversed: futureReversed, label: 'future' },
+		{ cardIndex: pastIdx, isReversed: pastRev, label: 'past' },
+		{ cardIndex: presIdx, isReversed: presRev, label: 'present' },
+		{ cardIndex: futIdx,  isReversed: futRev,  label: 'future' },
 	];
 }
 
-/**
- * Maps a Wuku name (Javanese week cycle) to classical elements or neutral/major.
- */
-function wukuToElement(wuku: string): ElementOrNeutral {
-	const lower = wuku.toLowerCase().trim();
-	const wukus = [
-		'sinta', 'landep', 'wukir', 'kurantil', 'tolu', 'gumbreg', 
-		'warigalit', 'warigagung', 'julungwangi', 'sungsang', 
-		'galungan', 'kuningan', 'langkir', 'mandasiya', 'julungpujut', 
-		'pahang', 'kuruwelut', 'marakeh', 'tambir', 'medangkungan', 
-		'maktal', 'wuye', 'manahil', 'prangbakat', 'bala', 
-		'wugu', 'wayang', 'kulawu', 'dukut', 'watugunung'
-	];
-	const idx = wukus.indexOf(lower);
-	if (idx === -1) return 'neutral';
-	
-	const mapping: ElementOrNeutral[] = [
-		'neutral', 'fire', 'water', 'air', 'earth',
-		'neutral', 'fire', 'water', 'air', 'earth',
-		'neutral', 'fire', 'water', 'air', 'earth',
-		'neutral', 'fire', 'water', 'air', 'earth',
-		'neutral', 'fire', 'water', 'air', 'earth',
-		'neutral', 'fire', 'water', 'air', 'earth',
-	];
-	return mapping[idx % 6] ?? 'neutral';
-}
-
-/**
- * Returns 3 unique deterministic cards aligned to the weekly Wuku cycle.
- */
+/** Weekly Wuku tarot */
 export function getWeeklyDeterministicThreeCards(
 	birthDate: string,
 	wuku: string,
 	pangarasan?: string,
+	bazi?: BaziWeightingContext,
 ): DrawnCardInfo[] {
 	const baseSeed = birthDate + '-weekly-' + wuku.toLowerCase();
 
-	function buildWeights(excludeIndices: number[]): Float64Array {
+	function buildWeights(exclude: number[]): Float64Array {
 		const w = new Float64Array(DECK_SIZE).fill(1.0);
-
 		if (pangarasan) {
 			const userEl = pangarasanToElement(pangarasan);
 			if (userEl) {
@@ -350,30 +438,33 @@ export function getWeeklyDeterministicThreeCards(
 				for (let i = s; i <= e; i++) w[i] += 0.15;
 			}
 		}
-
-		const wukuEl = wukuToElement(wuku);
-		applyMangsaBoost(w, wukuEl, 0.20);
-
-		for (const idx of excludeIndices) w[idx] = 0;
+		if (bazi) applyBaziWeights(w, bazi, []);
+		const el = wukuToTarotElement(wuku);
+		if (el === 'neutral') {
+			for (let i = 0; i <= 21; i++) w[i] += 0.20;
+		} else {
+			const [ms, me] = getElementRange(el);
+			for (let i = ms; i <= me; i++) w[i] += 0.20;
+		}
+		for (const idx of exclude) w[idx] = 0;
 		return w;
 	}
 
-	const pastWeights = buildWeights([]);
-	const pastIndex = drawSingleDeterministicCard(baseSeed + '-past', pastWeights);
-	const pastReversed = getIsReversedDeterministic(baseSeed + '-past-reversed');
+	const pw = buildWeights([]);
+	const pastIdx = drawSingleDeterministicCard(baseSeed + '-past', pw);
+	const pastRev = getIsReversedDeterministic(baseSeed + '-past-rev');
 
-	const presentWeights = buildWeights([pastIndex]);
-	const presentIndex = drawSingleDeterministicCard(baseSeed + '-present', presentWeights);
-	const presentReversed = getIsReversedDeterministic(baseSeed + '-present-reversed');
+	const cw = buildWeights([pastIdx]);
+	const presIdx = drawSingleDeterministicCard(baseSeed + '-present', cw);
+	const presRev = getIsReversedDeterministic(baseSeed + '-present-rev');
 
-	const futureWeights = buildWeights([pastIndex, presentIndex]);
-	const futureIndex = drawSingleDeterministicCard(baseSeed + '-future', futureWeights);
-	const futureReversed = getIsReversedDeterministic(baseSeed + '-future-reversed');
+	const nw = buildWeights([pastIdx, presIdx]);
+	const futIdx = drawSingleDeterministicCard(baseSeed + '-future', nw);
+	const futRev = getIsReversedDeterministic(baseSeed + '-future-rev');
 
 	return [
-		{ cardIndex: pastIndex, isReversed: pastReversed, label: 'past' },
-		{ cardIndex: presentIndex, isReversed: presentReversed, label: 'present' },
-		{ cardIndex: futureIndex, isReversed: futureReversed, label: 'future' },
+		{ cardIndex: pastIdx, isReversed: pastRev, label: 'past' },
+		{ cardIndex: presIdx, isReversed: presRev, label: 'present' },
+		{ cardIndex: futIdx,  isReversed: futRev,  label: 'future' },
 	];
 }
-

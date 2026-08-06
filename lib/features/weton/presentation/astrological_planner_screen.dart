@@ -18,6 +18,7 @@ import '../../../core/widgets/astrological_dial_timepiece.dart';
 import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
 import '../../../core/widgets/glass_button.dart';
 import 'widgets/jam_emas_banner.dart';
+import '../../../../core/widgets/cosmic_skeleton.dart';
 
 class AstrologicalPlannerScreen extends ConsumerStatefulWidget {
   const AstrologicalPlannerScreen({super.key});
@@ -387,16 +388,20 @@ class _AstrologicalPlannerScreenState
                                   _buildHeaderSection(),
                                   const SizedBox(height: 16),
                                   if (_isLoadingCalendar) ...[
-                                    const Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 60.0,
-                                      ),
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          color: AppTheme.accentGold,
-                                        ),
-                                      ),
+                                    const SizedBox(height: 8),
+                                    // Header skeleton — seasonal banner placeholder
+                                    CosmicSkeletonCard(height: 90),
+                                    const SizedBox(height: 16),
+                                    // Calendar grid skeleton — 5 minggu × 7 hari
+                                    const CosmicSkeletonGrid(
+                                      columns: 7,
+                                      rows: 5,
+                                      cardHeight: 44,
+                                      spacing: 6,
                                     ),
+                                    const SizedBox(height: 16),
+                                    // Timeline skeleton — 3 baris teks
+                                    const CosmicSkeletonText(lines: 3, widths: [0.7, 1.0, 0.5]),
                                   ] else if (_errorMessage != null) ...[
                                     Padding(
                                       padding: const EdgeInsets.symmetric(

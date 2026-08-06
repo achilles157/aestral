@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_theme.dart';
 
-/// Toggle pill antara "Tarot Kosmis (Mangsa)" dan "Tarot Lahir (Birth)".
+/// Toggle pill antara "Tarot Mangsa" dan "Tarot Lahir (Birth)".
 /// Hanya ditampilkan untuk user authenticated saat belum ada kartu tertarik.
 class TarotDrawTypeToggle extends StatelessWidget {
   final String selectedDrawType;
@@ -34,7 +34,7 @@ class TarotDrawTypeToggle extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _Pill(
-            label: currentLang == 'id' ? 'Tarot Kosmis' : 'Cosmic Tarot',
+            label: currentLang == 'id' ? 'Tarot Mangsa' : 'Mangsa Tarot',
             isActive: selectedDrawType == 'mangsa',
             isLocked: isLocked,
             onTap: () => onTypeChanged('mangsa'),
