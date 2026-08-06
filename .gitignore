@@ -105,11 +105,7 @@ temp/
 *.notes
 
 # Project Plans, PRDs, & Private Research Docs
-plan.md
 Arsitektur*.md
-PRD/
-weight-rng.md
-firebase_setup_guide.md
 assets/weton/Riset Astrologi Primbon Jawa Modern.md
 
 # Scripts — keep source (.js) but ignore generated output files
@@ -120,6 +116,8 @@ scripts/*_output.json
 .agents/
 .superpowers/
 skills-lock.json
+.claude/
+.opencode/
 
 # ZCode session checkpoints & logs
 .zcode/
@@ -144,6 +142,10 @@ wrangler.toml.local
 *.sqlite
 *.sqlite3
 .cache/
+
+# Agent cluster work dirs
+.cluster/
+DELIVERY/
 
 # Personal identifiable data (PII)
 **/users_backup.json
