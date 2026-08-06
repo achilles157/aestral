@@ -296,7 +296,7 @@ class ApiService {
     double? longitude,
     required String authHeader,
   }) {
-    final cacheKey = CacheService.generateKey('bazi_chart', {
+    final cacheKey = CacheService.generateKey('bazi_chart_v2', {
       'birthDate': birthDate,
       'birthHour': birthHour,
       'latitude': latitude,

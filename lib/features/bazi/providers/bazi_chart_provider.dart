@@ -29,9 +29,11 @@ class BaziChartNotifier extends AsyncNotifier<BaziChart?> {
         authHeader: authHeader,
       );
 
-      // Handle both {chart: {...}} and flat response shapes
-      final raw = result.containsKey('chart')
+      // Handle response shapes: {chart: {...}}, {data: {...}}, or flat
+      final raw = result['chart'] is Map<String, dynamic>
           ? result['chart'] as Map<String, dynamic>
+          : result['data'] is Map<String, dynamic>
+          ? result['data'] as Map<String, dynamic>
           : result;
 
       return BaziChart.fromJson(raw);

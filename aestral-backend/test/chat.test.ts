@@ -44,18 +44,18 @@ describe('POST /api/chat', () => {
 		expect(body.error).toContain('prompt');
 	});
 
-	it('returns 400 when prompt exceeds 500 characters', async () => {
+	it('returns 400 when prompt exceeds 4000 characters', async () => {
 		const res = await SELF.fetch(CHAT_URL, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: GUEST_AUTH,
 			},
-			body: JSON.stringify({ prompt: 'a'.repeat(501) }),
+			body: JSON.stringify({ prompt: 'a'.repeat(4001) }),
 		});
 		expect(res.status).toBe(400);
 		const body = await res.json<{ error: string }>();
-		expect(body.error).toContain('500');
+		expect(body.error).toContain('4000');
 	});
 
 	it('returns 400 for invalid JSON body', async () => {
