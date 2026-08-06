@@ -5,7 +5,8 @@ import '../../services/tarot_data.dart';
 import 'tarot_reading_detail_panel.dart';
 
 /// Carousel kartu yang sudah di-flip — tab selector + PageView + dot indicator.
-/// Tampil hanya ketika semua 3 kartu sudah terungkap.
+/// Tampil ketika semua kartu sudah terungkap. Mendukung N kartu
+/// (2 untuk Mangsa energy/guidance, 3 untuk Lahir/Tematik).
 class TarotCarouselSection extends StatelessWidget {
   final List<DrawnCardInfo> drawnCards;
   final int activeIndex;
@@ -42,20 +43,64 @@ class TarotCarouselSection extends StatelessWidget {
     return lang == 'id' ? 'KOSMIS / SPIRIT' : 'COSMIC / SPIRIT';
   }
 
-  String _tabLabel(int index) {
-    if (index == 0) return currentLang == 'id' ? 'Masa Lalu' : 'Past';
-    if (index == 1) return currentLang == 'id' ? 'Masa Kini' : 'Present';
-    return currentLang == 'id' ? 'Masa Depan' : 'Future';
+  /// Label tab dari label backend kartu — support mangsa (energy/guidance),
+  /// lahir (past/present/future), dan tematik (potensi, tantangan, dll).
+  String _tabLabel(String backendLabel) {
+    switch (backendLabel) {
+      case 'energy':
+        return currentLang == 'id' ? 'Energi Mangsa' : 'Mangsa Energy';
+      case 'guidance':
+        return currentLang == 'id' ? 'Panduan Pribadi' : 'Personal Guidance';
+      case 'past':
+        return currentLang == 'id' ? 'Masa Lalu' : 'Past';
+      case 'present':
+        return currentLang == 'id' ? 'Masa Kini' : 'Present';
+      case 'future':
+        return currentLang == 'id' ? 'Masa Depan' : 'Future';
+      case 'potensi':
+        return currentLang == 'id' ? 'Potensi' : 'Potential';
+      case 'tantangan':
+        return currentLang == 'id' ? 'Tantangan' : 'Challenge';
+      case 'arah':
+        return currentLang == 'id' ? 'Arah' : 'Direction';
+      case 'daya_tarik':
+        return currentLang == 'id' ? 'Daya Tarik' : 'Attraction';
+      case 'bayangan':
+        return currentLang == 'id' ? 'Bayangan' : 'Shadow';
+      case 'langkah':
+        return currentLang == 'id' ? 'Langkah' : 'Next Step';
+      case 'sumber':
+        return currentLang == 'id' ? 'Sumber' : 'Source';
+      case 'kebocoran':
+        return currentLang == 'id' ? 'Kebocoran' : 'Leak';
+      case 'strategi':
+        return currentLang == 'id' ? 'Strategi' : 'Strategy';
+      case 'panggilan':
+        return currentLang == 'id' ? 'Panggilan' : 'Calling';
+      case 'rintangan':
+        return currentLang == 'id' ? 'Rintangan' : 'Obstacle';
+      case 'pesan':
+        return currentLang == 'id' ? 'Pesan' : 'Message';
+      case 'vitalitas':
+        return currentLang == 'id' ? 'Vitalitas' : 'Vitality';
+      case 'kelemahan':
+        return currentLang == 'id' ? 'Kelemahan' : 'Weakness';
+      case 'ritme':
+        return currentLang == 'id' ? 'Ritme' : 'Rhythm';
+      default:
+        return backendLabel;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final cardCount = drawnCards.length;
     return Column(
       children: [
         // ── Tab row ──────────────────────────────────────────────────────
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(3, (index) {
+          children: List.generate(cardCount, (index) {
             final isActive = activeIndex == index;
             return GestureDetector(
               onTap: () => pageController.animateToPage(
@@ -77,7 +122,7 @@ class TarotCarouselSection extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  _tabLabel(index),
+                  _tabLabel(drawnCards[index].label),
                   style: GoogleFonts.outfit(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
@@ -95,7 +140,7 @@ class TarotCarouselSection extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.55,
           child: PageView.builder(
             controller: pageController,
-            itemCount: 3,
+            itemCount: cardCount,
             onPageChanged: onPageChanged,
             itemBuilder: (context, index) {
               final cardInfo = drawnCards[index];
@@ -118,7 +163,7 @@ class TarotCarouselSection extends StatelessWidget {
         // ── Dot indicators ───────────────────────────────────────────────
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(3, (i) {
+          children: List.generate(cardCount, (i) {
             final isActive = i == activeIndex;
             return AnimatedContainer(
               duration: const Duration(milliseconds: 200),
