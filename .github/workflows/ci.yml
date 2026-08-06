@@ -10,6 +10,11 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
 jobs:
   format-and-analyze:
     name: Format & Analyze
