@@ -1,0 +1,170 @@
+name: CI — Format, Analyze, Test, Build
+
+on:
+  push:
+    branches: [ develop, main ]
+  pull_request:
+    branches: [ develop, main ]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  format-and-analyze:
+    name: Format & Analyze
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: |
+          echo "Checking Dart formatting..."
+          dart format --set-exit-if-changed .
+          echo "✅ All files properly formatted"
+
+      - name: Run analyzer
+        run: |
+          echo "Running static analysis..."
+          flutter analyze --no-pub 2>&1 | tee analyze_output.txt
+          # Fail only on errors and warnings; info-level lints are allowed
+          if grep -qE "^\s*(error|warning) - " analyze_output.txt; then
+            echo "❌ Errors or warnings found:"
+            grep -E "^\s*(error|warning) - " analyze_output.txt
+            exit 1
+          fi
+          echo "✅ No errors or warnings"
+
+  test:
+    name: Test & Coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Run tests with coverage
+        run: flutter test --coverage --reporter expanded
+
+      - name: Check coverage file
+        run: |
+          if [ ! -f coverage/lcov.info ]; then
+            echo "❌ coverage/lcov.info not generated"
+            exit 1
+          fi
+          echo "✅ Coverage file generated"
+
+      - name: Compute coverage (robust parsing)
+        run: |
+          # Parse LF/LH directly from lcov.info — works across lcov versions
+          LF=$(grep -E '^LF:' coverage/lcov.info | sed 's/LF://' | awk '{s+=$1} END {print s}')
+          LH=$(grep -E '^LH:' coverage/lcov.info | sed 's/LH://' | awk '{s+=$1} END {print s}')
+          if [ -z "$LF" ] || [ -z "$LH" ] || [ "$LF" -eq 0 ]; then
+            echo "❌ Could not parse coverage data"
+            exit 1
+          fi
+          COVERAGE=$(awk "BEGIN {printf \"%.2f\", ($LH / $LF) * 100}")
+          echo "📊 Line coverage: $LH/$LF = ${COVERAGE}%"
+          echo "COVERAGE=${COVERAGE}" >> "$GITHUB_ENV"
+
+          # Threshold: soft warning below 40%, hard fail below 18%
+          if (( $(echo "$COVERAGE < 18" | bc -l) )); then
+            echo "❌ Coverage ${COVERAGE}% below minimum 18%"
+            exit 1
+          elif (( $(echo "$COVERAGE < 40" | bc -l) )); then
+            echo "⚠️  Coverage ${COVERAGE}% below target 40% — improving"
+          else
+            echo "✅ Coverage ${COVERAGE}% meets target 40%+"
+          fi
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 30
+
+      - name: Comment coverage on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const raw = fs.readFileSync('coverage/lcov.info', 'utf8');
+            const lines = raw.match(/^LF:(\d+)$/gm) || [];
+            const found = raw.match(/^LH:(\d+)$/gm) || [];
+            if (lines.length === 0 || found.length === 0) {
+              console.log('No coverage data to comment');
+              return;
+            }
+            const total = lines.reduce((s, l) => s + parseInt(l.split(':')[1], 10), 0);
+            const covered = found.reduce((s, l) => s + parseInt(l.split(':')[1], 10), 0);
+            const percent = total > 0 ? ((covered / total) * 100).toFixed(2) : '0.00';
+            const emoji = parseFloat(percent) >= 40 ? '✅' : '⚠️';
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## 📊 Coverage Report\n\n- **Line coverage:** ${percent}%\n- **Lines:** ${covered}/${total}\n- **Target:** 40% (minimum: 18%)\n\n${emoji} ${parseFloat(percent) >= 40 ? 'Meets target' : 'Below target'}`
+            });
+
+  build-web:
+    name: Web Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build web
+        run: flutter build web --release
+        timeout-minutes: 10
+
+      - name: Check bundle size
+        run: |
+          SIZE=$(du -sh build/web | awk '{print $1}')
+          echo "📦 Web bundle: ${SIZE}"
+          MAIN=$(du -k build/web/main.dart.js 2>/dev/null | awk '{print $1}')
+          if [ -n "$MAIN" ]; then
+            echo "main.dart.js: ${MAIN} KB"
+            if [ "$MAIN" -gt 4000 ]; then
+              echo "⚠️  main.dart.js > 4MB — consider code splitting"
+            fi
+          fi
