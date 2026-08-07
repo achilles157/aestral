@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kebijakan Privasi Aestral</title>
+<style>
+  :root {
+    --bg: #0d0b14; --panel: #151226; --panel2: #1d1835; --border: #2e2750;
+    --text: #e9e6f5; --muted: #a49fc0; --accent: #b18cff; --gold: #e8c87a;
+    --green: #7ee2a8; --red: #ff8fa3;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.7; padding: 32px 16px; }
+  .wrap { max-width: 820px; margin: 0 auto; }
+  .logo { color: var(--gold); font-weight: 800; letter-spacing: 2px; font-size: .9rem; margin-bottom: 6px; }
+  h1 { font-size: 1.7rem; margin-bottom: 6px; color: #fff; }
+  .meta { color: var(--muted); font-size: .9rem; margin-bottom: 28px; }
+  h2 { font-size: 1.15rem; color: var(--accent); margin: 30px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: .98rem; color: #fff; margin: 18px 0 6px; }
+  p, li { margin-bottom: 8px; }
+  ul, ol { padding-left: 22px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: .88rem; }
+  th, td { border: 1px solid var(--border); padding: 9px 11px; text-align: left; vertical-align: top; }
+  th { background: var(--panel2); color: #fff; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 10px; padding: 16px 18px; margin: 14px 0; }
+  .card.gold { border-left-color: var(--gold); }
+  .card-title { font-weight: 700; margin-bottom: 6px; }
+  .muted { color: var(--muted); }
+  .footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; }
+  @media (max-width: 600px) { body { padding: 20px 12px; } table { font-size: .82rem; } th, td { padding: 7px 8px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">✦ AESTRAL</div>
+  <h1>Kebijakan Privasi</h1>
+  <div class="meta">Efektif sejak: 7 Agustus 2026 · Versi 1.0</div>
+
+  <h2>1. Pengantar</h2>
+  <p><b>Aestral</b> adalah platform astrologi budaya yang menyajikan interpretasi Weton Jawa, Ba Zi Tionghoa, Tarot, dan ramalan kosmis lainnya sebagai sarana <b>hiburan, refleksi diri, dan pelestarian warisan budaya</b>.</p>
+  <p>Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, menyimpan, melindungi, dan menghapus data pribadi Anda — sesuai <b>Undang-Undang Nomor 27 Tahun 2022 tentang Perlindungan Data Pribadi (UU PDP)</b>. Dengan menggunakan Aestral, Anda menyatakan telah membaca, memahami, dan menyetujui kebijakan ini.</p>
+
+  <h2>2. Data yang Kami Kumpulkan</h2>
+  <h3>2.1 Data yang Anda berikan secara langsung</h3>
+  <table>
+    <tr><th>Jenis Data</th><th>Contoh</th><th>Tujuan</th></tr>
+    <tr><td>Data akun</td><td>Nama, alamat email (login Google)</td><td>Membuat &amp; mengelola akun, sinkronisasi antar perangkat</td></tr>
+    <tr><td>Data kelahiran</td><td>Tanggal lahir; bila diisi: jam &amp; tempat lahir</td><td>Menghitung Weton, Ba Zi, dan ramalan terpersonalisasi</td></tr>
+    <tr><td>Data preferensi &amp; jawaban</td><td>Topik pilihan (karir, asmara, dll.), hasil tarik kartu</td><td>Menghasilkan bacaan yang relevan</td></tr>
+    <tr><td>Riwayat bacaan</td><td>Hasil tarikan kartu tarot, weton, bagan Ba Zi</td><td>Menyimpan riwayat agar dapat dilihat kembali</td></tr>
+    <tr><td>Jurnal kosmis</td><td>Catatan pribadi Anda</td><td>Menyimpan refleksi pribadi</td></tr>
+  </table>
+  <h3>2.2 Data yang dikumpulkan otomatis</h3>
+  <table>
+    <tr><th>Jenis Data</th><th>Tujuan</th></tr>
+    <tr><td>Data penggunaan &amp; analitik (Firebase Analytics)</td><td>Memahami penggunaan fitur, memperbaiki aplikasi</td></tr>
+    <tr><td>Data perangkat &amp; teknis</td><td>Kompatibilitas &amp; pemecahan masalah</td></tr>
+    <tr><td>Alamat IP (Cloudflare Workers)</td><td>Rate limiting / pencegahan penyalahgunaan</td></tr>
+  </table>
+  <h3>2.3 Data yang TIDAK kami kumpulkan</h3>
+  <ul>
+    <li>Kami <b>tidak</b> mengumpulkan data kesehatan, biometrik, atau keuangan Anda.</li>
+    <li>Kami <b>tidak menjual</b> data pribadi Anda kepada pihak mana pun.</li>
+    <li>Kami <b>tidak menggunakan</b> data Anda untuk iklan bertarget lintas-situs.</li>
+  </ul>
+
+  <h2>3. Dasar Hukum Pemrosesan (UU PDP)</h2>
+  <ol>
+    <li><b>Persetujuan (consent)</b> — saat mendaftar dan mengisi data kelahiran;</li>
+    <li><b>Pelaksanaan perjanjian</b> — memproses data untuk menjalankan layanan yang Anda minta;</li>
+    <li><b>Kepentingan sah</b> — analitik untuk perbaikan layanan, dengan dampak minimal.</li>
+  </ol>
+
+  <h2>4. Bagaimana Kami Menggunakan Data Anda</h2>
+  <ul>
+    <li>Menghitung &amp; menampilkan Weton, Ba Zi, Tarot, dan bacaan kosmis;</li>
+    <li>Membuat konten AI (sintesis bacaan) yang dipersonalisasi;</li>
+    <li>Menyimpan riwayat bacaan dan profil kelahiran Anda;</li>
+    <li>Mengirim notifikasi yang Anda pilih (jika ada);</li>
+    <li>Meningkatkan kualitas dan keamanan aplikasi;</li>
+    <li>Memenuhi kewajiban hukum.</li>
+  </ul>
+
+  <h2>5. Pihak Ketiga &amp; Pemroses Data</h2>
+  <table>
+    <tr><th>Layanan</th><th>Peran</th><th>Data yang Diproses</th></tr>
+    <tr><td><b>Google Firebase</b></td><td>Autentikasi, Firestore, Analytics, Hosting</td><td>Akun, profil, riwayat, analitik</td></tr>
+    <tr><td><b>Google Gemini API</b></td><td>Menghasilkan narasi bacaan AI</td><td>Data kelahiran &amp; konteks kartu untuk bacaan (tidak disimpan sebagai riwayat percakapan)</td></tr>
+    <tr><td><b>Cloudflare Workers</b></td><td>Backend API, cache, rate limiting</td><td>Alamat IP, key cache internal</td></tr>
+  </table>
+  <p class="muted">Kebijakan masing-masing: <a href="https://policies.google.com/privacy" style="color:var(--accent)">Google</a> · <a href="https://www.cloudflare.com/privacypolicy/" style="color:var(--accent)">Cloudflare</a>. Konten yang dikirim ke Gemini untuk bacaan AI tidak digunakan untuk melatih model sesuai pengaturan default Google AI API.</p>
+
+  <h2>6. Penyimpanan &amp; Keamanan Data</h2>
+  <ul>
+    <li>Data disimpan di infrastruktur <b>Google Cloud / Firebase</b> dengan enkripsi saat transit (TLS) dan saat istirahat (at-rest).</li>
+    <li>Akses dibatasi <b>aturan keamanan Firestore</b> — hanya pemilik akun yang dapat membaca/menulis datanya.</li>
+    <li><b>Mode tamu:</b> data tersimpan lokal di perangkat, tidak disinkronkan, dan hilang jika aplikasi dihapus.</li>
+    <li>Tidak ada sistem yang 100% aman — kami tidak menjamin keamanan mutlak.</li>
+  </ul>
+
+  <h2>7. Retensi &amp; Penghapusan Data</h2>
+  <ul>
+    <li>Data akun disimpan selama akun aktif.</li>
+    <li>Anda dapat menghapus data kapan saja (menu pengaturan akun / permintaan hapus akun).</li>
+    <li>Permintaan penghapusan diproses paling lambat <b>14 hari kerja</b>.</li>
+    <li>Cache teknis Cloudflare KV terhapus otomatis sesuai TTL.</li>
+  </ul>
+
+  <h2>8. Hak Anda (UU PDP)</h2>
+  <ol>
+    <li><b>Mengakses</b> — salinan data pribadi Anda;</li>
+    <li><b>Memperbaiki</b> — koreksi data yang tidak akurat;</li>
+    <li><b>Menghapus</b> — penghapusan data Anda;</li>
+    <li><b>Menarik persetujuan</b> — kapan saja;</li>
+    <li><b>Membatasi / keberatan</b> — atas pemrosesan tertentu;</li>
+    <li><b>Portabilitas</b> — data dalam format yang dapat dibaca;</li>
+    <li><b>Mengajukan keluhan</b> — kepada kami dan/atau otoritas pengawas.</li>
+  </ol>
+
+  <h2>9. Privasi Anak</h2>
+  <p>Aestral ditujukan untuk pengguna <b>berusia 17 tahun ke atas</b>. Sesuai UU PDP, anak di bawah 18 tahun memerlukan persetujuan orang tua/wali. Data anak di bawah umur tanpa persetujuan akan kami hapus sesegera mungkin.</p>
+
+  <h2>10. Mode Tamu &amp; Data Lokal</h2>
+  <p>Tanpa login: data profil &amp; riwayat tersimpan lokal; beberapa fitur sinkronisasi tidak tersedia; data untuk menghasilkan bacaan diproses sementara tanpa ditautkan ke identitas Anda.</p>
+
+  <h2>11. Perubahan Kebijakan</h2>
+  <p>Kami dapat memperbarui kebijakan ini. Perubahan signifikan akan diberi tahu melalui aplikasi/email. Penggunaan aplikasi setelah perubahan berlaku berarti Anda menyetujui versi terbaru.</p>
+
+  <h2>12. Hubungi Kami</h2>
+  <p>Email: <b>privasi@aestral.app</b> · Subjek: "Permintaan Data Pribadi" / "Keluhan Privasi" / "Hapus Akun" — respons maksimal 14 hari kerja.</p>
+
+  <h2>13. Pernyataan Penting</h2>
+  <div class="card gold">
+    <div class="card-title">✦ Hiburan &amp; Refleksi Budaya</div>
+    <p>Aestral adalah platform <b>hiburan dan refleksi budaya</b>. Seluruh bacaan — Weton, Ba Zi, Tarot, dan konten AI — bersifat <b>indikatif, simbolis, dan tidak ilmiah</b>. Ini <b>bukan</b> pengganti nasihat profesional (medis, psikologis, hukum, keuangan). Keputusan Anda berdasarkan konten Aestral sepenuhnya tanggung jawab Anda. Lihat <b>Perjanjian Pengguna</b> untuk ketentuan lengkap.</p>
+  </div>
+
+  <div class="footer">✦ Aestral — bintang menawarkan perspektif, bukan takdir.</div>
+</div>
+</body>
+</html>
