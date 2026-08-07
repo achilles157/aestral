@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panduan Cloudflare API Token untuk Auto-Deploy Worker Aestral</title>
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --panel2: #1c2330; --border: #2d3748;
+    --text: #e6edf3; --muted: #9aa7b4; --accent: #f6821f; --accent2: #fb7185;
+    --green: #3fb950; --yellow: #d29922; --blue: #58a6ff; --red: #f85149;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.65; padding: 24px 16px; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: 1.55rem; margin-bottom: 4px; color: #fff; }
+  .sub { color: var(--muted); margin-bottom: 24px; font-size: .95rem; }
+  h2 { font-size: 1.2rem; margin: 32px 0 12px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+  h3 { font-size: 1rem; margin: 20px 0 8px; color: #fff; }
+  p, li { margin-bottom: 8px; }
+  ul, ol { padding-left: 22px; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; margin: 14px 0; }
+  .card.warn { border-left: 4px solid var(--yellow); }
+  .card.ok { border-left: 4px solid var(--green); }
+  .card.err { border-left: 4px solid var(--red); }
+  .card.info { border-left: 4px solid var(--blue); }
+  .card-title { font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  code { background: var(--panel2); border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; font-family: "Cascadia Code", Consolas, "Courier New", monospace; font-size: .86em; color: var(--blue); }
+  pre { background: #0b0e14; border: 1px solid var(--border); border-radius: 8px; padding: 14px; overflow-x: auto; margin: 10px 0; font-size: .86rem; }
+  pre code { background: none; border: none; padding: 0; color: #c9d1d9; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: .9rem; }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--panel2); color: #fff; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: .76rem; font-weight: 700; letter-spacing: .3px; }
+  .b-wajib { background: #3b1d1f; color: var(--red); border: 1px solid #7a3a3d; }
+  .b-opsi { background: #1f2d3d; color: var(--blue); border: 1px solid #2d4a66; }
+  .b-rek { background: #1f2e20; color: var(--green); border: 1px solid #2f5233; }
+  .step { display: flex; gap: 14px; margin: 16px 0; }
+  .step-num { flex: 0 0 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #0d1117; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+  .step-body { flex: 1; }
+  .kbd { background: var(--panel2); border: 1px solid var(--border); border-bottom-width: 3px; border-radius: 5px; padding: 1px 7px; font-family: Consolas, monospace; font-size: .82em; }
+  .muted { color: var(--muted); font-size: .88rem; }
+  .copy { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 2px 8px; font-size: .75rem; cursor: pointer; margin-left: 6px; }
+  .copy:hover { color: #fff; border-color: var(--accent); }
+  .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; }
+  .tag { display:inline-block; background: var(--panel2); border:1px solid var(--border); border-radius:6px; padding:1px 8px; font-size:.75rem; color:var(--muted); margin-right:6px; }
+  @media (max-width: 600px) { body { padding: 16px 10px; } table { font-size: .82rem; } th, td { padding: 6px 7px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>☁️ Panduan Cloudflare API Token</h1>
+<div class="sub">Auto-deploy Worker <b>Aestral</b> via GitHub Actions · Revisi 2026-08-07</div>
+
+<div class="card info">
+  <div class="card-title">🔑 Kenapa panduan ini ada?</div>
+  <p>Workflow <code>.github/workflows/deploy-worker.yml</code> di repo Aestral butuh <b>2 GitHub secrets</b> yang belum terpasang:</p>
+  <ul>
+    <li><code>CLOUDFLARE_API_TOKEN</code> — token API Cloudflare (bukan password akun)</li>
+    <li><code>CLOUDFLARE_ACCOUNT_ID</code> — ID akun Cloudflare</li>
+  </ul>
+  <p>Tanpa keduanya, workflow gagal dengan error: <code>In a non-interactive environment, it's necessary to set a CLOUDFLARE_API_TOKEN environment variable</code>. Token Cloudflare memang punya banyak spesifikasi (permission, scope akun/zone, TTL) — panduan ini memilihkan yang <b>paling minimal dan aman</b> untuk kebutuhan deploy Worker saja.</p>
+</div>
+
+<h2>0. Konsep penting: API Token vs API Key</h2>
+<p>Cloudflare punya 3 jenis kredensial — sering bikin bingung:</p>
+<table>
+  <tr><th>Jenis</th><th>Kegunaan</th><th>Untuk kita?</th></tr>
+  <tr><td><b>API Token</b> (recommended)</td><td>Token khusus per-tugas: bisa dibatasi permission, scope, dan masa berlaku</td><td>✅ <b>Ini yang kita pakai</b> — aman &amp; presisi</td></tr>
+  <tr><td>Global API Key</td><td>"Kunci utama" akun — akses penuh ke semua akun</td><td>❌ JANGAN — terlalu berbahaya, dan tak bisa di-scope</td></tr>
+  <tr><td>Origin CA Key / Scoped Keys</td><td>Kasus khusus (SSL origin, dll)</td><td>❌ Tidak relevan</td></tr>
+</table>
+<div class="card warn">
+  <div class="card-title">⚠️ Jangan pernah pakai Global API Key di GitHub Actions</div>
+  <p>Global API Key = setara password akun. Kalau bocor ke log CI, orang lain bisa menguasai seluruh akun Cloudflare-mu. API Token hanya bisa menghapus/membuat Worker, dan bisa dicabut kapan saja.</p>
+</div>
+
+<h2>1. Ambil Account ID (1 menit)</h2>
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <p>Login ke <a href="https://dash.cloudflare.com" style="color:var(--blue)">dash.cloudflare.com</a>.</p>
+</div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <p>Di halaman mana pun, lihat <b>pojok kanan bawah</b> sidebar → kotak <b>"Account ID"</b> (32 karakter hex, contoh: <code>af72b75133ce4041990a3b04f08ed3e9</code>).</p>
+  <p class="muted">Alternatif: URL dashboard biasanya berbentuk <code>dash.cloudflare.com/<b>&lt;ACCOUNT_ID&gt;</b>/...</code> saat kamu di dalam sebuah domain/worker.</p>
+</div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <p>Salin ID-nya — ini untuk secret <code>CLOUDFLARE_ACCOUNT_ID</code>. Simpan dulu, kita isi di Langkah 4.</p>
+</div></div>
+
+<h2>2. Buat API Token (5 menit)</h2>
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <p>Buka <a href="https://dash.cloudflare.com/profile/api-tokens" style="color:var(--blue)">My Profile → API Tokens</a> (atau klik ikon orang kanan atas → <b>My Profile</b> → tab <b>API Tokens</b>).</p>
+</div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <p>Klik tombol <b>Create Token</b>.</p>
+</div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <p>Scroll ke bagian template, pilih <b>"Create Custom Token"</b> (paling bawah) → klik <b>Get started</b>.</p>
+</div></div>
+
+<h3>3a. Isi form token — spesifikasi persis</h3>
+<table>
+  <tr><th>Field</th><th>Isi</th><th>Catatan</th></tr>
+  <tr><td><b>Token name</b></td><td><code>aestral-worker-deploy</code></td><td>Bebas, tapi beri nama jelas</td></tr>
+  <tr><td><b>Permissions → Account</b></td><td><code>Workers Scripts</code> → <code>Edit</code></td><td><span class="badge b-wajib">WAJIB</span> — untuk upload script Worker</td></tr>
+  <tr><td><b>Permissions → Account</b></td><td><code>Account Settings</code> → <code>Read</code></td><td><span class="badge b-rek">DISARANKAN</span> — wrangler membaca info akun saat deploy</td></tr>
+  <tr><td><b>Permissions → Zone</b></td><td><code>Zone</code> → <code>Read</code></td><td><span class="badge b-opsi">OPSIONAL</span> — hanya perlu jika Worker pakai custom domain/route zone; untuk <code>*.workers.dev</code> murni tidak wajib</td></tr>
+</table>
+
+<div class="card info">
+  <div class="card-title">🎯 Prinsip minimal privilege</div>
+  <p>Jangan menambah permission lain (mis. <code>Account → All permissions</code> atau <code>Zone → DNS Edit</code>). Token kita <b>hanya</b> boleh: edit Workers Scripts + baca Account Settings. Semakin kecil scope, semakin kecil risiko kalau token bocor.</p>
+</div>
+
+<h3>3b. Account Resources</h3>
+<ul>
+  <li>Bagian <b>Account Resources</b> → pilih <b>Include</b> → pilih nama akun Cloudflare-mu (biasanya cuma 1).</li>
+</ul>
+
+<h3>3c. Zone Resources</h3>
+<ul>
+  <li>Pilih <b>Include → All zones</b> (paling sederhana).</li>
+  <li>Kalau mau lebih ketat dan hanya deploy ke <code>*.workers.dev</code>: pilih <b>Include → Specific zone</b> dan pilih domain yang relevan, atau kosongkan zone sepenuhnya (kalau UI mengizinkan) — karena Worker di <code>workers.dev</code> tidak terikat ke zone tertentu.</li>
+</ul>
+
+<h3>3d. Client IP Address Filtering &amp; TTL (opsional tapi disarankan)</h3>
+<table>
+  <tr><th>Field</th><th>Saran</th><th>Kenapa</th></tr>
+  <tr><td><b>Client IP Address Filtering</b></td><td>Kosongkan (semua IP)</td><td>GitHub Actions memakai banyak IP yang berubah-ubah; membatasi IP malah bikin workflow gagal acak</td></tr>
+  <tr><td><b>Time to Live (TTL)</b></td><td><b>Start: now · End: +1 tahun</b> (atau sesuai selera)</td><td>Token dengan masa berlaku = lapisan keamanan ekstra; kamu akan diingatkan sebelum kedaluwarsa. Bisa dibuat ulang kapan saja</td></tr>
+</table>
+
+<div class="step"><div class="step-num">4</div><div class="step-body">
+  <p>Klik <b>Continue to summary</b> → periksa ringkasannya → <b>Create Token</b>.</p>
+</div></div>
+
+<div class="card err">
+  <div class="card-title">🔴 PENTING: salin token SEKARANG</div>
+  <p>Cloudflare menampilkan token <b>hanya sekali</b> di layar (kotak biru "Token: …"). Klik ikon <b>copy</b> lalu simpan di password manager / file sementara. Begitu halaman ditutup, token tidak bisa dilihat lagi — harus buat baru.</p>
+</div>
+
+<h2>3. Verifikasi token dulu di lokal (disarankan, 1 menit)</h2>
+<p>Sebelum pasang di GitHub, cek token-nya bekerja. Jalankan di terminal (folder mana pun):</p>
+<pre><code># Windows PowerShell — pakai token yang barusan disalin
+$env:CLOUDFLARE_API_TOKEN = "TOKEN_YANG_BARU"
+npx wrangler whoami</code></pre>
+<p class="muted">Jika muncul nama email &amp; ID akun kamu → token valid. Jika muncul error permission, ada yang salah di Langkah 3a.</p>
+
+<h2>4. Pasang secrets di GitHub (2 menit)</h2>
+<div class="step"><div class="step-num">1</div><div class="step-body">
+  <p>Buka repo <b>achilles157/aestral</b> → tab <b>Settings</b> → sidebar kiri <b>Secrets and variables</b> → <b>Actions</b>.</p>
+</div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body">
+  <p>Klik <b>New repository secret</b>. Buat dua secret:</p>
+  <table>
+    <tr><th>Name (PERSIS)</th><th>Value</th></tr>
+    <tr><td><code>CLOUDFLARE_API_TOKEN</code></td><td>Token dari Langkah 2 (mulai dengan huruf/angka acak panjang, contoh format: <code>abc123DEF456...</code>)</td></tr>
+    <tr><td><code>CLOUDFLARE_ACCOUNT_ID</code></td><td>Account ID 32-hex dari Langkah 1</td></tr>
+  </table>
+  <p class="muted">Nama harus persis — workflow memanggil <code>secrets.CLOUDFLARE_API_TOKEN</code> dan <code>secrets.CLOUDFLARE_ACCOUNT_ID</code>.</p>
+</div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body">
+  <p>Setelah kedua secret tersimpan, buka tab <b>Actions</b> → pilih workflow <b>Deploy Worker (Cloudflare)</b> → tombol <b>Run workflow</b> → <b>Run workflow</b> (gunakan branch <code>main</code>).</p>
+</div></div>
+<div class="step"><div class="step-num">4</div><div class="step-body">
+  <p>Tunggu selesai — harusnya muncul <b>checkmark hijau</b> dan log deploy menampilkan:</p>
+  <pre><code>Uploaded aestral-backend (3.2 sec)
+Current Version ID: ...
+Deployed ... workers.dev (2.1 sec)</code></pre>
+</div></div>
+
+<h2>5. Troubleshooting</h2>
+<table>
+  <tr><th>Error</th><th>Penyebab</th><th>Solusi</th></tr>
+  <tr><td><code>In a non-interactive environment, it's necessary to set a CLOUDFLARE_API_TOKEN</code></td><td>Secret <code>CLOUDFLARE_API_TOKEN</code> belum ada / nama salah</td><td>Cek ejaan nama secret (persis, huruf besar semua)</td></tr>
+  <tr><td><code>Invalid request headers (9109)</code> / <code>Authentication error</code></td><td>Token salah salin atau sudah kedaluwarsa</td><td>Buat token baru, jalankan <code>npx wrangler whoami</code> dulu</td></tr>
+  <tr><td><code>Authorization failure. You do not have permission to perform this action</code></td><td>Permission token kurang (biasanya <code>Workers Scripts: Edit</code> hilang / salah scope)</td><td>Ulangi Langkah 3a, pastikan Account → Workers Scripts → <b>Edit</b> dan Include akun yang benar</td></tr>
+  <tr><td>Deploy sukses tapi Worker lama yang jalan</td><td>—</td><td>Cek <code>wrangler deployments list</code>; atau pakai <code>command: deploy --version-id ...</code> untuk rollback</td></tr>
+  <tr><td>Workflow tidak muncul di tab Actions</td><td>Workflow hanya terpicu oleh path tertentu</td><td>Gunakan <b>Run workflow</b> manual (workflow_dispatch) — selalu tersedia</td></tr>
+</table>
+
+<h2>6. Keamanan &amp; pemeliharaan</h2>
+<ul>
+  <li><b>Rotasi berkala:</b> buat token baru setiap ~6–12 bulan, hapus yang lama di halaman API Tokens.</li>
+  <li><b>Jangan commit token:</b> token hanya boleh hidup di GitHub Secrets dan file <code>.dev.vars</code> lokal (yang sudah di-<code>.gitignore</code>).</li>
+  <li><b>Cabut cepat:</b> kalau curiga bocor → halaman API Tokens → <b>Roll</b> (buat ulang) atau <b>Delete</b> seketika.</li>
+  <li><b>Monitoring:</b> GitHub mengirim email saat secret dipakai; Cloudflare juga mencatat aktivitas API di audit log.</li>
+</ul>
+
+<div class="card ok">
+  <div class="card-title">✅ Kriteria sukses</div>
+  <p>Workflow <b>Deploy Worker (Cloudflare)</b> hijau di tab Actions, dan <code>https://aestral-backend.aestral-backend.workers.dev/api/health</code> merespons <code>200</code> setelah setiap merge ke <code>main</code>.</p>
+</div>
+
+<div class="footer">
+  Dibuat untuk repo <b>achilles157/aestral</b> · Workflow terkait: <code>.github/workflows/deploy-worker.yml</code> · Backend: <code>aestral-backend/</code> (Wrangler 4.105+, Node 22)
+</div>
+
+</div>
+</body>
+</html>

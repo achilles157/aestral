@@ -9,7 +9,7 @@
  *   3. Prints KV namespace setup instructions
  *
  * After running, upload with:
- *   wrangler kv:key put --binding=TAROT_KV "v2:template:mangsa:cups-wands:00" --path=kv-tarot.json  (per key)
+ *   wrangler kv:key put --binding=TAROT_KV "v3:template:mangsa:cups-wands:00" --path=kv-tarot.json  (per key)
  *   OR use wrangler kv:bulk put --binding=TAROT_KV kv-tarot-bulk.json
  *
  * Generated file formats:
