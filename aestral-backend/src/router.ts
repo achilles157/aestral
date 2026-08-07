@@ -6,7 +6,7 @@ import { callGemini, callGeminiStructured, callGemmaForSummary } from './gemini'
 import { ORACLE_PERSONAS, buildOracleGreeting, type OracleType } from './oracle_prompts';
 import { buildSystemInstruction, type AiContext } from './system_prompt';
 import { isRateLimited, getRateLimitResetSeconds } from './rate_limiter';
-import { buildTarotSystemInstruction, buildTarotUserPrompt, parseTarotResponse, type TarotCardInput, type TarotReadingContext } from './tarot_reading_prompt';
+import { buildSynthesisSystemInstruction, buildTarotSystemInstruction, buildTarotUserPrompt, parseSynthesisResponse, parseTarotResponse, type TarotCardInput, type TarotReadingContext } from './tarot_reading_prompt';
 import { buildTemplateKey, buildSynthesisPrompt, type SynthesisCardInput, type SynthesisCacheEntry } from './tarot-synthesis';
 import MANGSA_THEMES from './data/mangsa-themes.json';
 import COMPATIBILITY_DATA from './data/kamus-kompatibilitas-pasangan.json';
@@ -1043,32 +1043,49 @@ async function handleTarotReading(request: Request, env: Env): Promise<Response>
 
 	try {
 		// Build compact prompt — system instruction is the full oracle personality
-		// but the user prompt is just cards + template, saving ~65% vs full prompt
-		const systemInstruction = buildTarotSystemInstruction(context);
+		// but the user prompt is just cards + template, saving ~65% vs full prompt.
+		// Label-aware: spread tematik (potensi/tantangan/arah dll) dan mangsa
+		// (energy/guidance) mendapat narasi per label asli, bukan duplikat konklusi.
+		const labels = body.cards.map((c) => c.label);
+		const isLegacyThreePosition = labels.length === 3 && labels.every((l) => l === 'past' || l === 'present' || l === 'future');
+		const systemInstruction = isLegacyThreePosition
+			? buildTarotSystemInstruction(context)
+			: buildSynthesisSystemInstruction(context, labels);
 		const userPrompt = buildTarotUserPrompt(body.cards);
 		if (!(await checkGeminiQuota(env.RATE_LIMIT_KV))) return geminiQuotaExceeded();
 		const rawResponse = await callGemini(systemInstruction, userPrompt, apiKey, env.GEMINI_MODEL);
-		const reading = parseTarotResponse(rawResponse);
 
-		// Build card readings dynamically from labels
-		const cardReadings = body.cards.map((c) => {
+		let cardReadings: Array<{ label: string; narrative: string }>;
+		let synthesis: string;
+
+		if (isLegacyThreePosition) {
+			const reading = parseTarotResponse(rawResponse);
 			const narratives: Record<string, string> = {
 				past: reading.masa_lalu,
 				present: reading.masa_kini,
 				future: reading.masa_depan,
-				energy: reading.masa_kini || reading.konklusi,
-				guidance: reading.konklusi,
 			};
-			return {
+			cardReadings = body.cards.map((c) => ({
 				label: c.label,
 				narrative: narratives[c.label] ?? reading.konklusi,
-			};
-		});
+			}));
+			synthesis = reading.konklusi;
+		} else {
+			const parsed = parseSynthesisResponse(rawResponse, labels);
+			const byLabel = new Map(parsed.cardReadings.map((r) => [r.label, r.narrative]));
+			// Setiap label mendapat narasinya sendiri; fallback hanya untuk label
+			// yang tidak dijawab Gemini — pakai synthesis, bukan duplikat antar kartu.
+			cardReadings = body.cards.map((c) => ({
+				label: c.label,
+				narrative: byLabel.get(c.label) ?? parsed.synthesis,
+			}));
+			synthesis = parsed.synthesis;
+		}
 
 		// Cache the result in KV for future identical draws
 		const cacheEntry: SynthesisCacheEntry = {
 			cardReadings,
-			synthesis: reading.konklusi,
+			synthesis,
 			cachedAt: Date.now(),
 		};
 		await env.TAROT_KV.put(templateKey, JSON.stringify(cacheEntry), {
@@ -1079,7 +1096,7 @@ async function handleTarotReading(request: Request, env: Env): Promise<Response>
 			success: true,
 			cached: false,
 			cardReadings,
-			synthesis: reading.konklusi,
+			synthesis,
 		});
 	} catch (err) {
 		const message = err instanceof Error ? err.message : 'Terjadi kesalahan pada orakel tarot.';

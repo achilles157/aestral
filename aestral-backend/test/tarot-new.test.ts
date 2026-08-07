@@ -145,7 +145,7 @@ describe('buildTemplateKey', () => {
 			{ cardIndex: 44, isReversed: false, label: 'future' },
 		];
 		const key = buildTemplateKey(cards);
-		expect(key).toMatch(/^v2:template:/);
+		expect(key).toMatch(/^v3:template:/);
 		expect(key).toContain('major');
 		expect(key).toContain('cups');
 		expect(key).toContain('wands');
@@ -230,7 +230,7 @@ describe('generateTemplate & generateAllTemplates', () => {
 			labels: ['past', 'present', 'future'],
 			elements: ['major', 'cups', 'wands'],
 		});
-		expect(tpl.seedKey).toMatch(/^v2:template:/);
+		expect(tpl.seedKey).toMatch(/^v3:template:/);
 		expect(tpl.frame).toContain('{{synthesis}}');
 		expect(tpl.label).toBeTypeOf('string');
 	});
@@ -240,7 +240,7 @@ describe('generateTemplate & generateAllTemplates', () => {
 		// 25 mangsa (5×5) + 125 birth (5×5×5) = 150
 		expect(templates.size).toBe(150);
 		for (const [key, value] of templates) {
-			expect(key).toMatch(/^v2:template:/);
+			expect(key).toMatch(/^v3:template:/);
 			const parsed = JSON.parse(value);
 			expect(parsed.seedKey).toBe(key);
 		}

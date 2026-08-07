@@ -49,9 +49,11 @@ function cardElement(idx: number): string {
 /**
  * Builds a deterministic template key from card structure.
  *
- * Key format:  v1:spread:{kind}:{elem_seq}:reversed_mask
- * Example:     v1:spread:mangsa:cups-wands:01
+ * Key format:  v3:spread:{kind}:{elem_seq}:reversed_mask
+ * Example:     v3:spread:mangsa:cups-wands:01
  *
+ * v3: label-aware narratives (per-label cardReadings) — invalidates v2 entries
+ * yang menyimpan duplikat konklusi untuk spread tematik.
  * This key is stable across redeploys — same cards + orientation = same template.
  * The generated KV key adds a version prefix so templates can be invalidated.
  */
@@ -59,7 +61,7 @@ export function buildTemplateKey(cards: SynthesisCardInput[]): string {
 	const elements = cards.map((c) => cardElement(c.cardIndex)).join('-');
 	const reversedMask = cards.map((c) => (c.isReversed ? '1' : '0')).join('');
 	const kind = cards.map((c) => c.label).sort().join('-'); // stable regardless of array order
-	return `v2:template:${kind}:${elements}:${reversedMask}`;
+	return `v3:template:${kind}:${elements}:${reversedMask}`;
 }
 
 /**
@@ -153,7 +155,7 @@ export function generateTemplate(input: TemplateGenInput): SynthesisTemplate {
 		label = `Custom ${elemParts}`;
 	}
 
-	const seedKey = `v2:template:${input.kind}:${input.elements.join('-')}:00`;
+	const seedKey = `v3:template:${input.kind}:${input.elements.join('-')}:00`;
 
 	return { label, frame, seedKey };
 }
