@@ -44,7 +44,8 @@ jobs:
       - name: Run backend tests
         run: npm test -- --run
         env:
-          GEMINI_API_KEY: placeholder-not-used-in-tests
+          # Placeholder — vitest.config.mts overrides ENVIRONMENT; real key lives in .dev.vars
+          GEMINI_API_KEY: test-placeholder-key
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3

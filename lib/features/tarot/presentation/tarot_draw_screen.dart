@@ -96,7 +96,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
         if (!mounted) return; // W25: guard against unmounted widget after async
         ref.read(drawnCardProvider.notifier).reset();
         setState(() {
-          _cardRevealedStates = [false, false, false];
+          _cardRevealedStates = List.filled(3, false);
           _activeCarouselIndex = 0;
           _oracleReading = null;
           _oracleError = false;
@@ -221,6 +221,16 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
       }).toList();
 
       ref.read(drawnCardProvider.notifier).setCards(drawnCardsList);
+
+      // Reset flip state sesuai JUMLAH kartu (2 untuk mangsa, 3 lainnya).
+      // Sebelumnya di-hardcode 3 → allFlipped tidak pernah true di mangsa,
+      // sehingga carousel detail & tombol sintesis tersembunyi selamanya.
+      setState(() {
+        _cardRevealedStates = List.filled(drawnCardsList.length, false);
+        _activeCarouselIndex = 0;
+        _oracleReading = null;
+        _oracleError = false;
+      });
 
       // Persist draw type so SeasonalSynthesisCard knows if Tarot Mangsa is available
       final effectiveDrawType = session.isMock ? 'birth' : _selectedDrawType;
