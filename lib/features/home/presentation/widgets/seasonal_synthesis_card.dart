@@ -17,6 +17,8 @@ import '../../../bazi/providers/bazi_chart_provider.dart';
 import '../../../bazi/domain/bazi_chart.dart';
 import '../../../tarot/services/tarot_data.dart';
 import '../../../weton/data/pranata_mangsa_repository.dart';
+import '../../../weton/domain/pranata_mangsa.dart';
+import '../../../learning/widgets/mangsa_detail_sheet.dart';
 
 class SeasonalSynthesisCard extends ConsumerStatefulWidget {
   const SeasonalSynthesisCard({super.key});
@@ -34,7 +36,10 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
 
   // Ba Zi season elemen for current month
   String _baziSeasonElement = '';
-  String _baziSeasonStatus = 'netral'; // 'yong' | 'ji' | 'netral'
+  String _baziSeasonStatus = 'netral';
+
+  /// Pranata Mangsa saat ini — disimpan untuk deep-link edukasi (P2-C).
+  PranataMangsaModel? _mangsaForDetail; // 'yong' | 'ji' | 'netral'
 
   @override
   void initState() {
@@ -218,6 +223,7 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
       (m) => m.id == mangsaId,
       orElse: () => mangsaList.first,
     );
+    if (mounted) setState(() => _mangsaForDetail = mangsa);
 
     // Ba Zi season
     final seasonElem = _getBaziSeasonElement();
@@ -437,7 +443,21 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
 
           // ── Footer ─────────────────────────────────────────────────
           if (_synthesis != null) ...[
-            const SizedBox(height: 10),
+            const SizedBox(height: 6),
+            // P2-C: deep-link edukasi ke detail mangsa
+            if (_mangsaForDetail != null)
+              GestureDetector(
+                onTap: () => MangsaDetailSheet.show(context, _mangsaForDetail!),
+                child: Text(
+                  '📖 Pelajari mangsa ini →',
+                  style: GoogleFonts.outfit(
+                    fontSize: 10,
+                    color: AppTheme.accentGold.withValues(alpha: 0.8),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            const SizedBox(height: 6),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

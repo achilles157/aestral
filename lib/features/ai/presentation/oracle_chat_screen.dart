@@ -190,6 +190,19 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
 
   Color get _accentColor => Color(_config.accentColor);
 
+  /// P2-B: cek apakah minimal 2 dari 3 sistem (weton, BaZi, tarot)
+  /// tersedia untuk membuka Grand Reading Sesepuh Kosmis.
+  int _getSystemsReadyCount() {
+    int count = 0;
+    final weton = ref.read(birthProfileProvider).value?.weton;
+    final drawnCards = ref.read(drawnCardProvider);
+    final baziChart = ref.read(baziChartProvider).value;
+    if (weton != null && weton.totalNeptu > 0) count++;
+    if (drawnCards != null && drawnCards.isNotEmpty) count++;
+    if (baziChart != null && baziChart.dayMasterElement.isNotEmpty) count++;
+    return count;
+  }
+
   /// Deteksi elemen/topik dari teks oracle untuk ambient glow dinamis (PRD section 4).
   Color _detectTopicColor(String text) {
     final t = text.toLowerCase();
@@ -326,7 +339,9 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                       ? _buildEmptyState()
                       : _buildMessageList(state),
                 ),
-                if (_showSesepuhHint && widget.oracleType != 'synthesis')
+                if (_showSesepuhHint &&
+                    widget.oracleType != 'synthesis' &&
+                    _getSystemsReadyCount() >= 2)
                   _buildSesepuhHint(),
                 if (isGuest &&
                     state.guestMessageCount == 0 &&
