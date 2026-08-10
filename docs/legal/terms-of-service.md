@@ -39,6 +39,17 @@ Anda memahami dan menyetujui bahwa:
 
 > ⭐ **Inti kesepakatan:** Dengan menyetujui perjanjian ini, Anda mengakui bahwa Aestral adalah media hiburan budaya, **bukan sumber kebenaran**, dan Anda tidak akan menggugat atau meminta pertanggungjawaban kami atas interpretasi yang tidak sesuai dengan kenyataan hidup Anda.
 
+### 2.3 Metodologi: Terukur, Bukan Hasil Acak
+
+Meskipun Aestral adalah layanan hiburan, **setiap hasil di dalamnya disusun dengan penuh pertimbangan** — bukan angka, kartu, atau narasi yang diacak sembarangan. Kami ingin Anda tahu apa yang ada di balik layar:
+
+1. **Basis data warisan budaya yang terdokumentasi** — perhitungan menggunakan kumpulan data dan aturan tradisional yang dapat ditelusuri, antara lain: neptu hari & pasaran, wuku, sisa bagi (sisabagi), Pranata Mangsa, pangarasan & pancasuda untuk Weton Jawa; pilar-pilar (Pillar) tahun-bulan-hari-jam beserta elemen & cabang (Stems & Branches), elemen (Wu Xing), dan kekuatan (Day Master Strength) untuk Ba Zi; serta dek Tarot standar dengan makna kartu yang konsisten.
+2. **Logika kalkulasi yang deterministik** — sebelum ada interpretasi, semua angka (neptu, sisa bagi, elemen, kekuatan pilar, kompatibilitas pasangan, dan lain-lain) dihitung dengan **rumus tetap yang dapat diaudit** dari sumber-sumber tersebut. Pengguna yang memasukkan data sama akan mendapatkan hasil perhitungan dasar yang sama.
+3. **Interpretasi personal yang disesuaikan** — narasi kemudian diolah oleh mesin (Oracle AI) berdasarkan hasil kalkulasi dan konteks yang Anda berikan, lalu disusun ulang agar relevan secara personal. Inilah bagian "pengolahan data yang kompleks + interpretasi" yang membuat setiap bacaan terasa unik.
+4. **Kendali mutu** — kalkulasi dan pemetaan makna diuji secara otomatis (regression test) di setiap rilis, sehingga konsistensi logika terjaga dari waktu ke waktu.
+
+> ℹ️ **Catatan penting:** Metodologi yang serius **tidak mengubah sifat layanan**. Sehebat apa pun logika di baliknya, hasil akhir tetaplah **interpretasi budaya untuk hiburan dan refleksi** — bukan ramalan pasti, bukan nasihat profesional, dan tidak menjamin kejadian di masa depan (lihat 2.2).
+
 ---
 
 ## 3. Kelayakan Penggunaan

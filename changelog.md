@@ -15,6 +15,7 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0.
 - Regression test spread tematik: `parseSynthesisResponse` (5 kasus), `buildSynthesisSystemInstruction` label-aware (2 kasus), `labelDisplayName` (2 kasus) — total 8 test baru di `test/tarot-thematic-synthesis.test.ts`.
 
 ### Changed
+- **ToS: tambah Seksi 2.3 "Metodologi: Terukur, Bukan Hasil Acak"** — menegaskan bahwa seluruh kalkulasi Aestral (neptu, sisa bagi, Pranata Mangsa, pangarasan/pancasuda, pilar Ba Zi, Wu Xing, Day Master Strength, dek Tarot) berbasis data & aturan tradisional terdokumentasi dengan logika deterministik yang dapat diaudit, diuji otomatis di tiap rilis, lalu diinterpretasi personal oleh Oracle AI. Disclaimer hiburan tetap berlaku (hasil akhir bukan ramalan pasti). Sinkron ke `assets/legal/`.
 - `TarotCardInput.label` diperluas dari union `past|present|future` menjadi `string` (mendukung label tematik & mangsa).
 
 ### Added
