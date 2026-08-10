@@ -7,6 +7,21 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added (Fase 2 — Lintas Tradisi & Knowledge Hub)
+
+- **P2-A: CrossContextBundle** — model agregat weton + BaZi + tarot (`cross_context_service.dart`), refactor `dashboard_sesepuh_card` & `_buildSesepuhHint` pakai bundle (hilangkan duplikasi Map manual)
+- **P2-B: Cross-oracle systemsReady guard** — Sesepuh Kosmis hint hanya muncul jika ≥2 dari 3 sistem terisi data (`_getSystemsReadyCount` di `oracle_chat_screen`)
+- **P2-C: Knowledge Hub** — halaman Pustaka Kosmis (`/knowledge-hub`) dengan 12 Pranata Mangsa detail, glosarium 30 Wuku, dan istilah kunci (Neptu, Pasaran, Pancasuda, Da Yun). Konten 100% offline dari `assets/` JSON. Deep-link edukasi dari seasonal card ("Pelajari mangsa ini")
+- **P2-D: Audit narasi Barnum 3 pilar** — tambah instruksi konteks temporal + actionability di keempat oracle prompt
+
+## [Unreleased] (sebelumnya)
+
+### Added
+- **P6 Gemini Quota Management disempurnakan (P1-A rencana 8 Agu)** — modul `gemini_quota.ts` terpisah (KV counter harian, fail-open saat KV error, TTL tengah malam UTC, limit via env `GEMINI_DAILY_LIMIT` default 480), respons 503 terstandar `code: ORACLE_REST` + `retryAfterSeconds` di 4 endpoint AI (`/api/chat`, `/api/tarot/reading`, `/api/bazi/insight`, `/api/oracle/chat`).
+- **`OracleRestException` + parser `parseServiceError`** (frontend) — pengganti deteksi string `GEMINI_QUOTA:` yang rapuh; 503 quota **tidak lagi masuk retry loop** `_withRetry` (retry boros kuota); `retryAfterSeconds` dipakai untuk hitung mundur.
+- **`OracleRestDialog` on-brand** — modal mystical (tema kosmis) dengan pesan "Sesepuh Sedang Beristirahat" + hitung mundur, terpasang di 9 screen AI (oracle chat, BaZi ×5, weton ×3, tarot, seasonal).
+- **Test baru** — backend `test/gemini_quota.test.ts` (12 kasus: limit, exhausted, fail-open, reset harian); Flutter test parser 503, `OracleRestException` (countdown label), widget dialog.
+
 ### Fixed
 - **Tarot Tematik: narasi sintesis duplikat konklusi untuk semua kartu** — label tematik (potensi/tantangan/arah, daya_tarik/bayangan/langkah, dst.) tidak dikenali map narasi sehingga semua kartu mendapat teks konklusi yang sama. Sekarang: prompt Gemini label-aware (narasi per label asli), parser baru `parseSynthesisResponse`, dan mapping per-kartu dengan fallback hanya untuk label yang tak dijawab. Cache KV di-bump `v2→v3` agar hasil salah yang ter-cache 24 jam langsung invalid.
 - **Test integrasi backend menggantung/timeout saat kuota Gemini harian habis** — `GEMINI_API_KEY` kini di-override jadi placeholder di vitest.config sehingga handler balas 503 cepat tanpa menyentuh jaringan (flaky pre-existing dihilangkan).
