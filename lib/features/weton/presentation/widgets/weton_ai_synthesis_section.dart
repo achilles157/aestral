@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/services/api_service.dart';
+import '../../../../core/widgets/oracle_rest_dialog.dart';
 import '../../../../core/utils/weton_utils.dart';
 import '../../../../features/auth/services/auth_service.dart';
 import '../../services/weton_dictionary_service.dart';
@@ -157,7 +158,10 @@ class _WetonAiSynthesisSectionState
       }
     } catch (e) {
       debugPrint('WetonAiSynthesisSection error: $e');
-      if (mounted) setState(() => _error = 'Gagal memuat — coba lagi.');
+      if (context.mounted) {
+        OracleRestDialog.showIfOracleRest(context, e);
+      }
+      if (mounted) setState(() => _error = 'Gagal memuat - coba lagi.');
     } finally {
       if (mounted) setState(() => _loading = false);
     }

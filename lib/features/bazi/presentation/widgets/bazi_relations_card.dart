@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/services/api_service.dart';
 import '../../../../core/widgets/glass_card.dart';
+import '../../../../core/widgets/oracle_rest_dialog.dart';
 import '../../../../features/auth/services/auth_service.dart';
 import '../../domain/bazi_chart.dart';
 import 'bazi_pillar_column.dart' show kBaziElementColors;
@@ -29,11 +30,11 @@ const Map<String, String> _kClashNarrative = {
   '2_3':
       'Identitas diri & hubungan (Pilar Hari) berbenturan dengan aspirasi batin terdalam (Pilar Jam). Konflik antara siapa Anda di mata dunia vs. siapa Anda di keheningan.',
   '0_4':
-      'Energi tahun ini (流年) bertabrakan dengan pola sosial & warisan Anda. Tahun penuh tekanan transformatif — lebih baik melepas daripada bertahan.',
+      'Energi tahun ini (流年) bertabrakan dengan pola sosial & warisan Anda. Tahun penuh tekanan transformatif - lebih baik melepas daripada bertahan.',
   '1_4':
       'Energi tahun ini (流年) berbenturan dengan jalur karier Anda. Hindari keputusan besar soal pekerjaan, fokus pada evaluasi & penyesuaian.',
   '2_4':
-      'Energi tahun ini (流年) bertabrakan dengan inti diri Anda. Tahun yang menantang untuk hubungan intim — prioritaskan komunikasi jujur.',
+      'Energi tahun ini (流年) bertabrakan dengan inti diri Anda. Tahun yang menantang untuk hubungan intim - prioritaskan komunikasi jujur.',
   '3_4':
       'Energi tahun ini (流年) berbenturan dengan suara batin Anda. Jaga kesehatan mental, kurangi komitmen baru.',
 };
@@ -41,25 +42,25 @@ const Map<String, String> _kClashNarrative = {
 /// Narasi psikologis untuk Six Harmony (六合) per kombinasi indeks pilar.
 const Map<String, String> _kHarmonyNarrative = {
   '0_1':
-      'Warisan sosial & karier Anda mengalir harmonis. Keluarga mendukung ambisi profesional — energi ini memperkuat reputasi jangka panjang.',
+      'Warisan sosial & karier Anda mengalir harmonis. Keluarga mendukung ambisi profesional - energi ini memperkuat reputasi jangka panjang.',
   '0_2':
-      'Latar belakang & identitas inti selaras sempurna. Siapa Anda "di luar" konsisten dengan siapa Anda "di dalam" — fondasi kepercayaan diri yang kuat.',
+      'Latar belakang & identitas inti selaras sempurna. Siapa Anda "di luar" konsisten dengan siapa Anda "di dalam" - fondasi kepercayaan diri yang kuat.',
   '0_3':
-      'Nilai keluarga & suara batin Anda berjalan seirama. Intuisi dan naluri selaras dengan warisan leluhur — bakat alami mengalir bebas.',
+      'Nilai keluarga & suara batin Anda berjalan seirama. Intuisi dan naluri selaras dengan warisan leluhur - bakat alami mengalir bebas.',
   '1_2':
-      'Karier & identitas diri bersinergi. Pekerjaan Anda adalah ekspresi otentik diri — langka dan berharga. Lingkungan kerja mendukung pertumbuhan pribadi.',
+      'Karier & identitas diri bersinergi. Pekerjaan Anda adalah ekspresi otentik diri - langka dan berharga. Lingkungan kerja mendukung pertumbuhan pribadi.',
   '1_3':
-      'Ambisi karier & kreativitas batin bergandengan tangan. Ide-ide terbaik Anda justru datang saat bekerja — inovasi dan produktivitas terhubung erat.',
+      'Ambisi karier & kreativitas batin bergandengan tangan. Ide-ide terbaik Anda justru datang saat bekerja - inovasi dan produktivitas terhubung erat.',
   '2_3':
-      'Hubungan intim & kehidupan batin selaras dalam. Pasangan atau orang terdekat memahami sisi paling murni Anda — koneksi emosional sangat dalam.',
+      'Hubungan intim & kehidupan batin selaras dalam. Pasangan atau orang terdekat memahami sisi paling murni Anda - koneksi emosional sangat dalam.',
   '0_4':
       'Energi tahun ini (流年) bersinergi dengan pola sosial Anda. Tahun yang baik untuk mempererat hubungan keluarga dan memperluas jaringan.',
   '1_4':
-      'Energi tahun ini (流年) mendukung karier Anda. Peluang profesional mengalir lancar — waktu yang tepat untuk negosiasi dan kolaborasi.',
+      'Energi tahun ini (流年) mendukung karier Anda. Peluang profesional mengalir lancar - waktu yang tepat untuk negosiasi dan kolaborasi.',
   '2_4':
-      'Energi tahun ini (流年) harmonis dengan inti diri Anda. Hubungan intim berkembang positif — komunikasi dan kedekatan emosional meningkat.',
+      'Energi tahun ini (流年) harmonis dengan inti diri Anda. Hubungan intim berkembang positif - komunikasi dan kedekatan emosional meningkat.',
   '3_4':
-      'Energi tahun ini (流年) selaras dengan batin Anda. Kreativitas dan intuisi berada di puncak — waktu terbaik untuk proyek personal.',
+      'Energi tahun ini (流年) selaras dengan batin Anda. Kreativitas dan intuisi berada di puncak - waktu terbaik untuk proyek personal.',
 };
 
 String? _clashNarrative(int a, int b) {
@@ -113,7 +114,7 @@ class BaziBranchRelationsCard extends StatelessWidget {
           if (relations.clashes.isNotEmpty) ...[
             _sectionLabel('六冲 · Six Clashes', const Color(0xFFF87171)),
             _helpText(
-              'Oposisi langsung antara dua zodiak. Menciptakan tekanan atau perubahan mendadak di area pilar yang terlibat — bukan kutukan, sering justru pemicu transformasi terbesar.',
+              'Oposisi langsung antara dua zodiak. Menciptakan tekanan atau perubahan mendadak di area pilar yang terlibat - bukan kutukan, sering justru pemicu transformasi terbesar.',
             ),
             ...relations.clashes.map((c) => _clashRow(c)),
             const SizedBox(height: 14),
@@ -123,7 +124,7 @@ class BaziBranchRelationsCard extends StatelessWidget {
           if (relations.harmonies.isNotEmpty) ...[
             _sectionLabel('六合 · Six Harmonies', AppTheme.accentGold),
             _helpText(
-              'Pasangan alami yang sangat selaras — dua zodiak yang berpasangan mengalirkan energi lancar di area pilar yang diwakilinya.',
+              'Pasangan alami yang sangat selaras - dua zodiak yang berpasangan mengalirkan energi lancar di area pilar yang diwakilinya.',
             ),
             ...relations.harmonies.map((h) => _harmonyRow(h)),
             const SizedBox(height: 14),
@@ -142,7 +143,7 @@ class BaziBranchRelationsCard extends StatelessWidget {
           // ── Empty Branches 空亡 ─────────────────────────────────────────
           _sectionLabel('空亡 · Empty Branches', AppTheme.textMuted),
           _helpText(
-            'Zona kosong spiritual — area kehidupan di mana ambisi materi perlu dilepaskan. Paradoksnya, melepas di area ini justru membuka jalan kebijaksanaan dan kedamaian batin.',
+            'Zona kosong spiritual - area kehidupan di mana ambisi materi perlu dilepaskan. Paradoksnya, melepas di area ini justru membuka jalan kebijaksanaan dan kedamaian batin.',
           ),
           const SizedBox(height: 8),
           _emptyBranchesRow(),
@@ -455,7 +456,7 @@ class _BranchRelationsAiSectionState
   bool _loading = false;
   String? _error;
 
-  /// Deterministik: sorted clash pairs digabung — sama untuk chart yang sama.
+  /// Deterministik: sorted clash pairs digabung - sama untuk chart yang sama.
   static String _cacheKey(
     String dmId,
     BaziRelations relations,
@@ -476,7 +477,7 @@ class _BranchRelationsAiSectionState
   }
 
   String _buildPrompt() {
-    // Compact format — labels only, no full narratives, stays under 600 char
+    // Compact format - labels only, no full narratives, stays under 600 char
     final clashDesc = widget.relations.clashes
         .map((c) {
           final ia = c.indexA.clamp(0, 4); // clamp 0-4: include index 4 = 流年
@@ -548,7 +549,10 @@ class _BranchRelationsAiSectionState
       }
     } catch (e) {
       debugPrint('_BranchRelationsAiSection error: $e');
-      if (mounted) setState(() => _error = 'Gagal memuat — coba lagi.');
+      if (context.mounted) {
+        OracleRestDialog.showIfOracleRest(context, e);
+      }
+      if (mounted) setState(() => _error = 'Gagal memuat - coba lagi.');
     } finally {
       if (mounted) setState(() => _loading = false);
     }

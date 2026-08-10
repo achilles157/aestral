@@ -9,6 +9,7 @@ import '../services/tarot_data.dart';
 import '../models/tarot_card.dart';
 import '../providers/tarot_language_provider.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/widgets/oracle_rest_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/tarot_card_display.dart';
 import 'widgets/tiltable_tarot_card.dart';
@@ -359,6 +360,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
     } catch (e) {
       debugPrint('Oracle tarot reading error: $e');
       if (!mounted) return;
+      OracleRestDialog.showIfOracleRest(context, e);
       setState(() {
         _isOracleLoading = false;
         _oracleError = true;

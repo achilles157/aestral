@@ -43,7 +43,9 @@
 		// Update with your production Flutter web domain(s).
 		"ALLOWED_ORIGINS": "https://aestral.web.app,https://aestral.firebaseapp.com",
 		// Gemini model ID — override to switch models without code change
-		"GEMINI_MODEL": "gemini-3.1-flash-lite"
+		"GEMINI_MODEL": "gemini-3.1-flash-lite",
+		// Gemini daily quota (buffer dari 500 RPD free tier)
+		"GEMINI_DAILY_LIMIT": 480
 	},
 	/**
 	 * KV Namespaces

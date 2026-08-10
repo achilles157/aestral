@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/chat_message.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/services/analytics_service.dart';
+import '../../../core/errors/oracle_rest_exception.dart';
 
 // ── Konfigurasi per Oracle Type ─────────────────────────────────────────────
 
@@ -350,14 +351,14 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
       bool isRateLimit = false;
       int rateLimitSec = 0;
 
-      if (errStr.contains('RATE_LIMIT:')) {
+      if (e is OracleRestException) {
+        // Kuota Gemini harian habis — pesan ramah, bukan error generik.
+        userMsg2 = e.friendlyMessage;
+      } else if (errStr.contains('RATE_LIMIT:')) {
         isRateLimit = true;
         rateLimitSec = int.tryParse(errStr.split('RATE_LIMIT:').last) ?? 60;
         userMsg2 =
             'Oracle sedang bermeditasi. Coba lagi dalam $rateLimitSec detik.';
-      } else if (errStr.contains('GEMINI_QUOTA:')) {
-        userMsg2 =
-            'Bintang-bintang sudah terlalu banyak berbicara hari ini. Oracle akan kembali besok.';
       } else {
         userMsg2 =
             'Koneksi ke dunia kosmis terputus. Oracle akan kembali segera.';

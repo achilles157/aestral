@@ -5,6 +5,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/weton_utils.dart';
 import '../../../../core/utils/bazi_utils.dart';
 import '../../../../core/widgets/glass_card.dart';
+import '../../../../core/widgets/oracle_rest_dialog.dart';
 import '../../../../core/services/api_service.dart';
 import '../../../../core/services/daily_synthesis_service.dart';
 import '../../../../core/providers/birth_profile_provider.dart';
@@ -134,6 +135,9 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
       await _generate(profile, mangsaId, isKosmis, wetonId);
     } catch (e) {
       debugPrint('SeasonalSynthesisCard._load error: $e');
+      if (context.mounted) {
+        OracleRestDialog.showIfOracleRest(context, e);
+      }
       if (mounted) setState(() => _error = true);
     } finally {
       if (mounted) setState(() => _loading = false);

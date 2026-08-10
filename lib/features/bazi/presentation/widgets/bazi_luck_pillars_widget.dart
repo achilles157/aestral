@@ -8,6 +8,7 @@ import '../../domain/bazi_chart.dart';
 import 'bazi_pillar_column.dart' show kBaziElementColors;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/services/api_service.dart';
+import '../../../../core/errors/oracle_rest_exception.dart';
 import '../../../../features/auth/services/auth_service.dart';
 import '../../../../core/providers/birth_profile_provider.dart';
 
@@ -364,10 +365,9 @@ class _BaziLuckPillarsWidgetState extends ConsumerState<BaziLuckPillarsWidget> {
     } catch (e) {
       debugPrint('BaziLuckPillarsWidget._generateAiReading error: $e');
       final msg = e.toString();
-      final errMsg =
-          (msg.contains('gemini_quota') ||
-              msg.contains('RATE_LIMIT') ||
-              msg.contains('503'))
+      final errMsg = (e is OracleRestException)
+          ? 'Oracle sedang beristirahat — kapasitas kosmis hari ini sudah penuh. Kembali besok.'
+          : (msg.contains('RATE_LIMIT') || msg.contains('503'))
           ? 'Oracle sedang istirahat. Coba lagi sebentar.'
           : msg.contains('TimeoutException') || msg.contains('timeout')
           ? 'Koneksi timeout. Coba lagi.'
