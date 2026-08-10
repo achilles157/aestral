@@ -6,6 +6,7 @@ import '../../../../core/utils/weton_utils.dart';
 import '../../../../core/utils/bazi_utils.dart';
 import '../../../../core/widgets/glass_card.dart';
 import '../../../../core/widgets/oracle_rest_dialog.dart';
+import '../../../ai/presentation/oracle_chat_screen.dart';
 import '../../../../core/services/api_service.dart';
 import '../../../../core/services/daily_synthesis_service.dart';
 import '../../../../core/providers/birth_profile_provider.dart';
@@ -100,6 +101,62 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
     } catch (_) {
       return luckPillars.isNotEmpty ? luckPillars.first : null;
     }
+  }
+
+  /// Navigasi ke Sesepuh Kosmis dengan konteks seasonal synthesis pre-filled.
+  Future<void> _navigateToSesepuhKosmis() async {
+    final profile = ref.read(birthProfileProvider).value;
+    if (profile?.dobDate == null) return;
+
+    // Ambil data mangsa dari provider (cached)
+    final mangsaList = await ref.read(pranataMangsaListProvider.future);
+    final mangsaId = WetonUtils.calculatePranataMangsaId(DateTime.now());
+    final mangsa = mangsaList.firstWhere(
+      (m) => m.id == mangsaId,
+      orElse: () => mangsaList.first,
+    );
+
+    // Bangun label Da Yun
+    String? daYunLabel;
+    final baziChart = ref.read(baziChartProvider).value;
+    if (baziChart != null && profile?.dobDate != null) {
+      final daYun = _getActiveLuckPillar(
+        baziChart,
+        profile!.dobDate!,
+        profile.gender,
+      );
+      if (daYun != null) {
+        daYunLabel =
+            '${daYun.pillar.stemNameId} ${daYun.pillar.branchZodiacId}'
+            ' — usia ${daYun.startAge}–${daYun.endAge}';
+      }
+    }
+
+    // Simpan konteks seasonal ke provider → dibaca OracleChatScreen
+    ref
+        .read(seasonalSynthesisContextProvider.notifier)
+        .set(
+          SeasonalSynthesisContext(
+            mangsaId: mangsaId,
+            mangsaName: mangsa.namaMangsa,
+            seasonElement: _baziSeasonElement,
+            synthesisSummary: _synthesis ?? '',
+            dayMasterElement: baziChart?.dayMasterElement,
+            daYunLabel: daYunLabel,
+            mangsaArketipe: mangsa.arketipeModern,
+          ),
+        );
+
+    // Auth & navigasi ke Sesepuh Kosmis
+    final authHeader = await ref.read(authProvider.notifier).getAuthHeader();
+    if (!mounted) return;
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) =>
+            OracleChatScreen(oracleType: 'synthesis', authHeader: authHeader),
+      ),
+    );
   }
 
   Future<void> _load() async {
@@ -395,7 +452,7 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => ref.read(activeTabProvider.notifier).setTab(0),
+                  onTap: _navigateToSesepuhKosmis,
                   child: Text(
                     'Perdalam dengan Sesepuh →',
                     style: GoogleFonts.outfit(

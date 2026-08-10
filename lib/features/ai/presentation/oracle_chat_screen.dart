@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/providers/birth_profile_provider.dart';
+import '../../../core/providers/shell_providers.dart';
 import '../providers/oracle_chat_provider.dart';
 import '../../tarot/services/tarot_data.dart';
 import 'oracle_card_widgets.dart';
@@ -72,16 +73,56 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
         final dynamicAuthHeader = await ref
             .read(authProvider.notifier)
             .getAuthHeader();
+
+        // P1-D: cek apakah user datang dari seasonal synthesis card —
+        // ganti greeting generic dengan prompt kontekstual pre-filled.
+        final seasonalCtx = ref.read(seasonalSynthesisContextProvider);
+        final prompt = seasonalCtx != null
+            ? _buildSeasonalPrompt(seasonalCtx)
+            : 'Halo';
+
         ref
             .read(oracleChatProvider(widget.oracleType).notifier)
             .sendMessage(
-              prompt: 'Halo',
+              prompt: prompt,
               authHeader: dynamicAuthHeader,
               context: widget.aiContext,
               isSilent: true,
             );
+
+        // Hapus konteks seasonal setelah dipakai (single-use).
+        if (seasonalCtx != null) {
+          ref.read(seasonalSynthesisContextProvider.notifier).clear();
+        }
       }
     });
+  }
+
+  /// Bangun prompt kontekstual dari seasonal synthesis card (P1-D).
+  /// Dipakai sebagai auto-send greeting saat user datang dari seasonal card.
+  String _buildSeasonalPrompt(SeasonalSynthesisContext ctx) {
+    final buf = StringBuffer('Sesepuh, ');
+    buf.write('dalam ${ctx.mangsaName}');
+    if (ctx.mangsaArketipe != null) {
+      buf.write(' (${ctx.mangsaArketipe})');
+    }
+    if (ctx.seasonElement.isNotEmpty) {
+      buf.write(', elemen ${ctx.seasonElement} mendominasi');
+    }
+    if (ctx.dayMasterElement != null) {
+      buf.write(' dan Day Master-ku adalah ${ctx.dayMasterElement}');
+    }
+    if (ctx.daYunLabel != null) {
+      buf.write(' — Da Yun-ku saat ini ${ctx.daYunLabel}');
+    }
+    buf.write('. ');
+    if (ctx.synthesisSummary.isNotEmpty) {
+      // Ambil kalimat pertama synthesis sebagai ringkasan
+      final firstSentence = ctx.synthesisSummary.split('. ').first;
+      buf.write('Sintesis kosmis menunjukkan: $firstSentence. ');
+    }
+    buf.write('Apa benang merahnya?');
+    return buf.toString();
   }
 
   @override
