@@ -104,6 +104,16 @@ service cloud.firestore {
       match /bazi_history/{historyId} {
         allow read, write: if isOwner(userId);
       }
+
+      // Oracle chat history: /users/{userId}/oracle_chat_history/{historyId}
+      match /oracle_chat_history/{historyId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Consent logs (PDP UU 27/2022): /users/{userId}/consents/{consentId}
+      match /consents/{consentId} {
+        allow read, write: if isOwner(userId);
+      }
     }
     
     
