@@ -8,6 +8,8 @@ import '../../../core/providers/birth_profile_provider.dart';
 import '../../../core/providers/shell_providers.dart';
 import '../providers/oracle_chat_provider.dart';
 import '../../tarot/services/tarot_data.dart';
+import '../../../core/services/cross_context_service.dart';
+import '../../bazi/providers/bazi_chart_provider.dart';
 import 'oracle_card_widgets.dart';
 import '../../auth/services/auth_service.dart';
 import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
@@ -498,39 +500,42 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
   Widget _buildSesepuhHint() {
     return GestureDetector(
       onTap: () {
-        // Build synthesis context from all available data sources
+        // P2-A: bangun konteks lintas tradisi via CrossContextService
         final weton = ref.read(birthProfileProvider).value?.weton;
         final drawnCards = ref.read(drawnCardProvider);
+        final baziChart = ref.read(baziChartProvider).value;
 
-        final synthesisContext = <String, dynamic>{
-          // Merge current oracle's context (may contain weton or bazi data)
-          if (widget.aiContext != null) ...widget.aiContext!,
-          // Ensure weton is always present if available from profile
-          if (weton != null)
-            'wetonLahir': {
-              'nama': '${weton.saptawara} ${weton.pancawara}',
-              'neptu': weton.totalNeptu,
-              'elemen': '',
-              'karakter': weton.characterSummary,
-            },
-          if (weton != null && weton.pangarasan.isNotEmpty)
-            'pangarasan': weton.pangarasan,
-          // Tarot cards from global draw state
-          if (drawnCards != null && drawnCards.isNotEmpty)
-            'tarotCards': drawnCards
-                .map(
-                  (c) => {
-                    'name': c.card.nameId,
-                    'label': c.label,
-                    'isReversed': c.isReversed,
-                    'archetype': c.card.archetypeId,
-                    'element': c.card.elementalId,
-                    'aiHook': c.card.aiHookId,
-                    'keywords': c.card.keywordsId,
-                  },
+        final bundle = CrossContextBundle(
+          weton: weton != null
+              ? WetonContext(
+                  label: '${weton.saptawara} ${weton.pancawara}',
+                  neptu: weton.totalNeptu,
+                  characterSummary: weton.characterSummary,
+                  pangarasan: weton.pangarasan,
                 )
-                .toList(),
-        };
+              : const WetonContext(label: '', neptu: 0, characterSummary: ''),
+          bazi: baziChart != null
+              ? BaziContext(
+                  dayMasterElement: baziChart.dayMasterElement,
+                  dmStrengthLabel: baziChart.dmStrength.label,
+                )
+              : const BaziContext(dayMasterElement: '', dmStrengthLabel: ''),
+          tarot: drawnCards != null && drawnCards.isNotEmpty
+              ? TarotContext(
+                  cards: drawnCards
+                      .map(
+                        (c) => TarotCardContext(
+                          name: c.card.nameId,
+                          archetype: c.card.archetypeId,
+                          element: c.card.elementalId,
+                          label: c.label,
+                          isReversed: c.isReversed,
+                        ),
+                      )
+                      .toList(),
+                )
+              : const TarotContext(),
+        );
 
         ref.read(authProvider.notifier).getAuthHeader().then((
           dynamicAuthHeader,
@@ -541,7 +546,7 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                 builder: (_) => OracleChatScreen(
                   oracleType: 'synthesis',
                   authHeader: dynamicAuthHeader,
-                  aiContext: synthesisContext.isEmpty ? null : synthesisContext,
+                  aiContext: bundle.toAiContext(),
                 ),
               ),
             );
