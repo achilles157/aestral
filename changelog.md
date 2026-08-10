@@ -7,7 +7,19 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+- **Tarot Tematik: narasi sintesis duplikat konklusi untuk semua kartu** — label tematik (potensi/tantangan/arah, daya_tarik/bayangan/langkah, dst.) tidak dikenali map narasi sehingga semua kartu mendapat teks konklusi yang sama. Sekarang: prompt Gemini label-aware (narasi per label asli), parser baru `parseSynthesisResponse`, dan mapping per-kartu dengan fallback hanya untuk label yang tak dijawab. Cache KV di-bump `v2→v3` agar hasil salah yang ter-cache 24 jam langsung invalid.
+- **Test integrasi backend menggantung/timeout saat kuota Gemini harian habis** — `GEMINI_API_KEY` kini di-override jadi placeholder di vitest.config sehingga handler balas 503 cepat tanpa menyentuh jaringan (flaky pre-existing dihilangkan).
+
 ### Added
+- Regression test spread tematik: `parseSynthesisResponse` (5 kasus), `buildSynthesisSystemInstruction` label-aware (2 kasus), `labelDisplayName` (2 kasus) — total 8 test baru di `test/tarot-thematic-synthesis.test.ts`.
+
+### Changed
+- `TarotCardInput.label` diperluas dari union `past|present|future` menjadi `string` (mendukung label tematik & mangsa).
+
+### Added
+- **Halaman Kebijakan Privasi & Syarat Layanan di dalam aplikasi** — `LegalScreen` baru di `lib/features/legal/` merender markdown dari `assets/legal/` (satu sumber dengan `docs/legal/`), dengan link di `DashboardFooter`. Dokumen berbahasa Indonesia, sadar UU PDP, dan disclaimer tegas bahwa Aestral adalah layanan hiburan/warisan budaya (bukan nasihat profesional, hasil tidak 100% akurat).
+- **Font Cinzel & Outfit di-bundle sebagai asset** (`assets/fonts/`) — web app tidak lagi fetch font dari Google saat runtime (loading lebih cepat, offline-friendly, tidak ada flicker teks).
 - Seasonal Synthesis Card dengan granularitas Pranata Mangsa
 - Ba Zi Annual Pillar AI narrative — tap-to-generate
 - Ba Zi Branch Relations psychological narrative per pillar-pair (offline)
