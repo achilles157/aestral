@@ -14,6 +14,13 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0.
 - **P2-C: Knowledge Hub** — halaman Pustaka Kosmis (`/knowledge-hub`) dengan 12 Pranata Mangsa detail, glosarium 30 Wuku, dan istilah kunci (Neptu, Pasaran, Pancasuda, Da Yun). Konten 100% offline dari `assets/` JSON. Deep-link edukasi dari seasonal card ("Pelajari mangsa ini")
 - **P2-D: Audit narasi Barnum 3 pilar** — tambah instruksi konteks temporal + actionability di keempat oracle prompt
 
+### Added (Fase 3 — Kepatuhan PDP UU 27/2022)
+
+- **P3-A: Consent Management** — model `ConsentLog` + `ConsentService` (Firestore/SharedPreferences), `ConsentOnboardingScreen` dengan 3 izin eksplisit (pemrosesan data, penyimpanan riwayat, analitik opsional), `ConsentGate` di startup app
+- **P3-B: Hak Subjek Data** — `deleteAccount()` di `AuthNotifier` dengan urutan hapus Firestore → revoke consent → delete auth, `DeleteAccountDialog` konfirmasi 2 langkah (ketik "HAPUS")
+- **P3-D: Disclaimer & Privacy** — `AiDisclaimerFooter` reusable di setiap bubble chat AI, `PrivacyPolicyScreen` statis (10 pasal, bahasa Indonesia)
+- **P3-E: Security Hardening** — audit `firestore.rules`: tambah subcollection `consents` + `oracle_chat_history` dengan isolasi `isOwner`, verifikasi `.dev.vars` sudah di `.gitignore`
+
 ## [Unreleased] (sebelumnya)
 
 ### Added
