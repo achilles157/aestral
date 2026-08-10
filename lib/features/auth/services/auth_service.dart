@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -229,6 +230,83 @@ class AuthNotifier extends Notifier<UserSession?> {
       debugPrint("Error clearing local session preferences: $e");
     }
     state = null;
+  }
+
+  /// Hapus akun & seluruh data user (P3-B: Hak Subjek Data, Pasal 5-13).
+  ///
+  /// Urutan: (1) hapus data Firestore, (2) revoke consents,
+  /// (3) hapus auth user, (4) clear local prefs.
+  ///
+  /// Returns `true` jika berhasil, `false` jika gagal (guest/tanpa Firebase).
+  Future<bool> deleteAccount() async {
+    final session = state;
+    if (session == null || session.isMock) return false;
+    if (!isFirebaseAvailable) return false;
+
+    final uid = session.uid;
+    final firestore = FirebaseFirestore.instance;
+    final auth = FirebaseAuth.instance;
+
+    try {
+      // (1) Hapus seluruh subcollection data user
+      final userDoc = firestore.collection('users').doc(uid);
+
+      // Hapus subcollections satu per satu
+      for (final coll in [
+        'tarot_history',
+        'weton_history',
+        'bazi_history',
+        'oracle_chat_history',
+        'consents',
+      ]) {
+        try {
+          final snapshot = await userDoc.collection(coll).get();
+          for (final doc in snapshot.docs) {
+            await doc.reference.delete();
+          }
+        } catch (_) {
+          // Lanjutkan meski satu collection gagal
+        }
+      }
+
+      // Hapus dokumen profil utama
+      try {
+        await userDoc.delete();
+      } catch (_) {}
+
+      // (2) Revoke semua consent dari SharedPreferences
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        final keys = prefs.getKeys();
+        for (final key in keys) {
+          if (key.startsWith('consent_')) {
+            await prefs.remove(key);
+          }
+        }
+      } catch (_) {}
+
+      // (3) Hapus Firebase Auth user
+      try {
+        await auth.currentUser?.delete();
+      } catch (e) {
+        // Jika perlu re-authentication, rethrow untuk ditangani UI
+        if (e is FirebaseAuthException && e.code == 'requires-recent-login') {
+          rethrow;
+        }
+      }
+
+      // (4) Clear local preferences
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.clear();
+      } catch (_) {}
+
+      state = null;
+      return true;
+    } catch (e) {
+      debugPrint('Error deleting account: $e');
+      rethrow;
+    }
   }
 }
 

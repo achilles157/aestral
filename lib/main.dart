@@ -18,6 +18,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'core/providers/birth_profile_provider.dart';
 import 'core/providers/shell_providers.dart';
 import 'core/services/analytics_service.dart';
+import 'core/widgets/consent_gate.dart';
 
 import 'firebase_options.dart';
 
@@ -106,7 +107,7 @@ class MyApp extends ConsumerWidget {
               profileAsync.value?.dobDate == null &&
               !profileAsync.hasError)
         ? const OnboardingScreen()
-        : const MainShell();
+        : const ConsentGate(child: MainShell());
 
     return MaterialApp(
       title: 'Aestral',
