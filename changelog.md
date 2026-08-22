@@ -21,6 +21,27 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0.
 - **P3-D: Disclaimer & Privacy** — `AiDisclaimerFooter` reusable di setiap bubble chat AI, `PrivacyPolicyScreen` statis (10 pasal, bahasa Indonesia)
 - **P3-E: Security Hardening** — audit `firestore.rules`: tambah subcollection `consents` + `oracle_chat_history` dengan isolasi `isOwner`, verifikasi `.dev.vars` sudah di `.gitignore`
 
+### Added (Penyesuaian Konten Astrologi — 21 Agu)
+
+- **Glosarium Astrologi** — asset `assets/glosarium.json` (28 istilah: Neptu, Pasaran, Pancasuda, Pangarasan, Wu Xing, Day Master, Da Yun, 10 Gods, suit Tarot, dll.) + model `GlosariumItem` + widget `GlosariumSheet` (searchable + filter per domain) yang menggantikan daftar "Istilah Kunci" hardcoded di Knowledge Hub.
+- **Tarot Tematik: konteks area** — endpoint `/api/tarot/reading` kini menerima `area`; prompt sintesis menyuntik blok `KONTEKS AREA PEMBACAAN` spesifik per kategori (karir/asmara/keuangan/spiritual/kesehatan) + `LABEL_DESC` dipertajam ke kata kunci kategori (mis. keuangan → pendapatan, pengeluaran, tabungan, investasi, utang).
+
+### Changed (Penyesuaian Konten Astrologi — 21 Agu)
+
+- **Kurangi filosofi abstrak pada prompt Oracle** — identitas "pandita kosmis/puitis mistis" di `system_prompt.ts` diganti arahan bahasa sehari-hari + wajib terjemahkan istilah astrologi; izin "sesekali filosofis/metafora" dihapus di 4 persona `oracle_prompts.ts`; heading "ENERGI KOSMIS" & "teman kosmis" di `tarot_reading_prompt.ts` dinetralkan; frame template tarot ("kompas kosmis", "getaran periode") di `tarot-synthesis.ts` diganti bahasa netral.
+- **Cache key tarot `v3→v4`** — `buildTemplateKey` kini menyertakan `nameId` (identitas kartu) dan `area` (memperbaiki bug `cardIndex` selalu 0 yang membuat cache KV kolaps ke `major-major-major`).
+
+### Fixed (Penyesuaian Konten Astrologi — 21 Agu)
+
+- **Bias Major Arcana spiritual/kesehatan tidak bekerja** — `getElementRange` tidak punya case `'major'` sehingga jatuh ke `default [0,77]` (seluruh dek); kini `'major'` dipetakan ke `[0,21]`.
+- **`ReferenceError: currentMangsa is not defined`** — placeholder `${currentMangsa}`/`${currentWuku}`/`${currentYear}`/`${currentMangsaTema}` di `oracle_prompts.ts` dievaluasi sebagai template literal (undefined) sehingga modul gagal dimuat; kini di-escape jadi `\${...}` (placeholder literal).
+- **Frontend Tarot Tematik** — `_generateOracleReading` kini mengirim `area` + `areaLabel` + `cardIndex` ke `/api/tarot/reading`.
+- **Hari Baik: hari "stabil" polos tidak pernah tampil** — base skor `_scoreStabil` dinaikkan 10 → 30 agar hari "Operasional Stabil" lolos threshold "cukup baik" (30) tanpa menghilangkan penyaringan hari dengan omen negatif (wuku/mangsa rawan, clash). Tambah 6 unit test `HariBaikScorer`.
+
+### Test (Penyesuaian Konten Astrologi — 21 Agu)
+
+- **`test/tarot-thematic-area.test.ts`** — 6 test baru (konteks area keuangan, `buildAreaContextBlock`, `getElementRange('major')`, key berbeda antar area/kartu). Update `tarot-new.test.ts` (v3→v4).
+
 ## [Unreleased] (sebelumnya)
 
 ### Added
