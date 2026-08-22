@@ -6,6 +6,7 @@ import '../../../core/widgets/glass_card.dart';
 import '../weton/data/pranata_mangsa_repository.dart';
 import '../weton/domain/pranata_mangsa.dart';
 import 'widgets/mangsa_detail_sheet.dart';
+import 'widgets/glosarium_sheet.dart';
 import 'widgets/wuku_glossary_sheet.dart';
 
 /// Knowledge Hub — edukasi Pranata Mangsa & Wuku.
@@ -188,41 +189,60 @@ class KnowledgeHubScreen extends ConsumerWidget {
 
           const SizedBox(height: 24),
 
-          // ── Istilah ─────────────────────────────────────────────────
-          _buildSectionTitle('Istilah Kunci', 'Neptu, Pasaran & lainnya'),
+          // ── Glosarium ──────────────────────────────────────────────
+          _buildSectionTitle('Glosarium', 'Istilah astrologi & maknanya'),
           const SizedBox(height: 10),
-          GlassCard(
-            padding: const EdgeInsets.all(14),
-            child: Column(
-              children: [
-                _buildGlossaryEntry(
-                  'Neptu',
-                  'Jumlah nilai hari (Saptawara + Pancawara).'
-                      ' Digunakan untuk kalkulasi kecocokan weton,'
-                      ' hari baik, dan pancasuda.',
-                ),
-                const Divider(color: Colors.white10, height: 20),
-                _buildGlossaryEntry(
-                  'Pasaran',
-                  'Siklus 5-hari Jawa: Kliwon, Legi, Pahing, Pon, Wage.'
-                      ' Masing-masing punya nilai neptu dan karakter energi.',
-                ),
-                const Divider(color: Colors.white10, height: 20),
-                _buildGlossaryEntry(
-                  'Pancasuda',
-                  'Sisa pembagian Neptu Weton ÷ 5. Menentukan'
-                      ' label arah energi: Sri (rejeki), Lungguh'
-                      ' (kehormatan), Gedhong (kekayaan), Lara'
-                      ' (rintangan), Pati (transformasi).',
-                ),
-                const Divider(color: Colors.white10, height: 20),
-                _buildGlossaryEntry(
-                  'Da Yun (大运)',
-                  'Siklus 10-tahunan dalam Ba Zi — pilar'
-                      ' keberuntungan yang bergeser tiap dekade,'
-                      ' menentukan tema dominan fase hidup.',
-                ),
-              ],
+          GestureDetector(
+            onTap: () => GlosariumSheet.show(context),
+            child: GlassCard(
+              padding: const EdgeInsets.all(14),
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      gradient: AppTheme.purpleFadeGradient,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.menu_book_rounded,
+                      color: AppTheme.accentGold,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Glosarium Astrologi',
+                          style: GoogleFonts.outfit(
+                            fontWeight: FontWeight.w600,
+                            color: AppTheme.textLight,
+                          ),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          'Neptu, Wu Xing, Day Master, Da Yun, suit Tarot'
+                          ' & istilah lain — cari dan pahami artinya.',
+                          style: GoogleFonts.outfit(
+                            fontSize: 11,
+                            color: AppTheme.textMuted,
+                            height: 1.3,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(
+                    Icons.chevron_right,
+                    color: AppTheme.textMuted,
+                    size: 18,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -261,41 +281,6 @@ class KnowledgeHubScreen extends ConsumerWidget {
               ),
             ),
           ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildGlossaryEntry(String term, String description) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          margin: const EdgeInsets.only(top: 3),
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-          decoration: BoxDecoration(
-            color: AppTheme.accentPurple.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Text(
-            term,
-            style: GoogleFonts.outfit(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: AppTheme.accentGold,
-            ),
-          ),
-        ),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Text(
-            description,
-            style: GoogleFonts.outfit(
-              fontSize: 12,
-              color: AppTheme.textMuted,
-              height: 1.45,
-            ),
-          ),
         ),
       ],
     );
