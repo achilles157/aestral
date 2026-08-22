@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:aestral/core/errors/oracle_rest_exception.dart';
@@ -15,9 +17,11 @@ void main() {
     testWidgets('menampilkan judul, pesan, dan hitung mundur', (tester) async {
       await tester.pumpWidget(host(const SizedBox()));
 
-      await OracleRestDialog.show(
-        tester.element(find.byType(SizedBox)),
-        exception,
+      unawaited(
+        OracleRestDialog.show(
+          tester.element(find.byType(SizedBox)),
+          exception,
+        ),
       );
       await tester.pumpAndSettle();
 
@@ -30,9 +34,11 @@ void main() {
     testWidgets('tombol menutup dialog', (tester) async {
       await tester.pumpWidget(host(const SizedBox()));
 
-      await OracleRestDialog.show(
-        tester.element(find.byType(SizedBox)),
-        exception,
+      unawaited(
+        OracleRestDialog.show(
+          tester.element(find.byType(SizedBox)),
+          exception,
+        ),
       );
       await tester.pumpAndSettle();
 
