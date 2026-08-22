@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/services/api_service.dart';
 import '../../../core/widgets/glass_card.dart';
+import '../../../core/widgets/oracle_rest_dialog.dart';
 import '../../../features/ai/presentation/oracle_chat_screen.dart';
 import '../services/weton_dictionary_service.dart';
 import '../../auth/services/auth_service.dart';
@@ -971,6 +972,9 @@ class _CompatibilitySynthesisSectionState
       if (mounted) setState(() => _synthesis = text);
     } catch (e) {
       debugPrint('_CompatibilitySynthesisSection error: $e');
+      if (context.mounted) {
+        OracleRestDialog.showIfOracleRest(context, e);
+      }
       if (mounted) setState(() => _hasError = true);
     } finally {
       if (mounted) setState(() => _loading = false);

@@ -5,8 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/providers/birth_profile_provider.dart';
+import '../../../core/providers/shell_providers.dart';
 import '../providers/oracle_chat_provider.dart';
 import '../../tarot/services/tarot_data.dart';
+import '../../../core/services/cross_context_service.dart';
+import '../../bazi/providers/bazi_chart_provider.dart';
 import 'oracle_card_widgets.dart';
 import '../../auth/services/auth_service.dart';
 import '../../../core/widgets/cosmic_auth_bottom_sheet.dart';
@@ -72,16 +75,56 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
         final dynamicAuthHeader = await ref
             .read(authProvider.notifier)
             .getAuthHeader();
+
+        // P1-D: cek apakah user datang dari seasonal synthesis card —
+        // ganti greeting generic dengan prompt kontekstual pre-filled.
+        final seasonalCtx = ref.read(seasonalSynthesisContextProvider);
+        final prompt = seasonalCtx != null
+            ? _buildSeasonalPrompt(seasonalCtx)
+            : 'Halo';
+
         ref
             .read(oracleChatProvider(widget.oracleType).notifier)
             .sendMessage(
-              prompt: 'Halo',
+              prompt: prompt,
               authHeader: dynamicAuthHeader,
               context: widget.aiContext,
               isSilent: true,
             );
+
+        // Hapus konteks seasonal setelah dipakai (single-use).
+        if (seasonalCtx != null) {
+          ref.read(seasonalSynthesisContextProvider.notifier).clear();
+        }
       }
     });
+  }
+
+  /// Bangun prompt kontekstual dari seasonal synthesis card (P1-D).
+  /// Dipakai sebagai auto-send greeting saat user datang dari seasonal card.
+  String _buildSeasonalPrompt(SeasonalSynthesisContext ctx) {
+    final buf = StringBuffer('Sesepuh, ');
+    buf.write('dalam ${ctx.mangsaName}');
+    if (ctx.mangsaArketipe != null) {
+      buf.write(' (${ctx.mangsaArketipe})');
+    }
+    if (ctx.seasonElement.isNotEmpty) {
+      buf.write(', elemen ${ctx.seasonElement} mendominasi');
+    }
+    if (ctx.dayMasterElement != null) {
+      buf.write(' dan Day Master-ku adalah ${ctx.dayMasterElement}');
+    }
+    if (ctx.daYunLabel != null) {
+      buf.write(' — Da Yun-ku saat ini ${ctx.daYunLabel}');
+    }
+    buf.write('. ');
+    if (ctx.synthesisSummary.isNotEmpty) {
+      // Ambil kalimat pertama synthesis sebagai ringkasan
+      final firstSentence = ctx.synthesisSummary.split('. ').first;
+      buf.write('Sintesis kosmis menunjukkan: $firstSentence. ');
+    }
+    buf.write('Apa benang merahnya?');
+    return buf.toString();
   }
 
   @override
@@ -146,6 +189,19 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
   }
 
   Color get _accentColor => Color(_config.accentColor);
+
+  /// P2-B: cek apakah minimal 2 dari 3 sistem (weton, BaZi, tarot)
+  /// tersedia untuk membuka Grand Reading Sesepuh Kosmis.
+  int _getSystemsReadyCount() {
+    int count = 0;
+    final weton = ref.read(birthProfileProvider).value?.weton;
+    final drawnCards = ref.read(drawnCardProvider);
+    final baziChart = ref.read(baziChartProvider).value;
+    if (weton != null && weton.totalNeptu > 0) count++;
+    if (drawnCards != null && drawnCards.isNotEmpty) count++;
+    if (baziChart != null && baziChart.dayMasterElement.isNotEmpty) count++;
+    return count;
+  }
 
   /// Deteksi elemen/topik dari teks oracle untuk ambient glow dinamis (PRD section 4).
   Color _detectTopicColor(String text) {
@@ -283,7 +339,9 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                       ? _buildEmptyState()
                       : _buildMessageList(state),
                 ),
-                if (_showSesepuhHint && widget.oracleType != 'synthesis')
+                if (_showSesepuhHint &&
+                    widget.oracleType != 'synthesis' &&
+                    _getSystemsReadyCount() >= 2)
                   _buildSesepuhHint(),
                 if (isGuest &&
                     state.guestMessageCount == 0 &&
@@ -457,39 +515,42 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
   Widget _buildSesepuhHint() {
     return GestureDetector(
       onTap: () {
-        // Build synthesis context from all available data sources
+        // P2-A: bangun konteks lintas tradisi via CrossContextService
         final weton = ref.read(birthProfileProvider).value?.weton;
         final drawnCards = ref.read(drawnCardProvider);
+        final baziChart = ref.read(baziChartProvider).value;
 
-        final synthesisContext = <String, dynamic>{
-          // Merge current oracle's context (may contain weton or bazi data)
-          if (widget.aiContext != null) ...widget.aiContext!,
-          // Ensure weton is always present if available from profile
-          if (weton != null)
-            'wetonLahir': {
-              'nama': '${weton.saptawara} ${weton.pancawara}',
-              'neptu': weton.totalNeptu,
-              'elemen': '',
-              'karakter': weton.characterSummary,
-            },
-          if (weton != null && weton.pangarasan.isNotEmpty)
-            'pangarasan': weton.pangarasan,
-          // Tarot cards from global draw state
-          if (drawnCards != null && drawnCards.isNotEmpty)
-            'tarotCards': drawnCards
-                .map(
-                  (c) => {
-                    'name': c.card.nameId,
-                    'label': c.label,
-                    'isReversed': c.isReversed,
-                    'archetype': c.card.archetypeId,
-                    'element': c.card.elementalId,
-                    'aiHook': c.card.aiHookId,
-                    'keywords': c.card.keywordsId,
-                  },
+        final bundle = CrossContextBundle(
+          weton: weton != null
+              ? WetonContext(
+                  label: '${weton.saptawara} ${weton.pancawara}',
+                  neptu: weton.totalNeptu,
+                  characterSummary: weton.characterSummary,
+                  pangarasan: weton.pangarasan,
                 )
-                .toList(),
-        };
+              : const WetonContext(label: '', neptu: 0, characterSummary: ''),
+          bazi: baziChart != null
+              ? BaziContext(
+                  dayMasterElement: baziChart.dayMasterElement,
+                  dmStrengthLabel: baziChart.dmStrength.label,
+                )
+              : const BaziContext(dayMasterElement: '', dmStrengthLabel: ''),
+          tarot: drawnCards != null && drawnCards.isNotEmpty
+              ? TarotContext(
+                  cards: drawnCards
+                      .map(
+                        (c) => TarotCardContext(
+                          name: c.card.nameId,
+                          archetype: c.card.archetypeId,
+                          element: c.card.elementalId,
+                          label: c.label,
+                          isReversed: c.isReversed,
+                        ),
+                      )
+                      .toList(),
+                )
+              : const TarotContext(),
+        );
 
         ref.read(authProvider.notifier).getAuthHeader().then((
           dynamicAuthHeader,
@@ -500,7 +561,7 @@ class _OracleChatScreenState extends ConsumerState<OracleChatScreen>
                 builder: (_) => OracleChatScreen(
                   oracleType: 'synthesis',
                   authHeader: dynamicAuthHeader,
-                  aiContext: synthesisContext.isEmpty ? null : synthesisContext,
+                  aiContext: bundle.toAiContext(),
                 ),
               ),
             );

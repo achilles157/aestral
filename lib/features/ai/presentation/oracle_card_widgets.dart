@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../ai/models/chat_message.dart';
+import '../../../core/widgets/ai_disclaimer_footer.dart';
 
 /// Merender OracleCard ke dalam widget yang sesuai berdasarkan tipe.
 /// Dibungkus try-catch sehingga kegagalan parsing tidak crash aplikasi.
@@ -468,6 +469,7 @@ class OracleChatOracleBubble extends StatelessWidget {
             // Rich card (opsional)
             if (message.card != null)
               buildOracleCard(message.card!, accentColor),
+            const AiDisclaimerFooter(),
           ],
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/glass_card.dart';
+import '../../../../core/widgets/oracle_rest_dialog.dart';
 import '../../../../core/services/api_service.dart';
 import '../../../../features/auth/services/auth_service.dart';
 import '../../domain/bazi_chart.dart';
@@ -381,6 +382,9 @@ class _AnnualAiInsightSectionState
       }
     } catch (e) {
       debugPrint('_AnnualAiInsightSection error: $e');
+      if (context.mounted) {
+        OracleRestDialog.showIfOracleRest(context, e);
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }

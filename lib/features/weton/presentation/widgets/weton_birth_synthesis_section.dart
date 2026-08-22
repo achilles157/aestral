@@ -5,12 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/services/api_service.dart';
+import '../../../../core/widgets/oracle_rest_dialog.dart';
 import '../../../../core/utils/weton_utils.dart';
 import '../../../../features/auth/services/auth_service.dart';
 import '../../services/weton_dictionary_service.dart';
 
 /// Sintesis seumur hidup berbasis data weton lahir saja.
-/// Cache permanen — tidak berubah sepanjang hidup, tidak terikat siklus wuku/mangsa.
+/// Cache permanen - tidak berubah sepanjang hidup, tidak terikat siklus wuku/mangsa.
 class WetonBirthSynthesisSection extends ConsumerStatefulWidget {
   const WetonBirthSynthesisSection({
     super.key,
@@ -32,7 +33,7 @@ class _WetonBirthSynthesisSectionState
   bool _loading = false;
   String? _error;
 
-  /// Cache key permanen — tidak pernah expired karena data lahir tidak berubah.
+  /// Cache key permanen - tidak pernah expired karena data lahir tidak berubah.
   static String _cacheKey(String saptawara, String pancawara) =>
       'weton_birth_synthesis_${saptawara.toLowerCase()}_${pancawara.toLowerCase()}';
 
@@ -42,7 +43,7 @@ class _WetonBirthSynthesisSectionState
     return 'Weton ${r.saptawara} ${r.pancawara}, neptu ${r.totalNeptu}. '
         'Pancasuda: ${r.pancasuda}. Pangarasan: ${r.pangarasan}. '
         'Karakter: ${e.headline}. '
-        'Tulis 3–4 kalimat yang menggambarkan pola hidup orang ini secara konkret: '
+        'Tulis 3-4 kalimat yang menggambarkan pola hidup orang ini secara konkret: '
         'bagaimana cara mereka bekerja dan mengambil keputusan, '
         'pola yang sering muncul dalam hubungan mereka, '
         'dan satu hal yang kalau disadari bisa mengubah banyak hal. '
@@ -83,7 +84,10 @@ class _WetonBirthSynthesisSectionState
       }
     } catch (e) {
       debugPrint('WetonBirthSynthesisSection error: $e');
-      if (mounted) setState(() => _error = 'Gagal memuat — coba lagi.');
+      if (context.mounted) {
+        OracleRestDialog.showIfOracleRest(context, e);
+      }
+      if (mounted) setState(() => _error = 'Gagal memuat - coba lagi.');
     } finally {
       if (mounted) setState(() => _loading = false);
     }

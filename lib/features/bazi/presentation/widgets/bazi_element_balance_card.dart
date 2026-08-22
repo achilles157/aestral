@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/services/api_service.dart';
 import '../../../../core/widgets/glass_card.dart';
+import '../../../../core/widgets/oracle_rest_dialog.dart';
 import '../../../../features/auth/services/auth_service.dart';
 import '../../domain/bazi_chart.dart';
 import 'bazi_pillar_column.dart';
@@ -32,7 +33,7 @@ const Map<String, String> _kWuXingNarrative = {
   'kayu_api':
       'Ide-idemu besar dan visioner, namun momentum eksekusi sering terasa berat. '
       'Energi tumbuhmu (Kayu) mengalir deras tapi sulit meledak menjadi aksi nyata tanpa api semangat yang stabil. '
-      'Kelilingi diri dengan orang yang bersemangat — mereka menyalakan api yang sesungguhnya sudah ada dalam dirimu.',
+      'Kelilingi diri dengan orang yang bersemangat - mereka menyalakan api yang sesungguhnya sudah ada dalam dirimu.',
   'kayu_tanah':
       'Kamu hebat dalam memulai tapi bisa kesulitan memelihara konsistensi jangka panjang. '
       'Kemampuan tumbuh cepatmu (Kayu) kadang mengabaikan fondasi praktis yang perlu dirawat. '
@@ -42,13 +43,13 @@ const Map<String, String> _kWuXingNarrative = {
       'Belajar berkata tidak dan memilih pertempuran dengan bijak adalah kekuatan terbesar yang bisa kamu kembangkan.',
   'kayu_air':
       'Pertumbuhanmu yang agresif tanpa kedalaman refleksi bisa membawa kelelahan tak terduga. '
-      'Sisihkan waktu sunyi untuk merenung — di situlah strategi terbaikmu lahir.',
+      'Sisihkan waktu sunyi untuk merenung - di situlah strategi terbaikmu lahir.',
   'api_kayu':
       'Semangatmu besar (Api) tapi sumber energi baru perlu terus diisi. '
       'Tanpa pertumbuhan konsisten, api bisa redup. Belajar hal baru secara rutin adalah bahan bakar terbaikmu.',
   'api_tanah':
       'Ekspresif dan bersemangat, namun fondasi praktis kadang terabaikan. '
-      'Keuangan, kesehatan, dan rutinitas harian perlu perhatian ekstra — bukan hambatan, tapi landasan pacu untuk semangatmu.',
+      'Keuangan, kesehatan, dan rutinitas harian perlu perhatian ekstra - bukan hambatan, tapi landasan pacu untuk semangatmu.',
   'api_logam':
       'Banyak proyek setengah jadi bisa menjadi pola yang berulang tanpa disiplin eksekusi. '
       'Sistem dan struktur kerja yang ketat adalah investasi terbaik untuk energi besar yang kamu miliki.',
@@ -57,46 +58,46 @@ const Map<String, String> _kWuXingNarrative = {
       'Melatih kemampuan membaca situasi sebelum bertindak akan melipatgandakan hasil dari semangatmu.',
   'tanah_kayu':
       'Stabilitas dan keandalanmu sudah kuat, tapi inovasi dan pertumbuhan baru perlu lebih didorong. '
-      'Zona nyaman bisa menjadi jebakan halus — satu langkah kecil ke wilayah baru setiap minggu sudah mengubah segalanya.',
+      'Zona nyaman bisa menjadi jebakan halus - satu langkah kecil ke wilayah baru setiap minggu sudah mengubah segalanya.',
   'tanah_api':
       'Kamu orang yang bisa diandalkan, tapi semangat dan antusiasme perlu lebih diaktifkan. '
-      'Jangan takut tampil dan berbicara — dunia perlu melihat stabilitas yang kamu miliki.',
+      'Jangan takut tampil dan berbicara - dunia perlu melihat stabilitas yang kamu miliki.',
   'tanah_logam':
       'Pemeliharaan hubungan sudah baik, tapi pengambilan keputusan tegas kadang terasa berat. '
-      'Latih diri untuk lebih cepat memutus hal yang tidak produktif — itu bentuk cinta tertinggi untuk dirimu sendiri.',
+      'Latih diri untuk lebih cepat memutus hal yang tidak produktif - itu bentuk cinta tertinggi untuk dirimu sendiri.',
   'tanah_air':
       'Kestabilan praktismu sudah kuat, tapi kedalaman emosi dan intuisi perlu lebih dieksplorasi. '
       'Journaling atau meditasi singkat setiap hari membuka dimensi dirimu yang belum tergali.',
   'logam_kayu':
       'Ketegasan dan presisimu adalah kekuatan, tapi fleksibilitas dan kreativitas perlu dilatih. '
-      'Sesekali tinggalkan rencana dan biarkan diri berimprovisasi — di situlah terobosan tak terduga muncul.',
+      'Sesekali tinggalkan rencana dan biarkan diri berimprovisasi - di situlah terobosan tak terduga muncul.',
   'logam_api':
       'Analisis dan strukturmu kuat, tapi koneksi emosional dan antusiasme perlu lebih dihangatkan. '
-      'Ekspresi spontan — berbagi cerita, merayakan hal kecil — mengisi energi yang sering kamu abaikan.',
+      'Ekspresi spontan - berbagi cerita, merayakan hal kecil - mengisi energi yang sering kamu abaikan.',
   'logam_tanah':
       'Disiplin tinggi tapi kadang terlalu kritis pada diri sendiri. '
-      'Merawat diri bukan pemborosan waktu — itu pengisian bahan bakar untuk standar tinggi yang kamu jaga.',
+      'Merawat diri bukan pemborosan waktu - itu pengisian bahan bakar untuk standar tinggi yang kamu jaga.',
   'logam_air':
-      'Keputusanmu akurat secara logika — tambahkan momen diam sebelum memutuskan hal besar untuk membiarkan nurani bicara. '
+      'Keputusanmu akurat secara logika - tambahkan momen diam sebelum memutuskan hal besar untuk membiarkan nurani bicara. '
       'Ketegasan dan intuisi yang seimbang adalah kombinasi yang sangat langka.',
   'air_kayu':
       'Intuisimu tajam dan dalam, tapi tindakan nyata perlu lebih didorong. '
-      'Idemu luar biasa — yang perlu dilatih adalah keberanian memulai meski belum sempurna.',
+      'Idemu luar biasa - yang perlu dilatih adalah keberanian memulai meski belum sempurna.',
   'air_api':
       'Kedalaman reflektifmu luar biasa, tapi semangat dan visibilitas eksternal perlu diaktifkan. '
-      'Berbagi ide dan pemikiranmu — dunia perlu mendengar kedalaman yang kamu miliki.',
+      'Berbagi ide dan pemikiranmu - dunia perlu mendengar kedalaman yang kamu miliki.',
   'air_tanah':
       'Fleksibilitas tinggi tapi fondasi dan konsistensi adalah area yang perlu dibangun. '
       'Rutinitas sederhana yang dijaga setiap hari mengubah potensi besarmu menjadi pencapaian nyata.',
   'air_logam':
       'Intuisi dan adaptabilitasmu kuat, tapi ketegasan dan keberanian memotong yang tidak perlu perlu ditingkatkan. '
-      'Batas yang sehat bukan penolakan — itu perlindungan untuk energi berhargamu.',
+      'Batas yang sehat bukan penolakan - itu perlindungan untuk energi berhargamu.',
 };
 
 String? _wuXingNarrative(String dominant, String deficient) =>
     _kWuXingNarrative['${dominant}_$deficient'];
 
-/// Wu Xing (五行) element balance — pentagon radar chart with dominant/deficient badges.
+/// Wu Xing (五行) element balance - pentagon radar chart with dominant/deficient badges.
 class BaziElementBalanceCard extends StatelessWidget {
   final WuXingBalance balance;
   final BaziChart chart;
@@ -114,7 +115,7 @@ class BaziElementBalanceCard extends StatelessWidget {
         ? '18 karakter penuh'
         : total == 15 || total == 16
         ? '$total karakter (jam diketahui)'
-        : '$total karakter — jam tidak diketahui';
+        : '$total karakter - jam tidak diketahui';
 
     return GlassCard(
       padding: const EdgeInsets.all(16),
@@ -284,9 +285,9 @@ class _WuXingAiSectionState extends ConsumerState<_WuXingAiSection> {
     return 'Ba Zi Wu Xing: $pct (total ${b.total} karakter). '
         'Dominan: ${b.dominant}, Defisien: ${b.deficient}. '
         'Day Master: ${widget.chart.dayMasterElement} (${widget.chart.dmStrength.label}). '
-        'Tulis 3–4 kalimat yang menjelaskan apa artinya komposisi elemen ini '
+        'Tulis 3-4 kalimat yang menjelaskan apa artinya komposisi elemen ini '
         'secara konkret untuk kehidupan sehari-hari, karier, dan pola relasi orang ini. '
-        'Hubungkan dengan Day Master-nya — jangan hanya mendeskripsikan elemen secara umum. '
+        'Hubungkan dengan Day Master-nya - jangan hanya mendeskripsikan elemen secara umum. '
         'Nada empatik, psikologi modern, bukan ramalan buta.';
   }
 
@@ -329,7 +330,10 @@ class _WuXingAiSectionState extends ConsumerState<_WuXingAiSection> {
       }
     } catch (e) {
       debugPrint('_WuXingAiSection error: $e');
-      // W16: surface error to user with retry — consistent with other AI sections
+      if (context.mounted) {
+        OracleRestDialog.showIfOracleRest(context, e);
+      }
+      // W16: surface error to user with retry - consistent with other AI sections
       if (mounted) setState(() => _error = 'Gagal memuat narasi. Coba lagi.');
     } finally {
       if (mounted) setState(() => _loading = false);

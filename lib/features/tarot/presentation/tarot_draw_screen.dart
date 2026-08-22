@@ -9,6 +9,7 @@ import '../services/tarot_data.dart';
 import '../models/tarot_card.dart';
 import '../providers/tarot_language_provider.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/widgets/oracle_rest_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/tarot_card_display.dart';
 import 'widgets/tiltable_tarot_card.dart';
@@ -327,6 +328,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
       final cards = drawnCards
           .map(
             (info) => <String, dynamic>{
+              'cardIndex': info.card.id,
               'label': info.label,
               'nameId': info.card.nameId,
               'isReversed': info.isReversed,
@@ -345,10 +347,21 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
         'wukuBerjalan': {'nama': currentWeton.wuku, 'elemen': ''},
       };
 
+      final isThematic = _selectedDrawType == 'thematic';
+      const areaLabelMap = {
+        'karir': 'Karir & Ambisi',
+        'asmara': 'Asmara & Relasi',
+        'keuangan': 'Keuangan & Stabilitas',
+        'spiritual': 'Spiritual & Growth',
+        'kesehatan': 'Kesehatan & Vitalitas',
+      };
+
       final result = await ApiService.generateTarotReading(
         cards: cards,
         authHeader: authHeader,
         wetonContext: wetonContext,
+        area: isThematic ? _selectedArea : null,
+        areaLabel: isThematic ? areaLabelMap[_selectedArea] : null,
       );
 
       if (!mounted) return;
@@ -359,6 +372,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
     } catch (e) {
       debugPrint('Oracle tarot reading error: $e');
       if (!mounted) return;
+      OracleRestDialog.showIfOracleRest(context, e);
       setState(() {
         _isOracleLoading = false;
         _oracleError = true;

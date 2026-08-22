@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import '../errors/oracle_rest_exception.dart';
+import 'api_error_parser.dart';
 import 'cache_service.dart';
 
 class ApiService {
@@ -23,6 +25,9 @@ class ApiService {
     for (var attempt = 1; attempt <= maxAttempts; attempt++) {
       try {
         return await call();
+      } on OracleRestException {
+        // 503 kuota ≠ transient network — retry hanya boros quota & buang waktu.
+        rethrow;
       } on SocketException catch (e) {
         if (attempt == maxAttempts) rethrow;
         debugPrint('ApiService: SocketException ($attempt/$maxAttempts): $e');
@@ -67,18 +72,8 @@ class ApiService {
             .timeout(Duration(seconds: timeoutSeconds));
 
         if (response.statusCode == 503) {
-          String? code503, msg503;
-          try {
-            final b = json.decode(response.body) as Map<String, dynamic>;
-            code503 = b['code'] as String?;
-            msg503 = b['error'] as String?;
-          } catch (_) {}
-          if (code503 == 'gemini_daily_quota' || code503 == 'gemini_quota') {
-            throw Exception(
-              'GEMINI_QUOTA:${msg503 ?? 'Kapasitas kosmis hari ini sudah penuh.'}',
-            );
-          }
-          throw Exception(msg503 ?? 'Layanan tidak tersedia saat ini.');
+          final parsed = parseServiceError(response);
+          if (parsed != null) throw parsed;
         }
         if (response.statusCode != 200) {
           throw Exception('Status ${response.statusCode}: ${response.body}');
@@ -273,9 +268,16 @@ class ApiService {
     required List<Map<String, dynamic>> cards,
     required String authHeader,
     Map<String, dynamic>? wetonContext,
+    String? area,
+    String? areaLabel,
   }) => _post(
     'api/tarot/reading',
-    {'cards': cards, if (wetonContext != null) ...wetonContext},
+    {
+      'cards': cards,
+      if (wetonContext != null) ...wetonContext,
+      if (area != null) 'area': area,
+      if (areaLabel != null) 'areaLabel': areaLabel,
+    },
     authHeader: authHeader,
     timeoutSeconds: 30,
   );
@@ -384,11 +386,8 @@ class ApiService {
         throw Exception('RATE_LIMIT:${data['retryAfterSeconds'] ?? 60}');
       }
       if (response.statusCode == 503) {
-        final data = json.decode(response.body) as Map<String, dynamic>;
-        if (data['code'] == 'gemini_quota') {
-          throw Exception('GEMINI_QUOTA:${data['error'] ?? ''}');
-        }
-        throw Exception(data['error'] ?? 'Layanan tidak tersedia saat ini.');
+        final parsed = parseServiceError(response);
+        if (parsed != null) throw parsed;
       }
       if (response.statusCode != 200) {
         throw Exception('Status ${response.statusCode}: ${response.body}');

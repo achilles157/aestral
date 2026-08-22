@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/services/api_service.dart';
 import '../../../../core/widgets/glass_card.dart';
+import '../../../../core/widgets/oracle_rest_dialog.dart';
 import '../../../../features/auth/services/auth_service.dart';
 import '../../domain/bazi_chart.dart';
 import 'bazi_pillar_column.dart';
@@ -127,7 +128,7 @@ class BaziFourPillarsChart extends StatelessWidget {
                 title: 'Karier\n& Ambisi',
                 pillarName: 'Pilar Bulan',
                 explanation:
-                    'Melambangkan fokus utama karier, lingkungan kerja, ambisi pencapaian diri, serta dinamika usia muda (15–30 tahun) dan orang tua.',
+                    'Melambangkan fokus utama karier, lingkungan kerja, ambisi pencapaian diri, serta dinamika usia muda (15-30 tahun) dan orang tua.',
               ),
               const SizedBox(width: 8),
               _domainLabel(
@@ -151,7 +152,7 @@ class BaziFourPillarsChart extends StatelessWidget {
 
           // Cang Gan note
           Text(
-            '藏干 (Hidden Stems) — elemen tersembunyi di dalam setiap zodiak, mewakili motivasi dan karakter laten yang beroperasi di bawah permukaan.',
+            '藏干 (Hidden Stems) - elemen tersembunyi di dalam setiap zodiak, mewakili motivasi dan karakter laten yang beroperasi di bawah permukaan.',
             style: GoogleFonts.outfit(
               fontSize: 10,
               color: Colors.white38,
@@ -424,7 +425,7 @@ class _FourPillarsAiSectionState extends ConsumerState<_FourPillarsAiSection> {
         'Day Master: ${c.dayMasterElement} (${c.dmStrength.label}). '
         'Yong Shen: ${c.dmStrength.yongShen.join(", ")}. '
         'Tulis 4 kalimat grand story: temukan tema besar yang '
-        'menghubungkan keempat pilar — pola hidup, kekuatan tersembunyi, '
+        'menghubungkan keempat pilar - pola hidup, kekuatan tersembunyi, '
         'tantangan utama. Jangan rangkum per pilar. '
         'Nada empatik, psikologi modern.';
   }
@@ -462,7 +463,10 @@ class _FourPillarsAiSectionState extends ConsumerState<_FourPillarsAiSection> {
       }
     } catch (e) {
       debugPrint('_FourPillarsAiSection error: $e');
-      if (mounted) setState(() => _error = 'Gagal memuat — coba lagi.');
+      if (context.mounted) {
+        OracleRestDialog.showIfOracleRest(context, e);
+      }
+      if (mounted) setState(() => _error = 'Gagal memuat - coba lagi.');
     } finally {
       if (mounted) setState(() => _loading = false);
     }

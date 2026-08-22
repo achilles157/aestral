@@ -6,6 +6,8 @@ import '../../../../core/providers/birth_profile_provider.dart';
 import '../../../../core/services/analytics_service.dart';
 import '../../../ai/presentation/oracle_chat_screen.dart';
 import '../../../auth/services/auth_service.dart';
+import '../../../bazi/providers/bazi_chart_provider.dart';
+import '../../../../core/services/cross_context_service.dart';
 import '../../../tarot/services/tarot_data.dart';
 import '../../../../core/widgets/cosmic_auth_bottom_sheet.dart';
 
@@ -132,34 +134,49 @@ class DashboardSesepuhCard extends ConsumerWidget {
                           .getAuthHeader();
                       if (!context.mounted) return;
 
+                      // P2-A: bangun konteks lintas tradisi via CrossContextService
                       final weton = ref.read(birthProfileProvider).value?.weton;
                       final drawnCards = ref.read(drawnCardProvider);
+                      final baziChart = ref.read(baziChartProvider).value;
 
-                      final synthesisContext = <String, dynamic>{
-                        if (weton != null)
-                          'wetonLahir': {
-                            'nama': '${weton.saptawara} ${weton.pancawara}',
-                            'neptu': weton.totalNeptu,
-                            'elemen': '',
-                            'karakter': weton.characterSummary,
-                          },
-                        if (weton != null && weton.pangarasan.isNotEmpty)
-                          'pangarasan': weton.pangarasan,
-                        if (drawnCards != null && drawnCards.isNotEmpty)
-                          'tarotCards': drawnCards
-                              .map(
-                                (c) => {
-                                  'name': c.card.nameId,
-                                  'label': c.label,
-                                  'isReversed': c.isReversed,
-                                  'archetype': c.card.archetypeId,
-                                  'element': c.card.elementalId,
-                                  'aiHook': c.card.aiHookId,
-                                  'keywords': c.card.keywordsId,
-                                },
+                      final bundle = CrossContextBundle(
+                        weton: weton != null
+                            ? WetonContext(
+                                label: '${weton.saptawara} ${weton.pancawara}',
+                                neptu: weton.totalNeptu,
+                                characterSummary: weton.characterSummary,
+                                pangarasan: weton.pangarasan,
                               )
-                              .toList(),
-                      };
+                            : const WetonContext(
+                                label: '',
+                                neptu: 0,
+                                characterSummary: '',
+                              ),
+                        bazi: baziChart != null
+                            ? BaziContext(
+                                dayMasterElement: baziChart.dayMasterElement,
+                                dmStrengthLabel: baziChart.dmStrength.label,
+                              )
+                            : const BaziContext(
+                                dayMasterElement: '',
+                                dmStrengthLabel: '',
+                              ),
+                        tarot: drawnCards != null && drawnCards.isNotEmpty
+                            ? TarotContext(
+                                cards: drawnCards
+                                    .map(
+                                      (c) => TarotCardContext(
+                                        name: c.card.nameId,
+                                        archetype: c.card.archetypeId,
+                                        element: c.card.elementalId,
+                                        label: c.label,
+                                        isReversed: c.isReversed,
+                                      ),
+                                    )
+                                    .toList(),
+                              )
+                            : const TarotContext(),
+                      );
 
                       if (!context.mounted) return;
                       AnalyticsService.logSesepuhKosmisOpened().catchError(
@@ -170,9 +187,7 @@ class DashboardSesepuhCard extends ConsumerWidget {
                           builder: (_) => OracleChatScreen(
                             oracleType: 'synthesis',
                             authHeader: authHeader,
-                            aiContext: synthesisContext.isEmpty
-                                ? null
-                                : synthesisContext,
+                            aiContext: bundle.toAiContext(),
                           ),
                         ),
                       );

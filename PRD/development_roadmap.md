@@ -379,18 +379,20 @@ Referensi: `lib/features/bazi/services/bazi_cache_service.dart`
 - [x] Flutter: narasi inline di `bazi_relations_card.dart`
 - [x] Tidak perlu backend endpoint atau caching (deterministik offline)
 
-### P5 — Weton Compatibility Synthesis ⏳ BELUM
-- [ ] Flutter: auto-generate synthesis card setelah kalkulasi
-- [ ] Flutter: caching per pasangan
-- [ ] Backend: reuse `/api/chat` (tidak perlu endpoint baru)
+### P5 — Weton Compatibility Synthesis ✅ SUDAH ADA (verifikasi kode 10 Agu 2026)
+- [x] Flutter: auto-generate synthesis card setelah kalkulasi — `weton_compatibility_screen.dart` → `_CompatibilitySynthesisSection`
+- [x] Flutter: caching per pasangan — `SharedPreferences` key `weton_compat_synthesis_{neptu1}_{neptu2}`
+- [x] Backend: endpoint khusus `/api/weton/compatibility` (router.ts) — lebih baik dari reuse `/api/chat`
 
-### P6 — Gemini Quota Management ⏳ BELUM
-- [ ] Backend: KV counter per hari di Cloudflare Workers
-- [ ] Backend: 503 response dengan pesan on-brand
-- [ ] Flutter: handling `ORACLE_REST:` di `api_service.dart`
-- [ ] Flutter: UX pesan di semua AI screens
+### P6 — Gemini Quota Management ✅ SUDAH ADA (diselesaikan 10 Agu 2026)
+- [x] Backend: KV counter per hari (`RATE_LIMIT_KV`, key `gemini_daily_{YYYY-MM-DD}`) di modul `gemini_quota.ts` — fail-open, TTL tengah malam UTC, limit env `GEMINI_DAILY_LIMIT` (default 480)
+- [x] Backend: 503 response on-brand `ORACLE_REST` + `retryAfterSeconds`, terpasang di 4 endpoint AI (`/api/chat`, `/api/tarot/reading`, `/api/bazi/insight`, `/api/oracle/chat`)
+- [x] Backend: test `test/gemini_quota.test.ts` (12 kasus: limit, exhausted, fail-open, reset harian)
+- [x] Flutter: `OracleRestException` + parser `parseServiceError` (testable) + skip retry untuk 503 di `api_service.dart`
+- [x] Flutter: `OracleRestDialog` on-brand (hitung mundur) di semua screen AI (oracle chat, bazi ×5, weton ×3, tarot, seasonal)
+- [x] Flutter: test parser, exception, dialog
 
-### P7 — Wu Xing Narrative ⏳ BELUM
-- [ ] Flutter: pre-written narratives per elemen (Map, offline)
-- [ ] Flutter: logic deteksi dominan/defisien dari `WuXingBalance`
-- [ ] Flutter: ExpansionTile di `bazi_element_balance_card.dart`
+### P7 — Wu Xing Narrative ✅ SUDAH ADA (verifikasi kode 10 Agu 2026)
+- [x] Flutter: pre-written narratives per elemen — `bazi_element_balance_card.dart` → `_kWuXingNarrative` map
+- [x] Flutter: logic deteksi dominan/defisien dari `WuXingBalance` — `_wuXingNarrative()` + badge dominan/defisien
+- [x] Flutter: ExpansionTile di `bazi_element_balance_card.dart`
