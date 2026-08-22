@@ -268,9 +268,16 @@ class ApiService {
     required List<Map<String, dynamic>> cards,
     required String authHeader,
     Map<String, dynamic>? wetonContext,
+    String? area,
+    String? areaLabel,
   }) => _post(
     'api/tarot/reading',
-    {'cards': cards, if (wetonContext != null) ...wetonContext},
+    {
+      'cards': cards,
+      if (wetonContext != null) ...wetonContext,
+      if (area != null) 'area': area,
+      if (areaLabel != null) 'areaLabel': areaLabel,
+    },
     authHeader: authHeader,
     timeoutSeconds: 30,
   );

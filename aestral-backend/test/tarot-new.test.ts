@@ -138,14 +138,14 @@ describe('getThematicThreeCards', () => {
 // ─── Phase 2C: 3-layer AI caching (tarot-synthesis) ──────────────────────────
 
 describe('buildTemplateKey', () => {
-	it('normalizes card structure into a stable v2 key', () => {
+	it('normalizes card structure into a stable v4 key', () => {
 		const cards = [
 			{ cardIndex: 3, isReversed: false, label: 'past' },
 			{ cardIndex: 22, isReversed: true, label: 'present' },
 			{ cardIndex: 44, isReversed: false, label: 'future' },
 		];
 		const key = buildTemplateKey(cards);
-		expect(key).toMatch(/^v3:template:/);
+		expect(key).toMatch(/^v4:template:/);
 		expect(key).toContain('major');
 		expect(key).toContain('cups');
 		expect(key).toContain('wands');

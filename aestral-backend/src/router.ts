@@ -939,6 +939,8 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
 
 interface TarotReadingBody {
 	cards?: TarotCardInput[];
+	area?: string;
+	areaLabel?: string;
 	wetonLahir?: TarotReadingContext['wetonLahir'];
 	wukuBerjalan?: TarotReadingContext['wukuBerjalan'];
 }
@@ -983,6 +985,10 @@ async function handleTarotReading(request: Request, env: Env): Promise<Response>
 		}
 	}
 
+	if (body.area && !AREA_LABELS[body.area]) {
+		return json({ error: 'area harus salah satu: karir, asmara, keuangan, spiritual, kesehatan' }, 400);
+	}
+
 	const apiKey = env.GEMINI_API_KEY;
 	if (!apiKey || apiKey === 'PLACEHOLDER_REPLACE_WITH_WRANGLER_SECRET') {
 		return json({ error: 'AI service belum dikonfigurasi' }, 503);
@@ -993,8 +999,9 @@ async function handleTarotReading(request: Request, env: Env): Promise<Response>
 		cardIndex: (c as any).cardIndex ?? 0,
 		isReversed: c.isReversed,
 		label: c.label,
+		nameId: c.nameId,
 	}));
-	const templateKey = buildTemplateKey(synthesisCards);
+	const templateKey = buildTemplateKey(synthesisCards, body.area);
 
 	// Layer 2: Check KV cache for pre-computed or cached synthesis
 	const cachedRaw = await env.TAROT_KV.get(templateKey, 'text');
@@ -1031,8 +1038,8 @@ async function handleTarotReading(request: Request, env: Env): Promise<Response>
 		const isLegacyThreePosition = labels.length === 3 && labels.every((l) => l === 'past' || l === 'present' || l === 'future');
 		const systemInstruction = isLegacyThreePosition
 			? buildTarotSystemInstruction(context)
-			: buildSynthesisSystemInstruction(context, labels);
-		const userPrompt = buildTarotUserPrompt(body.cards);
+			: buildSynthesisSystemInstruction(context, labels, body.area);
+		const userPrompt = buildTarotUserPrompt(body.cards, body.area);
 		const quotaCheck = await checkGeminiQuota(env);
 		if (quotaCheck) return quotaCheck;
 		const rawResponse = await callGemini(systemInstruction, userPrompt, apiKey, env.GEMINI_MODEL);

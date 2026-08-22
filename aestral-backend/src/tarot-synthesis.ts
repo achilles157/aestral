@@ -16,6 +16,7 @@ export interface SynthesisCardInput {
 	cardIndex: number;
 	isReversed: boolean;
 	label: string; // 'energy' | 'guidance' | 'past' | 'present' | 'future'
+	nameId?: string; // identitas kartu stabil untuk cache key
 }
 
 export interface SynthesisTemplate {
@@ -57,11 +58,13 @@ function cardElement(idx: number): string {
  * This key is stable across redeploys — same cards + orientation = same template.
  * The generated KV key adds a version prefix so templates can be invalidated.
  */
-export function buildTemplateKey(cards: SynthesisCardInput[]): string {
+export function buildTemplateKey(cards: SynthesisCardInput[], area?: string): string {
 	const elements = cards.map((c) => cardElement(c.cardIndex)).join('-');
 	const reversedMask = cards.map((c) => (c.isReversed ? '1' : '0')).join('');
 	const kind = cards.map((c) => c.label).sort().join('-'); // stable regardless of array order
-	return `v3:template:${kind}:${elements}:${reversedMask}`;
+	const ids = cards.map((c) => c.nameId ?? `idx${c.cardIndex}`).join('|');
+	const areaPart = area ? `:${area}` : '';
+	return `v4:template:${kind}:${elements}:${reversedMask}:${ids}${areaPart}`;
 }
 
 /**
@@ -116,17 +119,17 @@ export function generateSeedKey(cards: SynthesisCardInput[]): string {
 const ELEMENTS = ['major', 'cups', 'wands', 'swords', 'pentacles'] as const;
 
 const MANGSA_TEMPLATE_FRAME = [
-	'Kartu Energi ({energy_elem}) mengungkapkan getaran periode ini.',
-	'Energinya mengalir dalam {{label_energy}} yang membawa pesan: {{energy_meaning}}.',
-	'Kartu Panduan ({guidance_elem}) adalah kompas kosmis.',
-	'Suaranya berbisik: {{guidance_meaning}}.',
-	'Benang merah: {{synthesis}}',
+	'Kartu Energi ({energy_elem}) menunjukkan suasana periode ini.',
+	'Maknanya untuk {{label_energy}}: {{energy_meaning}}.',
+	'Kartu Panduan ({guidance_elem}) menunjukkan arah yang perlu diperhatikan.',
+	'Maknanya: {{guidance_meaning}}.',
+	'Kesimpulan: {{synthesis}}',
 ].join(' ');
 
 const BIRTH_TEMPLATE_FRAME = [
-	'Masa Lalu ({past_elem}) membentuk fondasi: {{meaning_past}}.',
-	'Masa Kini ({present_elem}) adalah pusat gravitasi: {{meaning_present}}.',
-	'Masa Depan ({future_elem}) menanti langkahmu: {{meaning_future}}.',
+	'Masa Lalu ({past_elem}) menunjukkan pola yang membentukmu: {{meaning_past}}.',
+	'Masa Kini ({present_elem}) menunjukkan apa yang sedang kamu hadapi: {{meaning_present}}.',
+	'Masa Depan ({future_elem}) menunjukkan kemungkinan yang bisa kamu pilih: {{meaning_future}}.',
 	'Konklusi: {{synthesis}}',
 ].join(' ');
 

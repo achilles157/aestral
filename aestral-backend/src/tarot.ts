@@ -7,7 +7,7 @@
  *   - Konteks: Mangsa/Wuku seasonal energy
  *
  * Deck layout (78 cards):
- *   0-21  = Major Arcana (Kayu / Spirit)
+ *   0-21  = Major Arcana (neutral / Spirit)
  *  22-35  = Cups      (Air / Water)
  *  36-49  = Wands     (Api / Fire)
  *  50-63  = Swords    (Logam / Metal)
@@ -65,13 +65,14 @@ const WUXING_TO_TAROT: Record<string, string> = {
 };
 
 /** Card index ranges per Tarot element */
-function getElementRange(el: string): [number, number] {
+export function getElementRange(el: string): [number, number] {
 	switch (el) {
 		case 'water':     return [22, 35]; // Cups
 		case 'fire':      return [36, 49]; // Wands
 		case 'air':       return [50, 63]; // Swords
 		case 'earth':     return [64, 77]; // Pentacles
 		case 'neutral':   return [0,  21]; // Major Arcana
+		case 'major':     return [0,  21]; // Major Arcana (alias untuk AREA_ELEMENTS)
 		default:          return [0,  DECK_SIZE - 1];
 	}
 }

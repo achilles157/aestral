@@ -16,7 +16,10 @@ export interface TarotCardInput {
 	aiHookId?: string;
 }
 
+export type ThematicArea = 'karir' | 'asmara' | 'keuangan' | 'spiritual' | 'kesehatan';
+
 export interface TarotReadingContext {
+	area?: ThematicArea;
 	wetonLahir?: {
 		nama: string;
 		neptu: number;
@@ -65,22 +68,62 @@ const LABEL_DESC: Record<string, string> = {
 	future: 'kemungkinan yang bisa terwujud jika kamu melangkah tepat',
 	energy: 'getaran energi periode mangsa yang sedang berjalan',
 	guidance: 'panduan pribadi untuk menyikapi energi tersebut',
-	potensi: 'kekuatan atau peluang yang sedang terbuka untukmu',
-	tantangan: 'hambatan atau ujian yang perlu kamu hadapi',
-	arah: 'langkah konkret yang sebaiknya kamu ambil',
-	daya_tarik: 'apa yang menarik dan menghidupkan hubungan ini',
-	bayangan: 'pola lama atau sisi tersembunyi yang perlu disadari',
-	langkah: 'tindakan nyata berikutnya',
-	sumber: 'asal energi atau rezeki yang tersedia',
-	kebocoran: 'di mana energi atau rezekimu bocor',
-	strategi: 'cara terbaik mengelola sumber daya',
-	panggilan: 'panggilan jiwa atau tujuan yang sebenarnya',
-	rintangan: 'hal yang menghalangi perjalananmu',
-	pesan: 'pesan kosmis yang perlu kamu dengar',
-	vitalitas: 'kondisi energi tubuhmu saat ini',
-	kelemahan: 'titik rentan yang perlu diperhatikan',
-	ritme: 'pola hidup yang perlu diseimbangkan',
+	// ── Karir ──
+	potensi: 'potensi atau peluang karir yang sedang terbuka — bakat, proyek, atau jalan profesional yang bisa kamu kembangkan',
+	tantangan: 'hambatan atau ujian dalam pekerjaanmu — tekanan, konflik, stagnasi, atau persaingan yang perlu dihadapi',
+	arah: 'langkah karir konkret yang sebaiknya kamu ambil — keputusan, pengembangan skill, atau perubahan peran',
+	// ── Asmara ──
+	daya_tarik: 'apa yang menarik dan menghidupkan hubungan ini — daya pikat, chemistry, atau kualitas yang memperkuat ikatan',
+	bayangan: 'pola lama atau sisi tersembunyi dalam relasimu — ketakutan, luka, atau kebiasaan yang merusak kedekatan',
+	langkah: 'tindakan nyata berikutnya dalam hubungan — komunikasi, komitmen, atau batasan yang perlu diambil',
+	// ── Keuangan ──
+	sumber: 'asal uang atau pendapatan yang tersedia — gaji, bisnis, usaha sampingan, aset, atau peluang penghasilan baru',
+	kebocoran: 'di mana uangmu bocor — pengeluaran berlebih, utang, gaya hidup, atau keputusan finansial yang merugikan',
+	strategi: 'cara terbaik mengelola keuangan — menabung, investasi, melunasi utang, atau membangun kebebasan finansial',
+	// ── Spiritual ──
+	panggilan: 'panggilan jiwa atau tujuan batin yang sebenarnya — makna hidup, ibadah, atau arah spiritual yang memanggilmu',
+	rintangan: 'hal yang menghalangi pertumbuhan batinmu — keraguan, keterikatan duniawi, atau kebisingan yang menjauhkan dari ketenangan',
+	pesan: 'pesan penting yang perlu kamu dengar untuk perjalanan spiritualmu',
+	// ── Kesehatan ──
+	vitalitas: 'kondisi energi dan daya tahan tubuhmu saat ini — stamina, imunitas, dan semangat fisik',
+	kelemahan: 'titik rentan tubuh atau kebiasaan yang melemahkan kesehatanmu — kelelahan, pola makan, tidur, atau stres',
+	ritme: 'pola hidup yang perlu diseimbangkan — istirahat, aktivitas fisik, dan kebiasaan sehari-hari',
 };
+
+/** Blok konteks area — memaksa interpretasi spesifik kategori (bukan bacaan umum). */
+const AREA_CONTEXT: Record<ThematicArea, string> = {
+	karir: `KONTEKS AREA PEMBACAAN — KARIR & AMBISI:
+Bacaan ini KHUSUS membahas aspek KARIR dan PEKERJAAN si pembaca, bukan bacaan umum.
+Fokus interpretasi: pekerjaan & peran (profesi, jabatan, tanggung jawab), perkembangan (promosi, skill, jenjang karir), hubungan kerja (atasan, rekan, klien), tantangan (beban kerja, konflik, stagnasi, persaingan), serta arah & ambisi (tujuan karir, perubahan peran, keputusan profesional).
+Setiap narasi kartu harus menyebut aspek karir yang konkret. JANGAN menulis bacaan umum tanpa kaitan ke pekerjaan.`,
+
+	asmara: `KONTEKS AREA PEMBACAAN — ASMARA & RELASI:
+Bacaan ini KHUSUS membahas aspek ASMARA dan HUBUNGAN si pembaca.
+Fokus interpretasi: dinamika hubungan (romansa, chemistry, komunikasi, keintiman), daya tarik (kualitas yang menghidupkan hubungan), bayangan & pola (luka lama, ketakutan, kecemburuan, pola berulang), langkah & komitmen (komunikasi, komitmen, batasan sehat), serta status relasi (lajang/berpacaran/menikah — sesuaikan tanpa mengasumsikan).
+Setiap narasi kartu harus menyebut aspek relasi yang konkret. JANGAN menulis bacaan umum tanpa kaitan ke asmara.`,
+
+	keuangan: `KONTEKS AREA PEMBACAAN — KEUANGAN:
+Bacaan ini KHUSUS membahas aspek FINANSIAL hidup si pembaca. Setiap kartu WAJIB ditafsirkan lewat lensa uang, BUKAN bacaan umum/kehidupan.
+Fokus interpretasi: sumber uang (pendapatan, gaji, bisnis, usaha sampingan, aset, peluang penghasilan baru), arus keluar (pengeluaran, anggaran, kebocoran uang), tabungan & investasi (dana darurat, investasi, perencanaan jangka panjang), utang & kewajiban (cicilan, pinjaman, tagihan), serta kebebasan finansial (keamanan finansial, kemandirian ekonomi).
+Setiap narasi kartu harus menyebut aspek finansial yang konkret (pendapatan, pengeluaran, tabungan, investasi, utang). JANGAN menulis bacaan tentang emosi/kehidupan umum tanpa kaitan ke uang.`,
+
+	spiritual: `KONTEKS AREA PEMBACAAN — SPIRITUAL & GROWTH:
+Bacaan ini KHUSUS membahas aspek SPIRITUAL dan pertumbuhan batin si pembaca.
+Fokus interpretasi: panggilan jiwa (makna hidup, tujuan batin, arah spiritual), praktik batin (meditasi, refleksi, ibadah, doa), rintangan (keraguan, keterikatan duniawi, kebisingan pikiran), pesan (wawasan batin, kebijaksanaan), serta pertumbuhan (kesadaran diri, kedamaian, penerimaan).
+Setiap narasi kartu harus menyebut aspek spiritual/batin yang konkret. JANGAN menulis bacaan duniawi umum.`,
+
+	kesehatan: `KONTEKS AREA PEMBACAAN — KESEHATAN & VITALITAS:
+Bacaan ini KHUSUS membahas aspek KESEHATAN dan pola hidup si pembaca (fisik, mental, kebiasaan).
+CATATAN: Kamu bukan pengganti tenaga medis. Gunakan bahasa reflektif yang memberdayakan, dan sarankan konsultasi profesional untuk masalah serius.
+Fokus interpretasi: vitalitas (energi, stamina, daya tahan), kelemahan (kelelahan, stres, pola makan, tidur), ritme (istirahat vs aktivitas, olahraga, manajemen stres), serta kesehatan mental (beban pikiran, kecemasan, kebutuhan rehat).
+Setiap narasi kartu harus menyebut aspek kesehatan/pola hidup yang konkret. HINDARI klaim medis absolut.`,
+};
+
+/** Kembalikan blok konteks area untuk area tertentu (kosong jika tidak ada). */
+export function buildAreaContextBlock(area?: string): string {
+	if (!area) return '';
+	return AREA_CONTEXT[area as ThematicArea] ?? '';
+}
 
 export function labelDisplayName(label: string): string {
 	return LABEL_MAP[label] ?? label.toUpperCase();
@@ -97,13 +140,13 @@ export function labelDescription(label: string): string {
 export function buildTarotSystemInstruction(context: TarotReadingContext): string {
 	const sections: string[] = [];
 
-	sections.push(`Kamu adalah "Aestral Tarot Oracle" — teman kosmis yang berbicara jujur, hangat, dan langsung ke hati. Kamu membaca kartu bukan untuk meramal, tapi untuk mencerminkan apa yang sudah ada dalam diri si pembaca.
+	sections.push(`Kamu adalah "Aestral Tarot Oracle" — teman yang berbicara jujur, hangat, dan langsung ke hati. Kamu membaca kartu bukan untuk meramal, tapi untuk mencerminkan apa yang sudah ada dalam diri si pembaca.
 
 KARAKTER SUARA:
 - Gunakan "kamu" (bukan "Anda"). Bicara seperti teman dekat yang kebetulan sangat mengenal si pembaca.
 - Bahasa Indonesia yang sederhana, mengalir, dan terasa personal — bukan puitis atau akademis.
 - Setiap kalimat harus terasa seperti "ini tentang aku" bagi siapapun yang membacanya (Barnum Effect).
-- Satu sentuhan misterius ringan diperbolehkan ("bukan kebetulan kartu ini muncul hari ini..."), tapi jangan berlebihan.
+- Boleh menekankan relevansi kartu dengan momen sekarang ("kartu ini muncul tepat ketika kamu..."), tapi tanpa bahasa mistis atau misteri yang dibuat-buat.
 - DILARANG menggunakan kata-kata: "arketipe", "paradigma", "eksistensial", "manifestasi energi", "katalis", "kolektif tak sadar", "integrasi shadow".
 
 FORMULA WAJIB PER KARTU (1–2 paragraf, sekitar 4–6 kalimat total):
@@ -123,13 +166,13 @@ ATURAN POSISI:
 - MASA DEPAN = kemungkinan yang bisa terwujud jika kamu mengambil langkah yang tepat — bukan kepastian.`);
 
 	if (context.wetonLahir) {
-		sections.push(`ENERGI KOSMIS PENGGUNA (Weton Lahir):
+		sections.push(`DATA WETON LAHIR PENGGUNA:
 - Weton: ${context.wetonLahir.nama} (Neptu ${context.wetonLahir.neptu})
 ${context.wetonLahir.elemen ? `- Elemen penyeimbang: ${context.wetonLahir.elemen}` : ''}`);
 	}
 
 	if (context.wukuBerjalan) {
-		sections.push(`WUKU BERJALAN (energi kosmis minggu ini):
+		sections.push(`WUKU BERJALAN:
 - Wuku: ${context.wukuBerjalan.nama}
 ${context.wukuBerjalan.elemen ? `- Elemen wuku: ${context.wukuBerjalan.elemen}` : ''}`);
 	}
@@ -161,16 +204,17 @@ Konklusi menghubungkan Masa Lalu → Masa Kini → Masa Depan sebagai satu arc r
 export function buildSynthesisSystemInstruction(
 	context: TarotReadingContext,
 	labels: string[],
+	area?: string,
 ): string {
 	const sections: string[] = [];
 
-	sections.push(`Kamu adalah "Aestral Tarot Oracle" — teman kosmis yang berbicara jujur, hangat, dan langsung ke hati. Kamu membaca kartu bukan untuk meramal, tapi untuk mencerminkan apa yang sudah ada dalam diri si pembaca.
+	sections.push(`Kamu adalah "Aestral Tarot Oracle" — teman yang berbicara jujur, hangat, dan langsung ke hati. Kamu membaca kartu bukan untuk meramal, tapi untuk mencerminkan apa yang sudah ada dalam diri si pembaca.
 
 KARAKTER SUARA:
 - Gunakan "kamu" (bukan "Anda"). Bicara seperti teman dekat yang kebetulan sangat mengenal si pembaca.
 - Bahasa Indonesia yang sederhana, mengalir, dan terasa personal — bukan puitis atau akademis.
 - Setiap kalimat harus terasa seperti "ini tentang aku" bagi siapapun yang membacanya (Barnum Effect).
-- Satu sentuhan misterius ringan diperbolehkan ("bukan kebetulan kartu ini muncul hari ini..."), tapi jangan berlebihan.
+- Boleh menekankan relevansi kartu dengan momen sekarang ("kartu ini muncul tepat ketika kamu..."), tapi tanpa bahasa mistis atau misteri yang dibuat-buat.
 - DILARANG menggunakan kata-kata: "arketipe", "paradigma", "eksistensial", "manifestasi energi", "katalis", "kolektif tak sadar", "integrasi shadow".
 
 FORMULA WAJIB PER KARTU (1–2 paragraf, sekitar 4–6 kalimat total):
@@ -185,15 +229,20 @@ ATURAN ORIENTASI:
 - TERBALIK ↺ = energi ini sedang terasa berat atau tertahan — bukan hal buruk, hanya perlu perhatian.`);
 
 	if (context.wetonLahir) {
-		sections.push(`ENERGI KOSMIS PENGGUNA (Weton Lahir):
+		sections.push(`DATA WETON LAHIR PENGGUNA:
 - Weton: ${context.wetonLahir.nama} (Neptu ${context.wetonLahir.neptu})
 ${context.wetonLahir.elemen ? `- Elemen penyeimbang: ${context.wetonLahir.elemen}` : ''}`);
 	}
 
 	if (context.wukuBerjalan) {
-		sections.push(`WUKU BERJALAN (energi kosmis minggu ini):
+		sections.push(`WUKU BERJALAN:
 - Wuku: ${context.wukuBerjalan.nama}
 ${context.wukuBerjalan.elemen ? `- Elemen wuku: ${context.wukuBerjalan.elemen}` : ''}`);
+	}
+
+	const areaBlock = buildAreaContextBlock(area);
+	if (areaBlock) {
+		sections.push(areaBlock);
 	}
 
 	const posLines = labels.map((l) => `- ${labelDisplayName(l)} = ${labelDescription(l)}`);
@@ -225,8 +274,13 @@ Synthesis menghubungkan semua kartu sebagai satu arc ringkas — diakhiri dengan
 	return sections.join('\n\n');
 }
 
-export function buildTarotUserPrompt(cards: TarotCardInput[]): string {
+export function buildTarotUserPrompt(cards: TarotCardInput[], area?: string): string {
 	const lines: string[] = ['Berikut adalah Tebaran Kartu Tarot yang perlu dibaca secara mendalam:\n'];
+
+	if (area) {
+		lines.push(`AREA PEMBACAAN: ${area}`);
+		lines.push('');
+	}
 
 	for (const card of cards) {
 		const posLabel = labelDisplayName(card.label);

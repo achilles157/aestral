@@ -328,6 +328,7 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
       final cards = drawnCards
           .map(
             (info) => <String, dynamic>{
+              'cardIndex': info.card.id,
               'label': info.label,
               'nameId': info.card.nameId,
               'isReversed': info.isReversed,
@@ -346,10 +347,21 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
         'wukuBerjalan': {'nama': currentWeton.wuku, 'elemen': ''},
       };
 
+      final isThematic = _selectedDrawType == 'thematic';
+      const areaLabelMap = {
+        'karir': 'Karir & Ambisi',
+        'asmara': 'Asmara & Relasi',
+        'keuangan': 'Keuangan & Stabilitas',
+        'spiritual': 'Spiritual & Growth',
+        'kesehatan': 'Kesehatan & Vitalitas',
+      };
+
       final result = await ApiService.generateTarotReading(
         cards: cards,
         authHeader: authHeader,
         wetonContext: wetonContext,
+        area: isThematic ? _selectedArea : null,
+        areaLabel: isThematic ? areaLabelMap[_selectedArea] : null,
       );
 
       if (!mounted) return;
