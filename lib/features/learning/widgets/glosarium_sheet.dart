@@ -65,7 +65,8 @@ class _GlosariumSheetState extends State<GlosariumSheet> {
     final q = _query.trim().toLowerCase();
     return items.where((it) {
       final matchesDomain = _domain == null || it.domain == _domain;
-      final matchesQuery = q.isEmpty ||
+      final matchesQuery =
+          q.isEmpty ||
           it.istilah.toLowerCase().contains(q) ||
           it.definisi.toLowerCase().contains(q) ||
           it.alias.any((a) => a.toLowerCase().contains(q));
@@ -131,7 +132,8 @@ class _GlosariumSheetState extends State<GlosariumSheet> {
                       )
                     : ListView.builder(
                         itemCount: _filtered.length,
-                        itemBuilder: (_, i) => _GlosariumEntry(item: _filtered[i]),
+                        itemBuilder: (_, i) =>
+                            _GlosariumEntry(item: _filtered[i]),
                       ),
               ),
           ],
@@ -147,10 +149,17 @@ class _GlosariumSheetState extends State<GlosariumSheet> {
       decoration: InputDecoration(
         hintText: 'Cari istilah…',
         hintStyle: GoogleFonts.outfit(color: AppTheme.textMuted, fontSize: 14),
-        prefixIcon: const Icon(Icons.search, color: AppTheme.textMuted, size: 20),
+        prefixIcon: const Icon(
+          Icons.search,
+          color: AppTheme.textMuted,
+          size: 20,
+        ),
         filled: true,
         fillColor: Colors.white.withValues(alpha: 0.06),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 10,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,
@@ -210,7 +219,10 @@ class _GlosariumEntry extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
                   decoration: BoxDecoration(
                     color: AppTheme.accentPurple.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(6),
@@ -226,7 +238,10 @@ class _GlosariumEntry extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 7,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(6),

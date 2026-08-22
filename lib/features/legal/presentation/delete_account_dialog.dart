@@ -209,4 +209,3 @@ class _DeleteAccountDialogState extends ConsumerState<DeleteAccountDialog> {
     ];
   }
 }
-

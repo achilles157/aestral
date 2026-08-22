@@ -425,4 +425,3 @@ class _ConsentTile extends StatelessWidget {
     );
   }
 }
-
