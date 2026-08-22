@@ -7,7 +7,7 @@ class HariBaikScorer {
   // ── Bobot dasar ────────────────────────────────────────────────────────────
 
   static const _scoreEkspansi = 40;
-  static const _scoreStabil = 10;
+  static const _scoreStabil = 30;
   static const _penaltyDinoWas = -50;
   static const _penaltyBaziClash = -20;
   static const _penaltyWukuRawan = -10;
