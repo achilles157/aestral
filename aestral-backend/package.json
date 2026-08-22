@@ -1,6 +1,6 @@
 {
   "name": "aestral-backend",
-  "version": "0.0.0",
+  "version": "0.8.0",
   "private": true,
   "scripts": {
     "predeploy": "node scripts/sync-shared-data.js",

@@ -7,6 +7,8 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-08-22
+
 ### Added (Fase 2 — Lintas Tradisi & Knowledge Hub)
 
 - **P2-A: CrossContextBundle** — model agregat weton + BaZi + tarot (`cross_context_service.dart`), refactor `dashboard_sesepuh_card` & `_buildSesepuhHint` pakai bundle (hilangkan duplikasi Map manual)
@@ -42,8 +44,6 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 - **`test/tarot-thematic-area.test.ts`** — 6 test baru (konteks area keuangan, `buildAreaContextBlock`, `getElementRange('major')`, key berbeda antar area/kartu). Update `tarot-new.test.ts` (v3→v4).
 
-## [Unreleased] (sebelumnya)
-
 ### Added
 - **P6 Gemini Quota Management disempurnakan (P1-A rencana 8 Agu)** — modul `gemini_quota.ts` terpisah (KV counter harian, fail-open saat KV error, TTL tengah malam UTC, limit via env `GEMINI_DAILY_LIMIT` default 480), respons 503 terstandar `code: ORACLE_REST` + `retryAfterSeconds` di 4 endpoint AI (`/api/chat`, `/api/tarot/reading`, `/api/bazi/insight`, `/api/oracle/chat`).
 - **`OracleRestException` + parser `parseServiceError`** (frontend) — pengganti deteksi string `GEMINI_QUOTA:` yang rapuh; 503 quota **tidak lagi masuk retry loop** `_withRetry` (retry boros kuota); `retryAfterSeconds` dipakai untuk hitung mundur.
@@ -65,6 +65,7 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0.
 - **Halaman Kebijakan Privasi & Syarat Layanan di dalam aplikasi** — `LegalScreen` baru di `lib/features/legal/` merender markdown dari `assets/legal/` (satu sumber dengan `docs/legal/`), dengan link di `DashboardFooter`. Dokumen berbahasa Indonesia, sadar UU PDP, dan disclaimer tegas bahwa Aestral adalah layanan hiburan/warisan budaya (bukan nasihat profesional, hasil tidak 100% akurat).
 - **Font Cinzel & Outfit di-bundle sebagai asset** (`assets/fonts/`) — web app tidak lagi fetch font dari Google saat runtime (loading lebih cepat, offline-friendly, tidak ada flicker teks).
 - Seasonal Synthesis Card dengan granularitas Pranata Mangsa
+- P1-D: seasonal card CTA "Pelajari mangsa ini" → buka Sesepuh Kosmis dengan konteks pre-filled
 - Ba Zi Annual Pillar AI narrative — tap-to-generate
 - Ba Zi Branch Relations psychological narrative per pillar-pair (offline)
 - Wu Xing Implication Narrative (offline)
@@ -79,6 +80,7 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0.
 - Refactor Ba Zi Branch Relations dari AI endpoint ke pre-written offline maps
 - Reframe synthesis prompts — lebih konkret, kurang abstrak
 - Soften guest conversion copywriting
+- CI: upgrade actions/checkout & setup-node ke v5 (hilangkan warning deprecation Node 20)
 
 ### Fixed
 - Calendar grid null safety
