@@ -7,6 +7,18 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed (Stabilisasi v0.9.0 — S3: `avoid_dynamic_calls`)
+
+- **26× `avoid_dynamic_calls` dihilangkan** (25 di `lib/`, 1 di test). Akar masalahnya seragam: nilai JSON diakses berantai dari `dynamic` tanpa cast bertipe (mis. `dayData['pancasuda']?['planner_label']`, `slot['data']['range']`), sehingga analyzer tidak bisa memverifikasi tipe dan `NoSuchMethodError` berpotensi lolos ke runtime.
+  - `astrological_planner_timeline.dart` (10) — `slot['data']` di-cast ke `Map<String, dynamic>` di 3 titik akses
+  - `oracle_chat_provider.dart` (5) — `wetonLahir`, `baziChart`/`wuXingBalance`, dan `tarotCards` di-cast + filter `whereType<Map<String, dynamic>>()`
+  - `hari_baik_scorer.dart` (4) — `dayData['pancasuda']`, `day['pancasuda']` di-cast sekali per fungsi
+  - `tarot_draw_screen.dart` (3) — `cJson` di-cast ke `Map<String, dynamic>`
+  - `api_service.dart`, `dashboard_screen.dart`, `astrological_planner_calendar_grid.dart` (masing-masing 1)
+  - `bazi_cache_service_test.dart` (1)
+- Perbaikan tambahan di `dashboard_screen.dart`: `orElse: () => null` pada `firstWhere` yang mengembalikan non-nullable diganti `where(...).first` — pola lama berpotensi melempar `TypeError` saat tanggal tidak ditemukan.
+- 215 test tetap PASS, coverage 64.6%, `flutter analyze` 0 error / 0 warning, `dart format` clean.
+
 ### Fixed (Stabilisasi v0.9.0 — S1: BuildContext async gap)
 
 - **8× `use_build_context_synchronously` dihilangkan** — pola lama memakai `if (context.mounted)` di blok `catch` untuk menjaga pemakaian `context` setelah `await`, yang dinilai analyzer sebagai guard "tidak berkorelasi" dengan `mounted` milik `State`. Risikonya: `showDialog`/`setState` dieksekusi pada widget yang sudah di-deaktivasi. Sekarang diganti pola tunggal `if (!mounted) return;` tepat sebelum pemakaian `context` + `setState`.

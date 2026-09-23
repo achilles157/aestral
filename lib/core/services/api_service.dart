@@ -78,7 +78,7 @@ class ApiService {
         if (response.statusCode != 200) {
           throw Exception('Status ${response.statusCode}: ${response.body}');
         }
-        final data = json.decode(response.body);
+        final data = json.decode(response.body) as Map<String, dynamic>;
         if (data is Map<String, dynamic>) return data;
         throw Exception('Invalid response format');
       } catch (e) {
@@ -382,7 +382,7 @@ class ApiService {
           .timeout(const Duration(seconds: 35));
 
       if (response.statusCode == 429) {
-        final data = json.decode(response.body);
+        final data = json.decode(response.body) as Map<String, dynamic>;
         throw Exception('RATE_LIMIT:${data['retryAfterSeconds'] ?? 60}');
       }
       if (response.statusCode == 503) {

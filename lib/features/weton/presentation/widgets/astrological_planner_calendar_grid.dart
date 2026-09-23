@@ -45,7 +45,8 @@ class AstrologicalPlannerCalendarGrid extends StatelessWidget {
 
     final weekdays = ['Ming', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
 
-    final firstDayStr = days[0]['date'] as String;
+    final firstDay = days[0] as Map<String, dynamic>;
+    final firstDayStr = firstDay['date'] as String;
     final firstDate = DateTime.parse(firstDayStr);
     final prefixBlankCells = firstDate.weekday == 7 ? 0 : firstDate.weekday;
 

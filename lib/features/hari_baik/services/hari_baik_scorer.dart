@@ -35,7 +35,8 @@ class HariBaikScorer {
   static int score(Map<String, dynamic> dayData, String tujuan) {
     int s = 0;
 
-    final label = dayData['pancasuda']?['planner_label'] as String? ?? '';
+    final pancasuda = dayData['pancasuda'] as Map<String, dynamic>?;
+    final label = pancasuda?['planner_label'] as String? ?? '';
     final isDinoWas = dayData['is_dino_was'] as bool? ?? false;
     final isBaziClash = dayData['is_bazi_clash'] as bool? ?? false;
     final isWukuRawan = dayData['is_wuku_rawan'] as bool? ?? false;
@@ -112,7 +113,10 @@ class HariBaikScorer {
           date: date,
           dayData: day,
           score: s,
-          label: day['pancasuda']?['planner_label'] as String? ?? 'stabil',
+          label:
+              (day['pancasuda'] as Map<String, dynamic>?)?['planner_label']
+                  as String? ??
+              'stabil',
           reasons: _buildReasons(day, tujuan),
         ),
       );
@@ -126,8 +130,9 @@ class HariBaikScorer {
 
   static List<String> _buildReasons(Map<String, dynamic> day, String tujuan) {
     final r = <String>[];
-    final label = day['pancasuda']?['planner_label'] as String? ?? '';
-    final fase = day['pancasuda']?['fase'] as String? ?? '';
+    final pancasuda = day['pancasuda'] as Map<String, dynamic>?;
+    final label = pancasuda?['planner_label'] as String? ?? '';
+    final fase = pancasuda?['fase'] as String? ?? '';
 
     if (label == 'ekspansi') r.add('Pancasuda $fase — Hari Ekspansi');
     if (day['is_bazi_harmony'] as bool? ?? false) {

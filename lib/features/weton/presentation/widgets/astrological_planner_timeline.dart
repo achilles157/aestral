@@ -110,8 +110,8 @@ class _AstrologicalPlannerTimelineState
       });
     }
     slots.sort((a, b) {
-      final rangeA = a['data']['range'] as String;
-      final rangeB = b['data']['range'] as String;
+      final rangeA = (a['data'] as Map<String, dynamic>)['range'] as String;
+      final rangeB = (b['data'] as Map<String, dynamic>)['range'] as String;
       return rangeA.compareTo(rangeB);
     });
 
@@ -640,7 +640,11 @@ class _AstrologicalPlannerTimelineState
                         painter: CircadianRhythmWavePainter(
                           amplitudes: slots.map((s) {
                             final bazi =
-                                s['data']['bazi_shi_chen']
+                                (s['data']
+                                        as Map<
+                                          String,
+                                          dynamic
+                                        >)['bazi_shi_chen']
                                     as Map<String, dynamic>?;
                             return (bazi?['amplitude'] as num?)?.toDouble() ??
                                 (s['type'] == 'baik' ? 1.0 : -1.0);
@@ -654,7 +658,7 @@ class _AstrologicalPlannerTimelineState
                   Column(
                     children: List.generate(slots.length, (idx) {
                       final slot = slots[idx];
-                      final data = slot['data'];
+                      final data = slot['data'] as Map<String, dynamic>;
                       final isBaik = slot['type'] == 'baik';
                       final range = data['range'] as String;
                       final label = data['label'] as String;
@@ -1073,7 +1077,7 @@ class _AstrologicalPlannerTimelineState
             );
             buffer.writeln('----------------------------------------');
             for (final slot in slots) {
-              final data = slot['data'];
+              final data = slot['data'] as Map<String, dynamic>;
               buffer.writeln('[${data['range']}] ${data['label']}');
               buffer.writeln('${data['rekomendasi']}');
               buffer.writeln();

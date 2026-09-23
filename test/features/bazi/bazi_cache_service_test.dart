@@ -75,7 +75,8 @@ void main() {
       };
       await BaziCacheService.save(key, data);
       final result = await BaziCacheService.get(key);
-      expect(result!['yearPillar']['stemIndex'], 3);
+      final yearPillar = result!['yearPillar'] as Map<String, dynamic>;
+      expect(yearPillar['stemIndex'], 3);
     });
 
     test('corrupt cache → returns null (tidak crash)', () async {
