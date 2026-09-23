@@ -7,6 +7,12 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed (Stabilisasi v0.9.0 — S1: BuildContext async gap)
+
+- **8× `use_build_context_synchronously` dihilangkan** — pola lama memakai `if (context.mounted)` di blok `catch` untuk menjaga pemakaian `context` setelah `await`, yang dinilai analyzer sebagai guard "tidak berkorelasi" dengan `mounted` milik `State`. Risikonya: `showDialog`/`setState` dieksekusi pada widget yang sudah di-deaktivasi. Sekarang diganti pola tunggal `if (!mounted) return;` tepat sebelum pemakaian `context` + `setState`.
+  - File terdampak: `bazi_annual_pillar_card.dart`, `bazi_element_balance_card.dart`, `bazi_four_pillars_chart.dart`, `bazi_relations_card.dart`, `seasonal_synthesis_card.dart`, `weton_compatibility_screen.dart`, `weton_ai_synthesis_section.dart`, `weton_birth_synthesis_section.dart`
+- 215 test tetap PASS, `flutter analyze` 0 error / 0 warning, `dart format` clean.
+
 ## [0.8.0] - 2026-08-22
 
 ### Added (Fase 2 — Lintas Tradisi & Knowledge Hub)

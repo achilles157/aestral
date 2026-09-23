@@ -330,11 +330,10 @@ class _WuXingAiSectionState extends ConsumerState<_WuXingAiSection> {
       }
     } catch (e) {
       debugPrint('_WuXingAiSection error: $e');
-      if (context.mounted) {
-        OracleRestDialog.showIfOracleRest(context, e);
-      }
+      if (!mounted) return;
+      OracleRestDialog.showIfOracleRest(context, e);
       // W16: surface error to user with retry - consistent with other AI sections
-      if (mounted) setState(() => _error = 'Gagal memuat narasi. Coba lagi.');
+      setState(() => _error = 'Gagal memuat narasi. Coba lagi.');
     } finally {
       if (mounted) setState(() => _loading = false);
     }
