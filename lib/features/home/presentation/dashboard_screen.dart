@@ -114,12 +114,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       final days = response['days'] as List<dynamic>?;
       if (days == null || days.isEmpty) return;
 
-      final todayData = days.firstWhere(
-        (d) => d['date'] == todayStr,
-        orElse: () => null,
-      );
+      final dayMaps = days.whereType<Map<String, dynamic>>().toList();
+      if (dayMaps.isEmpty) return;
 
-      if (todayData == null) return;
+      final todayMatches = dayMaps.where((d) => d['date'] == todayStr);
+      if (todayMatches.isEmpty) return;
+      final todayData = todayMatches.first;
 
       // Mark as shown today
       await prefs.setBool(prefKey, true);

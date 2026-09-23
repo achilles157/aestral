@@ -211,9 +211,10 @@ class _TarotDrawScreenState extends ConsumerState<TarotDrawScreen>
       if (cardsJson.isEmpty)
         throw Exception('Backend returned empty card list');
       final List<DrawnCardInfo> drawnCardsList = cardsJson.map((cJson) {
-        final cardIndex = (cJson['cardIndex'] as int?) ?? 0;
-        final isReversed = cJson['isReversed'] as bool? ?? false;
-        final label = (cJson['label'] as String?) ?? '';
+        final cardJson = cJson as Map<String, dynamic>;
+        final cardIndex = (cardJson['cardIndex'] as int?) ?? 0;
+        final isReversed = cardJson['isReversed'] as bool? ?? false;
+        final label = (cardJson['label'] as String?) ?? '';
         final card = deck.firstWhere(
           (c) => c.id == cardIndex,
           orElse: () => deck.first,

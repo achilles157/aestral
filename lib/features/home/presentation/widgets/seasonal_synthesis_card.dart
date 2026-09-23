@@ -197,10 +197,9 @@ class _SeasonalSynthesisCardState extends ConsumerState<SeasonalSynthesisCard> {
       await _generate(profile, mangsaId, isKosmis, wetonId);
     } catch (e) {
       debugPrint('SeasonalSynthesisCard._load error: $e');
-      if (context.mounted) {
-        OracleRestDialog.showIfOracleRest(context, e);
-      }
-      if (mounted) setState(() => _error = true);
+      if (!mounted) return;
+      OracleRestDialog.showIfOracleRest(context, e);
+      setState(() => _error = true);
     } finally {
       if (mounted) setState(() => _loading = false);
     }

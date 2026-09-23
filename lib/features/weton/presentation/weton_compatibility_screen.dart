@@ -972,10 +972,9 @@ class _CompatibilitySynthesisSectionState
       if (mounted) setState(() => _synthesis = text);
     } catch (e) {
       debugPrint('_CompatibilitySynthesisSection error: $e');
-      if (context.mounted) {
-        OracleRestDialog.showIfOracleRest(context, e);
-      }
-      if (mounted) setState(() => _hasError = true);
+      if (!mounted) return;
+      OracleRestDialog.showIfOracleRest(context, e);
+      setState(() => _hasError = true);
     } finally {
       if (mounted) setState(() => _loading = false);
     }

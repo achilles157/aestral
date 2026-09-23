@@ -158,10 +158,9 @@ class _WetonAiSynthesisSectionState
       }
     } catch (e) {
       debugPrint('WetonAiSynthesisSection error: $e');
-      if (context.mounted) {
-        OracleRestDialog.showIfOracleRest(context, e);
-      }
-      if (mounted) setState(() => _error = 'Gagal memuat - coba lagi.');
+      if (!mounted) return;
+      OracleRestDialog.showIfOracleRest(context, e);
+      setState(() => _error = 'Gagal memuat - coba lagi.');
     } finally {
       if (mounted) setState(() => _loading = false);
     }

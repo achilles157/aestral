@@ -382,9 +382,8 @@ class _AnnualAiInsightSectionState
       }
     } catch (e) {
       debugPrint('_AnnualAiInsightSection error: $e');
-      if (context.mounted) {
-        OracleRestDialog.showIfOracleRest(context, e);
-      }
+      if (!mounted) return;
+      OracleRestDialog.showIfOracleRest(context, e);
     } finally {
       if (mounted) setState(() => _loading = false);
     }

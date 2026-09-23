@@ -181,7 +181,8 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
     if (aiContext == null) return null;
     switch (oracleType) {
       case 'weton':
-        final neptu = aiContext['wetonLahir']?['neptu'];
+        final wetonLahir = aiContext['wetonLahir'] as Map<String, dynamic>?;
+        final neptu = wetonLahir?['neptu'];
         if (neptu is int) {
           return neptu >= 14
               ? '⚡ Momentum apa yang bisa kumanfaatkan hari ini?'
@@ -189,7 +190,9 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
         }
         return null;
       case 'bazi':
-        final dominant = aiContext['baziChart']?['wuXingBalance']?['dominant'];
+        final baziChart = aiContext['baziChart'] as Map<String, dynamic>?;
+        final wuXing = baziChart?['wuXingBalance'] as Map<String, dynamic>?;
+        final dominant = wuXing?['dominant'];
         if (dominant is String && dominant.isNotEmpty) {
           const elementPills = {
             'kayu': '🌱 Bagaimana energi Kayu membentuk jalanku?',
@@ -204,9 +207,11 @@ class OracleChatNotifier extends Notifier<OracleChatState> {
       case 'tarot':
         final cards = aiContext['tarotCards'];
         if (cards is List && cards.isNotEmpty) {
-          final presentCard = cards.firstWhere(
+          final cardMaps = cards.whereType<Map<String, dynamic>>().toList();
+          if (cardMaps.isEmpty) return null;
+          final presentCard = cardMaps.firstWhere(
             (c) => c['label'] == 'present',
-            orElse: () => cards[0],
+            orElse: () => cardMaps[0],
           );
           final name = presentCard['name'] as String? ?? '';
           if (name.isNotEmpty) return '🃏 Apa pesan terdalam dari kartu $name?';
