@@ -87,7 +87,7 @@ credentials.json
 *service-account*.json
 *serviceAccount*.json
 **/google-services.json
-# firebase_options.dart — intentionally tracked.
+# firebase_options.dart ΓÇö intentionally tracked.
 # Firebase API keys are public identifiers by design; security is enforced
 # by Firebase Security Rules and platform restrictions, not by hiding the key.
 # **/firebase_options.dart
@@ -108,7 +108,7 @@ temp/
 Arsitektur*.md
 assets/weton/Riset Astrologi Primbon Jawa Modern.md
 
-# Scripts — keep source (.js) but ignore generated output files
+# Scripts ΓÇö keep source (.js) but ignore generated output files
 scripts/*_output.txt
 scripts/*_output.json
 
@@ -147,6 +147,10 @@ wrangler.toml.local
 # Agent cluster work dirs
 .cluster/
 DELIVERY/
+
+# OpenClaw / AutoClaw runtime state & temp attachments
+.autoclaw/
+.openclaw-attachments/
 
 # Personal identifiable data (PII)
 **/users_backup.json
