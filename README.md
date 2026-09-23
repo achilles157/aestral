@@ -104,7 +104,7 @@ Each feature follows clean architecture:
 
 1. **Clone repository:**
    ```bash
-   git clone https://github.com/yourusername/aestral.git
+   git clone https://github.com/achilles157/aestral.git
    cd aestral
    ```
 
@@ -170,8 +170,8 @@ flutter pub outdated
 ```
 
 ### Current Test Coverage
-✅ **Status:** 63.1% coverage (667/1057 lines) — **TARGET 60% TERCAPAI**
-- **185 tests**, semua PASS (12 test files)
+✅ **Status:** 64.6% coverage (874/1353 lines) — **TARGET 60% TERCAPAI**
+- **215 tests**, semua PASS (17 test files)
 - CI/CD: auto-run di setiap push & PR via `.github/workflows/test.yml`
 - Coverage report: lcov.info + artifact upload + PR comment otomatis
 
@@ -313,34 +313,45 @@ flutter doctor -v     # Verify Flutter installation
 
 ## 📊 Project Status
 
-**Version:** 1.0.0+1  
-**Last Audit:** July 14, 2026  
-**Overall Score:** 7.2/10 🟡 Good with Critical Gaps
+**Version:** 0.8.0+2
+**Last Audit:** September 23, 2026
+**Overall Score:** 8.0/10 🟢 Solid — siap stabilisasi
 
 ### Strengths ✅
 - Solid feature-based architecture (9/10)
 - Modern state management dengan Riverpod (8.5/10)
 - Zero-budget compliance (9/10)
-- Clean code quality - zero analyzer warnings (9/10)
+- Clean code quality — **0 error, 0 warning** dari `flutter analyze`
+
+### Verification (per 2026-09-23)
+- `flutter test --coverage` → **215 test PASS**, coverage **64.6%** (target ≥60% tercapai)
+- `npx vitest run` (backend) → **162 test PASS**
+- `flutter analyze` → **0 error, 0 warning**
 
 ### In Progress ⚠️
-- **Test coverage:** 2.8% → Target 60% (Week 1-8)
-- **Firestore security audit:** Verification ongoing
-- **Performance optimization:** BackdropFilter audit ongoing
+- **Stabilisasi v0.9.0** — sisa lint info-level + test untuk fitur inti
+  (rencana: `PRD/stabilization_plan_v0.9.0.md`)
+- **Refactor** — 33 file melampaui batas 350 baris
+- **Monetisasi (Fase 5)** — belum dimulai, menunggu traksi pengguna
 
 ---
 
 ## 📄 License
 
-[Specify your license here - MIT, Apache 2.0, etc.]
+Proyek ini dilisensikan di bawah **MIT License** — lihat file [LICENSE](LICENSE).
+
+Ringkasnya: bebas memakai, memodifikasi, dan mendistribusikan kode ini (termasuk
+untuk keperluan komersial) selama menyertakan notice hak cipta dan lisensi asli.
+Perangkat lunak disediakan "sebagaimana adanya" tanpa jaminan.
 
 ---
 
 ## 👥 Team & Contact
 
-**Maintainer:** [Your Name/Team]  
-**Email:** [your-email@example.com]  
-**Issues:** [GitHub Issues](https://github.com/yourusername/aestral/issues)
+**Maintainer:** Falah Fahrurozi
+**Email:** falrfaulen@gmail.com
+**Repository:** [github.com/achilles157/aestral](https://github.com/achilles157/aestral)
+**Issues:** [GitHub Issues](https://github.com/achilles157/aestral/issues)
 
 ---
 

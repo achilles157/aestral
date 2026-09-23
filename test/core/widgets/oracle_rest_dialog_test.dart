@@ -18,10 +18,7 @@ void main() {
       await tester.pumpWidget(host(const SizedBox()));
 
       unawaited(
-        OracleRestDialog.show(
-          tester.element(find.byType(SizedBox)),
-          exception,
-        ),
+        OracleRestDialog.show(tester.element(find.byType(SizedBox)), exception),
       );
       await tester.pumpAndSettle();
 
@@ -35,10 +32,7 @@ void main() {
       await tester.pumpWidget(host(const SizedBox()));
 
       unawaited(
-        OracleRestDialog.show(
-          tester.element(find.byType(SizedBox)),
-          exception,
-        ),
+        OracleRestDialog.show(tester.element(find.byType(SizedBox)), exception),
       );
       await tester.pumpAndSettle();
 
