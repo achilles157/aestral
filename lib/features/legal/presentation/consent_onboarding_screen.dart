@@ -5,6 +5,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/glass_card.dart';
 import '../models/consent_log.dart';
 import '../services/consent_service.dart';
+import 'privacy_policy_screen.dart';
 
 /// Halaman onboarding consent PDP + age gate.
 /// Ditampilkan SEKALI — setelah user setuju, tidak akan muncul lagi
@@ -252,7 +253,11 @@ class _ConsentOnboardingScreenState
                 Center(
                   child: GestureDetector(
                     onTap: () {
-                      // TODO: navigasi ke Privacy Policy screen
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const PrivacyPolicyScreen(),
+                        ),
+                      );
                     },
                     child: Text(
                       '📜 Baca Kebijakan Privasi',
