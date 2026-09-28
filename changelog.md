@@ -7,6 +7,14 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added (Stabilisasi v0.9.0 — S4: test `features/tarot`)
+
+- **57 test baru untuk modul Tarot** yang sebelumnya **nol test** — padahal ini salah satu fitur paling kompleks dan paling sering berubah (3 fix dalam siklus 0.8.0). Coverage `features/tarot` naik dari **0% → 97.3%** (179/184 baris).
+  - `test/features/tarot/tarot_card_test.dart` (20 test) — parsing `TarotCard.fromJson` termasuk fallback field legacy, helper bilingual `getName`/`getKeywords`/dll, round-trip `toJson`, plus **verifikasi terhadap data produksi** `assets/tarot/tarot-merged.json` (78 kartu, 22 Major Arcana, id unik, tidak ada nama/makna kosong)
+  - `test/features/tarot/tarot_oracle_reading_test.dart` (26 test) — parsing `TarotOracleReading` + label tematik, `getNarrativeForLabel` (termasuk label tidak ada & duplikat), `DrawnCardNotifier` (3 kartu unik, label past/present/future, deck <3 kartu, reset), `DrawnCardInfo`, `TarotLanguageNotifier` (persistensi SharedPreferences)
+  - `test/features/tarot/tarot_draw_type_toggle_test.dart` (11 test) — widget test render label ID/EN, callback tap per pill, status `isLocked` (ikon kunci), penyorotan pill aktif
+- Coverage total Dart naik **64.6% → 68.5%** (1053/1537 baris). Test suite **215 → 272 test**, semua PASS.
+
 ### Fixed (Stabilisasi v0.9.0 — S3: `avoid_dynamic_calls`)
 
 - **26× `avoid_dynamic_calls` dihilangkan** (25 di `lib/`, 1 di test). Akar masalahnya seragam: nilai JSON diakses berantai dari `dynamic` tanpa cast bertipe (mis. `dayData['pancasuda']?['planner_label']`, `slot['data']['range']`), sehingga analyzer tidak bisa memverifikasi tipe dan `NoSuchMethodError` berpotensi lolos ke runtime.
