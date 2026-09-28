@@ -7,6 +7,16 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added (Stabilisasi v0.9.0 — S5b: test `core/services` + fix dead code)
+
+- **74 test baru untuk lapisan service inti** yang sebelumnya nol coverage, padahal dipakai hampir semua fitur. Alasan: saat analisis coverage, `api_service.dart` (158 baris) dan `cache_service.dart` (86 baris) terdeteksi **0%** — titik paling berisiko di seluruh aplikasi.
+  - `test/core/services/cache_service_test.dart` (36 test) — `CachedResponse` (TTL/expiry), `generateKey` deterministik (urutan key tidak berpengaruh), lookup memori → disk, pemulihan dari disk, penghapusan otomatis entry expired, ketahanan JSON rusak/tipe salah, `remove`/`clearAll`/`getStats`. Coverage **0% → 80.2%**.
+  - `test/core/services/api_service_test.dart` (38 test) — header & body request, pemetaan status (500/400/404/200), 503 kuota → `OracleRestException` (+ kode legacy), **503 kuota TIDAK di-retry** (hemat kuota Gemini), `_withRetry` (SocketException diretry maks 3×), caching `_cachedPost`, path tiap endpoint, `sendOracleChat` (429 → `RATE_LIMIT:<detik>`, default 60). Coverage **0% → 56.6%**.
+- **Perubahan kode produksi (2 hal, keduanya perbaikan nyata):**
+  1. `ApiService` sekarang punya HTTP client yang bisa di-inject (`static http.Client _client` + `@visibleForTesting set client` / `resetClient` / `clearCache`) — sebelumnya memanggil `http.post` statis sehingga mustahil diuji tanpa jaringan.
+  2. **Perbaikan dead code di `ApiService._post`:** sebelumnya `json.decode(...) as Map<String, dynamic>` melempar `TypeError` mentah sebelum pengecekan `if (data is Map)` di baris berikutnya, sehingga pesan ramah `'Invalid response format'` **tidak pernah tereksekusi**. Sekarang dicek tipe sebelum cast, jadi kegagalan format mengembalikan pesan yang bisa dibaca.
+- Test suite **332 → 399 test**, semua PASS. Coverage total **57.4% → 65.3%**.
+
 ### Added (Stabilisasi v0.9.0 — S5: test `features/ai`)
 
 - **60 test baru untuk modul AI Oracle** yang sebelumnya **nol test** — modul ini memegang USP produk sekaligus kuota Gemini (constraint paling ketat). Coverage `features/ai` naik dari **0% → 45.9%**.
