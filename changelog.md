@@ -7,6 +7,14 @@ dan proyek ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added (Stabilisasi v0.9.0 — S5: test `features/ai`)
+
+- **60 test baru untuk modul AI Oracle** yang sebelumnya **nol test** — modul ini memegang USP produk sekaligus kuota Gemini (constraint paling ketat). Coverage `features/ai` naik dari **0% → 45.9%**.
+  - `test/features/ai/chat_message_test.dart` (24 test) — `ChatMessage.fromJson`/`toJson` round-trip, `OracleCard` opsional, dan **format `toGeminiContent`** (kontrak ke Gemini: hanya `role` + `parts`; kartu UI tidak ikut terkirim)
+  - `test/features/ai/chat_cache_service_test.dart` (18 test) — persistensi SharedPreferences, **trim FIFO tepat 20 pesan**, ketahanan terhadap JSON rusak/tipe salah (tidak pernah melempar), `clearHistory` idempoten
+  - `test/features/ai/oracle_chat_provider_test.dart` (18 test) — `kOracleConfigs` (4 persona: Ki Sabdo, Suhu Wang, Madame Sophia, Sesepuh Kosmis; warna aksen unik), `kSuggestionPools` (tidak kosong, tanpa duplikat), `OracleChatState.copyWith` (termasuk `clearError` menang atas `errorMessage`), dan `initialize()` (greeting milestone: pembukaan pertama/kedua, `daysSinceLastOpen`, baca `lastTopic`/`lastSessionSummary`, isolasi key per-oracle)
+- Test suite **272 → 332 test**, semua PASS.
+
 ### Added (Stabilisasi v0.9.0 — S4: test `features/tarot`)
 
 - **57 test baru untuk modul Tarot** yang sebelumnya **nol test** — padahal ini salah satu fitur paling kompleks dan paling sering berubah (3 fix dalam siklus 0.8.0). Coverage `features/tarot` naik dari **0% → 97.3%** (179/184 baris).
