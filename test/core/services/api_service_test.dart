@@ -30,6 +30,23 @@ void main() {
     ApiService.resetClient();
   });
 
+  /// Helper: jalankan [aksi], pastikan melempar error bertipe [T],
+  /// lalu jalankan [periksa] terhadap error tersebut.
+  Future<void> expectThrows<T extends Object>(
+    Future<void> Function() aksi,
+    void Function(T error) periksa,
+  ) async {
+    try {
+      await aksi();
+    } on T catch (e) {
+      periksa(e);
+      return;
+    } catch (e) {
+      fail('Melempar ${e.runtimeType}, bukan $T: $e');
+    }
+    fail('Tidak melempar apa pun, padahal $T diharapkan');
+  }
+
   /// Bangun MockClient yang mencatat request dan membalas [statusCode].
   MockClient balas(int statusCode, String body, {List<http.Request>? rekam}) {
     return MockClient((request) async {
@@ -106,19 +123,17 @@ void main() {
     test('500 → melempar Exception dengan pesan status', () async {
       ApiService.client = balas(500, 'server rusak');
 
-      expect(
+      await expectThrows<Exception>(
         () => ApiService.getWetonDaily(
           birthDate: '1995-10-25',
           targetDate: '2026-09-28',
           authHeader: 'Bearer t',
         ),
-        throwsA(
-          isA<Exception>().having(
-            (e) => e.toString(),
-            'pesan',
-            allOf(contains('500'), contains('server rusak')),
-          ),
-        ),
+        (e) {
+          final pesan = e.toString();
+          expect(pesan, contains('500'));
+          expect(pesan, contains('server rusak'));
+        },
       );
     });
 
@@ -186,19 +201,13 @@ void main() {
         }),
       );
 
-      expect(
+      await expectThrows<OracleRestException>(
         () => ApiService.getWetonDaily(
           birthDate: 'x',
           targetDate: 'y',
           authHeader: 'Bearer t',
         ),
-        throwsA(
-          isA<OracleRestException>().having(
-            (e) => e.retryAfterSeconds,
-            'retryAfterSeconds',
-            3600,
-          ),
-        ),
+        (e) => expect(e.retryAfterSeconds, 3600),
       );
     });
 
@@ -221,19 +230,13 @@ void main() {
     test('503 tanpa kode kuota → Exception biasa', () async {
       ApiService.client = balas(503, json.encode({'error': 'layanan down'}));
 
-      expect(
+      await expectThrows<Exception>(
         () => ApiService.getWetonDaily(
           birthDate: 'x',
           targetDate: 'y',
           authHeader: 'Bearer t',
         ),
-        throwsA(
-          isA<Exception>().having(
-            (e) => e,
-            'bukan OracleRestException',
-            isNot(isA<OracleRestException>()),
-          ),
-        ),
+        (e) => expect(e, isNot(isA<OracleRestException>())),
       );
     });
 
@@ -499,38 +502,30 @@ void main() {
     test('429 → melempar pesan RATE_LIMIT dengan durasi', () async {
       ApiService.client = balas(429, json.encode({'retryAfterSeconds': 90}));
 
-      expect(
+      await expectThrows<Exception>(
         () => ApiService.sendOracleChat(
           oracleType: 'weton',
           prompt: 'p',
           authHeader: 'Bearer t',
         ),
-        throwsA(
-          isA<Exception>().having(
-            (e) => e.toString(),
-            'pesan',
-            allOf(contains('RATE_LIMIT'), contains('90')),
-          ),
-        ),
+        (e) {
+          final pesan = e.toString();
+          expect(pesan, contains('RATE_LIMIT'));
+          expect(pesan, contains('90'));
+        },
       );
     });
 
     test('429 tanpa retryAfterSeconds → default 60', () async {
       ApiService.client = balas(429, json.encode({}));
 
-      expect(
+      await expectThrows<Exception>(
         () => ApiService.sendOracleChat(
           oracleType: 'weton',
           prompt: 'p',
           authHeader: 'Bearer t',
         ),
-        throwsA(
-          isA<Exception>().having(
-            (e) => e.toString(),
-            'pesan',
-            contains('RATE_LIMIT:60'),
-          ),
-        ),
+        (e) => expect(e.toString(), contains('RATE_LIMIT:60')),
       );
     });
 
