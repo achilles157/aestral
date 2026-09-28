@@ -35,13 +35,6 @@ jobs:
       - name: Verify formatting
         run: |
           echo "Checking Dart formatting..."
-          echo "=== DIAGNOSTIC: versi dart ==="
-          dart --version
-          echo "=== DIAGNOSTIC: apa yang formatter ubah ==="
-          dart format test/core/services/api_service_test.dart
-          git --no-pager diff --no-color test/core/services/api_service_test.dart || true
-          git checkout -- test/core/services/api_service_test.dart
-          echo "=== END DIAGNOSTIC ==="
           dart format --set-exit-if-changed .
           echo "✅ All files properly formatted"
 
