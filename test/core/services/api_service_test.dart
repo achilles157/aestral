@@ -567,10 +567,9 @@ void main() {
   group('baseUrl', () {
     test('menunjuk ke host workers.dev (produksi) atau localhost (debug)', () {
       // Dalam flutter test, kDebugMode = true → localhost.
-      expect(
-        ApiService.baseUrl,
-        anyOf(contains('localhost'), contains('workers.dev')),
-      );
+      final url = ApiService.baseUrl;
+      final cocok = url.contains('localhost') || url.contains('workers.dev');
+      expect(cocok, isTrue, reason: 'baseUrl tidak dikenal: $url');
     });
   });
 }
