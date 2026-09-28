@@ -14,6 +14,26 @@ class ApiService {
       'https://aestral-backend.aestral-backend.workers.dev';
   static const String _localUrl = 'http://localhost:8787';
 
+  /// HTTP client yang dipakai semua request. Bisa diganti di test
+  /// (mis. dengan `MockClient` dari `package:http/testing.dart`).
+  static http.Client _client = http.Client();
+
+  /// Ganti client — hanya untuk pengujian.
+  @visibleForTesting
+  static set client(http.Client c) => _client = c;
+
+  /// Kembalikan ke client default (real network).
+  @visibleForTesting
+  static void resetClient() => _client = http.Client();
+
+  /// Bersihkan cache internal (memori + disk) — hanya untuk pengujian.
+  /// `_cache` adalah `static final`, jadi isi memori-nya bertahan antar
+  /// test dan bisa membuat test berikutnya mendapat cache hit palsu.
+  @visibleForTesting
+  static Future<void> clearCache() async {
+    await _cache.clearAll();
+  }
+
   static String get baseUrl => kDebugMode ? _localUrl : _productionUrl;
 
   // ── Retry logic ─────────────────────────────────────────────────────────────
@@ -60,7 +80,7 @@ class ApiService {
     final url = Uri.parse('$baseUrl/$path');
     return _withRetry(() async {
       try {
-        final response = await http
+        final response = await _client
             .post(
               url,
               headers: {
@@ -78,9 +98,14 @@ class ApiService {
         if (response.statusCode != 200) {
           throw Exception('Status ${response.statusCode}: ${response.body}');
         }
-        final data = json.decode(response.body) as Map<String, dynamic>;
-        if (data is Map<String, dynamic>) return data;
-        throw Exception('Invalid response format');
+        final decoded = json.decode(response.body);
+        if (decoded is! Map<String, dynamic>) {
+          // Sebelumnya: `as Map<String, dynamic>` melempar TypeError mentah
+          // dan membuat pesan 'Invalid response format' di bawahnya jadi
+          // dead code. Sekarang dicek dengan tipe sebelum cast.
+          throw Exception('Invalid response format');
+        }
+        return decoded;
       } catch (e) {
         debugPrint('ApiService.$path error: $e');
         rethrow;
@@ -359,7 +384,7 @@ class ApiService {
   }) async {
     final url = Uri.parse('$baseUrl/api/oracle/chat');
     try {
-      final response = await http
+      final response = await _client
           .post(
             url,
             headers: {
