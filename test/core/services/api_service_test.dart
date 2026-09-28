@@ -264,75 +264,63 @@ void main() {
   });
 
   group('_withRetry — perilaku retry', () {
-    test(
-      'SocketException di-retry lalu sukses',
-      () async {
-        var percobaan = 0;
-        ApiService.client = MockClient((request) async {
-          percobaan++;
-          if (percobaan < 2) {
-            throw const SocketException('koneksi terputus');
-          }
-          return http.Response(suksesJson(), 200);
-        });
+    test('SocketException di-retry lalu sukses', () async {
+      var percobaan = 0;
+      ApiService.client = MockClient((request) async {
+        percobaan++;
+        if (percobaan < 2) {
+          throw const SocketException('koneksi terputus');
+        }
+        return http.Response(suksesJson(), 200);
+      });
 
-        final hasil = await ApiService.getWetonDaily(
+      final hasil = await ApiService.getWetonDaily(
+        birthDate: 'x',
+        targetDate: 'y',
+        authHeader: 'Bearer t',
+      );
+
+      expect(hasil['ok'], isTrue);
+      expect(percobaan, 2);
+    }, timeout: const Timeout(Duration(seconds: 30)));
+
+    test('gagal terus → menyerah setelah 3 percobaan lalu rethrow', () async {
+      var percobaan = 0;
+      ApiService.client = MockClient((request) async {
+        percobaan++;
+        throw const SocketException('selalu gagal');
+      });
+
+      await expectLater(
+        ApiService.getWetonDaily(
           birthDate: 'x',
           targetDate: 'y',
           authHeader: 'Bearer t',
-        );
+        ),
+        throwsA(isA<SocketException>()),
+      );
 
-        expect(hasil['ok'], isTrue);
-        expect(percobaan, 2);
-      },
-      timeout: const Timeout(Duration(seconds: 30)),
-    );
+      expect(percobaan, 3, reason: 'maxAttempts = 3');
+    }, timeout: const Timeout(Duration(seconds: 30)));
 
-    test(
-      'gagal terus → menyerah setelah 3 percobaan lalu rethrow',
-      () async {
-        var percobaan = 0;
-        ApiService.client = MockClient((request) async {
-          percobaan++;
-          throw const SocketException('selalu gagal');
-        });
+    test('error non-transient (500) tidak di-retry', () async {
+      var percobaan = 0;
+      ApiService.client = MockClient((request) async {
+        percobaan++;
+        return http.Response('error', 500);
+      });
 
-        await expectLater(
-          ApiService.getWetonDaily(
-            birthDate: 'x',
-            targetDate: 'y',
-            authHeader: 'Bearer t',
-          ),
-          throwsA(isA<SocketException>()),
-        );
+      await expectLater(
+        ApiService.getWetonDaily(
+          birthDate: 'x',
+          targetDate: 'y',
+          authHeader: 'Bearer t',
+        ),
+        throwsA(isA<Exception>()),
+      );
 
-        expect(percobaan, 3, reason: 'maxAttempts = 3');
-      },
-      timeout: const Timeout(Duration(seconds: 30)),
-    );
-
-    test(
-      'error non-transient (500) tidak di-retry',
-      () async {
-        var percobaan = 0;
-        ApiService.client = MockClient((request) async {
-          percobaan++;
-          return http.Response('error', 500);
-        });
-
-        await expectLater(
-          ApiService.getWetonDaily(
-            birthDate: 'x',
-            targetDate: 'y',
-            authHeader: 'Bearer t',
-          ),
-          throwsA(isA<Exception>()),
-        );
-
-        expect(percobaan, 3, reason: 'Exception generik masuk jalur retry');
-      },
-      timeout: const Timeout(Duration(seconds: 30)),
-    );
+      expect(percobaan, 3, reason: 'Exception generik masuk jalur retry');
+    }, timeout: const Timeout(Duration(seconds: 30)));
   });
 
   group('_cachedPost — perilaku caching', () {
